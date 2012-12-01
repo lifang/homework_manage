@@ -1,5 +1,5 @@
 <div class="questions_item" stypes="save_lianxian" branch_question_index="" question_type="lianxian">
-  <%= form_for :question,:url => { :action => :save_lianxian, :controller => :questions }, :method=>"post" ,:remote=>true do |f|%>
+  <%= form_for :question,:url => { :action => :save_lianxian, :controller => :questions ,:question_package_id => @question_pack.id}, :method=>"post" ,:remote=>true do |f|%>
     <div class="q_topic">
       <div class="ligatureQuestions">
         <ul>
@@ -14,8 +14,9 @@
       <a href="javascript:void(0)" class="delete tooltip_html delete_chen" style="display:none" data-remote="true" >删除</a>
       <a href="javascript:void(0)" class="tag tooltip_html" style="display:none" onclick="add_selects_tags(this)">标签</a>
     </div>
-    <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_package_id %>"/>
+    <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_pack.id %>"/>
     <input type="hidden" name="question_id" value="<%= @question.id %>"/>
+    <input type="hidden" name="branch_question_id" value=""/>
     <input type="hidden" name="content_index" val="0"/>
     <input type="hidden" name="index_new" class="index_new" value="<%= @index_new.to_i + 1 %>"/>
     <input class="submit_sava" type="submit" style="display:none" value="保存"/>

@@ -1,5 +1,4 @@
-<script charset="utf-8" src="/assets/kindeditor/kindeditor.js"></script>
-<script charset="utf-8" src="/assets/kindeditor/lang/zh_CN.js"></script>
+
 <div class="assignment_body_list">
   <div class="ab_list_title" >
     <input type="hidden" name="question_id" class= "question_id" value="<%=@question.id%>" />
@@ -8,7 +7,7 @@
     <h1><%=@question.name.nil? ? "未命名":@question.name %></h1>
     <p>完形 / <%=current_user.name%> / <%=@question.created_at.strftime("%Y-%m-%d")%> / <span name=cankaoshijian>参考时间：
         <% que_time = trans_int_to_time(@question.questions_time.to_i) %>
-        <% if @question.questions_time.nil? %>未指定<% else %>
+        <% if @question.questions_time.nil? %>未设置<% else %>
           <%= que_time[0]==0 ? "" : "#{que_time[0]}时" %><%= que_time[1]==0 ? "" : "#{que_time[1]}分" %><%= que_time[2]==0 ? "" : "#{que_time[2]}秒" %><% end %>
       </span></p>
     <ul class="ab_func">
@@ -22,7 +21,7 @@
     <div class="ab_article">
       <div class="questions_item">
         <div class="gapFilling_textarea">
-          <textarea id="wanxin_<%=@question.id%>" name="wanxin_content" class="wanxin_content"><%=@question.content%></textarea>
+          <textarea id="wanxin_<%=@question.id%>" name="wanxin_content" class="wanxin_content"><%=@question.full_text%></textarea>
 
         </div>
         <div class="gapFilling_box">
@@ -41,5 +40,23 @@
   </div>
 </div>
 <script>
-  full_text(<%=@question.id%>);
+  //full_text(<%#=@question.id%>);
+ 
+      var editor = KindEditor.create("#wanxin_"+<%=@question.id%>, {
+        id : "wanxin_"+<%=@question.id%>,
+        width : '420px',
+        height : '600px',
+        minWidth : '370px',
+        items : ['source',
+          'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+          'removeformat', '|',
+          'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+          '|','mark','commit'],
+        afterCreate : function() {
+          this.sync();
+        },
+        afterBlur: function(){
+          this.sync();
+        }//同步KindEditor的值到textarea文本框
+      });
 </script>

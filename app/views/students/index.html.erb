@@ -1,6 +1,3 @@
-
-
-
 <div class="tab tab500 create_new_tag" style="display :none">
   <a href="javascript:void(0);" class="close" >close</a>
   <div class="tab_head">班级分组</div>
@@ -12,7 +9,7 @@
             <p></p>
             <input name="name_tag" type="text" style="display: none;" placeholder="组名" />
           </li>
-          <input type="submit"  class="button_submit" value="创建"/>
+          <input type="button"  class="button_submit" value="创建" onclick="create_class_valid(this)"/>
         <% end %>
       </ul>
     </div>
@@ -33,18 +30,17 @@
           <li><span>验证码：</span><%= @schoolclass.verification_code %></li>
           <li><span>结业时间：</span><%= @schoolclass.period_of_validity.strftime("%F") %></li>
           <li><span>班级人数：</span><%= @schoolclass.count %></li>
-          <li><span>班级分组：</span> <% if @tags %>
-              <% @tags.each do |tag| %><%= tag.name %> <% end %>
-            <% end %></li>
+          <li><span>班级分组：</span> <% if @tags %><%= @tags.map(&:name).join(",") %><% end %></li>
         <% end %>
       </ul>
       <a href="javascript:void(0);" class="student_btn_a" onclick="shwo_tags()">班级分组</a>
     </div>
-    <div class="message">
-      <% if @ungrouped.count > 0 %>
-        <p>注：本班有学员未分组，为保证学员能够顺利做作业，请将未分组学员进行分组。</p><a href="#" class="close">close</a>
-      <% end %>
-    </div>
+    <% if cookies[:student_has_ungrouped]=="true" %>
+      <div class="message">
+        <p>注：本班有学员未分组，为保证学员能够顺利做作业，请将未分组学员进行分组。</p>
+        <a href="javascript:void(0)" class="close" onclick="close_student_ungrouped_mess(<%= @school_class.id %>,this)">close</a>
+      </div>
+    <% end %>
     <div class="student_body">
       <%= render :partial => 'student_body'  %>
     </div>

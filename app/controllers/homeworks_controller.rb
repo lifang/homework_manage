@@ -15,7 +15,6 @@ class HomeworksController < ApplicationController
     @school_class = SchoolClass.find_by_id params[:school_class_id].to_i
     page = params[:page]
     tasks = Teacher.get_publish_question_packages @school_class.id, page
-
     @publish_question_packages = tasks[:publish_question_packages]
     @un_delete_task = tasks[:un_delete]
     @all_pack_types_name = tasks[:all_pack_types_name]

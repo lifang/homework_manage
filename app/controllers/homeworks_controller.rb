@@ -18,6 +18,7 @@ class HomeworksController < ApplicationController
     @publish_question_packages = tasks[:publish_question_packages]
     @un_delete_task = tasks[:un_delete]
     @all_pack_types_name = tasks[:all_pack_types_name]
+    @school_tags = @school_class.tags  #班级分组， 用于发布作业的时候选择分组
   end
 
   #删除题包
@@ -63,8 +64,8 @@ class HomeworksController < ApplicationController
 
   #发布（题包）任务
   def publish_question_package
-    page = params[:page]
-    page = 1  if !page
+    page = params[:page].present? ? params[:page].to_i : 1
+    @page = page
     question_package_id = params[:question_package_id]
     school_class_id = params[:school_class_id]
     end_time = params[:end_time]
@@ -90,7 +91,7 @@ class HomeworksController < ApplicationController
             else
               question_packages_url = nil
             end
-            group_questions = all_questions.group_by {|e| e.types}
+#            group_questions = all_questions.group_by {|e| e.types}
 #            listening_count = group_questions[0].nil? ? 0 : group_questions[0].length
 #            reading_count = group_questions[1].nil? ? 0 : group_questions[1].length
             publish_question_package = PublishQuestionPackage.create(:school_class_id => @school_class.id,
@@ -99,7 +100,8 @@ class HomeworksController < ApplicationController
               :status => PublishQuestionPackage::STATUS[:NEW],
 #              :listening_count => listening_count,
 #              :reading_count => reading_count,
-              :question_packages_url => question_packages_url )
+              :question_packages_url => question_packages_url,
+              :tag_id => params[:tag_id])
             if publish_question_package
               status = true
               notice = "发布成功！"

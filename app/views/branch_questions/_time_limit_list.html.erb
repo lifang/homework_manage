@@ -1,5 +1,6 @@
 <div class="ab_list_box" style="display: none;">
   <div class="ab_article">
+   <% if branch_questions.present? %> 
     <% branch_questions.each do |bq| %>
       <div class="questions_item">
         <div class="q_topic">
@@ -23,5 +24,16 @@
         <% end %>
       </div>
     <% end %>
+   <% else %> 
+      <div class="b_table">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tbody>
+            <tr style="height:100px">
+              <td align="center">该大题下暂无小题</td>
+            </tr>
+           </tbody> 
+        </table>
+      </div>
+   <% end %>
   </div>
 </div>

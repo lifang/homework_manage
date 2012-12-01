@@ -522,8 +522,8 @@ class QuestionPackagesController < ApplicationController
     @episode = @episode[0] if @episode && @episode.present?
     @questions = ques
     p @questions
-    @cell = "未设置" unless @cell.present?
-    @episode = "未设置" unless @episode.present?
+    p @cell
+    p @episode
   end
 
   #删除作业

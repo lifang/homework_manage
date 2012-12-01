@@ -1,21 +1,33 @@
 <div class="ab_list_box" style="display: none;">
   <div class="ab_article">
-    <% branch_questions.each do |bq| %>
-      <div class="questions_item">
-        <div class="q_topic">
-          <div class="sortQuestions">
-            <div class="show_text"><p><%= bq.content %></p><input name="" type="text"></div>
+    <% if branch_questions.present? %>       
+      <% branch_questions.each do |bq| %>
+        <div class="questions_item">
+          <div class="q_topic">
+            <div class="sortQuestions">
+              <div class="show_text"><p><%= bq.content %></p><input name="" type="text"></div>
+            </div>
           </div>
+          <% if branch_tags[bq.id].present? %>
+            <div class="tag_ul">
+              <ul>
+                <% branch_tags[bq.id].each do |tag| %>
+                  <li><p><%= tag.name %></p></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
         </div>
-        <% if branch_tags[bq.id].present? %>
-          <div class="tag_ul">
-            <ul>
-              <% branch_tags[bq.id].each do |tag| %>
-                <li><p><%= tag.name %></p></li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
+      <% end %>
+    <% else %>  
+      <div class="b_table">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tbody>
+            <tr style="height:100px; background: #f6f6f6;" >
+              <td align="center">该大题下暂无小题</td>
+            </tr>
+           </tbody> 
+        </table>
       </div>
     <% end %>
   </div>

@@ -90,7 +90,6 @@ class QuestionPackagesController < ApplicationController
         if !file.nil?
           @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
           destination_dir = "#{media_path % @question.question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
-          p destination_dir
           rename_file_name = "media_#{@branch_question.id}"
           upload = upload_file destination_dir, rename_file_name, file
           if upload[:status] == true
@@ -142,7 +141,6 @@ class QuestionPackagesController < ApplicationController
             else
               if !file.nil?
                 destination_dir = "#{media_path % @question.question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
-                p destination_dir
                 rename_file_name = "media_#{@branch_question.id}"
                 upload = upload_file destination_dir, rename_file_name, file
                 if upload[:status] == true
@@ -178,7 +176,6 @@ class QuestionPackagesController < ApplicationController
             @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
             if @branch_question
               destination_dir = "#{media_path % @question.question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
-              p destination_dir
               rename_file_name =  "media_#{@branch_question.id}"
               if file
                 upload = upload_file destination_dir, rename_file_name, file
@@ -498,6 +495,9 @@ class QuestionPackagesController < ApplicationController
     question = Question
     .select("id, types, name, full_text, content, questions_time, created_at, cell_id, episode_id")
     .where(["questions.question_package_id = ?", @question_pack.id])
+    question.each do |q|
+      p q if q.full_text.present?
+    end  
     question_id = question.map{|q| q.id }.uniq
     branch_questions = BranchQuestion
     .select("content, resource_url, options, answer, question_id, id")

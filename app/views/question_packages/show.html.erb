@@ -1,61 +1,20 @@
-  <div class="main">
-    <div class="assignment">
-      <div class="assignment_head">
-        <div class="select_box">
-          <div class="rowElem">
-            <select name="select1" id="select1" >
-              <option value="opt1">Big Option test line with more wordssss</option>
-              <option value="opt2">Option 2</option>
-              <option value="opt3">Option 3</option>
-              <option value="opt4">Option 4</option>
-              <option value="opt5">Option 5</option>
-              <option value="opt6">Option 6</option>
-              <option value="opt7">Option 7</option>
-              <option value="opt8">Option 8</option>
-            </select>
+<div class="main">
+  <div class="assignment">
+    <div class="assignment_head">
+      <div class="select_box">
+        <div class="rowElem">
+          <select name="select1" id="select1" disabled="true" >
+            <option value="opt1"><%=  @cell.name %></option>
+          </select>
 
-          </div>
-          <div class="rowElem">
-            <select name="select2" id="select2">
-              <option value="opt1">Big Option test line with more wordssss</option>
-              <option value="opt2">Option 2</option>
-              <option value="opt3">Option 3</option>
-              <option value="opt4">Option 4</option>
-              <option value="opt5">Option 5</option>
-              <option value="opt6">Option 6</option>
-              <option value="opt7">Option 7</option>
-              <option value="opt8">Option 8</option>
-            </select>
-          </div>
         </div>
-      </div>
-      <%= render :partial => "question_packages/show_question" %>
-      <div class="questionTypes">
-        <div class="qType_menu clearAfter">
-          <ul>
-            <% @question_type.each do |type|%>
-              <li class="hover"><p><span class="<%= load_type_class type %>" onclick="show_questions(this,'<%= type  %>');"><%= Question::TYPES_NAME[type] %></span></p>
-              <i class="arrows" style="display: none;"></i>
-            </li>
-            <% end %>
-          </ul>
+        <div class="rowElem">
+          <select name="select2" id="select2" disabled="true">
+            <option value="opt1"><%= @episode.name %></option>
+          </select>
         </div>
       </div>
     </div>
+    <%= render :partial => "question_packages/show_question" %>
   </div>
-<script>
-    $(function(){
-        $('.select_box').jqTransform();
-    });
-    $(document).ready(function(){
-        $(".steps .td_text_p").dblclick(function(){
-            $(".td_text_p").show();
-        });
-    })
-
-    function show_questions(obj,id)
-    {
-        $(".assignment_body").hide();
-        $("#question_list_"+id+"").show();
-    }
-</script>
+</div>

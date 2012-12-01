@@ -1,13 +1,12 @@
 <div class="assignment_body_list">
   <div class="ab_list_title">
-    <h1><%= question[:name]   %></h1>
-    <p><%= Question::TYPES_NAME[question[:types]]  %> / <%= @user.name %> / <%= question[:created_at].strftime("%Y-%m-%d") %> / 参考时间：<%= question[:questions_time] %>秒</p>
-    <ul class="ab_func">
-      <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
-      <li><a href="#" class="save_icon tooltip_html">保存</a></li>
-      <li><a href="#" class="share_icon tooltip_html">分享</a></li>
-      <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
-    </ul>
+    <h1><%= question[:name].present? ? question[:name] : "未命名"   %></h1>
+    <p><%= Question::TYPES_NAME[question[:types]]  %> / <%= @user.name %> / <%= question[:created_at].strftime("%Y-%m-%d") %> /  参考时间：
+        <% if question[:questions_time].present? %>
+          <%= question[:questions_time]/3600 %>时<%= question[:questions_time]%3600/60 %>分<%= question[:questions_time]%3600%60 %>秒
+        <% else %>
+          未设置
+        <% end %></p>
   </div>
          <%= render  "/branch_questions/sort_list", {:branch_questions => question[:branch_questions], :branch_tags => @branch_tags, :question => question} %>
 

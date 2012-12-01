@@ -7,7 +7,7 @@
 </script>
 <%= form_tag({:controller => :students, :action => :update_class}) do %>
         <div class="tab tab500" style="display: block;margin: auto;position: static; ">
-	<a href="javascript:void(0);" class="close" style="position: static;">close</a>
+	<a href="javascript:void(0);" class="close" style="left: 701px;">close</a>
 	<div class="tab_head">编辑班级</div>
         <div class="tab_body clearAfter">
           <div class="tab_warning">请更新您的班级信息</div>
@@ -19,7 +19,7 @@
                     <select id="teaching_material_id" name="teaching_material_id">
                       <option value="0" selected="selected">请选择</option>
                       <% @teachering_materials.each do |m| %>
-                        <option value="<%= m.id %>" <%= "selected" if m.id = @school_class.teaching_material_id %> ><%= m.name %></option>
+                        <option value="<%= m.id %>" <%= "selected" if m.id == @school_class.teaching_material_id %> ><%= m.name %></option>
                       <% end %>
                     </select>
                   </div>

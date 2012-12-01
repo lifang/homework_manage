@@ -14,7 +14,7 @@ class Api::StudentsController < ApplicationController
     micropost = Micropost.new(:user_id => user_id, :user_types => user_types, 
       :content => content, :school_class_id => school_class_id, :reply_microposts_count => 0)
     if micropost.save
-      micropost_return = Micropost.find_by_sql(["SELECT m.*,u.avatar_url,u.`name` from microposts m INNER JOIN users u on m.user_id = u.id where m.id = ?",micropost.id])
+      micropost_return = Micropost.find_by_sql(["SELECT m.*,u.avatar_url,u.name from microposts m INNER JOIN users u on m.user_id = u.id where m.id = ?",micropost.id])
       render :json => {:status => 'success', :notice => '消息发布成功',:micropost=>micropost_return}
     else
       render :json => {:status => 'error', :notice => '消息发布失败',:micropost=>[]}
@@ -1006,7 +1006,7 @@ class Api::StudentsController < ApplicationController
     student_id = params[:student_id]
     cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
     if cardbag
-      cardtags = CardTag.select(["id,date_format(created_at,'%Y-%m-%d %H:%S') as creat "]).where("card_bag_id= ?",cardbag.id)
+      cardtags = CardTag.select(["id,name,date_format(created_at,'%Y-%m-%d %H:%S') as creat "]).where("card_bag_id= ?",cardbag.id)
       status = "success"
       notice = "获取标签成功"
     else
@@ -1091,14 +1091,11 @@ class Api::StudentsController < ApplicationController
   end
   #  搜索标签下的卡片
   def search_tag_card
-    name = params[:name].nil? ? '%'+ params[:name].strip + '%' : "%%"
+    name = params[:name].nil? ?  "%%" : '%'+ params[:name].strip + '%'
     school_class_id = params[:school_class_id]
     student_id = params[:student_id]
     page = params[:page].nil? ? 1 : params[:page].to_i
-
     info = knowledges_andcards_tolist school_class_id,student_id,name
-    
-
     render :json =>info
   end
 

@@ -997,7 +997,7 @@ function save_wanxin_branch(obj,school_class,question_pack){
         } else {
             arr[arr.length] = $.trim($(texts[i]).val());
         }
-        if($.trim($(texts[i]).val()).length>250){
+        if(!get_str_len($.trim($(texts[i]).val()))){
             tishi("完形填空选项字符长度不能大于250！");
             return false;
         }
@@ -1029,7 +1029,7 @@ function save_paixu_branch(obj,school_class,question_pack){
         tishi("内容不能为空！");
         return false;
     }
-    if($.trim(content).length >250 ){
+    if(!get_str_len($.trim(content).length) ){
         tishi("内容长度不能大于250！");
         return false;
     }

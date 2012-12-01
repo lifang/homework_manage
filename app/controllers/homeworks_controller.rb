@@ -80,7 +80,7 @@ class HomeworksController < ApplicationController
         Teacher.transaction do
           all_questions = Question.get_all_questions question_package
           file_dirs_url = "que_ps/question_p_#{question_package.id}"
-          file_full_name = "questions.js"
+          file_full_name = "questions.json"
           if all_questions.length == 0
             notice = "该题包下的题目或小题为空！"
           else
@@ -91,20 +91,20 @@ class HomeworksController < ApplicationController
               question_packages_url = nil
             end
             group_questions = all_questions.group_by {|e| e.types}
-            listening_count = group_questions[0].nil? ? 0 : group_questions[0].length
-            reading_count = group_questions[1].nil? ? 0 : group_questions[1].length
+#            listening_count = group_questions[0].nil? ? 0 : group_questions[0].length
+#            reading_count = group_questions[1].nil? ? 0 : group_questions[1].length
             publish_question_package = PublishQuestionPackage.create(:school_class_id => @school_class.id,
               :question_package_id => question_package.id,
               :start_time => time_now, :end_time => end_time,
               :status => PublishQuestionPackage::STATUS[:NEW],
-              :listening_count => listening_count,
-              :reading_count => reading_count,
+#              :listening_count => listening_count,
+#              :reading_count => reading_count,
               :question_packages_url => question_packages_url )
             if publish_question_package
               status = true
               notice = "发布成功！"
               @publish_question_packages = Teacher.get_publish_question_packages @school_class.id, page
-              content = "教师：#{teacher.user.name}于#{publish_question_package.created_at}发布了一个任务
+              content = "教师：#{teacher.user.name}于#{publish_question_package.created_at.strftime("%Y-%m-%d %H:%M:%S")}发布了一个任务
                       '#{publish_question_package.question_package.name}',
                       任务截止时间：#{publish_question_package.end_time}"
               @school_class.task_messages.create(:content => content,

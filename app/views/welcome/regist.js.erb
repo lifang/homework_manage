@@ -1,4 +1,6 @@
 <% if @info[:status] == true %>
+    tishi("注册成功,请登陆!");
+    $("#regist_button").removeAttr("onclick");
     setTimeout("location.href = '<%= root_url %>';",1000);
 <% else %>
     tishi('<%= @info[:notice] %>');

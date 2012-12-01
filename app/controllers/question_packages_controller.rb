@@ -618,7 +618,7 @@ class QuestionPackagesController < ApplicationController
         content = v["content"]
         answer = v["answer"]
         tags = v["tags"].nil? ? nil : v["tags"]
-        bq = BranchQuestion.create(:content => content, :question_id => question.id, :answer => answer)
+        bq = BranchQuestion.create(:content => content, :question_id => question.id, :answer => answer, :options => "true;||;false")
         if tags
           tags.each do |t|
             BtagsBqueRelation.create(:branch_question_id => bq.id, :branch_tag_id => t.to_i)

@@ -2,7 +2,7 @@
   <div class="ab_article">
     <div class="questions_item">
       <div class="gapFilling_textarea" style="width:50%;">
-          <%= question[:content].present? ? question[:content].html_safe : "" %>
+          <%= question[:full_text].present? ? question[:full_text].html_safe : "" %>
       </div>
       <div class="gapFilling_box">
       <% if branch_questions.present? %>  

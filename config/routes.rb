@@ -7,6 +7,7 @@ HomeworkManage::Application.routes.draw do
     resources :students do
       collection do
         get 'news_release'
+        post :login
       end
     end
   end

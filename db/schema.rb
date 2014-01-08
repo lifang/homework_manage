@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140108012640) do
+ActiveRecord::Schema.define(:version => 20140108015415) do
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(:version => 20140108012640) do
   end
 
   add_index "messages", ["school_class_id"], :name => "index_messages_on_school_class_id"
+  add_index "messages", ["student_id"], :name => "index_messages_on_student_id"
 
   create_table "microposts", :force => true do |t|
     t.integer  "user_id"
@@ -55,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20140108012640) do
   end
 
   add_index "microposts", ["school_class_id"], :name => "index_microposts_on_school_class_id"
+  add_index "microposts", ["user_id"], :name => "index_microposts_on_user_id"
 
   create_table "publish_question_packages", :force => true do |t|
     t.integer  "question_package_id"
@@ -68,6 +70,7 @@ ActiveRecord::Schema.define(:version => 20140108012640) do
   end
 
   add_index "publish_question_packages", ["question_package_id"], :name => "index_publish_question_packages_on_question_package_id"
+  add_index "publish_question_packages", ["school_class_id"], :name => "index_publish_question_packages_on_school_class_id"
 
   create_table "question_package_types", :force => true do |t|
     t.string   "name"
@@ -109,6 +112,8 @@ ActiveRecord::Schema.define(:version => 20140108012640) do
   end
 
   add_index "reply_microposts", ["micropost_id"], :name => "index_reply_microposts_on_micropost_id"
+  add_index "reply_microposts", ["reciver_id"], :name => "index_reply_microposts_on_reciver_id"
+  add_index "reply_microposts", ["sender_id"], :name => "index_reply_microposts_on_sender_id"
 
   create_table "school_class_student_ralastions", :force => true do |t|
     t.integer  "student_id"
@@ -139,6 +144,8 @@ ActiveRecord::Schema.define(:version => 20140108012640) do
     t.datetime "updated_at",        :null => false
   end
 
+  add_index "share_branch_questions", ["share_question_id"], :name => "index_share_branch_questions_on_share_question_id"
+
   create_table "share_questions", :force => true do |t|
     t.string   "name"
     t.integer  "types"
@@ -146,6 +153,8 @@ ActiveRecord::Schema.define(:version => 20140108012640) do
     t.datetime "created_at",               :null => false
     t.datetime "updated_at",               :null => false
   end
+
+  add_index "share_questions", ["question_package_type_id"], :name => "index_share_questions_on_question_package_type_id"
 
   create_table "student_answer_records", :force => true do |t|
     t.integer  "student_id"
@@ -155,6 +164,9 @@ ActiveRecord::Schema.define(:version => 20140108012640) do
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
   end
+
+  add_index "student_answer_records", ["question_package_id"], :name => "index_student_answer_records_on_question_package_id"
+  add_index "student_answer_records", ["student_id"], :name => "index_student_answer_records_on_student_id"
 
   create_table "students", :force => true do |t|
     t.string   "name"

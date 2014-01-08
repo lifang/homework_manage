@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="" />
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -37,7 +35,7 @@
       <file leaf-file-name="students_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="23" selection-start="1518" selection-end="1518" vertical-scroll-proportion="0.8350877" vertical-offset="408" max-vertical-offset="816">
+            <state line="29" column="45" selection-start="975" selection-end="975" vertical-scroll-proportion="0.2982456" vertical-offset="408" max-vertical-offset="816">
               <folding />
             </state>
           </provider>
@@ -661,7 +659,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="23" selection-start="1518" selection-end="1518" vertical-scroll-proportion="0.8350877" vertical-offset="408" max-vertical-offset="816">
+        <state line="29" column="45" selection-start="975" selection-end="975" vertical-scroll-proportion="0.2982456" vertical-offset="408" max-vertical-offset="816">
           <folding />
         </state>
       </provider>

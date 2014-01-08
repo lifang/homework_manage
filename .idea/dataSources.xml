@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="3077106717">
+    <data-source source="LOCAL" name="Rails homework_manage: development" uuid="32c1f741-9db5-4343-a01b-54373707b46d">
+      <driver-ref>mysql</driver-ref>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://127.0.0.1/homework_manage</jdbc-url>
+      <user-name>root</user-name>
+      <user-password>dfc9dfc5dfc7dfcedfc5df98df9adf9bdf98</user-password>
+      <schema-pattern>homework_manage.*</schema-pattern>
+      <default-schemas>homework_manage.*</default-schemas>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="Rails homework_manage: test" uuid="40be7a3b-b036-486b-93e1-e4fad28a1c5f">
+      <driver-ref>mysql</driver-ref>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://127.0.0.1/homework_manage</jdbc-url>
+      <user-name>root</user-name>
+      <user-password>dfc9dfc5dfc7dfcedfc5df98df9adf9bdf98</user-password>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="Rails homework_manage: production" uuid="c9941cec-0738-462f-81ce-d9e7eb240201">
+      <driver-ref>mysql</driver-ref>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://127.0.0.1/homework_manage</jdbc-url>
+      <user-name>root</user-name>
+      <user-password>dfc9dfc5dfc7dfcedfc5df98df9adf9bdf98</user-password>
+      <libraries />
+    </data-source>
+  </component>
+</project>
+

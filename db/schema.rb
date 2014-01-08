@@ -104,10 +104,10 @@ ActiveRecord::Schema.define(:version => 20140108024749) do
     t.integer  "sender_id"
     t.integer  "sender_types"
     t.string   "content"
-    t.datetime "created_at",    :null => false
     t.integer  "micropost_id"
     t.integer  "reciver_id"
     t.integer  "reciver_types"
+    t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
 

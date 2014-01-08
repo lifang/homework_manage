@@ -71,18 +71,20 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
       class_name = nil
       tearcher_name = nil
       tearcher_id = nil
+      classmates = nil
       if !school_class.nil?
         class_id = school_class.id
         class_name = school_class.name
         tearcher_id = school_class.teacher.id
         tearcher_name = school_class.teacher.name
+        classmates = school_class.students
       end
       render :json => {:status => "success", :notice => "登陆成功！",
         :student => {:id => student.id, :name => student.name,
           :nickname => student.nickname, :avatar_url => student.avatar_url},
         :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
           :tearcher_id => tearcher_name },
-        :classmates => [{}]
+        :classmates => classmates
       }
     end
   end

@@ -37,7 +37,8 @@ class Api::StudentsController < ApplicationController
                                     :nickname => student.nickname, :avatar_url => student.avatar_url},
                        :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
                                 :tearcher_id => tearcher_name },
-                       :classmates => classmates
+                       :classmates => classmates,
+
                       }
     end
   end

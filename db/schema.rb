@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140108024749) do
+ActiveRecord::Schema.define(:version => 20140108081833) do
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -117,12 +117,12 @@ ActiveRecord::Schema.define(:version => 20140108024749) do
 
   create_table "school_class_student_ralastions", :force => true do |t|
     t.integer  "student_id"
-    t.integer  "class_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "school_class_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
-  add_index "school_class_student_ralastions", ["class_id"], :name => "index_school_class_student_ralastions_on_class_id"
+  add_index "school_class_student_ralastions", ["school_class_id"], :name => "index_school_class_student_ralastions_on_class_id"
   add_index "school_class_student_ralastions", ["student_id"], :name => "index_school_class_student_ralastions_on_student_id"
 
   create_table "school_classes", :force => true do |t|

@@ -60,6 +60,7 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
     render :json => {:classes => classes}
   end
 
+  #qq登陆
   def login
     qq_uid = params[:qq_uid]
     student = Student.find_by_qq_uid qq_uid

@@ -1,3 +1,4 @@
+#encoding: utf-8
 class SchoolClass < ActiveRecord::Base
   attr_protected :authentications
   STATUS = {:NORMAL => 1,:EXPIRED => 0}

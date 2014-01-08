@@ -10,7 +10,7 @@ class Api::StudentsController < ApplicationController
     if micropost.save
       render :json => {:status => 'success', :notice => '消息发布成功'}
     else
-      render :json => {:status => 'fails', :notice => '消息发布失败'}
+      render :json => {:status => 'error', :notice => '消息发布失败'}
     end
   end
   #  回复消息
@@ -26,7 +26,7 @@ class Api::StudentsController < ApplicationController
     if replymicropost.save
       render :json => {:status => 'success', :notice => '消息回复成功'}
     else
-      render :json => {:status => 'fails', :notice => '消息回复失败'}
+      render :json => {:status => 'error', :notice => '消息回复失败'}
     end
   end
   #  关注消息api
@@ -37,7 +37,7 @@ class Api::StudentsController < ApplicationController
     if followmicropost.save
       render :json => {:status => 'success', :notice => '关注添加成功'}
     else
-      render :json => {:status => 'fails', :notice => '关注添加失败'}
+      render :json => {:status => 'error', :notice => '关注添加失败'}
     end
   end
   #  取消关注
@@ -48,7 +48,7 @@ class Api::StudentsController < ApplicationController
     if followmicropost_exits && followmicropost_exits.destroy
       render :json => {:status => 'success', :notice => '取消关注成功'}
     else
-      render :json => {:status => 'fails', :notice => '取消关注失败'}
+      render :json => {:status => 'error', :notice => '取消关注失败'}
     end
   end
   #切换班级

@@ -2,6 +2,6 @@
 class PublishQuestionPackage < ActiveRecord::Base
   attr_protected :authentications
   belongs_to :teacher
-  STATUS = {:NEW => 0, :FINISH => 1}
-  STATUS_NAME = {0 => "新任务", 1 => "完成"}
+  STATUS = {:NEW => 0, :FINISH => 1,:EXPIRED => 2}
+  STATUS_NAME = {0 => "新任务", 1 => "完成",2 => '过期'}
 end

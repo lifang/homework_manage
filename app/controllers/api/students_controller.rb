@@ -52,7 +52,7 @@ class Api::StudentsController < ApplicationController
     end
   end
   #切换班级
-  def switching_classes
+  def get_my_classes
     student_id = params[:student_id].to_i
     classes = SchoolClass.find_by_sql("SELECT school_classes.id class_id,school_classes.name class_name
 from school_classes INNER JOIN school_class_student_ralastions on school_classes.id = school_class_student_ralastions.class_id
@@ -88,15 +88,41 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
         daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
       end
       render :json => {:status => "success", :notice => "登陆成功！",
-                       :student => {:id => student.id, :name => student.name,
-                                    :nickname => student.nickname, :avatar_url => student.avatar_url},
-                       :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-                                  :tearcher_id => tearcher_id },
-                       :classmates => classmates,
-                       :task_messages => task_messages,
-                       :microposts => microposts,
-                       :daily_tasks => daily_tasks
-                      }
+        :student => {:id => student.id, :name => student.name,
+          :nickname => student.nickname, :avatar_url => student.avatar_url},
+        :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+          :tearcher_id => tearcher_name },
+        :classmates => classmates
+      }
+    end
+  end
+  #  点击每日任务获取题包
+  def into_daily_tasks
+    student_id = params[:student_id]
+    student = Student.find_by_id(student_id)
+    answer_file_url = student.answer_file_url
+    
+    school_class_id = params[:school_class_id].to_i
+    types = params[:types].to_i
+    questions = Question.find_by_sql("SELECT q.id id,q.name name FROM publish_question_packages  pqp INNER JOIN questions q
+ON  pqp.question_package_id = q.question_package_id and pqp.status = #{PublishQuestionPackage::STATUS[:FINISH]}
+and pqp.school_class_id = #{school_class_id} and q.types = #{types}")
+    #    questions_hashs = Hash.new
+    questions_arrs = Array.new
+    questions.each do |question|
+      questions_hash = Hash.new
+      question_name = question.name
+      question_id = question.id
+      brahch_question = BranchQuestion.find_by_sql("SELECT id,content,types,resource_url FROM branch_questions WHERE question_id = #{question_id}")
+      questions_hash["question_name"] = question_name
+      questions_hash["question_id"] = question_id
+      questions_hash["brahch_question"] = brahch_question
+      questions_arrs << questions_hash
+    end
+    if types.eql?(Question::TYPES[:LISTENING])
+      render :json => {:questions => {:listen => questions_arrs}, :finish_question => "1,2,3,4"}
+    else
+      render :json => {:questions => {:reading => questions_arrs}, :finish_question => "1,2,3,4"}
     end
   end
 
@@ -130,6 +156,7 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
   end
 
   #学生登记个人信息，验证班级code，记录个人信息
+  #问题  : qq_uid和必须唯一    ,班级验证码是否唯一(个人觉得需要唯一,不然无法根据验证码查找班级,但是教师使用起来会有困惑)
   def record_person_info
     qq_uid = params[:qq_uid]
     name = params[:name]

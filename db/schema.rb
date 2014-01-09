@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140109072117) do
+ActiveRecord::Schema.define(:version => 20140109090635) do
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -104,10 +104,10 @@ ActiveRecord::Schema.define(:version => 20140109072117) do
     t.integer  "sender_id"
     t.integer  "sender_types"
     t.string   "content"
+    t.datetime "created_at",    :null => false
     t.integer  "micropost_id"
     t.integer  "reciver_id"
     t.integer  "reciver_types"
-    t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
 

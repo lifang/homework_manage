@@ -81,7 +81,7 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
         tearcher_name = school_class.teacher.name
         classmates = SchoolClass.get_classmates school_class
         task_messages = TaskMessage.get_task_messages school_class.id
-        page = 0
+        page = 1
         microposts = Micropost.get_microposts school_class,page
       end
       render :json => {:status => "success", :notice => "登陆成功！",
@@ -92,8 +92,37 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
                        :classmates => classmates,
                        :task_messages => task_messages,
                        :microposts => microposts
+                       :daily_tasks => {:}
                       }
-
     end
+  end
+
+  #获取消息microposts
+  def get_microposts
+    school_class_id = params[:class_id]
+    page = params[:page]
+    school_class = SchoolClass.find_by_id school_class_id
+    if school_class.nil?
+      status = "error"
+      notice = "班级不存在"
+      microposts = nil
+    else
+      if school_class.status == SchoolClass::STATUS[:NORMAL]
+        status = "success"
+        notice = "加载完成"
+        if page.nil?
+          status = "error"
+          notice = "页数为空"
+          microposts = nil
+        else
+          microposts = Micropost.get_microposts school_class,page
+        end
+      else
+        status = "error"
+        notice = "班级已过期"
+        microposts = nil
+      end
+    end
+    render :json => {:status => status, :notice => notice,:microposts => microposts}
   end
 end

@@ -26,11 +26,11 @@ class Micropost < ActiveRecord::Base
     end
     ids += ")"
     teacher_sql = "SELECT m.id, m.user_id, m.user_types, m.content, m.created_at, t.name, null as nickname,
-                t.avatar_url FROM microposts m join teachers t on m.user_id = t.id where user_types = 0
+                t.avatar_url FROM microposts m left join teachers t on m.user_id = t.id where user_types = 0
                 and m.id in #{ids}"
     teacher_microposts = Micropost.find_by_sql teacher_sql
     student_sql = "SELECT m.id, m.user_id, m.user_types, m.content, m.created_at, s.name, s.nickname,
-                s.avatar_url FROM microposts m join students s on m.user_id = s.id where user_types = 1
+                s.avatar_url FROM microposts m left join students s on m.user_id = s.id where user_types = 1
                 and m.id in #{ids}"
     student_microposts = Micropost.find_by_sql student_sql
     microposts = teacher_microposts + student_microposts

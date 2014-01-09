@@ -4,9 +4,9 @@ class SchoolClass < ActiveRecord::Base
   STATUS = {:NORMAL => 1,:EXPIRED => 0}
   STATUS_NAME = {0 => '课程过期',1 => '正常'}
   belongs_to :teacher
-  has_many :task_messages
-  has_many :microposts
-  has_many :school_class_student_ralastions
+  has_many :task_messages, :dependent => :destroy
+  has_many :microposts, :dependent => :destroy
+  has_many :school_class_student_ralastions, :dependent => :destroy
   has_many :students, :through =>  :school_class_student_ralastions
 
   def self.get_classmates school_class

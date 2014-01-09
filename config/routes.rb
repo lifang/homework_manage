@@ -7,6 +7,7 @@ HomeworkManage::Application.routes.draw do
     resources :students do
       collection do
         get 'news_release','reply_message','add_concern','unfollow','get_my_classes','into_daily_tasks'
+        get :get_microposts
         post :login
       end
     end

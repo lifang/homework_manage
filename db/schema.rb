@@ -166,9 +166,12 @@ ActiveRecord::Schema.define(:version => 20140109090635) do
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false
     t.integer  "publish_question_package_id"
+    t.integer  "school_class_id"
   end
 
+  add_index "student_answer_records", ["publish_question_package_id"], :name => "index_student_answer_records_on_publish_question_package_id"
   add_index "student_answer_records", ["question_package_id"], :name => "index_student_answer_records_on_question_package_id"
+  add_index "student_answer_records", ["school_class_id"], :name => "index_student_answer_records_on_school_class_id"
   add_index "student_answer_records", ["student_id"], :name => "index_student_answer_records_on_student_id"
 
   create_table "students", :force => true do |t|
@@ -194,6 +197,7 @@ ActiveRecord::Schema.define(:version => 20140109090635) do
     t.integer  "publish_question_package_id"
   end
 
+  add_index "task_messages", ["publish_question_package_id"], :name => "index_task_messages_on_publish_question_package_id"
   add_index "task_messages", ["school_class_id"], :name => "index_task_messages_on_school_class_id"
 
   create_table "teachers", :force => true do |t|

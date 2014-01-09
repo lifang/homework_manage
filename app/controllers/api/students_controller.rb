@@ -73,12 +73,19 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
       tearcher_name = nil
       tearcher_id = nil
       classmates = nil
+      task_messages = nil
+      microposts = nil
+      daily_tasks = nil
       if !school_class.nil?
         class_id = school_class.id
         class_name = school_class.name
         tearcher_id = school_class.teacher.id
         tearcher_name = school_class.teacher.name
-        classmates = school_class.students
+        classmates = SchoolClass.get_classmates school_class
+        task_messages = TaskMessage.get_task_messages school_class.id
+        page = 1
+        microposts = Micropost.get_microposts school_class,page
+        daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
       end
       render :json => {:status => "success", :notice => "登陆成功！",
         :student => {:id => student.id, :name => student.name,
@@ -94,10 +101,11 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
     student_id = params[:student_id]
     student = Student.find_by_id(student_id)
     answer_file_url = student.answer_file_url
+    
     school_class_id = params[:school_class_id].to_i
     types = params[:types].to_i
     questions = Question.find_by_sql("SELECT q.id id,q.name name FROM publish_question_packages  pqp INNER JOIN questions q
-ON  pqp.question_package_id = q.question_package_id and pqp.status = #{PublishQuestionPackage::STATUS[:RELEASE]}
+ON  pqp.question_package_id = q.question_package_id and pqp.status = #{PublishQuestionPackage::STATUS[:FINISH]}
 and pqp.school_class_id = #{school_class_id} and q.types = #{types}")
     #    questions_hashs = Hash.new
     questions_arrs = Array.new
@@ -111,10 +119,39 @@ and pqp.school_class_id = #{school_class_id} and q.types = #{types}")
       questions_hash["brahch_question"] = brahch_question
       questions_arrs << questions_hash
     end
-    if types.eql?(Question::TYPES[:DICTATION])
+    if types.eql?(Question::TYPES[:LISTENING])
       render :json => {:questions => {:listen => questions_arrs}, :finish_question => "1,2,3,4"}
     else
       render :json => {:questions => {:reading => questions_arrs}, :finish_question => "1,2,3,4"}
     end
+  end
+
+  #获取消息microposts(分页)
+  def get_microposts
+    school_class_id = params[:class_id]
+    page = params[:page]
+    school_class = SchoolClass.find_by_id school_class_id
+    if school_class.nil?
+      status = "error"
+      notice = "班级不存在"
+      microposts = nil
+    else
+      if school_class.status == SchoolClass::STATUS[:NORMAL]
+        status = "success"
+        notice = "加载完成"
+        if page.nil?
+          status = "error"
+          notice = "页数为空"
+          microposts = nil
+        else
+          microposts = Micropost.get_microposts school_class,page
+        end
+      else
+        status = "error"
+        notice = "班级已过期"
+        microposts = nil
+      end
+    end
+    render :json => {:status => status, :notice => notice,:microposts => microposts}
   end
 end

@@ -5,6 +5,7 @@ class SchoolClass < ActiveRecord::Base
   STATUS_NAME = {0 => '课程过期',1 => '正常'}
   belongs_to :teacher
   has_many :task_messages
+  has_many :microposts
   has_many :school_class_student_ralastions
   has_many :students, :through =>  :school_class_student_ralastions
 

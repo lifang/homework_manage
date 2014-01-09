@@ -81,8 +81,7 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
         tearcher_name = school_class.teacher.name
         classmates = SchoolClass.get_classmates school_class
         task_messages = TaskMessage.get_task_messages school_class.id
-        #select("task_messages.id,task_messages.content").
-        #    where("task_messages.status = #{TaskMessage::STATUS[:YES]}")
+        microposts = Micropost.get_microposts school_class
       end
       render :json => {:status => "success", :notice => "登陆成功！",
                        :student => {:id => student.id, :name => student.name,
@@ -90,7 +89,8 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
                        :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
                                   :tearcher_id => tearcher_id },
                        :classmates => classmates,
-                       :task_messages => task_messages
+                       :task_messages => task_messages,
+                       :microposts => microposts
                       }
 
     end

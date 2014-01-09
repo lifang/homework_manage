@@ -83,7 +83,7 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
         task_messages = TaskMessage.get_task_messages school_class.id
         page = 1
         microposts = Micropost.get_microposts school_class,page
-        daily_tasks = nil
+        daily_tasks = StudentAnswerRecord.get_daily_tasks
       end
       render :json => {:status => "success", :notice => "登陆成功！",
                        :student => {:id => student.id, :name => student.name,
@@ -98,7 +98,7 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
     end
   end
 
-  #获取消息microposts
+  #获取消息microposts(分页)
   def get_microposts
     school_class_id = params[:class_id]
     page = params[:page]

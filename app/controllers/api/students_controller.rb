@@ -83,6 +83,7 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
         task_messages = TaskMessage.get_task_messages school_class.id
         page = 1
         microposts = Micropost.get_microposts school_class,page
+        daily_tasks = nil
       end
       render :json => {:status => "success", :notice => "登陆成功！",
                        :student => {:id => student.id, :name => student.name,
@@ -91,8 +92,8 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
                                   :tearcher_id => tearcher_id },
                        :classmates => classmates,
                        :task_messages => task_messages,
-                       :microposts => microposts
-                       :daily_tasks => {:}
+                       :microposts => microposts,
+                       :daily_tasks => daily_tasks
                       }
     end
   end

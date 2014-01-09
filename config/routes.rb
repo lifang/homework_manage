@@ -6,7 +6,7 @@ HomeworkManage::Application.routes.draw do
   namespace :api do
     resources :students do
       collection do
-        get 'news_release','reply_message','add_concern','unfollow','switching_classes'
+        get 'news_release','reply_message','add_concern','unfollow','get_my_classes','into_daily_tasks'
         post :login
       end
     end

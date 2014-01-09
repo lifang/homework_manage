@@ -79,14 +79,16 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
         class_name = school_class.name
         tearcher_id = school_class.teacher.id
         tearcher_name = school_class.teacher.name
-        classmates = school_class.students.select("students.id,students.name,students.avatar_url,students.nickname").where("students.status = #{Student::STATUS[:YES]}")
-        task_messages = school_class.task_messages.select("task_messages.id,task_messages.content").where("task_messages.status = #{TaskMessage::STATUS[:YES]}")
+        classmates = SchoolClass.get_classmates school_class
+        task_messages = TaskMessage.get_task_messages school_class.id
+        #select("task_messages.id,task_messages.content").
+        #    where("task_messages.status = #{TaskMessage::STATUS[:YES]}")
       end
       render :json => {:status => "success", :notice => "登陆成功！",
                        :student => {:id => student.id, :name => student.name,
                                     :nickname => student.nickname, :avatar_url => student.avatar_url},
                        :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-                                  :tearcher_id => tearcher_name },
+                                  :tearcher_id => tearcher_id },
                        :classmates => classmates,
                        :task_messages => task_messages
                       }

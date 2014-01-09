@@ -156,7 +156,8 @@ and pqp.school_class_id = #{school_class_id} and q.types = #{types}")
   end
 
   #学生登记个人信息，验证班级code，记录个人信息
-  #问题  : qq_uid和必须唯一    ,班级验证码是否唯一(个人觉得需要唯一,不然无法根据验证码查找班级,但是教师使用起来会有困惑)
+  #问题: 1.qq_uid和必须唯一,昵称是否唯一,如果也唯一,那么无论由于昵称还是qq_uid的导致的添加失败,无法鉴别
+  #     2.班级验证码是否唯一(个人觉得需要唯一,不然无法根据验证码查找班级,但是教师使用起来会有困惑)
   def record_person_info
     qq_uid = params[:qq_uid]
     name = params[:name]

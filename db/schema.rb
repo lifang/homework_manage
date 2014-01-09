@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140108091233) do
+ActiveRecord::Schema.define(:version => 20140109060234) do
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -163,10 +163,12 @@ ActiveRecord::Schema.define(:version => 20140108091233) do
     t.integer  "question_package_id"
     t.integer  "status"
     t.string   "answer_file_url"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
+    t.integer  "publish_question_package_id"
   end
 
+  add_index "student_answer_records", ["publish_question_package_id"], :name => "index_student_answer_records_on_publish_question_package_id"
   add_index "student_answer_records", ["question_package_id"], :name => "index_student_answer_records_on_question_package_id"
   add_index "student_answer_records", ["student_id"], :name => "index_student_answer_records_on_student_id"
 

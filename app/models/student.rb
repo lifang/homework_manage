@@ -6,5 +6,4 @@ class Student < ActiveRecord::Base
   has_many :school_class_student_ralastions
   has_many :school_classes, :through => :school_class_student_ralastions
   validates_uniqueness_of :qq_uid
-  validates_uniqueness_of :nickname
 end

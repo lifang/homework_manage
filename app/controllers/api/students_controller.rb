@@ -129,35 +129,49 @@ and pqp.school_class_id = #{school_class_id} and q.types = #{types}")
   #获取消息microposts(分页)
   def get_microposts
     school_class_id = params[:school_class_id]
+    student_id = params[:student_id]
     page = params[:page]
     school_class = SchoolClass.find_by_id school_class_id
-    if school_class.nil?
+    student = Student.find_by_id student_id
+    microposts = nil
+    status = "error"
+    if student.nil?
       status = "error"
-      notice = "班级不存在"
-      microposts = nil
+      notice = "学生信息错误"
     else
-      if school_class.status == SchoolClass::STATUS[:NORMAL]
-        status = "success"
-        notice = "加载完成"
-        if page.nil?
-          status = "error"
-          notice = "页数为空"
-          microposts = nil
-        else
-          microposts = Micropost.get_microposts school_class,page
-        end
+      if school_class.nil?
+
+        notice = "班级不存在"
       else
-        status = "error"
-        notice = "班级已过期"
-        microposts = nil
+        school_class_student_relations = SchoolClassStudentRalastion.find_by_school_class_id_and_student_id school_class.id, student.id
+        if school_class_student_relations.nil?
+          status = "success"
+          notice = "加载完成"
+
+        else
+          if school_class.status == SchoolClass::STATUS[:NORMAL]
+            if page.nil?
+              status = "error"
+              notice = "页数为空"
+              microposts = nil
+            else
+              status = "success"
+              notice = "加载完成"
+              microposts = Micropost.get_microposts school_class,page
+            end
+          else
+            status = "error"
+            notice = "班级已过期"
+            microposts = nil
+          end
+        end
       end
     end
     render :json => {:status => status, :notice => notice,:microposts => microposts}
   end
 
   #学生登记个人信息，验证班级code，记录个人信息
-  #问题: 1.qq_uid和必须唯一,昵称是否唯一,如果也唯一,那么无论由于昵称还是qq_uid的导致的添加失败,无法鉴别
-  #     2.班级验证码是否唯一(个人觉得需要唯一,不然无法根据验证码查找班级,但是教师使用起来会有困惑)
+  # 1.qq_openid唯一;2班级验证码唯一
   def record_person_info
     qq_uid = params[:qq_uid]
     name = params[:name]
@@ -204,7 +218,7 @@ and pqp.school_class_id = #{school_class_id} and q.types = #{types}")
                              :daily_tasks => daily_tasks
             }
         else
-          notice = "验证码错误!"
+          notice = "验证码错误,找不到相关班级!"
           status = "error"
           render :json => {:status => status, :notice => notice}
         end

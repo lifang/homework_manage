@@ -101,29 +101,10 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
     student_id = params[:student_id]
     student = Student.find_by_id(student_id)
     answer_file_url = student.answer_file_url
-    
     school_class_id = params[:school_class_id].to_i
     types = params[:types].to_i
-    questions = Question.find_by_sql("SELECT q.id id,q.name name FROM publish_question_packages  pqp INNER JOIN questions q
-ON  pqp.question_package_id = q.question_package_id and pqp.status = #{PublishQuestionPackage::STATUS[:FINISH]}
-and pqp.school_class_id = #{school_class_id} and q.types = #{types}")
-    #    questions_hashs = Hash.new
-    questions_arrs = Array.new
-    questions.each do |question|
-      questions_hash = Hash.new
-      question_name = question.name
-      question_id = question.id
-      brahch_question = BranchQuestion.find_by_sql("SELECT id,content,types,resource_url FROM branch_questions WHERE question_id = #{question_id}")
-      questions_hash["question_name"] = question_name
-      questions_hash["question_id"] = question_id
-      questions_hash["brahch_question"] = brahch_question
-      questions_arrs << questions_hash
-    end
-    if types.eql?(Question::TYPES[:LISTENING])
-      render :json => {:questions => {:listen => questions_arrs}, :finish_question => "1,2,3,4"}
-    else
-      render :json => {:questions => {:reading => questions_arrs}, :finish_question => "1,2,3,4"}
-    end
+    
+
   end
 
   #获取消息microposts(分页)
@@ -153,5 +134,37 @@ and pqp.school_class_id = #{school_class_id} and q.types = #{types}")
       end
     end
     render :json => {:status => status, :notice => notice,:microposts => microposts}
+  end
+  #  更新个人信息
+  def modify_person_info
+    student_id = params[:student_id].to_i
+    student = Student.find_by_id(student_id)
+#    FileUtils.mkdir_p "#{File.expand_path(Rails.root)}/public/student_img/#{student_id}" if !(File.exist?("#{File.expand_path(Rails.root)}/public/student_img/#{student_id}"))
+#    picture = params[:picture]
+#    filename = picture.original_filename
+#    fileext = File.basename(filename).split(".")[1]
+#    timeext =  "avatar" + student_id.to_s
+#    newfilename = timeext+"."+fileext
+#    avatar_url = "#{Rails.root}/public/student_img/#{student_id}/#{newfilename}"
+#    File.open("#{Rails.root}/public/student_img/#{student_id}/#{newfilename}","wb") {
+#      |f| f.write(picture.read)
+#    }
+    name = params[:name]
+    nickname = params[:nickname]
+    if student.update_attributes(:name => name, :nickname => nickname)
+          render :json => {:status => 'success',:notice => '修改成功'}
+    else
+          render :json => {:status => 'error',:notice => '修改失败'}
+    end
+  end
+#  删除消息
+  def delete_posts
+    micropost_id = params[:micropost_id]
+    micropost = Micropost.find_by_id(micropost_id)
+    if micropost&&micropost.destroy
+      render :json => {:status => 'success', :notice => '消息删除成功'}
+    else
+      render :json => {:status => 'error',:notice => '消息删除失败'}
+    end
   end
 end

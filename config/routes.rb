@@ -6,7 +6,8 @@ HomeworkManage::Application.routes.draw do
   namespace :api do
     resources :students do
       collection do
-        get 'news_release','reply_message','add_concern','unfollow','get_my_classes','into_daily_tasks'
+        get 'news_release','reply_message','add_concern','unfollow','get_my_classes','into_daily_tasks',
+          'modify_person_info','delete_posts'
         get :get_microposts
         post :login
       end

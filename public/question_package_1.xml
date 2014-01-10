@@ -1,0 +1,70 @@
+<questions>
+<listening>
+	 <question>
+	   <id>1</id>
+	   <branch_questions>
+			<branch_question>
+				<id>2</id>
+				<answer>;||;</answer>
+			</branch_question>
+	   </branch_questions>
+	 </question>
+ </listening>
+ <reading>
+	 <question>
+	   <id>2</id>
+	   <branch_questions>
+			<branch_question>
+				<id>4</id>
+				<answer>;||;</answer>
+			</branch_question>
+	   </branch_questions>
+	 </question>
+ </reading>
+</questions>
+
+
+
+    xml_str = "<questions>
+<listening>
+   <question>
+	   <id>1</id>
+	   <branch_questions>
+			<branch_question>
+				<id>2</id>
+				<answer>;||;</answer>
+			</branch_question>
+	   </branch_questions>
+	 </question>
+	 <question>
+	   <id>1</id>
+	   <branch_questions>
+			<branch_question>
+				<id>2</id>
+				<answer>;||;</answer>
+			</branch_question>
+	   </branch_questions>
+	 </question>
+ </listening>
+ <reading>
+	 <question>
+	   <id>2</id>
+	   <branch_questions>
+			<branch_question>
+				<id>4</id>
+				<answer>;||;</answer>
+			</branch_question>
+	   </branch_questions>
+	 </question>
+   <question>
+	   <id>2</id>
+	   <branch_questions>
+			<branch_question>
+				<id>4</id>
+				<answer>;||;</answer>
+			</branch_question>
+	   </branch_questions>
+	 </question>
+ </reading>
+</questions>
+"

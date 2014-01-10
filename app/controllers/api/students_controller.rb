@@ -109,28 +109,43 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
 
   #获取消息microposts(分页)
   def get_microposts
-    school_class_id = params[:class_id]
+    school_class_id = params[:school_class_id]
+    student_id = params[:student_id]
     page = params[:page]
     school_class = SchoolClass.find_by_id school_class_id
-    if school_class.nil?
+    student = Student.find_by_id student_id
+    microposts = nil
+    status = "error"
+    if student.nil?
       status = "error"
-      notice = "班级不存在"
-      microposts = nil
+      notice = "学生信息错误"
     else
-      if school_class.status == SchoolClass::STATUS[:NORMAL]
-        status = "success"
-        notice = "加载完成"
-        if page.nil?
-          status = "error"
-          notice = "页数为空"
-          microposts = nil
-        else
-          microposts = Micropost.get_microposts school_class,page
-        end
+      if school_class.nil?
+
+        notice = "班级不存在"
       else
-        status = "error"
-        notice = "班级已过期"
-        microposts = nil
+        school_class_student_relations = SchoolClassStudentRalastion.find_by_school_class_id_and_student_id school_class.id, student.id
+        if school_class_student_relations.nil?
+          status = "success"
+          notice = "加载完成"
+
+        else
+          if school_class.status == SchoolClass::STATUS[:NORMAL]
+            if page.nil?
+              status = "error"
+              notice = "页数为空"
+              microposts = nil
+            else
+              status = "success"
+              notice = "加载完成"
+              microposts = Micropost.get_microposts school_class,page
+            end
+          else
+            status = "error"
+            notice = "班级已过期"
+            microposts = nil
+          end
+        end
       end
     end
     render :json => {:status => status, :notice => notice,:microposts => microposts}
@@ -165,6 +180,108 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
       render :json => {:status => 'success', :notice => '消息删除成功'}
     else
       render :json => {:status => 'error',:notice => '消息删除失败'}
+    end
+  end
+  #学生登记个人信息，验证班级code，记录个人信息
+  # 1.qq_openid唯一;2班级验证码唯一
+  def record_person_info
+    qq_uid = params[:qq_uid]
+    name = params[:name]
+    nickname = params[:nickname]
+    verification_code = params[:verification_code]
+    student = Student.find_by_qq_uid qq_uid
+    class_id = nil
+    class_name = nil
+    tearcher_name = nil
+    tearcher_id = nil
+    classmates = nil
+    task_messages = nil
+    microposts = nil
+    daily_tasks = nil
+    if student.nil?
+        school_class = SchoolClass.find_by_verification_code(verification_code)
+        if !school_class.nil?
+            begin
+              student = Student.create(:name => name, :nickname => nickname, :qq_uid => qq_uid,
+                                       :last_visit_class_id => school_class.id)
+              student.school_class_student_ralastions.create(:school_class_id => school_class.id)
+            rescue
+              notice = "qq账号已经注册,请直接登陆"
+              status = "error"
+              render :json => {:status => status, :notice => notice}
+            end
+            class_id = school_class.id
+            class_name = school_class.name
+            tearcher_id = school_class.teacher.id
+            tearcher_name = school_class.teacher.name
+            classmates = SchoolClass.get_classmates school_class
+            task_messages = TaskMessage.get_task_messages school_class.id
+            page = 1
+            microposts = Micropost.get_microposts school_class,page
+            daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
+            render :json => {:status => "success", :notice => "登记完成！",
+                             :student => {:id => student.id, :name => student.name,
+                                          :nickname => student.nickname, :avatar_url => student.avatar_url},
+                             :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+                                        :tearcher_id => tearcher_id },
+                             :classmates => classmates,
+                             :task_messages => task_messages,
+                             :microposts => microposts,
+                             :daily_tasks => daily_tasks
+            }
+        else
+          notice = "验证码错误,找不到相关班级!"
+          status = "error"
+          render :json => {:status => status, :notice => notice}
+        end
+    else
+      notice = "qq账号已经存在,请直接登陆"
+      status = "error"
+      render :json => {:status => status, :notice => notice}
+    end
+  end
+
+  #获取页面信息
+  def get_class_info
+    school_class_id = params[:school_class_id]
+    student_id = params[:student_id]
+    school_class = SchoolClass.find_by_id school_class_id
+    student = Student.find_by_id student_id
+    if student.nil?
+      render :json => {:status => "error", :notice => "用户信息错误！"}
+    else
+      school_class = SchoolClass.find_by_id student.last_visit_class_id
+      class_id = nil
+      class_name = nil
+      tearcher_name = nil
+      tearcher_id = nil
+      classmates = nil
+      task_messages = nil
+      microposts = nil
+      daily_tasks = nil
+      if !school_class.nil?
+        class_id = school_class.id
+        class_name = school_class.name
+        tearcher_id = school_class.teacher.id
+        tearcher_name = school_class.teacher.name
+        classmates = SchoolClass.get_classmates school_class
+        task_messages = TaskMessage.get_task_messages school_class.id
+        page = 1
+        microposts = Micropost.get_microposts school_class,page
+        daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
+      else
+        render :json => {:status => "error", :notice => "班级信息错误！"}
+      end
+      render :json => {:status => "success", :notice => "登陆成功！",
+                       :student => {:id => student.id, :name => student.name,
+                                    :nickname => student.nickname, :avatar_url => student.avatar_url},
+                       :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+                                  :tearcher_id => tearcher_id },
+                       :classmates => classmates,
+                       :task_messages => task_messages,
+                       :microposts => microposts,
+                       :daily_tasks => daily_tasks
+      }
     end
   end
 end

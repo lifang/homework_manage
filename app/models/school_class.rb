@@ -8,7 +8,7 @@ class SchoolClass < ActiveRecord::Base
   has_many :microposts, :dependent => :destroy
   has_many :school_class_student_ralastions, :dependent => :destroy
   has_many :students, :through =>  :school_class_student_ralastions
-
+  validates_uniqueness_of :verification_code
   def self.get_classmates school_class
     classmates = school_class.students.select("students.id,students.name,students.avatar_url,students.nickname").
         where("students.status = #{Student::STATUS[:YES]}")

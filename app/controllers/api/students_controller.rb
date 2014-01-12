@@ -425,15 +425,11 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
     render :json => {"status" => status, "notice" => notice}
   end
 
-  #获取答题记录
+  #获取历史答题记录
   def get_answer_history
     student_id = params[:student_id]
     school_class_id = params[:school_class_id]
     question_package_id = params[:question_package_id]
-    question_id = params[:question_id]
-    branch_question_id = params[:branch_question_id]
-    answer = params[:answer]
-    question_types = params[:question_types]  #题型:听力或朗读
     student = Student.find_by_id student_id
     school_class = SchoolClass.find_by_id school_class_id
     question_package = QuestionPackage.find_by_id question_package_id

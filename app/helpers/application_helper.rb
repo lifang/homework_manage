@@ -1,4 +1,5 @@
 module ApplicationHelper
+  #重建xml结构,转换成哈希后去掉冗余键
   def restruct_xml xml_string
     begin
       student_answers_xml = Hash.from_xml(xml_string)

@@ -5,5 +5,6 @@ class Student < ActiveRecord::Base
   STATUS_NAME = {0 => "正常", 1 => "失效"}
   has_many :school_class_student_ralastions
   has_many :school_classes, :through => :school_class_student_ralastions
+  has_many :student_answer_records, :dependent => :destroy
   validates_uniqueness_of :qq_uid
 end

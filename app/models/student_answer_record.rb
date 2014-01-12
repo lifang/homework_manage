@@ -1,6 +1,7 @@
 #encoding: utf-8
 class StudentAnswerRecord < ActiveRecord::Base
   attr_protected :authentications
+  belongs_to :student
   STATUS = {:DEALING => 0, :FINISH => 1}
   STATUS_NAME = {0 => "进行中", 1 => "完成"}
 

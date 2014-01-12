@@ -1,4 +1,6 @@
 #encoding: utf-8
+require 'xml_to_json/string'
+require 'builder'
 class Api::StudentsController < ApplicationController
   #  发布消息
   def news_release
@@ -136,7 +138,6 @@ and pqp.school_class_id = #{school_class_id} and q.types = #{types}")
     microposts = nil
     status = "error"
     if student.nil?
-      status = "error"
       notice = "学生信息错误"
     else
       if school_class.nil?
@@ -151,7 +152,6 @@ and pqp.school_class_id = #{school_class_id} and q.types = #{types}")
         else
           if school_class.status == SchoolClass::STATUS[:NORMAL]
             if page.nil?
-              status = "error"
               notice = "页数为空"
               microposts = nil
             else
@@ -160,7 +160,6 @@ and pqp.school_class_id = #{school_class_id} and q.types = #{types}")
               microposts = Micropost.get_microposts school_class,page
             end
           else
-            status = "error"
             notice = "班级已过期"
             microposts = nil
           end
@@ -271,5 +270,186 @@ and pqp.school_class_id = #{school_class_id} and q.types = #{types}")
                        :daily_tasks => daily_tasks
       }
     end
+  end
+
+  #上传头像
+  def upload_avatar
+    p params
+    avatar = {}
+    params.each_with_index do |e,index|
+      if index == 0
+        avatar = e[1]
+      end
+    end
+    student_id = params[:student_id]
+    student = Student.find_by_id student_id
+    avatar_dir_url = "#{Rails.root}/public/homework_system/avatars/students/"
+    #上传文件
+    #def upload path, zip_dir, zipfile
+      #创建目录
+    url = "/"
+    count = 0
+    avatar_dir_url.split("/").each_with_index  do |e,i|
+      if i > 0 && e.size > 0
+        url = url + "/" if count > 0
+        url = url + "#{e}"
+        if !Dir.exist? url
+          Dir.mkdir url
+        end
+        count = count +1
+      end
+    end
+
+    #重命名图片头像名称”
+    avatar_filename = "student_#{student.id}"
+    avatar.original_filename =  avatar_filename + File.extname(avatar.original_filename).to_s
+    file_url = "#{avatar_dir_url}/#{avatar.original_filename}"
+    avatar_url = "homework_system/avatars/students/#{avatar.original_filename}"
+    status = "error"
+    notice = ""
+    #上传文件
+    begin
+      if File.open(file_url, "wb") do |file|
+        file.write(avatar.read)
+      end
+        if student.update_attributes(:avatar_url => avatar_url)
+          status = "success"
+          notice = "上传成功!"
+        else
+          status = "error"
+          notice = "上传失败!"
+        end
+      end
+    rescue
+      File.delete file_url
+    end
+    render :json => {:status => status, :notice => notice}
+  end
+
+  #记录答题信息
+  def record_answer_info
+    student_id = params[:student_id]
+    school_class_id = params[:school_class_id]
+    question_package_id = params[:question_package_id]
+    question_id = params[:question_id]
+    branch_question_id = params[:branch_question_id]
+    answer = params[:answer]
+    question_types = params[:question_types]  #题型:听力或朗读
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    question_package = QuestionPackage.find_by_id question_package_id
+    status = "error"
+    notice = "参数错误!"
+
+    url = "/"
+    count = 0
+    questions_xml_dir = "#{Rails.root}/public/homework_system/question_packages/question_package_#{question_package.id}/answers/"
+    questions_xml_dir.split("/").each_with_index  do |e,i|
+      if i > 0 && e.size > 0
+        url = url + "/" if count > 0
+        url = url + "#{e}"
+        if !Dir.exist? url
+          Dir.mkdir url
+        end
+        count = count +1
+      end
+    end
+
+    student_answer_record = nil
+    if !student.nil?
+      if !school_class.nil? && !question_package.nil?
+        school_class_student_relation = SchoolClassStudentRalastion.find_all_by_school_class_id_and_student_id school_class.id, student.id
+        if school_class_student_relation.nil?
+          notice = "该学生不属于当前班级,操作失败!"
+        else
+          student_answer_record = StudentAnswerRecord.find_by_student_id_and_question_package_id student.id, question_package.id
+          if !student_answer_record.nil?
+            student_answer_record = student.student_answer_records.create(:question_package_id => question_package.id)
+          end
+        end
+      end
+    end
+
+    file_url = "#{questions_xml_dir}student_#{student.id}.xml"
+    if !File.exist? file_url
+      File.open(file_url, "wb") do |file|
+        file.write("")
+      end
+    end
+    #p file_url
+    question_packages_xml = ""
+    #读xml存入字符串变量
+    File.open(file_url,"r") do |file|
+      file.each do |line|
+        question_packages_xml += line
+      end
+    end
+    if question_packages_xml.gsub(" ","").size.to_i == 0
+
+    else
+      questions = restruct_xml question_packages_xml
+      index_question = 0
+      questions.each_with_index do |answer, index|
+        p answer
+      end
+      p questions
+    end
+    render :json => {"status" => status, "notice" => notice}
+  end
+
+  #获取答题记录
+  def get_answer_history
+    student_id = params[:student_id]
+    school_class_id = params[:school_class_id]
+    question_package_id = params[:question_package_id]
+    question_id = params[:question_id]
+    branch_question_id = params[:branch_question_id]
+    answer = params[:answer]
+    question_types = params[:question_types]  #题型:听力或朗读
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    question_package = QuestionPackage.find_by_id question_package_id
+
+    status = "error"
+    #读xml存入字符串变量
+    question_packages_xml = ""
+    questions_xml_dir = "#{Rails.root}/public/homework_system/question_packages/question_package_#{question_package.id}/answers/"
+    file_url = "#{questions_xml_dir}student_#{student.id}.xml"
+    File.open(file_url,"r") do |file|
+      file.each do |line|
+        question_packages_xml += line
+      end
+    end
+    #转换成hash
+    questions_collections = restruct_xml question_packages_xml
+
+    render :json =>  {"status" => status, "questions" => questions_collections}
+  end
+
+  #完成某个题包
+  def finish_question_packge
+    student_id = params[:student_id]
+    school_class_id = params[:school_class_id]
+    question_package_id = params[:question_package_id]
+    publish_question_package_id = params[:publish_question_package_id]
+    student_answer_record = StudentAnswerRecord.find_by_student_id_and_school_class_id_and_publish_question_package_id_and_question_package_id student_id,school_class_id,publish_question_package_id,question_package_id
+    if !student_answer_record.nil?
+      if student_answer_record.status == StudentAnswerRecord::STATUS[:DEALING]
+        if student_answer_record.update_attributes(:status => StudentAnswerRecord::STATUS[:FINISH])
+          notice = "作业状态更新完成!"
+          status = "success"
+        else
+          notice = "作业状态更新失败,请重新操作!"
+          status = "error"
+        end
+      else
+        notice = "该作业已完成!"
+        status = "error"
+      end
+    else
+      notice = "参数错误!"
+      status = "error"
+    end
+    render :json => {:status => status, :notice => notice}
   end
 end

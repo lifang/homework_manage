@@ -6,9 +6,6 @@ module ApplicationHelper
     rescue
       questions_collections = nil
     end
-    #lisentings = nil
-    #readings = nil
-    #p student_answer_record
     if student_answers_xml["questions"].present?
       questions = student_answers_xml["questions"]
       if questions["listening"]["question"].present?

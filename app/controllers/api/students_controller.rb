@@ -1,8 +1,8 @@
 #encoding: utf-8
 require 'xml_to_json/string'
-require 'builder'
 require 'rexml/document'
 include REXML
+include HandleXmlFileHelper
 class Api::StudentsController < ApplicationController
   #  发布消息
   def news_release
@@ -371,7 +371,7 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
 
     url = "/"
     count = 0
-    questions_xml_dir = "#{Rails.root}/public/homework_system/question_packages/question_package_#{question_package.id}/answers/"
+    questions_xml_dir = "#{Rails.root}/public/homework_system/question_packages/question_package_#{question_package.id}/answers"
     questions_xml_dir.split("/").each_with_index  do |e,i|
       if i > 0 && e.size > 0
         url = url + "/" if count > 0
@@ -383,7 +383,6 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
       end
     end
 
-    student_answer_record = nil
     if !student.nil?
       if !school_class.nil? && !question_package.nil?
         school_class_student_relation = SchoolClassStudentRalastion.find_all_by_school_class_id_and_student_id school_class.id, student.id
@@ -398,29 +397,11 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
       end
     end
 
-    file_url = "#{questions_xml_dir}student_#{student.id}.xml"
-    if !File.exist? file_url
-      File.open(file_url, "wb") do |file|
-        file.write("")
-      end
-    end
-    #p file_url
-    question_packages_xml = ""
-    #读xml存入字符串变量
-    File.open(file_url,"r") do |file|
-      file.each do |line|
-        question_packages_xml += line
-      end
-    end
-    if question_packages_xml.gsub(" ","").size.to_i == 0
-
-    else
-      questions = restruct_xml question_packages_xml
-      index_question = 0
-      questions.each_with_index do |answer, index|
-        p answer
-      end
-      p questions
+    file_url = "#{questions_xml_dir}/student_#{student.id}.xml"
+    p file_url
+    if write_xml(file_url, question_id, branch_question_id, answer, question_types) == true
+      status = "success"
+      notice = "记录完成"
     end
     render :json => {"status" => status, "notice" => notice}
   end
@@ -473,6 +454,24 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
     else
       notice = "参数错误!"
       status = "error"
+    end
+    render :json => {:status => status, :notice => notice}
+  end
+
+  #删除子消息
+  def delete_reply_microposts
+    reply_micropost_id = params[:reply_micropost_id]
+    sender_id = params[:sender_id]
+    sender_types = params[:sender_id]
+    status = "error"
+    notice = "删除失败!"
+    reply_micropost =  ReplyMicropost.find_by_id_and_sender_id_and_sender_types reply_micropost_id, sender_id, sender_types
+    if reply_micropost.nil?
+    else
+      if reply_micropost.destroy
+        status = "success"
+        notice = "删除成功!"
+      end
     end
     render :json => {:status => status, :notice => notice}
   end

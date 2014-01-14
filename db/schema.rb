@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140109072117) do
+ActiveRecord::Schema.define(:version => 20140114080825) do
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -201,7 +201,6 @@ ActiveRecord::Schema.define(:version => 20140109072117) do
   add_index "task_messages", ["school_class_id"], :name => "index_task_messages_on_school_class_id"
 
   create_table "teachers", :force => true do |t|
-    t.string   "username"
     t.string   "password"
     t.string   "name"
     t.string   "email"

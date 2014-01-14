@@ -20,7 +20,7 @@ HomeworkManage::Application.routes.draw do
     end
 
     collection do
-      post :login, :regist
+      post :login, :regist, :create_class
     end
   end
   # Sample of regular route:

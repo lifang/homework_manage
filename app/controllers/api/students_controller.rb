@@ -302,13 +302,7 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
 
   #上传头像
   def upload_avatar
-    p params
-    avatar = {}
-    params.each_with_index do |e,index|
-      if index == 0
-        avatar = e[1]
-      end
-    end
+    avatar = params[:avatar]
     student_id = params[:student_id]
     student = Student.find_by_id student_id
     avatar_dir_url = "#{Rails.root}/public/homework_system/avatars/students/"

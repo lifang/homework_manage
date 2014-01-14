@@ -8,18 +8,19 @@ HomeworkManage::Application.routes.draw do
       collection do
         get 'news_release','reply_message','add_concern','unfollow','switching_classes','modify_person_info', 'delete_posts',
         'get_my_classes', 'into_daily_tasks', :get_microposts, :get_class_info, :get_answer_history
-        post :login, :record_person_info, :record_answer_info, :upload_avatar, :finish_question_packge, :delete_reply_microposts
+        post :login, :record_person_info, :record_answer_info, :upload_avatar, :finish_question_packge,
+             :get_reply_microposts, :delete_reply_microposts
       end
     end
   end
 
 
-  resources :products do
+  resources :teachers do
     member do
     end
 
     collection do
-      post :login
+      post :login, :regist
     end
   end
   # Sample of regular route:

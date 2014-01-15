@@ -257,10 +257,9 @@ class Api::StudentsController < ApplicationController
       school_class = SchoolClass.find_by_verification_code(verification_code)
       if !school_class.nil?
       Student.transaction do
-        time_to_month = Time.now.to_s[0,8]
           student = Student.create(:nickname => nickname, :qq_uid => qq_uid,
               :last_visit_class_id => school_class.id)
-          destination_dir = "#{Rails.root}/public/homework_system/avatars/students/#{time_to_month}"
+          destination_dir = "#{Rails.root}/public/homework_system/avatars/students/#{Time.now.strftime('%Y-%m')}"
           rename_file_name = "student_#{student.id}"
           upload = upload_file destination_dir, rename_file_name, file
           url = upload[:url]
@@ -294,9 +293,6 @@ class Api::StudentsController < ApplicationController
             notice = "上传失败"
             render :json => {:status => status, :notice => notice}
           end
-          #notice = "qq账号已经注册,请直接登陆"
-          #status = "error"
-          #render :json => {:status => status, :notice => notice}
       end
       else
         notice = "验证码错误,找不到相关班级!"
@@ -463,23 +459,26 @@ class Api::StudentsController < ApplicationController
     render :json => {:status => status, :notice => notice}
   end
 
-  #获取子消息
+  ##获取子消息（分页）
   def get_reply_microposts
     micropost_id = params[:micropost_id]
-    sender_id = params[:sender_id]
-    sender_types = params[:sender_id]
     micropost = Micropost.find_by_id micropost_id
+    page = params[:page]
+    page = 1 if page.nil?
     status = "error"
-    notice = "删除失败!"
-    reply_micropost =  ReplyMicropost.get_reply_microposts micropost
-    if reply_micropost.nil?
+    if micropost.nil?
+      notice = "主消息不存在"
     else
-      if reply_micropost.destroy
+      reply_microposts =  ReplyMicropost.get_microposts micropost,page
+      if reply_microposts[:pages_count] == 0
         status = "success"
-        notice = "删除成功!"
+        notice = "暂无子消息!"
+      else
+        status = "success"
+        notice = "获取完成!"
       end
     end
-    render :json => {:status => status, :notice => notice}
+    render :json => {:status => status, :notice => notice, :reply_microposts => reply_microposts}
   end
 
   #加入新班级

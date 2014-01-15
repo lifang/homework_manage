@@ -1,5 +1,6 @@
 #encoding: utf-8
 require 'securerandom'
+include MethodLibsHelper
 class TeachersController < ApplicationController
   #教师登陆
   def login
@@ -8,47 +9,64 @@ class TeachersController < ApplicationController
     teacher = Teacher.find_by_email email
     p teacher
     if teacher.nil?
-      status = "error"
+      status = false
       notice = "用户不存在，请先注册！"
     else
       if teacher && teacher.has_password?(password)
-        status = "success"
+        session[:user_id] = teacher.id
+        status = true
         notice = "登陆成功！"
       else
-        status = "error"
+        status = false
         notice = "密码错误，登录失败！"
       end
     end
     @info = {:status => status, :notice => notice}
-    render :json => @info
   end
 
   #教师登陆
   def regist
+    file = ""
+    params.each_with_index do |e,index|
+      file = e[1] if index == 0
+    end
     email = params[:email].to_s
     name = params[:name].to_s
     password = params[:password].to_s
+    #file = params[:avatar]
     teacher = Teacher.find_by_email email
     if !teacher.nil?
       status = "error"
       notice = "该邮箱已被注册，换个邮箱！"
     else
       Teacher.transaction do
-        teacher = Teacher.create(:name => name, :email => email, :password => password,
-                      :status => Teacher::STATUS[:YES])
-        password = teacher.encrypt_password
-        if !teacher.nil?
-          if teacher.update_attributes(:password => password)
-            status = "success"
-            notice = "注册完成！"
+        teacher = Teacher.create(:email => email, :password => password,
+                                 :status => Teacher::STATUS[:YES])
+        destination_dir = "#{Rails.root}/public/homework_system/avatars/teachers/#{Time.now.strftime('%Y-%m')}"
+        rename_file_name = "teacher_#{teacher.id}"
+        upload = upload_file destination_dir, rename_file_name, file
+        if upload[:status] == 0
+          url = upload[:url]
+          unuse_url = "#{Rails.root}/public"
+          avatar_url = url.to_s[unuse_url.size,url.size]
+          user = User.create(:name => name, :avatar_url => avatar_url)
+          password = teacher.encrypt_password
+          if !teacher.nil? && !user.nil?
+            if teacher.update_attributes(:password => password, :user_id => user.id)
+              status = "success"
+              notice = "注册完成！"
+            else
+              teacher.destroy
+              status = "error"
+              notice = "注册失败，请重新注册！"
+            end
           else
-            teacher.destroy
             status = "error"
             notice = "注册失败，请重新注册！"
           end
         else
           status = "error"
-          notice = "注册失败，请重新注册！"
+          notice = "上传失败，请重新注册！"
         end
       end
     end

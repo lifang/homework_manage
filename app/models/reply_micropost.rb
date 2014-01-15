@@ -1,6 +1,20 @@
 #encoding: utf-8
+require 'will_paginate/array'
 class ReplyMicropost < ActiveRecord::Base
   attr_protected :authentications
   belongs_to :micropost
-  #def self.get_reply_microposts school_class, page, user_id=nil
+  PER_PAGE = 1
+
+  #获取子消息（分页）
+  def self.get_microposts micropost, page
+    base_sql = "select r.id, r.content, r.sender_id, r.reciver_id, r.created_at, s.name sender_name,
+              s.avatar_url sender_avatar_url, u.name reciver_name, u.avatar_url reciver_avatar_url
+              from microposts m left join reply_microposts r on m.id = r.micropost_id left join
+              users s on r.sender_id = s.id left join users u on r.reciver_id = u.id
+              where r.id is not null and m.id = #{micropost.id} order by r.created_at desc"
+    microposts = Micropost.find_by_sql(base_sql)
+    page_count =  microposts.length == 0 ? 0 : microposts.length/PER_PAGE
+    microposts = microposts.paginate(:page => page, :per_page => PER_PAGE)
+    return_info = {:page => page, :pages_count => page_count, :reply_microposts => microposts}
+  end
 end

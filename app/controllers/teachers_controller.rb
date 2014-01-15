@@ -68,8 +68,10 @@ class TeachersController < ApplicationController
       status = "error"
     else
       if teacher.status == Teacher::STATUS[:YES]
-        if teacher.school_classes.create(:name => name, :period_of_validity => period_of_validity,
-                  :verification_code => verification_code)
+        if teacher.school_classes.create(:name => name,
+             :period_of_validity => period_of_validity,
+             :verification_code => verification_code,
+             :status => SchoolClass::STATUS[:NORMAL])
           notice = "班级创建成功！"
           status = "success"
         else

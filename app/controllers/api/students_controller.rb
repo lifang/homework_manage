@@ -129,7 +129,7 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
   def get_microposts
     school_class_id = params[:school_class_id]
     student_id = params[:student_id]
-    page = params[:page]
+    page = params[:page].to_i
     school_class = SchoolClass.find_by_id school_class_id
     student = Student.find_by_id student_id
     microposts = nil

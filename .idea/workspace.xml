@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,9 +43,10 @@
       <file leaf-file-name="students_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="442" column="87" selection-start="17157" selection-end="17157" vertical-scroll-proportion="0.43243244" vertical-offset="1903" max-vertical-offset="2550">
+            <state line="262" column="21" selection-start="10248" selection-end="10248" vertical-scroll-proportion="0.28885135" vertical-offset="1240" max-vertical-offset="2686">
               <folding>
-                <element signature="e#7869#11123#0" expanded="true" />
+                <element signature="e#2173#2765#0" expanded="true" />
+                <element signature="e#17359#17863#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2969,9 +2968,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="442" column="87" selection-start="17157" selection-end="17157" vertical-scroll-proportion="0.43243244" vertical-offset="1903" max-vertical-offset="2550">
+        <state line="262" column="21" selection-start="10248" selection-end="10248" vertical-scroll-proportion="0.28885135" vertical-offset="1240" max-vertical-offset="2686">
           <folding>
-            <element signature="e#7869#11123#0" expanded="true" />
+            <element signature="e#2173#2765#0" expanded="true" />
+            <element signature="e#17359#17863#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -260,12 +260,7 @@ class Api::StudentsController < ApplicationController
             task_messages = TaskMessage.get_task_messages school_class.id
             page = 1
             microposts = Micropost.get_microposts school_class,page
-            p student
             daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
-
-            url = upload[:url]
-
-            unuse_url = "#{Rails.root}/public"
             render :json => {:status => "success", :notice => "登记成功！",
                              :student => {:id => student.id, :name => student.user.name,
                                           :nickname => student.nickname, :avatar_url => student.user.avatar_url},
@@ -455,9 +450,10 @@ class Api::StudentsController < ApplicationController
     micropost_id = params[:micropost_id]
     sender_id = params[:sender_id]
     sender_types = params[:sender_id]
+    micropost = Micropost.find_by_id micropost_id
     status = "error"
     notice = "删除失败!"
-    reply_micropost =  ReplyMicropost.find_by_id_and_sender_id_and_sender_types reply_micropost_id, sender_id, sender_types
+    reply_micropost =  ReplyMicropost.get_reply_microposts micropost
     if reply_micropost.nil?
     else
       if reply_micropost.destroy

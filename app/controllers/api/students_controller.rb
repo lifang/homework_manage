@@ -203,6 +203,7 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
     qq_uid = params[:qq_uid]
     name = params[:name]
     nickname = params[:nickname]
+    upload_file = params[:avatar] #上传头像
     verification_code = params[:verification_code]
     student = Student.find_by_qq_uid qq_uid
     class_id = nil
@@ -215,12 +216,17 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
     daily_tasks = nil
     if student.nil?
       school_class = SchoolClass.find_by_verification_code(verification_code)
-      p school_class
       if !school_class.nil?
         begin
+          time_to_month = Time.now.to_s[0,8]
           Student.transaction do
-            student = Student.create(:name => name, :nickname => nickname, :qq_uid => qq_uid,
+            student = Student.create(:nickname => nickname, :qq_uid => qq_uid,
               :last_visit_class_id => school_class.id)
+            destination_dir = "#{Rails.root}/public/avatars/students/#{time_to_month}/"
+            rename_file_name = "student_#{student.id}"
+            upload_file destination_dir, rename_file_name, upload_file
+            user = User.create(:name => name, :avatar_url => avatar_url)
+            student.update_attributes(:user_id => user.id)
             student.school_class_student_ralastions.create(:school_class_id => school_class.id)
           end
         rescue
@@ -327,23 +333,10 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
         count = count +1
       end
     end
-
-    begin
-    #重命名图片头像名称”
-    avatar_filename = "student_#{student.id}"
-    avatar.original_filename =  avatar_filename + File.extname(avatar.original_filename).to_s
-    file_url = "#{avatar_dir_url}/#{avatar.original_filename}"
-    avatar_url = "/homework_system/avatars/students/#{avatar.original_filename}"
-    status = "error"
-    notice = ""
-    rescue
-      status = "error"
-      notice = "上传失败!"
-    end
     #上传文件
     begin
       if File.open(file_url, "wb") do |file|
-        file.write(avatar.read)
+
       end
         if student.update_attributes(:avatar_url => avatar_url)
           status = "success"
@@ -484,6 +477,33 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
       end
     end
     render :json => {:status => status, :notice => notice}
+  end
+
+  #加入新班级
+  def validate_verification_code
+    verification_code = params[:verification_code]
+    student_id = params[:student_id]
+    student = Student.find_by_id student_id
+    if student.nil?
+      status = "error"
+      notice = "学生信息错误，请重新登陆！"
+    else
+      school_class = SchoolClass.find_by_verification_code verification_code
+      if !school_class.nil?
+        #if school_class.period_of_validity #失去有限期
+        #else
+        #end
+        school_class_student_relations = SchoolClassStudentRalastion.
+            find_by_school_class_id_and_student_id school_class.id, student.id
+        if school_class_student_relations.nil?
+          school_class_student_relations = student.school_class_student_ralastions.
+              create(:school_class_id => school_class.id)
+        end
+      else
+        status = "error"
+        notice = "班级信息错误！"
+      end
+    end
   end
 
   #删除子消息

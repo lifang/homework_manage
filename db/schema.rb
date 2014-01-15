@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140114080825) do
+ActiveRecord::Schema.define(:version => 20140115040522) do
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -175,9 +175,7 @@ ActiveRecord::Schema.define(:version => 20140114080825) do
   add_index "student_answer_records", ["student_id"], :name => "index_student_answer_records_on_student_id"
 
   create_table "students", :force => true do |t|
-    t.string   "name"
     t.string   "nickname"
-    t.string   "avatar_url"
     t.string   "alias_name"
     t.string   "qq_uid"
     t.integer  "status"
@@ -185,7 +183,10 @@ ActiveRecord::Schema.define(:version => 20140114080825) do
     t.integer  "register_status"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+    t.integer  "user_id"
   end
+
+  add_index "students", ["user_id"], :name => "index_students_on_user_id"
 
   create_table "task_messages", :force => true do |t|
     t.integer  "school_class_id"
@@ -202,11 +203,19 @@ ActiveRecord::Schema.define(:version => 20140114080825) do
 
   create_table "teachers", :force => true do |t|
     t.string   "password"
-    t.string   "name"
     t.string   "email"
     t.integer  "status"
-    t.string   "avatar_url"
     t.integer  "types"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "user_id"
+  end
+
+  add_index "teachers", ["user_id"], :name => "index_teachers_on_user_id"
+
+  create_table "users", :force => true do |t|
+    t.string   "name"
+    t.string   "avatar_url"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

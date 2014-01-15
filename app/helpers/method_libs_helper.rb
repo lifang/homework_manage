@@ -260,6 +260,42 @@ module MethodLibsHelper
     return true
   end
 
+  #上传文件
+  def upload_file destination_dir, rename_file_name, upload_file
+    #参数:  destination_dir - 上传的目标目录，不包含文件url
+    #       rename_file_name - 重命名的文件名
+    #       file - 文件流
+    #创建目录
+    url = "/"
+    dirs = destination_dir.split("/")
+    dirs.delete("")
+    dirs.each_with_index  do |e,i|
+      url = url + "/" if i > 0
+      url = url + "#{e}"
+      Dir.mkdir url if !Dir.exist? url
+    end
+
+
+    upload_file.original_filename = rename_file_name +
+        File.extname(avatar.original_filename).to_s if rename_file_name.gsub(" ","").size != 0
+    file_url = "#{destination_dir}/#{upload_file.original_filename}"
+    if upload_file.original_filename.nil? ||  destination_dir.gsub(" ","").size == 0
+      return false
+    else
+      begin
+        if File.open(file_url,"wb") do |f|
+            f.write(upload_file.read)
+          end
+          return true
+        else
+          return false
+        end
+      rescue
+        return false
+      end
+    end
+  end
+
   #重建xml结构,转换成哈希后去掉冗余键
   def restruct_xml xml_string
     begin

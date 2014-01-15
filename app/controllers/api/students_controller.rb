@@ -69,6 +69,23 @@ class Api::StudentsController < ApplicationController
             student_id, Time.now(), SchoolClass::STATUS[:NORMAL]])
     render :json => {:classes => classes}
   end
+  
+  #我的消息
+  def my_microposts    
+    school_class = SchoolClass.find_by_id params[:school_class_id].to_i
+    if school_class
+      micropost_hash = Micropost.get_microposts school_class, params[:page], params[:user_id]      
+      if (params[:page].nil? or params[:page] == "1") and micropost_hash[:details_microposts].length == 0
+        notice = "当前班级下暂无消息。"
+      end
+      status = true
+    else
+      notice = "请检查您所查看的班级是否已失效。"
+      status = false
+    end
+    micropost_hash.merge!({:notice => notice, :status => status})
+    render :json => micropost_hash
+  end
 
   #qq登陆
   def login

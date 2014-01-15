@@ -188,26 +188,38 @@ class Api::StudentsController < ApplicationController
   end
   #  更新个人信息
   def modify_person_info
-    student_id = params[:student_id].to_i
-    student = Student.find_by_id(student_id)
-    #    FileUtils.mkdir_p "#{File.expand_path(Rails.root)}/public/student_img/#{student_id}" if !(File.exist?("#{File.expand_path(Rails.root)}/public/student_img/#{student_id}"))
-    #    picture = params[:picture]
-    #    filename = picture.original_filename
-    #    fileext = File.basename(filename).split(".")[1]
-    #    timeext =  "avatar" + student_id.to_s
-    #    newfilename = timeext+"."+fileext
-    #    avatar_url = "#{Rails.root}/public/student_img/#{student_id}/#{newfilename}"
-    #    File.open("#{Rails.root}/public/student_img/#{student_id}/#{newfilename}","wb") {
-    #      |f| f.write(picture.read)
-    #    }
-    name = params[:name]
-    nickname = params[:nickname]
-    if student.update_attributes(:name => name, :nickname => nickname)
-      render :json => {:status => 'success',:notice => '修改成功'}
-    else
-      render :json => {:status => 'error',:notice => '修改失败'}
+    user_attr = {}
+    user_attr[:name] = params[:name] if params[:name]
+    user_attr[:nickname] = params[:nickname] if params[:nickname]
+    status = false
+    notice = "修改失败。"
+    begin
+      if user_attr
+        student = Student.find_by_id(params[:student_id].to_i)
+        if student
+          unless params[:avatar].nil? or params[:avatar].empty?
+            destination_dir = "#{Rails.root}/public/homework_system/avatars/students/#{Time.now.strftime('%Y-%m')}"
+            rename_file_name = "student_#{student.id}"
+            upload = upload_file destination_dir, rename_file_name, params[:avatar]
+            url = upload[:url]
+            unuse_url = "#{Rails.root}/public"
+            avatar_url = url.to_s[unuse_url.size,url.size]
+            user_attr[:avatar_url] = avatar_url
+          end
+          student.update_attributes(user_attr)
+          status = true
+          notice = "修改成功。"
+        else
+          notice = "当前学生信息不存在。"          
+        end
+      else
+          notice = "请提交您需要更新的信息。"
+      end
+    rescue
     end
+    render :json => {:status => status, :notice => notice}
   end
+  
   #  删除消息
   def delete_posts
     micropost_id = params[:micropost_id]
@@ -218,6 +230,7 @@ class Api::StudentsController < ApplicationController
       render :json => {:status => 'error',:notice => '消息删除失败'}
     end
   end
+  
   #学生登记个人信息，验证班级code，记录个人信息
   # 1.qq_openid唯一;2班级验证码唯一
   def record_person_info

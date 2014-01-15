@@ -200,10 +200,14 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
   #学生登记个人信息，验证班级code，记录个人信息
   # 1.qq_openid唯一;2班级验证码唯一
   def record_person_info
+    upload_file= ""
+    params.each_with_index do |e,index|
+      upload_file = e[1] if index == 0
+    end
     qq_uid = params[:qq_uid]
     name = params[:name]
     nickname = params[:nickname]
-    upload_file = params[:avatar] #上传头像
+    #upload_file = params[:avatar] #上传头像
     verification_code = params[:verification_code]
     student = Student.find_by_qq_uid qq_uid
     class_id = nil
@@ -224,7 +228,29 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
               :last_visit_class_id => school_class.id)
             destination_dir = "#{Rails.root}/public/avatars/students/#{time_to_month}/"
             rename_file_name = "student_#{student.id}"
-            upload_file destination_dir, rename_file_name, upload_file
+            upload = upload_file destination_dir, rename_file_name, upload_file
+            p upload
+            if upload[:status] == 0  #上传文件
+              url = upload[:url]
+              unuse_url = "#{Rails.root}/public"
+              if !url.nil?
+                avatar_url = url.to_s[unuse_url.size,url.size]
+                if student.user.update_attributes(:avatar_url => avatar_url)
+                  status = "success"
+                  File.delete old_avatar_dir_url if File.exist? old_avatar_dir_url
+                else
+                  File.delete url if File.exist? url
+                  status = "error"
+                  notice = "上传失败3!"
+                end
+              else
+                status = "error"
+                notice = "上传失败2!"
+              end
+            else
+              status = "error"
+              notice = "上传失败1!"
+            end
             user = User.create(:name => name, :avatar_url => avatar_url)
             student.update_attributes(:user_id => user.id)
             student.school_class_student_ralastions.create(:school_class_id => school_class.id)
@@ -234,18 +260,21 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
           status = "error"
           render :json => {:status => status, :notice => notice}
         end
+        p school_class
+        p student
         class_id = school_class.id
         class_name = school_class.name
         tearcher_id = school_class.teacher.id
-        tearcher_name = school_class.teacher.name
+        tearcher_name = school_class.teacher.user.name
         classmates = SchoolClass.get_classmates school_class
         task_messages = TaskMessage.get_task_messages school_class.id
         page = 1
         microposts = Micropost.get_microposts school_class,page
+        p student
         daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
         render :json => {:status => "success", :notice => "登记完成！",
-          :student => {:id => student.id, :name => student.name,
-            :nickname => student.nickname, :avatar_url => student.avatar_url},
+          :student => {:id => student.id, :name => student.user.name,
+            :nickname => student.nickname, :avatar_url => student.user.avatar_url},
           :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
             :tearcher_id => tearcher_id },
           :classmates => classmates,
@@ -287,67 +316,70 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
         class_id = school_class.id
         class_name = school_class.name
         tearcher_id = school_class.teacher.id
-        tearcher_name = school_class.teacher.name
+        tearcher_name = school_class.teacher.user.name
         classmates = SchoolClass.get_classmates school_class
         task_messages = TaskMessage.get_task_messages school_class.id
         page = 1
         microposts = Micropost.get_microposts school_class,page
         daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
+        render :json => {:status => "success", :notice => "登陆成功！",
+                         :student => {:id => student.id, :name => student.user.name,
+                                      :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+                         :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+                                    :tearcher_id => tearcher_id },
+                         :classmates => classmates,
+                         :task_messages => task_messages,
+                         :microposts => microposts,
+                         :daily_tasks => daily_tasks
+        }
       else
         render :json => {:status => "error", :notice => "班级信息错误！"}
       end
-      render :json => {:status => "success", :notice => "登陆成功！",
-        :student => {:id => student.id, :name => student.name,
-          :nickname => student.nickname, :avatar_url => student.avatar_url},
-        :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-          :tearcher_id => tearcher_id },
-        :classmates => classmates,
-        :task_messages => task_messages,
-        :microposts => microposts,
-        :daily_tasks => daily_tasks
-      }
     end
   end
 
   #上传头像
   def upload_avatar
-    avatar = params[:avatar]
+    upload_file = params[:avatar]
     student_id = params[:student_id]
     student = Student.find_by_id student_id
-    if student && student.avatar_url.size != 0
-      old_avatar_dir_url = student.avatar_url
-    end
-    avatar_dir_url = "#{Rails.root}/public/homework_system/avatars/students/"
-    #上传文件
-    #def upload path, zip_dir, zipfile
-      #创建目录
-    url = "/"
-    count = 0
-    avatar_dir_url.split("/").each_with_index  do |e,i|
-      if i > 0 && e.size > 0
-        url = url + "/" if count > 0
-        url = url + "#{e}"
-        if !Dir.exist? url
-          Dir.mkdir url
-        end
-        count = count +1
-      end
-    end
-    #上传文件
-    begin
-      if File.open(file_url, "wb") do |file|
-
-      end
-        if student.update_attributes(:avatar_url => avatar_url)
-          status = "success"
-          notice = "上传成功!"
+    if !student.nil? && student.user.avatar_url.size != 0
+      old_avatar_dir_url = student.user.avatar_url
+      time_to_month = Time.now.to_s[0,7]
+      destination_dir = "#{Rails.root}/public/homework_system/avatars/students/#{time_to_month}"
+      rename_file_name = "student_#{student.id}"
+      begin
+        upload = upload_file destination_dir, rename_file_name, upload_file
+        p upload
+        if upload[:status] == 0  #上传文件
+          url = upload[:url]
+          unuse_url = "#{Rails.root}/public"
+          if !url.nil?
+            avatar_url = url.to_s[unuse_url.size,url.size]
+            if student.user.update_attributes(:avatar_url => avatar_url)
+              status = "success"
+              notice = "上传成功!"
+              File.delete old_avatar_dir_url if File.exist? old_avatar_dir_url
+            else
+              File.delete url if File.exist? url
+              status = "error"
+              notice = "上传失败!"
+            end
+          else
+            status = "error"
+            notice = "上传失败!"
+          end
         else
           status = "error"
           notice = "上传失败!"
         end
+      rescue
+        status = "error"
+        notice = "上传失败!"
       end
-    rescue
-      #File.delete file_url
+    else
+      status = "error"
+      notice = "学生信息错误!"
     end
     render :json => {:status => status, :notice => notice}
   end
@@ -509,12 +541,11 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
   #删除子消息
   def delete_reply_microposts
     reply_micropost_id = params[:reply_micropost_id]
-    sender_id = params[:sender_id]
-    sender_types = params[:sender_id]
+    #sender_id = params[:sender_id]
+    #sender_types = params[:sender_id]
     status = "error"
     notice = "删除失败!"
-    reply_micropost =  ReplyMicropost.
-        find_by_id_and_sender_id_and_sender_types reply_micropost_id, sender_id, sender_types
+    reply_micropost =  ReplyMicropost.find_by_id reply_micropost_id
     if !reply_micropost.nil?
       if reply_micropost.destroy
         status = "success"

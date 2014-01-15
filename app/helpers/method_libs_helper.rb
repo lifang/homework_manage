@@ -275,25 +275,32 @@ module MethodLibsHelper
       Dir.mkdir url if !Dir.exist? url
     end
 
-
     upload_file.original_filename = rename_file_name +
-        File.extname(avatar.original_filename).to_s if rename_file_name.gsub(" ","").size != 0
+        File.extname(upload_file.original_filename).to_s if rename_file_name.gsub(" ","").size != 0
     file_url = "#{destination_dir}/#{upload_file.original_filename}"
     if upload_file.original_filename.nil? ||  destination_dir.gsub(" ","").size == 0
-      return false
+      status = 1
+      url = nil
     else
       begin
         if File.open(file_url,"wb") do |f|
             f.write(upload_file.read)
           end
-          return true
+          status = 0
+          url = file_url
+          p 11111
         else
-          return false
+          status = 1
+          url = nil
+          p 33333
         end
       rescue
-        return false
+        File.delete file_url if File.exist? file_url
+        status = 1
+        url = nil
       end
     end
+    info = {:status => status, :url => url}
   end
 
   #重建xml结构,转换成哈希后去掉冗余键

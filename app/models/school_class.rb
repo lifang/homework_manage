@@ -10,7 +10,10 @@ class SchoolClass < ActiveRecord::Base
   has_many :students, :through =>  :school_class_student_ralastions
   validates_uniqueness_of :verification_code
   def self.get_classmates school_class
-    classmates = school_class.students.select("students.id,students.name,students.avatar_url,students.nickname").
-        where("students.status = #{Student::STATUS[:YES]}")
+    classmates_sql = "select s.id, u.name, u.avatar_url, s.nickname from
+    school_class_student_ralastions r left join students s on
+    r.student_id = s.id left join users u on s.user_id = u.id where
+    r.school_class_id = #{school_class.id} and s.status = #{Student::STATUS[:YES]}"
+    classmates = SchoolClassStudentRalastion.find_by_sql classmates_sql
   end
 end

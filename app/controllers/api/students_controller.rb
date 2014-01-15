@@ -2,6 +2,7 @@
 require 'xml_to_json/string'
 require 'rexml/document'
 include REXML
+require 'json'
 include MethodLibsHelper
 class Api::StudentsController < ApplicationController
   #  发布消息
@@ -10,7 +11,8 @@ class Api::StudentsController < ApplicationController
     user_id = params[:user_id]
     user_types = params[:user_types]
     school_class_id = params[:school_class_id]
-    micropost = Micropost.new(:user_id => user_id, :user_types => user_types, :content => content, :school_class_id => school_class_id)
+    micropost = Micropost.new(:user_id => user_id, :user_types => user_types, 
+      :content => content, :school_class_id => school_class_id)
     if micropost.save
       render :json => {:status => 'success', :notice => '消息发布成功'}
     else
@@ -25,7 +27,8 @@ class Api::StudentsController < ApplicationController
     micropost_id = params[:micropost_id]
     reciver_id = params[:reciver_id]
     reciver_types = params[:reciver_types]
-    replymicropost = ReplyMicropost.new(:sender_id => sender_id, :sender_types => sender_types, :content => content,
+    replymicropost = ReplyMicropost.new(:sender_id => sender_id, 
+      :sender_types => sender_types, :content => content,
       :micropost_id => micropost_id, :reciver_id => reciver_id,:reciver_types => reciver_types)
     if replymicropost.save
       render :json => {:status => 'success', :notice => '消息回复成功'}
@@ -58,9 +61,12 @@ class Api::StudentsController < ApplicationController
   #切换班级
   def get_my_classes
     student_id = params[:student_id].to_i
-    classes = SchoolClass.find_by_sql("SELECT school_classes.id class_id,school_classes.name class_name
-from school_classes INNER JOIN school_class_student_ralastions on school_classes.id = school_class_student_ralastions.class_id
-and school_class_student_ralastions.student_id =#{student_id} and school_classes.status = #{SchoolClass::STATUS[:NORMAL]}")
+    classes = SchoolClass.find_by_sql(["SELECT school_classes.id class_id,school_classes.name class_name
+            from school_classes INNER JOIN school_class_student_ralastions 
+            on school_classes.id = school_class_student_ralastions.school_class_id
+            where school_classes.status = ? and school_classes.period_of_validity >= ?
+            and school_class_student_ralastions.student_id = ?", 
+            student_id, Time.now(), SchoolClass::STATUS[:NORMAL]])
     render :json => {:classes => classes}
   end
 
@@ -103,26 +109,24 @@ and school_class_student_ralastions.student_id =#{student_id} and school_classes
   #  点击每日任务获取题包
   def into_daily_tasks
     student_id = params[:student_id]
-    publish_question_package_id = params[:publish_question_package_id]
-    studentanswerrecord = StudentAnswerRecord.find_by_student_id_and_publish_question_package_id(student_id,publish_question_package_id)
-#    p studentanswerrecord
-#    p 111111
-#    p studentanswerrecord.id
-#    answer_file_url = studentanswerrecord.answer_file_url
-    #    student = Student.find_by_id(student_id)
-    #   answer_file_url = student.answer_file_url
-    #    school_class_id = params[:school_class_id].to_i
-    #    types = params[:types].to_i
-    #    file = File.new("#{Rails.root}/public/question_package_1.xml")
-    #    file = IO.readlines("#{Rails.root}/public/question_package_1.xml")
-    question_records = ''
-    File.open("#{Rails.root}/public/question_package_1.xml") do |file|
-      file.each do |line|
-        question_records += line
-      end
-    end
-    already_done = Hash.from_xml(question_records)
-    render :json =>  already_done ? already_done : "题目没做"
+    p_q_package_id = params[:publish_question_package_id]
+    p_q_package = PublishQuestionPackage.find_by_id p_q_package_id.to_i
+    package_json = ""
+    answer_json = ""
+    status = false
+    #if p_q_package
+      #package_json = File.open("#{Rails.root}/public/#{p_q_package.question_package_url}").read if p_q_package and p_q_package.question_package_url
+      package_json = File.open("#{Rails.root}/public/question_package_1.js").read
+      s_a_record = StudentAnswerRecord.find_by_student_id_and_publish_question_package_id(student_id, p_q_package_id)
+      #if s_a_record
+        #answer_json = File.open("#{Rails.root}/public/#{s_a_record.answer_file_url}").read if s_a_record and s_a_record.answer_file_url
+        answer_json = File.open("#{Rails.root}/public/answer_file_1.js").read
+      #end
+      status = true
+    #end
+    notice = status == false ? "没有作业内容" : ""
+    render :json => {:status => status, :notice => notice, :package => ActiveSupport::JSON.decode(package_json), 
+      :user_answers => ActiveSupport::JSON.decode(answer_json)}
   end
 
   #获取消息microposts(分页)

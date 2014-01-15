@@ -6,10 +6,10 @@ HomeworkManage::Application.routes.draw do
   namespace :api do
     resources :students do
       collection do
-        get 'news_release','reply_message','add_concern','unfollow','switching_classes','modify_person_info', 'delete_posts',
+        get 'add_concern','unfollow','switching_classes', 'delete_posts',
         'get_my_classes', 'into_daily_tasks', :get_microposts, :get_class_info, :get_answer_history
-        post :login, :record_person_info, :record_answer_info, :upload_avatar,
-             :finish_question_packge, :get_reply_microposts, :delete_reply_microposts
+        post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info, :reply_message,
+             :finish_question_packge, :get_reply_microposts, :delete_reply_microposts, :news_release
       end
     end
   end

@@ -6,7 +6,6 @@ class StudentAnswerRecord < ActiveRecord::Base
   STATUS_NAME = {0 => "进行中", 1 => "完成"}
 
   def self.get_daily_tasks school_class_id, student_id
-
     worked_tasks_sql = "select p.id, q.name,s.status,p.end_time, p.question_packages_url FROM
       student_answer_records s left join publish_question_packages p on
       s.publish_question_package_id = p.id left join question_packages q on

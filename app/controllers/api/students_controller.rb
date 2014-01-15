@@ -1,9 +1,9 @@
 #encoding: utf-8
 require 'xml_to_json/string'
-require 'builder'
 require 'rexml/document'
 include REXML
 require 'json'
+include MethodLibsHelper
 class Api::StudentsController < ApplicationController
   #  发布消息
   def news_release
@@ -115,11 +115,11 @@ class Api::StudentsController < ApplicationController
     answer_json = ""
     status = false
     #if p_q_package
-      #package_json = File.open("#{Rails.root}/public/#{p_q_package.question_package_url}").redlines
+      #package_json = File.open("#{Rails.root}/public/#{p_q_package.question_package_url}").read if p_q_package and p_q_package.question_package_url
       package_json = File.open("#{Rails.root}/public/question_package_1.js").read
       s_a_record = StudentAnswerRecord.find_by_student_id_and_publish_question_package_id(student_id, p_q_package_id)
       #if s_a_record
-        #answer_json = File.open("#{Rails.root}/public/#{s_a_record.answer_file_url}").redlines
+        #answer_json = File.open("#{Rails.root}/public/#{s_a_record.answer_file_url}").read if s_a_record and s_a_record.answer_file_url
         answer_json = File.open("#{Rails.root}/public/answer_file_1.js").read
       #end
       status = true
@@ -133,7 +133,7 @@ class Api::StudentsController < ApplicationController
   def get_microposts
     school_class_id = params[:school_class_id]
     student_id = params[:student_id]
-    page = params[:page]
+    page = params[:page].to_i
     school_class = SchoolClass.find_by_id school_class_id
     student = Student.find_by_id student_id
     microposts = nil
@@ -142,10 +142,10 @@ class Api::StudentsController < ApplicationController
       notice = "学生信息错误"
     else
       if school_class.nil?
-
         notice = "班级不存在"
       else
-        school_class_student_relations = SchoolClassStudentRalastion.find_by_school_class_id_and_student_id school_class.id, student.id
+        school_class_student_relations = SchoolClassStudentRalastion.
+            find_by_school_class_id_and_student_id school_class.id, student.id
         if school_class_student_relations.nil?
           status = "success"
           notice = "加载完成"
@@ -207,6 +207,7 @@ class Api::StudentsController < ApplicationController
     qq_uid = params[:qq_uid]
     name = params[:name]
     nickname = params[:nickname]
+    upload_file = params[:avatar] #上传头像
     verification_code = params[:verification_code]
     student = Student.find_by_qq_uid qq_uid
     class_id = nil
@@ -221,9 +222,17 @@ class Api::StudentsController < ApplicationController
       school_class = SchoolClass.find_by_verification_code(verification_code)
       if !school_class.nil?
         begin
-          student = Student.create(:name => name, :nickname => nickname, :qq_uid => qq_uid,
-            :last_visit_class_id => school_class.id)
-          student.school_class_student_ralastions.create(:school_class_id => school_class.id)
+          time_to_month = Time.now.to_s[0,8]
+          Student.transaction do
+            student = Student.create(:nickname => nickname, :qq_uid => qq_uid,
+              :last_visit_class_id => school_class.id)
+            destination_dir = "#{Rails.root}/public/avatars/students/#{time_to_month}/"
+            rename_file_name = "student_#{student.id}"
+            upload_file destination_dir, rename_file_name, upload_file
+            user = User.create(:name => name, :avatar_url => avatar_url)
+            student.update_attributes(:user_id => user.id)
+            student.school_class_student_ralastions.create(:school_class_id => school_class.id)
+          end
         rescue
           notice = "qq账号已经注册,请直接登陆"
           status = "error"
@@ -306,15 +315,12 @@ class Api::StudentsController < ApplicationController
 
   #上传头像
   def upload_avatar
-    p params
-    avatar = {}
-    params.each_with_index do |e,index|
-      if index == 0
-        avatar = e[1]
-      end
-    end
+    avatar = params[:avatar]
     student_id = params[:student_id]
     student = Student.find_by_id student_id
+    if student && student.avatar_url.size != 0
+      old_avatar_dir_url = student.avatar_url
+    end
     avatar_dir_url = "#{Rails.root}/public/homework_system/avatars/students/"
     #上传文件
     #def upload path, zip_dir, zipfile
@@ -331,18 +337,10 @@ class Api::StudentsController < ApplicationController
         count = count +1
       end
     end
-
-    #重命名图片头像名称”
-    avatar_filename = "student_#{student.id}"
-    avatar.original_filename =  avatar_filename + File.extname(avatar.original_filename).to_s
-    file_url = "#{avatar_dir_url}/#{avatar.original_filename}"
-    avatar_url = "homework_system/avatars/students/#{avatar.original_filename}"
-    status = "error"
-    notice = ""
     #上传文件
     begin
       if File.open(file_url, "wb") do |file|
-        file.write(avatar.read)
+
       end
         if student.update_attributes(:avatar_url => avatar_url)
           status = "success"
@@ -353,7 +351,7 @@ class Api::StudentsController < ApplicationController
         end
       end
     rescue
-      File.delete file_url
+      #File.delete file_url
     end
     render :json => {:status => status, :notice => notice}
   end
@@ -375,7 +373,8 @@ class Api::StudentsController < ApplicationController
 
     url = "/"
     count = 0
-    questions_xml_dir = "#{Rails.root}/public/homework_system/question_packages/question_package_#{question_package.id}/answers/"
+    questions_xml_dir = "#{Rails.root}/public/homework_system/question_packages/
+      question_package_#{question_package.id}/answers"
     questions_xml_dir.split("/").each_with_index  do |e,i|
       if i > 0 && e.size > 0
         url = url + "/" if count > 0
@@ -387,44 +386,28 @@ class Api::StudentsController < ApplicationController
       end
     end
 
-    student_answer_record = nil
     if !student.nil?
       if !school_class.nil? && !question_package.nil?
-        school_class_student_relation = SchoolClassStudentRalastion.find_all_by_school_class_id_and_student_id school_class.id, student.id
+        school_class_student_relation = SchoolClassStudentRalastion.
+            find_all_by_school_class_id_and_student_id school_class.id, student.id
         if school_class_student_relation.nil?
           notice = "该学生不属于当前班级,操作失败!"
         else
-          student_answer_record = StudentAnswerRecord.find_by_student_id_and_question_package_id student.id, question_package.id
+          student_answer_record = StudentAnswerRecord.
+              find_by_student_id_and_question_package_id student.id, question_package.id
           if !student_answer_record.nil?
-            student_answer_record = student.student_answer_records.create(:question_package_id => question_package.id)
+            student_answer_record = student.student_answer_records.
+                create(:question_package_id => question_package.id)
           end
         end
       end
     end
 
-    file_url = "#{questions_xml_dir}student_#{student.id}.xml"
-    if !File.exist? file_url
-      File.open(file_url, "wb") do |file|
-        file.write("")
-      end
-    end
-    #p file_url
-    question_packages_xml = ""
-    #读xml存入字符串变量
-    File.open(file_url,"r") do |file|
-      file.each do |line|
-        question_packages_xml += line
-      end
-    end
-    if question_packages_xml.gsub(" ","").size.to_i == 0
-
-    else
-      questions = restruct_xml question_packages_xml
-      index_question = 0
-      questions.each_with_index do |answer, index|
-        p answer
-      end
-      p questions
+    file_url = "#{questions_xml_dir}/student_#{student.id}.xml"
+    p file_url
+    if write_xml(file_url, question_id, branch_question_id, answer, question_types) == true
+      status = "success"
+      notice = "记录完成"
     end
     render :json => {"status" => status, "notice" => notice}
   end
@@ -441,7 +424,8 @@ class Api::StudentsController < ApplicationController
     status = "error"
     #读xml存入字符串变量
     question_packages_xml = ""
-    questions_xml_dir = "#{Rails.root}/public/homework_system/question_packages/question_package_#{question_package.id}/answers/"
+    questions_xml_dir = "#{Rails.root}/public/homework_system/question_packages
+              /question_package_#{question_package.id}/answers/"
     file_url = "#{questions_xml_dir}student_#{student.id}.xml"
     File.open(file_url,"r") do |file|
       file.each do |line|
@@ -477,6 +461,69 @@ class Api::StudentsController < ApplicationController
     else
       notice = "参数错误!"
       status = "error"
+    end
+    render :json => {:status => status, :notice => notice}
+  end
+
+  #获取子消息
+  def get_reply_microposts
+    micropost_id = params[:micropost_id]
+    sender_id = params[:sender_id]
+    sender_types = params[:sender_id]
+    status = "error"
+    notice = "删除失败!"
+    reply_micropost =  ReplyMicropost.find_by_id_and_sender_id_and_sender_types reply_micropost_id, sender_id, sender_types
+    if reply_micropost.nil?
+    else
+      if reply_micropost.destroy
+        status = "success"
+        notice = "删除成功!"
+      end
+    end
+    render :json => {:status => status, :notice => notice}
+  end
+
+  #加入新班级
+  def validate_verification_code
+    verification_code = params[:verification_code]
+    student_id = params[:student_id]
+    student = Student.find_by_id student_id
+    if student.nil?
+      status = "error"
+      notice = "学生信息错误，请重新登陆！"
+    else
+      school_class = SchoolClass.find_by_verification_code verification_code
+      if !school_class.nil?
+        #if school_class.period_of_validity #失去有限期
+        #else
+        #end
+        school_class_student_relations = SchoolClassStudentRalastion.
+            find_by_school_class_id_and_student_id school_class.id, student.id
+        if school_class_student_relations.nil?
+          school_class_student_relations = student.school_class_student_ralastions.
+              create(:school_class_id => school_class.id)
+        end
+      else
+        status = "error"
+        notice = "班级信息错误！"
+      end
+    end
+  end
+
+  #删除子消息
+  def delete_reply_microposts
+    reply_micropost_id = params[:reply_micropost_id]
+    sender_id = params[:sender_id]
+    sender_types = params[:sender_id]
+    status = "error"
+    notice = "删除失败!"
+    reply_micropost =  ReplyMicropost.
+        find_by_id_and_sender_id_and_sender_types reply_micropost_id, sender_id, sender_types
+    if !reply_micropost.nil?
+      if reply_micropost.destroy
+        status = "success"
+        notice = "删除成功!"
+      end
     end
     render :json => {:status => status, :notice => notice}
   end

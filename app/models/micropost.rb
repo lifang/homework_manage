@@ -9,6 +9,7 @@ class Micropost < ActiveRecord::Base
 
   #获取班级的microposts
   def self.get_microposts school_class, page
+    p page
     microposts_count = school_class.microposts.count
     page = 0 if microposts_count == 0
     pages_count = microposts_count/Micropost::PER_PAGE if microposts_count%2 == 0

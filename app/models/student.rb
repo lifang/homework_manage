@@ -6,5 +6,6 @@ class Student < ActiveRecord::Base
   has_many :school_class_student_ralastions
   has_many :school_classes, :through => :school_class_student_ralastions
   has_many :student_answer_records, :dependent => :destroy
+  belongs_to :user
   validates_uniqueness_of :qq_uid
 end

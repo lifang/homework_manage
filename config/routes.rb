@@ -9,7 +9,7 @@ HomeworkManage::Application.routes.draw do
         get 'add_concern','unfollow','switching_classes', 'delete_posts',
         'get_my_classes', 'into_daily_tasks', :get_microposts, :get_class_info, :get_answer_history, :my_microposts
         post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info, :reply_message,
-             :finish_question_packge, :get_reply_microposts, :delete_reply_microposts, :news_release
+             :finish_question_packge, :get_reply_microposts, :delete_reply_microposts, :news_release, :validate_verification_code
       end
     end
   end

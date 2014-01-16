@@ -12,7 +12,7 @@ class Api::StudentsController < ApplicationController
     user_types = params[:user_types]
     school_class_id = params[:school_class_id]
     micropost = Micropost.new(:user_id => user_id, :user_types => user_types, 
-      :content => content, :school_class_id => school_class_id)
+      :content => content, :school_class_id => school_class_id, :reply_microposts_count => 0)
     if micropost.save
       render :json => {:status => 'success', :notice => '消息发布成功'}
     else
@@ -30,13 +30,13 @@ class Api::StudentsController < ApplicationController
     school_class_id = params[:school_class_id]
     micropost = Micropost.find_by_id micropost_id.to_i    
     if micropost
-      #Message.add_messages(micropost, reciver_id, reciver_types, sender_id, sender_types, 
-        #content, school_class_id)
+      Message.add_messages(micropost_id, reciver_id, reciver_types, sender_id, sender_types, 
+        content, school_class_id)
       replymicropost = ReplyMicropost.new(:sender_id => sender_id, 
       :sender_types => sender_types, :content => content,
       :micropost_id => micropost_id, :reciver_id => reciver_id,:reciver_types => reciver_types)
       replymicropost.save
-      micropost.increment!(:reply_microposts_count)
+      micropost.update_attributes(:reply_microposts_count => (micropost.reply_microposts_count + 1))
       render :json => {:status => 'success', :notice => '消息回复成功'}
     else
       render :json => {:status => 'error', :notice => '消息回复失败'}

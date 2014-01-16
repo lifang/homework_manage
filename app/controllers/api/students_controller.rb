@@ -116,6 +116,7 @@ class Api::StudentsController < ApplicationController
         task_messages = TaskMessage.get_task_messages school_class.id
         page = 1
         microposts = Micropost.get_microposts school_class,page
+        follow_microposts_id = Micropost.get_follows_id microposts
         daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
       end
       render :json => {:status => "success", :notice => "登陆成功！",
@@ -123,7 +124,10 @@ class Api::StudentsController < ApplicationController
           :nickname => student.nickname, :avatar_url => student.user.avatar_url},
         :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
           :tearcher_id => tearcher_id },
-        :classmates => classmates
+        :classmates => classmates,
+        :task_messages => task_messages,
+        :microposts => microposts,
+        :daily_tasks => daily_tasks
       }
     end
   end

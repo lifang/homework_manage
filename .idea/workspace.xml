@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/micropost.rb" afterPath="$PROJECT_DIR$/app/models/micropost.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,13 +33,15 @@
       <file leaf-file-name="students_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="151" column="35" selection-start="5991" selection-end="6001" vertical-scroll-proportion="0.0" vertical-offset="1805" max-vertical-offset="3043">
+            <state line="480" column="26" selection-start="18156" selection-end="18156" vertical-scroll-proportion="0.0" vertical-offset="4386" max-vertical-offset="5015">
               <folding>
                 <element signature="e#2173#2765#0" expanded="true" />
                 <element signature="e#2779#3337#0" expanded="true" />
-                <element signature="e#3349#4732#0" expanded="true" />
-                <element signature="e#8604#11727#0" expanded="true" />
-                <element signature="e#17527#18123#0" expanded="true" />
+                <element signature="e#3349#4912#0" expanded="true" />
+                <element signature="e#6080#7262#0" expanded="true" />
+                <element signature="e#8784#11907#0" expanded="true" />
+                <element signature="e#8784#11907#0" expanded="true" />
+                <element signature="e#11921#13774#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -47,7 +50,7 @@
       <file leaf-file-name="reply_micropost.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/reply_micropost.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="47" selection-start="170" selection-end="170" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
+            <state line="14" column="18" selection-start="733" selection-end="733" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
               <folding />
             </state>
           </provider>
@@ -56,7 +59,7 @@
       <file leaf-file-name="micropost.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/micropost.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="51" selection-start="816" selection-end="816" vertical-scroll-proportion="0.6171617" vertical-offset="153" max-vertical-offset="527">
+            <state line="31" column="5" selection-start="1194" selection-end="1194" vertical-scroll-proportion="0.7989865" vertical-offset="54" max-vertical-offset="646">
               <folding />
             </state>
           </provider>
@@ -136,8 +139,8 @@
         <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20140116020845_add_column_to_publish_question_packages_and_student_answer_records.rb" />
         <option value="$PROJECT_DIR$/app/models/reply_micropost.rb" />
-        <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20140116022718_add_column_to_reply_microposts_count_microposts.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
         <option value="$PROJECT_DIR$/app/models/micropost.rb" />
       </list>
     </option>
@@ -483,6 +486,122 @@
   <component name="RestClientSettings">
     <option name="REQUEST_HISTORY">
       <list>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://localhost:3000" />
+          <option name="urlPath" value="/api/students/login" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="school_class_id" />
+                <option name="value" value="1" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="student_id" />
+                <option name="value" value="1" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="page" />
+                <option name="value" value="1" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="qq_uid" />
+                <option name="value" value="123456" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://localhost:3004" />
+          <option name="urlPath" value="/api/students/login" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="school_class_id" />
+                <option name="value" value="1" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="student_id" />
+                <option name="value" value="1" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="page" />
+                <option name="value" value="1" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="qq_uid" />
+                <option name="value" value="123456" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://localhost:3004" />
+          <option name="urlPath" value="/api/students/get_microposts" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="school_class_id" />
+                <option name="value" value="1" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="student_id" />
+                <option name="value" value="1" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="page" />
+                <option name="value" value="1" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
         <RestClientRequest>
           <option name="httpMethod" value="GET" />
           <option name="urlBase" value="http://localhost:3000" />
@@ -2343,162 +2462,6 @@
           <option name="textToSend" value="" />
           <option name="filesToSend" value="" />
         </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="GET" />
-          <option name="urlBase" value="http://localhost:3000" />
-          <option name="urlPath" value="/api/students/get_microposts" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parameters">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="create_class" />
-                <option name="value" value="222333" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="name" />
-                <option name="value" value="eeeee" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="teacher_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="period_of_validity" />
-                <option name="value" value="2014-02-12" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="school_class_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="student_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="page" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="textToSend" value="" />
-          <option name="filesToSend" value="" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="GET" />
-          <option name="urlBase" value="http://localhost:3000" />
-          <option name="urlPath" value="/api/students/get_microposts" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parameters">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="create_class" />
-                <option name="value" value="222333" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="name" />
-                <option name="value" value="eeeee" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="teacher_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="period_of_validity" />
-                <option name="value" value="2014-02-12" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="school_class_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="student_id" />
-                <option name="value" value="" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="page" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="textToSend" value="" />
-          <option name="filesToSend" value="" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="GET" />
-          <option name="urlBase" value="http://localhost:3000" />
-          <option name="urlPath" value="/api/students/get_class_info" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parameters">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="create_class" />
-                <option name="value" value="222333" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="name" />
-                <option name="value" value="eeeee" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="teacher_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="period_of_validity" />
-                <option name="value" value="2014-02-12" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="school_class_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="student_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="page" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="textToSend" value="" />
-          <option name="filesToSend" value="" />
-        </RestClientRequest>
       </list>
     </option>
   </component>
@@ -2697,7 +2660,7 @@
     <frame x="-1" y="24" width="1368" height="745" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46612903" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" x="22" y="112" width="1325" height="477" />
+      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5612903" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" x="22" y="112" width="1325" height="477" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5580645" sideWeight="0.5" order="9" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -2707,7 +2670,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.43387097" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.39032257" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2977,7 +2940,9 @@
     </entry>
     <entry file="file://$USER_HOME$/.rvm/gems/ruby-1.9.3-p484@rails3.1.2/gems/will_paginate-3.0.3/lib/will_paginate/active_record.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="184" column="70" selection-start="5942" selection-end="5942" vertical-scroll-proportion="0.44763514" vertical-offset="1333" max-vertical-offset="2261" />
+        <state line="184" column="70" selection-start="5942" selection-end="5942" vertical-scroll-proportion="0.44763514" vertical-offset="1333" max-vertical-offset="2261">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Gemfile">
@@ -3022,29 +2987,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/reply_micropost.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="47" selection-start="170" selection-end="170" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="151" column="35" selection-start="5991" selection-end="6001" vertical-scroll-proportion="0.0" vertical-offset="1805" max-vertical-offset="3043">
+        <state line="480" column="26" selection-start="18156" selection-end="18156" vertical-scroll-proportion="0.0" vertical-offset="4386" max-vertical-offset="5015">
           <folding>
             <element signature="e#2173#2765#0" expanded="true" />
             <element signature="e#2779#3337#0" expanded="true" />
-            <element signature="e#3349#4732#0" expanded="true" />
-            <element signature="e#8604#11727#0" expanded="true" />
-            <element signature="e#17527#18123#0" expanded="true" />
+            <element signature="e#3349#4912#0" expanded="true" />
+            <element signature="e#6080#7262#0" expanded="true" />
+            <element signature="e#8784#11907#0" expanded="true" />
+            <element signature="e#8784#11907#0" expanded="true" />
+            <element signature="e#11921#13774#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/reply_micropost.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="18" selection-start="733" selection-end="733" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/micropost.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="51" selection-start="816" selection-end="816" vertical-scroll-proportion="0.6171617" vertical-offset="153" max-vertical-offset="527">
+        <state line="31" column="5" selection-start="1194" selection-end="1194" vertical-scroll-proportion="0.7989865" vertical-offset="54" max-vertical-offset="646">
           <folding />
         </state>
       </provider>

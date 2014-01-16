@@ -23,4 +23,11 @@ class Micropost < ActiveRecord::Base
     microposts = Micropost.paginate_by_sql(params_arr, :per_page => PER_PAGE, :page => page)
     return_info = {:page => page, :pages_count => microposts.total_pages, :details_microposts => microposts}
   end
+
+  #获取我关注的消息的id
+  def self.get_follows_id microposts
+    microposts[:details_microposts].each do |e|
+      p e
+    end
+  end
 end

@@ -478,7 +478,7 @@ class Api::StudentsController < ApplicationController
         status = "success"
         notice = "暂无子消息!"
       else
-        status = "success"    
+        status = "success"    #test
         notice = "获取完成!"
       end
     end

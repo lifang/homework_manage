@@ -23,19 +23,23 @@ class Api::StudentsController < ApplicationController
   def reply_message
     sender_id = params[:sender_id]
     sender_types = params[:sender_types]
-    content = params[:content]
+    content = params[:content].strip
     micropost_id = params[:micropost_id]
     reciver_id = params[:reciver_id]
     reciver_types = params[:reciver_types]
-    replymicropost = ReplyMicropost.new(:sender_id => sender_id, 
+    micropost = Micropost.find_by_id micropost_id.to_i
+    if micropost
+      replymicropost = ReplyMicropost.new(:sender_id => sender_id, 
       :sender_types => sender_types, :content => content,
       :micropost_id => micropost_id, :reciver_id => reciver_id,:reciver_types => reciver_types)
-    if replymicropost.save
+      replymicropost.save
+      micropost.increment!(:reply_microposts_count)
       render :json => {:status => 'success', :notice => '消息回复成功'}
     else
       render :json => {:status => 'error', :notice => '消息回复失败'}
-    end
+    end    
   end
+  
   #  关注消息api
   def add_concern
     student_id = params[:student_id].to_i

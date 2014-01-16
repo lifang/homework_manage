@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/follow_micropost.rb" afterPath="$PROJECT_DIR$/app/models/follow_micropost.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/user.rb" afterPath="$PROJECT_DIR$/app/models/user.rb" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -49,17 +49,19 @@
       <file leaf-file-name="micropost.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/micropost.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="17" selection-start="1241" selection-end="1241" vertical-scroll-proportion="0.0" vertical-offset="54" max-vertical-offset="646">
+            <state line="5" column="45" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/models/user.rb">
+      <file leaf-file-name="20140116051649_rename_student_id_from_follow_microposts.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/db/migrate/20140116051649_rename_student_id_from_follow_microposts.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="18" selection-start="103" selection-end="103" vertical-scroll-proportion="0.2881356" vertical-offset="0" max-vertical-offset="204">
-              <folding />
+            <state line="9" column="59" selection-start="352" selection-end="352" vertical-scroll-proportion="0.25844595" vertical-offset="0" max-vertical-offset="592">
+              <folding>
+                <element signature="e#70#234#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -90,8 +92,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/models/follow_micropost.rb" />
-        <option value="$PROJECT_DIR$/app/models/question_package_type.rb" />
         <option value="$PROJECT_DIR$/app/models/school_class_student_ralastion.rb" />
         <option value="$PROJECT_DIR$/app/models/share_branch_question.rb" />
         <option value="$PROJECT_DIR$/app/models/share_question.rb" />
@@ -140,6 +140,8 @@
         <option value="$PROJECT_DIR$/db/migrate/20140116035636_remove_index_student_id_from_message.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20140116035105_rename_column_student_id_from_messages.rb" />
         <option value="$PROJECT_DIR$/app/models/message.rb" />
+        <option value="$PROJECT_DIR$/db/migrate/20140116051649_rename_student_id_from_follow_microposts.rb" />
+        <option value="$PROJECT_DIR$/app/models/follow_micropost.rb" />
         <option value="$PROJECT_DIR$/app/models/user.rb" />
       </list>
     </option>
@@ -2673,9 +2675,9 @@
     <frame x="-1" y="24" width="1368" height="745" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.66935486" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" x="22" y="112" width="1325" height="477" />
+      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.66935486" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" x="22" y="112" width="1325" height="477" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.28548387" sideWeight="0.5" order="9" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.3564516" sideWeight="0.5" order="9" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.22507553" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2715,16 +2717,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/robots.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="204" selection-end="204" vertical-scroll-proportion="0.3125" vertical-offset="0" max-vertical-offset="272" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20140107122946_create_students.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="36" selection-start="258" selection-end="277" vertical-scroll-proportion="0.41689372" vertical-offset="0" max-vertical-offset="367" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/migrate/20140107123036_create_student_answer_records.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="31" selection-start="225" selection-end="240" vertical-scroll-proportion="0.27792916" vertical-offset="0" max-vertical-offset="367" />
@@ -3020,22 +3012,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/message.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="33" selection-start="85" selection-end="85" vertical-scroll-proportion="0.12274368" vertical-offset="0" max-vertical-offset="277">
+        <state line="2" column="33" selection-start="85" selection-end="85" vertical-scroll-proportion="0.13559322" vertical-offset="10" max-vertical-offset="187">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/micropost.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="17" selection-start="1241" selection-end="1241" vertical-scroll-proportion="0.0" vertical-offset="54" max-vertical-offset="646">
+        <state line="5" column="45" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/user.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="18" selection-start="103" selection-end="103" vertical-scroll-proportion="0.2881356" vertical-offset="0" max-vertical-offset="204">
+        <state line="4" column="53" selection-start="157" selection-end="157" vertical-scroll-proportion="0.11950791" vertical-offset="0" max-vertical-offset="569">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/follow_micropost.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="18" selection-start="112" selection-end="112" vertical-scroll-proportion="0.08963093" vertical-offset="0" max-vertical-offset="569">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20140116051649_rename_student_id_from_follow_microposts.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="59" selection-start="352" selection-end="352" vertical-scroll-proportion="0.25844595" vertical-offset="0" max-vertical-offset="592">
+          <folding>
+            <element signature="e#70#234#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

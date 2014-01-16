@@ -582,4 +582,74 @@ class Api::StudentsController < ApplicationController
     end
     render :json => {:status => status, :notice => notice}
   end
+
+  #获取我的提示消息
+  def get_messages
+    user_id = params[:user_id]
+    school_class_id = params[:school_class_id]
+    user = User.find_by_id user_id
+    school_class = SchoolClass.find_by_id school_class_id
+    student = user.student if !user.nil?
+    if user.nil? || school_class.nil?
+      notice = "用户信息错误!"
+      status = "error"
+    else
+      if student.nil?
+        notice = "用户信息错误!"
+        status = "error"
+      else
+        school_class_student_relations = SchoolClassStudentRalastion.
+            find_by_student_id_and_school_class_id student.id, school_class.id
+        if school_class_student_relations.nil?
+          notice = "用户信息错误!"
+          status = "error"
+        else
+          messages = Message.get_my_messages school_class, user_id
+          if messages.length == 0
+            status = "success"
+            notice = "暂无消息!"
+          else
+            status = "success"
+            notice = "获取完成!"
+          end
+        end
+      end
+    end
+    render :json => {:status => status, :notice => notice, :messages => messages}
+  end
+
+  #阅读我的提示消息
+  def read_message
+    user_id = params[:user_id]
+    school_class_id = params[:school_class_id]
+    message_id = params[:message_id]
+    user = User.find_by_id user_id
+    school_class = SchoolClass.find_by_id school_class_id
+    student = user.student
+    message = Message.find_by_id message_id
+    if user.nil? || school_class.nil?
+      status = "error"
+    else
+      if student.nil?
+        status = "error"
+      else
+        school_class_student_relations = SchoolClassStudentRalastion.
+            find_by_student_id_and_school_class_id student.id, school_class.id
+        if school_class_student_relations.nil?
+          status = "error"
+        else
+          if message.nil?
+            status = "error"
+          else
+            if message.update_attributes(:status => Message::STATUS[:READED])
+              status = "success"
+            else
+              status = "error"
+            end
+          end
+        end
+      end
+    end
+    render :json => {:status => status}
+  end
 end

@@ -22,5 +22,13 @@ class Message < ActiveRecord::Base
       end
     end    
   end
-  
+
+  #获取群我的当前班级的的消息
+  def self.get_my_messages school_class, user_id
+    #messages = Message.where("user_id = ? and school_class_id = ?",user_id, school_class.id)
+    messages = Message.order("created_at DESC").
+        where("user_id = ? and school_class_id = ? and status = ?", user_id, school_class.id,
+              Message::STATUS[:NOMAL] )
+
+  end
 end

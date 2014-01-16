@@ -12,8 +12,13 @@ class ReplyMicropost < ActiveRecord::Base
               from microposts m left join reply_microposts r on m.id = r.micropost_id left join
               users s on r.sender_id = s.id left join users u on r.reciver_id = u.id
               where r.id is not null and m.id = #{micropost.id} order by r.created_at desc"
+    page_count = 0
     microposts = Micropost.find_by_sql(base_sql)
-    page_count =  microposts.length == 0 ? 0 : microposts.length/PER_PAGE
+    if microposts.length%2 == 0
+      page_count = microposts.length/PER_PAGE
+    else
+      page_count = (microposts.length/PER_PAGE)+1
+    end
     microposts = microposts.paginate(:page => page, :per_page => PER_PAGE)
     return_info = {:page => page, :pages_count => page_count, :reply_microposts => microposts}
   end

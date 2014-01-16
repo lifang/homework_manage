@@ -297,9 +297,6 @@ class Api::StudentsController < ApplicationController
             notice = "上传失败"
             render :json => {:status => status, :notice => notice}
           end
-          #notice = "qq账号已经注册,请直接登陆"
-          #status = "error"
-          #render :json => {:status => status, :notice => notice}
       end
       else
         notice = "验证码错误,找不到相关班级!"
@@ -469,20 +466,23 @@ class Api::StudentsController < ApplicationController
   #获取子消息
   def get_reply_microposts
     micropost_id = params[:micropost_id]
-    sender_id = params[:sender_id]
-    sender_types = params[:sender_id]
     micropost = Micropost.find_by_id micropost_id
+    page = params[:page]
+    page = 1 if page.nil?
     status = "error"
-    notice = "删除失败!"
-    reply_micropost =  ReplyMicropost.get_reply_microposts micropost
-    if reply_micropost.nil?
+    if micropost.nil?
+      notice = "主消息不存在"
     else
-      if reply_micropost.destroy
+      reply_microposts =  ReplyMicropost.get_microposts micropost,page
+      if reply_microposts[:pages_count] == 0
         status = "success"
-        notice = "删除成功!"
+        notice = "暂无子消息!"
+      else
+        status = "success"    #test
+        notice = "获取完成!"
       end
     end
-    render :json => {:status => status, :notice => notice}
+    render :json => {:status => status, :notice => notice, :reply_microposts => reply_microposts}
   end
 
   #加入新班级
@@ -493,21 +493,39 @@ class Api::StudentsController < ApplicationController
     if student.nil?
       status = "error"
       notice = "学生信息错误，请重新登陆！"
+      render :json => {:status => status, :notice => notice}
     else
       school_class = SchoolClass.find_by_verification_code verification_code
       if !school_class.nil?
-        #if school_class.period_of_validity #失去有限期
-        #else
-        #end
         school_class_student_relations = SchoolClassStudentRalastion.
             find_by_school_class_id_and_student_id school_class.id, student.id
         if school_class_student_relations.nil?
           school_class_student_relations = student.school_class_student_ralastions.
               create(:school_class_id => school_class.id)
         end
+        class_id = school_class.id
+        class_name = school_class.name
+        tearcher_id = school_class.teacher.id
+        tearcher_name = school_class.teacher.user.name
+        classmates = SchoolClass.get_classmates school_class
+        task_messages = TaskMessage.get_task_messages school_class.id
+        page = 1
+        microposts = Micropost.get_microposts school_class,page
+        daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
+        render :json => {:status => "success", :notice => "验证成功！",
+                         :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
+                                      :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+                         :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+                                    :tearcher_id => tearcher_id },
+                         :classmates => classmates,
+                         :task_messages => task_messages,
+                         :microposts => microposts,
+                         :daily_tasks => daily_tasks
+        }
       else
         status = "error"
         notice = "班级信息错误！"
+        render :json => {:status => status, :notice => notice}
       end
     end
   end

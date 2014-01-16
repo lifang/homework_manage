@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140115040522) do
+ActiveRecord::Schema.define(:version => 20140116020845) do
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -67,6 +67,8 @@ ActiveRecord::Schema.define(:version => 20140115040522) do
     t.datetime "end_time"
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
+    t.integer  "listening_count"
+    t.integer  "reading_count"
   end
 
   add_index "publish_question_packages", ["question_package_id"], :name => "index_publish_question_packages_on_question_package_id"
@@ -167,6 +169,8 @@ ActiveRecord::Schema.define(:version => 20140115040522) do
     t.datetime "updated_at",                  :null => false
     t.integer  "publish_question_package_id"
     t.integer  "school_class_id"
+    t.integer  "listening_answer_count"
+    t.integer  "reading_answer_count"
   end
 
   add_index "student_answer_records", ["publish_question_package_id"], :name => "index_student_answer_records_on_publish_question_package_id"

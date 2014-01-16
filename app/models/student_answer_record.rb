@@ -29,7 +29,6 @@ class StudentAnswerRecord < ActiveRecord::Base
       worked_ids += "#{task.id}"
     end
     worked_ids += ")"
-    p worked_ids
     unfinish_tasks_sql = "select p.id, p.status, q.name,p.end_time, p.question_packages_url FROM
     publish_question_packages p left join question_packages q on p.question_package_id = q.id"
     unfinish_tasks = PublishQuestionPackage.find_by_sql unfinish_tasks_sql

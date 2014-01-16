@@ -274,31 +274,33 @@ module MethodLibsHelper
       url = url + "#{e}"
       Dir.mkdir url if !Dir.exist? url
     end
-
-    upload_file.original_filename = rename_file_name +
-        File.extname(upload_file.original_filename).to_s if rename_file_name.gsub(" ","").size != 0
-    file_url = "#{destination_dir}/#{upload_file.original_filename}"
-    if upload_file.original_filename.nil? ||  destination_dir.gsub(" ","").size == 0
-      status = 1
-      url = nil
-    else
-      begin
-        if File.open(file_url,"wb") do |f|
-            f.write(upload_file.read)
-          end
-          status = 0
-          url = file_url
-          p 11111
-        else
-          status = 1
-          url = nil
-          p 33333
-        end
-      rescue
-        File.delete file_url if File.exist? file_url
-        status = 1
+    if upload_file && !upload_file.original_filename.nil?
+      upload_file.original_filename = rename_file_name +
+          File.extname(upload_file.original_filename).to_s if rename_file_name.gsub(" ","").size != 0
+      file_url = "#{destination_dir}/#{upload_file.original_filename}"
+      if upload_file.original_filename.nil? ||  destination_dir.gsub(" ","").size == 0
+        status = false
         url = nil
+      else
+        begin
+          if File.open(file_url,"wb") do |f|
+              f.write(upload_file.read)
+            end
+            status = true
+            url = file_url
+          else
+            status = false
+            url = nil
+          end
+        rescue
+          File.delete file_url if File.exist? file_url
+          status = false
+          url = nil
+        end
       end
+    else
+      status = false
+      url = nil
     end
     info = {:status => status, :url => url}
   end

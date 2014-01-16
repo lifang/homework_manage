@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140116022718) do
+ActiveRecord::Schema.define(:version => 20140116051649) do
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -25,17 +25,17 @@ ActiveRecord::Schema.define(:version => 20140116022718) do
   add_index "branch_questions", ["question_id"], :name => "index_branch_questions_on_question_id"
 
   create_table "follow_microposts", :force => true do |t|
-    t.integer  "student_id"
+    t.integer  "user_id"
     t.integer  "micropost_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
 
   add_index "follow_microposts", ["micropost_id"], :name => "index_follow_microposts_on_micropost_id"
-  add_index "follow_microposts", ["student_id"], :name => "index_follow_microposts_on_student_id"
+  add_index "follow_microposts", ["user_id"], :name => "index_follow_microposts_on_user_id"
 
   create_table "messages", :force => true do |t|
-    t.integer  "student_id"
+    t.integer  "user_id"
     t.string   "content"
     t.integer  "school_class_id"
     t.integer  "status"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(:version => 20140116022718) do
   end
 
   add_index "messages", ["school_class_id"], :name => "index_messages_on_school_class_id"
-  add_index "messages", ["student_id"], :name => "index_messages_on_student_id"
+  add_index "messages", ["user_id"], :name => "index_messages_on_user_id"
 
   create_table "microposts", :force => true do |t|
     t.integer  "user_id"

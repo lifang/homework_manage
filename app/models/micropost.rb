@@ -5,7 +5,7 @@ class Micropost < ActiveRecord::Base
   belongs_to :school_class
   USER_TYPES = {:TEACHER => 0, :STUDENT => 1}
   USER_TYPES_NAME = {0 => '教师', 1 => '学生'}
-  PER_PAGE = 1
+  PER_PAGE = 2
 
   #获取班级的microposts
   def self.get_microposts school_class, page, user_id=nil
@@ -26,8 +26,8 @@ class Micropost < ActiveRecord::Base
 
   #获取我关注的消息的id
   def self.get_follows_id microposts
-    microposts[:details_microposts].each do |e|
-      p e
-    end
+    p  microposts[:details_microposts]
+    ids = microposts[:details_microposts].map(&:micropost_id)
+    p "ids#{ids}"
   end
 end

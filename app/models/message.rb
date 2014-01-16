@@ -1,6 +1,7 @@
 #encoding: utf-8
 class Message < ActiveRecord::Base
   attr_protected :authentications
+  belongs_to :user
   
   def self.add_messages(micropost_id, reciver_id, reciver_types, sender_id, 
       sender_types, content, school_class_id)
@@ -13,4 +14,5 @@ class Message < ActiveRecord::Base
       Message.create(:user_id => u_id, :content => f_content, :school_class_id => school_class_id)
     end if micropost_id.any?    
   end
+  
 end

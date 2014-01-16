@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140116020845) do
+ActiveRecord::Schema.define(:version => 20140116022718) do
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -51,8 +51,9 @@ ActiveRecord::Schema.define(:version => 20140116020845) do
     t.integer  "user_types"
     t.string   "content"
     t.integer  "school_class_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+    t.integer  "reply_microposts_count"
   end
 
   add_index "microposts", ["school_class_id"], :name => "index_microposts_on_school_class_id"

@@ -23,19 +23,23 @@ class Api::StudentsController < ApplicationController
   def reply_message
     sender_id = params[:sender_id]
     sender_types = params[:sender_types]
-    content = params[:content]
+    content = params[:content].strip
     micropost_id = params[:micropost_id]
     reciver_id = params[:reciver_id]
     reciver_types = params[:reciver_types]
-    replymicropost = ReplyMicropost.new(:sender_id => sender_id, 
+    micropost = Micropost.find_by_id micropost_id.to_i
+    if micropost
+      replymicropost = ReplyMicropost.new(:sender_id => sender_id, 
       :sender_types => sender_types, :content => content,
       :micropost_id => micropost_id, :reciver_id => reciver_id,:reciver_types => reciver_types)
-    if replymicropost.save
+      replymicropost.save
+      micropost.increment!(:reply_microposts_count)
       render :json => {:status => 'success', :notice => '消息回复成功'}
     else
       render :json => {:status => 'error', :notice => '消息回复失败'}
-    end
+    end    
   end
+  
   #  关注消息api
   def add_concern
     student_id = params[:student_id].to_i
@@ -238,11 +242,6 @@ class Api::StudentsController < ApplicationController
   #学生登记个人信息，验证班级code，记录个人信息
   # 1.qq_openid唯一;2班级验证码唯一
   def record_person_info
-    #本地测试端代码
-    #file = ""
-    #params.each_with_index do |e,index|
-    #  file = e[1] if index == 0
-    #end
     qq_uid = params[:qq_uid]
     name = params[:name]
     nickname = params[:nickname]
@@ -261,9 +260,10 @@ class Api::StudentsController < ApplicationController
       school_class = SchoolClass.find_by_verification_code(verification_code)
       if !school_class.nil?
       Student.transaction do
+        time_to_month = Time.now.to_s[0,8]
           student = Student.create(:nickname => nickname, :qq_uid => qq_uid,
               :last_visit_class_id => school_class.id)
-          destination_dir = "#{Rails.root}/public/homework_system/avatars/students/#{Time.now.strftime('%Y-%m')}"
+          destination_dir = "#{Rails.root}/public/homework_system/avatars/students/#{time_to_month}"
           rename_file_name = "student_#{student.id}"
           upload = upload_file destination_dir, rename_file_name, file
           url = upload[:url]
@@ -283,7 +283,7 @@ class Api::StudentsController < ApplicationController
             microposts = Micropost.get_microposts school_class,page
             daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
             render :json => {:status => "success", :notice => "登记成功！",
-                             :student => {:id => student.id, :name => student.user.name, :user_id => user.id,
+                             :student => {:id => student.id, :name => student.user.name,
                                           :nickname => student.nickname, :avatar_url => student.user.avatar_url},
                              :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
                                         :tearcher_id => tearcher_id },
@@ -339,7 +339,7 @@ class Api::StudentsController < ApplicationController
         microposts = Micropost.get_microposts school_class,page
         daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
         render :json => {:status => "success", :notice => "登陆成功！",
-                         :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
+                         :student => {:id => student.id, :name => student.user.name,
                                       :nickname => student.nickname, :avatar_url => student.user.avatar_url},
                          :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
                                     :tearcher_id => tearcher_id },
@@ -463,7 +463,7 @@ class Api::StudentsController < ApplicationController
     render :json => {:status => status, :notice => notice}
   end
 
-  ##获取子消息（分页）
+  #获取子消息
   def get_reply_microposts
     micropost_id = params[:micropost_id]
     micropost = Micropost.find_by_id micropost_id

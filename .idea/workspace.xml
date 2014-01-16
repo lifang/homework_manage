@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="" />
+    <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/reply_micropost.rb" afterPath="$PROJECT_DIR$/app/models/reply_micropost.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,12 +33,13 @@
       <file leaf-file-name="students_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="471" column="50" selection-start="17807" selection-end="17807" vertical-scroll-proportion="0.0" vertical-offset="1754" max-vertical-offset="2465">
+            <state line="117" column="61" selection-start="4428" selection-end="4428" vertical-scroll-proportion="0.0" vertical-offset="989" max-vertical-offset="3043">
               <folding>
                 <element signature="e#2173#2765#0" expanded="true" />
                 <element signature="e#2779#3337#0" expanded="true" />
-                <element signature="e#5887#7069#0" expanded="true" />
-                <element signature="e#8591#11714#0" expanded="true" />
+                <element signature="e#5900#7082#0" expanded="true" />
+                <element signature="e#8604#11727#0" expanded="true" />
+                <element signature="e#17527#18123#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -43,16 +48,25 @@
       <file leaf-file-name="reply_micropost.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/reply_micropost.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="18" selection-start="709" selection-end="709" vertical-scroll-proportion="0.0" vertical-offset="176" max-vertical-offset="527">
+            <state line="2" column="20" selection-start="53" selection-end="67" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="publish_question_package.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="20140116020845_add_column_to_publish_question_packages_and_student_answer_records.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/db/migrate/20140116020845_add_column_to_publish_question_packages_and_student_answer_records.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="67" selection-start="386" selection-end="386" vertical-scroll-proportion="0.15567766" vertical-offset="0" max-vertical-offset="546">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="publish_question_package.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/publish_question_package.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="0" selection-start="228" selection-end="228" vertical-scroll-proportion="0.20101352" vertical-offset="0" max-vertical-offset="592">
+            <state line="7" column="0" selection-start="228" selection-end="228" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
               <folding />
             </state>
           </provider>
@@ -122,9 +136,10 @@
         <option value="$PROJECT_DIR$/app/views/teachers/login.js.erb" />
         <option value="$PROJECT_DIR$/app/controllers/teachers_controller.rb" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
-        <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
-        <option value="$PROJECT_DIR$/app/models/reply_micropost.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20140116020845_add_column_to_publish_question_packages_and_student_answer_records.rb" />
+        <option value="$PROJECT_DIR$/app/models/reply_micropost.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
+        <option value="$PROJECT_DIR$/db/migrate/20140116022718_add_column_to_reply_microposts_count_microposts.rb" />
       </list>
     </option>
   </component>
@@ -2724,12 +2739,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="24" width="1368" height="745" extended-state="6" />
-    <editor active="false" />
+    <frame x="-1" y="24" width="1368" height="745" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5532258" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" x="22" y="112" width="1325" height="477" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="true" weight="0.5580645" sideWeight="0.5" order="9" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5580645" sideWeight="0.5" order="9" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.22507553" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2769,11 +2784,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/.rvm/gems/ruby-1.9.3-p484@rails3.1.2/gems/xml_to_json-0.0.2/lib/xml_to_json/string.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="6" selection-start="83" selection-end="83" vertical-scroll-proportion="0.082125604" vertical-offset="0" max-vertical-offset="621" />
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.rvm/gems/ruby-1.9.3-p484@rails3.1.2/gems/builder-3.0.4/lib/builder/xmlmarkup.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="241" column="43" selection-start="8559" selection-end="8564" vertical-scroll-proportion="0.52495974" vertical-offset="3771" max-vertical-offset="5780" />
@@ -2860,7 +2870,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/db/migrate/20140115030249_create_users.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="26" selection-start="135" selection-end="135" vertical-scroll-proportion="0.26459143" vertical-offset="0" max-vertical-offset="257" />
+        <state line="4" column="26" selection-start="135" selection-end="135" vertical-scroll-proportion="0.26459143" vertical-offset="0" max-vertical-offset="257">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/db/migrate/20140115040522_remove_columns_from_teachers_and_students.rb">
@@ -2877,7 +2889,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/teacher.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="2" selection-start="76" selection-end="107" vertical-scroll-proportion="0.08629441" vertical-offset="34" max-vertical-offset="408" />
+        <state line="3" column="2" selection-start="76" selection-end="107" vertical-scroll-proportion="0.08629441" vertical-offset="34" max-vertical-offset="408">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/task_message.rb">
@@ -2992,7 +3006,11 @@
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/rubystubs193/object.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="312" column="8" selection-start="11904" selection-end="11904" vertical-scroll-proportion="0.33277026" vertical-offset="4597" max-vertical-offset="11526" />
+        <state line="312" column="8" selection-start="11904" selection-end="11904" vertical-scroll-proportion="0.33277026" vertical-offset="4597" max-vertical-offset="11526">
+          <folding>
+            <element signature="e#11900#11960#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/routes.rb">
@@ -3026,25 +3044,6 @@
         <state line="25" column="32" selection-start="1060" selection-end="1068" vertical-scroll-proportion="0.597973" vertical-offset="71" max-vertical-offset="663" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="471" column="50" selection-start="17807" selection-end="17807" vertical-scroll-proportion="0.0" vertical-offset="1754" max-vertical-offset="2465">
-          <folding>
-            <element signature="e#2173#2765#0" expanded="true" />
-            <element signature="e#2779#3337#0" expanded="true" />
-            <element signature="e#5887#7069#0" expanded="true" />
-            <element signature="e#8591#11714#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/reply_micropost.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="18" selection-start="709" selection-end="709" vertical-scroll-proportion="0.0" vertical-offset="176" max-vertical-offset="527">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/welcome/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="76" selection-start="581" selection-end="581" vertical-scroll-proportion="0.2857143" vertical-offset="70" max-vertical-offset="629">
@@ -3052,16 +3051,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20140116020845_add_column_to_publish_question_packages_and_student_answer_records.rb">
+    <entry file="file://$PROJECT_DIR$/app/models/publish_question_package.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="67" selection-start="386" selection-end="386" vertical-scroll-proportion="0.14938489" vertical-offset="0" max-vertical-offset="569">
+        <state line="7" column="0" selection-start="228" selection-end="228" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/publish_question_package.rb">
+    <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="228" selection-end="228" vertical-scroll-proportion="0.20101352" vertical-offset="0" max-vertical-offset="592">
+        <state line="117" column="61" selection-start="4428" selection-end="4428" vertical-scroll-proportion="0.0" vertical-offset="989" max-vertical-offset="3043">
+          <folding>
+            <element signature="e#2173#2765#0" expanded="true" />
+            <element signature="e#2779#3337#0" expanded="true" />
+            <element signature="e#5900#7082#0" expanded="true" />
+            <element signature="e#8604#11727#0" expanded="true" />
+            <element signature="e#17527#18123#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/reply_micropost.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="20" selection-start="53" selection-end="67" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20140116022718_add_column_to_reply_microposts_count_microposts.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="159" selection-end="159" vertical-scroll-proportion="0.1625239" vertical-offset="0" max-vertical-offset="523">
+          <folding>
+            <element signature="e#76#154#2" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20140116020845_add_column_to_publish_question_packages_and_student_answer_records.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="67" selection-start="386" selection-end="386" vertical-scroll-proportion="0.15567766" vertical-offset="0" max-vertical-offset="546">
           <folding />
         </state>
       </provider>

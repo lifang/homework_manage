@@ -107,7 +107,7 @@ class Api::StudentsController < ApplicationController
         class_id = school_class.id
         class_name = school_class.name
         tearcher_id = school_class.teacher.id
-        tearcher_name = school_class.teacher.name
+        tearcher_name = school_class.teacher.user.name
         classmates = SchoolClass.get_classmates school_class
         task_messages = TaskMessage.get_task_messages school_class.id
         page = 1
@@ -115,10 +115,10 @@ class Api::StudentsController < ApplicationController
         daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
       end
       render :json => {:status => "success", :notice => "登陆成功！",
-        :student => {:id => student.id, :name => student.name, :user_id => student.user.id,
-          :nickname => student.nickname, :avatar_url => student.avatar_url},
+        :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
+          :nickname => student.nickname, :avatar_url => student.user.avatar_url},
         :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-          :tearcher_id => tearcher_name },
+          :tearcher_id => tearcher_id },
         :classmates => classmates
       }
     end

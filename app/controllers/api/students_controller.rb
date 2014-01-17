@@ -80,6 +80,7 @@ class Api::StudentsController < ApplicationController
   #我的消息
   def my_microposts    
     school_class = SchoolClass.find_by_id params[:school_class_id].to_i
+    micropost_hash = {}
     if school_class
       micropost_hash = Micropost.get_microposts school_class, params[:page], params[:user_id]      
       if (params[:page].nil? or params[:page] == "1") and micropost_hash[:details_microposts].length == 0

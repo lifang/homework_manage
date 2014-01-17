@@ -25,10 +25,12 @@ class Message < ActiveRecord::Base
 
   #获取群我的当前班级的的消息
   def self.get_my_messages school_class, user_id
-    #messages = Message.where("user_id = ? and school_class_id = ?",user_id, school_class.id)
-    messages = Message.order("created_at DESC").
-        where("user_id = ? and school_class_id = ? and status = ?", user_id, school_class.id,
-              Message::STATUS[:NOMAL] )
+    messages = Message.joins('LEFT JOIN users u ON messages.sender_id = u.id').
+    select("messages.id, messages.content, messages.user_id, messages.created_at, u.name sender_name,
+     u.avatar_url sender_avatar_url").
+    order("messages.created_at DESC").
+    where("user_id = ? and school_class_id = ? and status = ?", user_id, school_class.id,
+              Message::STATUS[:NOMAL])
 
   end
 end

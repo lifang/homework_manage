@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140117015516) do
+ActiveRecord::Schema.define(:version => 20140117025325) do
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -182,7 +182,6 @@ ActiveRecord::Schema.define(:version => 20140117015516) do
 
   create_table "students", :force => true do |t|
     t.string   "nickname"
-    t.string   "alias_name"
     t.string   "qq_uid"
     t.integer  "status"
     t.integer  "last_visit_class_id"

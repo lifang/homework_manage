@@ -28,7 +28,7 @@ class Message < ActiveRecord::Base
   def self.get_my_messages school_class, user_id
     messages = Message.joins('LEFT JOIN users u ON messages.sender_id = u.id').
     select("messages.id, messages.content, messages.user_id, messages.created_at, u.name sender_name,
-     u.avatar_url sender_avatar_url").
+     u.avatar_url sender_avatar_url, messages.micropost_id ").
     order("messages.created_at DESC").
     where("user_id = ? and school_class_id = ? and status = ?", user_id, school_class.id,
               Message::STATUS[:NOMAL])

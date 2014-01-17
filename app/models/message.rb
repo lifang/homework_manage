@@ -10,7 +10,7 @@ class Message < ActiveRecord::Base
     if sender
       m_content = "[[" + sender.name + "]]回复了您的消息：;||;" + content
       Message.create(:user_id => reciver_id, :content => m_content, 
-        :school_class_id => school_class_id, :status => STATUS[:NOMAL])
+        :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id)
       follow_microposts = FollowMicropost.find_all_by_micropost_id(micropost_id.to_i)
       if follow_microposts.any?
         follow_users = follow_microposts.collect {|i| i.user_id }

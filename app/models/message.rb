@@ -17,7 +17,7 @@ class Message < ActiveRecord::Base
         follow_users = follow_microposts.collect {|i| i.user_id }
         follow_users.each do |u_id|
           f_content = "[[" + sender.name + "]]回复了您关注的消息：;||;" + content
-          Message.create(:user_id => u_id, :content => f_content, 
+          Message.create(:user_id => u_id, :content => f_content, :micropost_id => :micropost_id,
           :school_class_id => school_class_id, :status => STATUS[:NOMAL])
         end
       end

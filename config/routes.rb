@@ -11,7 +11,7 @@ HomeworkManage::Application.routes.draw do
         :get_answer_history, :my_microposts, :get_reply_microposts, :get_messages
         post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info, :reply_message,
              :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
-             :read_message
+             :read_message, :delete_message
       end
     end
   end

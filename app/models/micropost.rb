@@ -24,10 +24,16 @@ class Micropost < ActiveRecord::Base
     return_info = {:page => page, :pages_count => microposts.total_pages, :details_microposts => microposts}
   end
 
-  #获取我关注的消息的id
-  def self.get_follows_id microposts
-    p  microposts[:details_microposts]
+  #获取我关注的消息的micropost_id
+  def self.get_follows_id microposts, user_id
     ids = microposts[:details_microposts].map(&:micropost_id)
-    p "ids#{ids}"
+    where_sql = "("
+    ids.each_with_index do |e,index|
+      where_sql += "," if index > 0
+      where_sql += e.to_s
+    end
+    where_sql += ")"
+    #p where_sql
+    follow_microposts_id = FollowMicropost.select("micropost_id").where("user_id = #{user_id} and micropost_id in #{where_sql}").map(&:micropost_id)
   end
 end

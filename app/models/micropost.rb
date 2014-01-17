@@ -3,6 +3,7 @@ class Micropost < ActiveRecord::Base
   attr_protected :authentications
   has_many :reply_microposts,:dependent => :destroy
   belongs_to :school_class
+  has_many :messages, :dependent => :destroy
   USER_TYPES = {:TEACHER => 0, :STUDENT => 1}
   USER_TYPES_NAME = {0 => '教师', 1 => '学生'}
   PER_PAGE = 2

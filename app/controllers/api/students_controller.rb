@@ -208,10 +208,10 @@ class Api::StudentsController < ApplicationController
   def modify_person_info
     user_attr = {}
     user_attr[:name] = params[:name] if params[:name]
-    user_attr[:nickname] = params[:nickname] if params[:nickname]
+    #user_attr[:nickname] = params[:nickname] if params[:nickname]
     status = false
     notice = "修改失败。"
-    begin
+    #begin
       if user_attr
         student = Student.find_by_id(params[:student_id].to_i)
         if student
@@ -224,7 +224,8 @@ class Api::StudentsController < ApplicationController
             avatar_url = url.to_s[unuse_url.size,url.size]
             user_attr[:avatar_url] = avatar_url
           end
-          student.update_attributes(user_attr)
+          student.user.update_attributes(user_attr) unless user_attr.empty?
+          student.update_attributes(:nickname => params[:nickname]) if params[:nickname]
           status = true
           notice = "修改成功。"
         else
@@ -233,8 +234,8 @@ class Api::StudentsController < ApplicationController
       else
           notice = "请提交您需要更新的信息。"
       end
-    rescue
-    end
+    #rescue
+    #end
     render :json => {:status => status, :notice => notice}
   end
   

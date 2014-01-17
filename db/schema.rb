@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140116051649) do
+ActiveRecord::Schema.define(:version => 20140117015516) do
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(:version => 20140116051649) do
     t.integer  "status"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.integer  "sender_id"
   end
 
   add_index "messages", ["school_class_id"], :name => "index_messages_on_school_class_id"

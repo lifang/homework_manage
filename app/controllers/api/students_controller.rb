@@ -525,6 +525,7 @@ class Api::StudentsController < ApplicationController
   def validate_verification_code
     verification_code = params[:verification_code]
     student_id = params[:student_id]
+
     student = Student.find_by_id student_id
     if student.nil?
       status = "error"

@@ -103,40 +103,38 @@ class Api::StudentsController < ApplicationController
       render :json => {:status => "error", :notice => "账号不存在，请先注册！"}
     else
       school_class = SchoolClass.find_by_id student.last_visit_class_id
-      class_id = nil
-      class_name = nil
-      tearcher_name = nil
-      tearcher_id = nil
-      classmates = nil
-      task_messages = nil
-      microposts = nil
-      daily_tasks = nil
       if !school_class.nil?
-        class_id = school_class.id
-        class_name = school_class.name
-        tearcher_id = school_class.teacher.id
-        tearcher_name = school_class.teacher.user.name
-        classmates = SchoolClass.get_classmates school_class
-        task_messages = TaskMessage.get_task_messages school_class.id
-        page = 1
-        microposts = Micropost.get_microposts school_class,page
-        follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-        daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
-        messages = Message.get_my_messages school_class, student.user.id
-        render :json => {:status => "success", :notice => "登陆成功！",
-                         :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
-                                      :nickname => student.nickname, :avatar_url => student.user.avatar_url},
-                         :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-                                    :tearcher_id => tearcher_id },
-                         :classmates => classmates,
-                         :task_messages => task_messages,
-                         :microposts => microposts,
-                         :daily_tasks => daily_tasks,
-                         :follow_microposts_id => follow_microposts_id,
-                         :messages => messages
-        }
+        if school_class.status == SchoolClass::STATUS[:EXPIRED]
+            render :json => {:status => "error", :notice => "班级已失效！"}
+        else
+          class_id = school_class.id
+          class_name = school_class.name
+          tearcher_id = school_class.teacher.id
+            tearcher_name = school_class.teacher.user.name
+          classmates = SchoolClass.get_classmates school_class
+          task_messages = TaskMessage.get_task_messages school_class.id
+          page = 1
+          microposts = Micropost.get_microposts school_class,page
+          p microposts
+          p student.user
+          follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
+          daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
+          messages = Message.get_my_messages school_class, student.user.id
+          render :json => {:status => "success", :notice => "登陆成功！",
+                           :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
+                                        :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+                           :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+                                      :tearcher_id => tearcher_id },
+                           :classmates => classmates,
+                           :task_messages => task_messages,
+                           :microposts => microposts,
+                           :daily_tasks => daily_tasks,
+                           :follow_microposts_id => follow_microposts_id,
+                           :messages => messages
+          }
+        end
       else
-
+        render :json => {:status => "error", :notice => "班级不存在！"}
       end
     end
   end

@@ -2,6 +2,7 @@
 class Message < ActiveRecord::Base
   attr_protected :authentications
   belongs_to :user
+  belongs_to :micropost
   STATUS = {:NOMAL => 0, :READED => 1} #未阅读 0  已阅读
   
   def self.add_messages(micropost_id, reciver_id, reciver_types, sender_id, 

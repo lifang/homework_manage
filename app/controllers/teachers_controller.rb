@@ -124,16 +124,13 @@ class TeachersController < ApplicationController
     end
     @info = {:status => status, :notice => notice}
   end
-#  进入设置页面
+  #  进入设置页面
   def teacher_setting
-    session[:user_id] = 1
-    @teacher = Teacher.find(session[:user_id])
+    @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
+    @schoolclass = SchoolClass.find(current_teacher.last_visit_class_id)
     @user = User.find(@teacher.user_id)
-    @schoolclasses = SchoolClass.where(:teacher_id => session[:user_id])
-    params[:class_id] = 1
-    @schoolclass = SchoolClass.find(params[:class_id])
   end
-#  保存更新
+  #  保存更新
   def save_updated_teacher
     session[:user_id] = 1
     teacher = Teacher.find(session[:user_id])
@@ -144,5 +141,8 @@ class TeachersController < ApplicationController
       render :json => {:status => 0}
     end
   end
-# 
+  #创建新班级
+  def creat_new_class
+    
+  end
 end

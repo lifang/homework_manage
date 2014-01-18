@@ -11,33 +11,33 @@ HomeworkManage::Application.routes.draw do
     resources :students do
       collection do
         get 'add_concern','unfollow','switching_classes', 'delete_posts',
-        'get_my_classes', 'into_daily_tasks', :get_microposts, :get_class_info,
-        :get_answer_history, :my_microposts, :get_reply_microposts, :get_messages
+          'get_my_classes', 'into_daily_tasks', :get_microposts, :get_class_info,
+          :get_answer_history, :my_microposts, :get_reply_microposts, :get_messages
         post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info, :reply_message,
-             :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
-             :read_message, :delete_message
+          :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
+          :read_message, :delete_message
       end
     end
   end
 
-  resources :teachers do
-    member do
+    resources :teachers do
+      member do
+      end
+
+      collection do
+        get :teacher_setting, :save_updated_teacher
+        post :login, :regist, :create_class
+      end
     end
 
-    collection do
-      get :teacher_setting, :save_updated_teacher
-      post :login, :regist, :create_class
-    end
-  end
+    resources :welcome do
+      member do
+      end
 
-  resources :welcome do
-    member do
+      collection do
+      end
     end
-
-    collection do
-    end
-  end
-  resources :messages
+    resources :messages
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

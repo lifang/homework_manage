@@ -212,11 +212,11 @@ class Api::StudentsController < ApplicationController
     #user_attr[:nickname] = params[:nickname] if params[:nickname]
     status = false
     notice = "修改失败。"
-    #begin
-      if user_attr
+    begin
+      if user_attr or params[:nickname] or params[:avatar]
         student = Student.find_by_id(params[:student_id].to_i)
         if student
-          unless params[:avatar].nil? or params[:avatar].empty?
+          unless params[:avatar].nil?
             destination_dir = "#{Rails.root}/public/homework_system/avatars/students/#{Time.now.strftime('%Y-%m')}"
             rename_file_name = "student_#{student.id}"
             upload = upload_file destination_dir, rename_file_name, params[:avatar]
@@ -225,7 +225,7 @@ class Api::StudentsController < ApplicationController
             avatar_url = url.to_s[unuse_url.size,url.size]
             user_attr[:avatar_url] = avatar_url
           end
-          student.user.update_attributes(user_attr) unless user_attr.empty?
+          student.user.update_attributes(user_attr) if user_attr
           student.update_attributes(:nickname => params[:nickname]) if params[:nickname]
           status = true
           notice = "修改成功。"
@@ -235,8 +235,8 @@ class Api::StudentsController < ApplicationController
       else
           notice = "请提交您需要更新的信息。"
       end
-    #rescue
-    #end
+    rescue
+    end
     render :json => {:status => status, :notice => notice}
   end
   

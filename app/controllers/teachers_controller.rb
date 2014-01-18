@@ -24,7 +24,7 @@ class TeachersController < ApplicationController
     @info = {:status => status, :notice => notice}
   end
 
-  #教师登陆
+  #教师注册
   def regist
     file = ""
     params.each_with_index do |e,index|

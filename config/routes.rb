@@ -16,7 +16,11 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
-
+  resources :homes do
+    collection do
+      
+    end
+  end
   resources :teachers do
     member do
     end

@@ -26,7 +26,7 @@ class TeachersController < ApplicationController
     @info = {:status => status, :notice => notice}
   end
 
-  #教师登陆
+  #教师注册
   def regist
     email = params[:email].to_s
     name = params[:name].to_s
@@ -39,7 +39,7 @@ class TeachersController < ApplicationController
     else
       Teacher.transaction do
         teacher = Teacher.create(:email => email, :password => password,
-                                 :status => Teacher::STATUS[:YES])
+          :status => Teacher::STATUS[:YES])
         destination_dir = "#{Rails.root}/public/homework_system/avatars/teachers/#{Time.now.strftime('%Y-%m')}"
         rename_file_name = "teacher_#{teacher.id}"
         avatar_url = ""
@@ -89,9 +89,9 @@ class TeachersController < ApplicationController
     else
       if teacher.status == Teacher::STATUS[:YES]
         if teacher.school_classes.create(:name => name,
-             :period_of_validity => period_of_validity,
-             :verification_code => verification_code,
-             :status => SchoolClass::STATUS[:NORMAL])
+            :period_of_validity => period_of_validity,
+            :verification_code => verification_code,
+            :status => SchoolClass::STATUS[:NORMAL])
           notice = "班级创建成功！"
           status = "success"
         else
@@ -124,7 +124,25 @@ class TeachersController < ApplicationController
     end
     @info = {:status => status, :notice => notice}
   end
-  def teacher_setting_management
+  #  进入设置页面
+  def teacher_setting
+    @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
+    @schoolclass = SchoolClass.find(current_teacher.last_visit_class_id)
+    @user = User.find(@teacher.user_id)
+  end
+  #  保存更新
+  def save_updated_teacher
+    session[:user_id] = 1
+    teacher = Teacher.find(session[:user_id])
+    user = User.find(teacher.user_id)
+    if user.update_attributes(:name => params[:name]) && teacher.update_attributes(:email => params[:email])
+      render :json => {:status => 1}
+    else
+      render :json => {:status => 0}
+    end
+  end
+  #创建新班级
+  def creat_new_class
     
   end
 end

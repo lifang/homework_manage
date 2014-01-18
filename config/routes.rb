@@ -20,13 +20,12 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
-
   resources :teachers do
     member do
     end
 
     collection do
-      get :teacher_setting_management
+      get :teacher_setting, :save_updated_teacher, :creat_new_class
       post :login, :regist, :create_class
     end
   end
@@ -38,6 +37,7 @@ HomeworkManage::Application.routes.draw do
     collection do
     end
   end
+  resources :messages
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

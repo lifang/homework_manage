@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140118065034) do
+ActiveRecord::Schema.define(:version => 20140118084219) do
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -54,9 +54,9 @@ ActiveRecord::Schema.define(:version => 20140118065034) do
     t.integer  "user_types"
     t.string   "content"
     t.integer  "school_class_id"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
-    t.integer  "reply_microposts_count"
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+    t.integer  "reply_microposts_count", :default => 0
   end
 
   add_index "microposts", ["school_class_id"], :name => "index_microposts_on_school_class_id"
@@ -139,9 +139,11 @@ ActiveRecord::Schema.define(:version => 20140118065034) do
     t.string   "teacher_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "teaching_material_id"
   end
 
   add_index "school_classes", ["teacher_id"], :name => "index_school_classes_on_teacher_id"
+  add_index "school_classes", ["teaching_material_id"], :name => "index_school_classes_on_teaching_material_id"
 
   create_table "share_branch_questions", :force => true do |t|
     t.string   "content"
@@ -220,6 +222,12 @@ ActiveRecord::Schema.define(:version => 20140118065034) do
   end
 
   add_index "teachers", ["user_id"], :name => "index_teachers_on_user_id"
+
+  create_table "teaching_materials", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "name"

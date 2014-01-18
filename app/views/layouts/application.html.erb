@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8"/>
     <title>HomeworkManage</title>
     <%= stylesheet_link_tag    "application", :media => "all" %>
-    <%= javascript_include_tag "application" %>
+    <%= javascript_include_tag "application", "main" %>
     <%= csrf_meta_tags %>
   </head>
   <body>
     <div class="wrap">
       <div class="area clearAfter">
-
         <%=render 'layouts/left_side'%>
         <%= yield %>
       </div>
     </div>
+   
   </body>
 </html>

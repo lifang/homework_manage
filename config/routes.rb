@@ -18,11 +18,6 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
-  resources :homes do
-    collection do
-      
-    end
-  end
   resources :teachers do
     member do
     end
@@ -39,6 +34,7 @@ HomeworkManage::Application.routes.draw do
     collection do
     end
   end
+  resources :messages
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

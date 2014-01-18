@@ -3,8 +3,8 @@
     <%= form_tag({:controller => :welcome, :action => :login}, :remote => true) do %>
     <div class="login_box">
       <ul>
-        <li class="name"><input id="email" name="email" type="text" value="邮箱"></li>
-        <li class="password"><input id="password" name="password" type="password" value="密码"></li>
+        <li class="name"><input id="email" name="email" type="text" value="邮箱"/></li>
+        <li class="password"><input id="password" name="password" type="password" value="密码"/></li>
         <li class="login_btn"><button type="button" onclick="check_value();">登录</button><a href="javascript:void(0);" class="goRegister_a">注册</a></li>
         <button id="login_submit_button" style="display: none;" type="submit">提交</button>
       </ul>

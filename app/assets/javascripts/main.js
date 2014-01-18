@@ -199,3 +199,14 @@ $(function(){
 		
 	});
 })
+
+//登陆前验证
+function check_value()
+{
+    email = $("#email").val();
+    password = $("#password").val();
+    if(email == "邮箱" || password == "密码")
+        alert('邮箱或密码不能为空！');
+    else
+        $("#login_submit_button").click();
+}

@@ -12,21 +12,24 @@
     <% end %>
   </div>
   <div class="register">
+    <%= form_tag({:controller => :teachers, :action => :regist}, :multipart => true, :remote => true) do %>
     <div class="register_box">
       <ul>
         <li class="avater">
-          <div class="avater_default"><img src="/assets/default_avater.jpg"></div>
+          <div class="avater_default"><img src="assets/default_avater.jpg"></div>
           <a href="javascript:void(0);" class="avater_a">
+            <input name="avatar"  type="file">
             <span>点击添加头像</span>
-            <input name="" multiple="" type="file">
           </a>
         </li>
-        <li><input name="" type="text" value="姓名" class="otherInput"></li>
-        <li><input name="" type="text" value="邮箱" class="otherInput"></li>
-        <li><input name="" type="text" value="密码" class="otherInput"></li>
-        <li><input name="" type="text" value="确认密码" class="otherInput"></li>
+        <li><input id="r_name"  name="name" type="text" value="姓名" class="otherInput"></li>
+        <li><input id="r_email" name="email" type="text" value="邮箱" class="otherInput"></li>
+        <li><input id="r_password"  name="password" type="password" value="密码" class="otherInput"></li>
+        <li><input id="r_confirm_password" name="confirm_password" type="text" value="确认密码" class="otherInput"></li>
         <li class="register_btn"><button>确认</button><a href="javascript:void(0);" class="goLogin_a">返回登录</a></li>
+        <button id="register_submit_button" style="display: none;" type="submit">提交</button>
       </ul>
     </div>
+    <% end %>
   </div>
 </div>

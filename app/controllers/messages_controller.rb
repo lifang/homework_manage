@@ -5,7 +5,8 @@ class MessagesController < ApplicationController
         from teachers t inner join users u on t.user_id=u.id
         inner join messages m on u.id=m.user_id
         inner join users s on m.sender_id=s.id
-        where t.id=? and m.status=? order by m.created_at desc", 1, 0], :page => params[:page], :per_page => 1)
+        where t.id=? and m.status=? order by m.created_at desc", 
+        session[:teacher_id], Message::STATUS[:NOMAL]], :page => params[:page], :per_page => 1)
     
   end
 

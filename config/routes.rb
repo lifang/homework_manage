@@ -1,7 +1,13 @@
 HomeworkManage::Application.routes.draw do
 
   resources :main_pages
-  resources :mocroposts
+  resources :microposts do
+    get :create_reply
+
+    member do
+      get :reply_page_change,:delete_micropost,:delete_micropost_reply,:add_reply_page
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -2,8 +2,8 @@
       <div class="main setPaddingRight">
         <div class="article">
           <div class="ask_area">
-            <%=form_for(:microposts) do |f|%>
-            <div class="ask_area_textarea"><textarea cols="" rows="" placeholder="提个问题或是分享一下你的心得吧。"></textarea></div>
+            <%=form_for(:microposts,:url=> microposts_path) do |f|%>
+            <div class="ask_area_textarea"><textarea name="microposts[content]" cols="" rows="" placeholder="提个问题或是分享一下你的心得吧。"></textarea></div>
             <div class="ask_area_btn"><button class="green_btn">发布</button></div>
             <%end%>
           </div>
@@ -11,7 +11,10 @@
         <div class="article">
           <div class="question_area">
             <div class="question_classify"><a href="#" class="hover">全部</a><a href="#">我的</a></div>
-            <%=render 'questarea_box'%>
+            <div id="reply_area">
+              <%=render 'questarea_box'%>
+            </div>
+            
            
           </div>
           

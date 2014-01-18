@@ -30,11 +30,11 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
-  resources :welcome do
-    member do
-    end
+  resources :homeworks
 
+  resources :welcome do
     collection do
+      get :first
     end
   end
   resources :messages

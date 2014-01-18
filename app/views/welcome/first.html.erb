@@ -1,0 +1,28 @@
+<div class="tab">
+  <span class="close">关闭</span>
+  <div class="tab_con">
+    <div class="tab_ul">
+      <ul>
+        <li>
+          <p>选择教材</p>
+          <select name="teachering_material_id]">
+            <option value="0" selected="selected">请选择</option>
+            <% @teachering_materials.each do |m| %>
+                <option value="<%= m.id %>"><%= m.name %></option>
+            <% end %>
+          </select>
+        </li>
+        <li>
+          <p>输入班级名称</p>
+          <input name="class_name" type="text">
+        </li>
+        <li>
+          <p>选择结束时间</p>
+          <input name="end_time" type="text">
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="tab_btn"><button class="green_btn">确认</button></div>
+  <button class="green_btn">确认</button>
+</div>

@@ -1,5 +1,7 @@
 HomeworkManage::Application.routes.draw do
+
   resources :main_pages
+  resources :mocroposts
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -18,13 +20,12 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
-
   resources :teachers do
     member do
     end
 
     collection do
-      get :teacher_setting_management
+      get :teacher_setting, :save_updated_teacher, :creat_new_class
       post :login, :regist, :create_class
     end
   end
@@ -40,7 +41,7 @@ HomeworkManage::Application.routes.draw do
   resources :school_classes do
     resources :results
   end
-  
+  resources :messages
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

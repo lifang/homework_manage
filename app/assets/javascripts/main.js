@@ -56,10 +56,10 @@ $(function(){
 	$(".goRegister_a").on("click",function(){
 		if( !$(this).is(":animated")){
 			$(".login_box").animate({ 
-				opacity: 0,
+				opacity: 0
 			  }, 200 );
 			$(".login_bg").animate({ 
-				height: "60px",
+				height: "60px"
 			  }, 200 , function(){
 				 $(".register_box").css("display","block");
 				});
@@ -69,10 +69,10 @@ $(function(){
 		if( !$(this).is(":animated")){
 			$(".register_box").css("display","none");
 			$(".login_bg").animate({ 
-				height: "437px",
+				height: "437px"
 			  }, 200 , function(){
 				 $(".login_box").animate({ 
-				opacity: 1,
+				opacity: 1
 			  }, 200 );
 			});
 		}

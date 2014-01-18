@@ -1,0 +1,38 @@
+
+<div class="rightSide">
+  <div class="main">
+    <div class="article">
+      <div class="message">
+        <ul>
+          <% @messages.each do |m| %>
+            <li>
+              <% name = m.content.split("]]")[0] %>
+              <% con = m.content.split("]]")[1] %>
+              <div class="avater"><img src=<%= m.url %>/></div>
+              <div class="mess_box">
+                <span class="arrows">箭头</span>
+                <%= link_to "删除", "/messages/#{m.id}", :method => :delete, :class => "x", :confirm => "确定删除?" %>
+                <div class="mess_box_title"><a><%= name.gsub("[[", "") if name %></a><%= con.split(";||;")[0] if con %></div>
+                <div class="mess_box_text">"<%= con.split(";||;")[1] if con %>"</div>
+                <div class="mess_box_func">
+                  <span class="time"><%= m.created_at.nil? ? "" : m.created_at.strftime("%Y-%m-%d %H:%M") %></span>
+                  <a href="#" class="see">查看</a>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <%= will_paginate @messages, :previous_label => "上一页", :next_label => "下一页", :class => "pageTurn" %>
+    </div>
+  </div>
+</div>
+
+<% if flash[:notice] %>
+<div class="tab">
+      <span class="close">关闭</span>
+      <div class="tab_con">
+        <h1 class="red"><%=  flash[:notice] %></h1>
+      </div>
+    </div>
+<% end %>

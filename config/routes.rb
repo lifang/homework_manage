@@ -25,7 +25,7 @@ HomeworkManage::Application.routes.draw do
     end
 
     collection do
-      get :teacher_setting, :save_updated_teacher, :creat_new_class
+      get :teacher_setting, :save_updated_teacher
       post :login, :regist, :create_class
     end
   end
@@ -36,6 +36,10 @@ HomeworkManage::Application.routes.draw do
     collection do
       get :first
     end
+  end
+  
+  resources :school_classes do
+    resources :results
   end
   resources :messages
   # Sample of regular route:

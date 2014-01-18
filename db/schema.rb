@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140117063501) do
+ActiveRecord::Schema.define(:version => 20140118065034) do
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -213,9 +213,10 @@ ActiveRecord::Schema.define(:version => 20140117063501) do
     t.string   "email"
     t.integer  "status"
     t.integer  "types"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
     t.integer  "user_id"
+    t.integer  "last_visit_class_id"
   end
 
   add_index "teachers", ["user_id"], :name => "index_teachers_on_user_id"

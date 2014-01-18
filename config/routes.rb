@@ -1,5 +1,7 @@
 HomeworkManage::Application.routes.draw do
+
   resources :main_pages
+  resources :mocroposts
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -23,6 +25,7 @@ HomeworkManage::Application.routes.draw do
     end
 
     collection do
+      get :teacher_setting, :save_updated_teacher
       post :login, :regist, :create_class
     end
   end

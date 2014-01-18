@@ -13,9 +13,11 @@ class TeachersController < ApplicationController
       notice = "用户不存在，请先注册！"
     else
       if teacher && teacher.has_password?(password)
-        session[:user_id] = teacher.id
+        session[:teacher_id] = teacher.id
+        session[:user_id] = teacher.user.id
         status = true
         notice = "登陆成功！"
+       
       else
         status = false
         notice = "密码错误，登录失败！"
@@ -26,14 +28,10 @@ class TeachersController < ApplicationController
 
   #教师注册
   def regist
-    file = ""
-    params.each_with_index do |e,index|
-      file = e[1] if index == 0
-    end
     email = params[:email].to_s
     name = params[:name].to_s
     password = params[:password].to_s
-    #file = params[:avatar]
+    file = params[:avatar]
     teacher = Teacher.find_by_email email
     if !teacher.nil?
       status = "error"
@@ -41,37 +39,41 @@ class TeachersController < ApplicationController
     else
       Teacher.transaction do
         teacher = Teacher.create(:email => email, :password => password,
-                                 :status => Teacher::STATUS[:YES])
+          :status => Teacher::STATUS[:YES])
         destination_dir = "#{Rails.root}/public/homework_system/avatars/teachers/#{Time.now.strftime('%Y-%m')}"
         rename_file_name = "teacher_#{teacher.id}"
-        upload = upload_file destination_dir, rename_file_name, file
-        if upload[:status] == 0
-          url = upload[:url]
-          unuse_url = "#{Rails.root}/public"
-          avatar_url = url.to_s[unuse_url.size,url.size]
-          user = User.create(:name => name, :avatar_url => avatar_url)
-          password = teacher.encrypt_password
-          if !teacher.nil? && !user.nil?
-            if teacher.update_attributes(:password => password, :user_id => user.id)
-              status = "success"
-              notice = "注册完成！"
-            else
-              teacher.destroy
-              status = "error"
-              notice = "注册失败，请重新注册！"
-            end
+        avatar_url = ""
+        if !file.nil?
+          upload = upload_file destination_dir, rename_file_name, file
+          p upload
+          if upload[:status] == true
+            url = upload[:url]
+            unuse_url = "#{Rails.root}/public"
+            avatar_url = url.to_s[unuse_url.size,url.size]
           else
+            avatar_url = "/assets/default_avater.jpg"
+          end
+        else
+          avatar_url = "/assets/default_avater.jpg"
+        end
+        user = User.create(:name => name, :avatar_url => avatar_url)
+        password = teacher.encrypt_password
+        if !teacher.nil? && !user.nil?
+          if teacher.update_attributes(:password => password, :user_id => user.id)
+            status = "success"
+            notice = "注册完成！"
+          else
+            teacher.destroy
             status = "error"
             notice = "注册失败，请重新注册！"
           end
         else
           status = "error"
-          notice = "上传失败，请重新注册！"
+          notice = "注册失败，请重新注册！"
         end
       end
     end
     @info = {:status => status, :notice => notice}
-    render :json => @info
   end
 
   #教师创建班级
@@ -87,9 +89,9 @@ class TeachersController < ApplicationController
     else
       if teacher.status == Teacher::STATUS[:YES]
         if teacher.school_classes.create(:name => name,
-             :period_of_validity => period_of_validity,
-             :verification_code => verification_code,
-             :status => SchoolClass::STATUS[:NORMAL])
+            :period_of_validity => period_of_validity,
+            :verification_code => verification_code,
+            :status => SchoolClass::STATUS[:NORMAL])
           notice = "班级创建成功！"
           status = "success"
         else
@@ -122,4 +124,25 @@ class TeachersController < ApplicationController
     end
     @info = {:status => status, :notice => notice}
   end
+#  进入设置页面
+  def teacher_setting
+    session[:user_id] = 1
+    @teacher = Teacher.find(session[:user_id])
+    @user = User.find(@teacher.user_id)
+    @schoolclasses = SchoolClass.where(:teacher_id => session[:user_id])
+    params[:class_id] = 1
+    @schoolclass = SchoolClass.find(params[:class_id])
+  end
+#  保存更新
+  def save_updated_teacher
+    session[:user_id] = 1
+    teacher = Teacher.find(session[:user_id])
+    user = User.find(teacher.user_id)
+    if user.update_attributes(:name => params[:name]) && teacher.update_attributes(:email => params[:email])
+      render :json => {:status => 1}
+    else
+      render :json => {:status => 0}
+    end
+  end
+# 
 end

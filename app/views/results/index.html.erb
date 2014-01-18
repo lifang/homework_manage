@@ -21,7 +21,7 @@
                             	<span><img src="<%= a_u.avatar_url %>"></span>
                                 <p><%= a_u.name %></p>
                             </dd>
-                        <% end if @unanswerd_users.any? %>
+                        <% end if @unanswerd_users and @unanswerd_users.any? %>
                     </dl>
                     <dl>
                          <dt>已完成：</dt>
@@ -30,7 +30,7 @@
                                  <span><img src="<%= a_u.avatar_url %>"></span>
                                  <p><%= a_u.name %></p>
                              </dd>
-                         <% end if @answerd_users.any? %>
+                         <% end if @answerd_users and @answerd_users.any? %>
                     </dl>
                 </div>
             </div>

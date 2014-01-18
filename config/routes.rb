@@ -9,6 +9,7 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -17,33 +18,41 @@ HomeworkManage::Application.routes.draw do
     resources :students do
       collection do
         get 'add_concern','unfollow','switching_classes', 'delete_posts',
-        'get_my_classes', 'into_daily_tasks', :get_microposts, :get_class_info,
-        :get_answer_history, :my_microposts, :get_reply_microposts, :get_messages
+          'get_my_classes', 'into_daily_tasks', :get_microposts, :get_class_info,
+          :get_answer_history, :my_microposts, :get_reply_microposts, :get_messages
         post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info, :reply_message,
-             :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
-             :read_message, :delete_message
+          :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
+          :read_message, :delete_message
       end
     end
   end
 
 
-  resources :teachers do
-    member do
-    end
-
-    collection do
-      get :teacher_setting, :save_updated_teacher
-      post :login, :regist, :create_class
-    end
-  end
-
   resources :welcome do
-    member do
-    end
-
     collection do
+      get :first
+      post :create_first_class, :login, :regist
     end
   end
+  
+  resources :school_classes do
+   # resources :main_pages
+    resources :results
+    resources :homeworks
+    resources :messages
+    #resources :mocroposts
+
+    resources :teachers do
+      member do
+      end
+
+      collection do
+        get :teacher_setting, :save_updated_teacher
+        post :create_class
+      end
+    end
+  end
+
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

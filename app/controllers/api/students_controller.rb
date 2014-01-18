@@ -392,8 +392,7 @@ class Api::StudentsController < ApplicationController
 
     url = "/"
     count = 0
-    questions_xml_dir = "#{Rails.root}/public/homework_system/question_packages/
-      publish_question_package_#{publish_question_package.id}/answers"
+    questions_xml_dir = "#{Rails.root}/public/homework_system/question_packages/publish_question_package_#{publish_question_package.id}/answers"
     questions_xml_dir.split("/").each_with_index  do |e,i|
       if i > 0 && e.size > 0
         url = url + "/" if count > 0
@@ -438,11 +437,11 @@ class Api::StudentsController < ApplicationController
               notice = "记录完成！"
             else
               status = "error"
-              notice = "记录失败！"
+              notice = "记录失败1！"
             end
           else
             status = "error"
-            notice = "记录失败！"
+            notice = "记录失败2！"
           end
         end
       end

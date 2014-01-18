@@ -56,10 +56,10 @@ $(function(){
 	$(".goRegister_a").on("click",function(){
 		if( !$(this).is(":animated")){
 			$(".login_box").animate({ 
-				opacity: 0,
+				opacity: 0
 			  }, 200 );
 			$(".login_bg").animate({ 
-				height: "60px",
+				height: "60px"
 			  }, 200 , function(){
 				 $(".register_box").css("display","block");
 				});
@@ -69,10 +69,10 @@ $(function(){
 		if( !$(this).is(":animated")){
 			$(".register_box").css("display","none");
 			$(".login_bg").animate({ 
-				height: "437px",
+				height: "437px"
 			  }, 200 , function(){
 				 $(".login_box").animate({ 
-				opacity: 1,
+				opacity: 1
 			  }, 200 );
 			});
 		}
@@ -209,4 +209,17 @@ function check_value()
         alert('邮箱或密码不能为空！');
     else
         $("#login_submit_button").click();
+}
+
+//检查班级信息
+function check_class_info()
+{
+    teaching_material_id = $.trim($("#teaching_material_id").val());
+    class_name = $.trim($("#class_name").val());
+    end_time = $.trim($("#end_time").val());
+
+    if(teaching_material_id == 0 || class_name == "" || end_time == "")
+        alert('信息填写不完整不能为空！');
+    else
+        $("#submit_class_info").click();
 }

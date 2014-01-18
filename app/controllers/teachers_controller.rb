@@ -16,6 +16,7 @@ class TeachersController < ApplicationController
         session[:user_id] = teacher.id
         status = true
         notice = "登陆成功！"
+       
       else
         status = false
         notice = "密码错误，登录失败！"

@@ -6,9 +6,9 @@
       <div class="avater_name"><a href="#"><%=micropost.name%>--><%=micropost.micropost_id%></a></div>
       <div class="question_area_text"><%=micropost.content%></div>
       <div class="question_text_func">
-        <span class="time">2013-12-31  12:31</span><a href="#" class="answer_a">回复（<%=micropost.reply_microposts_count%>）</a>
+        <span class="time"><%=micropost.created_at%></span><a href="#" class="answer_a">回复（<%=micropost.reply_microposts_count%>）</a>
       </div>
-      <div class="answer_area">
+      <div class="answer_area" style="margin-top: 15px;">
         <span class="arrows"></span>
         <div class="ask_area">
           <div class="ask_area_textarea"><textarea cols="" rows=""></textarea></div>
@@ -21,7 +21,7 @@
               <div class="avater_name"><a href="#"><%=reply.sender_name%></a> 回复 <a href="#"><%=reply.reciver_name%></a></div>
               <div class="question_area_text"><%=reply.content%></div>
               <div class="question_text_func">
-                <span class="time">2013-12-31  12:31</span>
+                <span class="time"><%=reply.created_at%></span>
                 <a href="#" class="answer_a"> 回复 </a><a href="#" class="answer_a">删除</a>
               </div>
               <div class="ask_area">

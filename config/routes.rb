@@ -1,4 +1,6 @@
 HomeworkManage::Application.routes.draw do
+  resources :main_pages
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -22,6 +24,7 @@ HomeworkManage::Application.routes.draw do
     end
 
     collection do
+      get :teacher_setting_management
       post :login, :regist, :create_class
     end
   end

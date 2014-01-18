@@ -26,14 +26,10 @@ class TeachersController < ApplicationController
 
   #教师登陆
   def regist
-    file = ""
-    params.each_with_index do |e,index|
-      file = e[1] if index == 0
-    end
     email = params[:email].to_s
     name = params[:name].to_s
     password = params[:password].to_s
-    #file = params[:avatar]
+    file = params[:avatar]
     teacher = Teacher.find_by_email email
     if !teacher.nil?
       status = "error"
@@ -44,34 +40,38 @@ class TeachersController < ApplicationController
                                  :status => Teacher::STATUS[:YES])
         destination_dir = "#{Rails.root}/public/homework_system/avatars/teachers/#{Time.now.strftime('%Y-%m')}"
         rename_file_name = "teacher_#{teacher.id}"
-        upload = upload_file destination_dir, rename_file_name, file
-        if upload[:status] == 0
-          url = upload[:url]
-          unuse_url = "#{Rails.root}/public"
-          avatar_url = url.to_s[unuse_url.size,url.size]
-          user = User.create(:name => name, :avatar_url => avatar_url)
-          password = teacher.encrypt_password
-          if !teacher.nil? && !user.nil?
-            if teacher.update_attributes(:password => password, :user_id => user.id)
-              status = "success"
-              notice = "注册完成！"
-            else
-              teacher.destroy
-              status = "error"
-              notice = "注册失败，请重新注册！"
-            end
+        avatar_url = ""
+        if !file.nil?
+          upload = upload_file destination_dir, rename_file_name, file
+          p upload
+          if upload[:status] == true
+            url = upload[:url]
+            unuse_url = "#{Rails.root}/public"
+            avatar_url = url.to_s[unuse_url.size,url.size]
           else
+            avatar_url = "/assets/default_avater.jpg"
+          end
+        else
+          avatar_url = "/assets/default_avater.jpg"
+        end
+        user = User.create(:name => name, :avatar_url => avatar_url)
+        password = teacher.encrypt_password
+        if !teacher.nil? && !user.nil?
+          if teacher.update_attributes(:password => password, :user_id => user.id)
+            status = "success"
+            notice = "注册完成！"
+          else
+            teacher.destroy
             status = "error"
             notice = "注册失败，请重新注册！"
           end
         else
           status = "error"
-          notice = "上传失败，请重新注册！"
+          notice = "注册失败，请重新注册！"
         end
       end
     end
     @info = {:status => status, :notice => notice}
-    render :json => @info
   end
 
   #教师创建班级
@@ -121,5 +121,8 @@ class TeachersController < ApplicationController
       end
     end
     @info = {:status => status, :notice => notice}
+  end
+  def teacher_setting_management
+    
   end
 end

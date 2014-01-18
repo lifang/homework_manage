@@ -147,19 +147,20 @@ class Api::StudentsController < ApplicationController
     package_json = ""
     answer_json = ""
     status = false
-    #if p_q_package
-      #package_json = File.open("#{Rails.root}/public/#{p_q_package.question_package_url}").read if p_q_package and p_q_package.question_package_url
-      package_json = File.open("#{Rails.root}/public/question_package_1.js").read
+    if p_q_package
+      package_json = File.open("#{Rails.root}/public#{p_q_package.question_packages_url}").read if p_q_package and p_q_package.question_packages_url
+      #package_json = File.open("#{Rails.root}/public/question_package_1.js").read
       s_a_record = StudentAnswerRecord.find_by_student_id_and_publish_question_package_id(student_id, p_q_package_id)
-      #if s_a_record
-        #answer_json = File.open("#{Rails.root}/public/#{s_a_record.answer_file_url}").read if s_a_record and s_a_record.answer_file_url
-        answer_json = File.open("#{Rails.root}/public/answer_file_1.js").read
-      #end
+      if s_a_record
+        answer_json = File.open("#{Rails.root}/public#{s_a_record.answer_file_url}").read if s_a_record and s_a_record.answer_file_url
+        #answer_json = File.open("#{Rails.root}/public/answer_file_1.js").read
+      end
       status = true
-    #end
+    end
     notice = status == false ? "没有作业内容" : ""
-    render :json => {:status => status, :notice => notice, :package => ActiveSupport::JSON.decode(package_json), 
-      :user_answers => ActiveSupport::JSON.decode(answer_json)}
+    render :json => {:status => status, :notice => notice, 
+      :package => (package_json.empty? ? "" : ActiveSupport::JSON.decode(package_json)), 
+      :user_answers => (answer_json.empty? ? "" : ActiveSupport::JSON.decode(answer_json))}
   end
 
   #获取消息microposts(分页)
@@ -208,14 +209,14 @@ class Api::StudentsController < ApplicationController
   def modify_person_info
     user_attr = {}
     user_attr[:name] = params[:name] if params[:name]
-    user_attr[:nickname] = params[:nickname] if params[:nickname]
+    #user_attr[:nickname] = params[:nickname] if params[:nickname]
     status = false
     notice = "修改失败。"
     begin
-      if user_attr
+      if user_attr or params[:nickname] or params[:avatar]
         student = Student.find_by_id(params[:student_id].to_i)
         if student
-          unless params[:avatar].nil? or params[:avatar].empty?
+          unless params[:avatar].nil?
             destination_dir = "#{Rails.root}/public/homework_system/avatars/students/#{Time.now.strftime('%Y-%m')}"
             rename_file_name = "student_#{student.id}"
             upload = upload_file destination_dir, rename_file_name, params[:avatar]
@@ -224,7 +225,8 @@ class Api::StudentsController < ApplicationController
             avatar_url = url.to_s[unuse_url.size,url.size]
             user_attr[:avatar_url] = avatar_url
           end
-          student.update_attributes(user_attr)
+          student.user.update_attributes(user_attr) if user_attr
+          student.update_attributes(:nickname => params[:nickname]) if params[:nickname]
           status = true
           notice = "修改成功。"
         else

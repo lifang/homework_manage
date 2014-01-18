@@ -122,4 +122,7 @@ class TeachersController < ApplicationController
     end
     @info = {:status => status, :notice => notice}
   end
+  def teacher_setting_management
+    
+  end
 end

@@ -10,7 +10,7 @@
               <div class="avater"><img src=<%= m.url %>/></div>
               <div class="mess_box">
                 <span class="arrows">箭头</span>
-                <%= link_to "删除", "/messages/#{m.id}", :method => :delete, :class => "x", :confirm => "Are you fucking sure?" %>
+                <%= link_to "删除", "/messages/#{m.id}", :method => :delete, :class => "x", :confirm => "确定删除?" %>
                 <div class="mess_box_title"><a><%= name.gsub("[[", "") if name %></a><%= con.split(";||;")[0] if con %></div>
                 <div class="mess_box_text">"<%= con.split(";||;")[1] if con %>"</div>
                 <div class="mess_box_func">

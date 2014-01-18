@@ -1,0 +1,97 @@
+<div class="rightSide">
+  <div class="main">
+
+    <div class="article">
+      <h1 class="title">个人信息</h1>
+      <div class="user_con">
+        <ul class="user_info">
+          <li class="avater">
+            <div class="avater_default"><img src="/assets/default_avater.jpg"/></div>
+            <a href="javascript:void(0);" class="avater_a">
+              <span>点击更换头像</span>
+              <input name="" multiple type="file"/>
+            </a>
+          </li>
+          <li><p name="name"><%= @user.name %></p><input name="" type="text"/></li>
+          <li><p name="email"><%= @teacher.email %></p><input name="" type="text"/></li>
+          <li><button class="green_btn" onclick="save_updated_teacher()">保存更新</button></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="article">
+      <h1 class="title">班级信息</h1>
+      <div class="user_con">
+        <ul class="grade_info">
+          <li><p>本班结课时间 ： <%= @schoolclass.period_of_validity %></p></li>
+          <li><p>本班验证码 ： <%= @schoolclass.verification_code %></p></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="article">
+      <h1 class="title">班级管理</h1>
+      <div class="user_con">
+        <ul class="grade_manage">
+          <li><a href="#" onclick="show_list_class()">切换班级</a></li>
+          <li><a href="#" onclick="created_new_class()">创建新班级</a></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="tab list_classes" >
+  <span class="close">关闭</span>
+  <div class="tab_con">
+    <h1>请选择班级</h1>
+    <div class="tab_ul">
+      <ul>
+        <%  @schoolclasses.each do |schoolclass| %>
+          <li><a href="#" class="tab_li_option"><%= schoolclass.name %></a><a href="#" class="delete_trash tooltip">删除</a></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="tab created_new_class">
+  <span class="close">关闭</span>
+  <div class="tab_con">
+    <div class="tab_ul">
+      <ul>
+        <li>
+          <p>选择教材</p>
+          <select>
+            <option>111</option>
+            <option>222</option>
+            <option>333</option>
+          </select>
+        </li>
+        <li>
+          <p>输入班级名称</p>
+          <input name="" type="text"/>
+        </li>
+        <li>
+          <p>选择结束时间</p>
+          <input name="" type="text"/>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="tab_btn"><button class="green_btn">确认</button></div>
+</div>
+
+<div class="tab">
+  <span class="close">关闭</span>
+  <div class="tab_con">
+    <h1 class="red">创建班级成功</h1>
+    <div class="tab_ul">
+      <ul>
+        <li><p>班级验证码：777DDDFG662</p></li>
+      </ul>
+    </div>
+  </div>
+</div>

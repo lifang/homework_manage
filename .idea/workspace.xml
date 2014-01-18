@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/public/question_package_1.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/welcome.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/welcome.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/teachers_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/teachers_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -33,7 +33,7 @@
       <file leaf-file-name="students_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="268" column="77" selection-start="10563" selection-end="10563" vertical-scroll-proportion="0.0" vertical-offset="3060" max-vertical-offset="9469">
+            <state line="268" column="77" selection-start="10563" selection-end="10563" vertical-scroll-proportion="0.0" vertical-offset="2652" max-vertical-offset="9469">
               <folding>
                 <element signature="e#714#1722#0" expanded="true" />
                 <element signature="e#1741#2125#0" expanded="true" />
@@ -65,11 +65,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="welcome.html.erb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/views/layouts/welcome.html.erb">
+      <file leaf-file-name="teachers_controller.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/controllers/teachers_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="0" selection-start="222" selection-end="222" vertical-scroll-proportion="0.3303887" vertical-offset="0" max-vertical-offset="566">
-              <folding />
+            <state line="16" column="43" selection-start="491" selection-end="491" vertical-scroll-proportion="0.45945945" vertical-offset="0" max-vertical-offset="1530">
+              <folding>
+                <element signature="e#689#2330#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -144,7 +146,6 @@
         <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/welcome.css" />
         <option value="$PROJECT_DIR$/app/helpers/method_libs_helper.rb" />
-        <option value="$PROJECT_DIR$/app/controllers/teachers_controller.rb" />
         <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
         <option value="$PROJECT_DIR$/config/database.yml" />
         <option value="$PROJECT_DIR$/app/views/teachers/regist.js.erb" />
@@ -153,6 +154,7 @@
         <option value="$PROJECT_DIR$/app/assets/javascripts/main.js" />
         <option value="$PROJECT_DIR$/db/migrate/20140118065034_add_column_last_visit_class_id.rb" />
         <option value="$PROJECT_DIR$/app/views/layouts/welcome.html.erb" />
+        <option value="$PROJECT_DIR$/app/controllers/teachers_controller.rb" />
       </list>
     </option>
   </component>
@@ -4776,16 +4778,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/teachers_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="631" selection-end="631" vertical-scroll-proportion="0.7179054" vertical-offset="0" max-vertical-offset="1513">
-          <folding>
-            <element signature="e#124#630#0" expanded="true" />
-            <element signature="e#642#2283#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="204" column="1" selection-start="4505" selection-end="4505" vertical-scroll-proportion="0.5822306" vertical-offset="746" max-vertical-offset="1275">
@@ -4805,6 +4797,22 @@
           <folding>
             <element signature="e#60#129#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/welcome/index.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="10" selection-start="815" selection-end="815" vertical-scroll-proportion="-10.461538" vertical-offset="0" max-vertical-offset="680">
+          <folding>
+            <element signature="n#style#0;n#button#0;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/welcome.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="0" selection-start="222" selection-end="222" vertical-scroll-proportion="0.3303887" vertical-offset="0" max-vertical-offset="566">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -4830,15 +4838,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/welcome/index.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="10" selection-start="815" selection-end="815" vertical-scroll-proportion="-10.461538" vertical-offset="0" max-vertical-offset="680">
-          <folding>
-            <element signature="n#style#0;n#button#0;n#ul#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/welcome_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="5" selection-start="84" selection-end="84" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
@@ -4848,10 +4847,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/welcome.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/controllers/teachers_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="222" selection-end="222" vertical-scroll-proportion="0.3303887" vertical-offset="0" max-vertical-offset="566">
-          <folding />
+        <state line="16" column="43" selection-start="491" selection-end="491" vertical-scroll-proportion="0.45945945" vertical-offset="0" max-vertical-offset="1530">
+          <folding>
+            <element signature="e#689#2330#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

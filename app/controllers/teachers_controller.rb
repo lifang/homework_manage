@@ -13,7 +13,8 @@ class TeachersController < ApplicationController
       notice = "用户不存在，请先注册！"
     else
       if teacher && teacher.has_password?(password)
-        session[:user_id] = teacher.id
+        session[:teacher_id] = teacher.id
+        session[:user_id] = teacher.user.id
         status = true
         notice = "登陆成功！"
       else

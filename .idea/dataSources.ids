@@ -20,25 +20,28 @@
     </table>
     <table name="follow_microposts" schema="" catalog="homework_manage" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="student_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="user_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <column name="micropost_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <column name="created_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
       <column name="updated_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="id"/>
       <index name="index_follow_microposts_on_micropost_id" unique="false" columns="micropost_id"/>
-      <index name="index_follow_microposts_on_student_id" unique="false" columns="student_id"/>
+      <index name="index_follow_microposts_on_user_id" unique="false" columns="user_id"/>
     </table>
     <table name="messages" schema="" catalog="homework_manage" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="student_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="user_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <column name="content" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
       <column name="school_class_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <column name="status" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <column name="created_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
       <column name="updated_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
+      <column name="sender_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="micropost_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
+      <index name="index_messages_on_micropost_id" unique="false" columns="micropost_id"/>
       <index name="index_messages_on_school_class_id" unique="false" columns="school_class_id"/>
-      <index name="index_messages_on_student_id" unique="false" columns="student_id"/>
+      <index name="index_messages_on_user_id" unique="false" columns="user_id"/>
     </table>
     <table name="microposts" schema="" catalog="homework_manage" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -48,6 +51,7 @@
       <column name="school_class_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <column name="created_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
       <column name="updated_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
+      <column name="reply_microposts_count" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
       <index name="index_microposts_on_school_class_id" unique="false" columns="school_class_id"/>
       <index name="index_microposts_on_user_id" unique="false" columns="user_id"/>
@@ -62,6 +66,8 @@
       <column name="end_time" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93"/>
       <column name="created_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
       <column name="updated_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
+      <column name="listening_count" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="reading_count" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
       <index name="index_publish_question_packages_on_question_package_id" unique="false" columns="question_package_id"/>
       <index name="index_publish_question_packages_on_school_class_id" unique="false" columns="school_class_id"/>
@@ -117,11 +123,11 @@
     <table name="school_class_student_ralastions" schema="" catalog="homework_manage" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="student_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
-      <column name="class_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="school_class_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <column name="created_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
       <column name="updated_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <index name="index_school_class_student_ralastions_on_class_id" unique="false" columns="class_id"/>
+      <index name="index_school_class_student_ralastions_on_class_id" unique="false" columns="school_class_id"/>
       <index name="index_school_class_student_ralastions_on_student_id" unique="false" columns="student_id"/>
     </table>
     <table name="school_classes" schema="" catalog="homework_manage" type="TABLE">
@@ -165,23 +171,28 @@
       <column name="answer_file_url" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
       <column name="created_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
       <column name="updated_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
+      <column name="publish_question_package_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="school_class_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="listening_answer_count" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="reading_answer_count" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
+      <index name="index_student_answer_records_on_publish_question_package_id" unique="false" columns="publish_question_package_id"/>
       <index name="index_student_answer_records_on_question_package_id" unique="false" columns="question_package_id"/>
+      <index name="index_student_answer_records_on_school_class_id" unique="false" columns="school_class_id"/>
       <index name="index_student_answer_records_on_student_id" unique="false" columns="student_id"/>
     </table>
     <table name="students" schema="" catalog="homework_manage" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="name" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
       <column name="nickname" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
-      <column name="avatar_url" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
-      <column name="alias_name" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
       <column name="qq_uid" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
       <column name="status" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <column name="last_visit_class_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <column name="register_status" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <column name="created_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
       <column name="updated_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
+      <column name="user_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
+      <index name="index_students_on_user_id" unique="false" columns="user_id"/>
     </table>
     <table name="task_messages" schema="" catalog="homework_manage" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -191,18 +202,27 @@
       <column name="status" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <column name="created_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
       <column name="updated_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
+      <column name="publish_question_package_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
+      <index name="index_task_messages_on_publish_question_package_id" unique="false" columns="publish_question_package_id"/>
       <index name="index_task_messages_on_school_class_id" unique="false" columns="school_class_id"/>
     </table>
     <table name="teachers" schema="" catalog="homework_manage" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="username" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
       <column name="password" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
-      <column name="name" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
       <column name="email" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
       <column name="status" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
-      <column name="avatar_url" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
       <column name="types" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="created_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
+      <column name="updated_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
+      <column name="user_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <index name="index_teachers_on_user_id" unique="false" columns="user_id"/>
+    </table>
+    <table name="users" schema="" catalog="homework_manage" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="avatar_url" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
       <column name="created_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
       <column name="updated_at" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="id"/>

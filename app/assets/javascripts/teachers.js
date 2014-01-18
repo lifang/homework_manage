@@ -28,3 +28,30 @@ function show_list_class(){
 function created_new_class(){
     $(".created_new_class").show();
 }
+function create_school_class(){
+    var teaching_material_id = $("select[name='teaching_material_id']").val();
+    var class_name = $("input[name='class_name']").val();
+    var period_of_validity = $("input[name='period_of_validity']").val()
+    $.ajax({
+        url : "/teachers/create_class",
+        type:'post',
+        dataType : 'json',
+        data : {
+            teaching_material_id : teaching_material_id,
+            class_name : class_name,
+            period_of_validity : period_of_validity
+        },
+        success: function(data){
+            if(data.status=='success'){
+                alert(data.notice);
+                $(".created_new_class").hide();
+            }else{
+                alert(data.notice);
+            }
+        },
+        error:function(){
+            alert()
+        }
+    });
+
+}

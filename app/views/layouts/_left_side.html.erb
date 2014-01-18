@@ -9,7 +9,7 @@
           <a href="#">留作业</a>
         </div>
       </li>
-      <li><a href="/messages" class=<%= is_hover("messages") %>><span class="nav03">信息</span></a></li>
+      <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/messages" class=<%= is_hover("messages") %>><span class="nav03">信息</span></a></li>
       <li><a href="/teachers/teacher_setting"><span class="nav04">设置</span></a></li>
       <li class="out"><a href="#"><span class="nav05">退出</span></a></li>
     </ul>

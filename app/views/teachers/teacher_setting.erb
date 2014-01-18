@@ -49,7 +49,7 @@
     <div class="tab_ul">
       <ul>
         <%  @schoolclasses.each do |schoolclass| %>
-          <li><a href="#" class="tab_li_option"><%= schoolclass.name %></a><a href="#" class="delete_trash tooltip">删除</a></li>
+          <li><a href="#" class="tab_li_option"><%= schoolclass.name %> </a><a href="#" class="delete_trash tooltip">删除</a></li>
         <% end %>
       </ul>
     </div>
@@ -63,27 +63,27 @@
       <ul>
         <li>
           <p>选择教材</p>
-          <select>
-            <option>111</option>
-            <option>222</option>
-            <option>333</option>
+          <select name="teaching_material_id">
+            <% @teachingmaterial.each   do |teachingmaterial| %>
+            <option value="<%= teachingmaterial.id%>"><%= teachingmaterial.name %></option>
+            <% end %>
           </select>
         </li>
         <li>
           <p>输入班级名称</p>
-          <input name="" type="text"/>
+          <input name="class_name" type="text"/>
         </li>
         <li>
           <p>选择结束时间</p>
-          <input name="" type="text"/>
+          <input type="text" name="period_of_validity" id="started_at" value=""class="Wdate" readonly onclick="WdatePicker();"/>
         </li>
       </ul>
     </div>
   </div>
-  <div class="tab_btn"><button class="green_btn">确认</button></div>
+  <div class="tab_btn"><button class="green_btn" onclick="create_school_class()">确认</button></div>
 </div>
 
-<div class="tab">
+<div class="tab create_success">
   <span class="close">关闭</span>
   <div class="tab_con">
     <h1 class="red">创建班级成功</h1>

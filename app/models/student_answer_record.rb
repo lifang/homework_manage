@@ -43,4 +43,18 @@ class StudentAnswerRecord < ActiveRecord::Base
     end
     tasks
   end
+  
+  
+  def self.ret_stuent_record(school_class_id, publish_packages_id)
+    s_answer_records = StudentAnswerRecord.find_by_sql(["select
+           sar.*, u.name, u.avatar_url
+           from students s inner join users u on u.id = s.user_id 
+           inner join school_class_student_ralastions r on r.student_id = s.id
+           left join student_answer_records sar on sar.student_id = s.id and sar.publish_question_package_id = ?
+          where r.school_class_id = ?", publish_packages_id, school_class_id])
+    users = s_answer_records.group_by {|i| i.status} if s_answer_records.any?        
+    answerd_users = users[STATUS[:FINISH]] ?  users[STATUS[:FINISH]] : []
+    unanswerd_users = s_answer_records ? (s_answer_records - answerd_users) : []
+    return [answerd_users, unanswerd_users]
+  end 
 end

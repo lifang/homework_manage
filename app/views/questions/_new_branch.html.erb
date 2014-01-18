@@ -1,0 +1,52 @@
+<div class="book_box_con">
+  <div class="progressBar clearAfter">
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li class="hover">4</li>
+    </ul>
+  </div>
+  <div class="book_box_func">
+    <ul>
+      <li><a href="#" class="share_a tooltip">分享</a></li>
+      <li><a href="#" class="remove_a tooltip">删除</a></li>
+    </ul>
+  </div>
+  <%= form_for [@question_pack, @question], :remote => true, "data-type" => "script" do |f| %>
+    <div class="book_box_area">
+      <div class="book_box_table">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <thead>
+            <tr>
+              <th>文本输入区</th>
+              <th width="100" class="th_func_bg">功能</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input name="" type="text" class="td_input" onblur="checkText(this)"/>
+              </td>
+              <td width="100" class="td_func_bg">
+                <a href="#" class="up_voice_a">
+                  <span>上传音频</span>
+                  <input type="file"/>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="remark_btn">
+      <button class="green_btn" onclick="return checkQuestionForm(this)">保存</button>
+    </div>
+  <% end %>
+</div>
+
+<div class="remark">
+  <h1>填写作业备注</h1>
+  <div class="remark_con"><textarea name="" cols="" rows=""></textarea></div>
+  <div class="remark_btn"><button class="green_btn">保存作业</button></div>
+</div>

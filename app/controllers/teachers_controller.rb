@@ -13,7 +13,8 @@ class TeachersController < ApplicationController
       notice = "用户不存在，请先注册！"
     else
       if teacher && teacher.has_password?(password)
-        session[:user_id] = teacher.id
+        session[:teacher_id] = teacher.id
+        session[:user_id] = teacher.user.id
         status = true
         notice = "登陆成功！"
        
@@ -38,7 +39,7 @@ class TeachersController < ApplicationController
     else
       Teacher.transaction do
         teacher = Teacher.create(:email => email, :password => password,
-                                 :status => Teacher::STATUS[:YES])
+          :status => Teacher::STATUS[:YES])
         destination_dir = "#{Rails.root}/public/homework_system/avatars/teachers/#{Time.now.strftime('%Y-%m')}"
         rename_file_name = "teacher_#{teacher.id}"
         avatar_url = ""
@@ -88,9 +89,9 @@ class TeachersController < ApplicationController
     else
       if teacher.status == Teacher::STATUS[:YES]
         if teacher.school_classes.create(:name => name,
-             :period_of_validity => period_of_validity,
-             :verification_code => verification_code,
-             :status => SchoolClass::STATUS[:NORMAL])
+            :period_of_validity => period_of_validity,
+            :verification_code => verification_code,
+            :status => SchoolClass::STATUS[:NORMAL])
           notice = "班级创建成功！"
           status = "success"
         else
@@ -123,7 +124,25 @@ class TeachersController < ApplicationController
     end
     @info = {:status => status, :notice => notice}
   end
-  def teacher_setting_management
-    
+#  进入设置页面
+  def teacher_setting
+    session[:user_id] = 1
+    @teacher = Teacher.find(session[:user_id])
+    @user = User.find(@teacher.user_id)
+    @schoolclasses = SchoolClass.where(:teacher_id => session[:user_id])
+    params[:class_id] = 1
+    @schoolclass = SchoolClass.find(params[:class_id])
   end
+#  保存更新
+  def save_updated_teacher
+    session[:user_id] = 1
+    teacher = Teacher.find(session[:user_id])
+    user = User.find(teacher.user_id)
+    if user.update_attributes(:name => params[:name]) && teacher.update_attributes(:email => params[:email])
+      render :json => {:status => 1}
+    else
+      render :json => {:status => 0}
+    end
+  end
+# 
 end

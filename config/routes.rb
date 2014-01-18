@@ -25,7 +25,7 @@ HomeworkManage::Application.routes.draw do
     end
 
     collection do
-      get :teacher_setting, :save_updated_teacher, :creat_new_class
+      get :teacher_setting, :save_updated_teacher
       post :login, :regist, :create_class
     end
   end

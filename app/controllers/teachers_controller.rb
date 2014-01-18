@@ -78,10 +78,11 @@ class TeachersController < ApplicationController
 
   #教师创建班级
   def create_class
-    name = params[:name]
+    name = params[:class_name]
+    teaching_material_id = params[:teaching_material_id]
     period_of_validity = params[:period_of_validity]
     verification_code = SecureRandom.hex(5)
-    teacher_id = params[:teacher_id]
+    teacher_id = session[:teacher_id]
     teacher = Teacher.find_by_id teacher_id
     if teacher.nil?
       notice = "教师不存在，不能创建班级！"
@@ -91,7 +92,8 @@ class TeachersController < ApplicationController
         if teacher.school_classes.create(:name => name,
             :period_of_validity => period_of_validity,
             :verification_code => verification_code,
-            :status => SchoolClass::STATUS[:NORMAL])
+            :status => SchoolClass::STATUS[:NORMAL],
+            :teaching_material_id => teaching_material_id)
           notice = "班级创建成功！"
           status = "success"
         else
@@ -129,6 +131,7 @@ class TeachersController < ApplicationController
     @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
     @schoolclass = SchoolClass.find(current_teacher.last_visit_class_id)
     @user = User.find(@teacher.user_id)
+    @teachingmaterial = TeachingMaterial.all
   end
   #  保存更新
   def save_updated_teacher
@@ -141,8 +144,8 @@ class TeachersController < ApplicationController
       render :json => {:status => 0}
     end
   end
-  #创建新班级
-  def creat_new_class
+#  教师切换班级
+  def teacher_switching_classes
     
   end
 end

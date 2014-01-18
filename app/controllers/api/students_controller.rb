@@ -334,8 +334,10 @@ class Api::StudentsController < ApplicationController
     if student.nil?
       render :json => {:status => "error", :notice => "用户信息错误！"}
     else
-      school_class = SchoolClass.find_by_id student.last_visit_class_id
       if !school_class.nil?
+        if school_class.id != student.last_visit_class_id
+          student.update_attributes(:last_visit_class_id => school_class.id)
+        end
         if school_class.status == SchoolClass::STATUS[:EXPIRED] ||
             school_class.period_of_validity - Time.now < 0
           render :json => {:status => "error", :notice => "班级已失效！"}

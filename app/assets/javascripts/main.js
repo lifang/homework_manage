@@ -210,3 +210,16 @@ function check_value()
     else
         $("#login_submit_button").click();
 }
+
+//检查班级信息
+function check_class_info()
+{
+    teaching_material_id = $.trim($("#teaching_material_id").val());
+    class_name = $.trim($("#class_name").val());
+    end_time = $.trim($("#end_time").val());
+
+    if(teaching_material_id == 0 || class_name == "" || end_time == "")
+        alert('信息填写不完整不能为空！');
+    else
+        $("#submit_class_info").click();
+}

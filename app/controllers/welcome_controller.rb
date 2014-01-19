@@ -10,7 +10,6 @@ class WelcomeController < ApplicationController
     password = params[:password].to_s
     teacher = Teacher.find_by_email email
     last_visit_class = false
-    p teacher
     if teacher.nil?
       status = false
       notice = "用户不存在，请先注册！"

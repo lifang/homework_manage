@@ -55,6 +55,9 @@ HomeworkManage::Application.routes.draw do
 
 
   resources :question_packages do
+    member do
+      get :render_new_question
+    end
     resources :questions
   end
 

@@ -1,4 +1,6 @@
 module ApplicationHelper
+  MEDIA_PATH = "/question_packages/#{Time.now.strftime("%Y%m")}/questions_package_%d/" #大题资源路径
+  
   def is_hover(controller_name)
     request.url.include?(controller_name) ? "hover" : ""
   end
@@ -16,6 +18,10 @@ module ApplicationHelper
 
 
   def current_user
-    @current_user ||= Teacher.find_by_id(session[:teacher_id]) if session[:teacher_id]
+    @current_user ||= User.find_by_id(session[:user_id]) if session[:user_id]
+  end
+
+  def current_teacher
+    @current_teacher ||= Teacher.find_by_id(session[:teacher_id]) if session[:teacher_id]
   end
 end

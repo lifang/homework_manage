@@ -73,6 +73,15 @@
     </div>
   </div>
   <div class="remark_btn">
-    <button class="green_btn" onclick="GoForthStep()">下一步</button>
+    <button class="green_btn" onclick="GoForthStep('<%= @question_pack_id || "" %>')">下一步</button>
   </div>
 </div>
+
+<script>
+      $(".book_box_con").on('click', ".addwork_btn a", function(){
+        $(this).addClass("selected");
+        $(this).parents(".book_box_con").hide().end();
+        $(this).parents(".book_box_con").next().show();
+
+    });
+</script>

@@ -14,6 +14,9 @@
     </ul>
   </div>
   <%= form_for [@question_pack, @question], :remote => true, "data-type" => "script" do |f| %>
+  <%= f.hidden_field :cell_id, :value => @question.cell_id %>
+  <%= f.hidden_field :episode_id, :value => @question.episode_id %>
+  <%= f.hidden_field :types, :value => @question.types %>
     <div class="book_box_area">
       <div class="book_box_table">
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -24,6 +27,25 @@
             </tr>
           </thead>
           <tbody>
+            <% @branch_questions.each do |branch| %>
+              <tr>
+                <td>
+                  <div class="td_text">
+                  <a href="#" class="remove" onclick = "removeBranchQues(this)">删除</a>
+                  <p class="td_text_p tooltip_title" title="双击句子可以进行编辑和修改"><%= branch.content %></p>
+                  <input name="branch_content[]" type="text" value="<%= branch.content %>" class="td_text_input"/>
+                </div>
+                </td>
+                <td width="100" class="td_func_bg">
+                  <a href="#" class="voice_icon">
+                    <audio controls="controls">
+                      <source src="<%= branch.resource_url %>" type="audio/mpeg" />
+Your browser does not support the audio element.
+</audio>
+                  </a>
+                </td>
+              </tr>
+            <% end if@branch_questions%>
             <tr>
               <td>
                 <input name="" type="text" class="td_input" onblur="checkText(this)"/>

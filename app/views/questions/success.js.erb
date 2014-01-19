@@ -1,3 +1,4 @@
 alert("保存成功");
 $(".book_box_page li.hover").find("a").attr("href", "<%= @edit_path %>");
-$(".book_box_page li.hover").find("a").attr("remote", true);
+$(".book_box_page li.hover").find("a").attr("data-remote", true);
+$(".book_box_page li.hover").find("a").attr("data-type", "script");

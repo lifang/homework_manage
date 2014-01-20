@@ -14,7 +14,7 @@ class HomeworksController < ApplicationController
     @school_class = SchoolClass.find_by_id school_class_id
     publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
     if !publish_question_package.nil?
-      if publish_question_package.destroy
+      if publish_question_package.task_message && publish_question_package.destroy
         status = true
         notice = "题包删除成功！"
         @publish_question_packages = Teacher.get_publish_question_packages @school_class.id

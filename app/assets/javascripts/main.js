@@ -233,7 +233,7 @@ function delete_packages(question_package_id,school_class_id)
             url: "/school_classes/" + school_class_id + "/homeworks/delete_question_package",
             type: "POST",
             dataType: "script",
-            data:{question_package_id:question_package_id,
+            data:{publish_question_package_id:publish_question_package_id,
                 school_class_id:school_class_id
             },
             success:function(data){

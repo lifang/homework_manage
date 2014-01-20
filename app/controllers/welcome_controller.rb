@@ -51,7 +51,6 @@ class WelcomeController < ApplicationController
         avatar_url = ""
         if !file.nil?
           upload = upload_file destination_dir, rename_file_name, file
-          p upload
           if upload[:status] == true
             url = upload[:url]
             unuse_url = "#{Rails.root}/public"

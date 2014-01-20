@@ -34,7 +34,10 @@ class Micropost < ActiveRecord::Base
       where_sql += e.to_s
     end
     where_sql += ")"
-    #p where_sql
-    follow_microposts_id = FollowMicropost.select("micropost_id").where("user_id = #{user_id} and micropost_id in #{where_sql}").map(&:micropost_id)
+    if ids.length == 0
+      follow_microposts_id = []
+    else
+      follow_microposts_id = FollowMicropost.select("micropost_id").where("user_id = #{user_id} and micropost_id in #{where_sql}").map(&:micropost_id)
+    end
   end
 end

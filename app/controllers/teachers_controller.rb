@@ -91,6 +91,8 @@ class TeachersController < ApplicationController
   #  切换班级
   def chang_class
     school_class_id = params[:id]
-    
+    current_teacher.update_attributes(:last_visit_class_id => school_class_id)
+    session[:class_id] = school_class_id
+    redirect_to "/school_classes/#{session[:class_id].to_i}/main_pages"
   end
 end

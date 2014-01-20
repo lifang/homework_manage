@@ -53,7 +53,7 @@ HomeworkManage::Application.routes.draw do
       end
 
       collection do
-        get :teacher_setting, :destroy_classes
+        get :teacher_setting, :destroy_classes,:chang_class
         post :create_class, :save_updated_teacher
       end
     end

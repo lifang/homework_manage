@@ -7,6 +7,7 @@ function check_send_microposts(value){
 }
 
 function main_reply(value){
+    var page = $(".pagination em").html();
     var textarea=$.trim($(value).parent().parent().find("textarea").val());
     if(textarea==""){
         alert("不能为空！");
@@ -23,7 +24,7 @@ function main_reply(value){
         type : 'get',
         url:'/microposts/'+micropost_id+'/create_reply',
         dataType:"script",
-        data  :"textarea=" + textarea + "&micropost_id=" + micropost_id+"&class_index="+class_index
+        data  :"textarea=" + textarea + "&micropost_id=" + micropost_id+"&class_index="+class_index+"&page="+page
         + "&micropost_user_id=" + micropost_user_id+ "&micropost_user_type=" + micropost_user_type+ "&teacher_id=" + teacher_id+"&conditions="+$("#condtions").val(),
         success:function(data){
             

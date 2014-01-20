@@ -38,11 +38,12 @@ function show_reply_again(value,name){
 function send_more_replies(value,micropost_id){
     var current_page = $(value).parent().find(".current_page").val();
     var box=$(value).parents(".question_area_box");
-    var index=0;
-    var all_box=$(".question_area").find(".question_area_box");
+    var index1=0;
+    var all_box = $("#reply_area").children(".question_area_box");
     for(var i=0;i<all_box.length;i++){
-        if(all_box[i]==box){
-           index = i;
+        if(all_box[i]==box[0]){
+           index1 = i;
+           
         }
     }
      $.ajax({
@@ -51,7 +52,7 @@ function send_more_replies(value,micropost_id){
         url:'/microposts/'+micropost_id+'/add_reply_page',
         dataType:"script",
         data  : "micropost_id=" + micropost_id
-        + "&index=" + index+ "&current_page=" + current_page,
+        + "&index=" + index1+ "&current_page=" + current_page,
         success:function(data){
 
         }
@@ -59,6 +60,19 @@ function send_more_replies(value,micropost_id){
 
 }
 
-function change_conditions(condtions){
+function change_conditions(condtion,id){
+    var value=0;
+    var question_classify =$(".question_classify").children("a");
+    if(condtion!="all"){
+         $("#condtions").val(id);
+         $(question_classify[0]).attr("class","");
+         $(question_classify[1]).attr("class","hover");
+    }else{
+        $(question_classify[0]).attr("class","hover");
+         $(question_classify[1]).attr("class","");
+         $("#condtions").val("");
+    }
+    value = $("#condtions").val();
+    location.href="/school_classes/"+$("#class_id").val()+"/main_pages?condtions=" + value;
     
 }

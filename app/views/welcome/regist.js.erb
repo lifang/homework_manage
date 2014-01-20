@@ -1,1 +1,6 @@
-alert('<%= @info[:notice] %>');
+<% if @info[:status] == true %>
+    alert('<%= @info[:notice] %>');
+    location.href = "<%= root_url %>";
+<% else %>
+    alert('<%= @info[:notice] %>');
+<% end %>

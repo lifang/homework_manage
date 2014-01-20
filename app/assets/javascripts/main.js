@@ -99,7 +99,7 @@ $(function(){
 		$(this).css("display","none");
 		$(this).parent().find("p").css("display","block");
 		$(this).parent().find("p").html($(this).val());
-		
+                $(this).attr("value",$(this).val())
 	});
 })
 
@@ -281,30 +281,6 @@ function check_regist_info()
 
 }
 
-function save_updated_teacher(school_class_id){
-    alert(school_class_id)
-    var tercher_name = $("p[name='name']").html();
-    var tercher_email = $("p[name='email']").html();
-    $.ajax({
-        url : "/school_classes/"+ school_class_id +"/teachers/save_updated_teacher",
-        type:'get',
-        dataType : 'json',
-        data : {
-            name : tercher_name,
-            email : tercher_email
-        },
-        success: function(data){
-            if(data.status==1){
-                alert("保存成功");
-            }else{
-                alert("保存失败");
-            }
-        },
-        error:function(){
-            alert()
-        }
-    });
-}
 function show_list_class(){
     $(".list_classes").show();
 }
@@ -326,11 +302,10 @@ function create_school_class(school_class_id){
             period_of_validity : period_of_validity
         },
         success: function(data){
-            alert(22222)
             if(data.status=='success'){
-
-                alert(data.notice);
                 $(".created_new_class").hide();
+                $(".created_new_class").css("display","none");
+                $(".create_success").show();
             }else{
                 alert(data.notice);
             }

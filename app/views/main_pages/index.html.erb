@@ -10,13 +10,12 @@
         </div>
         <div class="article">
           <div class="question_area">
+            <input type="hidden"  id="class_id" value="<%=  @school_class.id%>" />
             <input type="hidden" name="condtions" id="condtions" value="" />
-            <div class="question_classify"><a onclick="change_conditions('all')" class="hover">全部</a><a onclick="change_conditions('my')">我的</a></div>
+            <div class="question_classify"><a onclick="change_conditions('all')" class="<%=@condition.nil? ? "hover":""%>">全部</a><a onclick="change_conditions('my','<%=current_teacher.user_id%>')" class="<%=@condition.nil? ? "":"hover"%>">我的</a></div>
             <div id="reply_area">
               <%=render 'questarea_box'%>
             </div>
-            
-           
           </div>
           
         </div>

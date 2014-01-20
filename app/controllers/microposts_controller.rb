@@ -1,5 +1,6 @@
 #encoding:utf-8
 class MicropostsController < ApplicationController
+  before_filter :get_school_class
   def index
    
   end
@@ -14,7 +15,7 @@ class MicropostsController < ApplicationController
     micropost.reply_microposts_count = 0
     if micropost.save
       flash[:success]='发表成功！'
-      redirect_to school_class_main_pages_path(params[:school_class_id].to_i)
+      redirect_to school_class_main_pages_path(@class_school)
     else
       flash[:success]='发表失败！'
       render 'main_pages/index'
@@ -59,7 +60,7 @@ class MicropostsController < ApplicationController
   end
 
   def add_reply_page
-    @index = params[:index].to_i+2
+    @index = params[:index].to_i
     @current_page = params[:current_page].to_i+1
     micropost_id = params[:micropost_id]
     micropost = Micropost.find_by_id(micropost_id)

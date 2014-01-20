@@ -119,3 +119,12 @@ function delete_micropots(id){
         });
 //location.href="/microposts/"+id+"/delete_micropost_reply?id="+id+"&page="+page;
 }
+
+function  show_reply(value){
+  var answer_area = $(value).parent().parent().find(".answer_area");
+  if(answer_area.css("display")=="none"){
+      $(answer_area).show();
+  }else{
+      $(answer_area).hide();
+  }
+}

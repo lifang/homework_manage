@@ -103,9 +103,10 @@ class WelcomeController < ApplicationController
         Teacher.transaction do
           @school_class = SchoolClass.new(:name => name,:period_of_validity => period_of_validity,
                       :verification_code => verification_code,:status => SchoolClass::STATUS[:NORMAL],
-                      :teaching_material_id => teaching_material_id)
+                      :teacher_id => teacher.id, :teaching_material_id => teaching_material_id)
           if @school_class.save
             teacher.update_attributes(:last_visit_class_id => @school_class.id)
+            session[:class_id] = @school_class.id
             notice = "班级创建成功！"
             status = true
           else

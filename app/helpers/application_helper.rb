@@ -17,6 +17,8 @@ module ApplicationHelper
   end
   def get_school_class
     @school_class = SchoolClass.find_by_id(session[:class_id].to_i)
+    @class_index =-1
+    @index =-1
   end
 
   def current_user

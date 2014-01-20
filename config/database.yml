@@ -10,7 +10,7 @@ development:
   database: homework_manage
   pool: 5
   username: root
-  password: cloud4818
+  password: root
   host: 127.0.0.1
 
 # Warning: The database defined as "test" will be erased and

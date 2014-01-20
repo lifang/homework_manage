@@ -9,18 +9,18 @@ class HomeworksController < ApplicationController
 
   #删除题包
   def delete_question_package
-    question_package_id = params[:question_package_id]
+    publish_question_package_id = params[:publish_question_package_id]
     school_class_id = params[:school_class_id]
     @school_class = SchoolClass.find_by_id school_class_id
-    question_package = QuestionPackage.find_by_id question_package_id
-    if !question_package.nil?
-      if question_package.destroy
+    publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
+    if !publish_question_package.nil?
+      if publish_question_package.task_message && publish_question_package.destroy
         status = true
-        notice = "题包删除成功！"
+        notice = "任务删除成功！"
         @publish_question_packages = Teacher.get_publish_question_packages @school_class.id
       else
         status = false
-        notice = "题包删除失败！"
+        notice = "任务删除失败！"
       end
     end
     @info = {:status => status, :notice => notice}
@@ -34,6 +34,9 @@ class HomeworksController < ApplicationController
     teacher = Teacher.find_by_id session[:teacher_id]
     question_package = QuestionPackage.find_by_id question_package_id
     @school_class = SchoolClass.find_by_id school_class_id
+    status = false
+    notice = ""
+    p teacher && question_package && @school_class
     if teacher && question_package && @school_class
       Teacher.transaction do
         publish_question_package = PublishQuestionPackage.create(:school_class_id => @school_class.id,
@@ -43,7 +46,7 @@ class HomeworksController < ApplicationController
         if publish_question_package
           status = true
           notice = "发布成功！"
-          #@publish_question_packages = Teacher.get_publish_question_packages @school_class.id
+          @publish_question_packages = Teacher.get_publish_question_packages @school_class.id
           content = "教师：#{teacher.user.name}于#{publish_question_package.created_at}发布了一个任务
                   '#{publish_question_package.question_package.name}',
                   任务截止时间：#{publish_question_package.end_time}"
@@ -61,6 +64,6 @@ class HomeworksController < ApplicationController
       status = false
       notice = "发布失败！"
     end
-    @info = {:status => status, :notice => "发布成功！"}
+    @info = {:status => status, :notice => notice}
   end
 end

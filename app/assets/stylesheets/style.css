@@ -3,7 +3,7 @@
 body { font-family:"微软雅黑", "宋体", Arial; background: #ffffff; font-size: 14px; color: #333;}
 img { border: none;}
 li { list-style: none;}
-a { text-decoration: none; color: #333;}
+a { text-decoration: none; color: #333;cursor:pointer;}
 input,button,select,textarea,img{outline:none}
 input { font-family:"微软雅黑"; font-size: 14px;}
 button { border: none; cursor: pointer; font-family:"微软雅黑"; font-size: 14px;}

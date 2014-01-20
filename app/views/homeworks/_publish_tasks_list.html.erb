@@ -17,8 +17,7 @@
             <td><p class="tooltip"><%= p.name %></p></td>
             <td><a href="#" class="td_view">预览</a></td>
             <td><a href="#" class="td_write">编辑</a></td>
-            <td><a href="#" class="td_trash"
-                   onclick="delete_packages(<%= p.question_package_id  %>,<%= @school_class.id %>)">删除</a></td>
+            <td><a href="#" class="td_trash">删除</a></td>
             <td><a href="#" class="td_timer" onclick="show_publish_task_panel(<%= p.question_package_id %>)">时间</a></td>
           </tr>
       <% else %>
@@ -27,7 +26,7 @@
             <td><p class="tooltip"><%= p.name %></p></td>
             <td><a href="#" class="td_view">预览</a></td>
             <td><a href="#" class="td_write">编辑</a></td>
-            <td><a href="#" class="td_trash" onclick="delete_packages(<%= p.question_package_id  %>,<%= @school_class.id %>)">删除</a></td>
+            <td><a href="#" class="td_trash" onclick="delete_packages(<%= p.publish_question_package_id  %>,<%= @school_class.id %>)">删除</a></td>
             <td><%= p.end_time.to_s[0,19] %></td>
           </tr>
       <% end %>

@@ -1,1 +1,9 @@
 $("#reply_area").html('<%= j( render 'main_pages/questarea_box')%>');
+$(".question_area_con").hover(
+		function(){
+			$(this).find("a.x").css("display","block");
+		},
+		function(){
+			$(this).find("a.x").css("display","none");
+		}
+	);

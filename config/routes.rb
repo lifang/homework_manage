@@ -4,7 +4,7 @@ HomeworkManage::Application.routes.draw do
     get :create_reply
 
     member do
-      get :reply_page_change,:delete_micropost,:delete_micropost_reply,:add_reply_page
+      get :reply_page_change,:delete_micropost,:delete_micropost_reply,:delete_micropost,:add_reply_page
     end
   end
 
@@ -49,7 +49,7 @@ HomeworkManage::Application.routes.draw do
       end
 
       collection do
-        get :teacher_setting, :save_updated_teacher
+        get :teacher_setting, :save_updated_teacher,:destroy_classes
         post :create_class
       end
     end

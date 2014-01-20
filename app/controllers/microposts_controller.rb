@@ -1,5 +1,6 @@
 #encoding:utf-8
 class MicropostsController < ApplicationController
+  before_filter :get_school_class
   def index
    
   end
@@ -13,8 +14,8 @@ class MicropostsController < ApplicationController
     micropost.school_class_id = current_teacher.last_visit_class_id
     micropost.reply_microposts_count = 0
     if micropost.save
-      flash[:success]='发表成功！'
-      redirect_to school_class_main_pages_path(params[:school_class_id].to_i)
+      flash[:success]='发表成功！' 
+      redirect_to school_class_main_pages_path(@school_class)
     else
       flash[:success]='发表失败！'
       render 'main_pages/index'
@@ -22,7 +23,7 @@ class MicropostsController < ApplicationController
   end
   
   def create_reply
-    get_microposts nil
+    get_microposts
     reply = ReplyMicropost.new
     reply.content = params[:textarea]
     reply.micropost_id = params[:micropost_id]
@@ -39,27 +40,36 @@ class MicropostsController < ApplicationController
     end
   end
   def delete_micropost
-
+    
+    reply = Micropost.find_by_id(params[:id])
+    if reply&&reply.destroy
+      get_microposts
+      flash[:success]='删除成功'
+    else
+      flash[:success]='删除失败'
+    end
   end
   def delete_micropost_reply
-    get_microposts nil
     reply = ReplyMicropost.find_by_id(params[:id])
     if reply&&reply.destroy
+      get_microposts 
       flash[:success]='删除成功'
     else
       flash[:success]='删除失败'
     end
   end
   
-  def get_microposts teacher_id
+  def get_microposts 
+    @condition = params[:condtions]
+    @condition = nil if params[:condtions]==""
     @scclass = SchoolClass.find(current_teacher.last_visit_class_id)
     @classmates = SchoolClass::get_classmates(@scclass)
-    array = Micropost::get_microposts @scclass,params[:page],teacher_id
+    array = Micropost::get_microposts @scclass,params[:page],@condition
     @microposts =array[:details_microposts]
   end
 
   def add_reply_page
-    @index = params[:index].to_i+2
+    @index = params[:index].to_i
     @current_page = params[:current_page].to_i+1
     micropost_id = params[:micropost_id]
     micropost = Micropost.find_by_id(micropost_id)

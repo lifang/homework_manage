@@ -19,7 +19,7 @@
         </li>
         <li>
           <p>选择结束时间</p>
-          <input id="end_time" name="end_time" type="text">
+          <input id="period_of_validity" name="end_time" type="text" onclick="WdatePicker()">
         </li>
       </ul>
     </div>
@@ -30,3 +30,13 @@
   <input id="submit_class_info"  style="display: none;" value="确认" type="submit">
   <% end %>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#div_img img").click(function() {
+            var img_src = $(body);
+            $("body").css("background-image","/assets/login_bg.jpg");
+
+        });
+    });
+</script>

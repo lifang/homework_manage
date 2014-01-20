@@ -9,12 +9,12 @@ class HomeworksController < ApplicationController
 
   #删除题包
   def delete_question_package
-    question_package_id = params[:question_package_id]
+    publish_question_package_id = params[:publish_question_package_id]
     school_class_id = params[:school_class_id]
     @school_class = SchoolClass.find_by_id school_class_id
-    question_package = QuestionPackage.find_by_id question_package_id
-    if !question_package.nil?
-      if question_package.destroy
+    publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
+    if !publish_question_package.nil?
+      if publish_question_package.destroy
         status = true
         notice = "题包删除成功！"
         @publish_question_packages = Teacher.get_publish_question_packages @school_class.id

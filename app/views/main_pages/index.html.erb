@@ -10,7 +10,8 @@
         </div>
         <div class="article">
           <div class="question_area">
-            <div class="question_classify"><a href="#" class="hover">全部</a><a href="#">我的</a></div>
+            <input type="hidden" name="condtions" id="condtions" value="" />
+            <div class="question_classify"><a onclick="change_conditions('all')" class="hover">全部</a><a onclick="change_conditions('my')">我的</a></div>
             <div id="reply_area">
               <%=render 'questarea_box'%>
             </div>

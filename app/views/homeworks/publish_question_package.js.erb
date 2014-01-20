@@ -1,6 +1,8 @@
+alert('<%=@info[:status] %>')
 <% if @info[:status] == true %>
 alert('<%= @info[:notice]  %>');
-$("#assignWork_table").html('<%= escape_javascript (render :partial => "publish_tasks_list") %>');
+$("#publish_task_panel").hide();
+$("#assignWork_table").html('<%= j (render :partial => "publish_tasks_list") %>');
 <% else %>
 alert('<%= @info[:notice] %>');
 <% end %>

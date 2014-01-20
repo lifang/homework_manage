@@ -216,18 +216,18 @@ function check_class_info()
 {
     teaching_material_id = $.trim($("#teaching_material_id").val());
     class_name = $.trim($("#class_name").val());
-    end_time = $.trim($("#end_time").val());
+    period_of_validity = $.trim($("#period_of_validity").val());
 
-    if(teaching_material_id == 0 || class_name == "" || end_time == "")
+    if(teaching_material_id == 0 || class_name == "" || period_of_validity == "")
         alert('信息填写不完整不能为空！');
     else
         $("#submit_class_info").click();
 }
 
 //删除题包
-function delete_packages(question_package_id,school_class_id)
+function delete_packages(publish_question_package_id,school_class_id)
 {
-    if(confirm("确认删除该题包？") == true)
+    if(confirm("确认删除该任务？") == true)
     {
         $.ajax({
             url: "/school_classes/"+ school_class_id +"/homeworks/delete_question_package",
@@ -316,3 +316,23 @@ function create_school_class(school_class_id){
     });
 
 }
+
+function show_single_record(ids) {
+	id_arr = ids.split("_")
+	user_id = id_arr[0]
+	record_id = null
+	if(id_arr != null && id_arr[1] != null) {
+		record_id = id_arr[1]
+	}
+	$.ajax({
+        url : "/results/show_single_record",
+        type:'post',
+        dataType : 'script',
+        data: {
+        	user_id : user_id,
+        	record_id : record_id
+        },
+    });
+    return false;
+}
+

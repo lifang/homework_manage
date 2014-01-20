@@ -7,6 +7,7 @@ function check_send_microposts(value){
 }
 
 function main_reply(value){
+    var page = $(".pagination em").html();
     var textarea=$.trim($(value).parent().parent().find("textarea").val());
     if(textarea==""){
         alert("不能为空！");
@@ -18,13 +19,12 @@ function main_reply(value){
     var micropost_user_type= $(input[2]).val();
     var teacher_id= $(input[3]).val();
     var class_index =get_index(value);
-    alert(class_index);
     $.ajax({
         async:true,
         type : 'get',
         url:'/microposts/'+micropost_id+'/create_reply',
         dataType:"script",
-        data  :"textarea=" + textarea + "&micropost_id=" + micropost_id+"&class_index="+class_index
+        data  :"textarea=" + textarea + "&micropost_id=" + micropost_id+"&class_index="+class_index+"&page="+page
         + "&micropost_user_id=" + micropost_user_id+ "&micropost_user_type=" + micropost_user_type+ "&teacher_id=" + teacher_id+"&conditions="+$("#condtions").val(),
         success:function(data){
             
@@ -129,14 +129,26 @@ function delete_micropots(id){
 //location.href="/microposts/"+id+"/delete_micropost_reply?id="+id+"&page="+page;
 }
 
-function  show_reply(value){
+function  show_reply(value,micropost_id){
     var answer_area = $(value).parent().parent().find(".answer_area");
+    var index = get_index(value);
     if(answer_area.css("display")=="none"){
         $(answer_area).show();
     }else{
         $(answer_area).hide();
     }
-    height_adjusting();
+    $.ajax({
+            async:true,
+            type : 'get',
+            url:"/microposts/"+micropost_id+"/particate_reply_show",
+            dataType:"script",
+            data  : "micropost_id="+micropost_id+"&index="+index,
+            success:function(data){
+
+            }
+        });
+
+
  
 }
 //调整高度

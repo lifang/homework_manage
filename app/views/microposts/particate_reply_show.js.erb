@@ -1,0 +1,4 @@
+var box =$("#reply_area").children(".question_area_box");
+$(box[<%=@index%>]).find(".answer_area").html('<%=j(render 'main_pages/answer_area')%>');
+
+height_adjusting();

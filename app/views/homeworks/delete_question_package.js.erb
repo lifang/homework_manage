@@ -1,0 +1,6 @@
+<% if @info[:status] == true %>
+    alert('<%= @info[:notice]  %>');
+    $(".assignWork_table").html('<%= j (render :partial => "publish_tasks_list") %>');
+<% else %>
+    alert('<%= @info[:notice] %>');
+<% end %>

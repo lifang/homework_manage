@@ -9,6 +9,16 @@ class Teacher < ActiveRecord::Base
   STATUS = {:YES => 0, :NO => 1}
   STATUS_NAME = {0 => '正常', 1 => "失效"}
 
+  def self.get_publish_question_packages school_class_id
+    sql_str = "select q.id question_package_id, q.name, p.id publish_question_package_id,
+      q.created_at, p.end_time from question_packages q left join publish_question_packages p
+      on q.id = p.question_package_id where q.school_class_id = #{school_class_id}"
+    publish_question_packages = QuestionPackage.find_by_sql sql_str
+    publish_question_packages.each do |e|
+      p e
+    end
+  end
+
   def has_password?(submitted_password)
     password == encrypt(submitted_password)
   end

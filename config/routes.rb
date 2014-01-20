@@ -38,7 +38,11 @@ HomeworkManage::Application.routes.draw do
   resources :school_classes do
    # resources :main_pages
     resources :results
-    resources :homeworks
+    resources :homeworks do
+      collection do
+        post :delete_question_package, :publish_question_package
+      end
+    end
     resources :messages
     #resources :mocroposts
 
@@ -51,6 +55,14 @@ HomeworkManage::Application.routes.draw do
         post :create_class
       end
     end
+  end
+
+
+  resources :question_packages do
+    member do
+      get :render_new_question
+    end
+    resources :questions
   end
 
   # Sample of regular route:

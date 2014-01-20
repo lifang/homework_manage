@@ -2,11 +2,11 @@
   <div class="logo"></div>
   <div class="nav">
     <ul>
-      <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/main_pages"><span class="nav01">首页</span></a></li>
+      <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/main_pages" class=<%=is_hover("main_pages") %>><span class="nav01">首页</span></a></li>
       <li class="firstNav"><a href="javascript:void(0);"><span class="nav02">作业</span></a>
         <div class="menu">
           <a href="#">完成情况</a>
-          <a href="#">留作业</a>
+          <a href="/school_classes/<%= params[:school_class_id].to_i %>/homeworks" class=<%=is_hover("main_pages") %>>留作业</a>
         </div>
       </li>
       <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/messages" class=<%= is_hover("messages") %>><span class="nav03">信息</span></a></li>
@@ -15,3 +15,4 @@
     </ul>
   </div>
 </div>
+

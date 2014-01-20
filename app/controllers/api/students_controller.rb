@@ -97,7 +97,7 @@ class Api::StudentsController < ApplicationController
 
   #qq登陆
   def login
-    qq_uid = params[:qq_uid]
+    qq_uid = params[:open_id]
     student = Student.find_by_qq_uid qq_uid
     if student.nil?
       render :json => {:status => "error", :notice => "账号不存在，请先注册！"}

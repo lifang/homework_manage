@@ -274,11 +274,13 @@ class Api::StudentsController < ApplicationController
       school_class = SchoolClass.find_by_verification_code(verification_code)
       if !school_class.nil?
         if school_class.status == SchoolClass::STATUS[:EXPIRED] ||
-            school_class.period_of_validity - Time.now < 0
+            school_class.period_of_validity - Time.now <= 0
+          p school_class.period_of_validity - Time.now
           render :json => {:status => "error", :notice => "班级已失效！"}
         else
           Student.transaction do
               student = Student.create(:nickname => nickname, :qq_uid => qq_uid,
+                  :status => Student::STATUS[:YES],
                   :last_visit_class_id => school_class.id)
               destination_dir = "#{Rails.root}/public/homework_system/avatars/students/#{Time.now.strftime('%Y-%m')}"
               rename_file_name = "student_#{student.id}"
@@ -304,7 +306,7 @@ class Api::StudentsController < ApplicationController
               class_name = school_class.name
               tearcher_id = school_class.teacher.id
               tearcher_name = school_class.teacher.user.name
-              classmates = SchoolClass.get_classmates school_class
+              classmates = SchoolClass.get_classmates school_class, student.id
               task_messages = TaskMessage.get_task_messages school_class.id
               page = 1
               microposts = Micropost.get_microposts school_class,page

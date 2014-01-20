@@ -1,8 +1,10 @@
 #encoding:utf-8
 class MicropostsController < ApplicationController
+  before_filter :get_school_class
   def index
    
   end
+  
   def create
     content = params[:microposts][:content]
     micropost = Micropost.new
@@ -13,14 +15,15 @@ class MicropostsController < ApplicationController
     micropost.reply_microposts_count = 0
     if micropost.save
       flash[:success]='发表成功！'
-      redirect_to main_pages_path
+      redirect_to school_class_main_pages_path(@class_school)
     else
       flash[:success]='发表失败！'
       render 'main_pages/index'
     end
   end
+  
   def create_reply
-    get_microposts
+    get_microposts nil
     reply = ReplyMicropost.new
     reply.content = params[:textarea]
     reply.micropost_id = params[:micropost_id]
@@ -40,7 +43,7 @@ class MicropostsController < ApplicationController
 
   end
   def delete_micropost_reply
-    get_microposts
+    get_microposts nil
     reply = ReplyMicropost.find_by_id(params[:id])
     if reply&&reply.destroy
       flash[:success]='删除成功'
@@ -48,15 +51,16 @@ class MicropostsController < ApplicationController
       flash[:success]='删除失败'
     end
   end
-  def get_microposts
+  
+  def get_microposts teacher_id
     @scclass = SchoolClass.find(current_teacher.last_visit_class_id)
     @classmates = SchoolClass::get_classmates(@scclass)
-    array = Micropost::get_microposts @scclass,params[:page],current_teacher.user_id
+    array = Micropost::get_microposts @scclass,params[:page],teacher_id
     @microposts =array[:details_microposts]
   end
 
   def add_reply_page
-    @index = params[:index]
+    @index = params[:index].to_i
     @current_page = params[:current_page].to_i+1
     micropost_id = params[:micropost_id]
     micropost = Micropost.find_by_id(micropost_id)
@@ -64,4 +68,5 @@ class MicropostsController < ApplicationController
     array = ReplyMicropost::get_microposts micropost.id,@current_page
     @reply = array[:reply_microposts]
   end
+  
 end

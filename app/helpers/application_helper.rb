@@ -15,7 +15,9 @@ module ApplicationHelper
     end
     return user
   end
-
+  def get_school_class
+    @school_class = SchoolClass.find_by_id(params[:school_class_id])
+  end
 
   def current_user
     @current_user ||= User.find_by_id(session[:user_id]) if session[:user_id]

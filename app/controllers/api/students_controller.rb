@@ -137,10 +137,10 @@ class Api::StudentsController < ApplicationController
                            :messages => messages
           }
         else
-          render :json => {:status => "error1", :notice => "班级已失效,请重新登记信息！"}
+          render :json => {:status => "error", :notice => "班级已失效,请重新登记信息！"}
         end
       else
-        render :json => {:status => "error2", :notice => "班级不存在！"}
+        render :json => {:status => "error", :notice => "班级不存在！"}
       end
     end
   end

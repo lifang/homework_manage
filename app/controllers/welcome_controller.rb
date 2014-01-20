@@ -18,8 +18,8 @@ class WelcomeController < ApplicationController
         p teacher
         if teacher.last_visit_class_id.to_i != 0
           last_visit_class = true
+          session[:class_id] = teacher.last_visit_class_id
         end
-        session[:class_id] = teacher.last_visit_class_id
         session[:teacher_id] = teacher.id
         session[:user_id] = teacher.user.id
         status = true
@@ -103,9 +103,10 @@ class WelcomeController < ApplicationController
         Teacher.transaction do
           @school_class = SchoolClass.new(:name => name,:period_of_validity => period_of_validity,
                       :verification_code => verification_code,:status => SchoolClass::STATUS[:NORMAL],
-                      :teaching_material_id => teaching_material_id)
+                      :teacher_id => teacher.id, :teaching_material_id => teaching_material_id)
           if @school_class.save
             teacher.update_attributes(:last_visit_class_id => @school_class.id)
+            session[:class_id] = @school_class.id
             notice = "班级创建成功！"
             status = true
           else

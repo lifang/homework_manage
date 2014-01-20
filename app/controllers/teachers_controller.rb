@@ -1,5 +1,7 @@
 #encoding: utf-8
 require 'securerandom'
+require 'fileutils'
+require "mini_magick"
 include MethodLibsHelper
 class TeachersController < ApplicationController
   #教师创建班级
@@ -31,7 +33,7 @@ class TeachersController < ApplicationController
         status = false
       end
     end
-    @info = {:status => status, :notice => notice}
+    render :json => {:status => status, :notice => notice}
   end
 
   #教师上传头像
@@ -60,7 +62,13 @@ class TeachersController < ApplicationController
   end
   #  保存更新
   def save_updated_teacher
-    session[:user_id] = 1
+#    avatar = params[:avatar]
+#    p avatar
+#    filename = avatar.original_filename
+#    FileUtils.mkdir_p "#{File.expand_path(Rails.root)}/public/uploads/#{current_teacher.id}" if !(File.exist?("#{File.expand_path(Rails.root)}/public/uploads/#{current_teacher.id}"))
+#    File.open("#{Rails.root}/public/uploads/#{current_teacher.id}/#{filename}","wb") {
+#      |f| f.write(avatar.read)
+#    }
     teacher = Teacher.find(session[:user_id])
     user = User.find(teacher.user_id)
     if user.update_attributes(:name => params[:name]) && teacher.update_attributes(:email => params[:email])
@@ -69,8 +77,12 @@ class TeachersController < ApplicationController
       render :json => {:status => 0}
     end
   end
-#  教师切换班级
-  def teacher_switching_classes
-    
+  #  删除班级
+  def destroy_classes
+    school_class = SchoolClass.find_by_id(params[:id])
+    if school_class && school_class.destroy
+      flash[:notice] = "操作成功!"
+      redirect_to "/school_classes/#{session[:class_id].to_i}/teachers/teacher_setting"
+    end
   end
 end

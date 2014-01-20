@@ -216,24 +216,24 @@ function check_class_info()
 {
     teaching_material_id = $.trim($("#teaching_material_id").val());
     class_name = $.trim($("#class_name").val());
-    end_time = $.trim($("#end_time").val());
+    period_of_validity = $.trim($("#period_of_validity").val());
 
-    if(teaching_material_id == 0 || class_name == "" || end_time == "")
+    if(teaching_material_id == 0 || class_name == "" || period_of_validity == "")
         alert('信息填写不完整不能为空！');
     else
         $("#submit_class_info").click();
 }
 
 //删除题包
-function delete_packages(question_package_id,school_class_id)
+function delete_packages(publish_question_package_id,school_class_id)
 {
-    if(confirm("确认删除该题包？") == true)
+    if(confirm("确认删除该任务？") == true)
     {
         $.ajax({
-            url: "/school_classes/" + school_class_id + "/homeworks/delete_question_package",
+            url: "/school_classes/"+ school_class_id +"/homeworks/delete_question_package",
             type: "POST",
             dataType: "script",
-            data:{question_package_id:question_package_id,
+            data:{publish_question_package_id:publish_question_package_id,
                 school_class_id:school_class_id
             },
             success:function(data){
@@ -262,11 +262,31 @@ function check_time()
        alert("时间不能为空！");
 }
 
+//注册时验证时间
+function check_regist_info()
+{
+    name = $.trim($("#r_name").val());
+    email = $.trim($("#r_email").val());
+    password = $.trim($("#r_password").val());
+    confirm_password = $.trim($("#r_confirm_password").val());
+    if(name != "姓名" && email != "邮箱" && password != "密码" && confirm_password != "确认密码")
+    {
+        if(password == confirm_password)
+            $("#register_submit_button").click();
+        else
+            alert("两次密码不一致！");
+    }
+    else
+        alert("姓名、邮箱、密码、确认密码不能为空！");
+
+}
+
 function save_updated_teacher(school_class_id){
+    alert(school_class_id)
     var tercher_name = $("p[name='name']").html();
     var tercher_email = $("p[name='email']").html();
     $.ajax({
-        url : "/school_classes/" + school_class_id + "/teachers/save_updated_teacher",
+        url : "/school_classes/"+ school_class_id +"/teachers/save_updated_teacher",
         type:'get',
         dataType : 'json',
         data : {
@@ -279,7 +299,6 @@ function save_updated_teacher(school_class_id){
             }else{
                 alert("保存失败");
             }
-
         },
         error:function(){
             alert()
@@ -293,6 +312,7 @@ function created_new_class(){
     $(".created_new_class").show();
 }
 function create_school_class(school_class_id){
+    alert(school_class_id)
     var teaching_material_id = $("select[name='teaching_material_id']").val();
     var class_name = $("input[name='class_name']").val();
     var period_of_validity = $("input[name='period_of_validity']").val()
@@ -306,7 +326,9 @@ function create_school_class(school_class_id){
             period_of_validity : period_of_validity
         },
         success: function(data){
+            alert(22222)
             if(data.status=='success'){
+
                 alert(data.notice);
                 $(".created_new_class").hide();
             }else{

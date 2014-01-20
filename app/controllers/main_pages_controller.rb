@@ -4,7 +4,7 @@ class MainPagesController < ApplicationController
   def index
     @class_index =-1
     @init_mid = params[:init_mid]
-    @condition =  params[:condtions]=="" ? nil : params[:condtions]
+    @condition =  params[:condtions].nil? || params[:condtions].strip=="" ? nil : params[:condtions].strip
     @scclass = SchoolClass.find(@school_class.id)
     @classmates = SchoolClass::get_classmates(@scclass)
     page = @init_mid.nil? || @init_mid.to_i == 0 ? params[:page] : 1

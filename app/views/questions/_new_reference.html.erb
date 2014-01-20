@@ -7,57 +7,26 @@
       <li class="hover">4</li>
     </ul>
   </div>
+  <input type="hidden" id="hidden_question_id" value="<%= @question.id %>"/>
+  <input type="hidden" id="hidden_question_pack_id" value="<%= @question_pack.id %>"/>
   <div class="book_box_func">
     <p>目前发现（21）道七年级二单元三课听写题目</p>
     <div class="sort"><a href="#">时间</a><a href="#">文章名称</a><a href="#">默认排序</a></div>
   </div>
   <div class="book_box_area">
     <div class="book_box_table">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <thead>
-          <tr>
-            <th width="100">文章名称</th>
-            <th>摘要</th>
-            <th width="100" class="th_func_bg">预览</th>
-            <th width="100" class="th_func_bg">功能</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Apple</td>
-            <td>
-              <div class="td_text">
-                <p class="td_text_p">This is an apple.She like it very much.</p>
-              </div>
-            </td>
-            <td width="100" class="td_func_bg">
-              <a href="#" class="preview_icon">预览</a>
-            </td>
-            <td width="100" class="td_func_bg">
-              <a href="#" class="td_a_green">引用</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="pageTurn">
-        <a href="#" class="disabled">上一页</a>
-        <a href="#" class="current">1</a>
-        <a href="#?page=2">2</a>
-        <a href="#?page=3">3</a>
-        <a href="#?page=200">200</a>
-        <a href="#?page=2">下一页</a>
-      </div>
+      <%= render "share_questions" %>
     </div>
   </div>
 
   <div class="remark_btn">
     <button class="green_btn" onclick="">保存</button>
   </div>
-
 </div>
-
-<div class="remark">
-  <h1>填写作业备注</h1>
-  <div class="remark_con"><textarea name="" cols="" rows=""></textarea></div>
-  <div class="remark_btn"><button class="green_btn">保存作业</button></div>
-</div>
+<%= form_for @question_pack do |f| %>
+  <div class="remark">
+    <h1>填写作业备注</h1>
+    <div class="remark_con"><%= f.text_area :name, :rows => 5%></div>
+    <div class="remark_btn"><button class="green_btn">保存作业</button></div>
+  </div>
+<% end %>

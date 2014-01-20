@@ -1,6 +1,7 @@
 
   <%  @microposts.each do | micropost |%>
-    <div class="question_area_box">
+<div class="question_area_box" micropost-id="<%= micropost.micropost_id %>">
+
       <div class="avater"><a href="#"><img src="<%=micropost.avatar_url%>" /></a></div>
       <div class="question_area_con">
         <a  class="x" onclick="delete_micropots(<%=micropost.micropost_id%>)">删除</a>

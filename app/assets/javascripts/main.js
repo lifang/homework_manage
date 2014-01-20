@@ -341,3 +341,23 @@ function create_school_class(school_class_id){
     });
 
 }
+
+function show_single_record(ids) {
+	id_arr = ids.split("_")
+	user_id = id_arr[0]
+	record_id = null
+	if(id_arr != null && id_arr[1] != null) {
+		record_id = id_arr[1]
+	}
+	$.ajax({
+        url : "/results/show_single_record",
+        type:'post',
+        dataType : 'script',
+        data: {
+        	user_id : user_id,
+        	record_id : record_id
+        },
+    });
+    return false;
+}
+

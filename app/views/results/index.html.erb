@@ -12,27 +12,34 @@
                     </div>
                     <% end %>
                 </div>
-                <div class="work_info_body">
+                <div class="work_info_body" id="all_students">
                     <h1><span>完成情况</span></h1>
                     <dl>
                     	<dt>未完成：</dt>
                         <% @unanswerd_users.each do |a_u| %>
+                        	<a href="javascript:void(0)" 
+                        		onclick="show_single_record('<%= a_u.user_id %>_<%= a_u.id %>')">
                         	<dd>
                             	<span><img src="<%= a_u.avatar_url %>"></span>
                                 <p><%= a_u.name %></p>
                             </dd>
+                            </a>
                         <% end if @unanswerd_users and @unanswerd_users.any? %>
                     </dl>
                     <dl>
                          <dt>已完成：</dt>
                          <% @answerd_users.each do |a_u| %>
-                             <dd>
+                         	<a href="javascript:void(0)" onclick="show_single_record('<%= a_u.user_id %>_<%= a_u.id %>')">
+                             <dd >
                                  <span><img src="<%= a_u.avatar_url %>"></span>
                                  <p><%= a_u.name %></p>
                              </dd>
+                             </a>
                          <% end if @answerd_users and @answerd_users.any? %>
                     </dl>
                 </div>
+            	<div class="work_info_body" id="single_student" style="display:none">
+            	</div>
             </div>
         </div>
         <div class="work_book">

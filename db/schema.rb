@@ -54,9 +54,9 @@ ActiveRecord::Schema.define(:version => 20140118084219) do
     t.integer  "user_types"
     t.string   "content"
     t.integer  "school_class_id"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
-    t.integer  "reply_microposts_count"
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+    t.integer  "reply_microposts_count", :default => 0
   end
 
   add_index "microposts", ["school_class_id"], :name => "index_microposts_on_school_class_id"
@@ -102,6 +102,8 @@ ActiveRecord::Schema.define(:version => 20140118084219) do
     t.integer  "question_package_id"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+    t.integer  "cell_id"
+    t.integer  "episode_id"
   end
 
   add_index "questions", ["question_package_id"], :name => "index_questions_on_question_package_id"

@@ -40,18 +40,19 @@ class MicropostsController < ApplicationController
     end
   end
   def delete_micropost
-    get_microposts
+    
     reply = Micropost.find_by_id(params[:id])
     if reply&&reply.destroy
+      get_microposts
       flash[:success]='删除成功'
     else
       flash[:success]='删除失败'
     end
   end
   def delete_micropost_reply
-    get_microposts 
     reply = ReplyMicropost.find_by_id(params[:id])
     if reply&&reply.destroy
+      get_microposts 
       flash[:success]='删除成功'
     else
       flash[:success]='删除失败'

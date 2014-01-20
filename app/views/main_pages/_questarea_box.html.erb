@@ -7,10 +7,10 @@
         <div class="avater_name"><a href="#"><%=micropost.name%></a></div>
         <div class="question_area_text"><%=micropost.content%></div>
         <div class="question_text_func">
-          <span class="time"><%=micropost.created_at%></span><a href="#" class="answer_a">回复（<%=micropost.reply_microposts_count%>）</a>
+          <span class="time"><%=micropost.created_at.to_s[0..19]%></span><a onclick="show_reply(this)" class="answer_a">回复（<%=micropost.reply_microposts_count%>）</a>
         </div>
 
-        <div class="answer_area" style="margin-top: 15px;">
+        <div class="answer_area" style="display:none;margin-top: 15px;">
           <span class="arrows"></span>
           <div class="ask_area" >
             <input type="hidden" value="<%=micropost.micropost_id%>" />
@@ -31,7 +31,7 @@
                     <input type="hidden" value="<%=micropost.micropost_id%>" />
                     <input type="hidden" value="<%=reply.sender_id%>" />
                     <input type="hidden" value="<%=reply.sender_types%>" />
-                    <span class="time"><%=reply.created_at%></span>
+                    <span class="time"><%=reply.created_at.to_s[0..19]%></span>
                     <a   class="answer_a" onclick="show_reply_again(this,'<%=reply.reciver_name%>')"> 回复 </a><a onclick="delete_reply(<%=reply.id%>)"  class="answer_a">删除</a>
                     </div>
 
@@ -49,10 +49,7 @@
               <div class="ask_area_textarea"><textarea cols="" rows=""></textarea></div>
               <div class="ask_area_btn"><button class="green_btn" onclick="main_reply(this)">发布</button></div>
             </div>
-
-
           </div>
-
         </div>
       </div>
     <%end%>

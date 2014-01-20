@@ -41,8 +41,8 @@ function show_reply_again(value,name){
 
     $(answer[1]).show();
     $(answer[1]).find("textarea").attr("placeholder","给"+name+"回复：");
-    $(answer[1]).find("textarea").attr("id","ddd");
-    location.href="#ddd"
+//    $(answer[1]).find("textarea").attr("id","ddd");
+//    location.href="#ddd"
     
 }
 

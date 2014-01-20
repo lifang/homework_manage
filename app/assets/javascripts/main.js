@@ -210,3 +210,54 @@ function check_value()
     else
         $("#login_submit_button").click();
 }
+
+//检查班级信息
+function check_class_info()
+{
+    teaching_material_id = $.trim($("#teaching_material_id").val());
+    class_name = $.trim($("#class_name").val());
+    end_time = $.trim($("#end_time").val());
+
+    if(teaching_material_id == 0 || class_name == "" || end_time == "")
+        alert('信息填写不完整不能为空！');
+    else
+        $("#submit_class_info").click();
+}
+
+//删除题包
+function delete_packages(question_package_id,school_class_id)
+{
+    if(confirm("确认删除该题包？") == true)
+    {
+        $.ajax({
+            url: "/school_classes/" + school_class_id + "/homeworks/delete_question_package",
+            type: "POST",
+            dataType: "script",
+            data:{question_package_id:question_package_id,
+                school_class_id:school_class_id,
+            },
+            success:function(data){
+            },
+            error:function(data){
+            }
+        })
+    }
+}
+//显示发布任务栏
+function show_publish_task_panel(question_package_id)
+{
+    $("#question_package_id_value").val(question_package_id);
+    $("#publish_task_panel").show();
+}
+
+//发布任务时验证时间
+function check_time()
+{
+   end_time = $.trim($("#end_time").val());
+   if(end_time != "")
+   {
+       $("#submit_publish_task").click();
+   }
+   else
+       alert("时间不能为空！");
+}

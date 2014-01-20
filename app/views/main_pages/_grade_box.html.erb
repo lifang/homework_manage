@@ -1,44 +1,16 @@
 <div class="user">
-            <div class="avater"><img src="/assets/user01.jpg"></div>
+            <div class="avater"><img src="<%=current_teacher.avatar_url%>" width="100" height="100"/></div>
             <div class="name"><%=current_teacher.name%></div>
           </div>
           <div class="grade_con clearAfter">
-            <h1>七年级二班英语</h1>
+            <h1><%=@scclass.name%></h1>
             <ul>
+              <%@classmates.each do |classmate|%>
               <li>
                 <a href="#" class="x">删除</a>
-                <span><img src="/assets/user01.jpg"></span>
-                <p>MIA(蔡英)</p>
+                <span><img src="<%=classmate.avatar_url%>" /></span>
+                <p><%=classmate.name%></p>
               </li>
-              <li>
-                <a href="#" class="x">删除</a>
-                <span><img src="/assets/user01.jpg"></span>
-                <p>MIA(蔡英)</p>
-              </li>
-              <li>
-                <a href="#" class="x">删除</a>
-                <span><img src="/assets/user01.jpg"></span>
-                <p>MIA(蔡英)</p>
-              </li>
-              <li>
-                <a href="#" class="x">删除</a>
-                <span><img src="/assets/user01.jpg"></span>
-                <p>MIA(蔡英)</p>
-              </li>
-              <li>
-                <a href="#" class="x">删除</a>
-                <span><img src="/assets/user01.jpg"></span>
-                <p>MIA(蔡英)</p>
-              </li>
-              <li>
-                <a href="#" class="x">删除</a>
-                <span><img src="/assets/user01.jpg"></span>
-                <p>MIA(蔡英)</p>
-              </li>
-              <li>
-                <a href="#" class="x">删除</a>
-                <span><img src="/assets/user01.jpg"></span>
-                <p>MIA(蔡英)</p>
-              </li>
+              <%end%>
             </ul>
           </div>

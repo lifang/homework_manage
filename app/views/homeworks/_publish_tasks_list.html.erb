@@ -1,0 +1,46 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <thead>
+  <tr>
+    <th>作业包创建时间</th>
+    <th>备注</th>
+    <th>预览</th>
+    <th>编辑</th>
+    <th>删除</th>
+    <th>截止时间</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @publish_question_packages.each do |p| %>
+      <% if p.publish_question_package_id.nil?  %>
+          <tr>
+            <td><%= p.created_at.to_s[0,19] %></td>
+            <td><p class="tooltip"><%= p.name %></p></td>
+            <td><a href="#" class="td_view">预览</a></td>
+            <td><a href="#" class="td_write">编辑</a></td>
+            <td><a href="#" class="td_trash"
+                   onclick="delete_packages(<%= p.question_package_id  %>,<%= @school_class.id %>)">删除</a></td>
+            <td><a href="#" class="td_timer" onclick="show_publish_task_panel(<%= p.question_package_id %>)">时间</a></td>
+          </tr>
+      <% else %>
+          <tr>
+            <td><%= p.created_at.to_s[0,19] %></td>
+            <td><p class="tooltip"><%= p.name %></p></td>
+            <td><a href="#" class="td_view">预览</a></td>
+            <td><a href="#" class="td_write">编辑</a></td>
+            <td><a href="#" class="td_trash" onclick="delete_packages(<%= p.question_package_id  %>,<%= @school_class.id %>)">删除</a></td>
+            <td><%= p.end_time.to_s[0,19] %></td>
+          </tr>
+      <% end %>
+  <% end %>
+  </tbody>
+</table>
+<div class="pageTurn">
+  <a href="#" class="disabled">上一页</a>
+  <a href="#" class="current">1</a>
+  <a href="#?page=2">2</a>
+  <a href="#?page=3">3</a>
+  <a href="#?page=4">4</a>
+  <a href="#?page=5">5</a>...<a href="#?page=199">199</a>
+  <a href="#?page=200">200</a>
+  <a href="#?page=2">下一页</a>
+</div>

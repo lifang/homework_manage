@@ -1,6 +1,6 @@
 <div class="wrap">
   <div class="login_bg">
-    <%= form_tag({:controller => :teachers, :action => :login}, :remote => true) do %>
+    <%= form_tag({:controller => :welcome, :action => :login}, :remote => true) do %>
     <div class="login_box">
       <ul>
         <li class="name"><input id="email" name="email" type="text" value="邮箱"/></li>
@@ -12,7 +12,7 @@
     <% end %>
   </div>
   <div class="register">
-    <%= form_tag({:controller => :teachers, :action => :regist}, :multipart => true, :remote => true) do %>
+    <%= form_tag({:controller => :welcome, :action => :regist}, :multipart => true, :remote => true) do %>
     <div class="register_box">
       <ul>
         <li class="avater">

@@ -1,0 +1,26 @@
+<div class="rightSide">
+  <div class="main">
+    <div class="article">
+      <div class="book_box clearAfter">
+        <div class="book_box_page">
+          <ul>
+            <li class="question_li hover"><a href="#">1.</a></li>
+            <li><a href="#" class="addPage">+</a></li>
+          </ul>
+        </div>
+        <div class="steps">
+          <%= render "three_step" %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<script>
+  function closeIt()
+  {
+    return "当前作业还未保存，确定离开页面？";
+  }
+  window.onbeforeunload = closeIt;
+</script>

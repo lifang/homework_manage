@@ -1,0 +1,15 @@
+<%  @reply.each do |reply|%>
+  <div class="question_area_box">
+    <div class="avater"><a href="#"><img src="<%=reply.sender_avatar_url%>" /></a></div>
+    <div class="question_area_con">
+      <div class="avater_name"><a href="#"><%=reply.sender_name%></a> 回复 <a href="#"><%=reply.reciver_name%></a></div>
+      <div class="question_area_text"><%=reply.content%></div>
+      <div class="question_text_func">
+        <span class="time"><%=reply.created_at%></span>
+        <a href="#" class="answer_a"> 回复 </a><a href="#" class="answer_a">删除</a>
+      </div>
+
+    </div>
+  </div>
+<%end%>
+

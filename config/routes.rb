@@ -1,7 +1,14 @@
 HomeworkManage::Application.routes.draw do
 
   resources :main_pages
-  resources :mocroposts
+  resources :microposts do
+    get :create_reply
+
+    member do
+      get :reply_page_change,:delete_micropost,:delete_micropost_reply,:add_reply_page
+    end
+  end
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -20,30 +27,42 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
-  resources :teachers do
-    member do
-    end
-
-    collection do
-      get :teacher_setting, :save_updated_teacher
-      post :login, :regist, :create_class
-    end
-  end
-
-
-
-
-  resources :homeworks
 
   resources :welcome do
     collection do
       get :first
+      post :create_first_class, :login, :regist
     end
   end
   
   resources :school_classes do
+   # resources :main_pages
     resources :results
+    resources :homeworks do
+      collection do
+        post :delete_question_package, :publish_question_package
+      end
+    end
     resources :messages
+    #resources :mocroposts
+
+    resources :teachers do
+      member do
+      end
+
+      collection do
+        get :teacher_setting, :save_updated_teacher
+        post :create_class
+      end
+    end
+  end
+
+
+  resources :question_packages do
+    member do
+      get :render_new_question
+    end
+    resources :questions
   end
 
   # Sample of regular route:

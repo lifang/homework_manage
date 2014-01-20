@@ -1,72 +1,60 @@
-<%  @microposts.each do | micropost |%>
-  <div class="question_area_box">
-    <div class="avater"><a href="#"><img src="<%=micropost.avatar_url%>" /></a></div>
-    <div class="question_area_con">
-      <a href="#" class="x">删除</a>
-      <div class="avater_name"><a href="#"><%=micropost.name%></a></div>
-      <div class="question_area_text"><%=micropost.content%></div>
-      <div class="question_text_func">
-        <span class="time"><%=micropost.created_at%></span><a href="#" class="answer_a">回复（<%=micropost.reply_microposts_count%>）</a>
-      </div>
 
-      <div class="answer_area" style="margin-top: 15px;">
-        <span class="arrows"></span>
-        <div class="ask_area" >
-          <input type="hidden" value="<%=micropost.micropost_id%>" />
-          <input type="hidden" value="<%=micropost.user_id%>" />
-          <input type="hidden" value="<%=micropost.user_types%>" />
-          <input type="hidden" value="<%=current_teacher.user_id%>" />
-          <div class="ask_area_textarea"><textarea cols="" rows=""></textarea></div>
-          <div class="ask_area_btn"><button class="green_btn" onclick="main_reply(this)">发布</button></div>
+  <%  @microposts.each do | micropost |%>
+    <div class="question_area_box">
+      <div class="avater"><a href="#"><img src="<%=micropost.avatar_url%>" /></a></div>
+      <div class="question_area_con">
+        <a  class="x" onclick="delete_micropots(<%=micropost.micropost_id%>)">删除</a>
+        <div class="avater_name"><a href="#"><%=micropost.name%></a></div>
+        <div class="question_area_text"><%=micropost.content%></div>
+        <div class="question_text_func">
+          <span class="time"><%=micropost.created_at%></span><a href="#" class="answer_a">回复（<%=micropost.reply_microposts_count%>）</a>
         </div>
-        <div class="reply_again_area" >
-          <%  (ReplyMicropost::get_microposts micropost.micropost_id,1)[:reply_microposts].each do |reply|%>
-            <div class="question_area_box">
-              <div class="avater"><a href="#"><img src="<%=reply.sender_avatar_url%>" /></a></div>
-              <div class="question_area_con">
-                <div class="avater_name"><a href="#"><%=reply.sender_name%></a> 回复 <a href="#"><%=reply.reciver_name%></a></div>
-                <div class="question_area_text"><%=reply.content%></div>
-                <div class="question_text_func">
-                  <input type="hidden" value="<%=micropost.micropost_id%>" />
-                  <input type="hidden" value="<%=reply.sender_id%>" />
-                  <input type="hidden" value="<%=reply.sender_types%>" />
-                  <span class="time"><%=reply.created_at%></span>
-                  <a   class="answer_a" onclick="show_reply_again(this,'<%=reply.reciver_name%>')"> 回复 </a><%=link_to '删除',delete_micropost_reply_micropost_path(reply.id),remote:true,class:"answer_a"%>
+
+        <div class="answer_area" style="margin-top: 15px;">
+          <span class="arrows"></span>
+          <div class="ask_area" >
+            <input type="hidden" value="<%=micropost.micropost_id%>" />
+            <input type="hidden" value="<%=micropost.user_id%>" />
+            <input type="hidden" value="<%=micropost.user_types%>" />
+            <input type="hidden" value="<%=current_teacher.user_id%>" />
+            <div class="ask_area_textarea"><textarea cols="" rows=""></textarea></div>
+            <div class="ask_area_btn"><button class="green_btn" onclick="main_reply(this)">发布</button></div>
+          </div>
+          <div class="reply_again_area" >
+            <%  (ReplyMicropost::get_microposts micropost.micropost_id,1)[:reply_microposts].each do |reply|%>
+              <div class="question_area_box">
+                <div class="avater"><a href="#"><img src="<%=reply.sender_avatar_url%>" /></a></div>
+                <div class="question_area_con">
+                  <div class="avater_name"><a href="#"><%=reply.sender_name%></a> 回复 <a href="#"><%=reply.reciver_name%></a></div>
+                  <div class="question_area_text"><%=reply.content%></div>
+                  <div class="question_text_func">
+                    <input type="hidden" value="<%=micropost.micropost_id%>" />
+                    <input type="hidden" value="<%=reply.sender_id%>" />
+                    <input type="hidden" value="<%=reply.sender_types%>" />
+                    <span class="time"><%=reply.created_at%></span>
+                    <a   class="answer_a" onclick="show_reply_again(this,'<%=reply.reciver_name%>')"> 回复 </a><a onclick="delete_reply(<%=reply.id%>)"  class="answer_a">删除</a>
+                    </div>
+
+                  </div>
                 </div>
-
-              </div>
+              <%end%>
             </div>
-          <%end%>
-        </div>
-        <input type="hidden" class="current_page" value="1"/>
-        <input type="button" onclick="send_more_replies(this,'<%=micropost.micropost_id%>')" value="查看更多" />
-        <div class="ask_area" style="display:none;">
-          <input type="hidden" value="" />
-          <input type="hidden" value="" />
-          <input type="hidden" value="" />
-          <input type="hidden" value="<%=current_teacher.user_id%>" />
-          <div class="ask_area_textarea"><textarea cols="" rows=""></textarea></div>
-          <div class="ask_area_btn"><button class="green_btn" onclick="main_reply(this)">发布</button></div>
-        </div>
+            <input type="hidden" class="current_page" value="1"/>
+            <input type="button" onclick="send_more_replies(this,'<%=micropost.micropost_id%>')" value="查看更多" />
+            <div class="ask_area" style="display:none;">
+              <input type="hidden" value="" />
+              <input type="hidden" value="" />
+              <input type="hidden" value="" />
+              <input type="hidden" value="<%=current_teacher.user_id%>" />
+              <div class="ask_area_textarea"><textarea cols="" rows=""></textarea></div>
+              <div class="ask_area_btn"><button class="green_btn" onclick="main_reply(this)">发布</button></div>
+            </div>
 
 
+          </div>
+
+        </div>
       </div>
+    <%end%>
 
-    </div>
-  </div>
-<%end%>
-<div class="digg_pagination">
-  <%=will_paginate @microposts,remote:true,:previous_label=>'上一页',:next_label=>'下一页' %>
-</div>
-
-
-<div class="pageTurn">
-  <a href="#" class="disabled">上一页</a>
-  <a href="#" class="current">1</a>
-  <a href="#?page=2">2</a>
-  <a href="#?page=3">3</a>
-  <a href="#?page=4">4</a>
-  <a href="#?page=5">5</a>...<a href="#?page=199">199</a>
-  <a href="#?page=200">200</a>
-  <a href="#?page=2">下一页</a>
-</div>
+  

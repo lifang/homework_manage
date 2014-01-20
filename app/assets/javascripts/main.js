@@ -225,7 +225,7 @@ function check_class_info()
 }
 
 //删除题包
-function delete_packages(question_package_id,school_class_id)
+function delete_packages(publish_question_package_id,school_class_id)
 {
     if(confirm("确认删除该题包？") == true)
     {

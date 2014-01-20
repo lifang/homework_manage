@@ -58,3 +58,7 @@ function send_more_replies(value,micropost_id){
     });
 
 }
+
+function change_conditions(condtions){
+    
+}

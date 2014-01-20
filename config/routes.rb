@@ -1,6 +1,5 @@
 HomeworkManage::Application.routes.draw do
 
-  #resources :main_pages
   resources :microposts do
     get :create_reply
 
@@ -36,7 +35,7 @@ HomeworkManage::Application.routes.draw do
   end
   
   resources :school_classes do
-   resources :main_pages
+    resources :main_pages
     resources :results
     resources :homeworks do
       collection do
@@ -44,7 +43,6 @@ HomeworkManage::Application.routes.draw do
       end
     end
     resources :messages
-    #resources :mocroposts
 
     resources :teachers do
       member do

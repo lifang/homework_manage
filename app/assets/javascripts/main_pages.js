@@ -15,7 +15,7 @@ function main_reply(value){
         url:'/microposts/'+micropost_id+'/create_reply',
         dataType:"script",
         data  :"textarea=" + textarea + "&micropost_id=" + micropost_id
-        + "&micropost_user_id=" + micropost_user_id+ "&micropost_user_type=" + micropost_user_type+ "&teacher_id=" + teacher_id,
+        + "&micropost_user_id=" + micropost_user_id+ "&micropost_user_type=" + micropost_user_type+ "&teacher_id=" + teacher_id+"&conditions="+$("#condtions").val(),
         success:function(data){
             
         }
@@ -33,11 +33,14 @@ function show_reply_again(value,name){
 
     $(answer[1]).show();
     $(answer[1]).find("textarea").attr("placeholder","给"+name+"回复：");
+    $(answer[1]).find("textarea").attr("id","ddd");
+    location.href="#ddd"
+    $(answer[1]).find("textarea").removeattr("id");
 }
 
 function send_more_replies(value,micropost_id){
     var current_page = $(value).parent().find(".current_page").val();
-    var box=$(value).parents(".question_area_box");
+    var box=$(value).parent().parent().parent();
     var index1=0;
     var all_box = $("#reply_area").children(".question_area_box");
     for(var i=0;i<all_box.length;i++){
@@ -46,6 +49,7 @@ function send_more_replies(value,micropost_id){
            
         }
     }
+    //alert(index1+"--"+box.attr("class"));
      $.ajax({
         async:true,
         type : 'get',
@@ -75,4 +79,35 @@ function change_conditions(condtion,id){
     value = $("#condtions").val();
     location.href="/school_classes/"+$("#class_id").val()+"/main_pages?condtions=" + value;
     
+}
+
+function delete_reply(id){
+    var page = $(".pagination em").html();
+    if(confirm("确认删除？"))
+     $.ajax({
+        async:true,
+        type : 'get',
+        url:"/microposts/"+id+"/delete_micropost_reply",
+        dataType:"script",
+        data  : "id="+id+"&page="+page+"&conditions="+$("#condtions").val(),
+        success:function(data){
+
+        }
+    });
+    //location.href="/microposts/"+id+"/delete_micropost_reply?id="+id+"&page="+page;
+}
+function delete_micropots(id){
+    var page = $(".pagination em").html();
+    if(confirm("确认删除？"))
+     $.ajax({
+        async:true,
+        type : 'get',
+        url:"/microposts/"+id+"/delete_micropost",
+        dataType:"script",
+        data  : "id="+id+"&page="+page+"&conditions="+$("#condtions").val(),
+        success:function(data){
+
+        }
+    });
+    //location.href="/microposts/"+id+"/delete_micropost_reply?id="+id+"&page="+page;
 }

@@ -1,4 +1,9 @@
 #encoding: utf-8
+require 'rexml/document'
+require 'rexml/element'
+require 'rexml/parent'
+include REXML
+include MethodLibsHelper
 class HomeworksController < ApplicationController
   #作业主页
   def index
@@ -36,28 +41,45 @@ class HomeworksController < ApplicationController
     @school_class = SchoolClass.find_by_id school_class_id
     status = false
     notice = ""
-    p teacher && question_package && @school_class
+    question_packages_url = nil
     if teacher && question_package && @school_class
       Teacher.transaction do
-        publish_question_package = PublishQuestionPackage.create(:school_class_id => @school_class.id,
-                                      :question_package_id => question_package.id,
-                                      :start_time => Time.now, :end_time => end_time,
-                                      :status => PublishQuestionPackage::STATUS[:NEW])
-        if publish_question_package
-          status = true
-          notice = "发布成功！"
-          @publish_question_packages = Teacher.get_publish_question_packages @school_class.id
-          content = "教师：#{teacher.user.name}于#{publish_question_package.created_at}发布了一个任务
-                  '#{publish_question_package.question_package.name}',
-                  任务截止时间：#{publish_question_package.end_time}"
-          @school_class.task_messages.create(:content => content,
-                    :period_of_validity => publish_question_package.end_time,
-                    :status => TaskMessage::STATUS[:YES],
-                    :publish_question_package_id => publish_question_package.id)
-
-        else
+        all_questions = Question.get_all_questions question_package
+        file_dirs_url = "#{Rails.root}/public/homework_system/question_packages/question_packages_#{question_package.id}"
+        file_full_url = "#{file_dirs_url}/questions.js"
+        all_questions = Question.get_all_questions question_package
+        if all_questions.length == 0
           status = false
-          notice = "发布失败！"
+          notice = "该题包下的题目或小题为空！"
+        else
+          write_file =  write_question_xml all_questions,file_dirs_url, file_full_url
+          if write_file[:status] == true
+            base_url = "#{Rails.root}/public"
+            question_packages_url = "#{file_full_url.to_s[base_url.size,file_dirs_url.size]}"
+          else
+            question_packages_url = nil
+          end
+
+          publish_question_package = PublishQuestionPackage.create(:school_class_id => @school_class.id,
+                                        :question_package_id => question_package.id,
+                                        :start_time => Time.now, :end_time => end_time,
+                                        :status => PublishQuestionPackage::STATUS[:NEW],
+                                        :question_packages_url => question_packages_url )
+          if publish_question_package
+            status = true
+            notice = "发布成功！"
+            @publish_question_packages = Teacher.get_publish_question_packages @school_class.id
+            content = "教师：#{teacher.user.name}于#{publish_question_package.created_at}发布了一个任务
+                    '#{publish_question_package.question_package.name}',
+                    任务截止时间：#{publish_question_package.end_time}"
+            @school_class.task_messages.create(:content => content,
+                      :period_of_validity => publish_question_package.end_time,
+                      :status => TaskMessage::STATUS[:YES],
+                      :publish_question_package_id => publish_question_package.id)
+          else
+            status = false
+            notice = "发布失败！"
+          end
         end
       end
     else

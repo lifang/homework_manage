@@ -15,15 +15,15 @@ class WelcomeController < ApplicationController
       notice = "用户不存在，请先注册！"
     else
       if teacher && teacher.has_password?(password)
+        p teacher
         if teacher.last_visit_class_id.to_i != 0
           last_visit_class = true
-          session[:class_id] = teacher.last_visit_class_id
         end
+        session[:class_id] = teacher.last_visit_class_id
         session[:teacher_id] = teacher.id
         session[:user_id] = teacher.user.id
         status = true
         notice = "登陆成功！"
-
       else
         status = false
         notice = "密码错误，登录失败！"

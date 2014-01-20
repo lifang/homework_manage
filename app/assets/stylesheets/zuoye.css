@@ -1,0 +1,17 @@
+/* 
+    Document   : zuoye
+    Created on : 2014-1-18, 18:09:53
+    Author     : AbelZhang
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.book_box_table .showPath {
+   background: #dedede;
+   margin: 0 5px;
+}

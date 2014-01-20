@@ -10,7 +10,7 @@
 </div>
 
 <div id="publish_task_panel" style="display: none;"  class="tab">
-  <%= form_tag("/school_classes/#{@school_class.id}/homeworks/publish_question_package", method: "post", remote:true) do %>
+  <%= form_tag("/school_classes/#{@school_class.id}/homeworks/publish_question_package", :method =>"post", :remote => true) do %>
   <span class="close">关闭</span>
   <div class="tab_con">
     <h1>请设置时间</h1>

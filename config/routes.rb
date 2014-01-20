@@ -42,7 +42,11 @@ HomeworkManage::Application.routes.draw do
         post :delete_question_package, :publish_question_package
       end
     end
-    resources :messages
+    resources :messages do
+      collection do
+        get :check_micropost
+      end
+    end
 
     resources :teachers do
       member do

@@ -10,7 +10,7 @@
           <span class="time"><%=micropost.created_at.to_s[0..19]%></span><a onclick="show_reply(this)" class="answer_a">回复（<%=micropost.reply_microposts_count%>）</a>
         </div>
 
-        <div class="answer_area" style="display:none;margin-top: 15px;">
+        <div class="answer_area" style="<% if @init_mid && @init_mid.to_i == micropost.micropost_id %>display:block;<% else %>display:none;<% end %>margin-top: 15px;">
           <span class="arrows"></span>
           <div class="ask_area" >
             <input type="hidden" value="<%=micropost.micropost_id%>" />

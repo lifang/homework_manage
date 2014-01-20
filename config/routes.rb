@@ -62,6 +62,12 @@ HomeworkManage::Application.routes.draw do
     end
     resources :questions
   end
+  
+  resources :results do
+    collection do
+      post :show_single_record
+    end
+  end
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'

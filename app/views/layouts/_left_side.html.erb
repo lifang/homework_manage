@@ -5,7 +5,7 @@
       <li><a href="/school_classes/<%= session[:class_id].to_i %>/main_pages" class=<%=is_hover("main_pages") %>><span class="nav01">首页</span></a></li>
       <li class="firstNav"><a href="javascript:void(0);"><span class="nav02">作业</span></a>
         <div class="menu">
-          <a href="#">完成情况</a>
+          <a href="/school_classes/<%= params[:school_class_id] %>/results">完成情况</a>
           <a href="/school_classes/<%= session[:class_id].to_i %>/homeworks" class=<%=is_hover("main_pages") %>>留作业</a>
         </div>
       </li>

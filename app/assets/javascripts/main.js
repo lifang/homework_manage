@@ -262,7 +262,7 @@ function check_time()
        alert("时间不能为空！");
 }
 
-//发布任务时验证时间
+//注册时验证时间
 function check_regist_info()
 {
     name = $.trim($("#r_name").val());

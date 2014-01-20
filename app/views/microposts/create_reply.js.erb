@@ -1,4 +1,8 @@
+<%@class_index%>
 $("#reply_area").html('<%= j( render 'main_pages/questarea_box')%>');
+var box =$("#reply_area").children(".question_area_box");
+$(box[<%=@class_index%>]).find(".answer_area").html('<%=j(render 'main_pages/answer_area')%>');
+
 $(".question_area_con").hover(
 		function(){
 			$(this).find("a.x").css("display","block");
@@ -7,3 +11,4 @@ $(".question_area_con").hover(
 			$(this).find("a.x").css("display","none");
 		}
 	);
+height_adjusting();

@@ -4,7 +4,7 @@ HomeworkManage::Application.routes.draw do
     get :create_reply
 
     member do
-      get :reply_page_change,:delete_micropost,:delete_micropost_reply,:delete_micropost,:add_reply_page
+      get :reply_page_change,:delete_micropost,:delete_micropost_reply,:delete_micropost,:add_reply_page,:particate_reply_show
     end
   end
 
@@ -42,15 +42,19 @@ HomeworkManage::Application.routes.draw do
         post :delete_question_package, :publish_question_package
       end
     end
-    resources :messages
+    resources :messages do
+      collection do
+        get :check_micropost
+      end
+    end
 
     resources :teachers do
       member do
       end
 
       collection do
-        get :teacher_setting, :save_updated_teacher,:destroy_classes
-        post :create_class
+        get :teacher_setting, :destroy_classes,:chang_class
+        post :create_class, :save_updated_teacher
       end
     end
   end
@@ -60,7 +64,18 @@ HomeworkManage::Application.routes.draw do
     member do
       get :render_new_question
     end
-    resources :questions
+    resources :questions do
+      member do
+        post :share, :reference
+      end
+      resources :branch_questions
+    end
+  end
+  
+  resources :results do
+    collection do
+      post :show_single_record
+    end
   end
 
   # Sample of regular route:

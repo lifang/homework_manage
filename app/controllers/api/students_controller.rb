@@ -45,9 +45,9 @@ class Api::StudentsController < ApplicationController
   
   #  关注消息api
   def add_concern
-    student_id = params[:student_id].to_i
+    user_id = params[:user_id].to_i
     micropost_id = params[:micropost_id].to_i
-    followmicropost = FollowMicropost.new(:student_id => student_id, :micropost_id => micropost_id)
+    followmicropost = FollowMicropost.new(:user_id => user_id, :micropost_id => micropost_id)
     if followmicropost.save
       render :json => {:status => 'success', :notice => '关注添加成功'}
     else
@@ -56,9 +56,9 @@ class Api::StudentsController < ApplicationController
   end
   #  取消关注
   def unfollow
-    student_id = params[:student_id].to_i
+    user_id = params[:user_id].to_i
     micropost_id = params[:micropost_id].to_i
-    followmicropost_exits = FollowMicropost.find_by_student_id_and_micropost_id(student_id,micropost_id)
+    followmicropost_exits = FollowMicropost.find_by_user_id_and_micropost_id(user_id, micropost_id)
     if followmicropost_exits && followmicropost_exits.destroy
       render :json => {:status => 'success', :notice => '取消关注成功'}
     else

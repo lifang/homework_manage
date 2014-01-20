@@ -15,7 +15,7 @@
                 <div class="mess_box_text">"<%= con.split(";||;")[1] if con %>"</div>
                 <div class="mess_box_func">
                   <span class="time"><%= m.created_at.nil? ? "" : m.created_at.strftime("%Y-%m-%d %H:%M") %></span>
-                  <a href="#" class="see">查看</a>
+                  <a href="/school_classes/<%= @class_id %>/messages/check_micropost?uid=<%= m.user_id %>&mid=<%= m.micropost_id %>&mess_id=<%= m.id %>" class="see">查看</a>
                 </div>
               </div>
             </li>

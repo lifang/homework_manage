@@ -47,7 +47,7 @@ class StudentAnswerRecord < ActiveRecord::Base
   
   def self.ret_stuent_record(school_class_id, publish_packages_id)
     s_answer_records = StudentAnswerRecord.find_by_sql(["select
-           sar.*, u.name, u.avatar_url
+           sar.*, u.id user_id, u.name, u.avatar_url
            from students s inner join users u on u.id = s.user_id 
            inner join school_class_student_ralastions r on r.student_id = s.id
            left join student_answer_records sar on sar.student_id = s.id and sar.publish_question_package_id = ?

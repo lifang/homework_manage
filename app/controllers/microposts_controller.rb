@@ -23,7 +23,9 @@ class MicropostsController < ApplicationController
   end
   
   def create_reply
-    get_microposts
+    @class_index =-1
+    @class_index = params[:class_index] unless params[:class_index].nil?
+   
     reply = ReplyMicropost.new
     reply.content = params[:textarea]
     reply.micropost_id = params[:micropost_id]
@@ -32,6 +34,9 @@ class MicropostsController < ApplicationController
     reply.reciver_id = params[:micropost_user_id]
     reply.reciver_types = params[:micropost_user_type]
     if reply.save
+      get_microposts
+      #得到某个帖子的回复和帖子
+      get_posts_and_replis
       Message.add_messages(reply.micropost_id, reply.reciver_id, reply.reciver_types,
         reply.sender_id, reply.sender_types,reply.content, current_teacher.last_visit_class_id)
       flash[:success]='chenggong'
@@ -77,5 +82,13 @@ class MicropostsController < ApplicationController
     array = ReplyMicropost::get_microposts micropost.id,@current_page
     @reply = array[:reply_microposts]
   end
-  
+
+  def particate_reply_show
+    @index = params[:index]
+    get_posts_and_replis
+  end
+  def get_posts_and_replis
+    @micropost = Micropost.find_by_id(params[:micropost_id])
+    @repiles = (ReplyMicropost::get_microposts @micropost.id,1)[:reply_microposts]
+  end
 end

@@ -1,0 +1,47 @@
+<h1><span>完成情况</span></h1>
+<div class="wib_title">
+	<div class="avater"><img src="<%= @user.avatar_url %>"><span><%= @user.name %></span></div>
+    <a href="javascript:void(0)" onclick="$('#all_students').show();$('#single_student').hide();" class="back">返回</a>
+</div>
+<% if @package_json %>
+	<% @package_json["listening"].each do |questions| %>
+		<div class="wib_table">
+        	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th width="100"><span class="wib_spanListen">题号</span></th>
+                        <th>需要多听的词</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	<% questions["branch_questions"].each_with_index do |answer, index| %>                    	
+                    	<tr>
+                        	<td><%= index + 1 %></td>
+                            <td><%= answer["answer"].gsub("-!-", "  ") %></td>
+                    	</tr>
+                    <% end %>
+                </tbody>
+            </table>			
+		</div>
+	<% end if @package_json["listening"] %>
+	<% @package_json["reading"].each do |questions| %>
+		<div class="wib_table">
+        	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th width="100"><span class="wib_spanListen">题号</span></th>
+                        <th>需要多听的词</th>
+                    </tr>
+                </thead>
+                <tbody>
+                	<% questions["branch_questions"].each_with_index do |answer, index| %>                    	
+                    	<tr>
+                        	<td><%= index + 1 %></td>
+                            <td><%= answer["answer"].gsub("-!-", "  ") %></td>
+                    	</tr>
+                    <% end %>
+                </tbody>
+            </table>			
+		</div>
+	<% end if @package_json["reading"] %>
+<% end %>

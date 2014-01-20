@@ -1,0 +1,43 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <thead>
+    <tr>
+      <th width="100">作者名称</th>
+      <th>摘要</th>
+      <th width="100" class="th_func_bg">预览</th>
+      <th width="100" class="th_func_bg">功能</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @share_questions.each do |sq| %>
+      <tr>
+        <td><%= sq.user_name %></td>
+        <td>
+          <div class="td_text">
+            <p class="td_text_p"><%= sq.name %></p>
+          </div>
+        </td>
+        <td width="100" class="td_func_bg">
+          <a href="#" class="preview_icon">预览</a>
+        </td>
+        <td width="100" class="td_func_bg">
+          <%= link_to "引用", reference_question_package_question_path(@question_pack, sq) + "?question_id=" + @question.id.to_s ,:remote => true, "data-type" => "script", :method => :post, :class => "td_a_green" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="pageTurn">
+  <%= will_paginate @share_questions %>
+</div>
+
+<script type="text/javascript">
+  $(".pageTurn .pagination a").each(function(){
+    $(this).attr("data-remote", true);
+    $(this).attr("data-type", 'script');
+    var href = $(this).attr("href");
+    if(href.search("question_package_id") == -1){
+      $(this).attr("href",href + "&question_package_id=" + <%= @question_pack.id %> + "&question_id=" + <%= @question.id %>)
+    }
+  })
+</script>

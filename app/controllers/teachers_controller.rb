@@ -62,19 +62,31 @@ class TeachersController < ApplicationController
   end
   #  保存更新
   def save_updated_teacher
-#    avatar = params[:avatar]
-#    p avatar
-#    filename = avatar.original_filename
-#    FileUtils.mkdir_p "#{File.expand_path(Rails.root)}/public/uploads/#{current_teacher.id}" if !(File.exist?("#{File.expand_path(Rails.root)}/public/uploads/#{current_teacher.id}"))
-#    File.open("#{Rails.root}/public/uploads/#{current_teacher.id}/#{filename}","wb") {
-#      |f| f.write(avatar.read)
-#    }
     teacher = Teacher.find(session[:user_id])
     user = User.find(teacher.user_id)
-    if user.update_attributes(:name => params[:name]) && teacher.update_attributes(:email => params[:email])
-      render :json => {:status => 1}
-    else
-      render :json => {:status => 0}
+    avatar_url = user.avatar_url
+    FileUtils.mkdir_p "#{File.expand_path(Rails.root)}/public/accessories" if !(File.exist?("#{File.expand_path(Rails.root)}/public/accessories"))
+    file_upload = params[:file_upload]
+    if !file_upload.nil?
+      filename = file_upload.original_filename
+      avatar_name = "avatar" + Time.now.strftime("%Y%m%dT%H%M") + filename[/\.[^\.]+$/]
+      avatar_url = "/uploads/#{current_teacher.id}/#{avatar_name}"
+      File.open("#{Rails.root}/public/uploads/#{current_teacher.id}/#{avatar_name}","wb") do |f|
+        f.write(file_upload.read)
+      end
+      file_path = "#{Rails.root}/public/uploads/#{current_teacher.id}/#{avatar_name}"
+      img = MiniMagick::Image.open file_path,"rb"
+      [200].each do |size|
+        resize = size>img["width"] ? img["width"] :size
+        new_file = file_path.split(".")[0]+"_"+resize.to_s+"."+file_path.split(".").reverse[0]
+        resize_file_name = avatar_name.split(".")[0]+"_200"+filename[/\.[^\.]+$/]
+        avatar_url = "/uploads/#{current_teacher.id}/#{resize_file_name}"
+        img.run_command("convert #{file_path} -resize #{resize}x#{resize} #{new_file}")
+      end
+    end
+    if user.update_attributes(:name => params[:name],:avatar_url => avatar_url) && teacher.update_attributes(:email => params[:email])
+      flash[:notice] = "操作成功!"
+      redirect_to "/school_classes/#{session[:class_id].to_i}/teachers/teacher_setting"
     end
   end
   #  删除班级
@@ -84,5 +96,12 @@ class TeachersController < ApplicationController
       flash[:notice] = "操作成功!"
       redirect_to "/school_classes/#{session[:class_id].to_i}/teachers/teacher_setting"
     end
+  end
+  #  切换班级
+  def chang_class
+    school_class_id = params[:id]
+    current_teacher.update_attributes(:last_visit_class_id => school_class_id)
+    session[:class_id] = school_class_id
+    redirect_to "/school_classes/#{session[:class_id].to_i}/main_pages"
   end
 end

@@ -185,27 +185,27 @@ a.x {
 
 .nav01 { background: url(/assets/nav_icon.png) no-repeat 0px -2px; padding-left: 30px;}
 .nav li a:hover .nav01, .nav li a.hover .nav01 { 
-	background: url(/assets/nav_icon.png) no-repeat 0px -22px;
+	background: url(/assets/nav_icon.png) no-repeat 0px -22px; 
 	padding-left: 30px;
 }
 .nav02 { background: url(/assets/nav_icon.png) no-repeat 0px -41px; padding-left: 30px;}
 .nav li a:hover .nav02, .nav li a.hover .nav02 { 
-	background: url(/assets/nav_icon.png) no-repeat 0px -61px;
+	background: url(/assets/nav_icon.png) no-repeat 0px -61px; 
 	padding-left: 30px;
 }
 .nav03 { background: url(/assets/nav_icon.png) no-repeat 0px -80px; padding-left: 30px;}
 .nav li a:hover .nav03, .nav li a.hover .nav03 { 
-	background: url(/assets/nav_icon.png) no-repeat 0px -100px;
+	background: url(/assets/nav_icon.png) no-repeat 0px -100px; 
 	padding-left: 30px;
 }
 .nav04 { background: url(/assets/nav_icon.png) no-repeat 0px -120px; padding-left: 30px;}
 .nav li a:hover .nav04, .nav li a.hover .nav04 { 
-	background: url(/assets/nav_icon.png) no-repeat 0px -140px;
+	background: url(/assets/nav_icon.png) no-repeat 0px -140px; 
 	padding-left: 30px;
 }
 .nav05 { background: url(/assets/nav_icon.png) no-repeat 0px -161px; padding-left: 30px;}
 .nav li a:hover .nav05, .nav li a.hover .nav05 { 
-	background: url(/assets/nav_icon.png) no-repeat 0px -181px;
+	background: url(/assets/nav_icon.png) no-repeat 0px -181px; 
 	padding-left: 30px;
 }
 
@@ -364,7 +364,7 @@ a.x {
 .answer_area .arrows { 
 	width: 17px; 
 	height: 10px; 
-	background: url(/assets/arrows.png) no-repeat;
+	background: url(/assets/arrows.png) no-repeat; 
 	display: block; 
 	position: absolute; 
 	top: -10px; 
@@ -421,7 +421,7 @@ a.x {
 .work_book { position: absolute; top: 0px; left: -20px; width: 200px; background: #e9e9e9;}
 
 .work_info { overflow: hidden; padding-right: 40px;}
-.work_info a { 
+.work_info_head a { 
 	width: 40px; 
 	height: 40px;
 	float: left; 
@@ -430,9 +430,9 @@ a.x {
 	margin: 1px 20px 1px 1px;
 	box-shadow: 0 0 3px rgba(0,0,0,0.3);
 }
-.work_info a.work_h_one { background: url(/assets/icon.png) no-repeat 0 -24px;}
-.work_info a.work_h_two { background: url(/assets/icon.png) no-repeat 0 -66px;}
-.work_info .work_head_time { float: left; color: #a5a2a3;}
+.work_info_head a.work_h_one { background: url(/assets/icon.png) no-repeat 0 -24px;}
+.work_info_head a.work_h_two { background: url(/assets/icon.png) no-repeat 0 -66px;}
+.work_info_head .work_head_time { float: left; color: #a5a2a3;}
 
 .work_info_body { padding: 20px 0;}
 .work_info_body h1 { 
@@ -453,8 +453,8 @@ a.x {
 .work_info_body dl { overflow: hidden;}
 .work_info_body dt { height: 24px; line-height: 24px; color: #a5a2a3;}
 .work_info_body dd { width: 50px; float: left; margin: 10px;}
-.work_info_body dd span { font-size: 0;}
-.work_info_body dd span img { width: 50px; height: 50px;}
+.work_info_body dd a { width: 50px; height: 50px; display: block; font-size: 0;}
+.work_info_body dd a img { width: 50px; height: 50px;}
 .work_info_body dd p { font-size: 12px; text-align: center;}
 
 .work_book li { border-bottom: 1px #dddcdc solid; height: 40px; line-height: 40px; padding-left: 20px;}
@@ -468,6 +468,46 @@ a.x {
 	color:#92b81b; 
 	background: url(/assets/arrows_icon.png) no-repeat 145px 13px;
 }
+
+/*作业完成情况-个人信息*/
+.wib_title { margin-bottom: 10px; overflow: hidden; padding: 2px 5px;}
+.wib_title .avater {height: 50px; float: left; line-height: 50px;}
+.wib_title .avater img { width: 50px; height: 50px; margin-right: 10px;}
+.wib_title .back { 
+	width: 80px; 
+	height: 36px;
+	line-height: 36px;
+	text-align: center;
+	margin-top: 6px;
+	display: inline-block;
+	float: right;
+	box-shadow: 0 0 3px rgba(51,51,51,0.3);
+	border-radius: 2px;
+	background:-webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f6f6f6));
+	background:-moz-linear-gradient(top, #ffffff,#f6f6f6);
+	background:-ms-linear-gradient(top, #ffffff, #f6f6f6);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#f6f6f6,grandientType=1);
+	-ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#f6f6f6,grandientType=1);
+	border: 1px #d8d7d7 solid;
+}
+.wib_table { margin-bottom: 50px;}
+.wib_table table { text-align: center;}
+.wib_table table thead {
+	background:#ededed;
+	background:-webkit-gradient(linear, 0 0, 0 100%, from(#f5f5f5), to(#ededed));
+	background:-moz-linear-gradient(top, #f5f5f5,#ededed);
+	background:-ms-linear-gradient(top, #f5f5f5, #ededed);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#f5f5f5,endColorstr=#ededed,grandientType=1);
+	-ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#f5f5f5,endColorstr=#ededed,grandientType=1);
+	box-shadow: 0px 1px 2px rgba(0,0,0,0.3);
+}
+.wib_table table th {height: 77px;}
+.wib_table table th, .wib_table table td { border-bottom: 1px #ededed solid;}
+.wib_table table td { padding: 10px 0; line-height: 24px;}
+
+.wib_spanListen, .wib_spanRead { width: 32px; padding-top: 32px; display: inline-block;}
+.wib_spanListen { background: url(/assets/wib_table_icon.png) no-repeat;}
+.wib_spanRead { background: url(/assets/wib_table_icon.png) no-repeat -37px 0px;}
 
 /*-----留作业-----*/
 .assignWork { padding: 10px 10px 10px 50px;}
@@ -584,7 +624,7 @@ a.x {
 	display: inline-block;
 	margin: 0 20px;
 }
-.progressBar li.hover { background: #92b81b;}
+.progressBar li.hover { background: #92b81b; color}
 
 .addwork_btn { text-align: center; margin-top: 100px;}
 .addwork_btn a { 
@@ -709,7 +749,7 @@ a.x {
 	opacity: 0; /* 实现的关键点 */  
 	filter:alpha(opacity=0);/* 兼容IE */
 }
-
+.book_box_table .showPath { background: #dedede; margin: 0 5px;}
 
 
 /*pageTurn----*/

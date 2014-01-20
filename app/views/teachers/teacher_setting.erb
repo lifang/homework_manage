@@ -13,7 +13,7 @@
           </li>
           <li><p name="name"><%= @user.name %></p><input name="" type="text"/></li>
           <li><p name="email"><%= @teacher.email %></p><input name="" type="text"/></li>
-          <li><button class="green_btn" onclick="save_updated_teacher()">保存更新</button></li>
+          <li><button class="green_btn" onclick="save_updated_teacher(<%= @schoolclass.id %>)">保存更新</button></li>
         </ul>
       </div>
     </div>
@@ -80,7 +80,7 @@
       </ul>
     </div>
   </div>
-  <div class="tab_btn"><button class="green_btn" onclick="create_school_class()">确认</button></div>
+  <div class="tab_btn"><button class="green_btn" onclick="create_school_class(<%= @schoolclass.id %>)">确认</button></div>
 </div>
 
 <div class="tab create_success">

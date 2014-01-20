@@ -2,6 +2,7 @@
 class MainPagesController < ApplicationController
   before_filter :get_school_class
   def index
+    @class_index =-1
     @init_mid = params[:init_mid]
     @single_m = params[:single_m]
     @condition =  params[:condtions]=="" ? nil : params[:condtions]

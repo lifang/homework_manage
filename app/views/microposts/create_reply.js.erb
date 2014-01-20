@@ -1,3 +1,4 @@
+<%=@class_index%>
 $("#reply_area").html('<%= j( render 'main_pages/questarea_box')%>');
 $(".question_area_con").hover(
 		function(){
@@ -7,3 +8,4 @@ $(".question_area_con").hover(
 			$(this).find("a.x").css("display","none");
 		}
 	);
+height_adjusting();

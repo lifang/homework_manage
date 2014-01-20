@@ -7,8 +7,9 @@ $(".question_area_con").hover(
 			$(this).find("a.x").css("display","none");
 		}
 	);
+height_adjusting();
 <%if flash[:success]=='删除成功'%>
   alert("删除成功");
-  <%else%>
+<%else%>
   alert("删除失败");
 <%end%>

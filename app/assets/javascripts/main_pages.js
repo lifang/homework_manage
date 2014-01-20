@@ -1,8 +1,8 @@
 function check_send_microposts(value){
     var content =$.trim($(value).find("textarea").val());
     if(content == ""){
-       alert("内容不能为空");
-       return false;
+        alert("内容不能为空");
+        return false;
     }
 }
 
@@ -17,12 +17,14 @@ function main_reply(value){
     var micropost_user_id= $(input[1]).val();
     var micropost_user_type= $(input[2]).val();
     var teacher_id= $(input[3]).val();
+    var class_index =get_index(value);
+    alert(class_index);
     $.ajax({
         async:true,
         type : 'get',
         url:'/microposts/'+micropost_id+'/create_reply',
         dataType:"script",
-        data  :"textarea=" + textarea + "&micropost_id=" + micropost_id
+        data  :"textarea=" + textarea + "&micropost_id=" + micropost_id+"&class_index="+class_index
         + "&micropost_user_id=" + micropost_user_id+ "&micropost_user_type=" + micropost_user_type+ "&teacher_id=" + teacher_id+"&conditions="+$("#condtions").val(),
         success:function(data){
             
@@ -41,6 +43,7 @@ function show_reply_again(value,name){
 
     $(answer[1]).show();
     $(answer[1]).find("textarea").attr("placeholder","给"+name+"回复：");
+    height_adjusting();
 //    $(answer[1]).find("textarea").attr("id","ddd");
 //    location.href="#ddd"
     
@@ -48,15 +51,8 @@ function show_reply_again(value,name){
 
 function send_more_replies(value,micropost_id){
     var current_page = $(value).parent().find(".current_page").val();
-    var box=$(value).parent().parent().parent();
-    var index1=0;
-    var all_box = $("#reply_area").children(".question_area_box");
-    for(var i=0;i<all_box.length;i++){
-        if(all_box[i]==box[0]){
-            index1 = i;
-           
-        }
-    }
+    
+    var index1=get_index(value);
     //alert(index1+"--"+box.attr("class"));
     $.ajax({
         async:true,
@@ -70,6 +66,19 @@ function send_more_replies(value,micropost_id){
         }
     });
 
+}
+function get_index(value){
+    var index1=0;
+    var box=$(value).parents(".question_area_box");
+    var index1=0;
+    var all_box = $("#reply_area").children(".question_area_box");
+    for(var i=0;i<all_box.length;i++){
+        if(all_box[i]==box[0]){
+            index1 = i;
+
+        }
+    }
+    return index1;
 }
 
 function change_conditions(condtion,id){
@@ -121,10 +130,18 @@ function delete_micropots(id){
 }
 
 function  show_reply(value){
-  var answer_area = $(value).parent().parent().find(".answer_area");
-  if(answer_area.css("display")=="none"){
-      $(answer_area).show();
-  }else{
-      $(answer_area).hide();
-  }
+    var answer_area = $(value).parent().parent().find(".answer_area");
+    if(answer_area.css("display")=="none"){
+        $(answer_area).show();
+    }else{
+        $(answer_area).hide();
+    }
+    height_adjusting();
+ 
+}
+//调整高度
+function height_adjusting(){
+    $(".leftSide").css("height",$(".rightSide").height());
+    $(".grade_box").css("height",$(".rightSide").height()-40);
+    $(".work_book").css("height",$(".rightSide").height());
 }

@@ -4,16 +4,19 @@
       <h1 class="title">个人信息</h1>
       <div class="user_con">
         <ul class="user_info">
-          <li class="avater">
-            <div class="avater_default"><img src="/assets/default_avater.jpg"/></div>
-            <a href="javascript:void(0);" class="avater_a">
-              <span>点击更换头像</span>
-              <input name="avatar" multiple type="file"/>
-            </a>
-          </li>
-          <li><p name="name"><%= @user.name %></p><input name="" type="text"/></li>
-          <li><p name="email"><%= @teacher.email %></p><input name="" type="text"/></li>
-          <li><button class="green_btn" onclick="save_updated_teacher(<%= @schoolclass.id %>)">保存更新</button></li>
+
+          <%= form_for :teachers, :url => { :action => :save_updated_teacher, :controller => :teachers},:html => {:multipart => true,:method => :post} do|f|%>
+            <li class="avater">
+              <div class="avater_default"><img src=<%=  @user.avatar_url%>/></div>
+              <a href="javascript:void(0);" class="avater_a">
+                <span>点击更换头像</span>
+                <input type="file" name="file_upload" id="loading" />
+              </a>
+            </li>
+            <li><p ><%= @user.name %></p><input name="name" type="text" value="<%= @user.name %>"/></li>
+            <li><p ><%= @teacher.email %></p><input name="email" type="text" value="<%= @teacher.email %>"/></li>
+            <input type="submit" value="保存更新" id="submit_file" class="green_btn"/>
+          <% end %>
         </ul>
       </div>
     </div>
@@ -42,7 +45,7 @@
 </div>
 
 
-<div class="tab list_classes" >
+<div class="tab list_classes" style="display :none">
   <span class="close">关闭</span>
   <div class="tab_con">
     <h1>请选择班级</h1>
@@ -50,7 +53,7 @@
       <ul>
         <%  @schoolclasses.each do |schoolclass| %>
           <% if !schoolclass.id.eql?(session[:class_id].to_i) %>
-            <li><a href="/school_classes/<%= schoolclass.id %>/main_pages" class="tab_li_option"><%= schoolclass.name %> </a>
+            <li><a href="/school_classes/<%= schoolclass.id %>/teachers/chang_class?id=<%=  schoolclass.id%>" class="tab_li_option"><%= schoolclass.name %> </a>
               <%= link_to "删除", "/school_classes/#{session[:class_id].to_i}/teachers/destroy_classes?id=#{schoolclass.id}", :class => "delete_trash tooltip", :confirm => "确定删除?" %>
             </li>
           <% end %>
@@ -60,7 +63,7 @@
   </div>
 </div>
 
-<div class="tab created_new_class">
+<div class="tab created_new_class" style="display :none">
   <span class="close">关闭</span>
   <div class="tab_con">
     <div class="tab_ul">
@@ -87,7 +90,7 @@
   <div class="tab_btn"><button class="green_btn" onclick="create_school_class(<%= @schoolclass.id %>)">确认</button></div>
 </div>
 
-<div class="tab create_success">
+<div class="tab create_success" style="display :none">
   <span class="close">关闭</span>
   <div class="tab_con">
     <h1 class="red">创建班级成功</h1>

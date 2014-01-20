@@ -23,7 +23,9 @@ class MicropostsController < ApplicationController
   end
   
   def create_reply
-    get_microposts
+
+    @class_index = params[:class_index]
+    p 2333333333333333333333333,@class_index
     reply = ReplyMicropost.new
     reply.content = params[:textarea]
     reply.micropost_id = params[:micropost_id]
@@ -32,6 +34,7 @@ class MicropostsController < ApplicationController
     reply.reciver_id = params[:micropost_user_id]
     reply.reciver_types = params[:micropost_user_type]
     if reply.save
+      get_microposts
       Message.add_messages(reply.micropost_id, reply.reciver_id, reply.reciver_types,
         reply.sender_id, reply.sender_types,reply.content, current_teacher.last_visit_class_id)
       flash[:success]='chenggong'

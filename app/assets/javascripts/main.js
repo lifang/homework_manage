@@ -262,6 +262,25 @@ function check_time()
        alert("时间不能为空！");
 }
 
+//发布任务时验证时间
+function check_regist_info()
+{
+    name = $.trim($("#r_name").val());
+    email = $.trim($("#r_email").val());
+    password = $.trim($("#r_password").val());
+    confirm_password = $.trim($("#r_confirm_password").val());
+    if(name != "姓名" && email != "邮箱" && password != "密码" && confirm_password != "确认密码")
+    {
+        if(password == confirm_password)
+            $("#register_submit_button").click();
+        else
+            alert("两次密码不一致！");
+    }
+    else
+        alert("姓名、邮箱、密码、确认密码不能为空！");
+
+}
+
 function save_updated_teacher(school_class_id){
     var tercher_name = $("p[name='name']").html();
     var tercher_email = $("p[name='email']").html();

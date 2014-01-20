@@ -234,7 +234,7 @@ function delete_packages(question_package_id,school_class_id)
             type: "POST",
             dataType: "script",
             data:{question_package_id:question_package_id,
-                school_class_id:school_class_id,
+                school_class_id:school_class_id
             },
             success:function(data){
             },
@@ -260,4 +260,62 @@ function check_time()
    }
    else
        alert("时间不能为空！");
+}
+
+function save_updated_teacher(school_class_id){
+    var tercher_name = $("p[name='name']").html();
+    var tercher_email = $("p[name='email']").html();
+    $.ajax({
+        url : "/school_classes/" + school_class_id + "/teachers/save_updated_teacher",
+        type:'get',
+        dataType : 'json',
+        data : {
+            name : tercher_name,
+            email : tercher_email
+        },
+        success: function(data){
+            if(data.status==1){
+                alert("保存成功");
+            }else{
+                alert("保存失败");
+            }
+
+        },
+        error:function(){
+            alert()
+        }
+    });
+}
+function show_list_class(){
+    $(".list_classes").show();
+}
+function created_new_class(){
+    $(".created_new_class").show();
+}
+function create_school_class(school_class_id){
+    var teaching_material_id = $("select[name='teaching_material_id']").val();
+    var class_name = $("input[name='class_name']").val();
+    var period_of_validity = $("input[name='period_of_validity']").val()
+    $.ajax({
+        url : "/school_classes/" + school_class_id + "/teachers/create_class",
+        type:'post',
+        dataType : 'json',
+        data : {
+            teaching_material_id : teaching_material_id,
+            class_name : class_name,
+            period_of_validity : period_of_validity
+        },
+        success: function(data){
+            if(data.status=='success'){
+                alert(data.notice);
+                $(".created_new_class").hide();
+            }else{
+                alert(data.notice);
+            }
+        },
+        error:function(){
+            alert()
+        }
+    });
+
 }

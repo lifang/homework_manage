@@ -59,7 +59,7 @@ class MicropostsController < ApplicationController
   end
 
   def add_reply_page
-    @index = params[:index]
+    @index = params[:index].to_i+1
     @current_page = params[:current_page].to_i+1
     micropost_id = params[:micropost_id]
     micropost = Micropost.find_by_id(micropost_id)

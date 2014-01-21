@@ -33,14 +33,5 @@
   <% end %>
   </tbody>
 </table>
-<div class="pageTurn">
-  <a href="#" class="disabled">上一页</a>
-  <a href="#" class="current">1</a>
-  <a href="#?page=2">2</a>
-  <a href="#?page=3">3</a>
-  <a href="#?page=4">4</a>
-  <a href="#?page=5">5</a>...<a href="#?page=199">199</a>
-  <a href="#?page=200">200</a>
-  <a href="#?page=2">下一页</a>
-</div>
+<%= will_paginate @publish_question_packages,{:previous_label => "上一页", :next_label => "下一页"} %>
 

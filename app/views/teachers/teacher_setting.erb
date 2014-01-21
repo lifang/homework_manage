@@ -25,7 +25,7 @@
       <h1 class="title">班级信息</h1>
       <div class="user_con">
         <ul class="grade_info">
-          <li><p>本班结课时间 ： <%= @schoolclass.period_of_validity.strftime("%Y-%m-%d %H:%M:%S") %></p></li>
+          <li><p>本班结课时间 ： <%= @schoolclass.period_of_validity.blank? ? @schoolclass.period_of_validity : @schoolclass.period_of_validity.strftime("%Y-%m-%d %H:%M:%S") %></p></li>
           <li><p>本班验证码 ： <%= @schoolclass.verification_code %></p></li>
         </ul>
       </div>

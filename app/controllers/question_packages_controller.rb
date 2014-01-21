@@ -8,7 +8,7 @@ class QuestionPackagesController < ApplicationController
       f.js{
         @question_pack = QuestionPackage.find_by_id(params[:question_package_id])
         @question = Question.find_by_id(params[:question_id])
-        @share_questions = ShareQuestion.find_by_sql("select u.name user_name, sq.* from share_questions sq inner join users u on sq.user_id = u.id").paginate(:page => params[:page], :per_page => 5)
+        @share_questions = ShareQuestion.find_by_sql("select u.name user_name, sq.* from share_questions sq inner join users u on sq.user_id = u.id where sq.types=#{@question.types}").paginate(:page => params[:page], :per_page => 5)
       }
       f.html
     end

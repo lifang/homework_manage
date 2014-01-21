@@ -189,8 +189,8 @@ $(function(){
 
 //创建作业 book_box_con
 $(function(){
-    //$(".book_box_con").css("width",$(".book_box").width()-$(".book_box_page").width());
-    $(".book_box_page ul").css("height",$(".book_box_con").height()+40);
+ $(".book_box_con").css("min-height",$(".book_box_page").height());
+ height_adjusting();
 })
 
 //双击修改句子

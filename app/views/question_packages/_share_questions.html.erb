@@ -26,13 +26,11 @@
     <% end %>
   </tbody>
 </table>
-
-<div class="pageTurn">
-  <%= will_paginate @share_questions, :class => "pageTurn" %>
-</div>
-
+<% if @share_questions.present? %>
+  <%= will_paginate @share_questions, :previous_label => "上一页", :next_label => "下一页", :class => "pageTurn"  %>
+<% end %>
 <script type="text/javascript">
-  $(".pageTurn .pagination a").each(function(){
+  $(".pageTurn a").each(function(){
     $(this).attr("data-remote", true);
     $(this).attr("data-type", 'script');
     var href = $(this).attr("href");

@@ -15,17 +15,18 @@ class WelcomeController < ApplicationController
       notice = "用户不存在，请先注册！"
     else
       if teacher && teacher.has_password?(password)
-        if teacher.last_visit_class_id.to_i != 0
-          last_visit_class = true
-          session[:class_id]  = teacher.last_visit_class_id
+        @class_id = teacher.last_visit_class_id
+        last_visit_class = @class_id.nil? ? false : true
+        if @class_id
+          cookies[:class_id]={:value => @class_id, :path => "/", :secure  => false}
+          cookies[:teacher_id]={:value => teacher.id, :path => "/", :secure  => false}
+          cookies[:user_id]={:value => teacher.user.id, :path => "/", :secure  => false}
+          status = true
+          notice = "登陆成功！"
+        else
+          status = false
+          notice = "密码错误，登录失败！"
         end
-        session[:teacher_id] = teacher.id
-        session[:user_id] = teacher.user.id
-        status = true
-        notice = "登陆成功！"
-      else
-        status = false
-        notice = "密码错误，登录失败！"
       end
     end
     @info = {:status => status, :notice => notice, :last_visit_class => last_visit_class}
@@ -81,7 +82,7 @@ class WelcomeController < ApplicationController
   #教师第一次注册后跳转页面
   def first
     @teachering_materials = TeachingMaterial.select("id,name")
-    @teacher = Teacher.find_by_id session[:teacher_id]
+    @teacher = Teacher.find_by_id cookies[:teacher_id]
   end
 
   #第一次创建班级
@@ -90,7 +91,7 @@ class WelcomeController < ApplicationController
     teaching_material_id = params[:teaching_material_id]
     period_of_validity = params[:period_of_validity]
     verification_code = SecureRandom.hex(5)
-    teacher_id = session[:teacher_id]
+    teacher_id = cookies[:teacher_id]
     teacher = Teacher.find_by_id teacher_id
     status = false
     notice = "班级创建失败，请重新操作！"
@@ -105,7 +106,7 @@ class WelcomeController < ApplicationController
             :teacher_id => teacher.id, :teaching_material_id => teaching_material_id)
           if @school_class.save
             teacher.update_attributes(:last_visit_class_id => @school_class.id)
-            session[:class_id] = @school_class.id
+            cookies[:class_id] = @school_class.id
             notice = "班级创建成功！"
             status = true
             last_visit_class_id = true
@@ -119,9 +120,9 @@ class WelcomeController < ApplicationController
   end
   #  退出
   def teacher_exit
-    session[:class_id] = nil
-    session[:teacher_id] = nil
-    session[:user_id] = nil
+    cookies[:class_id] = nil
+    cookies[:teacher_id] = nil
+    cookies[:user_id] = nil
     #    render :index
     redirect_to '/'
   end

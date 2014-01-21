@@ -10,7 +10,7 @@ class TeachersController < ApplicationController
     teaching_material_id = params[:teaching_material_id]
     period_of_validity = params[:period_of_validity]
     verification_code = SecureRandom.hex(5)
-    teacher_id = session[:teacher_id]
+    teacher_id = cookies[:teacher_id]
     teacher = Teacher.find_by_id teacher_id
     if teacher.nil?
       notice = "教师不存在，不能创建班级！"
@@ -85,7 +85,7 @@ class TeachersController < ApplicationController
     end
     if current_user.update_attributes(:name => params[:name],:avatar_url => avatar_url) && current_teacher.update_attributes(:email => params[:email])
       flash[:notice] = "操作成功!"
-      redirect_to "/school_classes/#{session[:class_id].to_i}/teachers/teacher_setting"
+      redirect_to "/school_classes/#{cookies[:class_id].to_i}/teachers/teacher_setting"
     end
   end
   #  删除班级
@@ -93,14 +93,14 @@ class TeachersController < ApplicationController
     school_class = SchoolClass.find_by_id(params[:id])
     if school_class && school_class.destroy
       flash[:notice] = "操作成功!"
-      redirect_to "/school_classes/#{session[:class_id].to_i}/teachers/teacher_setting"
+      redirect_to "/school_classes/#{cookies[:class_id].to_i}/teachers/teacher_setting"
     end
   end
   #  切换班级
   def chang_class
     school_class_id = params[:id]
     current_teacher.update_attributes(:last_visit_class_id => school_class_id)
-    session[:class_id] = school_class_id
-    redirect_to "/school_classes/#{session[:class_id].to_i}/main_pages"
+    cookies[:class_id] = school_class_id
+    redirect_to "/school_classes/#{cookies[:class_id].to_i}/main_pages"
   end
 end

@@ -1,5 +1,6 @@
 #encoding: utf-8
 class QuestionsController < ApplicationController
+  before_filter :sign?
 
   def index
     @question_pack = QuestionPackage.find_by_id(params[:question_package_id])

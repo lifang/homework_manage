@@ -6,6 +6,7 @@ require 'will_paginate/array'
 include REXML
 include MethodLibsHelper
 class HomeworksController < ApplicationController
+  before_filter :sign?
   #作业主页
   def index
     teacher = Teacher.find_by_id cookies[:teacher_id]

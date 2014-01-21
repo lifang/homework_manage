@@ -1,4 +1,5 @@
 class QuestionPackagesController < ApplicationController
+  before_filter :sign?
   require 'will_paginate/array'
 
   def index

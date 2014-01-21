@@ -15,8 +15,15 @@
           <%= render "edit_branch" %>
         </div>
       </div>
+      
+      <%= form_for @question_pack do |f| %>
+        <div class="remark">
+          <h1>填写作业备注</h1>
+          <div class="remark_con"><%= f.text_area :name, :rows => 5 %></div>
+          <div class="remark_btn"><button class="green_btn">保存作业</button></div>
+        </div>
+      <% end %>
+
     </div>
-
   </div>
-
 </div>

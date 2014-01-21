@@ -5,14 +5,14 @@
 var branchQuestion = "<tr class=\"done_tr\">\n\
                            <td>\n\
                                 <div class=\"td_text\">\n\
-                                  <a href=\"#\" class=\"remove\" onclick = \"removeBranchQues(this)\">删除</a>\n\
+                                  <a href=\"javascript:void(0)\" class=\"remove\" onclick = \"removeBranchQues(this)\">删除</a>\n\
                                   <p class=\"td_text_p tooltip_title\" title=\"双击句子可以进行编辑和修改\" ondblclick=\"ModifyQuestion(this)\"></p>\n\
                                   <input name=\"branch[content]\" type=\"text\" class=\"td_text_input\" onblur=\"hideInput(this)\"/>\n\
                                 </div>\n\
                               </td>\n\
                               <td width=\"100\" class=\"td_func_bg\">\n\
                                  <form action=\"\" method=\"post\" data-remote=\"true\" data-type=\"script\">\n\
-                                    <a href=\"#\" class=\"up_voice_a\">\n\
+                                    <a class=\"up_voice_a\">\n\
                                       <span>上传音频</span>\n\
                                          <input name=\"branch_url\" type=\"file\" onchange=\"showPath(this)\"/>\n\
                                     </a>\n\
@@ -130,10 +130,16 @@ function checkText(obj, path){
 
 function showPath(obj){
     var fil_name =  $(obj).val();
+    var img_extension = fil_name.substring(fil_name.lastIndexOf('.') + 1).toLowerCase();
+    if(img_extension == "mp3" || img_extension == "amr" || img_extension == "wav"){
+    }else{
+        alert("音频格式不对! 仅支持mp3、amr、wav格式");
+        return false;
+    }
     var $a = $(obj).parent("a");
     var content = $(obj).parents("td").prev().find("input.td_text_input").val();
     if($.trim(content)==""){
-        alert("内容不能为空!")
+        alert("小题内容不能为空!")
     }else{
         $("#fugai").show();
         $("#fugai1").show();
@@ -203,4 +209,14 @@ function hideInput(obj){
             $(obj).parents("td").next().find("form").submit();
         }
     }
+}
+
+function playAudio(obj){
+    var oAudio =  $(obj).find("audio")[0];
+      if (oAudio.paused) {
+          oAudio.play();
+        }
+        else {
+          oAudio.pause();
+        }
 }

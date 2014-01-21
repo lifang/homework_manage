@@ -435,16 +435,18 @@ class Api::StudentsController < ApplicationController
             end
             file_url = "#{questions_xml_dir}/student_#{student.id}.xml"
             if write_xml(file_url, question_id, branch_question_id, answer, question_types) == true
+              base_url = "#{Rails.root}/public"
+              record_url = file_url.to_s[base_url.size,file_url.size]
               if question_types == Question::TYPES[:LISTENING]
                 listening_answer_count = student_answer_record.listening_answer_count + 1
                 student_answer_record.update_attributes(:listening_answer_count => listening_answer_count,
-                                                        :answer_file_url => file_url)
+                                                        :answer_file_url => record_url)
                 status = "success"
                 notice = "记录完成！"
               elsif question_types == Question::TYPES[:READING]
                 reading_answer_count = student_answer_record.reading_answer_count + 1
                 student_answer_record.update_attributes(:reading_answer_count => reading_answer_count,
-                                                        :answer_file_url => file_url)
+                                                        :answer_file_url => record_url)
                 status = "success"
                 notice = "记录完成！"
               end

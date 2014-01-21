@@ -92,9 +92,11 @@ class WelcomeController < ApplicationController
     verification_code = SecureRandom.hex(5)
     teacher_id = session[:teacher_id]
     teacher = Teacher.find_by_id teacher_id
+    status = false
+    notice = "班级创建失败，请重新操作！"
+    last_visit_class_id = false
     if teacher.nil?
       notice = "教师不存在，不能创建班级！"
-      status = false
     else
       if teacher.status == Teacher::STATUS[:YES]
         Teacher.transaction do
@@ -106,17 +108,14 @@ class WelcomeController < ApplicationController
             session[:class_id] = @school_class.id
             notice = "班级创建成功！"
             status = true
-          else
-            notice = "班级创建失败，请重新操作！"
-            status = false
+            last_visit_class_id = true
           end
         end
       else
         notice = "教师已被禁用，无法进行操作！"
-        status = false
       end
     end
-    @info = {:status => status, :notice => notice}
+    @info = {:status => status, :notice => notice, :last_visit_class_id => last_visit_class_id}
   end
   #  退出
   def teacher_exit

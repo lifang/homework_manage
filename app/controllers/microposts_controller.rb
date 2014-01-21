@@ -40,9 +40,6 @@ class MicropostsController < ApplicationController
       get_posts_and_replis
       Message.add_messages(reply.micropost_id, reply.reciver_id, reply.reciver_types,
         reply.sender_id, reply.sender_types,reply.content, current_teacher.last_visit_class_id)
-      flash[:success]='chenggong'
-    else
-      flash[:error]='shibai'
     end
   end
   def delete_micropost

@@ -1,6 +1,6 @@
 <% if @info[:status] == true %>
     tishi('<%= @info[:notice] %>');
-    location.href = "<%= root_url %>";
+    setTimeout("location.href = '<%= root_url %>';",2000);
 <% else %>
     tishi('<%= @info[:notice] %>');
 <% end %>

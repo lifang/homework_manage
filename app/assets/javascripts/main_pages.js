@@ -8,6 +8,9 @@ function check_send_microposts(value){
 
 function main_reply(value){
     var page = $(".pagination em").html();
+    if($(".pagination em").length==0){
+        page = 1;
+    }
     var textarea=$.trim($(value).parent().parent().find("textarea").val());
     if(textarea==""){
         tishi("不能为空！");

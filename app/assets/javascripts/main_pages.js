@@ -134,10 +134,7 @@ function  show_reply(value,micropost_id){
     var index = get_index(value);
     if(answer_area.css("display")=="none"){
         $(answer_area).show();
-    }else{
-        $(answer_area).hide();
-    }
-    $.ajax({
+         $.ajax({
             async:true,
             type : 'get',
             url:"/microposts/"+micropost_id+"/particate_reply_show",
@@ -148,6 +145,10 @@ function  show_reply(value,micropost_id){
             }
         });
 
+    }else{
+        $(answer_area).hide();
+    }
+   
 
  
 }

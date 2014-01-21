@@ -1,0 +1,22 @@
+<div class="rightSide">
+  <div class="main">
+    <div class="article">
+      <div class="book_box clearAfter">
+        <div class="book_box_page">
+          <ul>
+            <% @questions.each_with_index do |question, index| %>
+              <li class="question_li <%= @question && @question.id == question.id ? "hover" : "" %>" onclick="liHover(this)">
+                <a href="<%= edit_question_package_question_path(@question_pack, question) %>"><%= index+1 %>.</a></li>
+            <% end %>
+            <li><a href="#" class="addPage">+</a></li>
+          </ul>
+        </div>
+        <div class="steps">
+          <%= render "edit_branch" %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

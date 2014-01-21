@@ -59,8 +59,8 @@ class QuestionsController < ApplicationController
           File.delete resource_path if File.exists?(resource_path)
         end
       end
+      redirect_to question_package_questions_path(question_pack)
     end
-    redirect_to question_package_questions_path(question_pack)
   end
 
   #分享题目
@@ -68,7 +68,7 @@ class QuestionsController < ApplicationController
     question = Question.find_by_id(params[:id])
     Question.transaction do
       unless question.if_shared
-        share_question = ShareQuestion.create({:user_id => current_user.id, :name => question.name})
+        share_question = ShareQuestion.create({:user_id => current_user.id, :name => question.name, :types => question.types})
         if share_question
           question.branch_questions.each do |bq|
             share_question.share_branch_questions.create({:content => bq.content, :resource_url => bq.resource_url})
@@ -84,7 +84,9 @@ class QuestionsController < ApplicationController
 
   #预览题目
   def show
-    
+    @question = Question.find_by_id(params[:id])
+    @question_pack = QuestionPackage.find_by_id(params[:question_package_id])
+    @branch_questions = @question.branch_questions
   end
 
   #引用题目
@@ -94,7 +96,10 @@ class QuestionsController < ApplicationController
     share_branch_questions = share_question.share_branch_questions
     Question.transaction do
       share_branch_questions.each do |sbq|
-        question.branch_questions.create({:content => sbq.content, :resource_url => sbq.resource_url})
+        branch_question = question.branch_questions.create({:content => sbq.content, :resource_url => sbq.resource_url})
+         if branch_question == question.branch_questions.first
+          question.update_attribute(:name, branch_question.content.length > 38 ? branch_question.content[0..35] + "..." : branch_question.content)
+        end
       end
     end
   end

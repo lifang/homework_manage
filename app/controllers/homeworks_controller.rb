@@ -35,7 +35,7 @@ class HomeworksController < ApplicationController
   def publish_question_package
     question_package_id = params[:question_package_id]
     school_class_id = params[:school_class_id]
-    end_time = params[:end_time].to_s + " 23:59:59"
+    end_time = params[:end_time]
     teacher = Teacher.find_by_id session[:teacher_id]
     question_package = QuestionPackage.find_by_id question_package_id
     @school_class = SchoolClass.find_by_id school_class_id

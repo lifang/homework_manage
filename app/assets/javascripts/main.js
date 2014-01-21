@@ -10,7 +10,11 @@ function tabFunc(t){
     if(!$(t).attr("class")=="tab list_classes"){
         $(t).css('top',(win_height-layer_height)/2);
     }else{
-        $(t).css('top',120);
+        if(win_height>=layer_height){
+            $(t).css('top',(win_height-layer_height)/2);
+        }else{
+             $(t).css('top',0)
+        }
     }
     $(t).css('left',(win_width-layer_width)/2);
     $(".close").click(function(){
@@ -285,7 +289,11 @@ function check_regist_info()
 }
 
 function show_list_class(){
-    $(".list_classes").show();
+    if($("#schoolclasses_count").attr("schoolclasses")<=1){
+        alert("暂无班级可切换");
+    }else{
+            $(".list_classes").show();
+    }
 }
 function created_new_class(){
     $(".created_new_class").show();
@@ -294,29 +302,33 @@ function create_school_class(school_class_id){
     var teaching_material_id = $("select[name='teaching_material_id']").val();
     var class_name = $("input[name='class_name']").val();
     var period_of_validity = $("input[name='period_of_validity']").val()
-    $.ajax({
-        url : "/school_classes/" + school_class_id + "/teachers/create_class",
-        type:'post',
-        dataType : 'json',
-        data : {
-            teaching_material_id : teaching_material_id,
-            class_name : class_name,
-            period_of_validity : period_of_validity
-        },
-        success: function(data){
-            if(data.status==true){
-                alert(data.notice)
-                $(".created_new_class").css("display","none");
-                $(".create_success").show();
-            }else{
-                alert(data.notice);
+    alert(period_of_validity);
+    if (period_of_validity==""){
+        alert("请选择结束时间");
+    }else{
+        $.ajax({
+            url : "/school_classes/" + school_class_id + "/teachers/create_class",
+            type:'post',
+            dataType : 'json',
+            data : {
+                teaching_material_id : teaching_material_id,
+                class_name : class_name,
+                period_of_validity : period_of_validity
+            },
+            success: function(data){
+                if(data.status==true){
+                    alert(data.notice)
+                    $(".created_new_class").css("display","none");
+                    $(".create_success").show();
+                }else{
+                    alert(data.notice);
+                }
+            },
+            error:function(){
+                alert()
             }
-        },
-        error:function(){
-            alert()
-        }
-    });
-
+        });
+    }
 }
 
 function show_single_record(ids) {

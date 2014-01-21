@@ -49,7 +49,7 @@
   <span class="close">关闭</span>
   <div class="tab_con">
     <h1>请选择班级</h1>
-    <div class="tab_ul">
+    <div class="tab_ul" id="schoolclasses_count" schoolclasses="<%= @schoolclasses.count %>">
       <ul>
         <%  @schoolclasses.each do |schoolclass| %>
           <% if !schoolclass.id.eql?(session[:class_id].to_i) %>

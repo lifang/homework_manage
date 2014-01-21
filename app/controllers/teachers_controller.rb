@@ -17,8 +17,7 @@ class TeachersController < ApplicationController
       status = false
     else
       if teacher.status == Teacher::STATUS[:YES]
-        if teacher.school_classes.create(:name => name,
-            :period_of_validity => period_of_validity,
+        if teacher.school_classes.create(:name => name,:period_of_validity => period_of_validity,
             :verification_code => verification_code,
             :status => SchoolClass::STATUS[:NORMAL],
             :teaching_material_id => teaching_material_id)
@@ -76,7 +75,7 @@ class TeachersController < ApplicationController
       end
       file_path = "#{Rails.root}/public/uploads/#{current_teacher.id}/#{avatar_name}"
       img = MiniMagick::Image.open file_path,"rb"
-      [176].each do |size|
+      Teacher::AVATAR_SIZE.each do |size|
         resize = size>img["width"] ? img["width"] :size
         new_file = file_path.split(".")[0]+"_"+resize.to_s+"."+file_path.split(".").reverse[0]
         resize_file_name = avatar_name.split(".")[0]+"_176"+filename[/\.[^\.]+$/]

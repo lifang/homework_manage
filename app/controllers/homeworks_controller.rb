@@ -12,7 +12,8 @@ class HomeworksController < ApplicationController
     teacher = Teacher.find_by_id cookies[:teacher_id]
     @school_class = SchoolClass.find_by_id cookies[:class_id]
     @publish_question_packages = Teacher.get_publish_question_packages @school_class.id
-    @publish_question_packages.paginate(:page => params[:page], :per_page => 2)
+    page = params[:page]
+    @publish_question_packages = @publish_question_packages.paginate(:page => page, :per_page => PublishQuestionPackage::PER_PAGE)
   end
 
   #删除题包

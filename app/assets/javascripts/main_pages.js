@@ -40,12 +40,13 @@ function show_reply_again(value,name){
     $(target_input[0]).val($(input[0]).val());
     $(target_input[1]).val($(input[1]).val());
     $(target_input[2]).val($(input[2]).val());
-
+    var index = get_index2(value);
+    var id = "target"+index;
     $(answer[1]).show();
     $(answer[1]).find("textarea").attr("placeholder","给"+name+"回复：");
     height_adjusting();
-//    $(answer[1]).find("textarea").attr("id","ddd");
-//    location.href="#ddd"
+    $(answer[1]).find("textarea").attr("id",id);
+    location.href="#"+id;
     
 }
 
@@ -74,6 +75,19 @@ function get_index(value){
     var all_box = $("#reply_area").children(".question_area_box");
     for(var i=0;i<all_box.length;i++){
         if(all_box[i]==box[0]){
+            index1 = i;
+
+        }
+    }
+    return index1;
+}
+function get_index2(value){
+    var index1=0;
+    var box=$(value).parents(".question_area_box");
+    var index1=0;
+    var all_box = $("#reply_area").children(".question_area_box");
+    for(var i=0;i<all_box.length;i++){
+        if(all_box[i]==box[1]){
             index1 = i;
 
         }

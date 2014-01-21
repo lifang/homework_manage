@@ -22,16 +22,15 @@
           <% end if @messages %>
         </ul>
       </div>
+      <% if @messages.present? %>
       <%= will_paginate @messages, :previous_label => "上一页", :next_label => "下一页", :class => "pageTurn" %>
+      <% end %>
     </div>
   </div>
 </div>
 
 <% if flash[:notice] %>
-<div class="tab">
-      <span class="close">关闭</span>
-      <div class="tab_con">
-        <h1 class="red"><%=  flash[:notice] %></h1>
-      </div>
-    </div>
+  <script type="text/javascript">
+    tishi("<%= flash[:notice] %>");
+  </script>
 <% end %>

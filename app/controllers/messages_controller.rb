@@ -16,7 +16,7 @@ class MessagesController < ApplicationController
       mess = Message.find_by_id(params[:id].to_i)
       mess.update_attribute("status", Message::STATUS[:READED])
       flash[:notice] = "操作成功!"
-      redirect_to messages_path
+      redirect_to school_class_messages_path(params[:school_class_id])
     end
   end
 

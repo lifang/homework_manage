@@ -1,6 +1,5 @@
-
 <% if @action_name == "create" %>
-alert("保存成功");
+  tishi("保存成功");
   current_tr = $($(".book_box_table table tr.done_tr")[<%= @tr_index %>])
   current_tr.find("form").attr("action", "<%= question_package_question_branch_question_path(@question_pack, @question, @branch_question) %>")
   current_tr.find("form").attr("method", "put");

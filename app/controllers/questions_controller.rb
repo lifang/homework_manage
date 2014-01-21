@@ -60,6 +60,7 @@ class QuestionsController < ApplicationController
           File.delete resource_path if File.exists?(resource_path)
         end
       end
+      flash[:notice]="删除成功"
       redirect_to question_package_questions_path(question_pack)
     end
   end
@@ -92,14 +93,18 @@ class QuestionsController < ApplicationController
 
   #引用题目
   def reference
-    question = Question.find_by_id(params[:question_id])
+    @question_pack = QuestionPackage.find_by_id(params[:question_package_id])
+    @questions = @question_pack.questions
+  
+    @question = Question.find_by_id(params[:question_id])
+      @branch_questions = @question.branch_questions
     share_question = ShareQuestion.find_by_id(params[:id])
     share_branch_questions = share_question.share_branch_questions
     Question.transaction do
       share_branch_questions.each do |sbq|
-        branch_question = question.branch_questions.create({:content => sbq.content, :resource_url => sbq.resource_url})
-         if branch_question == question.branch_questions.first
-          question.update_attribute(:name, branch_question.content.length > 38 ? branch_question.content[0..35] + "..." : branch_question.content)
+        branch_question = @question.branch_questions.create({:content => sbq.content, :resource_url => sbq.resource_url})
+         if branch_question == @question.branch_questions.first
+          @question.update_attribute(:name, branch_question.content.length > 38 ? branch_question.content[0..35] + "..." : branch_question.content)
         end
       end
     end

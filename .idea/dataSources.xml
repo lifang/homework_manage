@@ -6,7 +6,7 @@
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://127.0.0.1/homework_manage</jdbc-url>
       <user-name>root</user-name>
-      <user-password>dfd8dfc5dfc5dfde</user-password>
+      <user-password>dfc9dfc5dfc7dfcedfc5df98df9adf9bdf98</user-password>
       <schema-pattern>homework_manage.*</schema-pattern>
       <default-schemas>homework_manage.*</default-schemas>
       <libraries />

@@ -7,8 +7,8 @@
                 	<a href="#" class="work_h_one">点击查看</a>
                     <a href="#" class="work_h_two">点击查看</a>
                     <div class="work_head_time">
-                    	<p>布置时间：<%= @current_package.created_at.strftime("%Y-%m-%d    %H：%M") %></p>
-                        <p>截止时间：<%= @current_package.end_time.strftime("%Y-%m-%d    %H：%M") %></p>
+                    	<p>布置时间：<%= @current_package.created_at.strftime("%Y-%m-%d    %H：%M") if @current_package.created_at %></p>
+                        <p>截止时间：<%= @current_package.end_time.strftime("%Y-%m-%d    %H：%M") if @current_package.end_time %></p>
                     </div>
                     <% end %>
                 </div>

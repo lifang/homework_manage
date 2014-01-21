@@ -77,9 +77,9 @@ class MicropostsController < ApplicationController
     @index = params[:index].to_i
     @current_page = params[:current_page].to_i+1
     micropost_id = params[:micropost_id]
-    micropost = Micropost.find_by_id(micropost_id)
+    @micropost = Micropost.find_by_id(micropost_id)
     @scclass = SchoolClass.find(current_teacher.last_visit_class_id)
-    array = ReplyMicropost::get_microposts micropost.id,@current_page
+    array = ReplyMicropost::get_microposts @micropost.id,@current_page
     @reply = array[:reply_microposts]
   end
 

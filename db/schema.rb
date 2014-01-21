@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140118084219) do
+ActiveRecord::Schema.define(:version => 20140120095542) do
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(:version => 20140118084219) do
     t.datetime "updated_at",          :null => false
     t.integer  "cell_id"
     t.integer  "episode_id"
+    t.boolean  "if_shared"
   end
 
   add_index "questions", ["question_package_id"], :name => "index_questions_on_question_package_id"
@@ -164,6 +165,7 @@ ActiveRecord::Schema.define(:version => 20140118084219) do
     t.integer  "question_package_type_id"
     t.datetime "created_at",               :null => false
     t.datetime "updated_at",               :null => false
+    t.integer  "user_id"
   end
 
   add_index "share_questions", ["question_package_type_id"], :name => "index_share_questions_on_question_package_type_id"

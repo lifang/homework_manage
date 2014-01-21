@@ -61,8 +61,8 @@ class TeachersController < ApplicationController
   end
   #  保存更新
   def save_updated_teacher
-#    teacher = Teacher.find(session[:user_id])
-#    user = User.find(teacher.user_id)
+    #    teacher = Teacher.find(session[:user_id])
+    #    user = User.find(teacher.user_id)
     avatar_url = current_user.avatar_url
     FileUtils.mkdir_p "#{File.expand_path(Rails.root)}/public/uploads/#{current_teacher.id}" if !(File.exist?("#{File.expand_path(Rails.root)}/public/uploads/#{current_teacher.id}"))
     file_upload = params[:file_upload]
@@ -103,4 +103,5 @@ class TeachersController < ApplicationController
     session[:class_id] = school_class_id
     redirect_to "/school_classes/#{session[:class_id].to_i}/main_pages"
   end
+
 end

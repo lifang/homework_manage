@@ -60,5 +60,12 @@ class QuestionPackagesController < ApplicationController
     @question_pack_id = params[:id] if params[:id].present? && params[:id] != 'undefined'
     render :partial => "three_step"
   end
+
+  def show
+    @question_pack = QuestionPackage.find_by_id(params[:id])
+     @questions = @question_pack.questions
+    @question = @questions[0]
+    @branch_questions = BranchQuestion.where(:question_id => @question.try(:id)) if @question.present?
+  end
   
 end

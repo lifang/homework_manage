@@ -7,7 +7,7 @@ include MethodLibsHelper
 class Api::StudentsController < ApplicationController
   #  发布消息
   def news_release
-    content = params[:content]
+    content = params[:content] 
     user_id = params[:user_id]
     user_types = params[:user_types]
     school_class_id = params[:school_class_id]
@@ -152,16 +152,18 @@ class Api::StudentsController < ApplicationController
     answer_json = ""
     status = false
     if p_q_package
-      package_json = File.open("#{Rails.root}/public#{p_q_package.question_packages_url}").read if p_q_package and p_q_package.question_packages_url
-      #package_json = File.open("#{Rails.root}/public/question_package_1.js").read
-      s_a_record = StudentAnswerRecord.find_by_student_id_and_publish_question_package_id(student_id, p_q_package_id)
-      if s_a_record
-        answer_json = File.open("#{Rails.root}/public#{s_a_record.answer_file_url}").read if s_a_record and s_a_record.answer_file_url
-        #answer_json = File.open("#{Rails.root}/public/answer_file_1.js").read
+      begin
+        package_json = File.open("#{Rails.root}/public#{p_q_package.question_packages_url}").read if p_q_package and p_q_package.question_packages_url
+        s_a_record = StudentAnswerRecord.find_by_student_id_and_publish_question_package_id(student_id, p_q_package_id)
+        if s_a_record
+          answer_json = File.open("#{Rails.root}/public#{s_a_record.answer_file_url}").read if s_a_record and s_a_record.answer_file_url
+        end
+        status = true
+      rescue
+        notice = "文件加载错误，请稍后重试。"
       end
-      status = true
     end
-    notice = status == false ? "没有作业内容" : ""
+    notice = status == false ? "没有作业内容。" : ""
     render :json => {:status => status, :notice => notice, 
       :package => (package_json.empty? ? "" : ActiveSupport::JSON.decode(package_json)), 
       :user_answers => (answer_json.empty? ? "" : ActiveSupport::JSON.decode(answer_json))}

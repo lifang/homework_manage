@@ -40,7 +40,7 @@ $(function(){
                         $(".book_box .steps").html(data);
                     },
                     error:function(data){
-                        alert(data)
+                        tishi(data)
                     }
                 })
             }
@@ -55,7 +55,7 @@ $(function(){
                     $(".book_box .steps").html(data);
                 },
                 error:function(data){
-                    alert(data)
+                    tishi(data)
                 }
             })
         }
@@ -88,28 +88,18 @@ function GoForthStep(question_pack_id){
             $(".book_box .steps").html(data);
             var question_id = $("#hidden_question_id").val();
             var question_pack_id = $("#hidden_question_pack_id").val();
+            $(".remark").parents("form").attr("action", "/question_packages/" + question_pack_id );
+            $(".remark").parents("form").append("<input name=\"_method\" type=\"hidden\" value=\"put\">")
             $(".book_box_page li.hover").find("a").attr("href", "/question_packages/" + question_pack_id + "/questions/" + question_id + "/edit");
             $(".book_box_page li.hover").find("a").attr("data-remote", true);
             $(".book_box_page li.hover").find("a").attr("data-type", "script");
         },
         error:function(data){
-            alert(data)
+            tishi(data)
         }
     })
 
 }
-/*function checkQuestionForm(obj){
-    var flag = true;
-    $(obj).parents("form").find("tr.done_tr input[type=file]").each(function(){
-        var resource_path = $(this).val();
-        if(resource_path == ""){
-            alert("有资源未上传");
-            flag = false;
-            return false;
-        }
-    })
-    return flag;
-}*/
 
 function checkText(obj, path){
     var value = $(obj).val();
@@ -133,13 +123,13 @@ function showPath(obj){
     var img_extension = fil_name.substring(fil_name.lastIndexOf('.') + 1).toLowerCase();
     if(img_extension == "mp3" || img_extension == "amr" || img_extension == "wav"){
     }else{
-        alert("音频格式不对! 仅支持mp3、amr、wav格式");
+        tishi("音频格式不对! 仅支持mp3、amr、wav格式");
         return false;
     }
     var $a = $(obj).parent("a");
     var content = $(obj).parents("td").prev().find("input.td_text_input").val();
     if($.trim(content)==""){
-        alert("小题内容不能为空!")
+        tishi("小题内容不能为空!")
     }else{
         $("#fugai").show();
         $("#fugai1").show();
@@ -183,7 +173,7 @@ function liHover(obj){
                     $(".book_box .steps").html(data);
                 },
                 error:function(data){
-                    alert(data);
+                    tishi(data);
                 }
             })
         }
@@ -199,7 +189,7 @@ function ModifyQuestion(obj){
 function hideInput(obj){
     content = $(obj).val();
     if($.trim(content)==""){
-        alert("内容不能为空!")
+        tishi("内容不能为空!")
     }else{
         $(obj).css("display","none");
         $(obj).parent().find("p").css("display","inline-block");

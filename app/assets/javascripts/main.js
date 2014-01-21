@@ -3,14 +3,20 @@
 function tabFunc(t){
     var win_width = $(window).width();
     var win_height = $(window).height();
-	
+
     var layer_height = $(t).height();
     var layer_width = $(t).width();
     //alert($(".tab").width());
-	
-    $(t).css('top',(win_height-layer_height)/2);
+    if(!$(t).attr("class")=="tab list_classes"){
+        $(t).css('top',(win_height-layer_height)/2);
+    }else{
+        if(win_height>=layer_height){
+            $(t).css('top',(win_height-layer_height)/2);
+        }else{
+             $(t).css('top',0)
+        }
+    }
     $(t).css('left',(win_width-layer_width)/2);
-	
     $(".close").click(function(){
         $(this).parents(t).css("display","none");
     });
@@ -283,7 +289,11 @@ function check_regist_info()
 }
 
 function show_list_class(){
-    $(".list_classes").show();
+    if($("#schoolclasses_count").attr("schoolclasses")<=1){
+        alert("暂无班级可切换");
+    }else{
+            $(".list_classes").show();
+    }
 }
 function created_new_class(){
     $(".created_new_class").show();
@@ -292,29 +302,33 @@ function create_school_class(school_class_id){
     var teaching_material_id = $("select[name='teaching_material_id']").val();
     var class_name = $("input[name='class_name']").val();
     var period_of_validity = $("input[name='period_of_validity']").val()
-    $.ajax({
-        url : "/school_classes/" + school_class_id + "/teachers/create_class",
-        type:'post',
-        dataType : 'json',
-        data : {
-            teaching_material_id : teaching_material_id,
-            class_name : class_name,
-            period_of_validity : period_of_validity
-        },
-        success: function(data){
-            if(data.status==true){
-                alert(data.notice)
-                $(".created_new_class").css("display","none");
-                $(".create_success").show();
-            }else{
-                alert(data.notice);
+    alert(period_of_validity);
+    if (period_of_validity==""){
+        alert("请选择结束时间");
+    }else{
+        $.ajax({
+            url : "/school_classes/" + school_class_id + "/teachers/create_class",
+            type:'post',
+            dataType : 'json',
+            data : {
+                teaching_material_id : teaching_material_id,
+                class_name : class_name,
+                period_of_validity : period_of_validity
+            },
+            success: function(data){
+                if(data.status==true){
+                    alert(data.notice)
+                    $(".created_new_class").css("display","none");
+                    $(".create_success").show();
+                }else{
+                    alert(data.notice);
+                }
+            },
+            error:function(){
+                alert()
             }
-        },
-        error:function(){
-            alert()
-        }
-    });
-
+        });
+    }
 }
 
 function show_single_record(ids) {
@@ -334,5 +348,27 @@ function show_single_record(ids) {
         }
     });
     return false;
+}
+
+function tishi(message){
+    $(".tab_con .red").html(message);
+    var scolltop = document.body.scrollTop|document.documentElement.scrollTop;
+    var win_height = document.documentElement.clientHeight;//jQuery(document).height();
+    var z_layer_height = $(".tab").height();
+    $(".tab").css('top',(win_height-z_layer_height)/2 + scolltop);
+    var doc_width = $(document).width();
+    var layer_width = $(".tab").width();
+    $(".tab").css('left',(doc_width-layer_width)/2);
+    $(".tab").css('display','block');
+    jQuery('.tab').fadeTo("slow",1);
+    $(".tab .close").click(function(){
+        $(".tab").css('display','none');
+    })
+    setTimeout(function(){
+        jQuery('.tab').fadeTo("slow",0);
+    }, 3000);
+    setTimeout(function(){
+        $(".tab").css('display','none');
+    }, 3000);
 }
 

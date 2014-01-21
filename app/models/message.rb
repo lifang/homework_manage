@@ -4,8 +4,8 @@ class Message < ActiveRecord::Base
   belongs_to :user
   belongs_to :micropost
   STATUS = {:NOMAL => 0, :READED => 1} #未阅读 0  已阅读
-  
-  def self.add_messages(micropost_id, reciver_id, reciver_types, sender_id,
+  PER_PAGE = 10
+  def self.add_messages(micropost_id, reciver_id, reciver_types, sender_id, 
       sender_types, content, school_class_id)
     sender = User.find_by_id sender_id.to_i
     if sender
@@ -18,7 +18,7 @@ class Message < ActiveRecord::Base
         follow_users.each do |u_id|
           f_content = "[[" + sender.name + "]]回复了您关注的消息：;||;" + content
           Message.create(:user_id => u_id, :content => f_content, :micropost_id => micropost_id,
-          :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id)
+            :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id)
         end
       end
     end    
@@ -27,11 +27,11 @@ class Message < ActiveRecord::Base
   #获取群我的当前班级的的消息
   def self.get_my_messages school_class, user_id
     messages = Message.joins('LEFT JOIN users u ON messages.sender_id = u.id').
-    select("messages.id, messages.content, messages.user_id, messages.created_at, u.name sender_name,
+      select("messages.id, messages.content, messages.user_id, messages.created_at, u.name sender_name,
      u.avatar_url sender_avatar_url, messages.micropost_id ").
-    order("messages.created_at DESC").
-    where("user_id = ? and school_class_id = ? and status = ?", user_id, school_class.id,
-              Message::STATUS[:NOMAL])
+      order("messages.created_at DESC").
+      where("user_id = ? and school_class_id = ? and status = ?", user_id, school_class.id,
+      Message::STATUS[:NOMAL])
 
   end
 end

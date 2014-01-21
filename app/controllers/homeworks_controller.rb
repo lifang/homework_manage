@@ -5,6 +5,7 @@ require 'rexml/parent'
 include REXML
 include MethodLibsHelper
 class HomeworksController < ApplicationController
+  before_filter :sign?
   #作业主页
   def index
     teacher = Teacher.find_by_id session[:teacher_id]

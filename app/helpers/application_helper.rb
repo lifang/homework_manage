@@ -10,7 +10,7 @@ module ApplicationHelper
   end
 
   def is_show_zuoye_tab(*controller_names)
-     controller_names.each do |name|
+    controller_names.each do |name|
       if request.url.include?(name)
         return "block"
       end
@@ -40,5 +40,12 @@ module ApplicationHelper
 
   def current_teacher
     @current_teacher ||= Teacher.find_by_id(session[:teacher_id]) if session[:teacher_id]
+  end
+
+
+  def sign?
+    if session[:user_id].nil?
+      redirect_to  "/"
+    end
   end
 end

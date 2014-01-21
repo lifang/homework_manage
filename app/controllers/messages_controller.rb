@@ -1,5 +1,6 @@
 #encoding: utf-8
 class MessagesController < ApplicationController
+  before_filter :sign?
   def index
     @class_id = params[:school_class_id].to_i
     @messages = Message.paginate_by_sql(["select s.avatar_url url,m.id,m.content,m.created_at,m.micropost_id,m.user_id

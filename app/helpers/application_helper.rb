@@ -41,10 +41,8 @@ module ApplicationHelper
   def current_teacher
     @current_teacher ||= Teacher.find_by_id(session[:teacher_id]) if session[:teacher_id]
   end
-
-
   def sign?
-    if session[:user_id].nil?
+    if session[:user_id].nil? || session[:class_id].nil? || session[:teacher_id].nil?
       redirect_to  "/"
     end
   end

@@ -1,5 +1,6 @@
 #encoding: utf-8
 class WelcomeController < ApplicationController
+#  before_filter :sign?,:only => [:create_first_class]
   layout 'welcome'
   def index
   end

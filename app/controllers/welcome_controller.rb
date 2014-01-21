@@ -46,7 +46,7 @@ class WelcomeController < ApplicationController
     else
       Teacher.transaction do
         teacher = Teacher.create(:email => email, :password => password,
-                                 :status => Teacher::STATUS[:YES])
+          :status => Teacher::STATUS[:YES])
         destination_dir = "#{Rails.root}/public/homework_system/avatars/teachers/#{Time.now.strftime('%Y-%m')}"
         rename_file_name = "teacher_#{teacher.id}"
         avatar_url = ""
@@ -80,8 +80,8 @@ class WelcomeController < ApplicationController
 
   #教师第一次注册后跳转页面
   def first
-   @teachering_materials = TeachingMaterial.select("id,name")
-   @teacher = Teacher.find_by_id session[:teacher_id]
+    @teachering_materials = TeachingMaterial.select("id,name")
+    @teacher = Teacher.find_by_id session[:teacher_id]
   end
 
   #第一次创建班级
@@ -99,8 +99,8 @@ class WelcomeController < ApplicationController
       if teacher.status == Teacher::STATUS[:YES]
         Teacher.transaction do
           @school_class = SchoolClass.new(:name => name,:period_of_validity => period_of_validity,
-                      :verification_code => verification_code,:status => SchoolClass::STATUS[:NORMAL],
-                      :teacher_id => teacher.id, :teaching_material_id => teaching_material_id)
+            :verification_code => verification_code,:status => SchoolClass::STATUS[:NORMAL],
+            :teacher_id => teacher.id, :teaching_material_id => teaching_material_id)
           if @school_class.save
             teacher.update_attributes(:last_visit_class_id => @school_class.id)
             session[:class_id] = @school_class.id
@@ -117,5 +117,13 @@ class WelcomeController < ApplicationController
       end
     end
     @info = {:status => status, :notice => notice}
+  end
+  #  退出
+  def teacher_exit
+    session[:class_id] = nil
+    session[:teacher_id] = nil
+    session[:user_id] = nil
+    #    render :index
+    redirect_to '/'
   end
 end

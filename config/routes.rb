@@ -29,7 +29,7 @@ HomeworkManage::Application.routes.draw do
 
   resources :welcome do
     collection do
-      get :first
+      get :first,:teacher_exit
       post :create_first_class, :login, :regist
     end
   end

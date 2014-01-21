@@ -154,11 +154,11 @@ class Api::StudentsController < ApplicationController
     if p_q_package
       begin
         package_json = File.open("#{Rails.root}/public#{p_q_package.question_packages_url}").read if p_q_package and p_q_package.question_packages_url
+        status = true
         s_a_record = StudentAnswerRecord.find_by_student_id_and_publish_question_package_id(student_id, p_q_package_id)
         if s_a_record
           answer_json = File.open("#{Rails.root}/public#{s_a_record.answer_file_url}").read if s_a_record and s_a_record.answer_file_url
         end
-        status = true
       rescue
         notice = "文件加载错误，请稍后重试。"
       end

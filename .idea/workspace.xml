@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/public/question_package_1.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helpers/application_helper.rb" afterPath="$PROJECT_DIR$/app/helpers/application_helper.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/homeworks_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/homeworks_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/welcome/login.js.erb" afterPath="$PROJECT_DIR$/app/views/welcome/login.js.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/question.rb" afterPath="$PROJECT_DIR$/app/models/question.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/welcome_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/welcome_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -44,18 +39,38 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="welcome_controller.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="welcome_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/welcome_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="18" selection-start="83" selection-end="83" vertical-scroll-proportion="0.047486033" vertical-offset="17" max-vertical-offset="2295">
+            <state line="11" column="28" selection-start="278" selection-end="278" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="2295">
               <folding>
                 <element signature="e#86#101#0" expanded="true" />
-                <element signature="e#113#1042#0" expanded="true" />
                 <element signature="e#1054#2580#0" expanded="true" />
                 <element signature="e#2600#2733#0" expanded="true" />
                 <element signature="e#2748#3984#0" expanded="true" />
                 <element signature="e#3995#4148#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="homeworks_controller.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/homeworks_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="55" column="12" selection-start="2113" selection-end="2113" vertical-scroll-proportion="0.0" vertical-offset="867" max-vertical-offset="1683">
+              <folding>
+                <element signature="e#241#540#0" expanded="true" />
+                <element signature="e#552#1247#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="question.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/models/question.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="17" selection-start="601" selection-end="601" vertical-scroll-proportion="0.43074325" vertical-offset="0" max-vertical-offset="592">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -123,10 +138,10 @@
         <option value="$PROJECT_DIR$/public/homework_system/question_packages/publish_question_package_1/answers/student_1.xml" />
         <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
         <option value="$PROJECT_DIR$/app/controllers/homeworks_controller.rb" />
-        <option value="$PROJECT_DIR$/app/models/question.rb" />
         <option value="$PROJECT_DIR$/app/views/welcome/login.js.erb" />
         <option value="$PROJECT_DIR$/app/helpers/application_helper.rb" />
         <option value="$PROJECT_DIR$/app/controllers/welcome_controller.rb" />
+        <option value="$PROJECT_DIR$/app/models/question.rb" />
       </list>
     </option>
   </component>
@@ -3039,7 +3054,6 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5096774" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37741935" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" x="22" y="112" width="1325" height="477" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27492446" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -3048,6 +3062,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32819724" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5532258" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" x="22" y="112" width="1325" height="477" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -3352,13 +3367,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/question.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="42" selection-start="214" selection-end="214" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="408">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/welcome/login.js.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="68" selection-start="216" selection-end="224" vertical-scroll-proportion="-3.2692308" vertical-offset="0" max-vertical-offset="255">
@@ -3377,16 +3385,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="46" selection-start="468" selection-end="468" vertical-scroll-proportion="0.19063546" vertical-offset="96" max-vertical-offset="408">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/homeworks_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="36" selection-start="2040" selection-end="2040" vertical-scroll-proportion="0.5074627" vertical-offset="714" max-vertical-offset="1683">
-          <folding>
-            <element signature="e#241#540#0" expanded="true" />
-            <element signature="e#552#1247#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3461,15 +3459,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/welcome_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="18" selection-start="83" selection-end="83" vertical-scroll-proportion="0.047486033" vertical-offset="17" max-vertical-offset="2295">
+        <state line="11" column="28" selection-start="278" selection-end="278" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="2295">
           <folding>
             <element signature="e#86#101#0" expanded="true" />
-            <element signature="e#113#1042#0" expanded="true" />
             <element signature="e#1054#2580#0" expanded="true" />
             <element signature="e#2600#2733#0" expanded="true" />
             <element signature="e#2748#3984#0" expanded="true" />
             <element signature="e#3995#4148#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/homeworks_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="12" selection-start="2113" selection-end="2113" vertical-scroll-proportion="0.0" vertical-offset="867" max-vertical-offset="1683">
+          <folding>
+            <element signature="e#241#540#0" expanded="true" />
+            <element signature="e#552#1247#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/question.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="17" selection-start="601" selection-end="601" vertical-scroll-proportion="0.43074325" vertical-offset="0" max-vertical-offset="592">
+          <folding />
         </state>
       </provider>
     </entry>

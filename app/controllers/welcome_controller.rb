@@ -12,21 +12,21 @@ class WelcomeController < ApplicationController
     last_visit_class = false
     if teacher.nil?
       status = false
-      flash[:notice] = "用户不存在，请先注册！"
+      notice = "用户不存在，请先注册！"
     else
       if teacher && teacher.has_password?(password)
         p teacher
         if teacher.last_visit_class_id.to_i != 0
           last_visit_class = true
-          session[:class_id] = teacher.last_visit_class_id
+          notice = teacher.last_visit_class_id
         end
         session[:teacher_id] = teacher.id
         session[:user_id] = teacher.user.id
         status = true
-        flash[:notice] = "登陆成功！"
+        notice = "登陆成功！"
       else
         status = false
-        flash[:notice] = "密码错误，登录失败！"
+        notice = "密码错误，登录失败！"
       end
     end
     @info = {:status => status, :notice => notice, :last_visit_class => last_visit_class}

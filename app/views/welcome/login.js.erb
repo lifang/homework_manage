@@ -1,7 +1,7 @@
 <% if @info[:status] == false %>
-alert('<%= @info[:notice]  %>');
+tishi('<%= @info[:notice]  %>');
 <% else %>
-alert('<%= @info[:notice]  %>');
+tishi('<%= @info[:notice]  %>');
     <% if @info[:last_visit_class] == true %>
         location.href="/school_classes/<%= session[:class_id].to_i %>/main_pages";
     <% else %>

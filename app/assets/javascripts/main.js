@@ -324,7 +324,7 @@ function create_school_class(school_class_id){
                     message = data.notice;
                     tishi(message);
                     $(".created_new_class").css("display","none");
-                    $(".create_success").show();
+//                    $(".create_success").show();
                 }else{
                     message = data.notice;
                     tishi(message);
@@ -357,24 +357,24 @@ function show_single_record(ids) {
 }
 
 function tishi(message){
-    $(".tab_con .red").html(message);
+    $("#tishi_div .tab_con .red").html(message);
     var scolltop = document.body.scrollTop|document.documentElement.scrollTop;
     var win_height = document.documentElement.clientHeight;//jQuery(document).height();
-    var z_layer_height = $(".tab").height();
-    $(".tab").css('top',(win_height-z_layer_height)/2 + scolltop);
+    var z_layer_height = $("#tishi_div").height();
+    $("#tishi_div").css('top',(win_height-z_layer_height)/2 + scolltop);
     var doc_width = $(document).width();
-    var layer_width = $(".tab").width();
-    $(".tab").css('left',(doc_width-layer_width)/2);
-    $(".tab").css('display','block');
-    jQuery('.tab').fadeTo("slow",1);
-    $(".tab .close").click(function(){
-        $(".tab").css('display','none');
+    var layer_width = $("#tishi_div").width();
+    $("#tishi_div").css('left',(doc_width-layer_width)/2);
+    $("#tishi_div").css('display','block');
+    jQuery('#tishi_div').fadeTo("slow",1);
+    $("#tishi_div .close").click(function(){
+        $("#tishi_div").css('display','none');
     })
     setTimeout(function(){
-        jQuery('.tab').fadeTo("slow",0);
+        jQuery('#tishi_div').fadeTo("slow",0);
     }, 3000);
     setTimeout(function(){
-        $(".tab").css('display','none');
+        $("#tishi_div").css('display','none');
     }, 3000);
 }
 

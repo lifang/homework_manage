@@ -1,15 +1,18 @@
 <%  @reply.each do |reply|%>
   <div class="question_area_box">
-    <div class="avater"><a href="#"><img src="<%=reply.sender_avatar_url%>" /></a></div>
-    <div class="question_area_con">
-      <div class="avater_name"><a href="#"><%=reply.sender_name%></a> 回复 <a href="#"><%=reply.reciver_name%></a></div>
-      <div class="question_area_text"><%=reply.content%></div>
-      <div class="question_text_func">
-        <span class="time"><%=reply.created_at%></span>
-        <a href="#" class="answer_a"> 回复 </a><a href="#" class="answer_a">删除</a>
-      </div>
+      <div class="avater"><a href="#"><img src="<%=reply.sender_avatar_url%>" /></a></div>
+      <div class="question_area_con">
+        <div class="avater_name"><a href="#"><%=reply.sender_name%></a> 回复 <a href="#"><%=reply.reciver_name%></a></div>
+        <div class="question_area_text"><%=reply.content%></div>
+        <div class="question_text_func">
+          <input type="hidden" value="<%=@micropost.id%>" />
+          <input type="hidden" value="<%=reply.sender_id%>" />
+          <input type="hidden" value="<%=reply.sender_types%>" />
+          <span class="time"><%=reply.created_at.to_s[0..19]%></span>
+          <a   class="answer_a" onclick="show_reply_again(this,'<%=reply.reciver_name%>')"> 回复 </a><a onclick="delete_reply(<%=reply.id%>)"  class="answer_a">删除</a>
+        </div>
 
+      </div>
     </div>
-  </div>
 <%end%>
 

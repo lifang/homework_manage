@@ -103,5 +103,4 @@ class TeachersController < ApplicationController
     session[:class_id] = school_class_id
     redirect_to "/school_classes/#{session[:class_id].to_i}/main_pages"
   end
-
 end

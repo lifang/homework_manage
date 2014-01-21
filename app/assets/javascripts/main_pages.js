@@ -1,7 +1,7 @@
 function check_send_microposts(value){
     var content =$.trim($(value).find("textarea").val());
     if(content == ""){
-        alert("内容不能为空");
+        tishi("内容不能为空");
         return false;
     }
 }
@@ -10,7 +10,7 @@ function main_reply(value){
     var page = $(".pagination em").html();
     var textarea=$.trim($(value).parent().parent().find("textarea").val());
     if(textarea==""){
-        alert("不能为空！");
+        tishi("不能为空！");
         return false;
     }
     var input=$(value).parent().parent().find("input");
@@ -27,7 +27,7 @@ function main_reply(value){
         data  :"textarea=" + textarea + "&micropost_id=" + micropost_id+"&class_index="+class_index+"&page="+page
         + "&micropost_user_id=" + micropost_user_id+ "&micropost_user_type=" + micropost_user_type+ "&teacher_id=" + teacher_id+"&conditions="+$("#condtions").val(),
         success:function(data){
-            alert("回复成功！");
+            tishi("回复成功！");
         }
     });
 
@@ -40,12 +40,13 @@ function show_reply_again(value,name){
     $(target_input[0]).val($(input[0]).val());
     $(target_input[1]).val($(input[1]).val());
     $(target_input[2]).val($(input[2]).val());
-
+    var index = get_index2(value);
+    var id = "target"+index;
     $(answer[1]).show();
     $(answer[1]).find("textarea").attr("placeholder","给"+name+"回复：");
     height_adjusting();
-//    $(answer[1]).find("textarea").attr("id","ddd");
-//    location.href="#ddd"
+    $(answer[1]).find("textarea").attr("id",id);
+    location.href="#"+id;
     
 }
 
@@ -53,7 +54,7 @@ function send_more_replies(value,micropost_id){
     var current_page = $(value).parent().find(".current_page").val();
     
     var index1=get_index(value);
-    //alert(index1+"--"+box.attr("class"));
+    //tishi(index1+"--"+box.attr("class"));
     $.ajax({
         async:true,
         type : 'get',
@@ -74,6 +75,19 @@ function get_index(value){
     var all_box = $("#reply_area").children(".question_area_box");
     for(var i=0;i<all_box.length;i++){
         if(all_box[i]==box[0]){
+            index1 = i;
+
+        }
+    }
+    return index1;
+}
+function get_index2(value){
+    var index1=0;
+    var box=$(value).parents(".question_area_box");
+    var index1=0;
+    var all_box = $("#reply_area").children(".question_area_box");
+    for(var i=0;i<all_box.length;i++){
+        if(all_box[i]==box[1]){
             index1 = i;
 
         }

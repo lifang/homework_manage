@@ -13,7 +13,7 @@ function tabFunc(t){
         if(win_height>=layer_height){
             $(t).css('top',(win_height-layer_height)/2);
         }else{
-             $(t).css('top',0)
+            $(t).css('top',0)
         }
     }
     $(t).css('left',(win_width-layer_width)/2);
@@ -22,6 +22,8 @@ function tabFunc(t){
     });
 }
 $(function(){
+    $(".flash").show();
+    setTimeout("$('.flash').hide(1000)",2000);
     tabFunc(".tab");
 //tabFunc(".tab_article");
 })
@@ -290,9 +292,10 @@ function check_regist_info()
 
 function show_list_class(){
     if($("#schoolclasses_count").attr("schoolclasses")<=1){
-        alert("暂无班级可切换");
+        var message = "暂无班级可切换";
+        tishi(message);
     }else{
-            $(".list_classes").show();
+        $(".list_classes").show();
     }
 }
 function created_new_class(){
@@ -301,10 +304,11 @@ function created_new_class(){
 function create_school_class(school_class_id){
     var teaching_material_id = $("select[name='teaching_material_id']").val();
     var class_name = $("input[name='class_name']").val();
-    var period_of_validity = $("input[name='period_of_validity']").val()
-    alert(period_of_validity);
+    var period_of_validity = $("input[name='period_of_validity']").val();
+    var message;
     if (period_of_validity==""){
-        alert("请选择结束时间");
+        message = "请选择结束时间";
+        tishi(message);
     }else{
         $.ajax({
             url : "/school_classes/" + school_class_id + "/teachers/create_class",
@@ -317,11 +321,13 @@ function create_school_class(school_class_id){
             },
             success: function(data){
                 if(data.status==true){
-                    alert(data.notice)
+                    message = data.notice;
+                    tishi(message);
                     $(".created_new_class").css("display","none");
                     $(".create_success").show();
                 }else{
-                    alert(data.notice);
+                    message = data.notice;
+                    tishi(message);
                 }
             },
             error:function(){

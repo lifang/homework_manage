@@ -29,20 +29,20 @@ module ApplicationHelper
     return user
   end
   def get_school_class
-    @school_class = SchoolClass.find_by_id(session[:class_id].to_i)
+    @school_class = SchoolClass.find_by_id(cookies[:class_id].to_i)
     @class_index =-1
     @index =-1
   end
 
   def current_user
-    @current_user ||= User.find_by_id(session[:user_id]) if session[:user_id]
+    @current_user ||= User.find_by_id(cookies[:user_id]) if cookies[:user_id]
   end
 
   def current_teacher
-    @current_teacher ||= Teacher.find_by_id(session[:teacher_id]) if session[:teacher_id]
+    @current_teacher ||= Teacher.find_by_id(cookies[:teacher_id]) if cookies[:teacher_id]
   end
   def sign?
-    if session[:user_id].nil? || session[:class_id].nil? || session[:teacher_id].nil?
+    if cookies[:user_id].nil? || cookies[:class_id].nil? || cookies[:teacher_id].nil?
       redirect_to  "/"
     end
   end

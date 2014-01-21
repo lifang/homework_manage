@@ -1,7 +1,19 @@
 class QuestionPackagesController < ApplicationController
+  require 'will_paginate/array'
 
+  def index
+    respond_to do |f|
+      #分享题目的分页
+      f.js{
+        @question_pack = QuestionPackage.find_by_id(params[:question_package_id])
+        @question = Question.find_by_id(params[:question_id])
+        @share_questions = ShareQuestion.find_by_sql("select u.name user_name, sq.* from share_questions sq inner join users u on sq.user_id = u.id").paginate(:page => params[:page], :per_page => 5)
+      }
+      f.html
+    end
+  end
+  
   def new
-
   end
 
   #新建题包其中第一个答题第三步之后，建题包，建答题
@@ -16,13 +28,18 @@ class QuestionPackagesController < ApplicationController
         @question_pack = QuestionPackage.create(:school_class_id => school_class_id)
       end
       if @question_pack
-        @question = @question_pack.questions.new({:cell_id => cell_id, :episode_id => episode_id, :types => question_type.to_i})
+        @question = @question_pack.questions.create({:cell_id => cell_id, :episode_id => episode_id, :types => question_type.to_i})
       else
         status =  1
       end
     
       if status ==0
-        render :partial => new_or_refer == "0" ? "questions/new_branch" : "questions/new_reference"
+        if new_or_refer == "0"
+          render :partial => "questions/new_branch"
+        else
+          @share_questions = ShareQuestion.find_by_sql("select u.name user_name, sq.* from share_questions sq inner join users u on sq.user_id = u.id").paginate(:page => params[:page], :per_page => 5)
+          render :partial =>"questions/new_reference"
+        end
       else
         render :text => "error"
       end
@@ -30,7 +47,11 @@ class QuestionPackagesController < ApplicationController
   end
 
   def update
-
+    question_package = QuestionPackage.find_by_id(params[:id])
+    if question_package && params[:question_package][:name]
+      question_package.update_attribute(:name, params[:question_package][:name])
+    end
+    redirect_to question_package_questions_path(question_package)
   end
 
   def render_new_question

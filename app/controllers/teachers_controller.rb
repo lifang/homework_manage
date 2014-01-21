@@ -57,15 +57,15 @@ class TeachersController < ApplicationController
   def teacher_setting
     @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
     @schoolclass = SchoolClass.find(current_teacher.last_visit_class_id)
-    @user = User.find(@teacher.user_id)
+    @user = User.find(current_teacher.user_id)
     @teachingmaterial = TeachingMaterial.all
   end
   #  保存更新
   def save_updated_teacher
-    teacher = Teacher.find(session[:user_id])
-    user = User.find(teacher.user_id)
-    avatar_url = user.avatar_url
-    FileUtils.mkdir_p "#{File.expand_path(Rails.root)}/public/accessories" if !(File.exist?("#{File.expand_path(Rails.root)}/public/accessories"))
+#    teacher = Teacher.find(session[:user_id])
+#    user = User.find(teacher.user_id)
+    avatar_url = current_user.avatar_url
+    FileUtils.mkdir_p "#{File.expand_path(Rails.root)}/public/uploads/#{current_teacher.id}" if !(File.exist?("#{File.expand_path(Rails.root)}/public/uploads/#{current_teacher.id}"))
     file_upload = params[:file_upload]
     if !file_upload.nil?
       filename = file_upload.original_filename
@@ -76,15 +76,15 @@ class TeachersController < ApplicationController
       end
       file_path = "#{Rails.root}/public/uploads/#{current_teacher.id}/#{avatar_name}"
       img = MiniMagick::Image.open file_path,"rb"
-      [200].each do |size|
+      [176].each do |size|
         resize = size>img["width"] ? img["width"] :size
         new_file = file_path.split(".")[0]+"_"+resize.to_s+"."+file_path.split(".").reverse[0]
-        resize_file_name = avatar_name.split(".")[0]+"_200"+filename[/\.[^\.]+$/]
+        resize_file_name = avatar_name.split(".")[0]+"_176"+filename[/\.[^\.]+$/]
         avatar_url = "/uploads/#{current_teacher.id}/#{resize_file_name}"
         img.run_command("convert #{file_path} -resize #{resize}x#{resize} #{new_file}")
       end
     end
-    if user.update_attributes(:name => params[:name],:avatar_url => avatar_url) && teacher.update_attributes(:email => params[:email])
+    if current_user.update_attributes(:name => params[:name],:avatar_url => avatar_url) && current_teacher.update_attributes(:email => params[:email])
       flash[:notice] = "操作成功!"
       redirect_to "/school_classes/#{session[:class_id].to_i}/teachers/teacher_setting"
     end

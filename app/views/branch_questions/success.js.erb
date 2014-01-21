@@ -1,0 +1,11 @@
+
+<% if @action_name == "create" %>
+alert("保存成功");
+  current_tr = $($(".book_box_table table tr.done_tr")[<%= @tr_index %>])
+  current_tr.find("form").attr("action", "<%= question_package_question_branch_question_path(@question_pack, @question, @branch_question) %>")
+  current_tr.find("form").attr("method", "put");
+  current_tr.find("td.td_func_bg a.up_voice_a").remove();
+  current_tr.find("td.td_func_bg form").prepend('<a href="#" class="voice_icon"><audio controls="controls"><source src=\"<%= @branch_question.resource_url %>\" type="audio/mpeg" />Your browser does not support the audio element.</audio></a>')
+  $("#fugai").hide();
+  $("#fugai1").hide();
+<% end %>

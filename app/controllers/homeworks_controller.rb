@@ -50,7 +50,6 @@ class HomeworksController < ApplicationController
         all_questions = Question.get_all_questions question_package
         file_dirs_url = "#{Rails.root}/public/homework_system/question_packages/question_packages_#{question_package.id}"
         file_full_url = "#{file_dirs_url}/questions.js"
-        all_questions = Question.get_all_questions question_package
         if all_questions.length == 0
           status = false
           notice = "该题包下的题目或小题为空！"

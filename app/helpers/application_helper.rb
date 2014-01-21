@@ -42,7 +42,7 @@ module ApplicationHelper
     @current_teacher ||= Teacher.find_by_id(cookies[:teacher_id]) if cookies[:teacher_id]
   end
   def sign?
-    if session[:user_id].nil? || session[:class_id].nil? || session[:teacher_id].nil?
+    if cookies[:user_id].nil? || cookies[:class_id].nil? || cookies[:teacher_id].nil?
       redirect_to  "/"
     end
   end

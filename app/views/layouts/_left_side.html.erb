@@ -10,7 +10,7 @@
         </div>
       </li>
       <li><a href="/school_classes/<%= session[:class_id].to_i %>/messages" class=<%= is_hover("messages") %>><span class="nav03">信息</span></a></li>
-      <li><a href="/school_classes/<%= session[:class_id].to_i %>/teachers/teacher_setting"><span class="nav04">设置</span></a></li>
+      <li><a href="/school_classes/<%= session[:class_id].to_i %>/teachers/teacher_setting" class=<%= is_hover("teachers") %>><span class="nav04">设置</span></a></li>
       <li class="out"><a href="#"><span class="nav05">退出</span></a></li>
     </ul>
   </div>

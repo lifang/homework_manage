@@ -64,7 +64,12 @@ HomeworkManage::Application.routes.draw do
     member do
       get :render_new_question
     end
-    resources :questions
+    resources :questions do
+      member do
+        post :share, :reference
+      end
+      resources :branch_questions
+    end
   end
   
   resources :results do

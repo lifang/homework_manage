@@ -7,13 +7,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<%= yield %>
 <div class="tab" style="display:none; z-index:100">
   <span class="close">关闭</span>
   <div class="tab_con">
     <h1 class="red"></h1>
   </div>
 </div>
-<%= yield %>
-
 </body>
 </html>

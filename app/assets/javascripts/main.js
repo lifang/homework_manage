@@ -214,7 +214,7 @@ function check_value()
     email = $("#email").val();
     password = $("#password").val();
     if(email == "邮箱" || password == "密码")
-        alert('邮箱或密码不能为空！');
+        tishi('邮箱或密码不能为空！');
     else
         $("#login_submit_button").click();
 }
@@ -227,7 +227,7 @@ function check_class_info()
     period_of_validity = $.trim($("#period_of_validity").val());
 
     if(teaching_material_id == 0 || class_name == "" || period_of_validity == "")
-        alert('信息填写不完整不能为空！');
+        tishi('信息填写不完整不能为空！');
     else
         $("#submit_class_info").click();
 }
@@ -268,7 +268,7 @@ function check_time()
         $("#submit_publish_task").click();
     }
     else
-        alert("时间不能为空！");
+        tishi("时间不能为空！");
 }
 
 //注册时验证时间
@@ -283,10 +283,10 @@ function check_regist_info()
         if(password == confirm_password)
             $("#register_submit_button").click();
         else
-            alert("两次密码不一致！");
+            tishi("两次密码不一致！");
     }
     else
-        alert("姓名、邮箱、密码、确认密码不能为空！");
+        tishi("姓名、邮箱、密码、确认密码不能为空！");
 
 }
 

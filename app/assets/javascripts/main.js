@@ -3,14 +3,16 @@
 function tabFunc(t){
     var win_width = $(window).width();
     var win_height = $(window).height();
-	
+
     var layer_height = $(t).height();
     var layer_width = $(t).width();
     //alert($(".tab").width());
-	
-    $(t).css('top',(win_height-layer_height)/2);
+    if(!$(t).attr("class")=="tab list_classes"){
+        $(t).css('top',(win_height-layer_height)/2);
+    }else{
+        $(t).css('top',120);
+    }
     $(t).css('left',(win_width-layer_width)/2);
-	
     $(".close").click(function(){
         $(this).parents(t).css("display","none");
     });

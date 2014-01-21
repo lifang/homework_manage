@@ -76,10 +76,10 @@ class TeachersController < ApplicationController
       end
       file_path = "#{Rails.root}/public/uploads/#{current_teacher.id}/#{avatar_name}"
       img = MiniMagick::Image.open file_path,"rb"
-      [200].each do |size|
+      [176].each do |size|
         resize = size>img["width"] ? img["width"] :size
         new_file = file_path.split(".")[0]+"_"+resize.to_s+"."+file_path.split(".").reverse[0]
-        resize_file_name = avatar_name.split(".")[0]+"_200"+filename[/\.[^\.]+$/]
+        resize_file_name = avatar_name.split(".")[0]+"_176"+filename[/\.[^\.]+$/]
         avatar_url = "/uploads/#{current_teacher.id}/#{resize_file_name}"
         img.run_command("convert #{file_path} -resize #{resize}x#{resize} #{new_file}")
       end

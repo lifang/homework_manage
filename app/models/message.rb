@@ -5,7 +5,7 @@ class Message < ActiveRecord::Base
   belongs_to :micropost
   STATUS = {:NOMAL => 0, :READED => 1} #未阅读 0  已阅读
   
-  def self.add_messages(micropost_id, reciver_id, reciver_types, sender_id, 
+  def self.add_messages(micropost_id, reciver_id, reciver_types, sender_id,
       sender_types, content, school_class_id)
     sender = User.find_by_id sender_id.to_i
     if sender

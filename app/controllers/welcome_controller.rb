@@ -12,7 +12,7 @@ class WelcomeController < ApplicationController
     last_visit_class = false
     if teacher.nil?
       status = false
-      notice = "用户不存在，请先注册！"
+      flash[:notice] = "用户不存在，请先注册！"
     else
       if teacher && teacher.has_password?(password)
         p teacher
@@ -23,10 +23,10 @@ class WelcomeController < ApplicationController
         session[:teacher_id] = teacher.id
         session[:user_id] = teacher.user.id
         status = true
-        notice = "登陆成功！"
+        flash[:notice] = "登陆成功！"
       else
         status = false
-        notice = "密码错误，登录失败！"
+        flash[:notice] = "密码错误，登录失败！"
       end
     end
     @info = {:status => status, :notice => notice, :last_visit_class => last_visit_class}
@@ -41,7 +41,7 @@ class WelcomeController < ApplicationController
     teacher = Teacher.find_by_email email
     if !teacher.nil?
       status = false
-      notice = "该邮箱已被注册，换个邮箱！"
+      flash[:notice] = "该邮箱已被注册，换个邮箱！"
     else
       Teacher.transaction do
         teacher = Teacher.create(:email => email, :password => password,
@@ -66,19 +66,19 @@ class WelcomeController < ApplicationController
         if !teacher.nil? && !user.nil?
           if teacher.update_attributes(:password => password, :user_id => user.id)
             status = true
-            notice = "注册完成！"
+            flash[:notice] = "注册完成！"
           else
             teacher.destroy
             status = false
-            notice = "注册失败，请重新注册！"
+            flash[:notice] = "注册失败，请重新注册！"
           end
         else
           status = false
-          notice = "注册失败，请重新注册！"
+          flash[:notice] = "注册失败，请重新注册！"
         end
       end
     end
-    @info = {:status => status, :notice => notice}
+    @info = {:status => status, :notice => nil}
   end
 
   #教师第一次注册后跳转页面

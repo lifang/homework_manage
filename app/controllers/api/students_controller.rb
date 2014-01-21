@@ -108,7 +108,6 @@ class Api::StudentsController < ApplicationController
         if school_class.status == SchoolClass::STATUS[:EXPIRED] ||
             school_class.period_of_validity - Time.now < 0
           school_class = student.school_classes.where("status != #{SchoolClass::STATUS[:EXPIRED]}")[0]
-          p school_class
         end
         p school_class
         if !school_class.nil?
@@ -449,11 +448,11 @@ class Api::StudentsController < ApplicationController
               notice = "记录完成！"
             else
               status = "error"
-              notice = "记录失败1！"
+              notice = "记录失败！"
             end
           else
             status = "error"
-            notice = "记录失败2！"
+            notice = "记录失败！"
           end
         end
       end
@@ -668,7 +667,10 @@ class Api::StudentsController < ApplicationController
             status = "error"
           else
             if message.update_attributes(:status => Message::STATUS[:READED])
-              micropost = message.micropost
+              sql_str = "select m.content, m.created_at, m.id, m.reply_microposts_count,
+              m.school_class_id, m.user_id, u.name, u.avatar_url from microposts m
+              left join users u on m.user_id = u.id where m.id = #{message.micropost_id}"
+              micropost = Message.find_by_sql sql_str
               status = "success"
             else
               status = "error"

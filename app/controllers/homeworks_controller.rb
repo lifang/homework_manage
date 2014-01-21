@@ -2,15 +2,17 @@
 require 'rexml/document'
 require 'rexml/element'
 require 'rexml/parent'
+require 'will_paginate/array'
 include REXML
 include MethodLibsHelper
 class HomeworksController < ApplicationController
   before_filter :sign?
   #作业主页
   def index
-    teacher = Teacher.find_by_id session[:teacher_id]
-    @school_class = SchoolClass.find_by_id session[:class_id]
+    teacher = Teacher.find_by_id cookies[:teacher_id]
+    @school_class = SchoolClass.find_by_id cookies[:class_id]
     @publish_question_packages = Teacher.get_publish_question_packages @school_class.id
+    @publish_question_packages.paginate(:page => params[:page], :per_page => 2)
   end
 
   #删除题包
@@ -37,7 +39,7 @@ class HomeworksController < ApplicationController
     question_package_id = params[:question_package_id]
     school_class_id = params[:school_class_id]
     end_time = params[:end_time]
-    teacher = Teacher.find_by_id session[:teacher_id]
+    teacher = Teacher.find_by_id cookies[:teacher_id]
     question_package = QuestionPackage.find_by_id question_package_id
     @school_class = SchoolClass.find_by_id school_class_id
     status = false

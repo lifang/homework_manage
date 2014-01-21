@@ -13,7 +13,7 @@ function tabFunc(t){
         if(win_height>=layer_height){
             $(t).css('top',(win_height-layer_height)/2);
         }else{
-             $(t).css('top',0)
+            $(t).css('top',0)
         }
     }
     $(t).css('left',(win_width-layer_width)/2);
@@ -214,7 +214,7 @@ function check_value()
     email = $("#email").val();
     password = $("#password").val();
     if(email == "邮箱" || password == "密码")
-        alert('邮箱或密码不能为空！');
+        tishi('邮箱或密码不能为空！');
     else
         $("#login_submit_button").click();
 }
@@ -227,7 +227,7 @@ function check_class_info()
     period_of_validity = $.trim($("#period_of_validity").val());
 
     if(teaching_material_id == 0 || class_name == "" || period_of_validity == "")
-        alert('信息填写不完整不能为空！');
+        tishi('信息填写不完整不能为空！');
     else
         $("#submit_class_info").click();
 }
@@ -268,7 +268,7 @@ function check_time()
         $("#submit_publish_task").click();
     }
     else
-        alert("时间不能为空！");
+        tishi("时间不能为空！");
 }
 
 //注册时验证时间
@@ -283,18 +283,19 @@ function check_regist_info()
         if(password == confirm_password)
             $("#register_submit_button").click();
         else
-            alert("两次密码不一致！");
+            tishi("两次密码不一致！");
     }
     else
-        alert("姓名、邮箱、密码、确认密码不能为空！");
+        tishi("姓名、邮箱、密码、确认密码不能为空！");
 
 }
 
 function show_list_class(){
     if($("#schoolclasses_count").attr("schoolclasses")<=1){
-        alert("暂无班级可切换");
+        var message = "暂无班级可切换";
+        tishi(message);
     }else{
-            $(".list_classes").show();
+        $(".list_classes").show();
     }
 }
 function created_new_class(){
@@ -303,10 +304,11 @@ function created_new_class(){
 function create_school_class(school_class_id){
     var teaching_material_id = $("select[name='teaching_material_id']").val();
     var class_name = $("input[name='class_name']").val();
-    var period_of_validity = $("input[name='period_of_validity']").val()
-    alert(period_of_validity);
+    var period_of_validity = $("input[name='period_of_validity']").val();
+    var message;
     if (period_of_validity==""){
-        alert("请选择结束时间");
+        message = "请选择结束时间";
+        tishi(message);
     }else{
         $.ajax({
             url : "/school_classes/" + school_class_id + "/teachers/create_class",
@@ -319,11 +321,13 @@ function create_school_class(school_class_id){
             },
             success: function(data){
                 if(data.status==true){
-                    alert(data.notice)
+                    message = data.notice;
+                    tishi(message);
                     $(".created_new_class").css("display","none");
-                    $(".create_success").show();
+//                    $(".create_success").show();
                 }else{
-                    alert(data.notice);
+                    message = data.notice;
+                    tishi(message);
                 }
             },
             error:function(){
@@ -353,24 +357,24 @@ function show_single_record(ids) {
 }
 
 function tishi(message){
-    $(".tab_con .red").html(message);
+    $("#tishi_div .tab_con .red").html(message);
     var scolltop = document.body.scrollTop|document.documentElement.scrollTop;
     var win_height = document.documentElement.clientHeight;//jQuery(document).height();
-    var z_layer_height = $(".tab").height();
-    $(".tab").css('top',(win_height-z_layer_height)/2 + scolltop);
+    var z_layer_height = $("#tishi_div").height();
+    $("#tishi_div").css('top',(win_height-z_layer_height)/2 + scolltop);
     var doc_width = $(document).width();
-    var layer_width = $(".tab").width();
-    $(".tab").css('left',(doc_width-layer_width)/2);
-    $(".tab").css('display','block');
-    jQuery('.tab').fadeTo("slow",1);
-    $(".tab .close").click(function(){
-        $(".tab").css('display','none');
+    var layer_width = $("#tishi_div").width();
+    $("#tishi_div").css('left',(doc_width-layer_width)/2);
+    $("#tishi_div").css('display','block');
+    jQuery('#tishi_div').fadeTo("slow",1);
+    $("#tishi_div .close").click(function(){
+        $("#tishi_div").css('display','none');
     })
     setTimeout(function(){
-        jQuery('.tab').fadeTo("slow",0);
+        jQuery('#tishi_div').fadeTo("slow",0);
     }, 3000);
     setTimeout(function(){
-        $(".tab").css('display','none');
+        $("#tishi_div").css('display','none');
     }, 3000);
 }
 

@@ -15,9 +15,6 @@ class Teacher < ActiveRecord::Base
       q.created_at, p.end_time from question_packages q left join publish_question_packages p
       on q.id = p.question_package_id where q.school_class_id = #{school_class_id}"
     publish_question_packages = QuestionPackage.find_by_sql sql_str
-    publish_question_packages.each do |e|
-      p e
-    end
   end
 
   def has_password?(submitted_password)

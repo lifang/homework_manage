@@ -14,6 +14,7 @@ class QuestionPackagesController < ApplicationController
   end
   
   def new
+    @question_pack = QuestionPackage.new
   end
 
   #新建题包其中第一个答题第三步之后，建题包，建答题
@@ -37,7 +38,7 @@ class QuestionPackagesController < ApplicationController
         if new_or_refer == "0"
           render :partial => "questions/new_branch"
         else
-          @share_questions = ShareQuestion.find_by_sql("select u.name user_name, sq.* from share_questions sq inner join users u on sq.user_id = u.id").paginate(:page => params[:page], :per_page => 5)
+          @share_questions = ShareQuestion.find_by_sql("select u.name user_name, sq.* from share_questions sq inner join users u on sq.user_id = u.id where sq.types=#{question_type.to_i}").paginate(:page => params[:page], :per_page => 5)
           render :partial =>"questions/new_reference"
         end
       else

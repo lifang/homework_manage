@@ -42,7 +42,7 @@ class WelcomeController < ApplicationController
     notice = "注册失败，请重新注册！"
     if !teacher.nil?
       status = false
-      flash[:notice] = "该邮箱已被注册，换个邮箱！"
+      notice = "该邮箱已被注册，换个邮箱！"
     else
       Teacher.transaction do
         teacher = Teacher.create(:email => email, :password => password,

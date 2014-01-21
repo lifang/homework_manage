@@ -1,0 +1,35 @@
+<div class="book_box_con">
+  <div class="book_box_area">
+    <div class="book_box_table">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <thead>
+          <tr>
+            <th>文本输入区</th>
+            <th width="100" class="th_func_bg">功能</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @branch_questions.each_with_index do |branch, index| %>
+          <tr class="done_tr" id="<%= branch.id %>">
+              <td>
+                <div class="td_text">
+                  <p class="td_text_p"><%= branch.content %></p>
+                </div>
+              </td>
+              <td width="100" class="td_func_bg">
+                  <a href="javascript:void(0)" class="voice_icon" onclick="playAudio(this)">
+                    <audio controls="controls" class="bq_audio">
+                      <source src="<%= branch.resource_url %>" type="audio/mpeg" />
+                      Your browser does not support the audio element.
+                    </audio>
+                  </a>
+              </td>
+            </tr>
+          <% end if@branch_questions%>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

@@ -30,14 +30,14 @@
             <tr>
               <td>
                 <div class="td_text">
-                  <a href="#" class="remove" onclick = "removeBranchQues(this)">删除</a>
+                  <a href="javascript:void(0)" class="remove" onclick = "removeBranchQues(this)">删除</a>
                   <p class="td_text_p tooltip_title" title="双击句子可以进行编辑和修改" ondblclick="ModifyQuestion(this)"><%= branch.content %></p>
                   <input name="branch_content[]" type="text" value="<%= branch.content %>" class="td_text_input" onblur="hideInput(this)"/>
                 </div>
               </td>
               <td width="100" class="td_func_bg">
                 <form action="" method="post" data-remote="true" data-type="script">
-                  <a href="#" class="voice_icon">
+                  <a href="javascript:void(0)" class="voice_icon"  onclick="playAudio(this)">
                     <audio controls="controls">
                       <source src="<%= branch.resource_url %>" type="audio/mpeg" />
                       Your browser does not support the audio element.
@@ -55,7 +55,7 @@
               <input name="" type="text" class="td_input" onblur="checkText(this, '<%= question_package_question_branch_questions_path(@question_pack, @question) %>')"/>
             </td>
             <td width="100" class="td_func_bg">
-              <a href="#" class="up_voice_a">
+              <a class="up_voice_a">
                 <span>上传音频</span>
                 <input type="file"/>
               </a>
@@ -67,19 +67,12 @@
   </div>
 
 </div>
-<%= form_for @question_pack do |f| %>
-  <div class="remark">
-    <h1>填写作业备注</h1>
-    <div class="remark_con"><%= f.text_area :name, :rows => 5 %></div>
-    <div class="remark_btn"><button class="green_btn">保存作业</button></div>
-  </div>
-<% end %>
 
 <div id="fugai" style="display: none;position: fixed ;top:0; z-index:2;width:100%;height:100%;opacity:0.7;background:#D1EEEE;">
 
 </div>
 <div id="fugai1" style="display: none;width:100%;height:100%;position: fixed ;top:0;z-index: 3;">
-  <div style="display:block;margin: 100px auto;width:80px;height:80px;">
+  <div style="display:block;margin: 100px auto;text-align: center;height:80px;">
     <h2 >音频上传中</h2>
     <img src="/assets/009.gif" style=" width:80px;height:80px; "/>
   </div>

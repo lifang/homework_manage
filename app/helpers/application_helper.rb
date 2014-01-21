@@ -1,8 +1,21 @@
 module ApplicationHelper
   MEDIA_PATH = "/question_packages/#{Time.now.strftime("%Y%m")}/questions_package_%d/" #大题资源路径
   
-  def is_hover(controller_name)
-    request.url.include?(controller_name) ? "hover" : ""
+  def is_hover(*controller_names)
+    controller_names.each do |name|
+      if request.url.include?(name)
+        return "hover"
+      end
+    end
+  end
+
+  def is_show_zuoye_tab(*controller_names)
+     controller_names.each do |name|
+      if request.url.include?(name)
+        return "block"
+      end
+    end
+    return "none"
   end
 
   def get_user_info uid, utype  #通过id和type获取老师或者学生的姓名及头像图片

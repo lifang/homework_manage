@@ -2,6 +2,7 @@
 require 'rexml/document'
 require 'rexml/element'
 require 'rexml/parent'
+require 'will_paginate'
 require 'will_paginate/array'
 include REXML
 include MethodLibsHelper
@@ -20,13 +21,16 @@ class HomeworksController < ApplicationController
   def delete_question_package
     publish_question_package_id = params[:publish_question_package_id]
     school_class_id = params[:school_class_id]
+    page = params[:page]
+    page = 1  if !page
     @school_class = SchoolClass.find_by_id school_class_id
     publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
     if !publish_question_package.nil?
-      if publish_question_package.task_message && publish_question_package.destroy
+      if publish_question_package.task_message.destroy && publish_question_package.destroy
         status = true
         notice = "任务删除成功！"
         @publish_question_packages = Teacher.get_publish_question_packages @school_class.id
+        @publish_question_packages = @publish_question_packages.paginate(:page => page, :per_page => PublishQuestionPackage::PER_PAGE)
       else
         status = false
         notice = "任务删除失败！"
@@ -52,9 +56,11 @@ class HomeworksController < ApplicationController
         file_dirs_url = "#{Rails.root}/public/homework_system/question_packages/question_packages_#{question_package.id}"
         file_full_url = "#{file_dirs_url}/questions.js"
         if all_questions.length == 0
+          p question_package
           status = false
           notice = "该题包下的题目或小题为空！"
         else
+          p all_questions
           write_file =  write_question_xml all_questions,file_dirs_url, file_full_url
           if write_file[:status] == true
             base_url = "#{Rails.root}/public"
@@ -72,6 +78,8 @@ class HomeworksController < ApplicationController
             status = true
             notice = "发布成功！"
             @publish_question_packages = Teacher.get_publish_question_packages @school_class.id
+            page = params[:page]
+            @publish_question_packages = @publish_question_packages.paginate(:page => page, :per_page => PublishQuestionPackage::PER_PAGE)
             content = "教师：#{teacher.user.name}于#{publish_question_package.created_at}发布了一个任务
                     '#{publish_question_package.question_package.name}',
                     任务截止时间：#{publish_question_package.end_time}"

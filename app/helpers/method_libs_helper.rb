@@ -370,6 +370,8 @@ module MethodLibsHelper
           readings << {"id" => question["id"], "branch_questions" => branch_questions}
         end
       end
+      p lisentings
+      p readings
       if lisentings.length > 0 && readings.length > 0
         questions_collections = {"listening"=> lisentings,"reading" => readings}
       elsif lisentings.length > 0 && readings.length = 0

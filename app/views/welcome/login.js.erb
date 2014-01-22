@@ -3,8 +3,8 @@ tishi('<%= @info[:notice]  %>');
 <% else %>
 tishi('<%= @info[:notice]  %>');
     <% if @info[:last_visit_class] == true %>
-    setTimeout('location.href="/school_classes/<%= cookies[:class_id].to_i %>/main_pages";',2000);
+    setTimeout('location.href="/school_classes/<%= cookies[:class_id].to_i %>/main_pages";',1000);
     <% else %>
-    setTimeout('location.href="/welcome/first";',2000);
+    setTimeout('location.href="/welcome/first";',1000);
     <% end %>
 <% end %>

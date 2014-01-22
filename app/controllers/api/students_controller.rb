@@ -73,7 +73,7 @@ class Api::StudentsController < ApplicationController
             on school_classes.id = school_class_student_ralastions.school_class_id
             where school_classes.status = ? and school_classes.period_of_validity >= ?
             and school_class_student_ralastions.student_id = ?", 
-            student_id, Time.now(), SchoolClass::STATUS[:NORMAL]])
+            SchoolClass::STATUS[:NORMAL], Time.now(), student_id])
     render :json => {:classes => classes}
   end
   

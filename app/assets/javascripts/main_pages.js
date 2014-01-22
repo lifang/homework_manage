@@ -171,6 +171,7 @@ function  show_reply(value,micropost_id){
 }
 //调整高度
 function height_adjusting(){
+    $(".book_box_con").css("min-height",$(".book_box_page").height());
     $(".leftSide").css("height",$(".rightSide").height());
     $(".grade_box").css("height",$(".rightSide").height()-40);
     $(".work_book").css("height",$(".rightSide").height());

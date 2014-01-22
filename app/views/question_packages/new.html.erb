@@ -3,16 +3,21 @@
     <div class="article">
       <div class="book_box clearAfter">
         <div class="book_box_page">
-          <ul>
-            <li class="question_li hover" onclick="liHover(this)"><a href="#">1.</a></li>
-            <li><a href="javascript:void(0)" class="addPage">+</a></li>
-          </ul>
+          <a href="javascript:void(0);" class="bbp_up" onclick="questionUp(this)">&and;</a>
+          <div class="book_box_page_box">
+            <ul>
+              <li class="question_li hover" onclick="liHover(this)"><a href="#">1.</a></li>
+            </ul>
+          </div>
+          <div class="addPage"><a href="javascript:void(0)">+</a></div>
+          <a href="javascript:void(0);" class="bbp_down"  onclick="questionDown(this)">&or;</a>
         </div>
+
         <div class="steps">
           <%= render "three_step" %>
         </div>
       </div>
-      
+
       <%= form_for @question_pack do |f| %>
         <div class="remark">
           <h1>填写作业备注</h1>
@@ -26,9 +31,5 @@
 
 </div>
 <script>
-  /* function closeIt()
-  {
-    return "当前作业还未保存，确定离开页面？";
-  }
-  window.onbeforeunload = closeIt;*/
+
 </script>

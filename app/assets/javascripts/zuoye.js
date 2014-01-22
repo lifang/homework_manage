@@ -21,23 +21,28 @@ var branchQuestion = "<tr class=\"done_tr\">\n\
                                 </form>\n\
                               </td>\n\
                      </tr>";
+var page = 1;
+var i = 10;
 
 $(function(){
     $(".book_box_page").on('click', ".addPage", function(){
-        var all_li =  $(this).parents("ul").find("li.question_li");
+        var ul_parent = $(this).prev();
+        var all_li =  ul_parent.find("li.question_li");
         var index = all_li.length;
-        var top_li_href = $(this).parents("ul").find("li.question_li").first().find("a").attr("href");
+        var top_li_href = ul_parent.find("li.question_li").first().find("a").attr("href");
         var question_pack_id = top_li_href.split("/")[2];
-        if($(this).parent("li").prev().find("a").attr("href") == "#"){
+        if(all_li.last().find("a").attr("href") == "#"){
             if(confirm("当前题目还未保存，新增将丢失当前内容")){
                 all_li.removeClass("hover");
-                $(this).parent("li").before("<li  class=\"question_li hover\" onclick=\"liHover(this)\"><a href=\"#\">" + (index +1) +".</a></li>");
+                ul_parent.find("ul").append("<li  class=\"question_li hover\" onclick=\"liHover(this)\"><a href=\"#\">" + (index +1) +".</a></li>");
+                afterClickAddpage();
                 $.ajax({
                     url: "/question_packages/" + question_pack_id + "/render_new_question",
                     type: "GET",
                     dataType: "html",
                     success:function(data){
                         $(".book_box .steps").html(data);
+                        height_adjusting();
                     },
                     error:function(data){
                         tishi(data)
@@ -46,13 +51,16 @@ $(function(){
             }
         }else{
             all_li.removeClass("hover");
-            $(this).parent("li").before("<li  class=\"question_li hover\" onclick=\"liHover(this)\"><a href=\"#\">" + (index +1) +".</a></li>");
+            ul_parent.find("ul").append("<li  class=\"question_li hover\" onclick=\"liHover(this)\"><a href=\"#\">" + (index +1) +".</a></li>");
+            afterClickAddpage();
             $.ajax({
                 url: "/question_packages/" + question_pack_id + "/render_new_question",
                 type: "GET",
                 dataType: "html",
                 success:function(data){
                     $(".book_box .steps").html(data);
+                    
+                    height_adjusting();
                 },
                 error:function(data){
                     tishi(data)
@@ -63,6 +71,19 @@ $(function(){
 
     
 });
+
+function afterClickAddpage(){
+    var parent = $('div.book_box_page');
+    var box_height = $(".book_box_page_box").height();
+    var ul_show = parent.find('.book_box_page_box ul');
+    var new_all_li = ul_show.find('li');
+    var len = new_all_li.length;
+    var page_count = Math.ceil(len/i);
+    ul_show.animate({
+        marginTop:'+='+box_height*(1- page_count)
+    },'slow');
+                
+}
 
 function GoForthStep(question_pack_id){
     var first_selected = $(".first_step").find(".addwork_btn a.selected");
@@ -86,6 +107,7 @@ function GoForthStep(question_pack_id){
         },
         success:function(data){
             $(".book_box .steps").html(data);
+            height_adjusting();
             var question_id = $("#hidden_question_id").val();
             var question_pack_id = $("#hidden_question_pack_id").val();
             $(".remark").parents("form").attr("action", "/question_packages/" + question_pack_id );
@@ -201,12 +223,63 @@ function hideInput(obj){
     }
 }
 
+//播放音频文件
 function playAudio(obj){
     var oAudio =  $(obj).find("audio")[0];
-      if (oAudio.paused) {
-          oAudio.play();
-        }
-        else {
-          oAudio.pause();
-        }
+    if (oAudio.paused) {
+        oAudio.play();
+    }
+    else {
+        oAudio.pause();
+    }
 }
+
+
+//题号向上滚动
+function questionUp(obj){
+    var $parent = $(obj).parents('div.book_box_page');
+    var $ul_show = $parent.find('.book_box_page_box ul');
+    var box_height = $(".book_box_page_box").height();
+    var len = $ul_show.find('li').length;
+    var page_count = Math.ceil(len/i);
+
+    if(!$ul_show.is(':animated')){
+        if(page == page_count){
+            $ul_show.animate({
+                marginTop:'0'
+            },'slow');
+            page = 1;
+
+        }else{
+            $ul_show.animate({
+                marginTop:'-='+box_height
+            },'slow');
+            page++;
+
+        }
+    }
+}
+
+//题号向下滚动
+function questionDown(obj){
+    var $parent = $(obj).parents('div.book_box_page');
+    var $ul_show = $parent.find('.book_box_page_box ul');
+    var box_height = $(".book_box_page_box").height();
+    var len = $ul_show.find('li').length;
+    var page_count = Math.ceil(len/i);
+
+    if(!$ul_show.is(':animated')){
+        if(page == 1){
+            $ul_show.animate({
+                marginTop:'-='+box_height*(page_count-1)
+            },'slow');
+            page = page_count;
+        }else{
+            $ul_show.animate({
+                marginTop:'+='+box_height
+            },'slow');
+            page--;
+        }
+    }
+}
+

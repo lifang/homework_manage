@@ -17,7 +17,7 @@
             <td><p class="tooltip"><%= p.name %></p></td>
             <td><a href="/question_packages/<%= p.question_package_id %>" class="td_view">预览</a></td>
             <td><a href="/question_packages/<%= p.question_package_id %>/questions" class="td_write">编辑</a></td>
-            <td><a href="#" class="td_trash">删除</a></td>
+            <td><%= link_to "删除", "/question_packages/#{p.question_package_id}", :method => :delete, :confirm => "确定删除？",:class => "td_trash" %></td>
             <td><a href="#" class="td_timer" onclick="show_publish_task_panel(<%= p.question_package_id %>)">时间</a></td>
           </tr>
       <% else %>

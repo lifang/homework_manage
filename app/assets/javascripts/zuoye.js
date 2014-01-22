@@ -92,8 +92,17 @@ function GoForthStep(question_pack_id){
     var new_or_refer = second_selected.find("span").hasClass("build_a") ? 0 : 1;  //大题的小题来源， 0是新建， 1是引用
 
     var cell_id = $(".third_step").find("select.cell_ids option:selected").val();
-    var episode_id = $(".third_step").find("select.episode_ids option:selected").val();
+    var episode_id = $(".third_step").find("select#cell_"+ cell_id + " option:selected").val();
+    if(cell_id == "请选择单元"){
+        tishi("请选择单元！")
+        return false;
+    }
 
+    if(episode_id=="请选择课"){
+        tishi("请选择课！")
+        return false;
+    }
+    
     $.ajax({
         url: "/question_packages",
         type: "POST",
@@ -193,7 +202,7 @@ function liHover(obj){
                 dataType: "html",
                 success:function(data){
                     $(".book_box .steps").html(data);
-                     height_adjusting();
+                    height_adjusting();
                 },
                 error:function(data){
                     tishi(data);
@@ -281,6 +290,15 @@ function questionDown(obj){
                 $(".bbp_up").attr("onclick", "questionUp(this)")
             }
         }
+    }
+}
+
+//显示对应单元的课
+function loadEpisode(obj){
+    var cell_id = $(obj).find("option:selected").val();
+    if(cell_id != "请选择单元"){
+        $(".third_step").find("select.episode_ids").hide();
+        $("#cell_" + cell_id).show();
     }
 }
 

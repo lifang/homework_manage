@@ -3,13 +3,16 @@
     <div class="article">
       <div class="book_box clearAfter">
         <div class="book_box_page">
-          <ul>
-            <% @questions.each_with_index do |question, index| %>
-              <li class="question_li <%= @question && @question.id == question.id ? "hover" : "" %>" onclick="liHover(this)">
-                <a href="<%= edit_question_package_question_path(@question_pack, question) %>"><%= index+1 %>.</a></li>
-            <% end %>
-            <li><a href="#" class="addPage">+</a></li>
-          </ul>
+          <a href="javascript:void(0);" class="bbp_up" onclick="questionUp(this)">&and;</a>
+          <div class="book_box_page_box">
+            <ul>
+              <% @questions.each_with_index do |question, index| %>
+                <li class="question_li <%= @question && @question.id == question.id ? "hover" : "" %>" onclick="liHover(this)">
+                  <a href="<%= question_package_question_path(@question_pack, question) %>" data-remote="true" data-type="script"><%= index+1 %>.</a></li>
+              <% end %>
+            </ul>
+          </div>
+          <a href="javascript:void(0);" class="bbp_down"  onclick="questionDown(this)">&or;</a>
         </div>
         <div class="steps">
           <%= render "/questions/show_branch" %>

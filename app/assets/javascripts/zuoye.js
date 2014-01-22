@@ -59,7 +59,6 @@ $(function(){
                 dataType: "html",
                 success:function(data){
                     $(".book_box .steps").html(data);
-                    
                     height_adjusting();
                 },
                 error:function(data){
@@ -79,8 +78,9 @@ function afterClickAddpage(){
     var new_all_li = ul_show.find('li');
     var len = new_all_li.length;
     var page_count = Math.ceil(len/i);
+    page = page_count;
     ul_show.animate({
-        marginTop:'+='+box_height*(1- page_count)
+        marginTop:''+box_height*(1- page_count)
     },'slow');
                 
 }
@@ -193,6 +193,7 @@ function liHover(obj){
                 dataType: "html",
                 success:function(data){
                     $(".book_box .steps").html(data);
+                     height_adjusting();
                 },
                 error:function(data){
                     tishi(data);
@@ -244,18 +245,17 @@ function questionUp(obj){
     var page_count = Math.ceil(len/i);
 
     if(!$ul_show.is(':animated')){
-        if(page == page_count){
+        if(page > 1 & page <= page_count){
             $ul_show.animate({
-                marginTop:'0'
+                marginTop:'+='+box_height
             },'slow');
-            page = 1;
-
-        }else{
-            $ul_show.animate({
-                marginTop:'-='+box_height
-            },'slow');
-            page++;
-
+            page--;
+        }
+        if(page == 1){
+            $(".bbp_up").removeAttr( "onclick" );
+            if(typeof($(".bbp_down").attr("onclick"))=="undefined"){
+                $(".bbp_down").attr("onclick", "questionDown(this)")
+            }
         }
     }
 }
@@ -269,16 +269,17 @@ function questionDown(obj){
     var page_count = Math.ceil(len/i);
 
     if(!$ul_show.is(':animated')){
-        if(page == 1){
+        if(page >= 1 & page < page_count){
             $ul_show.animate({
-                marginTop:'-='+box_height*(page_count-1)
+                marginTop:'-='+box_height
             },'slow');
-            page = page_count;
-        }else{
-            $ul_show.animate({
-                marginTop:'+='+box_height
-            },'slow');
-            page--;
+            page++;
+        }
+        if(page == page_count){
+            $(".bbp_down").removeAttr( "onclick" );
+            if(typeof($(".bbp_up").attr("onclick"))=="undefined"){
+                $(".bbp_up").attr("onclick", "questionUp(this)")
+            }
         }
     }
 }

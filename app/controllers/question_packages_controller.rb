@@ -1,6 +1,7 @@
 #encoding: utf-8
 class QuestionPackagesController < ApplicationController
-  before_filter :sign?
+  #before_filter :sign?
+  before_filter :get_cells_and_episodes, :only => [:new, :render_new_question]
   require 'will_paginate/array'
 
   def index
@@ -13,7 +14,7 @@ class QuestionPackagesController < ApplicationController
         sort = @sort_name == "up" ? "asc" : "desc"
         @share_questions = ShareQuestion.find_by_sql("select u.name user_name, sq.* from share_questions sq inner join users u on sq.user_id = u.id where sq.types=#{@question.types} order by created_at #{sort}").paginate(:page => params[:page], :per_page => 8)
         @href = "/question_packages?question_package_id=#{@question_pack.id}&question_id=#{@question.id}"
-        }
+      }
       f.html
     end
   end
@@ -25,7 +26,6 @@ class QuestionPackagesController < ApplicationController
   #新建题包其中第一个答题第三步之后，建题包，建答题
   def create
     question_type, new_or_refer, cell_id, episode_id, question_pack_id = params[:question_type], params[:new_or_refer], params[:cell_id], params[:episode_id], params[:question_pack_id]
-    school_class_id = current_teacher.last_visit_class_id if current_teacher
     status = 0
     QuestionPackage.transaction do
       if question_pack_id.present?
@@ -65,11 +65,41 @@ class QuestionPackagesController < ApplicationController
     render :partial => "three_step"
   end
 
+  #预览作业
   def show
     @question_pack = QuestionPackage.find_by_id(params[:id])
-    @questions = @question_pack.questions
+    if params[:type].present?
+      @questions = params[:type] == "listen" ? @question_pack.questions.listening : @question_pack.questions.reading
+    else
+      @questions = @question_pack.questions
+    end
     @question = @questions[0]
     @branch_questions = BranchQuestion.where(:question_id => @question.try(:id)) if @question.present?
+  end
+
+  #删除作业
+  def destroy
+    question_pack = QuestionPackage.find_by_id(params[:id])
+    QuestionPackage.transaction do
+    
+      #作业删除文件夹开始
+      delete_question_package_folder(question_pack)
+      #作业删除文件夹结束
+      
+      if question_pack.destroy
+        flash[:notice] = "删除成功"
+        redirect_to "/school_classes/#{school_class_id}/homeworks"
+      end
+    end
+  end
+
+  private
+  #获取单元以及对于的课程
+  def get_cells_and_episodes
+    school_class = SchoolClass.find_by_id(school_class_id) if school_class_id
+    teaching_material = school_class.teaching_material if school_class
+    @cells = teaching_material.cells if teaching_material
+    @episodes = Episode.where(:cell_id => @cells.map(&:id)).group_by{|e| e.cell_id} if @cells
   end
   
 end

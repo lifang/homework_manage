@@ -12,3 +12,14 @@ num = 1 * 100
 TeachingMaterial.create(:id => num+1,:name => "牛津英语")
 TeachingMaterial.create(:id => num+1,:name => "新目标英语")
 TeachingMaterial.create(:id => num+1,:name => "新概念英语")
+
+TeachingMaterial.transaction do
+  TeachingMaterial.find_each do |tm|
+    10.times.each do |i|
+      cell = tm.cells.create(:name => "第#{i+1}单元")
+      10.times do |j|
+        cell.episodes.create(:name => "第#{j+1}课")
+      end
+    end
+  end
+end

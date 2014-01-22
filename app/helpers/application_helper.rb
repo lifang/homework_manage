@@ -41,8 +41,14 @@ module ApplicationHelper
   def current_teacher
     @current_teacher ||= Teacher.find_by_id(cookies[:teacher_id]) if cookies[:teacher_id]
   end
+
+  def school_class_id
+    @school_class_id ||= current_teacher.last_visit_class_id if current_teacher
+  end
+  
   def sign?
-    if cookies[:user_id].nil? || params[:school_class_id].nil? || cookies[:teacher_id].nil?
+    #if cookies[:user_id].nil? || params[:school_class_id].nil? || cookies[:teacher_id].nil?
+    if cookies[:user_id].nil? || cookies[:teacher_id].nil?
       redirect_to  "/"
     end
   end

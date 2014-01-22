@@ -29,6 +29,10 @@ class HomeworksController < ApplicationController
       file_url = "#{Rails.root}/public#{publish_question_package.question_packages_url}"
       File.delete file_url if File.exist? file_url
       if publish_question_package.task_message.destroy && publish_question_package.destroy
+        #作业删除文件夹开始
+        delete_question_package_folder(publish_question_package)
+        #作业删除文件夹结束
+        publish_question_package.destroy
         status = true
         notice = "任务删除成功！"
         @publish_question_packages = Teacher.get_publish_question_packages @school_class.id
@@ -71,10 +75,10 @@ class HomeworksController < ApplicationController
           end
 
           publish_question_package = PublishQuestionPackage.create(:school_class_id => @school_class.id,
-                                        :question_package_id => question_package.id,
-                                        :start_time => Time.now, :end_time => end_time,
-                                        :status => PublishQuestionPackage::STATUS[:NEW],
-                                        :question_packages_url => question_packages_url )
+            :question_package_id => question_package.id,
+            :start_time => Time.now, :end_time => end_time,
+            :status => PublishQuestionPackage::STATUS[:NEW],
+            :question_packages_url => question_packages_url )
           if publish_question_package
             status = true
             notice = "发布成功！"
@@ -85,9 +89,9 @@ class HomeworksController < ApplicationController
                     '#{publish_question_package.question_package.name}',
                     任务截止时间：#{publish_question_package.end_time}"
             @school_class.task_messages.create(:content => content,
-                      :period_of_validity => publish_question_package.end_time,
-                      :status => TaskMessage::STATUS[:YES],
-                      :publish_question_package_id => publish_question_package.id)
+              :period_of_validity => publish_question_package.end_time,
+              :status => TaskMessage::STATUS[:YES],
+              :publish_question_package_id => publish_question_package.id)
           else
             status = false
             notice = "发布失败！"

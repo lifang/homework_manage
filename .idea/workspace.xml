@@ -2,14 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db/migrate/20140122053846_create_cells.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db/migrate/20140122054433_create_episodes.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/cell.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/episode.rb" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/views/question_packages/index.html.erb" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/public/question_package_1.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/questions/_edit_branch.html.erb" afterPath="$PROJECT_DIR$/app/views/questions/_edit_branch.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/homeworks/_publish_tasks_list.html.erb" afterPath="$PROJECT_DIR$/app/views/homeworks/_publish_tasks_list.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/question_packages/_three_step.html.erb" afterPath="$PROJECT_DIR$/app/views/question_packages/_three_step.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helpers/application_helper.rb" afterPath="$PROJECT_DIR$/app/helpers/application_helper.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/homeworks_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/homeworks_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helpers/method_libs_helper.rb" afterPath="$PROJECT_DIR$/app/helpers/method_libs_helper.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/reply_micropost.rb" afterPath="$PROJECT_DIR$/app/models/reply_micropost.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/student_answer_record.rb" afterPath="$PROJECT_DIR$/app/models/student_answer_record.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/results/index.html.erb" afterPath="$PROJECT_DIR$/app/views/results/index.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/question.rb" afterPath="$PROJECT_DIR$/app/models/question.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/questions_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/questions_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/questions/reference.js.erb" afterPath="$PROJECT_DIR$/app/views/questions/reference.js.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/school_class.rb" afterPath="$PROJECT_DIR$/app/models/school_class.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/seeds.rb" afterPath="$PROJECT_DIR$/db/seeds.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/welcome_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/welcome_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/teaching_material.rb" afterPath="$PROJECT_DIR$/app/models/teaching_material.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,6 +65,18 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="homeworks_controller.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/controllers/homeworks_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="100" column="8" selection-start="4303" selection-end="4303" vertical-scroll-proportion="0.6353135" vertical-offset="1315" max-vertical-offset="1921">
+              <folding>
+                <element signature="e#265#651#0" expanded="true" />
+                <element signature="e#663#1833#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="welcome_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/welcome_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
@@ -64,10 +90,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="students_controller.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="students_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="287" column="42" selection-start="11376" selection-end="11376" vertical-scroll-proportion="0.35478547" vertical-offset="3219" max-vertical-offset="8687">
+            <state line="287" column="42" selection-start="11376" selection-end="11376" vertical-scroll-proportion="0.0" vertical-offset="3219" max-vertical-offset="8687">
               <folding>
                 <element signature="e#1742#2114#0" expanded="true" />
                 <element signature="e#2127#2536#0" expanded="true" />
@@ -149,11 +175,11 @@
         <option value="$PROJECT_DIR$/app/models/reply_micropost.rb" />
         <option value="$PROJECT_DIR$/public/homework_system/question_packages/publish_question_package_30/answers/student_1.js" />
         <option value="$PROJECT_DIR$/public/homework_system/question_packages/question_packages_2/questions.js" />
-        <option value="$PROJECT_DIR$/app/controllers/homeworks_controller.rb" />
         <option value="$PROJECT_DIR$/public/question_packages/question_packages_2/questions.js" />
         <option value="$PROJECT_DIR$/app/controllers/welcome_controller.rb" />
         <option value="$PROJECT_DIR$/app/helpers/method_libs_helper.rb" />
         <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/homeworks_controller.rb" />
       </list>
     </option>
   </component>
@@ -316,6 +342,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -4509,17 +4553,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/homeworks_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="652" selection-end="652" vertical-scroll-proportion="-1.3844885" vertical-offset="1145" max-vertical-offset="1853">
-          <folding>
-            <element signature="e#265#651#0" expanded="true" />
-            <element signature="e#663#1689#0" expanded="true" />
-            <element signature="e#1705#4404#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/helpers/api/students_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="279">
@@ -4561,7 +4594,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="287" column="42" selection-start="11376" selection-end="11376" vertical-scroll-proportion="0.35478547" vertical-offset="3219" max-vertical-offset="8687">
+        <state line="287" column="42" selection-start="11376" selection-end="11376" vertical-scroll-proportion="0.0" vertical-offset="3219" max-vertical-offset="8687">
           <folding>
             <element signature="e#1742#2114#0" expanded="true" />
             <element signature="e#2127#2536#0" expanded="true" />
@@ -4576,6 +4609,16 @@
             <element signature="e#21327#21935#0" expanded="true" />
             <element signature="e#21948#24577#0" expanded="true" />
             <element signature="e#26125#27481#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/homeworks_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="100" column="8" selection-start="4303" selection-end="4303" vertical-scroll-proportion="0.6353135" vertical-offset="1315" max-vertical-offset="1921">
+          <folding>
+            <element signature="e#265#651#0" expanded="true" />
+            <element signature="e#663#1833#0" expanded="true" />
           </folding>
         </state>
       </provider>

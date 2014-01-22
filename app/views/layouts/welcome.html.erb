@@ -14,5 +14,10 @@
     <h1 class="red"></h1>
   </div>
 </div>
+<script type="text/javascript">
+    <% if flash[:notice] %>
+    tishi("<%= flash[:notice] %>");
+    <% end %>
+</script>
 </body>
 </html>

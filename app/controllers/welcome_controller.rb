@@ -67,7 +67,7 @@ class WelcomeController < ApplicationController
         if !teacher.nil? && !user.nil?
           if teacher.update_attributes(:password => password, :user_id => user.id)
             status = true
-            notice = "注册完成！"
+            flash[:notice] = "注册完成！"
           else
             teacher.destroy
             user.destroy

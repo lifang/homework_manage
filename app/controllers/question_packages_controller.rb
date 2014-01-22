@@ -11,7 +11,7 @@ class QuestionPackagesController < ApplicationController
         @question = Question.find_by_id(params[:question_id])
         @sort_name = params[:sort_name]
         sort = @sort_name == "up" ? "asc" : "desc"
-        @share_questions = ShareQuestion.share_questions(@question, sort)
+        @share_questions = ShareQuestion.share_questions(@question, sort, params[:page])
         @href = "/question_packages?question_package_id=#{@question_pack.id}&question_id=#{@question.id}"
       }
       f.html
@@ -42,7 +42,7 @@ class QuestionPackagesController < ApplicationController
         if new_or_refer == "0"
           render :partial => "questions/new_branch"
         else
-          @share_questions = ShareQuestion.share_questions(@question, "desc")
+          @share_questions = ShareQuestion.share_questions(@question, "desc", 1)
           render :partial =>"questions/new_reference"
         end
       else

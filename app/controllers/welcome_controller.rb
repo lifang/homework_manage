@@ -1,8 +1,7 @@
 #encoding: utf-8
 class WelcomeController < ApplicationController
+  include MethodLibsHelper
   layout 'welcome'
-  def index
-  end
 
   #教师登陆
   def login
@@ -51,7 +50,7 @@ class WelcomeController < ApplicationController
       Teacher.transaction do
         teacher = Teacher.create(:email => email, :password => password,
           :status => Teacher::STATUS[:YES])
-        destination_dir = "#{Rails.root}/public/homework_system/avatars/teachers/#{Time.now.strftime('%Y-%m')}"
+        destination_dir = "/avatars/teachers/#{Time.now.strftime('%Y-%m')}"
         rename_file_name = "teacher_#{teacher.id}"
         avatar_url = ""
         if !file.nil?

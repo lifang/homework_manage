@@ -2,7 +2,6 @@
 class QuestionPackagesController < ApplicationController
   #before_filter :sign?
   before_filter :get_cells_and_episodes, :only => [:new, :render_new_question]
-  require 'will_paginate/array'
 
   def index
     respond_to do |f|
@@ -12,7 +11,7 @@ class QuestionPackagesController < ApplicationController
         @question = Question.find_by_id(params[:question_id])
         @sort_name = params[:sort_name]
         sort = @sort_name == "up" ? "asc" : "desc"
-        @share_questions = ShareQuestion.find_by_sql("select u.name user_name, sq.* from share_questions sq inner join users u on sq.user_id = u.id where sq.types=#{@question.types} order by created_at #{sort}").paginate(:page => params[:page], :per_page => 8)
+        @share_questions = ShareQuestion.share_questions(@question, sort, params[:page])
         @href = "/question_packages?question_package_id=#{@question_pack.id}&question_id=#{@question.id}"
       }
       f.html
@@ -43,7 +42,7 @@ class QuestionPackagesController < ApplicationController
         if new_or_refer == "0"
           render :partial => "questions/new_branch"
         else
-          @share_questions = ShareQuestion.find_by_sql("select u.name user_name, sq.* from share_questions sq inner join users u on sq.user_id = u.id where sq.types=#{question_type.to_i} order by created_at desc").paginate(:page => params[:page], :per_page => 8)
+          @share_questions = ShareQuestion.share_questions(@question, "desc", 1)
           render :partial =>"questions/new_reference"
         end
       else

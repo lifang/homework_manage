@@ -42,10 +42,10 @@ module MethodLibsHelper
       count_question = 0
       count_branch_question = 0
       questions = answer_records[Question::TYPES_TITLE[types]]
-        questions.each do |question|
-          if question["id"].to_i == question_id.to_i
+        questions.each do |q|
+          if q["id"].to_i == question_id.to_i
             count_question = 1
-            question["branch_questions"].each do |branch_question|
+            q["branch_questions"].each do |branch_question|
               p branch_question["id"]
               if branch_question["id"].to_i == branch_question_id.to_i
                 count_branch_question = 1
@@ -53,7 +53,7 @@ module MethodLibsHelper
               end
             end
             if count_question == 1 &&  count_branch_question == 0
-              question["branch_questions"] << {"id" => branch_question_id, "answer" => answer}
+              q["branch_questions"] << {"id" => branch_question_id, "answer" => answer}
             end
             break
           end
@@ -305,59 +305,65 @@ module MethodLibsHelper
     rescue
       questions_collections = nil
     end
+    lisentings = []
+    readings = []
     if student_answers_xml["questions"].present?
       questions = student_answers_xml["questions"]
-      if questions["listening"].present?
-        lisenting_questions = questions["listening"]["question"]  #听力题
-        #如果听力或朗读题只有一题,则将该题目的哈希转换为数组
-        if lisenting_questions.class == Hash  #如果听力题中的题目只有一题,将哈希转为数组
-          tmp = lisenting_questions
-          lisenting_questions = []
-          lisenting_questions << tmp
-          #重组哈希,去掉question键和branch_question键
-        end
-        lisentings = []
-        lisenting_questions.each do |question|
-          branch_questions = []
-          if question["branch_questions"]["branch_question"].class == Hash
-            branch_questions << question["branch_questions"]["branch_question"]
-          else
-            question["branch_questions"]["branch_question"].each do |e|
-              branch_questions << e
-            end
+      questions.each do |key,value|
+        if questions[key].present?
+          p value
+          lisenting_questions = questions["#{key}"]["question"]  #听力题
+          #如果听力或朗读题只有一题,则将该题目的哈希转换为数组
+          if lisenting_questions.class == Hash  #如果听力题中的题目只有一题,将哈希转为数组
+            tmp = lisenting_questions
+            lisenting_questions = []
+            lisenting_questions << tmp
+            #重组哈希,去掉question键和branch_question键
           end
-          lisentings << {"id" => question["id"], "branch_questions" => branch_questions}
+          lisenting_questions.each do |question|
+            branch_questions = []
+            if question["branch_questions"]["branch_question"].class == Hash
+              branch_questions << question["branch_questions"]["branch_question"]
+            else
+              question["branch_questions"]["branch_question"].each do |e|
+                branch_questions << e
+              end
+            end
+            lisentings << {"id" => question["id"], "branch_questions" => branch_questions}  if key == "listening"
+            readings << {"id" => question["id"], "branch_questions" => branch_questions}  if key == "reading"
+          end
         end
       end
-      if questions["reading"].present?
-        reading_questions = questions["reading"]["question"]  #朗读题
-        #如果听力或朗读题只有一题,则将该题目的哈希转换为数组
-        if reading_questions.class == Hash  #如果阅读题中的题目只有一题,将哈希转为数组
-          tmp = reading_questions
-          reading_questions = []
-          reading_questions << tmp
-        end
-        #重组哈希,去掉question键和branch_question键
-        readings = []
-        reading_questions.each do |question|
-          branch_questions = []
-          if question["branch_questions"]["branch_question"].class == Hash
-            branch_questions << question["branch_questions"]["branch_question"]
-          else
-            question["branch_questions"]["branch_question"].each do |e|
-              branch_questions << e
-            end
-          end
-          readings << {"id" => question["id"], "branch_questions" => branch_questions}
-        end
-      end
+
+
+      #  reading_questions = questions["reading"]["question"]  #朗读题
+      #  #如果听力或朗读题只有一题,则将该题目的哈希转换为数组
+      #  if reading_questions.class == Hash  #如果阅读题中的题目只有一题,将哈希转为数组
+      #    tmp = reading_questions
+      #    reading_questions = []
+      #    reading_questions << tmp
+      #  end
+      #  #重组哈希,去掉question键和branch_question键
+      #  readings = []
+      #  reading_questions.each do |question|
+      #    branch_questions = []
+      #    if question["branch_questions"]["branch_question"].class == Hash
+      #      branch_questions << question["branch_questions"]["branch_question"]
+      #    else
+      #      question["branch_questions"]["branch_question"].each do |e|
+      #        branch_questions << e
+      #      end
+      #    end
+      #    readings << {"id" => question["id"], "branch_questions" => branch_questions}
+      #  end
+      #end
       p lisentings
       p readings
       if lisentings.length > 0 && readings.length > 0
         questions_collections = {"listening"=> lisentings,"reading" => readings}
-      elsif lisentings.length > 0 && readings.length = 0
+      elsif lisentings.length > 0 && readings.length == 0
         questions_collections = {"listening"=> lisentings}
-      elsif lisentings.length = 0 && readings.length > 0
+      elsif lisentings.length == 0 && readings.length > 0
         questions_collections = {"reading" => readings}
       end
     else

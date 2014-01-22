@@ -11,7 +11,7 @@ class HomeworksController < ApplicationController
   #作业主页
   def index
     teacher = Teacher.find_by_id cookies[:teacher_id]
-    @school_class = SchoolClass.find_by_id cookies[:class_id]
+    @school_class = SchoolClass.find_by_id params[:school_class_id].to_i
     @publish_question_packages = Teacher.get_publish_question_packages @school_class.id
     page = params[:page]
     @publish_question_packages = @publish_question_packages.paginate(:page => page, :per_page => PublishQuestionPackage::PER_PAGE)
@@ -60,7 +60,7 @@ class HomeworksController < ApplicationController
           status = false
           notice = "该题包下的题目或小题为空！"
         else
-          p all_questions
+          #p all_questions
           write_file =  write_question_xml all_questions,file_dirs_url, file_full_url
           if write_file[:status] == true
             base_url = "#{Rails.root}/public"

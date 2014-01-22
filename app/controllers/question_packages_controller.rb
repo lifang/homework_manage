@@ -1,3 +1,4 @@
+#encoding: utf-8
 class QuestionPackagesController < ApplicationController
   before_filter :sign?
   require 'will_paginate/array'
@@ -8,8 +9,11 @@ class QuestionPackagesController < ApplicationController
       f.js{
         @question_pack = QuestionPackage.find_by_id(params[:question_package_id])
         @question = Question.find_by_id(params[:question_id])
-        @share_questions = ShareQuestion.find_by_sql("select u.name user_name, sq.* from share_questions sq inner join users u on sq.user_id = u.id where sq.types=#{@question.types}").paginate(:page => params[:page], :per_page => 5)
-      }
+        @sort_name = params[:sort_name]
+        sort = @sort_name == "up" ? "asc" : "desc"
+        @share_questions = ShareQuestion.find_by_sql("select u.name user_name, sq.* from share_questions sq inner join users u on sq.user_id = u.id where sq.types=#{@question.types} order by created_at #{sort}").paginate(:page => params[:page], :per_page => 8)
+        @href = "/question_packages?question_package_id=#{@question_pack.id}&question_id=#{@question.id}"
+        }
       f.html
     end
   end
@@ -39,7 +43,7 @@ class QuestionPackagesController < ApplicationController
         if new_or_refer == "0"
           render :partial => "questions/new_branch"
         else
-          @share_questions = ShareQuestion.find_by_sql("select u.name user_name, sq.* from share_questions sq inner join users u on sq.user_id = u.id where sq.types=#{question_type.to_i}").paginate(:page => params[:page], :per_page => 5)
+          @share_questions = ShareQuestion.find_by_sql("select u.name user_name, sq.* from share_questions sq inner join users u on sq.user_id = u.id where sq.types=#{question_type.to_i} order by created_at desc").paginate(:page => params[:page], :per_page => 8)
           render :partial =>"questions/new_reference"
         end
       else
@@ -63,7 +67,7 @@ class QuestionPackagesController < ApplicationController
 
   def show
     @question_pack = QuestionPackage.find_by_id(params[:id])
-     @questions = @question_pack.questions
+    @questions = @question_pack.questions
     @question = @questions[0]
     @branch_questions = BranchQuestion.where(:question_id => @question.try(:id)) if @question.present?
   end

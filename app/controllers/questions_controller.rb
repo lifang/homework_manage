@@ -9,32 +9,6 @@ class QuestionsController < ApplicationController
     @branch_questions = BranchQuestion.where(:question_id => @question.try(:id)) if @question.present?
     render :edit
   end
-
-  #第四步，保存新建的一个大题
-=begin
-  def update
-    @question_pack = QuestionPackage.find_by_id(params[:question_package_id])
-    @question = Question.find_by_id(params[:id])
-    content_arr = params[:branch_content]
-    resource_url_arr = params[:branch_url]
-    
-    flag = true
-    BranchQuestion.transaction do
-      content_arr.each_with_index do |content, index|
-        bq = @question.branch_questions.create(:content => content)
-        resource_url_path = save_into_folder(@question_pack, bq, resource_url_arr[index])if resource_url_arr[index]
-        bq.update_attributes({:resource_url => resource_url_path} ) if resource_url_path
-        flag = false unless bq
-      end
-      if flag
-        @edit_path = edit_question_package_question_path(@question_pack, @question)
-        render :success
-      else
-        render :failed
-      end
-    end
-  end
-=end
   
   #编辑大题
   def edit
@@ -89,6 +63,10 @@ class QuestionsController < ApplicationController
     @question = Question.find_by_id(params[:id])
     @question_pack = QuestionPackage.find_by_id(params[:question_package_id])
     @branch_questions = @question.branch_questions
+    respond_to do |f|
+      f.js{}
+      f.html
+    end
   end
 
   #引用题目

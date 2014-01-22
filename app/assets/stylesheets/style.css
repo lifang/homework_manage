@@ -623,11 +623,16 @@ a.x {
 .book_box_func li a.remove_a { background: url(/assets/work_icon01.png) no-repeat 0px -56px;}
 
 .book_box_func p { float: left;}
-.book_box_func .sort { float: right;}
+.book_box_func .sort, .book_box_func .sortup { float: right;}
 .book_box_func .sort a { 
 	padding: 2px 15px 2px 5px; 
 	margin: 0 10px; 
 	background: url(/assets/sort.png) no-repeat right center #ebebeb;
+}
+.book_box_func .sortup a {
+	padding: 2px 15px 2px 5px;
+	margin: 0 10px;
+	background: url(/assets/sortup.png) no-repeat right center #ebebeb;
 }
 
 /*----步骤------*/

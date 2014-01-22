@@ -50,7 +50,7 @@ class QuestionsController < ApplicationController
     question = Question.find_by_id(params[:id])
     Question.transaction do
       unless question.if_shared
-        share_question = ShareQuestion.create({:user_id => current_user.id, :name => question.name, :types => question.types})
+        share_question = ShareQuestion.create({:user_id => current_user.id, :name => question.name, :types => question.types, :cell_id => question.cell_id, :episode_id => question.episode_id})
         if share_question
           question.branch_questions.each do |bq|
             share_question.share_branch_questions.create({:content => bq.content, :resource_url => bq.resource_url})

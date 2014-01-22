@@ -111,9 +111,8 @@ module MethodLibsHelper
       Dir.mkdir url if !Dir.exist? url
     end
     if upload_file && !upload_file.original_filename.nil?
-      upload_file.original_filename = rename_file_name +
-          File.extname(upload_file.original_filename).to_s if rename_file_name.gsub(" ","").size != 0
-      file_url = "#{destination_dir}/#{upload_file.original_filename}"
+      file = rename_file_name + File.extname(upload_file.original_filename).to_s if rename_file_name.gsub(" ","").size != 0
+      file_url = "#{destination_dir}/#{file}"
       if upload_file.original_filename.nil? ||  destination_dir.gsub(" ","").size == 0
         status = false
         url = nil

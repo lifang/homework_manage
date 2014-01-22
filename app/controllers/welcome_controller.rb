@@ -15,18 +15,21 @@ class WelcomeController < ApplicationController
       notice = "用户不存在，请先注册！"
     else
       if teacher && teacher.has_password?(password)
+        cookies[:teacher_id]={:value => teacher.id, :path => "/", :secure  => false}
+        cookies[:user_id]={:value => teacher.user.id, :path => "/", :secure  => false}
         @class_id = teacher.last_visit_class_id
         last_visit_class = @class_id.nil? ? false : true
         if @class_id
           cookies[:class_id]={:value => @class_id, :path => "/", :secure  => false}
-          cookies[:teacher_id]={:value => teacher.id, :path => "/", :secure  => false}
-          cookies[:user_id]={:value => teacher.user.id, :path => "/", :secure  => false}
           status = true
           notice = "登陆成功！"
         else
-          status = false
-          notice = "密码错误，登录失败！"
+          status = true
+          notice = "登陆成功！您还没有班级，请先创建班级！"
         end
+      else
+        status = false
+        notice = "密码错误，登录失败！"
       end
     end
     @info = {:status => status, :notice => notice, :last_visit_class => last_visit_class}

@@ -4,7 +4,7 @@ module MethodLibsHelper
   require 'rexml/parent'
   include REXML
   #读写xml答题记录
-  def write_xml xml_file, question_id, branch_question_id, answer, types
+  def write_answer_json xml_file, question_id, branch_question_id, answer, types
     #question_types 0:listening  1:reading
     types = types.to_i
     if !File.exist? xml_file #如果文件不存在，则创建文件和基本节点

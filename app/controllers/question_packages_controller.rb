@@ -1,6 +1,6 @@
 #encoding: utf-8
 class QuestionPackagesController < ApplicationController
-  before_filter :sign?
+  #before_filter :sign?
   before_filter :get_cells_and_episodes, :only => [:new, :render_new_question]
   require 'will_paginate/array'
 
@@ -82,20 +82,9 @@ class QuestionPackagesController < ApplicationController
     question_pack = QuestionPackage.find_by_id(params[:id])
     QuestionPackage.transaction do
     
-      random_branch_question = nil
-      question_pack.questions.each do |question|
-        if question.branch_questions.any?
-          random_branch_question = question.branch_questions[0]  #找到某个小题的resource_url
-          break
-        end
-      end
-      
-      #删除作业文件夹
-      if random_branch_question.present?
-        branch_question_resource_path = "#{Rails.root}/public/" + random_branch_question.resource_url
-        question_pack_dir = File.dirname(branch_question_resource_path)
-        FileUtils.remove_dir question_pack_dir if Dir.exist? question_pack_dir
-      end
+      #作业删除文件夹开始
+      delete_question_package_folder(question_pack)
+      #作业删除文件夹结束
       
       if question_pack.destroy
         flash[:notice] = "删除成功"

@@ -47,7 +47,8 @@ module ApplicationHelper
   end
   
   def sign?
-    if cookies[:user_id].nil? || params[:school_class_id].nil? || cookies[:teacher_id].nil?
+    #if cookies[:user_id].nil? || params[:school_class_id].nil? || cookies[:teacher_id].nil?
+    if cookies[:user_id].nil? || cookies[:teacher_id].nil?
       redirect_to  "/"
     end
   end

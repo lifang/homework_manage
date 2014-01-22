@@ -20,7 +20,6 @@ class WelcomeController < ApplicationController
         @class_id = teacher.last_visit_class_id
         last_visit_class = @class_id.nil? ? false : true
         if @class_id
-          cookies[:class_id]={:value => @class_id, :path => "/", :secure  => false}
           status = true
           notice = "登陆成功！"
         else
@@ -109,7 +108,6 @@ class WelcomeController < ApplicationController
             :teacher_id => teacher.id, :teaching_material_id => teaching_material_id)
           if @school_class.save
             teacher.update_attributes(:last_visit_class_id => @school_class.id)
-            cookies[:class_id] = @school_class.id
             notice = "班级创建成功！"
             status = true
             last_visit_class_id = true
@@ -123,7 +121,7 @@ class WelcomeController < ApplicationController
   end
   #  退出
   def teacher_exit
-    cookies[:class_id] = nil
+    params[:school_class_id] = nil
     cookies[:teacher_id] = nil
     cookies[:user_id] = nil
     #    render :index

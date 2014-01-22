@@ -29,7 +29,7 @@ module ApplicationHelper
     return user
   end
   def get_school_class
-    @school_class = SchoolClass.find_by_id(cookies[:class_id].to_i)
+    @school_class = SchoolClass.find_by_id(params[:school_class_id].to_i)
     @class_index =-1
     @index =-1
   end
@@ -42,7 +42,7 @@ module ApplicationHelper
     @current_teacher ||= Teacher.find_by_id(cookies[:teacher_id]) if cookies[:teacher_id]
   end
   def sign?
-    if cookies[:user_id].nil? || cookies[:class_id].nil? || cookies[:teacher_id].nil?
+    if cookies[:user_id].nil? || params[:school_class_id].nil? || cookies[:teacher_id].nil?
       redirect_to  "/"
     end
   end

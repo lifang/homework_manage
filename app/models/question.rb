@@ -6,6 +6,7 @@ class Question < ActiveRecord::Base
 
   TYPE_NAME_ARR = ["listening", "reading"]
   TYPES = {:LISTENING => 0, :READING => 1}
+  TYPES_TITLE = {0 => "listening", 1 => "reading"}
   TYPES_NAME = {0 => "听力", 1 => "朗读"}
 
   TYPE_NAME_ARR.each do |type|

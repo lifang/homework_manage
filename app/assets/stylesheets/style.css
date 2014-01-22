@@ -785,15 +785,8 @@ a.x {
 .pageTurn a { padding: 5px 12px; margin: 0px 2px; color: #333; background: #dbdbdb;}
 .pageTurn a:hover, .pageTurn a:active { color: #92b81b;}
 
-.pageTurn a.current { padding: 5px 12px; font-weight: bold; color: #fff; background: #92b81b;}
+.pageTurn .current { padding: 5px 12px; font-weight: bold; color: #fff; background: #92b81b;}
 .pageTurn .disabled {display: none;}
-
-.pagination { padding: 10px 0; text-align: center; font-size: 13px; color: #333; margin: 20px 0;}
-.pagination a { padding: 5px 12px; margin: 0px 2px; color: #333; background: #dbdbdb;}
-.pagination a:hover, .pageTurn a:active { color: #92b81b;}
-
-.pagination .current { padding: 5px 12px; font-weight: bold; color: #fff; background: #92b81b;}
-.pagination .disabled {display: none;}
 
 /*tooltip*/
 .tooltip_box { position: absolute; z-index: 20000; }

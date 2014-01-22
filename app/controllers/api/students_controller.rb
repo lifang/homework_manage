@@ -73,7 +73,7 @@ class Api::StudentsController < ApplicationController
             on school_classes.id = school_class_student_ralastions.school_class_id
             where school_classes.status = ? and school_classes.period_of_validity >= ?
             and school_class_student_ralastions.student_id = ?", 
-            student_id, Time.now(), SchoolClass::STATUS[:NORMAL]])
+            SchoolClass::STATUS[:NORMAL], Time.now(), student_id])
     render :json => {:classes => classes}
   end
   
@@ -522,7 +522,7 @@ class Api::StudentsController < ApplicationController
     if micropost.nil?
       notice = "主消息不存在"
     else
-      reply_microposts =  ReplyMicropost.get_microposts micropost,page
+      reply_microposts =  ReplyMicropost.get_microposts micropost.id,page
       if reply_microposts[:pages_count] == 0
         status = "success"
         notice = "暂无子消息!"

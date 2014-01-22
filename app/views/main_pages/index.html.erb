@@ -1,31 +1,56 @@
 <div class="rightSide">
-  <div class="main setPaddingRight">
-    <div class="article">
-      <div class="ask_area">
-        <%=form_for(:microposts,:url=> microposts_path,onsubmit:"return check_send_microposts(this)") do |f|%>
-          <div class="ask_area_textarea"><textarea name="microposts[content]" cols="" rows="" placeholder="提个问题或是分享一下你的心得吧。"></textarea></div>
-          <div class="ask_area_btn"><button class="green_btn">发布</button></div>
-        <%end%>
-      </div>
-    </div>
-    <div class="article">
-      <div class="question_area">
-        <input type="hidden"  id="class_id" value="<%=  @school_class.id%>" />
-        <input type="hidden" name="condtions" id="condtions" value="" />
-        <div class="question_classify"><a onclick="change_conditions('all')" class="<%=@condition.nil? ? "hover":""%>">全部</a><a onclick="change_conditions('my','<%=current_teacher.user_id%>')" class="<%=@condition.nil? ? "":"hover"%>">我的</a></div>
-        <div id="reply_area">
+	<div class="main setPaddingRight">
+		<div class="article">
+			<div class="ask_area">
+				<%=form_for(:microposts,:url=> microposts_path,onsubmit:"return check_send_microposts(this)") do |f|%>
+				<div class="ask_area_textarea">
+					<textarea name="microposts[content]" cols="" rows="" placeholder="提个问题或是分享一下你的心得吧。"></textarea>
+</div>				<div class="ask_area_btn">
+					<button class="green_btn">
+						发布
+					</button>
+				</div>
+				<%end%>
+			</div>
+		</div>
+		<div class="article">
+			<div class="question_area">
+				<input type="hidden"  id="class_id" value="<%= @school_class.id%>" />
+				<input type="hidden" name="condtions" id="condtions" value="" />
+				<div class="question_classify">
+					<a onclick="change_conditions('all')" class="<%= @condition.nil? ? "hover":""%>">全部</a><a onclick="change_conditions('my','<%= current_teacher.user_id%>')" class="<%= @condition.nil? ? "":"hover"%>">我的</a>
+				</div>
+				<div id="reply_area">
 
-          <%=render 'questarea_box'%>
+					<%= render 'questarea_box'%>
 
-        </div>
-        <div class="digg_pagination">
-          <%=will_paginate @microposts,remote:true,:previous_label=>'上一页',:next_label=>'下一页' %>
-        </div>
-      </div>
+				</div>
+				<div class="digg_pagination">
+					<%= will_paginate @microposts,remote:true,:previous_label=>'上一页',:next_label=>'下一页' %>
+					<script>
+						var aarr = $(".pagination").find("a");
+						for (var i = 0; i < aarr.length; i++) {
+							//alert($(aarr[i]).attr("href"));
+						var arr = $(aarr[i]).attr("href").split("&");
+						var s = "";
+						if (arr[1].split("=")[0] == "init_mid") {
+							for (var j = 0; j < arr.length; j++) {
+								if(j==arr.length-1){
+									s += arr[j];
+								}else if (j != 1) {
+									s += arr[j] + "&";
+								}
+							}
+							$(aarr[i]).attr("href", s)
+						  }
+						}
+					</script>
+				</div>
+			</div>
 
-    </div>
-    <div class="grade_box" style="height:100%">
-      <%=render 'grade_box'%>
-    </div>
-  </div>
+		</div>
+		<div class="grade_box" style="height:100%">
+			<%= render 'grade_box'%>
+		</div>
+	</div>
 </div>

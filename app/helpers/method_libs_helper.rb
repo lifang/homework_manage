@@ -3,102 +3,99 @@ module MethodLibsHelper
   require 'rexml/element'
   require 'rexml/parent'
   include REXML
-  #读写xml答题记录
-  def write_answer_json xml_file, question_id, branch_question_id, answer, types
+  #记录答题json
+  def write_answer_json dirs_url, answer_file_full_name, question_id, branch_question_id, answer, types
     #question_types 0:listening  1:reading
+    status = false
+    url = nil
+    create_dirs dirs_url
+    anwser_file_url = "#{dirs_url}/#{answer_file_full_name}"
+    base_url = "#{Rails.root}/public"
     types = types.to_i
-    if !File.exist? xml_file #如果文件不存在，则创建文件和基本节点
-      doc = REXML::Document.new
-      questions = doc.add_element('questions')
-      questions_types = []
-      questions_types << questions.add_element('listening')
-      questions_types << questions.add_element('reading')
-
-      out = ""
-      doc.write(out)
-      File.open(xml_file,"w+") do |f|
-        f.write(out)
+    if !File.exist? anwser_file_url #如果文件不存在，则创建文件和基本节点
+      answer_records = {}
+      branch_questions = []
+      branch_questions << {:id => branch_question_id, :answer => answer}
+      question = {:id => question_id, :branch_questions => branch_questions}
+      answer_records[:listening] = []
+      answer_records[:reading] = []
+      if types == Question::TYPES[:LISTENING]
+        answer_records[:listening] << question
+      elsif types == Question::TYPES[:READING]
+        answer_records[:reading] << question
       end
-    end
-    xml_str = ""
-    File.open(xml_file) do |file|
-      file.each do |line|
-        xml_str += line.to_s
+      answer_records = answer_records.to_json
+      p answer_records
+      File.open(anwser_file_url,"w+") do |f|
+        f.write(answer_records)
       end
-    end
-    xml_str.gsub!(/\n|\t/,"")
-    doc = REXML::Document.new xml_str
-    if doc.root.has_elements? #如果根元素下有子元素则进行下一步处理
-      if types == 0
-        if doc.root.get_elements("listening").length > 0
-          questions = doc.root.get_elements("listening")
-        else
-          questions = doc.root.add_element("listening")
-        end
-      elsif types == 1
-        if doc.root.get_elements("reading").length > 0
-          questions = doc.root.get_elements("reading")
-        else
-          questions = doc.root.add_element("reading")
+      url = anwser_file_url.to_s[base_url.size,anwser_file_url.size]
+      status = true
+    else
+      result = ""
+      answer_json = ""
+      File.open(anwser_file_url) do |file|
+        file.each do |line|
+          answer_json += line.to_s
         end
       end
-      if questions[0].has_elements?
-        count_question = 0
-        questions[0].each do |question|
-          if question.to_s.match(/^\<question\>.*/)
-            p question.elements["id"].text
-            p question_id
-            if question.elements["id"].text == question_id
-              count_question = 1
-              count_branch_question = 0
-              question.elements["branch_questions"].each do |branch_question|
-                if branch_question.to_s.match(/^\<branch_question\>.*/)
-                  if branch_question.elements["id"].text == branch_question_id
-                    count_branch_question = 1
-                  end
-                end
+      answer_records = ActiveSupport::JSON.decode(answer_json)
+      count_question = 0
+      count_branch_question = 0
+      if types == Question::TYPES[:LISTENING]
+        answer_records["listening"].each do |question|
+          if question["id"].to_i == question_id.to_i
+            count_question = 1
+            question["branch_questions"].each do |branch_question|
+              p branch_question["id"]
+              if branch_question["id"].to_i == branch_question_id.to_i
+                count_branch_question = 1
               end
-              if count_question == 1 && count_branch_question == 0
-                branch_question = question.elements["branch_questions"].add_element("branch_question")
-                branch_que_id = branch_question.add_element("id")
-                branch_question_answer = branch_question.add_element("answer")
-                branch_que_id.add_text("#{branch_question_id}")
-                branch_question_answer.add_text("#{answer}")
-              end
+            end
+            if count_question == 1 &&  count_branch_question == 0
+              question["branch_questions"] << {"id" => branch_question_id, "answer" => answer}
             end
           end
         end
         if count_question == 0
-          question = questions[0].add_element("question")
-          que_id = question.add_element("id")
-          branch_questions = question.add_element("branch_questions")
-          branch_question = branch_questions.add_element("branch_question")
-          branch_que_id = branch_question.add_element("id")
-          branch_que_answer = branch_question.add_element("answer")
-          que_id.add_text("#{question_id}")
-          branch_que_id.add_text("#{branch_question_id}")
-          branch_que_answer.add_text("answer")
+          answer_records["listening"] << {"id" => question_id,
+                  "branch_questions" => [{"id" => branch_question_id, "answer" => answer}]}
         end
-      else
-        question = questions[0].add_element("question")
-        que_id = question.add_element("id")
-        branch_questions = question.add_element("branch_questions")
-        branch_question = branch_questions.add_element("branch_question")
-        branch_que_id = branch_question.add_element("id")
-        branch_que_answer = branch_question.add_element("answer")
-        que_id.add_text("#{question_id}")
-        branch_que_id.add_text("#{branch_question_id}")
-        branch_que_answer.add_text("answer")
+        p answer_records
+        p answer_records.class
+        result = answer_records
+      elsif types == Question::TYPES[:READING]
+        answer_records["reading"].each do |question|
+          if question["id"].to_i == question_id.to_i
+            count_question = 1
+            question["branch_questions"].each do |branch_question|
+              p branch_question["id"]
+              if branch_question["id"].to_i == branch_question_id.to_i
+                count_branch_question = 1
+              end
+            end
+            if count_question == 1 &&  count_branch_question == 0
+              question["branch_questions"] << {"id" => branch_question_id, "answer" => answer}
+            end
+          end
+        end
+        if count_question == 0
+          answer_records["reading"] << {"id" => question_id,
+                                          "branch_questions" => [{"id" => branch_question_id, "answer" => answer}]}
+        end
+        result = answer_records
       end
-      out = ""
-      doc.write(out)
-      File.open(xml_file,"w") do |f|
-        f.write(out)
+        #p answer_json
+      result = result.to_json
+      File.delete anwser_file_url
+      File.open(anwser_file_url,"w") do |f|
+        f.write(result)
       end
+      url = anwser_file_url.to_s[base_url.size,anwser_file_url.size]
+      status = true
     end
-    return true
+    info = {:status => status, :url => url}
   end
-
   #上传文件
   def upload_file destination_dir, rename_file_name, upload_file
     #参数:  destination_dir - 上传的目标目录，不包含文件url

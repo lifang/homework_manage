@@ -104,12 +104,10 @@ class Api::StudentsController < ApplicationController
     else
       school_class = SchoolClass.find_by_id student.last_visit_class_id
       if !school_class.nil?
-        p school_class
         if school_class.status == SchoolClass::STATUS[:EXPIRED] ||
             school_class.period_of_validity - Time.now < 0
           school_class = student.school_classes.where("status != #{SchoolClass::STATUS[:EXPIRED]}")[0]
         end
-        p school_class
         if !school_class.nil?
           class_id = school_class.id
           class_name = school_class.name
@@ -119,7 +117,6 @@ class Api::StudentsController < ApplicationController
           task_messages = TaskMessage.get_task_messages school_class.id
           page = 1
           microposts = Micropost.get_microposts school_class,page
-          p student
           follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
           daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
           messages = Message.get_my_messages school_class, student.user.id
@@ -407,17 +404,7 @@ class Api::StudentsController < ApplicationController
       url = "/"
       count = 0
       questions_xml_dir = "#{Rails.root}/public/homework_system/question_packages/publish_question_package_#{publish_question_package.id}/answers"
-      questions_xml_dir.split("/").each_with_index  do |e,i|
-        if i > 0 && e.size > 0
-          url = url + "/" if count > 0
-          url = url + "#{e}"
-          if !Dir.exist? url
-            Dir.mkdir url
-          end
-          count = count +1
-        end
-      end
-
+      answer_file_full_name = "student_#{student.id}.js"
       if !student.nil?
         if !school_class.nil?
           school_class_student_relation = SchoolClassStudentRalastion.
@@ -425,33 +412,42 @@ class Api::StudentsController < ApplicationController
           if school_class_student_relation.nil?
             notice = "该学生不属于当前班级,操作失败!"
           else
+            p student.id
+            p publish_question_package.id
             student_answer_record = StudentAnswerRecord.
                 find_by_student_id_and_publish_question_package_id student.id, publish_question_package.id
             if student_answer_record.nil?
+              if !publish_question_package.question_package.nil?
               student_answer_record = student.student_answer_records.
                   create(:question_package_id => publish_question_package.question_package.id,
                          :publish_question_package_id=> publish_question_package.id,
                          :status => StudentAnswerRecord::STATUS[:DEALING],
                          :school_class_id => school_class.id,
                         :listening_answer_count => 0 , :reading_answer_count => 0)
-            end
-            file_url = "#{questions_xml_dir}/student_#{student.id}.xml"
-            if write_xml(file_url, question_id, branch_question_id, answer, question_types) == true
-              base_url = "#{Rails.root}/public"
-              record_url = file_url.to_s[base_url.size,file_url.size]
-              if question_types == Question::TYPES[:LISTENING]
-                listening_answer_count = student_answer_record.listening_answer_count + 1
-                student_answer_record.update_attributes(:listening_answer_count => listening_answer_count,
-                                                        :answer_file_url => record_url)
-                status = "success"
-                notice = "记录完成！"
-              elsif question_types == Question::TYPES[:READING]
-                reading_answer_count = student_answer_record.reading_answer_count + 1
-                student_answer_record.update_attributes(:reading_answer_count => reading_answer_count,
-                                                        :answer_file_url => record_url)
-                status = "success"
-                notice = "记录完成！"
               end
+            end
+            if !student_answer_record.nil?
+              info =  write_answer_json(questions_xml_dir,answer_file_full_name, question_id, branch_question_id, answer, question_types)
+              if info[:status] == true
+                file_url = info[:url]
+                answer_count = 0
+                if question_types == Question::TYPES[:LISTENING]
+                  answer_count = student_answer_record.listening_answer_count + 1
+                  student_answer_record.update_attributes(:listening_answer_count => answer_count,
+                                                          :answer_file_url => file_url)
+                  status = "success"
+                  notice = "记录完成！"
+                elsif question_types == Question::TYPES[:READING]
+                  answer_count = student_answer_record.reading_answer_count + 1
+                  student_answer_record.update_attributes(:reading_answer_count => answer_count,
+                                                          :answer_file_url => file_url)
+                  status = "success"
+                  notice = "记录完成！"
+                end
+              end
+            else
+              status = "error"
+              notice = "题包不存在！"
             end
           end
         end

@@ -522,7 +522,7 @@ class Api::StudentsController < ApplicationController
     if micropost.nil?
       notice = "主消息不存在"
     else
-      reply_microposts =  ReplyMicropost.get_microposts micropost,page
+      reply_microposts =  ReplyMicropost.get_microposts micropost.id,page
       if reply_microposts[:pages_count] == 0
         status = "success"
         notice = "暂无子消息!"

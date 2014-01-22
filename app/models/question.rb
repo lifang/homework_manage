@@ -5,7 +5,7 @@ class Question < ActiveRecord::Base
   has_many :branch_questions, :dependent => :destroy
 
   TYPES = {:LISTENING => 0, :READING => 1}
-  TYPES_TITLE = {0 => "LISTENING", 1 => "READING"}
+  TYPES_TITLE = {0 => "listening", 1 => "reading"}
   TYPES_NAME = {0 => "听力", 1 => "朗读"}
 
   #查询一个题包下的所有题目

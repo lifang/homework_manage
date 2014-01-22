@@ -25,7 +25,6 @@ module MethodLibsHelper
         answer_records[:reading] << question
       end
       answer_records = answer_records.to_json
-      p answer_records
       File.open(anwser_file_url,"w+") do |f|
         f.write(answer_records)
       end
@@ -60,13 +59,10 @@ module MethodLibsHelper
           end
         end
         if count_question == 0
-          answer_records["listening"] << {"id" => question_id,
+          answer_records[Question::TYPES_TITLE[types]] << {"id" => question_id,
                   "branch_questions" => [{"id" => branch_question_id, "answer" => answer}]}
         end
-        p answer_records
-        p answer_records.class
         result = answer_records
-        #p answer_json
       result = result.to_json
       File.delete anwser_file_url
       File.open(anwser_file_url,"w") do |f|

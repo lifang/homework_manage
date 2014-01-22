@@ -79,16 +79,20 @@ module MethodLibsHelper
     #       rename_file_name - 重命名的文件名
     #       file - 文件流
     #创建目录
-    url = "/"
+    url = ""
+    root_path = "#{Rails.root}/public/"
     dirs = destination_dir.split("/")
-    dirs.delete("")
     dirs.each_with_index  do |e,i|
-      url = url + "/" if i > 0
-      url = url + "#{e}"
-      Dir.mkdir url if !Dir.exist? url
+      url += url + "#{e}"
+      Dir.mkdir root_path + url if !Dir.exist? root_path + url
     end
     if upload_file && !upload_file.original_filename.nil?
+      puts upload_file
+      puts upload_file.original_filename
+      
       file = rename_file_name + File.extname(upload_file.original_filename).to_s if rename_file_name.gsub(" ","").size != 0
+      puts File.extname(upload_file.original_filename)
+      puts file
       file_url = "#{destination_dir}/#{file}"
       if upload_file.original_filename.nil? ||  destination_dir.gsub(" ","").size == 0
         status = false

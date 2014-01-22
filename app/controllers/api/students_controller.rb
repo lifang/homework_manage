@@ -220,7 +220,7 @@ class Api::StudentsController < ApplicationController
         student = Student.find_by_id(params[:student_id].to_i)
         if student
           unless params[:avatar].nil?
-            destination_dir = "#{Rails.root}/public/homework_system/avatars/students/#{Time.now.strftime('%Y-%m')}"
+            destination_dir = "homework_system/avatars/students/#{Time.now.strftime('%Y-%m')}"
             rename_file_name = "student_#{student.id}"
             upload = upload_file destination_dir, rename_file_name, params[:avatar]
             url = upload[:url]
@@ -280,17 +280,13 @@ class Api::StudentsController < ApplicationController
               student = Student.create(:nickname => nickname, :qq_uid => qq_uid,
                   :status => Student::STATUS[:YES],
                   :last_visit_class_id => school_class.id)
-              destination_dir = "#{Rails.root}/public/homework_system/avatars/students/#{Time.now.strftime('%Y-%m')}"
+              destination_dir = "avatars/students/#{Time.now.strftime('%Y-%m')}"
               rename_file_name = "student_#{student.id}"
               avatar_url = ""
               if !file.nil?
                 upload = upload_file destination_dir, rename_file_name, file
-                url = upload[:url]
-                unuse_url = "#{Rails.root}/public"
                 if upload[:status] == true
-                  url = upload[:url]
-                  unuse_url = "#{Rails.root}/public"
-                  avatar_url = url.to_s[unuse_url.size,url.size]
+                  avatar_url = upload[:url]
                 else
                   avatar_url = "/assets/default_avater.jpg"
                 end
@@ -403,7 +399,7 @@ class Api::StudentsController < ApplicationController
     if !publish_question_package.nil?
       url = "/"
       count = 0
-      questions_xml_dir = "#{Rails.root}/public/homework_system/question_packages/publish_question_package_#{publish_question_package.id}/answers"
+      questions_xml_dir = "homework_system/question_packages/publish_question_package_#{publish_question_package.id}/answers"
       answer_file_full_name = "student_#{student.id}.js"
       if !student.nil?
         if !school_class.nil?
@@ -488,10 +484,8 @@ class Api::StudentsController < ApplicationController
   def finish_question_packge
     student_id = params[:student_id]
     school_class_id = params[:school_class_id]
-    question_package_id = params[:question_package_id]
     publish_question_package_id = params[:publish_question_package_id]
-    student_answer_record = StudentAnswerRecord.
-    find_by_student_id_and_school_class_id_and_publish_question_package_id_and_question_package_id student_id,school_class_id,publish_question_package_id,question_package_id
+    student_answer_record = StudentAnswerRecord.find_by_student_id_and_school_class_id_and_publish_question_package_id student_id,school_class_id,publish_question_package_id
     if !student_answer_record.nil?
       if student_answer_record.status == StudentAnswerRecord::STATUS[:DEALING]
         if student_answer_record.update_attributes(:status => StudentAnswerRecord::STATUS[:FINISH])

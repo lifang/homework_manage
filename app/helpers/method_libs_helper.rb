@@ -8,8 +8,9 @@ module MethodLibsHelper
     #question_types 0:listening  1:reading
     status = false
     url = nil
+    root_path = "#{Rails.root}/public/"
     create_dirs dirs_url
-    anwser_file_url = "#{dirs_url}/#{answer_file_full_name}"
+    anwser_file_url = "#{root_path + dirs_url}/#{answer_file_full_name}"
     base_url = "#{Rails.root}/public"
     types = types.to_i
     if !File.exist? anwser_file_url #如果文件不存在，则创建文件和基本节点
@@ -25,11 +26,16 @@ module MethodLibsHelper
         answer_records[:reading] << question
       end
       answer_records = answer_records.to_json
-      File.open(anwser_file_url,"w+") do |f|
-        f.write(answer_records)
+      begin
+        File.open(anwser_file_url,"w+") do |f|
+          f.write(answer_records)
+        end
+        url = anwser_file_url.to_s[base_url.size,anwser_file_url.size]
+        status = true
+      rescue
+        url = nil
+        status = false
       end
-      url = anwser_file_url.to_s[base_url.size,anwser_file_url.size]
-      status = true
     else
       result = ""
       answer_json = ""
@@ -64,7 +70,7 @@ module MethodLibsHelper
         end
         result = answer_records
       result = result.to_json
-      File.delete anwser_file_url
+      File.delete anwser_file_url if anwser_file_url
       File.open(anwser_file_url,"w") do |f|
         f.write(result)
       end
@@ -74,36 +80,31 @@ module MethodLibsHelper
     info = {:status => status, :url => url}
   end
   #上传文件
-  def upload_file destination_dir, rename_file_name, upload_file
+  def upload_file dirs_url, rename_file_name, file
     #参数:  destination_dir - 上传的目标目录，不包含文件url
-    #       rename_file_name - 重命名的文件名
-    #       file - 文件流
-    #创建目录
-    url = ""
+    #       rename_file_name - 重命名的文件基本名
+    #       file - 文件
     root_path = "#{Rails.root}/public/"
-    dirs = destination_dir.split("/")
-    dirs.each_with_index  do |e,i|
-      url += url + "#{e}"
-      Dir.mkdir root_path + url if !Dir.exist? root_path + url
-    end
-    if upload_file && !upload_file.original_filename.nil?
-      puts upload_file
-      puts upload_file.original_filename
-      
-      file = rename_file_name + File.extname(upload_file.original_filename).to_s if rename_file_name.gsub(" ","").size != 0
-      puts File.extname(upload_file.original_filename)
+    create_dirs dirs_url
+    if file && !file.original_filename.nil?
       puts file
-      file_url = "#{destination_dir}/#{file}"
-      if upload_file.original_filename.nil? ||  destination_dir.gsub(" ","").size == 0
+      puts file.original_filename
+
+      file_full_name = rename_file_name + File.extname(file.original_filename).to_s
+      puts File.extname(file.original_filename)
+      puts file
+      file_url = "#{root_path + dirs_url}/#{file_full_name}"
+      if file.original_filename.nil? ||  dirs_url.gsub(" ","").size == 0
         status = false
         url = nil
       else
         begin
           if File.open(file_url,"wb") do |f|
-              f.write(upload_file.read)
+              f.write(file.read)
             end
             status = true
-            url = file_url
+            unuse_url = "#{Rails.root}/public"
+            url = file_url.to_s[unuse_url.size,file_url.size]
           else
             status = false
             url = nil
@@ -186,28 +187,24 @@ module MethodLibsHelper
     questions_collections
   end
 
-  #创建目录
   def create_dirs dirs_url
-    #创建目录
-    url = "/"
-    count = 0
-    dirs_url.split("/").each_with_index  do |e,i|
-      if i > 0 && e.size > 0
-        url = url + "/" if count > 0
-        url = url + "#{e}"
-        if !Dir.exist? url
-          Dir.mkdir url
-        end
-        count = count +1
-      end
+    url = ""
+    root_path = "#{Rails.root}/public"
+    dirs = dirs_url.split("/")
+    dirs.each_with_index  do |e,i|
+        url +=  "/"
+        url += "#{e}"
+        Dir.mkdir root_path + url if !Dir.exist? root_path + url
     end
   end
+
   #生成题目包的xml
-  def write_question_xml all_questions ,file_dirs_url, file_full_url
+  def write_question_xml all_questions ,file_dirs_url, file_full_name
     status = false
     create_dirs file_dirs_url
-    if File.exist? file_full_url #如果文件不存在，则创建文件和基本节点
-      File.delete file_full_url
+    file_url = "#{Rails.root}/public/#{file_dirs_url}/#{file_full_name}"
+    if File.exist? file_url #如果文件不存在，则创建文件和基本节点
+      File.delete file_url
     end
     questions = ""
     doc = REXML::Document.new
@@ -287,7 +284,8 @@ module MethodLibsHelper
     doc.write(xml_str)
     questions_json = questions_xml_to_json xml_str
     questions_json = questions_json.to_json
-    if File.open(file_full_url,"w+") do |f|
+    p file_url
+    if File.open(file_url,"w+") do |f|
       f.write(questions_json)
     end
       status = true
@@ -335,30 +333,6 @@ module MethodLibsHelper
         end
       end
 
-
-      #  reading_questions = questions["reading"]["question"]  #朗读题
-      #  #如果听力或朗读题只有一题,则将该题目的哈希转换为数组
-      #  if reading_questions.class == Hash  #如果阅读题中的题目只有一题,将哈希转为数组
-      #    tmp = reading_questions
-      #    reading_questions = []
-      #    reading_questions << tmp
-      #  end
-      #  #重组哈希,去掉question键和branch_question键
-      #  readings = []
-      #  reading_questions.each do |question|
-      #    branch_questions = []
-      #    if question["branch_questions"]["branch_question"].class == Hash
-      #      branch_questions << question["branch_questions"]["branch_question"]
-      #    else
-      #      question["branch_questions"]["branch_question"].each do |e|
-      #        branch_questions << e
-      #      end
-      #    end
-      #    readings << {"id" => question["id"], "branch_questions" => branch_questions}
-      #  end
-      #end
-      p lisentings
-      p readings
       if lisentings.length > 0 && readings.length > 0
         questions_collections = {"listening"=> lisentings,"reading" => readings}
       elsif lisentings.length > 0 && readings.length == 0

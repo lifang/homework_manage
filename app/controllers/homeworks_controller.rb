@@ -26,6 +26,8 @@ class HomeworksController < ApplicationController
     @school_class = SchoolClass.find_by_id school_class_id
     publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
     if !publish_question_package.nil?
+      file_url = "#{Rails.root}/public#{publish_question_package.question_packages_url}"
+      File.delete file_url if File.exist? file_url
       if publish_question_package.task_message.destroy && publish_question_package.destroy
         status = true
         notice = "任务删除成功！"
@@ -53,18 +55,17 @@ class HomeworksController < ApplicationController
     if teacher && question_package && @school_class
       Teacher.transaction do
         all_questions = Question.get_all_questions question_package
-        file_dirs_url = "#{Rails.root}/public/homework_system/question_packages/question_packages_#{question_package.id}"
-        file_full_url = "#{file_dirs_url}/questions.js"
+        file_dirs_url = "question_packages/question_packages_#{question_package.id}"
+        file_full_name = "questions.js"
         if all_questions.length == 0
           p question_package
           status = false
           notice = "该题包下的题目或小题为空！"
         else
-          #p all_questions
-          write_file =  write_question_xml all_questions,file_dirs_url, file_full_url
+          write_file =  write_question_xml all_questions,file_dirs_url, file_full_name
           if write_file[:status] == true
-            base_url = "#{Rails.root}/public"
-            question_packages_url = "#{file_full_url.to_s[base_url.size,file_dirs_url.size]}"
+            question_packages_url = "/#{file_dirs_url}/#{file_full_name}"
+            p question_packages_url
           else
             question_packages_url = nil
           end

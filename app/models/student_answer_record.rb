@@ -41,6 +41,7 @@ class StudentAnswerRecord < ActiveRecord::Base
                :reading_schedule => "#{0}/#{task.reading_count}"
                }
     end
+    p tasks
     tasks
   end
   

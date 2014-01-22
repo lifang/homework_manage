@@ -49,15 +49,13 @@ class WelcomeController < ApplicationController
       Teacher.transaction do
         teacher = Teacher.create(:email => email, :password => password,
           :status => Teacher::STATUS[:YES])
-        destination_dir = "/avatars/teachers/#{Time.now.strftime('%Y-%m')}"
+        destination_dir = "avatars/teachers/#{Time.now.strftime('%Y-%m')}"
         rename_file_name = "teacher_#{teacher.id}"
         avatar_url = ""
         if !file.nil?
           upload = upload_file destination_dir, rename_file_name, file
           if upload[:status] == true
-            url = upload[:url]
-            unuse_url = "#{Rails.root}/public"
-            avatar_url = url.to_s[unuse_url.size,url.size]
+            avatar_url = upload[:url]
           else
             avatar_url = "/assets/default_avater.jpg"
           end

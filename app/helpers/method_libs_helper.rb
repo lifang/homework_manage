@@ -42,19 +42,21 @@ module MethodLibsHelper
       answer_records = ActiveSupport::JSON.decode(answer_json)
       count_question = 0
       count_branch_question = 0
-      if types == Question::TYPES[:LISTENING]
-        answer_records["listening"].each do |question|
+      questions = answer_records[Question::TYPES_TITLE[types]]
+        questions.each do |question|
           if question["id"].to_i == question_id.to_i
             count_question = 1
             question["branch_questions"].each do |branch_question|
               p branch_question["id"]
               if branch_question["id"].to_i == branch_question_id.to_i
                 count_branch_question = 1
+                break
               end
             end
             if count_question == 1 &&  count_branch_question == 0
               question["branch_questions"] << {"id" => branch_question_id, "answer" => answer}
             end
+            break
           end
         end
         if count_question == 0
@@ -64,27 +66,6 @@ module MethodLibsHelper
         p answer_records
         p answer_records.class
         result = answer_records
-      elsif types == Question::TYPES[:READING]
-        answer_records["reading"].each do |question|
-          if question["id"].to_i == question_id.to_i
-            count_question = 1
-            question["branch_questions"].each do |branch_question|
-              p branch_question["id"]
-              if branch_question["id"].to_i == branch_question_id.to_i
-                count_branch_question = 1
-              end
-            end
-            if count_question == 1 &&  count_branch_question == 0
-              question["branch_questions"] << {"id" => branch_question_id, "answer" => answer}
-            end
-          end
-        end
-        if count_question == 0
-          answer_records["reading"] << {"id" => question_id,
-                                          "branch_questions" => [{"id" => branch_question_id, "answer" => answer}]}
-        end
-        result = answer_records
-      end
         #p answer_json
       result = result.to_json
       File.delete anwser_file_url

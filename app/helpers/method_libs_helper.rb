@@ -186,6 +186,7 @@ module MethodLibsHelper
     url = ""
     root_path = "#{Rails.root}/public"
     dirs = dirs_url.split("/")
+    p dirs
     dirs.each_with_index  do |e,i|
         url +=  "/"
         url += "#{e}"

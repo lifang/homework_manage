@@ -62,7 +62,6 @@ class HomeworksController < ApplicationController
         file_dirs_url = "question_packages/question_packages_#{question_package.id}"
         file_full_name = "questions.js"
         if all_questions.length == 0
-          p question_package
           status = false
           notice = "该题包下的题目或小题为空！"
         else
@@ -73,7 +72,8 @@ class HomeworksController < ApplicationController
           else
             question_packages_url = nil
           end
-
+          group_questions = all_questions.group_by {|e| e.types}
+          p group_questions
           publish_question_package = PublishQuestionPackage.create(:school_class_id => @school_class.id,
             :question_package_id => question_package.id,
             :start_time => Time.now, :end_time => end_time,

@@ -12,7 +12,7 @@
   <div class="book_box_func">
     <ul>
       <li><%= link_to "分享", share_question_package_question_path(@question_pack, @question), :remote => true, "data-type" => "script", :class => "share_a tooltip", :method => :post %></li>
-      <li><%= link_to "删除", question_package_question_path(@question_pack, @question), :method => "delete", :confirm => "确定删除此题？",:class=>"remove_a tooltip"  %></li>
+      <li><%= link_to "删除", school_class_question_package_question_path(school_class_id, @question_pack, @question), :method => "delete", :confirm => "确定删除此题？",:class=>"remove_a tooltip"  %></li>
     </ul>
   </div>
 

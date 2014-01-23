@@ -57,6 +57,12 @@ HomeworkManage::Application.routes.draw do
         post :create_class, :save_updated_teacher
       end
     end
+
+    resources :question_packages do
+      resources :questions do
+         resources :branch_questions
+      end
+    end
   end
 
 

@@ -1,3 +1,4 @@
+#encoding: utf-8
 module ApplicationHelper
   MEDIA_PATH = "/question_packages/#{Time.now.strftime("%Y%m")}/questions_package_%d/" #大题资源路径
   
@@ -47,9 +48,15 @@ module ApplicationHelper
   end
   
   def sign?
-    #if cookies[:user_id].nil? || params[:school_class_id].nil? || cookies[:teacher_id].nil?
-    if cookies[:user_id].nil? || cookies[:teacher_id].nil?
-      redirect_to  "/"
+    unless request.xhr?
+      if cookies[:user_id].nil? || params[:school_class_id].nil? || cookies[:teacher_id].nil?
+        redirect_to  "/"
+      else
+        if action_name != "chang_class" && school_class_id != params[:school_class_id].to_i
+          flash[:notice] = "没有权限访问"
+          redirect_to  "/"
+        end
+      end
     end
   end
 end

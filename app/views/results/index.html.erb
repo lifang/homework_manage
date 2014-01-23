@@ -4,8 +4,8 @@
         	<div class="work_info">
             	<div class="work_info_head clearAfter">
             		<% if @publish_packages and @current_package %>
-                  <a href="/question_packages/<%= @current_package.id %>?type=listen" class="work_h_one">点击查看</a>
-                    <a href="/question_packages/<%= @current_package.id %>?type=read" class="work_h_two">点击查看</a>
+                  <a href="/school_classes/<%= school_class_id %>/question_packages/<%= @current_package.id %>?type=listen" class="work_h_one">点击查看</a>
+                  <a href="/school_classes/<%= school_class_id %>/question_packages/<%= @current_package.id %>?type=read" class="work_h_two">点击查看</a>
                     <div class="work_head_time">
                     	<p>布置时间：<%= @current_package.created_at.strftime("%Y-%m-%d    %H：%M") if @current_package.created_at %></p>
                         <p>截止时间：<%= @current_package.end_time.strftime("%Y-%m-%d    %H：%M") if @current_package.end_time %></p>

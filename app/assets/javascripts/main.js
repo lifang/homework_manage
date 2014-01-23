@@ -89,8 +89,8 @@ $(function(){
 
 //left菜单
 $(function(){
-    $(".firstNav").click(function(){
-        $(this).find(".menu").toggle(300);
+    $(".firstNav > a").click(function(){
+        $(this).parent().find(".menu").toggle(300);
     });
 })
 

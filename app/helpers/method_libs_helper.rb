@@ -81,18 +81,13 @@ module MethodLibsHelper
   end
   #上传文件
   def upload_file dirs_url, rename_file_name, file
-    #参数:  destination_dir - 上传的目标目录，不包含文件url
-    #       rename_file_name - 重命名的文件基本名
+    #参数:  destination_dir - 上传的目标目录，不包含文件全名
+    #       rename_file_name - 重命名的文件基本名，不包含拓展名
     #       file - 文件
     root_path = "#{Rails.root}/public/"
     create_dirs dirs_url
     if file && !file.original_filename.nil?
-      puts file
-      puts file.original_filename
-
       file_full_name = rename_file_name + File.extname(file.original_filename).to_s
-      puts File.extname(file.original_filename)
-      puts file
       file_url = "#{root_path + dirs_url}/#{file_full_name}"
       if file.original_filename.nil? ||  dirs_url.gsub(" ","").size == 0
         status = false
@@ -214,17 +209,9 @@ module MethodLibsHelper
     all_questions.each do |e|
       #question_types 0:listening  1:reading
       if e[:types] == Question::TYPES[:LISTENING]
-        if doc.root.get_elements("listening").length > 0
           questions = doc.root.get_elements("listening")
-        else
-          questions = doc.root.add_element("listening")
-        end
       elsif e[:types] == Question::TYPES[:READING]
-        if doc.root.get_elements("reading").length > 0
           questions = doc.root.get_elements("reading")
-        else
-          questions = doc.root.add_element("reading")
-        end
       end
       if questions[0].has_elements?
         count_question = 0
@@ -254,29 +241,11 @@ module MethodLibsHelper
         end
       else
         question = questions[0].add_element("question")
-        que_id = question.add_element("id")
-        branch_questions = question.add_element("branch_questions")
-        branch_question = branch_questions.add_element("branch_question")
-        branch_que_id = branch_question.add_element("id")
-        branch_content = branch_question.add_element("content")
-        branch_question_resource_url = branch_question.add_element("resource_url")
-        que_id.add_text("#{e[:id]}")
-        branch_que_id.add_text("#{e[:branch_question_id]}")
-        branch_content.add_text("#{e[:content]}")
-        branch_question_resource_url.add_text("#{e[:resource_url]}")
+        add_one_question_node question, e
       end
       if count_question == 0
         question = questions[0].add_element("question")
-        que_id = question.add_element("id")
-        branch_questions = question.add_element("branch_questions")
-        branch_question = branch_questions.add_element("branch_question")
-        branch_que_id = branch_question.add_element("id")
-        branch_content = branch_question.add_element("content")
-        branch_question_resource_url = branch_question.add_element("resource_url")
-        que_id.add_text("#{e[:id]}")
-        branch_que_id.add_text("#{e[:branch_question_id]}")
-        branch_content.add_text("#{e[:content]}")
-        branch_question_resource_url.add_text("#{e[:resource_url]}")
+        add_one_question_node question, e
       end
     end
     #写文件
@@ -284,7 +253,6 @@ module MethodLibsHelper
     doc.write(xml_str)
     questions_json = questions_xml_to_json xml_str
     questions_json = questions_json.to_json
-    p file_url
     if File.open(file_url,"w+") do |f|
       f.write(questions_json)
     end
@@ -293,6 +261,20 @@ module MethodLibsHelper
       status = false
     end
     write_file = {:status => status}
+  end
+
+  #生成题目包的xml时追加一个大题节点
+  def add_one_question_node question_node, question_params_obj
+    que_id = question_node.add_element("id")
+    branch_questions = question_node.add_element("branch_questions")
+    branch_question = branch_questions.add_element("branch_question")
+    branch_que_id = branch_question.add_element("id")
+    branch_content = branch_question.add_element("content")
+    branch_question_resource_url = branch_question.add_element("resource_url")
+    que_id.add_text("#{question_params_obj[:id]}")
+    branch_que_id.add_text("#{question_params_obj[:branch_question_id]}")
+    branch_content.add_text("#{question_params_obj[:content]}")
+    branch_question_resource_url.add_text("#{question_params_obj[:resource_url]}")
   end
 
   #将生成的题目包xml转换为json
@@ -309,30 +291,28 @@ module MethodLibsHelper
       questions = student_answers_xml["questions"]
       questions.each do |key,value|
         if questions[key].present?
-          p value
-          lisenting_questions = questions["#{key}"]["question"]  #听力题
+          ques = questions["#{key}"]["question"]
           #如果听力或朗读题只有一题,则将该题目的哈希转换为数组
-          if lisenting_questions.class == Hash  #如果听力题中的题目只有一题,将哈希转为数组
-            tmp = lisenting_questions
-            lisenting_questions = []
-            lisenting_questions << tmp
+          if ques.class == Hash
+            tmp = ques
+            ques = []
+            ques << tmp
             #重组哈希,去掉question键和branch_question键
           end
-          lisenting_questions.each do |question|
+          ques.each do |q|
             branch_questions = []
-            if question["branch_questions"]["branch_question"].class == Hash
-              branch_questions << question["branch_questions"]["branch_question"]
+            if q["branch_questions"]["branch_question"].class == Hash
+              branch_questions << q["branch_questions"]["branch_question"]
             else
-              question["branch_questions"]["branch_question"].each do |e|
+              q["branch_questions"]["branch_question"].each do |e|
                 branch_questions << e
               end
             end
-            lisentings << {"id" => question["id"], "branch_questions" => branch_questions}  if key == "listening"
-            readings << {"id" => question["id"], "branch_questions" => branch_questions}  if key == "reading"
+            lisentings << {"id" => q["id"], "branch_questions" => branch_questions}  if key == "listening"
+            readings << {"id" => q["id"], "branch_questions" => branch_questions}  if key == "reading"
           end
         end
       end
-
       if lisentings.length > 0 && readings.length > 0
         questions_collections = {"listening"=> lisentings,"reading" => readings}
       elsif lisentings.length > 0 && readings.length == 0

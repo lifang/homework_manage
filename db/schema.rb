@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140120095542) do
+ActiveRecord::Schema.define(:version => 20140122132901) do
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -23,6 +23,20 @@ ActiveRecord::Schema.define(:version => 20140120095542) do
   end
 
   add_index "branch_questions", ["question_id"], :name => "index_branch_questions_on_question_id"
+
+  create_table "cells", :force => true do |t|
+    t.string   "name"
+    t.integer  "teaching_material_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
+  create_table "episodes", :force => true do |t|
+    t.string   "name"
+    t.integer  "cell_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "follow_microposts", :force => true do |t|
     t.integer  "user_id"
@@ -54,9 +68,9 @@ ActiveRecord::Schema.define(:version => 20140120095542) do
     t.integer  "user_types"
     t.string   "content"
     t.integer  "school_class_id"
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
-    t.integer  "reply_microposts_count", :default => 0
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+    t.integer  "reply_microposts_count"
   end
 
   add_index "microposts", ["school_class_id"], :name => "index_microposts_on_school_class_id"
@@ -166,6 +180,8 @@ ActiveRecord::Schema.define(:version => 20140120095542) do
     t.datetime "created_at",               :null => false
     t.datetime "updated_at",               :null => false
     t.integer  "user_id"
+    t.integer  "cell_id"
+    t.integer  "episode_id"
   end
 
   add_index "share_questions", ["question_package_type_id"], :name => "index_share_questions_on_question_package_type_id"

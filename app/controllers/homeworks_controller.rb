@@ -60,7 +60,7 @@ class HomeworksController < ApplicationController
     if teacher && question_package && @school_class
       Teacher.transaction do
         all_questions = Question.get_all_questions question_package
-        file_dirs_url = "question_packages/question_packages_#{question_package.id}"
+        file_dirs_url = "que_ps/question_p_#{question_package.id}"
         file_full_name = "questions.js"
         if all_questions.length == 0
           status = false
@@ -74,11 +74,14 @@ class HomeworksController < ApplicationController
             question_packages_url = nil
           end
           group_questions = all_questions.group_by {|e| e.types}
-          p group_questions
+          listening_count = group_questions[0].nil? ? 0 : group_questions[0].length
+          reading_count = group_questions[1].nil? ? 0 : group_questions[1].length
           publish_question_package = PublishQuestionPackage.create(:school_class_id => @school_class.id,
             :question_package_id => question_package.id,
             :start_time => Time.now, :end_time => end_time,
             :status => PublishQuestionPackage::STATUS[:NEW],
+            :listening_count => listening_count,
+            :reading_count => reading_count,
             :question_packages_url => question_packages_url )
           if publish_question_package
             status = true

@@ -664,8 +664,8 @@ class Api::StudentsController < ApplicationController
             status = "error"
           else
             if message.update_attributes(:status => Message::STATUS[:READED])
-              sql_str = "select m.content, m.created_at, m.id, m.reply_microposts_count,
-              m.school_class_id, m.user_id, u.name, u.avatar_url from microposts m
+              sql_str = "select m.content, m.created_at, m.id micropost_id, m.reply_microposts_count,
+              m.school_class_id, m.user_id,m.user_types, u.name, u.avatar_url from microposts m
               left join users u on m.user_id = u.id where m.id = #{message.micropost_id}"
               micropost = Message.find_by_sql sql_str
               status = "success"

@@ -116,6 +116,7 @@ function GoForthStep(question_pack_id, school_class_id){
         },
         success:function(data){
             $(".book_box .steps").html(data);
+            $(".book_box_table table > tbody > tr:odd").addClass("tbg");
             height_adjusting();
             var question_id = $("#hidden_question_id").val();
             var question_pack_id = $("#hidden_question_pack_id").val();
@@ -138,6 +139,7 @@ function checkText(obj, path){
     // alert("内容不能为空");
     }else{
         $(obj).parents("tr").before(branchQuestion);
+        $(".book_box_table table > tbody > tr:odd").addClass("tbg");
         var done_tr = $(".book_box_table table tr.done_tr");
         var new_done_tr = done_tr.last();
         new_done_tr.find("p.td_text_p").text(value);

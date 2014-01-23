@@ -399,9 +399,9 @@ class Api::StudentsController < ApplicationController
     if !publish_question_package.nil?
       url = "/"
       count = 0
-      questions_xml_dir = "homework_system/question_packages/publish_question_package_#{publish_question_package.id}/answers"
-      answer_file_full_name = "student_#{student.id}.js"
       if !student.nil?
+        questions_xml_dir = "pub_que_ps/pub_#{publish_question_package.id}/answers"
+        answer_file_full_name = "student_#{student.id}.js"
         if !school_class.nil?
           school_class_student_relation = SchoolClassStudentRalastion.
               find_all_by_school_class_id_and_student_id school_class.id, student.id
@@ -446,7 +446,11 @@ class Api::StudentsController < ApplicationController
               notice = "题包不存在！"
             end
           end
+        else
+          notice = "该班级不存在!"
         end
+      else
+        notice = "该用户不存在!"
       end
     else
       notice = "该任务包不存在!"

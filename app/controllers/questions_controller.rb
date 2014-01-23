@@ -10,8 +10,8 @@ class QuestionsController < ApplicationController
     if @question.present?
       render :edit
     else
-      flash[:notice] = "作业里面没有题目，请手动删除题包，重新创建"
-      redirect_to "/question_packages/new"
+      flash[:notice] = "作业里面没有题目，重新创建或者删除作业"
+      redirect_to "/school_classes/#{school_class_id}/question_packages/new"
     end
     
   end
@@ -41,7 +41,7 @@ class QuestionsController < ApplicationController
         end
       end
       flash[:notice]="删除成功"
-      redirect_to question_package_questions_path(question_pack)
+      redirect_to school_class_question_package_questions_path(school_class_id, question_pack)
     end
   end
 

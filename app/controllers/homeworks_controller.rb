@@ -30,7 +30,7 @@ class HomeworksController < ApplicationController
       File.delete file_url if File.exist? file_url
       if publish_question_package.task_message.destroy && publish_question_package.destroy
         #作业删除文件夹开始
-        delete_question_package_folder(publish_question_package)
+        delete_question_package_folder(publish_question_package.question_package)
         #作业删除文件夹结束
         publish_question_package.destroy
         status = true

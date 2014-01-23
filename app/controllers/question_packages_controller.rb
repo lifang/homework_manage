@@ -1,6 +1,6 @@
 #encoding: utf-8
 class QuestionPackagesController < ApplicationController
-  #before_filter :sign?
+  before_filter :sign?
   before_filter :get_cells_and_episodes, :only => [:new, :render_new_question]
 
   def index
@@ -56,7 +56,7 @@ class QuestionPackagesController < ApplicationController
     if question_package && params[:question_package][:name]
       question_package.update_attribute(:name, params[:question_package][:name])
     end
-    redirect_to question_package_questions_path(question_package)
+    redirect_to school_class_question_package_questions_path(school_class_id, question_package)
   end
 
   def render_new_question

@@ -30,7 +30,7 @@ $(function(){
         var all_li =  ul_parent.find("li.question_li");
         var index = all_li.length;
         var top_li_href = ul_parent.find("li.question_li").first().find("a").attr("href");
-        var question_pack_id = top_li_href.split("/")[2];
+        var question_pack_id = top_li_href.split("/")[4];
         if(all_li.last().find("a").attr("href") == "#"){
             if(confirm("当前题目还未保存，新增将丢失当前内容")){
                 all_li.removeClass("hover");
@@ -85,7 +85,7 @@ function afterClickAddpage(){
                 
 }
 
-function GoForthStep(question_pack_id){
+function GoForthStep(question_pack_id, school_class_id){
     var first_selected = $(".first_step").find(".addwork_btn a.selected");
     var question_type = first_selected.find("span").hasClass("write_a") ? 0 : 1;  //大题题型， 0是听力， 1是朗读
     var second_selected = $(".second_step").find(".addwork_btn a.selected");
@@ -121,7 +121,7 @@ function GoForthStep(question_pack_id){
             var question_pack_id = $("#hidden_question_pack_id").val();
             $(".remark").parents("form").attr("action", "/question_packages/" + question_pack_id );
             $(".remark").parents("form").append("<input name=\"_method\" type=\"hidden\" value=\"put\">")
-            $(".book_box_page li.hover").find("a").attr("href", "/question_packages/" + question_pack_id + "/questions/" + question_id + "/edit");
+            $(".book_box_page li.hover").find("a").attr("href", "/school_classes/" + school_class_id +"/question_packages/" + question_pack_id + "/questions/" + question_id + "/edit");
             $(".book_box_page li.hover").find("a").attr("data-remote", true);
             $(".book_box_page li.hover").find("a").attr("data-type", "script");
         },
@@ -191,7 +191,7 @@ function removeBranchQues(obj){
 function liHover(obj){
     var top_li_href = $(obj).parents("ul").find("li.question_li").first().find("a").attr("href");
     if(typeof(top_li_href)!="undefined"){
-        var question_pack_id = top_li_href.split("/")[2];
+        var question_pack_id = top_li_href.split("/")[4];
         var all_li =  $(obj).parents("ul").find("li.question_li");
         all_li.removeClass("hover");
         $(obj).addClass("hover");

@@ -53,7 +53,7 @@ module ApplicationHelper
   
   def sign?
     unless request.xhr?
-      if cookies[:user_id].nil? || params[:school_class_id].nil? || cookies[:teacher_id].nil?
+      if cookies[:user_id].nil? || cookies[:teacher_id].nil?
         redirect_to  "/"
       else
         if action_name != "chang_class" && school_class_id != params[:school_class_id].to_i

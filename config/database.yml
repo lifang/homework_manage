@@ -9,8 +9,8 @@ development:
   reconnect: false
   database: homework_manage
   pool: 5
-  username: root
-  password: comdo2012
+  username: '525399584'
+  password: Wangping13812388322
   host: 127.0.0.1
 
 # Warning: The database defined as "test" will be erased and

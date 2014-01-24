@@ -1,7 +1,7 @@
 tishi("保存成功");
 <% if @action_name == "create" %>
   current_tr = $($(".book_box_table table tr.done_tr")[<%= @tr_index %>])
-  current_tr.find("form").attr("action", "<%= question_package_question_branch_question_path(@question_pack, @question, @branch_question) %>")
+  current_tr.find("form").attr("action", "<%= school_class_question_package_question_branch_question_path(school_class_id, @question_pack, @question, @branch_question) %>")
   current_tr.find("form").attr("method", "put")
   current_tr.find("td.td_func_bg").html('<a href="javascript:void(0)" class="voice_icon" onclick="playAudio(this)">
     <audio controls="controls">

@@ -399,9 +399,9 @@ class Api::StudentsController < ApplicationController
     if !publish_question_package.nil?
       url = "/"
       count = 0
-      questions_xml_dir = "homework_system/question_packages/publish_question_package_#{publish_question_package.id}/answers"
-      answer_file_full_name = "student_#{student.id}.js"
       if !student.nil?
+        questions_xml_dir = "pub_que_ps/pub_#{publish_question_package.id}/answers"
+        answer_file_full_name = "student_#{student.id}.js"
         if !school_class.nil?
           school_class_student_relation = SchoolClassStudentRalastion.
               find_all_by_school_class_id_and_student_id school_class.id, student.id
@@ -446,7 +446,11 @@ class Api::StudentsController < ApplicationController
               notice = "题包不存在！"
             end
           end
+        else
+          notice = "该班级不存在!"
         end
+      else
+        notice = "该用户不存在!"
       end
     else
       notice = "该任务包不存在!"
@@ -642,37 +646,44 @@ class Api::StudentsController < ApplicationController
     message_id = params[:message_id]
     user = User.find_by_id user_id
     school_class = SchoolClass.find_by_id school_class_id
-    student = user.student
+    student = user.student.nil? ? nil : user.student
     message = Message.find_by_id message_id
     micropost = nil
+    notice = "查看失败！"
+    status = "error"
     if user.nil? || school_class.nil?
-      status = "error"
+      notice = "用户或班级信息有误，请重新登陆！"
     else
       if student.nil?
-        status = "error"
+        notice = "学生信息有误，请重新登陆！"
       else
         school_class_student_relations = SchoolClassStudentRalastion.
             find_by_student_id_and_school_class_id student.id, school_class.id
         if school_class_student_relations.nil?
-          status = "error"
+          notice = "该学生不属于该班级！"
         else
           if message.nil?
-            status = "error"
+            notice = "该提示消息不存在！"
           else
             if message.update_attributes(:status => Message::STATUS[:READED])
-              sql_str = "select m.content, m.created_at, m.id, m.reply_microposts_count,
-              m.school_class_id, m.user_id, u.name, u.avatar_url from microposts m
+              sql_str = "select m.content, m.created_at, m.id micropost_id, m.reply_microposts_count,
+              m.school_class_id, m.user_id,m.user_types, u.name, u.avatar_url from microposts m
               left join users u on m.user_id = u.id where m.id = #{message.micropost_id}"
               micropost = Message.find_by_sql sql_str
-              status = "success"
+              if micropost.nil?
+                notice = "主消息不存在！"
+              else
+                status = "success"
+                notice = "已阅读！"
+              end
             else
-              status = "error"
+              notice = "查看失败！"
             end
           end
         end
       end
     end
-    render :json => {:status => status, :micropost =>  micropost}
+    render :json => {:status => status, :notice => notice, :micropost =>  micropost}
   end
 
   #删除提示消息

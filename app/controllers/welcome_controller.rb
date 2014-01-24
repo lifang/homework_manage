@@ -20,10 +20,10 @@ class WelcomeController < ApplicationController
         last_visit_class = @class_id.nil? ? false : true
         if @class_id
           status = true
-          notice = "登陆成功！"
+          flash[:notice] = "登陆完成！"
         else
           status = true
-          notice = "登陆成功！您还没有班级，请先创建班级！"
+          flash[:notice] = "登陆成功！您还没有班级，请先创建班级！"
         end
       else
         status = false
@@ -105,7 +105,7 @@ class WelcomeController < ApplicationController
             :teacher_id => teacher.id, :teaching_material_id => teaching_material_id)
           if @school_class.save
             teacher.update_attributes(:last_visit_class_id => @school_class.id)
-            notice = "班级创建成功！"
+            flash[:notice] = "班级创建成功！"
             status = true
             last_visit_class_id = true
           end

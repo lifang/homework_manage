@@ -1,7 +1,6 @@
 <% if @info[:status] == false %>
 tishi('<%= @info[:notice]  %>');
 <% else %>
-tishi('<%= @info[:notice]  %>');
     <% if @info[:last_visit_class] == true %>
     setTimeout('location.href="/school_classes/<%= @class_id.to_i %>/main_pages";',1000);
     <% else %>

@@ -1,5 +1,4 @@
 <% if @info[:status] == true %>
-    tishi('<%= @info[:notice] %>');
     setTimeout("location.href = '/school_classes/<%= @school_class.id %>/main_pages'",1000);
 <% else %>
     tishi('<%= @info[:notice] %>');

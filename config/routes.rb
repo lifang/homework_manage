@@ -2,7 +2,6 @@ HomeworkManage::Application.routes.draw do
 
   resources :microposts do
     get :create_reply
-
     member do
       get :reply_page_change,:delete_micropost,:delete_micropost_reply,:delete_micropost,:add_reply_page,:particate_reply_show
     end
@@ -36,6 +35,7 @@ HomeworkManage::Application.routes.draw do
   
   resources :school_classes do
     resources :main_pages
+    
     resources :results
     resources :homeworks do
       collection do

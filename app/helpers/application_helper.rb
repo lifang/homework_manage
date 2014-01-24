@@ -30,7 +30,7 @@ module ApplicationHelper
     return user
   end
   def get_school_class
-    @school_class = SchoolClass.find_by_id(params[:school_class_id].to_i)
+    @school_class = SchoolClass.find_by_id(current_teacher.last_visit_class_id)
     @class_index =-1
     @index =-1
   end
@@ -49,12 +49,14 @@ module ApplicationHelper
   
   def sign?
     unless request.xhr?
-      if cookies[:user_id].nil? || params[:school_class_id].nil? || cookies[:teacher_id].nil?
+      if cookies[:user_id].nil?  || cookies[:teacher_id].nil?
         redirect_to  "/"
       else
-        if action_name != "chang_class" && school_class_id != params[:school_class_id].to_i
-          flash[:notice] = "没有权限访问"
-          redirect_to  "/"
+        unless params[:school_class_id].nil?
+          if action_name != "chang_class" && school_class_id != params[:school_class_id].to_i
+            flash[:notice] = "没有权限访问"
+            redirect_to  "/"
+          end
         end
       end
     end

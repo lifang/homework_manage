@@ -581,7 +581,7 @@ class Api::StudentsController < ApplicationController
         end
       else
         status = "error"
-        notice = "班级信息错误！"
+        notice = "班级验证码错误！"
         render :json => {:status => status, :notice => notice}
       end
     end

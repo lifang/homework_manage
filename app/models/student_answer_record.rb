@@ -6,6 +6,8 @@ class StudentAnswerRecord < ActiveRecord::Base
   STATUS_NAME = {0 => "进行中", 1 => "完成"}
 
   def self.get_daily_tasks school_class_id, student_id
+    p student_id
+    p school_class_id
     tasks = []
     worked_tasks_sql = "select p.id, q.name,s.status,p.start_time,p.end_time, p.question_packages_url,
       s.listening_answer_count, s.reading_answer_count, p.listening_count, p.reading_count FROM
@@ -14,6 +16,7 @@ class StudentAnswerRecord < ActiveRecord::Base
       p.question_package_id = q.id where s.school_class_id = #{school_class_id}
       and s.student_id = #{student_id} and TIMESTAMPDIFF(SECOND,now(),p.end_time) > 0"
     worked_tasks= StudentAnswerRecord.find_by_sql worked_tasks_sql  #处理过的任务信息（包含进行中的和已完成的）
+    p worked_tasks
     worked_tasks.each_with_index do |task,index|
       tasks << {:id => task.id, :name => task.name, :start_time => task.start_time,
                 :end_time => task.end_time, :question_packages_url => task.question_packages_url,
@@ -31,9 +34,11 @@ class StudentAnswerRecord < ActiveRecord::Base
     unfinish_tasks_sql = "select p.id, q.name,p.start_time,p.end_time, p.question_packages_url,
                     p.listening_count, p.reading_count  FROM publish_question_packages p
                     left join question_packages q on p.question_package_id = q.id where
-                     TIMESTAMPDIFF(SECOND,now(),p.end_time) > 0"
+                     p.school_class_id = #{school_class_id} and
+                    TIMESTAMPDIFF(SECOND,now(),p.end_time) > 0"
     unfinish_tasks_sql += condition_sql if worked_ids.to_s.match("()") == false
     unfinish_tasks = PublishQuestionPackage.find_by_sql unfinish_tasks_sql
+    p unfinish_tasks
     unfinish_tasks.each do |task|
       tasks << {:id => task.id, :name => task.name, :start_time => task.start_time,
                :end_time => task.end_time, :question_packages_url => task.question_packages_url,

@@ -2,7 +2,7 @@
 tishi('<%= @info[:notice]  %>');
 <% else %>
     <% if @info[:last_visit_class] == true %>
-    setTimeout('location.href="/school_classes/<%= @class_id.to_i %>/main_pages";',1000);
+    setTimeout('location.href="/school_classes/<%= @school_class.id %>/main_pages";',1000);
     <% else %>
     setTimeout('location.href="/welcome/first";',1000);
     <% end %>

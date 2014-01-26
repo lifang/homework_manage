@@ -16,14 +16,29 @@ class WelcomeController < ApplicationController
       if teacher && teacher.has_password?(password)
         cookies[:teacher_id]={:value => teacher.id, :path => "/", :secure  => false}
         cookies[:user_id]={:value => teacher.user.id, :path => "/", :secure  => false}
-        @class_id = teacher.last_visit_class_id
+        class_id = teacher.last_visit_class_id
+        @school_class = class_id.nil? ? nil : SchoolClass.find_by_id(class_id)
         last_visit_class = @class_id.nil? ? false : true
-        if @class_id
-          status = true
-          flash[:notice] = "登陆完成！"
-        else
-          status = true
-          flash[:notice] = "登陆成功！您还没有班级，请先创建班级！"
+        if @school_class
+          if @school_class.status == SchoolClass::STATUS[:EXPIRED] || (@school_class.period_of_validity - Time.now) < 0
+            @school_classes = teacher.school_classes.
+                where("status = #{SchoolClass::STATUS[:NORMAL]} and TIMESTAMPDIFF(SECOND,now(),school_classes.period_of_validity) > 0")
+            if @school_classes && @school_classes.length == 0
+              status = true
+              flash[:notice] = "上次登陆班级失效，请重新创建班级！"
+              last_visit_class = false
+            else
+              @school_class = @school_classes.first
+              teacher.update_attributes(:last_visit_class_id => @school_class.id)
+              last_visit_class = true
+              status = true
+              flash[:notice] = "登陆成功！"
+            end
+          else
+            last_visit_class = true
+            status = true
+            flash[:notice] = "登陆成功！"
+          end
         end
       else
         status = false

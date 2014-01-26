@@ -314,13 +314,13 @@ module MethodLibsHelper
           end
         end
       end
-      if lisentings.length > 0 && readings.length > 0
+      #if lisentings.length > 0 && readings.length > 0
         questions_collections = {"listening"=> lisentings,"reading" => readings}
-      elsif lisentings.length > 0 && readings.length == 0
-        questions_collections = {"listening"=> lisentings}
-      elsif lisentings.length == 0 && readings.length > 0
-        questions_collections = {"reading" => readings}
-      end
+      #elsif lisentings.length > 0 && readings.length == 0
+      #  questions_collections = {"listening"=> lisentings}
+      #elsif lisentings.length == 0 && readings.length > 0
+      #  questions_collections = {"reading" => readings}
+      #end
     else
       questions_collections = nil
     end

@@ -30,6 +30,7 @@ class StudentAnswerRecord < ActiveRecord::Base
         worked_ids += "#{task.id}"
     end
     worked_ids += ")"
+    p worked_ids
     condition_sql = "and p.id not in #{worked_ids}"
     unfinish_tasks_sql = "select p.id, q.name,p.start_time,p.end_time, p.question_packages_url,
                     p.listening_count, p.reading_count  FROM publish_question_packages p
@@ -37,6 +38,7 @@ class StudentAnswerRecord < ActiveRecord::Base
                      p.school_class_id = #{school_class_id} and
                     TIMESTAMPDIFF(SECOND,now(),p.end_time) > 0"
     unfinish_tasks_sql += condition_sql if worked_ids.to_s.match("()") == false
+    p unfinish_tasks_sql
     unfinish_tasks = PublishQuestionPackage.find_by_sql unfinish_tasks_sql
     p unfinish_tasks
     unfinish_tasks.each do |task|

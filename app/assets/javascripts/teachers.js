@@ -14,6 +14,11 @@ function create_school_class(school_class_id){
     var class_name = $("input[name='class_name']").val();
     var period_of_validity = $("input[name='period_of_validity']").val();
     var message;
+    if (class_name==""){
+        message = "请输入班级名称"
+        tishi(message);
+        return false;
+    }
     if (period_of_validity==""){
         message = "请选择结束时间";
         tishi(message);
@@ -47,8 +52,12 @@ function create_school_class(school_class_id){
 }
 
 function check_nonempty(){
+    var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
     if($.trim($("input[name='name']").val()).length == 0){
         tishi('提示:\n\n名称不能为空');
         return false;
-    } 
+    }else if(!email_reg.test($.trim($("input[name='email']").val()))){
+        tishi("邮箱格式不正确,请重新输入！");
+        return false;
+    }
 }

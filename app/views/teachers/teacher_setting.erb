@@ -1,4 +1,4 @@
- <%= javascript_include_tag "teachers"%>
+<%= javascript_include_tag "teachers"%>
 <div class="rightSide">
   <div class="main">
     <div class="article">
@@ -6,7 +6,7 @@
       <div class="user_con">
         <ul class="user_info">
 
-          <%= form_for :teachers, :url => { :action => :save_updated_teacher, :controller => :teachers},:html => {:multipart => true,:method => :post} do|f|%>
+          <%= form_for :teachers, :url => { :action => :save_updated_teacher, :controller => :teachers},:html => {:multipart => true,:method => :post,onsubmit: "return check_nonempty()"} do|f|%>
             <li class="avater">
               <div class="avater_default"><img src=<%=  @user.avatar_url%>/></div>
               <a href="javascript:void(0);" class="avater_a">
@@ -16,7 +16,7 @@
             </li>
             <li><p ><%= @user.name %></p><input name="name" type="text" value="<%= @user.name %>"/></li>
             <li><p ><%= @teacher.email %></p><input name="email" type="text" value="<%= @teacher.email %>"/></li>
-            <input type="submit" value="保存更新" id="submit_file" class="green_btn"/>
+            <h1><input type="submit" value="保存更新" id="submit_file" class="green_btn"/></h1>
           <% end %>
         </ul>
       </div>

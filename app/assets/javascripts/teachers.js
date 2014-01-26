@@ -45,3 +45,10 @@ function create_school_class(school_class_id){
         });
     }
 }
+
+function check_nonempty(){
+    if($.trim($("input[name='name']").val()).length == 0){
+        tishi('提示:\n\n名称不能为空');
+        return false;
+    } 
+}

@@ -17,24 +17,24 @@
                     <dl>
                     	<dt>未完成：</dt>
                         <% @unanswerd_users.each do |a_u| %>
-                        	<a href="javascript:void(0)" 
-                        		onclick="show_single_record('<%= a_u.user_id %>_<%= a_u.id %>')">
                         	<dd>
-                            	<span><img src="<%= a_u.avatar_url %>"></span>
-                                <p><%= a_u.name %></p>
+                        		<a href="javascript:void(0)" 
+                        			onclick="show_single_record('<%= a_u.user_id %>_<%= a_u.id %>')">
+                            		<span><img src="<%= a_u.avatar_url %>"></span>
+                                	<p><%= a_u.name %></p>
+                                </a> 
                             </dd>
-                            </a>
                         <% end if @unanswerd_users and @unanswerd_users.any? %>
                     </dl>
                     <dl>
                          <dt>已完成：</dt>
                          <% @answerd_users.each do |a_u| %>
-                         	<a href="javascript:void(0)" onclick="show_single_record('<%= a_u.user_id %>_<%= a_u.id %>')">
-                             <dd >
+                         	<dd >
+                         	  <a href="javascript:void(0)" onclick="show_single_record('<%= a_u.user_id %>_<%= a_u.id %>')">
                                  <span><img src="<%= a_u.avatar_url %>"></span>
                                  <p><%= a_u.name %></p>
-                             </dd>
-                             </a>
+                              </a>
+                            </dd>
                          <% end if @answerd_users and @answerd_users.any? %>
                     </dl>
                 </div>

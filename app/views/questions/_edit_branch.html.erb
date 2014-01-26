@@ -7,12 +7,14 @@
       <li class="hover">4</li>
     </ul>
   </div>
-  <input type="hidden" id="hidden_question_id" value="<%= @question.id %>"/>
+  <input type="hidden" id="hidden_question_id" value="<%= @question.try(:id) %>"/>
   <input type="hidden" id="hidden_question_pack_id" value="<%= @question_pack.id %>"/>
   <div class="book_box_func">
     <ul>
-      <li><%= link_to "分享", share_question_package_question_path(@question_pack, @question), :remote => true, "data-type" => "script", :class => "share_a tooltip", :method => :post %></li>
-      <li><%= link_to "删除", question_package_question_path(@question_pack, @question), :method => "delete", :confirm => "确定删除此题？",:class=>"remove_a tooltip"  %></li>
+      <% if @question %>
+        <li><%= link_to "分享", share_question_package_question_path(@question_pack, @question), :remote => true, "data-type" => "script", :class => "share_a tooltip", :method => :post %></li>
+        <li><%= link_to "删除", school_class_question_package_question_path(school_class_id, @question_pack, @question), :method => "delete", :confirm => "确定删除此题？",:class=>"remove_a tooltip"  %></li>
+      <% end %>
     </ul>
   </div>
 
@@ -27,7 +29,7 @@
         </thead>
         <tbody>
           <% @branch_questions.each_with_index do |branch, index| %>
-          <tr class="done_tr" id="<%= branch.id %>">
+            <tr class="done_tr" id="<%= branch.id %>">
               <td>
                 <div class="td_text">
                   <%= link_to "删除", question_package_question_branch_question_path(@question_pack, @question, branch), :method => :delete, :confirm => "确定删除？", :remote => true, "data-type"=>"script", :class => "remove" %>
@@ -52,7 +54,7 @@
           <% end if@branch_questions%>
           <tr>
             <td>
-              <input name="" type="text" class="td_input" onblur="checkText(this, '<%= question_package_question_branch_questions_path(@question_pack, @question) %>')"/>
+              <input name="" type="text" class="td_input" onblur="checkText(this, '<%= @question.present? ? question_package_question_branch_questions_path(@question_pack, @question) : "" %>')"/>
             </td>
             <td width="100" class="td_func_bg">
               <a class="up_voice_a">

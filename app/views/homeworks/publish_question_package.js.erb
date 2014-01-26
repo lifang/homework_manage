@@ -1,7 +1,6 @@
 <% if @info[:status] == true %>
 tishi('<%= @info[:notice]  %>');
-$("#publish_task_panel").hide();
-$("#assignWork_table").html('<%= j (render :partial => "publish_tasks_list") %>');
+setTimeout('location.href ="/school_classes/<%= params[:school_class_id].to_i %>/homeworks"',1000);
 <% else %>
 tishi('<%= @info[:notice] %>');
 <% end %>

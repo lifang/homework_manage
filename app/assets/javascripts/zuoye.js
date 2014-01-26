@@ -21,23 +21,28 @@ var branchQuestion = "<tr class=\"done_tr\">\n\
                                 </form>\n\
                               </td>\n\
                      </tr>";
+var page = 1;
+var i = 10;
 
 $(function(){
     $(".book_box_page").on('click', ".addPage", function(){
-        var all_li =  $(this).parents("ul").find("li.question_li");
+        var ul_parent = $(this).prev();
+        var all_li =  ul_parent.find("li.question_li");
         var index = all_li.length;
-        var top_li_href = $(this).parents("ul").find("li.question_li").first().find("a").attr("href");
-        var question_pack_id = top_li_href.split("/")[2];
-        if($(this).parent("li").prev().find("a").attr("href") == "#"){
+        var top_li_href = ul_parent.find("li.question_li").first().find("a").attr("href");
+        var question_pack_id = top_li_href.split("/")[4];
+        if(all_li.last().find("a").attr("href") == "#"){
             if(confirm("当前题目还未保存，新增将丢失当前内容")){
                 all_li.removeClass("hover");
-                $(this).parent("li").before("<li  class=\"question_li hover\" onclick=\"liHover(this)\"><a href=\"#\">" + (index +1) +".</a></li>");
+                ul_parent.find("ul").append("<li  class=\"question_li hover\" onclick=\"liHover(this)\"><a href=\"#\">" + (index +1) +".</a></li>");
+                afterClickAddpage();
                 $.ajax({
                     url: "/question_packages/" + question_pack_id + "/render_new_question",
                     type: "GET",
                     dataType: "html",
                     success:function(data){
                         $(".book_box .steps").html(data);
+                        height_adjusting();
                     },
                     error:function(data){
                         tishi(data)
@@ -46,13 +51,15 @@ $(function(){
             }
         }else{
             all_li.removeClass("hover");
-            $(this).parent("li").before("<li  class=\"question_li hover\" onclick=\"liHover(this)\"><a href=\"#\">" + (index +1) +".</a></li>");
+            ul_parent.find("ul").append("<li  class=\"question_li hover\" onclick=\"liHover(this)\"><a href=\"#\">" + (index +1) +".</a></li>");
+            afterClickAddpage();
             $.ajax({
                 url: "/question_packages/" + question_pack_id + "/render_new_question",
                 type: "GET",
                 dataType: "html",
                 success:function(data){
                     $(".book_box .steps").html(data);
+                    height_adjusting();
                 },
                 error:function(data){
                     tishi(data)
@@ -64,15 +71,38 @@ $(function(){
     
 });
 
-function GoForthStep(question_pack_id){
+function afterClickAddpage(){
+    var parent = $('div.book_box_page');
+    var box_height = $(".book_box_page_box").height();
+    var ul_show = parent.find('.book_box_page_box ul');
+    var new_all_li = ul_show.find('li');
+    var len = new_all_li.length;
+    var page_count = Math.ceil(len/i);
+    page = page_count;
+    ul_show.animate({
+        marginTop:''+box_height*(1- page_count)
+    },'slow');
+                
+}
+
+function GoForthStep(question_pack_id, school_class_id){
     var first_selected = $(".first_step").find(".addwork_btn a.selected");
     var question_type = first_selected.find("span").hasClass("write_a") ? 0 : 1;  //大题题型， 0是听力， 1是朗读
     var second_selected = $(".second_step").find(".addwork_btn a.selected");
     var new_or_refer = second_selected.find("span").hasClass("build_a") ? 0 : 1;  //大题的小题来源， 0是新建， 1是引用
 
     var cell_id = $(".third_step").find("select.cell_ids option:selected").val();
-    var episode_id = $(".third_step").find("select.episode_ids option:selected").val();
+    var episode_id = $(".third_step").find("select#cell_"+ cell_id + " option:selected").val();
+    if(cell_id == "请选择单元"){
+        tishi("请选择单元！")
+        return false;
+    }
 
+    if(episode_id=="请选择课"){
+        tishi("请选择课！")
+        return false;
+    }
+    
     $.ajax({
         url: "/question_packages",
         type: "POST",
@@ -86,11 +116,13 @@ function GoForthStep(question_pack_id){
         },
         success:function(data){
             $(".book_box .steps").html(data);
+            $(".book_box_table table > tbody > tr:odd").addClass("tbg");
+            height_adjusting();
             var question_id = $("#hidden_question_id").val();
             var question_pack_id = $("#hidden_question_pack_id").val();
-            $(".remark").parents("form").attr("action", "/question_packages/" + question_pack_id );
+            $(".remark").parents("form").attr("action", "/school_classes/" + school_class_id +"/question_packages/" + question_pack_id );
             $(".remark").parents("form").append("<input name=\"_method\" type=\"hidden\" value=\"put\">")
-            $(".book_box_page li.hover").find("a").attr("href", "/question_packages/" + question_pack_id + "/questions/" + question_id + "/edit");
+            $(".book_box_page li.hover").find("a").attr("href", "/school_classes/" + school_class_id +"/question_packages/" + question_pack_id + "/questions/" + question_id + "/edit");
             $(".book_box_page li.hover").find("a").attr("data-remote", true);
             $(".book_box_page li.hover").find("a").attr("data-type", "script");
         },
@@ -107,6 +139,7 @@ function checkText(obj, path){
     // alert("内容不能为空");
     }else{
         $(obj).parents("tr").before(branchQuestion);
+        $(".book_box_table table > tbody > tr:odd").addClass("tbg");
         var done_tr = $(".book_box_table table tr.done_tr");
         var new_done_tr = done_tr.last();
         new_done_tr.find("p.td_text_p").text(value);
@@ -160,7 +193,7 @@ function removeBranchQues(obj){
 function liHover(obj){
     var top_li_href = $(obj).parents("ul").find("li.question_li").first().find("a").attr("href");
     if(typeof(top_li_href)!="undefined"){
-        var question_pack_id = top_li_href.split("/")[2];
+        var question_pack_id = top_li_href.split("/")[4];
         var all_li =  $(obj).parents("ul").find("li.question_li");
         all_li.removeClass("hover");
         $(obj).addClass("hover");
@@ -171,6 +204,7 @@ function liHover(obj){
                 dataType: "html",
                 success:function(data){
                     $(".book_box .steps").html(data);
+                    height_adjusting();
                 },
                 error:function(data){
                     tishi(data);
@@ -201,12 +235,72 @@ function hideInput(obj){
     }
 }
 
+//播放音频文件
 function playAudio(obj){
     var oAudio =  $(obj).find("audio")[0];
-      if (oAudio.paused) {
-          oAudio.play();
-        }
-        else {
-          oAudio.pause();
-        }
+    if (oAudio.paused) {
+        oAudio.play();
+    }
+    else {
+        oAudio.pause();
+    }
 }
+
+
+//题号向上滚动
+function questionUp(obj){
+    var $parent = $(obj).parents('div.book_box_page');
+    var $ul_show = $parent.find('.book_box_page_box ul');
+    var box_height = $(".book_box_page_box").height();
+    var len = $ul_show.find('li').length;
+    var page_count = Math.ceil(len/i);
+
+    if(!$ul_show.is(':animated')){
+        if(page > 1 & page <= page_count){
+            $ul_show.animate({
+                marginTop:'+='+box_height
+            },'slow');
+            page--;
+        }
+        if(page == 1){
+            $(".bbp_up").removeAttr( "onclick" );
+            if(typeof($(".bbp_down").attr("onclick"))=="undefined"){
+                $(".bbp_down").attr("onclick", "questionDown(this)")
+            }
+        }
+    }
+}
+
+//题号向下滚动
+function questionDown(obj){
+    var $parent = $(obj).parents('div.book_box_page');
+    var $ul_show = $parent.find('.book_box_page_box ul');
+    var box_height = $(".book_box_page_box").height();
+    var len = $ul_show.find('li').length;
+    var page_count = Math.ceil(len/i);
+
+    if(!$ul_show.is(':animated')){
+        if(page >= 1 & page < page_count){
+            $ul_show.animate({
+                marginTop:'-='+box_height
+            },'slow');
+            page++;
+        }
+        if(page == page_count){
+            $(".bbp_down").removeAttr( "onclick" );
+            if(typeof($(".bbp_up").attr("onclick"))=="undefined"){
+                $(".bbp_up").attr("onclick", "questionUp(this)")
+            }
+        }
+    }
+}
+
+//显示对应单元的课
+function loadEpisode(obj){
+    var cell_id = $(obj).find("option:selected").val();
+    if(cell_id != "请选择单元"){
+        $(".third_step").find("select.episode_ids").hide();
+        $("#cell_" + cell_id).show();
+    }
+}
+

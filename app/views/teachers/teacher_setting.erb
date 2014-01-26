@@ -53,9 +53,9 @@
     <div class="tab_ul" id="schoolclasses_count" schoolclasses="<%= @schoolclasses.count %>">
       <ul>
         <%  @schoolclasses.each do |schoolclass| %>
-          <% if !schoolclass.id.eql?(cookies[:class_id].to_i) %>
+          <% if !schoolclass.id.eql?(params[:school_class_id].to_i) %>
             <li><a href="/school_classes/<%= schoolclass.id %>/teachers/chang_class?id=<%=  schoolclass.id%>" class="tab_li_option"><%= schoolclass.name %> </a>
-              <%= link_to "删除", "/school_classes/#{cookies[:class_id].to_i}/teachers/destroy_classes?id=#{schoolclass.id}", :class => "delete_trash tooltip", :confirm => "确定删除?" %>
+              <%= link_to "删除", "/school_classes/#{params[:school_class_id].to_i}/teachers/destroy_classes?id=#{schoolclass.id}", :class => "delete_trash tooltip", :confirm => "确定删除?" %>
             </li>
           <% end %>
         <% end %>

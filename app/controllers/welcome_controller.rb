@@ -1,8 +1,7 @@
 #encoding: utf-8
 class WelcomeController < ApplicationController
+  include MethodLibsHelper
   layout 'welcome'
-  def index
-  end
 
   #教师登陆
   def login
@@ -15,18 +14,20 @@ class WelcomeController < ApplicationController
       notice = "用户不存在，请先注册！"
     else
       if teacher && teacher.has_password?(password)
+        cookies[:teacher_id]={:value => teacher.id, :path => "/", :secure  => false}
+        cookies[:user_id]={:value => teacher.user.id, :path => "/", :secure  => false}
         @class_id = teacher.last_visit_class_id
         last_visit_class = @class_id.nil? ? false : true
         if @class_id
-          cookies[:class_id]={:value => @class_id, :path => "/", :secure  => false}
-          cookies[:teacher_id]={:value => teacher.id, :path => "/", :secure  => false}
-          cookies[:user_id]={:value => teacher.user.id, :path => "/", :secure  => false}
           status = true
-          notice = "登陆成功！"
+          flash[:notice] = "登陆完成！"
         else
-          status = false
-          notice = "密码错误，登录失败！"
+          status = true
+          flash[:notice] = "登陆成功！您还没有班级，请先创建班级！"
         end
+      else
+        status = false
+        notice = "密码错误，登录失败！"
       end
     end
     @info = {:status => status, :notice => notice, :last_visit_class => last_visit_class}
@@ -48,15 +49,13 @@ class WelcomeController < ApplicationController
       Teacher.transaction do
         teacher = Teacher.create(:email => email, :password => password,
           :status => Teacher::STATUS[:YES])
-        destination_dir = "#{Rails.root}/public/homework_system/avatars/teachers/#{Time.now.strftime('%Y-%m')}"
+        destination_dir = "avatars/teachers/#{Time.now.strftime('%Y-%m')}"
         rename_file_name = "teacher_#{teacher.id}"
         avatar_url = ""
         if !file.nil?
           upload = upload_file destination_dir, rename_file_name, file
           if upload[:status] == true
-            url = upload[:url]
-            unuse_url = "#{Rails.root}/public"
-            avatar_url = url.to_s[unuse_url.size,url.size]
+            avatar_url = upload[:url]
           else
             avatar_url = "/assets/default_avater.jpg"
           end
@@ -68,7 +67,7 @@ class WelcomeController < ApplicationController
         if !teacher.nil? && !user.nil?
           if teacher.update_attributes(:password => password, :user_id => user.id)
             status = true
-            notice = "注册完成！"
+            flash[:notice] = "注册完成！"
           else
             teacher.destroy
             user.destroy
@@ -89,7 +88,7 @@ class WelcomeController < ApplicationController
   def create_first_class
     name = params[:class_name]
     teaching_material_id = params[:teaching_material_id]
-    period_of_validity = params[:period_of_validity]
+    period_of_validity = params[:period_of_validity].to_s + " 23:59:59"
     verification_code = SecureRandom.hex(5)
     teacher_id = cookies[:teacher_id]
     teacher = Teacher.find_by_id teacher_id
@@ -106,8 +105,7 @@ class WelcomeController < ApplicationController
             :teacher_id => teacher.id, :teaching_material_id => teaching_material_id)
           if @school_class.save
             teacher.update_attributes(:last_visit_class_id => @school_class.id)
-            cookies[:class_id] = @school_class.id
-            notice = "班级创建成功！"
+            flash[:notice] = "班级创建成功！"
             status = true
             last_visit_class_id = true
           end
@@ -120,7 +118,7 @@ class WelcomeController < ApplicationController
   end
   #  退出
   def teacher_exit
-    cookies[:class_id] = nil
+    params[:school_class_id] = nil
     cookies[:teacher_id] = nil
     cookies[:user_id] = nil
     #    render :index

@@ -555,30 +555,53 @@ a.x {
 .tab li input.tab_time_input { border: 1px #CCCCCC solid; height: 38px; line-height: 38px; padding: 0 5px;}
 
 /*----------创建作业---------*/
-.book_box { border: 1px #CCCCCC solid; background: #fbfbfb; position: relative;}
+.book_box { background: #fbfbfb; position: relative;}
 
-.book_box_page { width: 61px; position: absolute; top: 0px; left: 0px;}
-.book_box_page ul { display: block; border-right: 1px #CCCCCC solid;}
-.book_box_page li { 
-	width: 60px; 
-	height: 50px; 
-	text-align: center; 
-	line-height: 50px; 
+.book_box_page { width: 61px; position: absolute; top: 0px; left: 0px; border: 1px #CCCCCC solid; border-right: none;}
+
+.bbp_up, .bbp_down {
+	display: block;
+	background: #f1f1f1;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	border-right: 1px #CCCCCC solid;
+}
+.bbp_up { border-bottom: 1px #CCCCCC solid;}
+
+.book_box_page_box { position: relative; height: 510px; overflow: hidden;}
+.book_box_page ul { display: block;}
+.book_box_page li {
+	width: 60px;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
 	border-bottom: 1px #CCCCCC solid;
 	position: relative;
 }
 .book_box_page li.hover { border-right: none;}
 .book_box_page li a { width: 60px; height: 50px; display: block;}
 .book_box_page li.hover a { position: absolute; right: -1px; background: #fbfbfb;}
-.book_box_page li a.addPage { 
-	width: 20px; 
-	height: 20px; 
-	background: #c8c7c7; 
-	line-height: 20px; 
-	color: #FFF;
+.book_box_page .addPage {
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+	border-bottom: 1px #CCCCCC solid;
+}
+.book_box_page .addPage a {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	background: #eeeeee;
 	display: inline-block;
 }
-.book_box_con {overflow: hidden; padding: 20px 0; min-height: 500px; margin-left: 61px;}
+.book_box_con {
+	overflow: hidden;
+	padding: 20px 0;
+	margin-left: 61px;
+	border: 1px #CCCCCC solid;
+}
 
 /*-----分享、删除-------*/
 .book_box_func { height: 28px; line-height: 28px; padding: 0 40px; margin: 10px 0;}
@@ -600,11 +623,16 @@ a.x {
 .book_box_func li a.remove_a { background: url(/assets/work_icon01.png) no-repeat 0px -56px;}
 
 .book_box_func p { float: left;}
-.book_box_func .sort { float: right;}
+.book_box_func .sort, .book_box_func .sortup { float: right;}
 .book_box_func .sort a { 
 	padding: 2px 15px 2px 5px; 
 	margin: 0 10px; 
 	background: url(/assets/sort.png) no-repeat right center #ebebeb;
+}
+.book_box_func .sortup a {
+	padding: 2px 15px 2px 5px;
+	margin: 0 10px;
+	background: url(/assets/sortup.png) no-repeat right center #ebebeb;
 }
 
 /*----步骤------*/
@@ -757,7 +785,7 @@ a.x {
 .pageTurn a { padding: 5px 12px; margin: 0px 2px; color: #333; background: #dbdbdb;}
 .pageTurn a:hover, .pageTurn a:active { color: #92b81b;}
 
-.pageTurn a.current { padding: 5px 12px; font-weight: bold; color: #fff; background: #92b81b;}
+.pageTurn .current { padding: 5px 12px; font-weight: bold; color: #fff; background: #92b81b;}
 .pageTurn .disabled {display: none;}
 
 /*tooltip*/

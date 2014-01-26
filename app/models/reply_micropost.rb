@@ -3,7 +3,7 @@ require 'will_paginate/array'
 class ReplyMicropost < ActiveRecord::Base
   attr_protected :authentications
   belongs_to :micropost, :counter_cache => true
-  PER_PAGE = 5
+  PER_PAGE = 10
 
   #获取子消息（分页）
   def self.get_microposts micropost_id, page

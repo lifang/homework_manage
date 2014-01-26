@@ -1,6 +1,6 @@
 #encoding:utf-8
 class MicropostsController < ApplicationController
-  before_filter :sign?
+
   before_filter :get_school_class
   def index
    

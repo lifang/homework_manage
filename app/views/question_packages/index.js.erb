@@ -1,1 +1,10 @@
-$(".book_box_table").html("<%= j(render :partial => "share_questions") %>")
+$(".book_box_table").html("<%= j(render :partial => "share_questions") %>");
+$(".book_box_table table > tbody > tr:odd").addClass("tbg");
+<% unless request.url.include?("page") %>
+  if($(".book_box_func").find(".sort").length == 0){
+    $(".book_box_func").find("div").attr('class', 'sort');
+  }else{
+    $(".book_box_func").find("div").attr('class', 'sortup');
+  }
+<% end %>
+$(".book_box_func").find("div a").attr("href", '<%= (@href + '&sort_name=' + (@sort_name == 'up' ? 'down' : 'up')).html_safe %>')

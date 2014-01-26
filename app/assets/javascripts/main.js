@@ -89,8 +89,8 @@ $(function(){
 
 //left菜单
 $(function(){
-    $(".firstNav").click(function(){
-        $(this).find(".menu").toggle(300);
+    $(".firstNav > a").click(function(){
+        $(this).parent().find(".menu").toggle(300);
     });
 })
 
@@ -189,8 +189,8 @@ $(function(){
 
 //创建作业 book_box_con
 $(function(){
-    //$(".book_box_con").css("width",$(".book_box").width()-$(".book_box_page").width());
-    $(".book_box_page ul").css("height",$(".book_box_con").height()+40);
+ $(".book_box_con").css("min-height",$(".book_box_page").height());
+ height_adjusting();
 })
 
 //双击修改句子
@@ -211,12 +211,19 @@ $(function(){
 //登陆前验证
 function check_value()
 {
+    var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
     email = $("#email").val();
     password = $("#password").val();
     if(email == "邮箱" || password == "密码")
         tishi('邮箱或密码不能为空！');
     else
-        $("#login_submit_button").click();
+    {
+        if(!email_reg.test(email))
+            tishi('邮箱格式不正确,请重新输入！');
+        else
+            $("#login_submit_button").click();
+    }
+
 }
 
 //检查班级信息
@@ -274,6 +281,7 @@ function check_time()
 //注册时验证时间
 function check_regist_info()
 {
+    var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
     name = $.trim($("#r_name").val());
     email = $.trim($("#r_email").val());
     password = $.trim($("#r_password").val());
@@ -281,7 +289,12 @@ function check_regist_info()
     if(name != "姓名" && email != "邮箱" && password != "密码" && confirm_password != "确认密码")
     {
         if(password == confirm_password)
-            $("#register_submit_button").click();
+        {
+            if(!email_reg.test(email))
+                tishi("邮箱格式不正确,请重新输入！");
+            else
+                $("#register_submit_button").click();
+        }
         else
             tishi("两次密码不一致！");
     }
@@ -331,3 +344,15 @@ function tishi(message){
     }, 3000);
 }
 
+//验证头像文件格式
+function validate_pic(obj)
+{
+    png_reg = /\.png$|\.PNG/;
+    jpg_reg = /\.jpg$|\.JPG/;
+    var pic = $(obj).val();
+    if(png_reg.test(pic) == false && jpg_reg.test(pic) == false)
+    {
+        tishi("头像格式不正确，请重新选择JPG或PNG格式的图片！");
+        $(obj).val("");
+    }
+}

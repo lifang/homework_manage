@@ -1,3 +1,4 @@
+#encoding: utf-8
 module ApplicationHelper
   MEDIA_PATH = "/question_packages/#{Time.now.strftime("%Y%m")}/questions_package_%d/" #大题资源路径
   
@@ -29,7 +30,7 @@ module ApplicationHelper
     return user
   end
   def get_school_class
-    @school_class = SchoolClass.find_by_id(cookies[:class_id].to_i)
+    @school_class = SchoolClass.find_by_id(current_teacher.last_visit_class_id)
     @class_index =-1
     @index =-1
   end
@@ -41,9 +42,28 @@ module ApplicationHelper
   def current_teacher
     @current_teacher ||= Teacher.find_by_id(cookies[:teacher_id]) if cookies[:teacher_id]
   end
+
+  def school_class_id
+    @school_class_id ||= current_teacher.last_visit_class_id if current_teacher
+  end
+
+  def current_school_class
+    @school_class ||= SchoolClass.find_by_id(school_class_id) if school_class_id
+  end
+  
   def sign?
-    if cookies[:user_id].nil? || cookies[:class_id].nil? || cookies[:teacher_id].nil?
-      redirect_to  "/"
+    unless request.xhr?
+      if cookies[:user_id].nil?  || cookies[:teacher_id].nil?
+
+        redirect_to  "/"
+      #else
+      #  unless params[:school_class_id].nil?
+          #if action_name != "chang_class" && school_class_id != params[:school_class_id].to_i
+          #  flash[:notice] = "没有权限访问"
+          #  redirect_to  "/"
+          #end
+        #end
+      end
     end
   end
 end

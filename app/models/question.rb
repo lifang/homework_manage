@@ -4,8 +4,14 @@ class Question < ActiveRecord::Base
   belongs_to :question_package
   has_many :branch_questions, :dependent => :destroy
 
+  TYPE_NAME_ARR = ["listening", "reading"]
   TYPES = {:LISTENING => 0, :READING => 1}
+  TYPES_TITLE = {0 => "listening", 1 => "reading"}
   TYPES_NAME = {0 => "听力", 1 => "朗读"}
+
+  TYPE_NAME_ARR.each do |type|
+    scope type.to_sym, :conditions => { :types => TYPES[type.upcase.to_sym] }
+  end
 
   #查询一个题包下的所有题目
   def self.get_all_questions question_package

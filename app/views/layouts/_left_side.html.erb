@@ -2,15 +2,15 @@
   <div class="logo"></div>
   <div class="nav">
     <ul>
-      <li><a href="/school_classes/<%= cookies[:class_id].to_i %>/main_pages" class=<%=is_hover("main_pages") %>><span class="nav01">首页</span></a></li>
-      <li class="firstNav"><a href="javascript:void(0);" class=<%=is_hover("homeworks", "question_packages") %>><span class="nav02">作业</span></a>
-        <div class="menu" style="display:<%= is_show_zuoye_tab("question_packages", "homeworks") %>">
-          <a href="/school_classes/<%= params[:school_class_id] %>/results">完成情况</a>
-          <a href="/school_classes/<%= cookies[:class_id].to_i %>/homeworks" class=<%=is_hover("homeworks", "question_packages") %>>留作业</a>
+      <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/main_pages" class=<%=is_hover("main_pages") %>><span class="nav01">首页</span></a></li>
+      <li class="firstNav"><a href="javascript:void(0);" class=<%=is_hover("homeworks", "question_packages", "results") %>><span class="nav02">作业</span></a>
+        <div class="menu" style="display:<%= is_show_zuoye_tab("question_packages", "homeworks", "results") %>">
+          <a href="/school_classes/<%= params[:school_class_id].to_i %>/results" class="<%=is_hover("results") %>">完成情况</a>
+          <a href="/school_classes/<%= params[:school_class_id].to_i %>/homeworks" class=<%=is_hover("homeworks", "question_packages") %>>留作业</a>
         </div>
       </li>
-      <li><a href="/school_classes/<%= cookies[:class_id].to_i %>/messages" class=<%= is_hover("messages") %>><span class="nav03">信息</span></a></li>
-      <li><a href="/school_classes/<%= cookies[:class_id].to_i %>/teachers/teacher_setting" class=<%= is_hover("teachers") %>><span class="nav04">设置</span></a></li>
+      <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/messages" class=<%= is_hover("messages") %>><span class="nav03">信息</span></a></li>
+      <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/teachers/teacher_setting" class=<%= is_hover("teachers") %>><span class="nav04">设置</span></a></li>
       <li class="out"><a href="/welcome/teacher_exit"><span class="nav05">退出</span></a></li>
     </ul>
   </div>

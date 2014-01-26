@@ -48,27 +48,27 @@ module MethodLibsHelper
       count_question = 0
       count_branch_question = 0
       questions = answer_records[Question::TYPES_TITLE[types]]
-        questions.each do |q|
-          if q["id"].to_i == question_id.to_i
-            count_question = 1
-            q["branch_questions"].each do |branch_question|
-              p branch_question["id"]
-              if branch_question["id"].to_i == branch_question_id.to_i
-                count_branch_question = 1
-                break
-              end
+      questions.each do |q|
+        if q["id"].to_i == question_id.to_i
+          count_question = 1
+          q["branch_questions"].each do |branch_question|
+            p branch_question["id"]
+            if branch_question["id"].to_i == branch_question_id.to_i
+              count_branch_question = 1
+              break
             end
-            if count_question == 1 &&  count_branch_question == 0
-              q["branch_questions"] << {"id" => branch_question_id, "answer" => answer}
-            end
-            break
           end
+          if count_question == 1 &&  count_branch_question == 0
+            q["branch_questions"] << {"id" => branch_question_id, "answer" => answer}
+          end
+          break
         end
-        if count_question == 0
-          answer_records[Question::TYPES_TITLE[types]] << {"id" => question_id,
-                  "branch_questions" => [{"id" => branch_question_id, "answer" => answer}]}
-        end
-        result = answer_records
+      end
+      if count_question == 0
+        answer_records[Question::TYPES_TITLE[types]] << {"id" => question_id,
+          "branch_questions" => [{"id" => branch_question_id, "answer" => answer}]}
+      end
+      result = answer_records
       result = result.to_json
       File.delete anwser_file_url if anwser_file_url
       File.open(anwser_file_url,"w") do |f|
@@ -188,9 +188,9 @@ module MethodLibsHelper
     dirs = dirs_url.split("/")
     p dirs
     dirs.each_with_index  do |e,i|
-        url +=  "/"
-        url += "#{e}"
-        Dir.mkdir root_path + url if !Dir.exist? root_path + url
+      url +=  "/"
+      url += "#{e}"
+      Dir.mkdir root_path + url if !Dir.exist? root_path + url
     end
   end
 
@@ -210,9 +210,9 @@ module MethodLibsHelper
     all_questions.each do |e|
       #question_types 0:listening  1:reading
       if e[:types] == Question::TYPES[:LISTENING]
-          questions = doc.root.get_elements("listening")
+        questions = doc.root.get_elements("listening")
       elsif e[:types] == Question::TYPES[:READING]
-          questions = doc.root.get_elements("reading")
+        questions = doc.root.get_elements("reading")
       end
       if questions[0].has_elements?
         count_question = 0
@@ -255,8 +255,8 @@ module MethodLibsHelper
     questions_json = questions_xml_to_json xml_str
     questions_json = questions_json.to_json
     if File.open(file_url,"w+") do |f|
-      f.write(questions_json)
-    end
+        f.write(questions_json)
+      end
       status = true
     else
       status = false
@@ -315,7 +315,7 @@ module MethodLibsHelper
         end
       end
       #if lisentings.length > 0 && readings.length > 0
-        questions_collections = {"listening"=> lisentings,"reading" => readings}
+      questions_collections = {"listening"=> lisentings,"reading" => readings}
       #elsif lisentings.length > 0 && readings.length == 0
       #  questions_collections = {"listening"=> lisentings}
       #elsif lisentings.length == 0 && readings.length > 0
@@ -325,5 +325,17 @@ module MethodLibsHelper
       questions_collections = nil
     end
     questions_collections
+  end
+  def narrow_picture file_path,rename_file_name,filename,destination_dir
+    avatar_url = nil
+    img = MiniMagick::Image.open file_path,"rb"
+    Teacher::AVATAR_SIZE.each do |size|
+      resize = size>img["width"] ? img["width"] :size
+      new_file = file_path.split(".")[0]+"_"+resize.to_s+"."+file_path.split(".").reverse[0]
+      resize_file_name = rename_file_name+"_176"+filename[/\.[^\.]+$/]
+      avatar_url =  '/'+destination_dir+ '/' +resize_file_name
+      img.run_command("convert #{file_path} -resize #{resize}x#{resize} #{new_file}")
+    end
+    avatar_url
   end
 end

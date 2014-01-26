@@ -72,14 +72,7 @@ class TeachersController < ApplicationController
       if upload[:status] == true
         avatar_url = upload[:url]
         file_path = "#{Rails.root}/public"+avatar_url
-        img = MiniMagick::Image.open file_path,"rb"
-        Teacher::AVATAR_SIZE.each do |size|
-          resize = size>img["width"] ? img["width"] :size
-          new_file = file_path.split(".")[0]+"_"+resize.to_s+"."+file_path.split(".").reverse[0]
-          resize_file_name = rename_file_name+"_176"+filename[/\.[^\.]+$/]
-          avatar_url =  '/'+destination_dir+ '/' +resize_file_name
-          img.run_command("convert #{file_path} -resize #{resize}x#{resize} #{new_file}")
-        end
+        avatar_url = narrow_picture(file_path,rename_file_name,filename,destination_dir)
       end
     end
     if current_user.update_attributes(:name => params[:name],:avatar_url => avatar_url) && current_teacher.update_attributes(:email => params[:email])

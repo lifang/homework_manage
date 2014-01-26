@@ -6,7 +6,7 @@ class Micropost < ActiveRecord::Base
   has_many :messages, :dependent => :destroy
   USER_TYPES = {:TEACHER => 0, :STUDENT => 1}
   USER_TYPES_NAME = {0 => '教师', 1 => '学生'}
-  PER_PAGE = 5
+  PER_PAGE = 20
 
   #获取班级的microposts
   def self.get_microposts school_class, page, user_id=nil

@@ -16,9 +16,9 @@
     <div class="register_box">
       <ul>
         <li class="avater">
-          <div class="avater_default"><img src="assets/default_avater.jpg"></div>
+          <div class="avater_default"><img id="avatar_img" src="assets/default_avater.jpg"></div>
           <a href="javascript:void(0);" class="avater_a">
-            <input name="avatar"  type="file">
+            <input name="avatar"  type="file" onchange="validate_pic(this);">
             <span>点击添加头像</span>
           </a>
         </li>

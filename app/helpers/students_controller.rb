@@ -220,13 +220,15 @@ class Api::StudentsController < ApplicationController
         student = Student.find_by_id(params[:student_id].to_i)
         if student
           unless params[:avatar].nil?
-            destination_dir = "avatars/students/#{Time.now.strftime('%Y-%m')}"
+            destination_dir = "homework_system/avatars/students/#{Time.now.strftime('%Y-%m')}"
             rename_file_name = "student_#{student.id}"
             upload = upload_file destination_dir, rename_file_name, params[:avatar]
             url = upload[:url]
+            unuse_url = "#{Rails.root}/public"
+            avatar_url = url.to_s[unuse_url.size,url.size]
+            user_attr[:avatar_url] = avatar_url
           end
-          student.user.update_attributes(:name => params[:name]) if params[:name]
-          student.user.update_attributes(:avatar_url => url) if params[:avatar]
+          student.user.update_attributes(user_attr) if user_attr
           student.update_attributes(:nickname => params[:nickname]) if params[:nickname]
           status = true
           notice = "修改成功。"

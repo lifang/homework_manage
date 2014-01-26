@@ -88,7 +88,7 @@ class WelcomeController < ApplicationController
   def create_first_class
     name = params[:class_name]
     teaching_material_id = params[:teaching_material_id]
-    period_of_validity = params[:period_of_validity]
+    period_of_validity = params[:period_of_validity].to_s + " 23:59:59"
     verification_code = SecureRandom.hex(5)
     teacher_id = cookies[:teacher_id]
     teacher = Teacher.find_by_id teacher_id

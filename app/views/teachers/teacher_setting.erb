@@ -1,4 +1,4 @@
- <%= javascript_include_tag "teachers"%>
+<%= javascript_include_tag "teachers"%>
 <div class="rightSide">
   <div class="main">
     <div class="article">
@@ -6,17 +6,19 @@
       <div class="user_con">
         <ul class="user_info">
 
-          <%= form_for :teachers, :url => { :action => :save_updated_teacher, :controller => :teachers},:html => {:multipart => true,:method => :post} do|f|%>
+          <%= form_for :teachers, :url => { :action => :save_updated_teacher, :controller => :teachers},:html => {:multipart => true,:method => :post,onsubmit: "return check_nonempty()"} do|f|%>
             <li class="avater">
               <div class="avater_default"><img src=<%=  @user.avatar_url%>/></div>
               <a href="javascript:void(0);" class="avater_a">
                 <span>点击更换头像</span>
-                <input type="file" name="file_upload" id="loading" />
+                <input type="file" name="file_upload" id="loading" onchange="validate_pic(this);" />  
               </a>
             </li>
             <li><p ><%= @user.name %></p><input name="name" type="text" value="<%= @user.name %>"/></li>
             <li><p ><%= @teacher.email %></p><input name="email" type="text" value="<%= @teacher.email %>"/></li>
-            <input type="submit" value="保存更新" id="submit_file" class="green_btn"/>
+            <h1>
+              <button type="submit" id="submit_file" class="green_btn">保存更新</button>
+            </h1>
           <% end %>
         </ul>
       </div>
@@ -83,7 +85,7 @@
         </li>
         <li>
           <p>选择结束时间</p>
-          <input type="text" name="period_of_validity" id="started_at" value=""class="Wdate" readonly onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',autoPickDate:true});"/>
+          <input type="text" name="period_of_validity" id="started_at" value=""class="Wdate" readonly onclick="WdatePicker({dateFmt:'yyyy-MM-dd',autoPickDate:true,minDate:'%y-%M-%d'})"/>
         </li>
       </ul>
     </div>

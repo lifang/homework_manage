@@ -62,26 +62,24 @@ class TeachersController < ApplicationController
   end
   #  保存更新
   def save_updated_teacher
-    #    teacher = Teacher.find(session[:user_id])
-    #    user = User.find(teacher.user_id)
     avatar_url = current_user.avatar_url
-    FileUtils.mkdir_p "#{File.expand_path(Rails.root)}/public/uploads/#{current_teacher.id}" if !(File.exist?("#{File.expand_path(Rails.root)}/public/uploads/#{current_teacher.id}"))
     file_upload = params[:file_upload]
     if !file_upload.nil?
+      destination_dir = "avatars/teachers/#{Time.now.strftime('%Y-%m')}"
+      rename_file_name = "teacher_#{current_teacher.id}"
       filename = file_upload.original_filename
-      avatar_name = "avatar" + Time.now.strftime("%Y%m%dT%H%M") + filename[/\.[^\.]+$/]
-      avatar_url = "/uploads/#{current_teacher.id}/#{avatar_name}"
-      File.open("#{Rails.root}/public/uploads/#{current_teacher.id}/#{avatar_name}","wb") do |f|
-        f.write(file_upload.read)
-      end
-      file_path = "#{Rails.root}/public/uploads/#{current_teacher.id}/#{avatar_name}"
-      img = MiniMagick::Image.open file_path,"rb"
-      Teacher::AVATAR_SIZE.each do |size|
-        resize = size>img["width"] ? img["width"] :size
-        new_file = file_path.split(".")[0]+"_"+resize.to_s+"."+file_path.split(".").reverse[0]
-        resize_file_name = avatar_name.split(".")[0]+"_176"+filename[/\.[^\.]+$/]
-        avatar_url = "/uploads/#{current_teacher.id}/#{resize_file_name}"
-        img.run_command("convert #{file_path} -resize #{resize}x#{resize} #{new_file}")
+      upload = upload_file destination_dir, rename_file_name, file_upload
+      if upload[:status] == true
+        avatar_url = upload[:url]
+        file_path = "#{Rails.root}/public"+avatar_url
+        img = MiniMagick::Image.open file_path,"rb"
+        Teacher::AVATAR_SIZE.each do |size|
+          resize = size>img["width"] ? img["width"] :size
+          new_file = file_path.split(".")[0]+"_"+resize.to_s+"."+file_path.split(".").reverse[0]
+          resize_file_name = rename_file_name+"_176"+filename[/\.[^\.]+$/]
+          avatar_url =  '/'+destination_dir+ '/' +resize_file_name
+          img.run_command("convert #{file_path} -resize #{resize}x#{resize} #{new_file}")
+        end
       end
     end
     if current_user.update_attributes(:name => params[:name],:avatar_url => avatar_url) && current_teacher.update_attributes(:email => params[:email])

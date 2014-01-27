@@ -329,12 +329,16 @@ module MethodLibsHelper
   def narrow_picture file_path,rename_file_name,filename,destination_dir
     avatar_url = nil
     img = MiniMagick::Image.open file_path,"rb"
-    Teacher::AVATAR_SIZE.each do |size|
-      resize = size>img["width"] ? img["width"] :size
-      new_file = file_path.split(".")[0]+"_"+resize.to_s+"."+file_path.split(".").reverse[0]
-      resize_file_name = rename_file_name+"_176"+filename[/\.[^\.]+$/]
-      avatar_url =  '/'+destination_dir+ '/' +resize_file_name
-      img.run_command("convert #{file_path} -resize #{resize}x#{resize} #{new_file}")
+    if img[:height]>Teacher::AVATAR_SIZE[0] || img[:width] > Teacher::AVATAR_SIZE[0]
+      Teacher::AVATAR_SIZE.each do |size|
+        resize = size>img["width"] ? img["width"] :size
+        new_file = file_path.split(".")[0]+"_"+resize.to_s+"."+file_path.split(".").reverse[0]
+        resize_file_name = rename_file_name+"_176"+filename[/\.[^\.]+$/]
+        avatar_url =  '/'+destination_dir+ '/' +resize_file_name
+        img.run_command("convert #{file_path} -resize #{resize}x#{resize} #{new_file}")
+      end
+    else
+      avatar_url = '/'+destination_dir+'/'+rename_file_name + filename[/\.[^\.]+$/]
     end
     avatar_url
   end

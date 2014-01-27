@@ -64,6 +64,8 @@ class TeachersController < ApplicationController
   def save_updated_teacher
     avatar_url = current_user.avatar_url
     file_upload = params[:file_upload]
+ 
+
     if !file_upload.nil?
       destination_dir = "avatars/teachers/#{Time.now.strftime('%Y-%m')}"
       rename_file_name = "teacher_#{current_teacher.id}"

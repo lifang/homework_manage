@@ -108,6 +108,9 @@ $(function(){
         $(this).parent().find("p").css("display","block");
         $(this).parent().find("p").html($(this).val());
         $(this).attr("value",$(this).val())
+        if($(this).attr("type")=="file"){
+            $(this).css("display","block");
+        }
     });
 })
 

@@ -31,13 +31,13 @@ class StudentAnswerRecord < ActiveRecord::Base
     end
     worked_ids += ")"
     p worked_ids
-    condition_sql = "and p.id not in #{worked_ids}"
+    condition_sql = " and p.id not in #{worked_ids}"
     unfinish_tasks_sql = "select p.id, q.name,p.start_time,p.end_time, p.question_packages_url,
                     p.listening_count, p.reading_count  FROM publish_question_packages p
                     left join question_packages q on p.question_package_id = q.id where
                      p.school_class_id = #{school_class_id} and
                     TIMESTAMPDIFF(SECOND,now(),p.end_time) > 0"
-    unfinish_tasks_sql += condition_sql if worked_ids.to_s.match("()") == false
+    unfinish_tasks_sql += condition_sql if worked_ids.scan("()").to_a.length == 0
     p unfinish_tasks_sql
     unfinish_tasks = PublishQuestionPackage.find_by_sql unfinish_tasks_sql
     p unfinish_tasks

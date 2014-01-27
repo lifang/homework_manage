@@ -104,7 +104,6 @@ class Api::StudentsController < ApplicationController
     else
       school_class = SchoolClass.find_by_id student.last_visit_class_id
       if !school_class.nil?
-        p school_class.period_of_validity - Time.now
         if school_class.status == SchoolClass::STATUS[:EXPIRED] || (school_class.period_of_validity - Time.now) < 0
           school_classes = student.school_classes.where("status != #{SchoolClass::STATUS[:EXPIRED]} and TIMESTAMPDIFF(SECOND,now(),school_classes.period_of_validity) > 0")
           if school_classes && school_classes.length == 0
@@ -115,7 +114,7 @@ class Api::StudentsController < ApplicationController
             class_name = school_class.name
             tearcher_id = school_class.teacher.id
             tearcher_name = school_class.teacher.user.name
-            classmates = SchoolClass.get_classmates school_class
+            classmates = SchoolClass.get_classmates school_class, student.id
             task_messages = TaskMessage.get_task_messages school_class.id
             page = 1
             microposts = Micropost.get_microposts school_class,page
@@ -141,7 +140,7 @@ class Api::StudentsController < ApplicationController
           class_name = school_class.name
           tearcher_id = school_class.teacher.id
           tearcher_name = school_class.teacher.user.name
-          classmates = SchoolClass.get_classmates school_class
+          classmates = SchoolClass.get_classmates school_class, student.id
           task_messages = TaskMessage.get_task_messages school_class.id
           page = 1
           microposts = Micropost.get_microposts school_class,page
@@ -378,7 +377,7 @@ class Api::StudentsController < ApplicationController
           class_name = school_class.name
           tearcher_id = school_class.teacher.id
           tearcher_name = school_class.teacher.user.name
-          classmates = SchoolClass.get_classmates school_class
+          classmates = SchoolClass.get_classmates school_class, student.id
           task_messages = TaskMessage.get_task_messages school_class.id
           page = 1
           microposts = Micropost.get_microposts school_class,page
@@ -583,7 +582,7 @@ class Api::StudentsController < ApplicationController
           class_name = school_class.name
           tearcher_id = school_class.teacher.id
           tearcher_name = school_class.teacher.user.name
-          classmates = SchoolClass.get_classmates school_class
+          classmates = SchoolClass.get_classmates school_class, student.id
           task_messages = TaskMessage.get_task_messages school_class.id
           page = 1
           microposts = Micropost.get_microposts school_class,page

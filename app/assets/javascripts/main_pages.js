@@ -4,6 +4,10 @@ function check_send_microposts(value){
         tishi("内容不能为空");
         return false;
     }
+    if(content.length>=250){
+        tishi("长度不能超过250");
+        return false;
+    }
 }
 
 function main_reply(value){
@@ -115,17 +119,17 @@ function change_conditions(condtion,id){
     
 }
 
-function delete_reply(id){
+function delete_reply(value,id,m_id){
     var page = $(".pagination em").html();
+    var index1=get_index2(value);
     if(confirm("确认删除？"))
         $.ajax({
             async:true,
             type : 'get',
             url:"/microposts/"+id+"/delete_micropost_reply",
             dataType:"script",
-            data  : "id="+id+"&page="+page+"&conditions="+$("#condtions").val(),
+            data  : "id="+id+"&page="+page+"&conditions="+$("#condtions").val()+"&index="+index1+"&m_id="+m_id,
             success:function(data){
-
             }
         });
 //location.href="/microposts/"+id+"/delete_micropost_reply?id="+id+"&page="+page;

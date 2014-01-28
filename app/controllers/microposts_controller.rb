@@ -47,27 +47,34 @@ class MicropostsController < ApplicationController
     reply = Micropost.find_by_id(params[:id])
     if reply&&reply.destroy
       get_microposts
-      flash[:success]='删除成功'
+      @temp='删除成功'
     else
-      flash[:success]='删除失败'
+      @temp='删除失败'
     end
   end
   def delete_micropost_reply
+    @index = params[:index]
+    @micropost = Micropost.find_by_id(params[:m_id])
     reply = ReplyMicropost.find_by_id(params[:id])
     if reply&&reply.destroy
-      get_microposts 
-      flash[:success]='删除成功'
+      #get_microposts
+      array = ReplyMicropost::get_microposts @micropost.id,1
+      @reply = array[:reply_microposts]
+      @temp ='删除成功'
     else
-      flash[:success]='删除失败'
+      @temp='删除失败'
     end
   end
   
   def get_microposts 
     @condition = params[:condtions]
     @condition = nil if params[:condtions]==""
+    p 11111111111,params[:page]
+    page = (params[:page].eql?("undefined") ? 1:params[:page])
+      
     @scclass = SchoolClass.find(current_teacher.last_visit_class_id)
     @classmates = SchoolClass::get_classmates(@scclass)
-    array = Micropost::get_microposts @scclass,params[:page],@condition
+    array = Micropost::get_microposts @scclass,page,@condition
     @microposts =array[:details_microposts]
   end
 

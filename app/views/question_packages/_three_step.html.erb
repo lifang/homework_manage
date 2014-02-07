@@ -18,7 +18,7 @@
 <div class="book_box_con second_step" style="display:none">
   <div class="progressBar clearAfter">
     <ul>
-      <li>1</li>
+      <li class="go_back" onclick="showFirstStep()" onmouseover="addClassHover(this)" onmouseout="removeClassHover(this)">1</li>
       <li class="hover">2</li>
       <li>3</li>
       <li>4</li>
@@ -34,8 +34,8 @@
 <div class="book_box_con third_step"  style="display:none">
   <div class="progressBar clearAfter">
     <ul>
-      <li>1</li>
-      <li>2</li>
+      <li class="go_back" onclick="showFirstStep()" onmouseover="addClassHover(this)" onmouseout="removeClassHover(this)">1</li>
+      <li class="go_back" onclick="showSecondStep()" onmouseover="addClassHover(this)" onmouseout="removeClassHover(this)">2</li>
       <li class="hover">3</li>
       <li>4</li>
     </ul>
@@ -82,7 +82,7 @@
 <script>
   $(".book_box_con").on('click', ".addwork_btn a", function(){
     $(this).addClass("selected");
-    $(this).parents(".book_box_con").hide().end();
+    $(this).parents(".book_box_con").hide();
     $(this).parents(".book_box_con").next().show();
 
   });

@@ -11,7 +11,7 @@ class QuestionPackagesController < ApplicationController
         @question = Question.find_by_id(params[:question_id])
         @sort_name = params[:sort_name]
         sort = @sort_name == "up" ? "asc" : "desc"
-        @share_questions = ShareQuestion.share_questions(@question, sort, params[:page])
+        @share_questions = ShareQuestion.share_questions(@question.cell_id, @question.episode_id, @question.types, sort, params[:page])
         @href = "/question_packages?question_package_id=#{@question_pack.id}&question_id=#{@question.id}"
       }
       f.html
@@ -24,29 +24,28 @@ class QuestionPackagesController < ApplicationController
 
   #新建题包其中第一个答题第三步之后，建题包，建答题
   def create
-    question_type, new_or_refer, cell_id, episode_id, question_pack_id = params[:question_type], params[:new_or_refer], params[:cell_id], params[:episode_id], params[:question_pack_id]
-    status = 0
+    question_type, new_or_refer, cell_id, episode_id, question_pack_id = params[:question_type].to_i, params[:new_or_refer], params[:cell_id], params[:episode_id], params[:question_pack_id]
+    status = false
     QuestionPackage.transaction do
-      if question_pack_id.present?
-        @question_pack = QuestionPackage.find_by_id(question_pack_id)
-      else
-        @question_pack = QuestionPackage.create(:school_class_id => school_class_id)
-      end
-      if @question_pack
-        @question = @question_pack.questions.create({:cell_id => cell_id, :episode_id => episode_id, :types => question_type.to_i})
-      else
-        status =  1
-      end
-    
-      if status ==0
-        if new_or_refer == "0"
+      if new_or_refer == "0"
+        status = create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)
+        if status
           render :partial => "questions/new_branch"
         else
-          @share_questions = ShareQuestion.share_questions(@question, "desc", 1)
-          render :partial =>"questions/new_reference"
+          render :text => "-1"  #保存失败
         end
       else
-        render :text => "error"
+        @share_questions = ShareQuestion.share_questions(cell_id, episode_id, question_type, "desc", 1)
+        if @share_questions.present?
+          status = create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)
+          if status
+            render :partial =>"questions/new_reference"
+          else
+            render :text => "-1" #"保存失败"
+          end
+        else
+          render :text => "-2" #"该单元下没有题目可以引用"
+        end
       end
     end
   end
@@ -67,6 +66,7 @@ class QuestionPackagesController < ApplicationController
   #预览作业
   def show
     @question_pack = QuestionPackage.find_by_id(params[:id])
+    p @question_pack
     if params[:type].present?
       @questions = params[:type] == "listen" ? @question_pack.questions.listening : @question_pack.questions.reading
     else
@@ -99,6 +99,19 @@ class QuestionPackagesController < ApplicationController
     teaching_material = school_class.teaching_material if school_class
     @cells = teaching_material.cells if teaching_material
     @episodes = Episode.where(:cell_id => @cells.map(&:id)).group_by{|e| e.cell_id} if @cells
+  end
+
+  def create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)
+    if question_pack_id.present?
+      @question_pack = QuestionPackage.find_by_id(question_pack_id)
+    else
+      @question_pack = QuestionPackage.create(:school_class_id => school_class_id)
+    end
+    if @question_pack
+      @question = @question_pack.questions.create({:cell_id => cell_id, :episode_id => episode_id, :types => question_type})
+    end
+    status = @question_pack && @question
+    status
   end
   
 end

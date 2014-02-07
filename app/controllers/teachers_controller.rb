@@ -13,20 +13,27 @@ class TeachersController < ApplicationController
     verification_code = SecureRandom.hex(5)
     teacher_id = cookies[:teacher_id]
     teacher = Teacher.find_by_id teacher_id
+    teacher_id
+    school_classes = SchoolClass.find_by_teacher_id_and_name(teacher_id,name)
     if teacher.nil?
       notice = "教师不存在，不能创建班级！"
       status = false
     else
       if teacher.status == Teacher::STATUS[:YES]
-        if teacher.school_classes.create(:name => name,:period_of_validity => period_of_validity,
-            :verification_code => verification_code,
-            :status => SchoolClass::STATUS[:NORMAL],
-            :teaching_material_id => teaching_material_id)
-          notice = "班级创建成功！"
-          status = true
-        else
-          notice = "班级创建失败，请重新操作！"
+        if !school_classes.nil?
+          notice = "班级班级已存在！"
           status = false
+        else
+          if teacher.school_classes.create(:name => name,:period_of_validity => period_of_validity,
+              :verification_code => verification_code,
+              :status => SchoolClass::STATUS[:NORMAL],
+              :teaching_material_id => teaching_material_id)
+            notice = "班级创建成功！"
+            status = true
+          else
+            notice = "班级创建失败，请重新操作！"
+            status = false
+          end
         end
       else
         notice = "教师已被禁用，无法进行操作！"

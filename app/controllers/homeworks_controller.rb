@@ -19,6 +19,7 @@ class HomeworksController < ApplicationController
 
   #删除题包
   def delete_question_package
+    base_url = "#{Rails.root}/public"
     publish_question_package_id = params[:publish_question_package_id]
     school_class_id = params[:school_class_id]
     page = params[:page]
@@ -26,9 +27,12 @@ class HomeworksController < ApplicationController
     @school_class = SchoolClass.find_by_id school_class_id
     publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
     if !publish_question_package.nil?
-      file_url = "#{Rails.root}/public#{publish_question_package.question_packages_url}"
-      File.delete file_url if File.exist? file_url
+      questions_file_dir = "#{base_url}/que_ps/question_p_#{publish_question_package.question_package_id}"
+      FileUtils.remove_dir questions_file_dir if File.exist? questions_file_dir
       if publish_question_package.task_message.destroy
+        #删除学生答题记录
+        student_answer_record_dir = "#{base_url}/pub_que_ps/pub_#{publish_question_package.id}"
+        FileUtils.remove_dir student_answer_record_dir if Dir.exist? student_answer_record_dir
         #作业删除文件夹开始
         delete_question_package_folder(publish_question_package.question_package)
         #作业删除文件夹结束

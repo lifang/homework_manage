@@ -281,7 +281,7 @@ function check_time()
         tishi("时间不能为空！");
 }
 
-//注册时验证时间
+//注册时验证
 function check_regist_info()
 {
     var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;

@@ -38,7 +38,7 @@ namespace :deploy do
   run "rm -rf #{current_path}/log"        #移除当前路径下的log文件
   run "ln -s #{shared_path}/log/ #{current_path}/log"  #link日志文件到share下的日志文件
 
-  #run "ln -s /opt/projects/micro_website/public/* #{current_path}/public/" #链接上传的图片
+  run "ln -s /opt/projects/homework_manage/public/* #{current_path}/public/" #链接上传的图片
   
     # database.yml for localized database connection
     run "rm #{current_path}/config/database.yml"  #移除当前路径下的数据库配置文件

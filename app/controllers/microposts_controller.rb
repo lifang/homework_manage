@@ -59,7 +59,9 @@ class MicropostsController < ApplicationController
     if reply&&reply.destroy
       #get_microposts
       array = ReplyMicropost::get_microposts @micropost.id,1
+      
       @reply = array[:reply_microposts]
+      @reply_count = @reply.length
       @temp ='删除成功'
     else
       @temp='删除失败'

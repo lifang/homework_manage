@@ -12,6 +12,7 @@ class ResultsController < ApplicationController
         records = StudentAnswerRecord.ret_stuent_record(@school_class.id, @current_package.id)       
          @answerd_users = records[0]
          @unanswerd_users = records[1]
+         @question_package = @current_package.question_package
       end      
     end  
   end
@@ -26,6 +27,7 @@ class ResultsController < ApplicationController
         records = StudentAnswerRecord.ret_stuent_record(@school_class.id, @current_package.id)       
          @answerd_users = records[0]
          @unanswerd_users = records[1]
+         @question_package = @current_package.question_package
       end      
     end
     render :index

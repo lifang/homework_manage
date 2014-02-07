@@ -49,7 +49,8 @@ $(function(){
                     }
                 })
             }
-        }else{
+        }
+        else{
             all_li.removeClass("hover");
             ul_parent.find("ul").append("<li  class=\"question_li hover\" onclick=\"liHover(this)\"><a href=\"#\">" + (index +1) +".</a></li>");
             afterClickAddpage();
@@ -115,16 +116,22 @@ function GoForthStep(question_pack_id, school_class_id){
             question_pack_id: question_pack_id ? question_pack_id : ""
         },
         success:function(data){
-            $(".book_box .steps").html(data);
-            $(".book_box_table table > tbody > tr:odd").addClass("tbg");
-            height_adjusting();
-            var question_id = $("#hidden_question_id").val();
-            var question_pack_id = $("#hidden_question_pack_id").val();
-            $(".remark").parents("form").attr("action", "/school_classes/" + school_class_id +"/question_packages/" + question_pack_id );
-            $(".remark").parents("form").append("<input name=\"_method\" type=\"hidden\" value=\"put\">")
-            $(".book_box_page li.hover").find("a").attr("href", "/school_classes/" + school_class_id +"/question_packages/" + question_pack_id + "/questions/" + question_id + "/edit");
-            $(".book_box_page li.hover").find("a").attr("data-remote", true);
-            $(".book_box_page li.hover").find("a").attr("data-type", "script");
+            if(data!="-1" && data!="-2"){
+                $(".book_box .steps").html(data);
+                $(".book_box_table table > tbody > tr:odd").addClass("tbg");
+                height_adjusting();
+                var question_id = $("#hidden_question_id").val();
+                var question_pack_id = $("#hidden_question_pack_id").val();
+                $(".remark").parents("form").attr("action", "/school_classes/" + school_class_id +"/question_packages/" + question_pack_id );
+                $(".remark").parents("form").append("<input name=\"_method\" type=\"hidden\" value=\"put\">")
+                $(".book_box_page li.hover").find("a").attr("href", "/school_classes/" + school_class_id +"/question_packages/" + question_pack_id + "/questions/" + question_id + "/edit");
+                $(".book_box_page li.hover").find("a").attr("data-remote", true);
+                $(".book_box_page li.hover").find("a").attr("data-type", "script");
+            }else if(data=="-1"){
+                tishi("保存失败");
+            }else if(data=="-2"){
+                tishi("该单元下没有题目可以引用");
+            }
         },
         error:function(data){
             tishi(data)
@@ -304,3 +311,33 @@ function loadEpisode(obj){
     }
 }
 
+//显示第一步
+function showFirstStep(){
+    $(".first_step").show();
+    $(".second_step").hide();
+    $(".third_step").hide();
+}
+
+//显示第二步
+function showSecondStep(){
+    $(".second_step").show();
+    $(".third_step").hide();
+    $(".first_step").hide();
+}
+
+//显示第三步
+function showThirdStep(){
+    $(".third_step").show();
+    $(".second_step").hide();
+    $(".first_step").hide();
+}
+
+//第二步，第三步hover效果
+function addClassHover(obj){
+  $(obj).addClass("hover");
+}
+
+function removeClassHover(obj){
+  $(obj).removeClass("hover")
+}
+//第二步，第三步hover效果

@@ -1,5 +1,7 @@
 <% if @status == 0 %>
 tishi("分享成功")
-<% else %>
+<% elsif @status == 1 %>
 tishi("已经分享过")
+<% else %>
+tishi("没有题目可以分享")
 <% end %>

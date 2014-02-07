@@ -215,9 +215,9 @@ $(function(){
 function check_value()
 {
     var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
-    email = $("#email").val();
-    password = $("#password").val();
-    if(email == "邮箱" || password == "密码")
+    email = $.trim($("#email").val());
+    password = $.trim($("#password").val());
+    if(email == "" || password == "")
         tishi('邮箱或密码不能为空！');
     else
     {
@@ -226,7 +226,6 @@ function check_value()
         else
             $("#login_submit_button").click();
     }
-
 }
 
 //检查班级信息
@@ -289,21 +288,22 @@ function check_regist_info()
     email = $.trim($("#r_email").val());
     password = $.trim($("#r_password").val());
     confirm_password = $.trim($("#r_confirm_password").val());
-    if(name != "姓名" && email != "邮箱" && password != "密码" && confirm_password != "确认密码")
-    {
-        if(password == confirm_password)
-        {
-            if(!email_reg.test(email))
-                tishi("邮箱格式不正确,请重新输入！");
-            else
-                $("#register_submit_button").click();
-        }
-        else
-            tishi("两次密码不一致！");
-    }
-    else
+    if(name == "" || email == "" || password == "" || confirm_password == "")
         tishi("姓名、邮箱、密码、确认密码不能为空！");
-
+    else
+    {
+        if(!email_reg.test(email))
+            tishi("邮箱格式不正确,请重新输入！");
+        else
+        {
+            if(password == confirm_password)
+            {
+                $("#register_submit_button").click();
+            }
+            else
+                tishi("两次密码不一致！");
+        }
+    }
 }
 
 function show_single_record(ids) {

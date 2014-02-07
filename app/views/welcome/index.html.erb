@@ -3,8 +3,8 @@
     <%= form_tag({:controller => :welcome, :action => :login}, :remote => true) do %>
     <div class="login_box">
       <ul>
-        <li class="name"><input id="email" name="email" type="text" value="邮箱"/></li>
-        <li class="password"><input id="password" name="password" type="password" value="密码"/></li>
+        <li class="name"><input id="email" name="email" type="text" placeholder="邮箱"/></li>
+        <li class="password"><input id="password" name="password" type="text" placeholder="密码"/></li>
         <li class="login_btn"><button type="button" onclick="check_value();">登录</button><a href="javascript:void(0);" class="goRegister_a">注册</a></li>
         <button id="login_submit_button" style="display: none;" type="submit">提交</button>
       </ul>
@@ -22,10 +22,10 @@
             <span>点击添加头像</span>
           </a>
         </li>
-        <li><input id="r_name"  name="name" type="text" value="姓名" class="otherInput"></li>
-        <li><input id="r_email" name="email" type="text" value="邮箱" class="otherInput"></li>
-        <li><input id="r_password"  name="password" type="password" value="密码" class="otherInput"></li>
-        <li><input id="r_confirm_password" name="confirm_password" type="password" value="确认密码" class="otherInput"></li>
+        <li><input id="r_name"  name="name" type="text" placeholder="姓名" class="otherInput"></li>
+        <li><input id="r_email" name="email" type="text" placeholder="邮箱" class="otherInput"></li>
+        <li><input id="r_password"  name="password" type="password" placeholder="密码" class="otherInput"></li>
+        <li><input id="r_confirm_password" name="confirm_password" type="password" placeholder="确认密码" class="otherInput"></li>
         <li class="register_btn"><button onclick="check_regist_info()" type="button">确认</button><a href="javascript:void(0);" class="goLogin_a">返回登录</a></li>
         <button id="register_submit_button" style="display: none;" type="submit">提交</button>
       </ul>

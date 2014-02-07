@@ -1,4 +1,7 @@
-$("#reply_area").html('<%= j( render 'main_pages/questarea_box')%>');
+//$("#reply_area").html('<%= j( render 'main_pages/questarea_box')%>');
+var box =$("#reply_area").children(".question_area_box");
+var html ='<%=j(render 'main_pages/reply')%>'
+$(box[<%=@index%>]).find(".reply_again_area").html(html);
 $(".question_area_con").hover(
 		function(){
 			$(this).find("a.x").css("display","block");
@@ -7,8 +10,8 @@ $(".question_area_con").hover(
 			$(this).find("a.x").css("display","none");
 		}
 	);
-        height_adjusting();
-<%if flash[:success]=='删除成功'%>
+height_adjusting();
+<%if @temp =='删除成功'%>
   tishi("删除成功");
   <%else%>
   tishi("删除失败");

@@ -2,7 +2,7 @@
 	<div class="main setPaddingRight">
 		<div class="article">
 			<div class="ask_area">
-				<%=form_for(:microposts,:url=> microposts_path,onsubmit:"return check_send_microposts(this)") do |f|%>
+                          <form action="/microposts" method="post" onsubmit="return check_send_microposts(this)" accept-charset="UTF-8">
 				<div class="ask_area_textarea">
 					<textarea name="microposts[content]" cols="" rows="" placeholder="提个问题或是分享一下你的心得吧。"></textarea>
 </div>				<div class="ask_area_btn">
@@ -10,7 +10,7 @@
 						发布
 					</button>
 				</div>
-				<%end%>
+                          </form>
 			</div>
 		</div>
 		<div class="article">

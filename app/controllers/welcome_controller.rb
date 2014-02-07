@@ -20,7 +20,7 @@ class WelcomeController < ApplicationController
         @school_class = class_id.nil? ? nil : SchoolClass.find_by_id(class_id)
         last_visit_class = @class_id.nil? ? false : true
         if @school_class
-          if @school_class.status == SchoolClass::STATUS[:EXPIRED] || (@school_class.period_of_validity - Time.now) < 0
+          if @school_class.status == SchoolClass::STATUS[:EXPIRED] || (@school_class.period_of_validity.to_i - Time.now.to_i) < 0
             @school_classes = teacher.school_classes.
                 where("status = #{SchoolClass::STATUS[:NORMAL]} and TIMESTAMPDIFF(SECOND,now(),school_classes.period_of_validity) > 0")
             if @school_classes && @school_classes.length == 0

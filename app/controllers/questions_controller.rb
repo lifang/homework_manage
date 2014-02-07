@@ -48,18 +48,25 @@ class QuestionsController < ApplicationController
   #分享题目
   def share
     question = Question.find_by_id(params[:id])
+    question_pack = question.question_package
     Question.transaction do
       unless question.if_shared
-        share_question = ShareQuestion.create({:user_id => current_user.id, :name => question.name, :types => question.types, :cell_id => question.cell_id, :episode_id => question.episode_id})
-        if share_question
-          question.branch_questions.each do |bq|
-            share_question.share_branch_questions.create({:content => bq.content, :resource_url => bq.resource_url})
+        branch_questions = question.branch_questions
+        if branch_questions.present?
+          share_question = ShareQuestion.create({:user_id => current_user.id, :name => question.name, :types => question.types, :cell_id => question.cell_id, :episode_id => question.episode_id})
+          if share_question
+            question.branch_questions.each do |bq|
+              new_resource_url = copy_file(SAHRE_MEDIA_PATH, question_pack, bq, bq.resource_url) #分享的时候，拷贝音频
+              share_question.share_branch_questions.create({:content => bq.content, :resource_url => new_resource_url})
+            end
           end
+          question.update_attribute(:if_shared, true)
+          @status = 0 #分享成功
+        else
+          @status = 2 #大题下面无小题，提示
         end
-        question.update_attribute(:if_shared, true)
-        @status = 0
       else
-        @status = 1
+        @status = 1 #已经分享过
       end
     end
   end
@@ -87,7 +94,7 @@ class QuestionsController < ApplicationController
     Question.transaction do
       share_branch_questions.each do |sbq|
         branch_question = @question.branch_questions.create({:content => sbq.content})
-        new_resource_url = copy_file(@question_pack, branch_question, sbq.resource_url) #引用的时候，拷贝音频
+        new_resource_url = copy_file(MEDIA_PATH, @question_pack, branch_question, sbq.resource_url) #引用的时候，拷贝音频
         branch_question.update_attribute(:resource_url, new_resource_url)
         if branch_question == @question.branch_questions.first
           @question.update_attribute(:name, branch_question.content.length > 38 ? branch_question.content[0..35] + "..." : branch_question.content)
@@ -99,15 +106,15 @@ class QuestionsController < ApplicationController
   private
 
   #引用的时候，拷贝音频
-  def copy_file(question_pack, branch_question, source_resource_url)
-    media_path = "/public" + MEDIA_PATH % question_pack.id
-    question_pack_folder = Rails.root.to_s + media_path
+  def copy_file(media_path, question_pack, branch_question, source_resource_url)
+    full_media_path = "/public" + media_path % question_pack.id
+    question_pack_folder = Rails.root.to_s + full_media_path
     original_resource_url = Rails.root.to_s + "/public" + source_resource_url
     FileUtils.mkdir_p(question_pack_folder) unless Dir.exists?(question_pack_folder)
     file_extension = File.extname(original_resource_url)
     filename = "media_%d" % branch_question.id + file_extension
     FileUtils.cp original_resource_url, (question_pack_folder + filename)
-    new_audio_path = MEDIA_PATH % question_pack.id + filename
+    new_audio_path = media_path % question_pack.id + filename
     return new_audio_path
   end
 end

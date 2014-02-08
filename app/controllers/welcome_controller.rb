@@ -120,7 +120,7 @@ class WelcomeController < ApplicationController
             :teacher_id => teacher.id, :teaching_material_id => teaching_material_id)
           if @school_class.save
             teacher.update_attributes(:last_visit_class_id => @school_class.id)
-            flash[:notice] = "班级创建成功！"
+            flash[:verification_code] = "创建成功,班级验证码为:#{@school_class.verification_code}!"
             status = true
             last_visit_class_id = true
           end

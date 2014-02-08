@@ -377,7 +377,8 @@ a.x {
 .grade_box .name { text-align: center; line-height: 24px; color: #FFF;}
 
 .grade_con { color: #FFF;}
-.grade_con h1 { font-size: 16px; text-align: center; border-bottom: 1px #454643 solid;}
+.grade_con h1 { font-size: 16px; text-align: center;}
+.grade_con h2 { font-size: 16px; text-align: center; border-bottom: 1px solid #454643; height: 30px;}
 
 .grade_con ul { display: block; overflow: hidden; width: 210px; margin: 0 auto;}
 .grade_con li { float: left; margin: 10px; position: relative; width: 50px;}

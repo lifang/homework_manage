@@ -4,6 +4,7 @@
           </div>
           <div class="grade_con clearAfter">
             <h1><%=@scclass.name%></h1>
+            <h2>验证码:<%=@scclass.verification_code %></h2>
             <ul>
               <%@classmates.each do |classmate|%>
               <li>

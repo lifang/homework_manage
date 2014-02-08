@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/question_packages/show.html.erb" afterPath="$PROJECT_DIR$/app/views/question_packages/show.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -59,7 +58,7 @@
       <file leaf-file-name="show.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/question_packages/show.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="178" selection-start="508" selection-end="508" vertical-scroll-proportion="0.25297618" vertical-offset="0" max-vertical-offset="578">
+            <state line="5" column="218" selection-start="543" selection-end="543" vertical-scroll-proportion="0.25297618" vertical-offset="0" max-vertical-offset="578">
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -3793,7 +3792,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/question_packages/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="178" selection-start="508" selection-end="508" vertical-scroll-proportion="0.25297618" vertical-offset="0" max-vertical-offset="578">
+        <state line="5" column="218" selection-start="543" selection-end="543" vertical-scroll-proportion="0.25297618" vertical-offset="0" max-vertical-offset="578">
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />

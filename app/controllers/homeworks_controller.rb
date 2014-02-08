@@ -59,10 +59,6 @@ class HomeworksController < ApplicationController
     time_now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
     status = false
     notice = "发布失败！"
-    p time_now
-    p end_time
-    p (end_time <=> time_now)
-    p (end_time <=> time_now) > 0
     if (end_time <=> time_now) > 0
       teacher = Teacher.find_by_id cookies[:teacher_id]
       question_package = QuestionPackage.find_by_id question_package_id

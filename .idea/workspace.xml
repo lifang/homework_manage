@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/publish_question_package.rb" afterPath="$PROJECT_DIR$/app/models/publish_question_package.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/results/index.html.erb" afterPath="$PROJECT_DIR$/app/views/results/index.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/question_package.rb" afterPath="$PROJECT_DIR$/app/models/question_package.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/results_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/results_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -32,7 +34,7 @@
       <file leaf-file-name="homeworks_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/homeworks_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="7" selection-start="496" selection-end="496" vertical-scroll-proportion="0.0" vertical-offset="1071" max-vertical-offset="1989">
+            <state line="17" column="7" selection-start="496" selection-end="496" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1989">
               <folding>
                 <element signature="e#226#487#0" expanded="true" />
                 <element signature="e#499#1873#0" expanded="true" />
@@ -42,72 +44,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="students_controller.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="511" column="35" selection-start="22216" selection-end="22226" vertical-scroll-proportion="0.58536583" vertical-offset="1910" max-vertical-offset="2822">
-              <folding>
-                <element signature="e#3747#7777#0" expanded="true" />
-                <element signature="e#11813#15464#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="question_packages_controller.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/question_packages_controller.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="49" selection-start="2149" selection-end="2149" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1275">
-              <folding>
-                <element signature="e#179#749#0" expanded="true" />
-                <element signature="e#2419#2856#0" expanded="true" />
-                <element signature="e#3592#4102#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/question_packages/show.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="35" selection-start="1436" selection-end="1436" vertical-scroll-proportion="-14.384615" vertical-offset="0" max-vertical-offset="578">
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="results_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/results_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="62" selection-start="648" selection-end="648" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
+            <state line="30" column="67" selection-start="1504" selection-end="1504" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="986">
               <folding>
-                <element signature="e#686#1330#0" expanded="true" />
+                <element signature="e#93#936#0" expanded="true" />
+                <element signature="e#1845#2256#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/results/index.html.erb">
+      <file leaf-file-name="question.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/question.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="107" selection-start="341" selection-end="341" vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="1105">
+            <state line="21" column="48" selection-start="842" selection-end="842" vertical-scroll-proportion="0.0" vertical-offset="139" max-vertical-offset="510">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="student_2.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/pub_que_ps/pub_45/answers/student_2.js">
+      <file leaf-file-name="index.html.erb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/results/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="5" selection-start="150" selection-end="150" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272">
-              <folding>
-                <element signature="e#44#150#1" expanded="true" />
-                <element signature="e#54#144#0" expanded="true" />
-                <element signature="e#87#143#0" expanded="true" />
-              </folding>
+            <state line="16" column="4" selection-start="1054" selection-end="1054" vertical-scroll-proportion="0.8192771" vertical-offset="0" max-vertical-offset="1173">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -128,10 +90,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/public/homework_system/question_packages/publish_question_package_22/answers/student_1.js" />
-        <option value="$PROJECT_DIR$/app/controllers/teachers_controller.rb" />
-        <option value="$PROJECT_DIR$/app/views/homeworks/delete_question_package.js.erb" />
-        <option value="$PROJECT_DIR$/app/views/homeworks/publish_question_package.js.erb" />
         <option value="$PROJECT_DIR$/app/views/layouts/_left_side.html.erb" />
         <option value="$PROJECT_DIR$/app/models/reply_micropost.rb" />
         <option value="$PROJECT_DIR$/public/homework_system/question_packages/publish_question_package_30/answers/student_1.js" />
@@ -179,6 +137,10 @@
         <option value="$PROJECT_DIR$/app/views/question_packages/show.html.erb" />
         <option value="$PROJECT_DIR$/app/models/publish_question_package.rb" />
         <option value="$PROJECT_DIR$/public/pub_que_ps/pub_45/answers/student_2.js" />
+        <option value="$PROJECT_DIR$/public/pub_que_ps/pub_7/answers/student_2.js" />
+        <option value="$PROJECT_DIR$/app/models/question_package.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/results_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/results/index.html.erb" />
       </list>
     </option>
   </component>
@@ -286,6 +248,14 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="pub_que_ps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pub_7" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="answers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -543,6 +513,174 @@
   <component name="RestClientSettings">
     <option name="REQUEST_HISTORY">
       <list>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://0.0.0.0:3000" />
+          <option name="urlPath" value="/api/students/validate_verification_code" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="student_id" />
+                <option name="value" value="2" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="school_class_id" />
+                <option name="value" value="28" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="publish_question_package_id" />
+                <option name="value" value="45" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="question_id" />
+                <option name="value" value="45" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="branch_question_id" />
+                <option name="value" value="41" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="answer" />
+                <option name="value" value="123123" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="question_types" />
+                <option name="value" value="0" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="verification_code" />
+                <option name="value" value="ba35e2b3c9" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://0.0.0.0:3000" />
+          <option name="urlPath" value="/api/students/validate_verification_code" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="student_id" />
+                <option name="value" value="2" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="school_class_id" />
+                <option name="value" value="28" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="publish_question_package_id" />
+                <option name="value" value="45" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="question_id" />
+                <option name="value" value="45" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="branch_question_id" />
+                <option name="value" value="41" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="answer" />
+                <option name="value" value="123123" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="question_types" />
+                <option name="value" value="0" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="verification_code" />
+                <option name="value" value="fe0580a4e4" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://0.0.0.0:3000" />
+          <option name="urlPath" value="/api/students/validate_verification_code" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="student_id" />
+                <option name="value" value="2" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="school_class_id" />
+                <option name="value" value="9" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="publish_question_package_id" />
+                <option name="value" value="45" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="question_id" />
+                <option name="value" value="45" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="branch_question_id" />
+                <option name="value" value="41" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="answer" />
+                <option name="value" value="123123" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="question_types" />
+                <option name="value" value="0" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="verification_code" />
+                <option name="value" value="fe0580a4e4" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
         <RestClientRequest>
           <option name="httpMethod" value="POST" />
           <option name="urlBase" value="http://0.0.0.0:3000" />
@@ -2835,222 +2973,6 @@
           <option name="textToSend" value="" />
           <option name="filesToSend" value="" />
         </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="POST" />
-          <option name="urlBase" value="http://localhost:3000" />
-          <option name="urlPath" value="/api/students/record_answer_info" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parameters">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="school_class_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="question_package_id" />
-                <option name="value" value="2" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="publish_question_package_id" />
-                <option name="value" value="30" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="student_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="question_id" />
-                <option name="value" value="3" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="branch_question_id" />
-                <option name="value" value="2" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="answer" />
-                <option name="value" value="answeraaa" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="question_types" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="open_id" />
-                <option name="value" value="1D2D1D0764C18B2D6DF6B44E456A8DA1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="user_id" />
-                <option name="value" value="66" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="message_id" />
-                <option name="value" value="85" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="micropost_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="textToSend" value="" />
-          <option name="filesToSend" value="" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="POST" />
-          <option name="urlBase" value="http://localhost:3004" />
-          <option name="urlPath" value="/api/students/record_answer_info" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parameters">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="school_class_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="question_package_id" />
-                <option name="value" value="2" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="publish_question_package_id" />
-                <option name="value" value="30" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="student_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="question_id" />
-                <option name="value" value="3" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="branch_question_id" />
-                <option name="value" value="2" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="answer" />
-                <option name="value" value="answeraaa" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="question_types" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="open_id" />
-                <option name="value" value="1D2D1D0764C18B2D6DF6B44E456A8DA1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="user_id" />
-                <option name="value" value="66" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="message_id" />
-                <option name="value" value="85" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="micropost_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="textToSend" value="" />
-          <option name="filesToSend" value="" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="POST" />
-          <option name="urlBase" value="http://192.168.0.250:3004" />
-          <option name="urlPath" value="/api/students/record_answer_info" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parameters">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="school_class_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="question_package_id" />
-                <option name="value" value="2" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="publish_question_package_id" />
-                <option name="value" value="2" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="student_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="question_id" />
-                <option name="value" value="3" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="branch_question_id" />
-                <option name="value" value="2" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="answer" />
-                <option name="value" value="answeraaa" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="question_types" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="open_id" />
-                <option name="value" value="1D2D1D0764C18B2D6DF6B44E456A8DA1" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="user_id" />
-                <option name="value" value="66" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="message_id" />
-                <option name="value" value="85" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="micropost_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="textToSend" value="" />
-          <option name="filesToSend" value="" />
-        </RestClientRequest>
       </list>
     </option>
   </component>
@@ -3246,10 +3168,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="24" width="1368" height="745" extended-state="6" />
-    <editor active="false" />
+    <frame x="-1" y="24" width="1368" height="745" extended-state="7" />
+    <editor active="true" />
     <layout>
-      <window_info id="REST Client" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.7129032" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" x="22" y="112" width="1325" height="477" />
+      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7129032" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" x="22" y="112" width="1325" height="477" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.516129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.8016129" sideWeight="0.5" order="9" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -3259,7 +3181,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5096774" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -3287,25 +3209,10 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="13" />
+      <option name="time" value="14" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/controllers/teachers_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="27" selection-start="632" selection-end="632" vertical-scroll-proportion="0.549273" vertical-offset="0" max-vertical-offset="935" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/question_package_type.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="293" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/share_question.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="12" selection-start="104" selection-end="104" vertical-scroll-proportion="0.08415841" vertical-offset="0" max-vertical-offset="606" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/share_branch_question.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="14" selection-start="112" selection-end="112" vertical-scroll-proportion="0.08239096" vertical-offset="0" max-vertical-offset="619" />
@@ -3319,20 +3226,6 @@
     <entry file="file://$PROJECT_DIR$/app/models/branch_question.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="22" selection-start="115" selection-end="115" vertical-scroll-proportion="0.08239096" vertical-offset="0" max-vertical-offset="619" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/question.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="30" selection-start="101" selection-end="117" vertical-scroll-proportion="0.08415841" vertical-offset="0" max-vertical-offset="606">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/question_package.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="16" selection-start="142" selection-end="151" vertical-scroll-proportion="0.1098546" vertical-offset="0" max-vertical-offset="619">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/database.yml">
@@ -3538,13 +3431,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/student_answer_record.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="11" selection-start="2647" selection-end="2647" vertical-scroll-proportion="0.18994413" vertical-offset="867" max-vertical-offset="1275">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/questions_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
@@ -3559,39 +3445,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/pub_que_ps/pub_45/answers/student_2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="5" selection-start="150" selection-end="150" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272">
-          <folding>
-            <element signature="e#44#150#1" expanded="true" />
-            <element signature="e#54#144#0" expanded="true" />
-            <element signature="e#87#143#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/teacher.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="24" selection-start="476" selection-end="476" vertical-scroll-proportion="0.35478547" vertical-offset="6" max-vertical-offset="612">
           <folding>
             <element signature="e#896#983#0" expanded="true" />
             <element signature="e#987#1051#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/results/index.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="107" selection-start="341" selection-end="341" vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="1105">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/results_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="62" selection-start="648" selection-end="648" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
-          <folding>
-            <element signature="e#686#1330#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3603,9 +3462,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/student_answer_record.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="52" selection-start="2819" selection-end="2819" vertical-scroll-proportion="0.4273743" vertical-offset="816" max-vertical-offset="1275">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/pub_que_ps/pub_7/answers/student_2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="30" selection-start="56" selection-end="56" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
+          <folding>
+            <element signature="e#67#123#0" expanded="true" />
+            <element signature="e#148#254#1" expanded="true" />
+            <element signature="e#158#248#0" expanded="true" />
+            <element signature="e#191#247#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="558" column="32" selection-start="23721" selection-end="23747" vertical-scroll-proportion="0.4389439" vertical-offset="1060" max-vertical-offset="1666">
+          <folding>
+            <element signature="e#11813#15464#0" expanded="true" />
+            <element signature="e#22164#23083#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/question_packages/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="35" selection-start="1436" selection-end="1436" vertical-scroll-proportion="-14.384615" vertical-offset="0" max-vertical-offset="578">
+        <state line="22" column="35" selection-start="1436" selection-end="1436" vertical-scroll-proportion="0.6448276" vertical-offset="0" max-vertical-offset="580">
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -3613,14 +3501,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/pub_que_ps/pub_45/answers/student_2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="5" selection-start="150" selection-end="150" vertical-scroll-proportion="0.24717286" vertical-offset="0" max-vertical-offset="619">
+          <folding>
+            <element signature="e#44#150#1" expanded="true" />
+            <element signature="e#54#144#0" expanded="true" />
+            <element signature="e#87#143#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/question_packages_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="49" selection-start="2149" selection-end="2149" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1275">
+        <state line="71" column="6" selection-start="2546" selection-end="2546" vertical-scroll-proportion="0.81353134" vertical-offset="204" max-vertical-offset="1275">
           <folding>
             <element signature="e#179#749#0" expanded="true" />
-            <element signature="e#2419#2856#0" expanded="true" />
+            <element signature="e#1877#2248#0" expanded="true" />
             <element signature="e#3592#4102#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/teachers_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="619">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3635,13 +3541,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
+    <entry file="file://$PROJECT_DIR$/app/models/episode.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="511" column="35" selection-start="22216" selection-end="22226" vertical-scroll-proportion="0.58536583" vertical-offset="1910" max-vertical-offset="2822">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="371">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/question.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="48" selection-start="842" selection-end="842" vertical-scroll-proportion="0.0" vertical-offset="139" max-vertical-offset="510">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/question_package.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="26" selection-start="273" selection-end="273" vertical-scroll-proportion="0.36657682" vertical-offset="0" max-vertical-offset="371">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/results_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="67" selection-start="1504" selection-end="1504" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="986">
           <folding>
-            <element signature="e#3747#7777#0" expanded="true" />
-            <element signature="e#11813#15464#0" expanded="true" />
+            <element signature="e#93#936#0" expanded="true" />
+            <element signature="e#1845#2256#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/results/index.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="4" selection-start="1054" selection-end="1054" vertical-scroll-proportion="0.8192771" vertical-offset="0" max-vertical-offset="1173">
+          <folding />
         </state>
       </provider>
     </entry>

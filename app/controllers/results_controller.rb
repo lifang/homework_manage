@@ -7,7 +7,10 @@ class ResultsController < ApplicationController
     if @school_class
       @publish_packages = 
           PublishQuestionPackage.where(:school_class_id => @school_class.id).order("created_at desc")
-      @current_package = @publish_packages[0]    
+      @current_package = @publish_packages[0]
+      questions = QuestionPackage.get_one_package_questions(@current_package.question_package.id).group_by {|q| q.types }
+      @count_listening = questions[0].nil? ? 0 :  questions[0].length
+      @count_reading = questions[1].nil? ? 0 :  questions[1].length
       if @publish_packages.any?
         records = StudentAnswerRecord.ret_stuent_record(@school_class.id, @current_package.id)       
          @answerd_users = records[0]
@@ -23,8 +26,11 @@ class ResultsController < ApplicationController
       @publish_packages = 
           PublishQuestionPackage.where(:school_class_id => @school_class.id).order("created_at desc")
       @current_package = PublishQuestionPackage.find_by_id params[:id]
+      questions = QuestionPackage.get_one_package_questions(@current_package.question_package.id).group_by {|q| q.types }
+      @count_listening = questions[0].nil? ? 0 :  questions[0].length
+      @count_reading = questions[1].nil? ? 0 :  questions[1].length
       if @publish_packages.any? and @current_package
-        records = StudentAnswerRecord.ret_stuent_record(@school_class.id, @current_package.id)       
+        records = StudentAnswerRecord.ret_stuent_record(@school_class.id, @current_package.id)
          @answerd_users = records[0]
          @unanswerd_users = records[1]
          @question_package = @current_package.question_package

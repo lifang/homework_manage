@@ -11,12 +11,13 @@
               <div class="avater_default"><img src=<%=  @user.avatar_url%>/></div>
               <a href="javascript:void(0);" class="avater_a">
                 <span>点击更换头像</span>
-                <input type="file" name="file_upload" id="loading" onchange="validate_pic(this);" />  
+                <input type="file" name="file_upload" id="loading" onchange="validate_pic(this);" />
               </a>
             </li>
             <li><p ><%= @user.name %></p><input name="name" type="text" value="<%= @user.name %>"/></li>
             <li><p ><%= @teacher.email %></p><input name="email" type="text" value="<%= @teacher.email %>"/></li>
             <h1>
+              <button type="button" class="green_btn" onclick="show_update_password()">修改密码</button>
               <button type="submit" id="submit_file" class="green_btn">保存更新</button>
             </h1>
           <% end %>
@@ -64,6 +65,29 @@
       </ul>
     </div>
   </div>
+</div>
+
+<div class="tab update_password" style="display :none">
+  <span class="close">关闭</span>
+    <div class="tab_con">
+      <div class="tab_ul">
+        <ul>
+          <li>
+            <p>当前密码</p>
+            <input name="password_now" type="password"/>
+          </li>
+          <li>
+            <p>修改密码</p>
+            <input name="password_update" type="password"/>
+          </li>
+          <li>
+            <p>重复密码</p>
+            <input name="password_update_agin" type="password"/>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="tab_btn"><button class="green_btn" onclick="update_password(<%= @schoolclass.id %>)">确认</button></div>
 </div>
 
 <div class="tab created_new_class" style="display :none">

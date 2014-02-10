@@ -35,9 +35,9 @@ function create_school_class(school_class_id){
             success: function(data){
                 if(data.status==true){
                     message = data.notice;
-                    tishi(message);
                     $(".created_new_class").css("display","none");
-                    window.location.href="/school_classes/" + school_class_id + "/teachers/teacher_setting"
+                    tishi(message);
+                    setTimeout('window.location.href="/school_classes/" + school_class_id + "/teachers/teacher_setting"',2000)
                 //                    $(".create_success").show();
                 }else{
                     message = data.notice;
@@ -60,4 +60,39 @@ function check_nonempty(){
         tishi("邮箱格式不正确,请重新输入！");
         return false;
     }
+}
+function show_update_password(){
+    $(".update_password").show();
+}
+function update_password(school_class_id){
+    var password_now = $("input[name='password_now']").val();
+    var password_update = $("input[name='password_update']").val();
+    var password_update_agin = $("input[name='password_update_agin']").val();
+
+    if($.trim(password_update).length<6 || $.trim(password_update_agin).length<6){
+        tishi("密码长度不能小于6位数");
+        return false;
+    }
+    $.ajax({
+        url : "/school_classes/" + school_class_id + "/teachers/update_password",
+        type:'post',
+        dataType : 'json',
+        data : {
+            password_now : password_now,
+            password_update : password_update,
+            password_update_agin : password_update_agin
+        },
+        success: function(data){
+            if(data.status==true){
+                message = data.notice;
+                tishi(message);
+                $(".update_password").css("display","none");
+                setTimeout('window.location.href="/school_classes/" + school_class_id + "/teachers/teacher_setting"',2000)
+
+            }else{
+                message = data.notice;
+                tishi(message);
+            }
+        }
+    })
 }

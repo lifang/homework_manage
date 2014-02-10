@@ -104,4 +104,27 @@ class TeachersController < ApplicationController
     params[:school_class_id] = school_class_id
     redirect_to "/school_classes/#{params[:school_class_id].to_i}/main_pages"
   end
+  def update_password
+    password_now = params[:password_now].to_s   #当前密码
+    password_update = params[:password_update].to_s  #要修改的密码
+    password_update_agin = params[:password_update_agin].to_s #重新输入密码
+    if current_teacher && current_teacher.has_password?(password_now)
+      if password_update.eql?(password_update_agin)
+        Teacher.transaction do
+          current_teacher.update_attributes(:password => password_update_agin)
+          password = current_teacher.encrypt_password
+          current_teacher.update_attributes(:password => password)
+        end
+        notice = "密码修改成功！"
+        status = true
+      else
+        notice = "两次输入密码不一致！"
+        status = false
+      end
+    else
+      notice = "教师密码输入不正确！"
+      status = false
+    end
+    render :json => {:status => status, :notice => notice}
+  end
 end

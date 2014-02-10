@@ -107,7 +107,7 @@ class Api::StudentsController < ApplicationController
         if school_class.status == SchoolClass::STATUS[:EXPIRED] || (school_class.period_of_validity - Time.now) < 0
           school_classes = student.school_classes.where("status != #{SchoolClass::STATUS[:EXPIRED]} and TIMESTAMPDIFF(SECOND,now(),school_classes.period_of_validity) > 0")
           if school_classes && school_classes.length == 0
-            render :json => {:status => "error", :notice => "你上次访问的班级已失效！"}
+            render :json => {:status => "error", :notice => "上次访问的班级已失效！"}
           else
             school_class = school_classes.first
             class_id = school_class.id
@@ -122,7 +122,7 @@ class Api::StudentsController < ApplicationController
             daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
             messages = Message.get_my_messages school_class, student.user.id
             student.update_attributes(:last_visit_class_id => school_class.id)
-            render :json => {:status => "success", :notice => "登陆成功！",
+            render :json => {:status => "success", :notice => "登录成功！",
                              :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
                                           :nickname => student.nickname, :avatar_url => student.user.avatar_url},
                              :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
@@ -147,7 +147,7 @@ class Api::StudentsController < ApplicationController
           follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
           daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
           messages = Message.get_my_messages school_class, student.user.id
-          render :json => {:status => "success", :notice => "登陆成功！",
+          render :json => {:status => "success", :notice => "登录成功！",
                            :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
                                         :nickname => student.nickname, :avatar_url => student.user.avatar_url},
                            :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,

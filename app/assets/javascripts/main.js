@@ -286,8 +286,8 @@ function check_regist_info()
     var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
     name = $.trim($("#r_name").val());
     email = $.trim($("#r_email").val());
-    password = $.trim($("#r_password").val());
-    confirm_password = $.trim($("#r_confirm_password").val());
+    password = $("#r_password").val();
+    confirm_password = $("#r_confirm_password").val();
     if(name == "" || email == "" || password == "" || confirm_password == "")
         tishi("姓名、邮箱、密码、确认密码不能为空！");
     else
@@ -298,7 +298,10 @@ function check_regist_info()
         {
             if(password == confirm_password)
             {
-                $("#register_submit_button").click();
+                if(password.length >= 6 && password.length <= 20)
+                    $("#register_submit_button").click();
+                else
+                    tishi("密码、确认密码的长度在6-20之间，请重新输入");
             }
             else
                 tishi("两次密码不一致！");

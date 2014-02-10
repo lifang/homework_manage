@@ -4,6 +4,7 @@ require 'rexml/element'
 require 'rexml/parent'
 require 'will_paginate'
 require 'will_paginate/array'
+require 'time'
 include REXML
 include MethodLibsHelper
 class HomeworksController < ApplicationController
@@ -54,11 +55,11 @@ class HomeworksController < ApplicationController
   def publish_question_package
     question_package_id = params[:question_package_id]
     school_class_id = params[:school_class_id]
-    end_time = params[:end_time].to_s
-    time_now = Time.now
+    end_time = params[:end_time]
+    time_now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
     status = false
     notice = "发布失败！"
-    if (end_time.to_datetime - time_now.to_s.to_datetime) > 0
+    if (end_time <=> time_now) > 0
       teacher = Teacher.find_by_id cookies[:teacher_id]
       question_package = QuestionPackage.find_by_id question_package_id
       @school_class = SchoolClass.find_by_id school_class_id

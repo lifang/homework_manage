@@ -1,6 +1,7 @@
 //$("#reply_area").html('<%= j( render 'main_pages/questarea_box')%>');
 var box =$("#reply_area").children(".question_area_box");
 var html ='<%=j(render 'main_pages/reply')%>'
+$(box[<%=@index%>]).find(".answer_a").html("回复（"+<%=@reply_count%>+"）");
 $(box[<%=@index%>]).find(".reply_again_area").html(html);
 $(".question_area_con").hover(
 		function(){

@@ -98,6 +98,7 @@ class QuestionPackagesController < ApplicationController
     school_class = SchoolClass.find_by_id(school_class_id) if school_class_id
     teaching_material = school_class.teaching_material if school_class
     @cells = teaching_material.cells if teaching_material
+    p @cells
     @episodes = Episode.where(:cell_id => @cells.map(&:id)).group_by{|e| e.cell_id} if @cells
   end
 

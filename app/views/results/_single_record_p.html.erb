@@ -17,7 +17,7 @@
                 	<% questions["branch_questions"].each_with_index do |answer, index| %>                    	
                     	<tr>
                         	<td><%= index + 1 %></td>
-                            <td><%= answer["answer"].gsub("-!-", "  ") %></td>
+                            <td><%= answer["answer"].gsub("-!-", "  ").blank? ?  '_' : answer["answer"].gsub("-!-", "  ") %></td>
                     	</tr>
                     <% end %>
                 </tbody>
@@ -37,7 +37,7 @@
                 	<% questions["branch_questions"].each_with_index do |answer, index| %>                    	
                     	<tr>
                         	<td><%= index + 1 %></td>
-                            <td><%= answer["answer"].gsub("-!-", "  ") %></td>
+                            <td><%= answer["answer"].gsub("-!-", "  ").blank? ?  '_' : answer["answer"].gsub("-!-", "  ") %></td>
                     	</tr>
                     <% end %>
                 </tbody>

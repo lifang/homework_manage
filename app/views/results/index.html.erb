@@ -1,60 +1,64 @@
 <div class="rightSide">
-	<div class="main setPaddingLeft">
-    	<div class="article">
-        	<div class="work_info">
-            	<div class="work_info_head clearAfter">
-            		<% if @publish_packages and @current_package %>
-                  <a href="/school_classes/<%= school_class_id %>/question_packages/<%= @question_package.try(:id) %>?type=listen" class="work_h_one">点击查看</a>
-                  <a href="/school_classes/<%= school_class_id %>/question_packages/<%= @question_package.try(:id) %>?type=read" class="work_h_two">点击查看</a>
-                    <div class="work_head_time">
-                    	<p>布置时间：<%= @current_package.created_at.strftime("%Y-%m-%d    %H：%M") if @current_package.created_at %></p>
-                        <p>截止时间：<%= @current_package.end_time.strftime("%Y-%m-%d    %H：%M") if @current_package.end_time %></p>
-                    </div>
-                    <% end %>
-                </div>
-                <div class="work_info_body" id="all_students">
-                    <h1><span>完成情况</span></h1>
-                    <dl>
-                    	<dt>未完成：</dt>
-                        <% @unanswerd_users.each do |a_u| %>
-                        	<dd>
-                        		<a href="javascript:void(0)" 
-                        			onclick="show_single_record('<%= a_u.user_id %>_<%= a_u.id %>')">
-                            		<span><img src="<%= a_u.avatar_url %>"></span>
-                                	<p><%= a_u.name %></p>
-                                </a> 
-                            </dd>
-                        <% end if @unanswerd_users and @unanswerd_users.any? %>
-                    </dl>
-                    <dl>
-                         <dt>已完成：</dt>
-                         <% @answerd_users.each do |a_u| %>
-                         	<dd >
-                         	  <a href="javascript:void(0)" onclick="show_single_record('<%= a_u.user_id %>_<%= a_u.id %>')">
-                                 <span><img src="<%= a_u.avatar_url %>"></span>
-                                 <p><%= a_u.name %></p>
-                              </a>
-                            </dd>
-                         <% end if @answerd_users and @answerd_users.any? %>
-                    </dl>
-                </div>
-            	<div class="work_info_body" id="single_student" style="display:none">
-            	</div>
-            </div>
-        </div>
-        <div class="work_book">
-            <% if @publish_packages.any? %>
-                <ul>
-                	<% @publish_packages.each do |package| %>
-                    	<li>
-                    		<a href="/school_classes/<%= params[:school_class_id] %>/results/<%= package.id %>" 
-                    				<% if package.id == @current_package.id %>class="hover" <% end %>>
-                    			<%= package.created_at.strftime("%Y年%m月%d日") %>
-                    		</a>
-                    	</li>
-                    <% end %>
-                </ul>
+  <div class="main setPaddingLeft">
+    <div class="article">
+      <div class="work_info">
+        <div class="work_info_head clearAfter">
+          <% if @publish_packages and @current_package %>
+            <% if  @current_package.listening_count > 0 %>
+              <a href="/school_classes/<%= school_class_id %>/question_packages/<%= @question_package.try(:id) %>?type=listen" class="work_h_one">点击查看</a>
+            <%  end %>
+            <% if @current_package.reading_count > 0 %>
+              <a href="/school_classes/<%= school_class_id %>/question_packages/<%= @question_package.try(:id) %>?type=read" class="work_h_two">点击查看</a>
             <% end %>
-        </div>                    
-     </div>
+            <div class="work_head_time">
+              <p>布置时间：<%= @current_package.created_at.strftime("%Y-%m-%d    %H：%M") if @current_package.created_at %></p>
+              <p>截止时间：<%= @current_package.end_time.strftime("%Y-%m-%d    %H：%M") if @current_package.end_time %></p>
+            </div>
+          <% end %>
+        </div>
+        <div class="work_info_body" id="all_students">
+          <h1><span>完成情况</span></h1>
+          <dl>
+            <dt>未完成：</dt>
+            <% @unanswerd_users.each do |a_u| %>
+              <dd>
+                <a href="javascript:void(0)"
+                   onclick="show_single_record('<%= a_u.user_id %>_<%= a_u.id %>')">
+                  <span><img src="<%= a_u.avatar_url %>"/></span>
+                  <p><%= a_u.name %></p>
+                </a>
+              </dd>
+            <% end if @unanswerd_users and @unanswerd_users.any? %>
+          </dl>
+          <dl>
+            <dt>已完成：</dt>
+            <% @answerd_users.each do |a_u| %>
+              <dd >
+                <a href="javascript:void(0)" onclick="show_single_record('<%= a_u.user_id %>_<%= a_u.id %>')">
+                  <span><img src="<%= a_u.avatar_url %>"/></span>
+                  <p><%= a_u.name %></p>
+                </a>
+              </dd>
+            <% end if @answerd_users and @answerd_users.any? %>
+          </dl>
+        </div>
+        <div class="work_info_body" id="single_student" style="display:none">
+        </div>
+      </div>
+    </div>
+    <div class="work_book">
+      <% if @publish_packages.any? %>
+        <ul>
+          <% @publish_packages.each do |package| %>
+            <li>
+              <a href="/school_classes/<%= params[:school_class_id] %>/results/<%= package.id %>"
+                 <% if package.id == @current_package.id %>class="hover" <% end %>>
+                <%= package.created_at.strftime("%Y年%m月%d日") %>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+  </div>
 </div>            	             	            	           	

@@ -435,6 +435,11 @@ a.x {
 .work_info_head a.work_h_two { background: url(/assets/icon.png) no-repeat 0 -66px;}
 .work_info_head .work_head_time { float: left; color: #a5a2a3;}
 
+.work_info_head a.work_h_one { background: url(/assets/icon.png) no-repeat -44px -24px;}
+.work_info_head a.work_h_one:hover { background: url(/assets/icon.png) no-repeat 0 -24px;}
+.work_info_head a.work_h_two { background: url(/assets/icon.png) no-repeat 0 -66px;}
+.work_info_head .work_head_time { float: left; color: #a5a2a3;}
+
 .work_info_body { padding: 20px 0;}
 .work_info_body h1 { 
 	height: 30px; 

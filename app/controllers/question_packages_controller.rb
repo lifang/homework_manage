@@ -67,7 +67,6 @@ class QuestionPackagesController < ApplicationController
   #预览作业
   def show
     @question_pack = QuestionPackage.find_by_id(params[:id])
-    p @question_pack
     if params[:type].present?
       @questions = params[:type] == "listen" ? @question_pack.questions.listening : @question_pack.questions.reading
     else
@@ -99,7 +98,6 @@ class QuestionPackagesController < ApplicationController
     school_class = SchoolClass.find_by_id(school_class_id) if school_class_id
     teaching_material = school_class.teaching_material if school_class
     @cells = teaching_material.cells if teaching_material
-    p @cells
     @episodes = Episode.where(:cell_id => @cells.map(&:id)).group_by{|e| e.cell_id} if @cells
   end
 

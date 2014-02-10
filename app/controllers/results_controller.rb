@@ -38,7 +38,6 @@ class ResultsController < ApplicationController
     @user = User.find_by_id params[:user_id]
     answer_json = File.open("#{Rails.root}/public#{s_record.answer_file_url}").read if s_record and s_record.answer_file_url
     @package_json = ActiveSupport::JSON.decode(answer_json) if answer_json
-    p @package_json
     respond_to do |format|
       format.js
     end

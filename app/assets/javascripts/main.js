@@ -229,7 +229,7 @@ function check_value()
             if(password.length >= 6 && password.length <= 20)
                 $("#login_submit_button").click();
             else
-                tishi("密码长度在6-20个英文字符长度之间，请重新输入");
+                tishi("密码长度在6-20个字符长度之间，请重新输入");
         }
     }
 }
@@ -308,7 +308,7 @@ function check_regist_info()
                 if(password.length >= 6 && password.length <= 20)
                     $("#register_submit_button").click();
                 else
-                    tishi("密码、确认密码长度在6-20个英文字符长度之间，请重新输入");
+                    tishi("密码、确认密码长度在6-20个字符长度之间，请重新输入");
             }
             else
                 tishi("两次密码不一致！");

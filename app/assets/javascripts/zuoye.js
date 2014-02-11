@@ -51,65 +51,6 @@ $(function(){
             }
         }
         else{
-            count_line = 0;
-            count_unfinish_line = 0;
-            $(".book_box_table").find("table").find("tbody").find("tr").each(function(){
-                count_line += 1;
-                if($(this).attr("class"))
-                {
-                    if($(this).find("td").first().next().find("form"))
-                    {
-                        alert(333);
-                        if($(this).find("td").first().next().find("form").find("a").find("[type='file']"))
-                            count_unfinish_line += 1;
-                    }
-                    else
-                    {
-                        alert(444);
-                        if($(this).find("td").first().next().find("a").find("[type='file']"))
-                            count_unfinish_line += 1;
-                    }
-                }
-                else
-                {
-                    count_unfinish_line += 1;
-                }
-
-            })
-            alert(count_line);
-            alert(count_unfinish_line);
-            if(count_unfinish_line != 0)
-            {
-                if(count_line != 1)
-                {
-                    if((count_line - count_unfinish_line)==1)
-                    {
-                        all_li.removeClass("hover");
-                        ul_parent.find("ul").append("<li  class=\"question_li hover\" onclick=\"liHover(this)\"><a href=\"#\">" + (index +1) +".</a></li>");
-                        afterClickAddpage();
-                        $.ajax({
-                            url: "/question_packages/" + question_pack_id + "/render_new_question",
-                            type: "GET",
-                            dataType: "html",
-                            success:function(data){
-                                $(".book_box .steps").html(data);
-                                height_adjusting();
-                            },
-                            error:function(data){
-                                tishi(data)
-                            }
-                        })
-                    }
-                    else
-                        tishi("还有题目未编辑完成或未提交！");
-                }
-                else
-                {
-                    tishi("每题至少有一个小题！");
-                }
-            }
-            else
-            {
                 all_li.removeClass("hover");
                 ul_parent.find("ul").append("<li  class=\"question_li hover\" onclick=\"liHover(this)\"><a href=\"#\">" + (index +1) +".</a></li>");
                 afterClickAddpage();
@@ -126,7 +67,6 @@ $(function(){
                     }
                 })
             }
-        }
     });
 });
 

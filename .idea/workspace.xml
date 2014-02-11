@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/main.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -40,39 +37,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="zuoye.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="zuoye.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="77" column="14" selection-start="2824" selection-end="3695" vertical-scroll-proportion="0.0" vertical-offset="1048" max-vertical-offset="3179">
+            <state line="66" column="21" selection-start="3434" selection-end="3434" vertical-scroll-proportion="0.4832827" vertical-offset="912" max-vertical-offset="2159">
               <folding>
                 <element signature="e#2256#2707#0" expanded="true" />
                 <element signature="e#2463#2588#0" expanded="true" />
                 <element signature="e#2630#2689#0" expanded="true" />
-                <element signature="e#2899#3694#0" expanded="true" />
-                <element signature="e#4246#4785#0" expanded="true" />
-                <element signature="e#4485#4634#0" expanded="true" />
-                <element signature="e#4684#4759#0" expanded="true" />
-                <element signature="e#5298#5749#0" expanded="true" />
-                <element signature="e#5505#5630#0" expanded="true" />
-                <element signature="e#5672#5731#0" expanded="true" />
+                <element signature="e#3208#3333#0" expanded="true" />
+                <element signature="e#3375#3434#0" expanded="true" />
                 <element signature="n#!!block;n#afterClickAddpage#0" expanded="true" />
-                <marker date="1392100755520" expanded="true" signature="144:1513" placeholder="..." />
-                <marker date="1392100755520" expanded="true" signature="179:723" placeholder="..." />
-                <marker date="1392100755520" expanded="true" signature="238:684" placeholder="..." />
-                <marker date="1392100755520" expanded="true" signature="796:1483" placeholder="..." />
-                <marker date="1392100755520" expanded="true" signature="909:1444" placeholder="..." />
-                <marker date="1392100755520" expanded="true" signature="973:1191" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="222" column="8" selection-start="5865" selection-end="5865" vertical-scroll-proportion="0.69300914" vertical-offset="673" max-vertical-offset="2193">
-              <folding>
-                <element signature="n#!!block;n#check_regist_info#0" expanded="true" />
+                <marker date="1392102012496" expanded="true" signature="144:1513" placeholder="..." />
+                <marker date="1392102012496" expanded="true" signature="179:723" placeholder="..." />
+                <marker date="1392102012496" expanded="true" signature="238:684" placeholder="..." />
+                <marker date="1392102012496" expanded="true" signature="796:1483" placeholder="..." />
+                <marker date="1392102012496" expanded="true" signature="909:1444" placeholder="..." />
+                <marker date="1392102012496" expanded="true" signature="973:1191" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -222,8 +203,8 @@
         <option value="$PROJECT_DIR$/app/views/results/index.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/results_controller.rb" />
         <option value="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/main.js" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
       </list>
     </option>
   </component>
@@ -3671,36 +3652,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="14" selection-start="2824" selection-end="3695" vertical-scroll-proportion="0.0" vertical-offset="1048" max-vertical-offset="3179">
+        <state line="211" column="2" selection-start="5535" selection-end="5535" vertical-scroll-proportion="1.5197568" vertical-offset="214" max-vertical-offset="2193">
           <folding>
-            <element signature="e#2256#2707#0" expanded="true" />
-            <element signature="e#2463#2588#0" expanded="true" />
-            <element signature="e#2630#2689#0" expanded="true" />
-            <element signature="e#2899#3694#0" expanded="true" />
-            <element signature="e#4246#4785#0" expanded="true" />
-            <element signature="e#4485#4634#0" expanded="true" />
-            <element signature="e#4684#4759#0" expanded="true" />
-            <element signature="e#5298#5749#0" expanded="true" />
-            <element signature="e#5505#5630#0" expanded="true" />
-            <element signature="e#5672#5731#0" expanded="true" />
-            <element signature="n#!!block;n#afterClickAddpage#0" expanded="true" />
-            <marker date="1392100755520" expanded="true" signature="144:1513" placeholder="..." />
-            <marker date="1392100755520" expanded="true" signature="179:723" placeholder="..." />
-            <marker date="1392100755520" expanded="true" signature="238:684" placeholder="..." />
-            <marker date="1392100755520" expanded="true" signature="796:1483" placeholder="..." />
-            <marker date="1392100755520" expanded="true" signature="909:1444" placeholder="..." />
-            <marker date="1392100755520" expanded="true" signature="973:1191" placeholder="..." />
+            <element signature="n#!!block;n#check_value#0" expanded="true" />
+            <element signature="n#!!block;n#check_regist_info#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="222" column="8" selection-start="5865" selection-end="5865" vertical-scroll-proportion="0.69300914" vertical-offset="673" max-vertical-offset="2193">
+        <state line="66" column="21" selection-start="3434" selection-end="3434" vertical-scroll-proportion="0.4832827" vertical-offset="912" max-vertical-offset="2159">
           <folding>
-            <element signature="n#!!block;n#check_regist_info#0" expanded="true" />
+            <element signature="e#2256#2707#0" expanded="true" />
+            <element signature="e#2463#2588#0" expanded="true" />
+            <element signature="e#2630#2689#0" expanded="true" />
+            <element signature="e#3208#3333#0" expanded="true" />
+            <element signature="e#3375#3434#0" expanded="true" />
+            <element signature="n#!!block;n#afterClickAddpage#0" expanded="true" />
+            <marker date="1392102012496" expanded="true" signature="144:1513" placeholder="..." />
+            <marker date="1392102012496" expanded="true" signature="179:723" placeholder="..." />
+            <marker date="1392102012496" expanded="true" signature="238:684" placeholder="..." />
+            <marker date="1392102012496" expanded="true" signature="796:1483" placeholder="..." />
+            <marker date="1392102012496" expanded="true" signature="909:1444" placeholder="..." />
+            <marker date="1392102012496" expanded="true" signature="973:1191" placeholder="..." />
           </folding>
         </state>
       </provider>

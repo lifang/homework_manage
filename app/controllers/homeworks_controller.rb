@@ -27,10 +27,12 @@ class HomeworksController < ApplicationController
     if !publish_question_package.nil?
       questions_file_dir = "#{base_url}/que_ps/question_p_#{publish_question_package.question_package_id}"
       FileUtils.remove_dir questions_file_dir if File.exist? questions_file_dir
-      if publish_question_package.task_message.destroy
-        #删除学生答题记录
+      if publish_question_package.task_message && publish_question_package.task_message.destroy
         student_answer_record_dir = "#{base_url}/pub_que_ps/pub_#{publish_question_package.id}"
+        #删除答题文件
         FileUtils.remove_dir student_answer_record_dir if Dir.exist? student_answer_record_dir
+        #删除答题记录
+        StudentAnswerRecord.delete_all("question_package_id = #{publish_question_package.question_package.id}")
         #作业删除文件夹开始
         delete_question_package_folder(publish_question_package.question_package)
         #作业删除文件夹结束
@@ -40,9 +42,11 @@ class HomeworksController < ApplicationController
         notice = "任务删除成功！"
         @publish_question_packages = Teacher.get_publish_question_packages @school_class.id, page
       else
-        status = false
-        notice = "任务删除失败！"
+        notice = "任务删除失败，任务消息为空！"
       end
+    else
+      status = false
+      notice = "任务删除失败！"
     end
     @info = {:status => status, :notice => notice}
   end

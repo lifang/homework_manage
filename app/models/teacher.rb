@@ -1,5 +1,6 @@
 #encoding: utf-8
 require 'digest/sha2'
+require 'will_paginate/array'
 class Teacher < ActiveRecord::Base
   attr_protected :authentications
   has_many :school_classes, :dependent => :destroy

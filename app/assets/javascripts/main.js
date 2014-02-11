@@ -384,3 +384,4 @@ function validate_pic(obj)
         $(obj).val("");
     }
 }
+

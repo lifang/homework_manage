@@ -14,6 +14,7 @@ function create_school_class(school_class_id){
     var class_name = $("input[name='class_name']").val();
     var period_of_validity = $("input[name='period_of_validity']").val();
     var message;
+    alert(school_class_id)
     if (class_name==""){
         message = "请输入班级名称"
         tishi(message);
@@ -37,7 +38,8 @@ function create_school_class(school_class_id){
                     message = data.notice;
                     $(".created_new_class").css("display","none");
                     tishi(message);
-                    setTimeout('window.location.href="/school_classes/" + school_class_id + "/teachers/teacher_setting"',2000)
+                    setTimeout('',2000);
+                    window.location.href="/school_classes/" + school_class_id + "/teachers/teacher_setting";
                 //                    $(".create_success").show();
                 }else{
                     message = data.notice;
@@ -87,7 +89,8 @@ function update_password(school_class_id){
                 message = data.notice;
                 tishi(message);
                 $(".update_password").css("display","none");
-                setTimeout('window.location.href="/school_classes/" + school_class_id + "/teachers/teacher_setting"',2000)
+                setTimeout('',2000)
+                window.location.href="/school_classes/" + school_class_id + "/teachers/teacher_setting";
 
             }else{
                 message = data.notice;

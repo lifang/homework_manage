@@ -55,8 +55,8 @@ class QuestionPackagesController < ApplicationController
     if question_package && params[:question_package][:name]
       question_package.update_attribute(:name, params[:question_package][:name])
     end
-    redirect_to school_class_question_package_questions_path(school_class_id, question_package)
-    #redirect_to school_class_homeworks_path()
+    #redirect_to school_class_question_package_questions_path(school_class_id, question_package)
+    redirect_to school_class_homeworks_path()
   end
 
   def render_new_question

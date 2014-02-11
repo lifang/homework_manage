@@ -51,22 +51,60 @@ $(function(){
             }
         }
         else{
-                all_li.removeClass("hover");
-                ul_parent.find("ul").append("<li  class=\"question_li hover\" onclick=\"liHover(this)\"><a href=\"#\">" + (index +1) +".</a></li>");
-                afterClickAddpage();
-                $.ajax({
-                    url: "/question_packages/" + question_pack_id + "/render_new_question",
-                    type: "GET",
-                    dataType: "html",
-                    success:function(data){
-                        $(".book_box .steps").html(data);
-                        height_adjusting();
-                    },
-                    error:function(data){
-                        tishi(data)
+            var count_line = 0;
+            var count_finish_line = 0;
+            $("div.book_box_table").find("table").find("tbody").find("tr").each(function(){
+                count_line += 1;
+//                alert("line:"+count_line);
+                if($(this).attr("class"))
+                {
+                    if($(this).find("td").eq(1).find("form").length>0)
+                    {
+                        if($(this).find("td").eq(1).find("form").find("a").find("audio").length>0)
+                        {
+                            count_finish_line += 1;
+                        }
+                        else
+                        {}
                     }
-                })
+                    else{}
+                }
+                else{}
+
+            });
+//            alert(count_line);
+//            alert(count_finish_line);
+            if(count_line != 1)
+            {
+                if(count_finish_line == (count_line-1))
+                {
+                    all_li.removeClass("hover");
+                    ul_parent.find("ul").append("<li  class=\"question_li hover\" onclick=\"liHover(this)\"><a href=\"#\">" + (index +1) +".</a></li>");
+                    afterClickAddpage();
+                    $.ajax({
+                        url: "/question_packages/" + question_pack_id + "/render_new_question",
+                        type: "GET",
+                        dataType: "html",
+                        success:function(data){
+                            $(".book_box .steps").html(data);
+                            height_adjusting();
+                        },
+                        error:function(data){
+                            tishi(data)
+                        }
+                    })
+                }
+                else
+                    tishi("有"+ (count_line-count_finish_line-1) +"题未编辑完成或未上传音频,请完成编辑！");
             }
+            else
+            {
+                if(count_finish_line == 0)
+                {
+                    tishi("每题至少有一个小题！");
+                }
+            }
+        }
     });
 });
 

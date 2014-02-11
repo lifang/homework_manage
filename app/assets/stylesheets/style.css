@@ -193,11 +193,23 @@ a.x {
 	background: url(/assets/nav_icon.png) no-repeat 0px -61px; 
 	padding-left: 30px;
 }
-.nav03 { background: url(/assets/nav_icon.png) no-repeat 0px -80px; padding-left: 30px;}
-.nav li a:hover .nav03, .nav li a.hover .nav03 { 
-	background: url(/assets/nav_icon.png) no-repeat 0px -100px; 
-	padding-left: 30px;
+.nav03 { background: url(/assets/nav_icon.png) no-repeat 0px -80px; padding-left: 30px; position: relative;}
+.nav li a:hover .nav03, .nav li a.hover .nav03 {
+    background: url(/assets/nav_icon.png) no-repeat 0px -100px;
+    padding-left: 30px;
 }
+
+.nav03 i.nms {
+    width: 5px;
+    height: 5px;
+    background: #F00;
+    border-radius: 50%;
+    display: block;
+    text-indent: -999px;
+    overflow: hidden;
+    position: absolute; top: 0px; right: -5px;
+}
+
 .nav04 { background: url(/assets/nav_icon.png) no-repeat 0px -120px; padding-left: 30px;}
 .nav li a:hover .nav04, .nav li a.hover .nav04 { 
 	background: url(/assets/nav_icon.png) no-repeat 0px -140px; 
@@ -356,7 +368,7 @@ a.x {
 .question_area_box .avater img { width: 50px; height: 50px;}
 .question_area_con { padding: 0 10px; position: relative; margin-left: 60px;}
 .avater_name a { color: #92b81b;}
-.question_text_func { padding: 10px;}
+.question_text_func { padding: 10px 0;}
 .question_text_func .time { color: #a4a2a2;}
 .question_text_func .answer_a { color: #92b81b; float: right; margin-left: 20px;}
 
@@ -377,9 +389,8 @@ a.x {
 .grade_box .name { text-align: center; line-height: 24px; color: #FFF;}
 
 .grade_con { color: #FFF;}
-.grade_con h1 { font-size: 16px; text-align: center;}
-.grade_con h2 { font-size: 16px; text-align: center; border-bottom: 1px solid #454643; height: 30px;}
-
+.grade_con h1 { font-size: 16px; text-align: center; line-height:32px;}
+.grade_con h2 { font-size: 16px; text-align: center; border-bottom: 1px solid #454643; line-height: 32px;}
 .grade_con ul { display: block; overflow: hidden; width: 210px; margin: 0 auto;}
 .grade_con li { float: left; margin: 10px; position: relative; width: 50px;}
 

@@ -387,3 +387,39 @@ function validate_pic(obj)
     }
 }
 
+//刷新消息
+function reload_messages(class_id,user_id)
+{
+//    alert(class_id);
+    $.ajax({
+        async:true,
+        dataType:'json',
+        data:{
+            school_class_id : class_id,
+            user_id : user_id
+        },
+        url:"/api/students/get_teacher_messages",
+        type:'get',
+        success : function(data) {
+            if(data.messages.length <= 0)
+            {
+                $(".nav03 .nms").hide();
+            }
+            else
+            {
+                $(".nav03 .nms").show();
+            }
+        }
+//            if (data != null && data != undefined) {
+//                $(car_brands +" option").remove();
+//                $(car_brands).append("<option value=''>--</option>");
+//                $(car_models +" option").remove();
+//                $(car_models).append("<option value=''>--</option>");
+//                for (var i=0; i<data.length; i++) {
+//                    $(car_brands).append("<option value='"+ data[i].id + "'>"+ data[i].name + "</option>");
+//                }
+//            }
+//        }
+    })
+}
+

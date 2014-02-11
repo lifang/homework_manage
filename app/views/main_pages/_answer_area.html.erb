@@ -5,7 +5,7 @@
   <input type="hidden" value="<%=@micropost.user_types%>" />
   <input type="hidden" value="<%=current_teacher.user_id%>" />
   <div class="ask_area_textarea"><textarea cols="" rows=""></textarea></div>
-  <div class="ask_area_btn"><button class="green_btn" onclick="main_reply(this)">发布</button></div>
+  <div class="ask_area_btn"><button class="green_btn" onclick="main_reply(this)">回复</button></div>
 </div>
 <div class="reply_again_area" >
   <%  @repiles.each do |reply|%>
@@ -33,6 +33,6 @@
   <input type="hidden" value="" />
   <input type="hidden" value="" />
   <input type="hidden" value="<%=current_teacher.user_id%>" />
-  <div class="ask_area_textarea"><textarea cols="" rows=""></textarea></div>
-  <div class="ask_area_btn"><button class="green_btn" onclick="main_reply(this)">发布</button></div>
+  <div class="ask_area textarea" style="width: 90%; margin-left: 10%;"><textarea cols="" rows=""></textarea></div>
+  <div class="ask_area_btn"><button class="green_btn" onclick="main_reply(this)">回复</button></div>
 </div>

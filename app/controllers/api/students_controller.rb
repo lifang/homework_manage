@@ -662,6 +662,39 @@ class Api::StudentsController < ApplicationController
     render :json => {:status => status, :notice => notice, :messages => messages}
   end
 
+  #获取教师的提示消息
+  def get_teacher_messages
+    user_id = params[:user_id].to_i
+    school_class_id = params[:school_class_id]
+    user = User.find_by_id user_id
+    school_class = SchoolClass.find_by_id school_class_id
+    teacher = user.teacher if !user.nil?
+    if user.nil? || school_class.nil?
+      notice = "用户信息错误!"
+      status = "error"
+    else
+      if teacher.nil?
+        notice = "用户信息错误!"
+        status = "error"
+      else
+        if user_id != 0
+          messages = Message.get_my_messages school_class, user_id
+          if messages.length == 0
+            status = "success"
+            notice = "暂无消息!"
+          else
+            status = "success"
+            notice = "获取完成!"
+          end
+        else
+          status = "error"
+          notice = "参数错误!"
+        end
+      end
+    end
+    render :json => {:status => status, :notice => notice, :messages => messages}
+  end
+
   #阅读我的提示消息
   def read_message
     user_id = params[:user_id]

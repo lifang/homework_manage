@@ -225,10 +225,10 @@ function check_value()
             tishi('邮箱格式不正确,请重新输入！');
         else
         {
-//            if(password.length >= 6 && password.length <= 20)
+            if(password.length >= 6 && password.length <= 20)
                 $("#login_submit_button").click();
-//            else
-//                tishi("密码长度在6-20个英文字符长度之间，请重新输入");
+            else
+                tishi("密码长度在6-20个英文字符长度之间，请重新输入");
         }
     }
 }

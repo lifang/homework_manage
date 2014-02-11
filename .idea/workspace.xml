@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/main.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,10 +29,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="question_packages_controller.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="question_packages_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/question_packages_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="12" selection-start="1887" selection-end="1887" vertical-scroll-proportion="0.047486033" vertical-offset="867" max-vertical-offset="2074">
+            <state line="60" column="0" selection-start="2249" selection-end="2249" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="2074">
               <folding>
                 <element signature="e#179#749#0" expanded="true" />
                 <element signature="e#755#809#0" expanded="true" />
@@ -43,6 +44,15 @@
                 <element signature="e#3234#3567#0" expanded="true" />
                 <element signature="e#3571#4081#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="231" column="9" selection-start="6137" selection-end="6137" vertical-scroll-proportion="0.69300914" vertical-offset="826" max-vertical-offset="1734">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -198,12 +208,12 @@
         <option value="$PROJECT_DIR$/public/pub_que_ps/pub_7/answers/student_2.js" />
         <option value="$PROJECT_DIR$/app/models/question_package.rb" />
         <option value="$PROJECT_DIR$/app/views/homeworks/index.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/main.js" />
         <option value="$PROJECT_DIR$/app/models/teacher.rb" />
         <option value="$PROJECT_DIR$/app/views/results/index.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/results_controller.rb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
         <option value="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/main.js" />
       </list>
     </option>
   </component>
@@ -3265,7 +3275,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.44677418" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5096774" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -3320,7 +3330,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/welcome/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="13" selection-start="644" selection-end="644" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="680" />
+        <state line="11" column="13" selection-start="644" selection-end="644" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="680">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/main_pages/_grade_box.html.erb">
@@ -3413,7 +3425,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/homeworks/_publish_tasks_list.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="138" selection-start="1049" selection-end="1049" vertical-scroll-proportion="-0.16369048" vertical-offset="395" max-vertical-offset="731" />
+        <state line="20" column="138" selection-start="1049" selection-end="1049" vertical-scroll-proportion="-0.16369048" vertical-offset="395" max-vertical-offset="731">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/images/sort.png">
@@ -3513,13 +3527,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="231" column="9" selection-start="6143" selection-end="6143" vertical-scroll-proportion="0.66480446" vertical-offset="816" max-vertical-offset="1853">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/question_package.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="26" selection-start="273" selection-end="273" vertical-scroll-proportion="0.36657682" vertical-offset="0" max-vertical-offset="371">
@@ -3529,7 +3536,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/homeworks/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="83" selection-start="154" selection-end="154" vertical-scroll-proportion="0.15361446" vertical-offset="0" max-vertical-offset="578" />
+        <state line="3" column="83" selection-start="154" selection-end="154" vertical-scroll-proportion="0.15361446" vertical-offset="0" max-vertical-offset="578">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/question_packages/_three_step.html.erb">
@@ -3617,7 +3626,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/question_packages_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="12" selection-start="1887" selection-end="1887" vertical-scroll-proportion="0.047486033" vertical-offset="867" max-vertical-offset="2074">
+        <state line="60" column="0" selection-start="2249" selection-end="2249" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="2074">
           <folding>
             <element signature="e#179#749#0" expanded="true" />
             <element signature="e#755#809#0" expanded="true" />
@@ -3629,6 +3638,13 @@
             <element signature="e#3234#3567#0" expanded="true" />
             <element signature="e#3571#4081#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="231" column="9" selection-start="6137" selection-end="6137" vertical-scroll-proportion="0.69300914" vertical-offset="826" max-vertical-offset="1734">
+          <folding />
         </state>
       </provider>
     </entry>

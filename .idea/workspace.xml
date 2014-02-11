@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/images/sago.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/images/sort0.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/images/icon.png" afterPath="$PROJECT_DIR$/app/assets/images/icon.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/images/login_bg.jpg" afterPath="$PROJECT_DIR$/app/assets/images/login_bg.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/results/_single_record_p.html.erb" afterPath="$PROJECT_DIR$/app/views/results/_single_record_p.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/results/index.html.erb" afterPath="$PROJECT_DIR$/app/views/results/index.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/main.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/results_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/results_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/style.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/teachers.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/teachers.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,7 +15,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/homework_manage@Development__homework_manage.coverage" NAME="Development: homework_manage Coverage Results" MODIFIED="1392083037544" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="homework_manage" />
+    <SUITE FILE_PATH="coverage/homework_manage@Development__homework_manage.coverage" NAME="Development: homework_manage Coverage Results" MODIFIED="1392087207229" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="homework_manage" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -42,8 +32,18 @@
       <file leaf-file-name="question_packages_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/question_packages_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="25" selection-start="2275" selection-end="2275" vertical-scroll-proportion="0.0" vertical-offset="1037" max-vertical-offset="2074">
-              <folding />
+            <state line="103" column="98" selection-start="3667" selection-end="3667" vertical-scroll-proportion="0.0" vertical-offset="645" max-vertical-offset="2074">
+              <folding>
+                <element signature="e#179#749#0" expanded="true" />
+                <element signature="e#755#809#0" expanded="true" />
+                <element signature="e#841#1873#0" expanded="true" />
+                <element signature="e#1877#2248#0" expanded="true" />
+                <element signature="e#2252#2407#0" expanded="true" />
+                <element signature="e#2419#2835#0" expanded="true" />
+                <element signature="e#2847#3205#0" expanded="true" />
+                <element signature="e#3234#3567#0" expanded="true" />
+                <element signature="e#3571#4081#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -57,25 +57,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="zuoye.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="zuoye.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="58" column="0" selection-start="2964" selection-end="2964" vertical-scroll-proportion="0.0" vertical-offset="884" max-vertical-offset="2397">
+            <state line="78" column="38" selection-start="3775" selection-end="3775" vertical-scroll-proportion="0.5251397" vertical-offset="1087" max-vertical-offset="2159">
               <folding>
+                <element signature="e#1556#3477#0" expanded="true" />
+                <element signature="e#1616#3473#0" expanded="true" />
                 <element signature="e#2256#2707#0" expanded="true" />
                 <element signature="e#2463#2588#0" expanded="true" />
                 <element signature="e#2630#2689#0" expanded="true" />
-                <element signature="e#2861#2962#0" expanded="true" />
-                <element signature="e#3344#3795#0" expanded="true" />
-                <element signature="e#3551#3676#0" expanded="true" />
-                <element signature="e#3718#3777#0" expanded="true" />
-                <element signature="n#!!block;n#afterClickAddpage#0" expanded="true" />
-                <marker date="1392083925301" expanded="true" signature="144:1513" placeholder="..." />
-                <marker date="1392083925301" expanded="true" signature="179:723" placeholder="..." />
-                <marker date="1392083925301" expanded="true" signature="238:684" placeholder="..." />
-                <marker date="1392083925301" expanded="true" signature="796:1483" placeholder="..." />
-                <marker date="1392083925301" expanded="true" signature="909:1444" placeholder="..." />
-                <marker date="1392083925301" expanded="true" signature="973:1191" placeholder="..." />
+                <element signature="e#3001#3452#0" expanded="true" />
+                <element signature="e#3208#3333#0" expanded="true" />
+                <element signature="e#3375#3434#0" expanded="true" />
+                <marker date="1392099329777" expanded="true" signature="144:1513" placeholder="..." />
+                <marker date="1392099329777" expanded="true" signature="179:723" placeholder="..." />
+                <marker date="1392099329777" expanded="true" signature="238:684" placeholder="..." />
+                <marker date="1392099329777" expanded="true" signature="796:1483" placeholder="..." />
+                <marker date="1392099329777" expanded="true" signature="909:1444" placeholder="..." />
+                <marker date="1392099329777" expanded="true" signature="973:1191" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -105,7 +105,7 @@
       <file leaf-file-name="index.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/results/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="36" selection-start="1694" selection-end="1694" vertical-scroll-proportion="-22.23077" vertical-offset="0" max-vertical-offset="1292">
+            <state line="34" column="36" selection-start="1694" selection-end="1694" vertical-scroll-proportion="-16.346153" vertical-offset="153" max-vertical-offset="1292">
               <folding>
                 <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="e#2737#2899#0" expanded="true" />
@@ -114,10 +114,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="results_controller.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="results_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/results_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="24" selection-start="1346" selection-end="1346" vertical-scroll-proportion="0.5231023" vertical-offset="278" max-vertical-offset="884">
+            <state line="35" column="24" selection-start="1346" selection-end="1346" vertical-scroll-proportion="0.0" vertical-offset="278" max-vertical-offset="884">
               <folding>
                 <element signature="e#93#675#0" expanded="true" />
                 <element signature="e#681#1318#0" expanded="true" />
@@ -190,10 +190,10 @@
         <option value="$PROJECT_DIR$/app/views/homeworks/index.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/main.js" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
         <option value="$PROJECT_DIR$/app/models/teacher.rb" />
         <option value="$PROJECT_DIR$/app/views/results/index.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/results_controller.rb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
       </list>
     </option>
   </component>
@@ -534,6 +534,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javascripts" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3244,9 +3266,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="24" width="1368" height="745" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="true" weight="0.516129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.516129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.3532258" sideWeight="0.5" order="9" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.22507553" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -3255,7 +3277,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5096774" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -3511,9 +3533,7 @@
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="231" column="9" selection-start="6143" selection-end="6143" vertical-scroll-proportion="0.66480446" vertical-offset="816" max-vertical-offset="1853">
-          <folding>
-            <element signature="n#!!block;n#validate_pic#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3529,13 +3549,6 @@
         <state line="3" column="83" selection-start="154" selection-end="154" vertical-scroll-proportion="0.15361446" vertical-offset="0" max-vertical-offset="578" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/question_packages_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="25" selection-start="2275" selection-end="2275" vertical-scroll-proportion="0.0" vertical-offset="1037" max-vertical-offset="2074">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/question_packages/_three_step.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="56" column="23" selection-start="1863" selection-end="1869" vertical-scroll-proportion="2.8674698" vertical-offset="0" max-vertical-offset="1530">
@@ -3547,28 +3560,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="22" selection-start="447" selection-end="447" vertical-scroll-proportion="0.0" vertical-offset="35" max-vertical-offset="680">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="0" selection-start="2964" selection-end="2964" vertical-scroll-proportion="0.0" vertical-offset="884" max-vertical-offset="2397">
-          <folding>
-            <element signature="e#2256#2707#0" expanded="true" />
-            <element signature="e#2463#2588#0" expanded="true" />
-            <element signature="e#2630#2689#0" expanded="true" />
-            <element signature="e#2861#2962#0" expanded="true" />
-            <element signature="e#3344#3795#0" expanded="true" />
-            <element signature="e#3551#3676#0" expanded="true" />
-            <element signature="e#3718#3777#0" expanded="true" />
-            <element signature="n#!!block;n#afterClickAddpage#0" expanded="true" />
-            <marker date="1392083925301" expanded="true" signature="144:1513" placeholder="..." />
-            <marker date="1392083925301" expanded="true" signature="179:723" placeholder="..." />
-            <marker date="1392083925301" expanded="true" signature="238:684" placeholder="..." />
-            <marker date="1392083925301" expanded="true" signature="796:1483" placeholder="..." />
-            <marker date="1392083925301" expanded="true" signature="909:1444" placeholder="..." />
-            <marker date="1392083925301" expanded="true" signature="973:1191" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3589,9 +3580,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/question_packages_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="103" column="98" selection-start="3667" selection-end="3667" vertical-scroll-proportion="0.0" vertical-offset="645" max-vertical-offset="2074">
+          <folding>
+            <element signature="e#179#749#0" expanded="true" />
+            <element signature="e#755#809#0" expanded="true" />
+            <element signature="e#841#1873#0" expanded="true" />
+            <element signature="e#1877#2248#0" expanded="true" />
+            <element signature="e#2252#2407#0" expanded="true" />
+            <element signature="e#2419#2835#0" expanded="true" />
+            <element signature="e#2847#3205#0" expanded="true" />
+            <element signature="e#3234#3567#0" expanded="true" />
+            <element signature="e#3571#4081#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/results_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="24" selection-start="1346" selection-end="1346" vertical-scroll-proportion="0.0" vertical-offset="278" max-vertical-offset="884">
+          <folding>
+            <element signature="e#93#675#0" expanded="true" />
+            <element signature="e#681#1318#0" expanded="true" />
+            <element signature="e#1324#1735#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/results/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="36" selection-start="1694" selection-end="1694" vertical-scroll-proportion="-22.23077" vertical-offset="0" max-vertical-offset="1292">
+        <state line="34" column="36" selection-start="1694" selection-end="1694" vertical-scroll-proportion="-16.346153" vertical-offset="153" max-vertical-offset="1292">
           <folding>
             <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="e#2737#2899#0" expanded="true" />
@@ -3599,13 +3618,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/results_controller.rb">
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="24" selection-start="1346" selection-end="1346" vertical-scroll-proportion="0.5231023" vertical-offset="278" max-vertical-offset="884">
+        <state line="78" column="38" selection-start="3775" selection-end="3775" vertical-scroll-proportion="0.5251397" vertical-offset="1087" max-vertical-offset="2159">
           <folding>
-            <element signature="e#93#675#0" expanded="true" />
-            <element signature="e#681#1318#0" expanded="true" />
-            <element signature="e#1324#1735#0" expanded="true" />
+            <element signature="e#1556#3477#0" expanded="true" />
+            <element signature="e#1616#3473#0" expanded="true" />
+            <element signature="e#2256#2707#0" expanded="true" />
+            <element signature="e#2463#2588#0" expanded="true" />
+            <element signature="e#2630#2689#0" expanded="true" />
+            <element signature="e#3001#3452#0" expanded="true" />
+            <element signature="e#3208#3333#0" expanded="true" />
+            <element signature="e#3375#3434#0" expanded="true" />
+            <marker date="1392099329777" expanded="true" signature="144:1513" placeholder="..." />
+            <marker date="1392099329777" expanded="true" signature="179:723" placeholder="..." />
+            <marker date="1392099329777" expanded="true" signature="238:684" placeholder="..." />
+            <marker date="1392099329777" expanded="true" signature="796:1483" placeholder="..." />
+            <marker date="1392099329777" expanded="true" signature="909:1444" placeholder="..." />
+            <marker date="1392099329777" expanded="true" signature="973:1191" placeholder="..." />
           </folding>
         </state>
       </provider>

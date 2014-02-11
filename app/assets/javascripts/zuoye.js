@@ -51,17 +51,6 @@ $(function(){
             }
         }
         else{
-            count_line = 0
-            $(".book_box_table").find("table").find("tbody").find("tr").each(function(){
-                count_line += 1
-                $(this).css("backgroundColor","red");
-            })
-            if(count_line == 1)
-            {
-                alert(count_line);
-            }
-            else
-            {
                 all_li.removeClass("hover");
                 ul_parent.find("ul").append("<li  class=\"question_li hover\" onclick=\"liHover(this)\"><a href=\"#\">" + (index +1) +".</a></li>");
                 afterClickAddpage();
@@ -78,10 +67,7 @@ $(function(){
                     }
                 })
             }
-        }
     });
-
-    
 });
 
 function afterClickAddpage(){

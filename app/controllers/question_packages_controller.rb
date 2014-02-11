@@ -113,5 +113,4 @@ class QuestionPackagesController < ApplicationController
     status = @question_pack && @question
     status
   end
-  
 end

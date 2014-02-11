@@ -216,7 +216,8 @@ function check_value()
 {
     var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
     email = $.trim($("#email").val());
-    password = $.trim($("#password").val());
+    $("#email").val(email);
+    password = $("#password").val();
     if(email == "" || password == "")
         tishi('邮箱或密码不能为空！');
     else
@@ -291,6 +292,7 @@ function check_regist_info()
     var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
     name = $.trim($("#r_name").val());
     email = $.trim($("#r_email").val());
+    $("#r_email").val(email);
     password = $("#r_password").val();
     confirm_password = $("#r_confirm_password").val();
     if(name == "" || email == "" || password == "" || confirm_password == "")

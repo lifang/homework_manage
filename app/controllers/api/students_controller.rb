@@ -47,11 +47,16 @@ class Api::StudentsController < ApplicationController
   def add_concern
     user_id = params[:user_id].to_i
     micropost_id = params[:micropost_id].to_i
-    followmicropost = FollowMicropost.new(:user_id => user_id, :micropost_id => micropost_id)
-    if followmicropost.save
-      render :json => {:status => 'success', :notice => '关注添加成功'}
+    followmicropost = FollowMicropost.find_by_user_id_and_micropost_id(user_id,micropost_id)
+    if followmicropost.nil?
+      followmicropost = FollowMicropost.new(:user_id => user_id, :micropost_id => micropost_id)
+      if followmicropost.save
+        render :json => {:status => 'success', :notice => '关注添加成功'}
+      else
+        render :json => {:status => 'error', :notice => '关注添加失败'}
+      end
     else
-      render :json => {:status => 'error', :notice => '关注添加失败'}
+      render :json => {:status => 'success', :notice => '该消息您已关注，请勿重复提交关注！'}
     end
   end
   #  取消关注

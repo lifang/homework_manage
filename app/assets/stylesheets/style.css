@@ -43,7 +43,12 @@ a.x {
 
 .wrap { width: 100%; height: 100%;}
 /*-----------------登录---------------------------*/
-.login_bg { background: url(/assets/login_bg.jpg) no-repeat center top; height: 437px; overflow: hidden;}
+.login_bg {
+    background: url(/assets/login_bg.jpg) no-repeat center top #adb50c;
+    height: 437px;
+    overflow: hidden;
+    box-shadow: 0px 3px 5px rgba(0,0,0,0.4) inset;
+}
 .login_box { width: 220px; margin: 150px auto 20px auto;}
 .login_box li { 
 	height: 38px; 
@@ -200,8 +205,8 @@ a.x {
 }
 
 .nav03 i.nms {
-    width: 5px;
-    height: 5px;
+    width: 20px;
+    height: 20px;
     background: #F00;
     border-radius: 50%;
     display: block;

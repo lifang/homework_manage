@@ -407,6 +407,7 @@ function reload_messages(class_id,user_id)
             }
             else
             {
+                $(".nav03 .nms").text(data.messages.length);
                 $(".nav03 .nms").show();
             }
         }

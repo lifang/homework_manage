@@ -78,7 +78,12 @@ HomeworkManage::Application.routes.draw do
       resources :branch_questions
     end
   end
-  
+
+  resource :share_questions do
+    collection do
+      post :view
+    end
+  end
   resources :results do
     collection do
       post :show_single_record

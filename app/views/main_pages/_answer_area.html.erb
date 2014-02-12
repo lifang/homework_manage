@@ -19,7 +19,7 @@
           <input type="hidden" value="<%=reply.sender_id%>" />
           <input type="hidden" value="<%=reply.sender_types%>" />
           <span class="time"><%=reply.created_at.to_s[0..19]%></span>
-          <a   class="answer_a" onclick="show_reply_again(this,'<%=reply.reciver_name%>')"> 回复 </a><a onclick="delete_reply(this,<%=reply.id%>,'<%=@micropost.id%>')"  class="answer_a">删除</a>
+          <a   class="answer_a" onclick="show_reply_again(this,'<%=reply.sender_name%>')"> 回复 </a><a onclick="delete_reply(this,<%=reply.id%>,'<%=@micropost.id%>')"  class="answer_a">删除</a>
         </div>
 
       </div>

@@ -8,8 +8,9 @@ class Message < ActiveRecord::Base
   def self.add_messages(micropost_id, reciver_id, reciver_types, sender_id, 
       sender_types, content, school_class_id)
     sender = User.find_by_id sender_id.to_i
+    micropost = Micropost.find_by_id micropost_id.to_i 
     if sender
-      unless sender_id.to_i == reciver_id.to_i
+      unless sender_id.to_i == reciver_id.to_i or sender_id.to_i == micropost.user_id
         m_content = "[[" + sender.name + "]]回复了您的消息：;||;" + content
         Message.create(:user_id => reciver_id, :content => m_content, :micropost_id => micropost_id,
           :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id)
@@ -18,9 +19,11 @@ class Message < ActiveRecord::Base
       if follow_microposts.any?
         follow_users = follow_microposts.collect {|i| i.user_id }
         follow_users.each do |u_id|
-          f_content = "[[" + sender.name + "]]回复了您关注的消息：;||;" + content
-          Message.create(:user_id => u_id, :content => f_content, :micropost_id => micropost_id,
-            :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id)
+          unless u_id == reciver_id.to_i
+            f_content = "[[" + sender.name + "]]回复了您关注的消息：;||;" + content
+            Message.create(:user_id => u_id, :content => f_content, :micropost_id => micropost_id,
+              :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id)
+          end
         end
       end
     end    

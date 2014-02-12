@@ -14,7 +14,6 @@ function create_school_class(school_class_id){
     var class_name = $("input[name='class_name']").val();
     var period_of_validity = $("input[name='period_of_validity']").val();
     var message;
-    alert(school_class_id)
     if (class_name==""){
         message = "请输入班级名称"
         tishi(message);

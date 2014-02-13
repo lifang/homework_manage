@@ -1,21 +1,72 @@
 <%= javascript_include_tag "teachers"%>
+<%= javascript_include_tag "jquery.Jcrop.min"%>
+<%= javascript_include_tag "ajaxfileupload"%>
+<script language="Javascript">
+  <!--
+  jQuery(function($){
+    // Create variables (in this scope) to hold the API and image size
+    var jcrop_api, boundx, boundy;
+
+    $('#cropbox').Jcrop({
+      setSelect: [0,0,298,298],
+      boxWidth:298,
+      minSize:[100,100],
+      borderOpacity:0.3,
+      dragEdges:true,
+      allowSelect:true,
+      allowResize:true,
+      bgOpacity:0.6,
+      aspectRatio:1,
+      allowMove:true,
+      addClass: 'jcrop-handle',
+      onChange: updateCoords,
+      onSelect: updateCoords
+    },
+    function(){
+
+      jcrop_api = this;
+    });
+    function updateCoords(c)
+    {
+      $('#x').val(c.x);
+      $('#y').val(c.y);
+      $('#w').val(c.w);
+      $('#h').val(c.h);
+    };
+    function checkCoords()
+    {
+      if (parseInt($('#w').val())) return true;
+      alert('请选择裁剪区域');
+      return false;
+    };
+  });
+  -->
+</script>
+
 <div class="rightSide">
   <div class="main">
     <div class="article">
       <h1 class="title">个人信息</h1>
       <div class="user_con">
         <ul class="user_info">
-
-          <%= form_for :teachers, :url => { :action => :save_updated_teacher, :controller => :teachers},:html => {:multipart => true,:method => :post,onsubmit: "return check_nonempty()"} do|f|%>
+          <%= form_for :teachers, :url => {:action => :upload_avatar,:controller => :teachers},:html => {:multipart => true,:method => :post,onsubmit: "return check_nonempty()"},:remote => true, "data-type" => "script" do|f|  %>
             <li class="avater">
               <div class="avater_default"><img src=<%=  @user.avatar_url%>/></div>
               <a href="javascript:void(0);" class="avater_a">
                 <span>点击更换头像</span>
-                <input type="file" name="file_upload" id="loading" onchange="validate_pic(this);" />
+                <input type="file" name="file_upload" id="file_uploads" onchange="upload_avatar(this,<%= @schoolclass.id %>)" />
               </a>
+            </li>
+            <button type="submit" id="submit_avatar" class="green_btn" style="display :none"></button>
+          <% end %>
+
+          <%= form_for :teachers, :url => { :action => :save_updated_teacher, :controller => :teachers},:html => {:multipart => true,:method => :post,onsubmit: "return check_nonempty()"} do|f|%>
+
+            <li class="avater" id="changes_avatar" style="display:none;">
             </li>
             <li><p ><%= @user.name %></p><input name="name" type="text" value="<%= @user.name %>"/></li>
             <li><p ><%= @teacher.email %></p><input name="email" type="text" value="<%= @teacher.email %>"/></li>
+
             <h1>
               <button type="button" class="green_btn" onclick="show_update_password()">修改密码</button>
               <button type="submit" id="submit_file" class="green_btn">保存更新</button>
@@ -69,25 +120,25 @@
 
 <div class="tab update_password" style="display :none">
   <span class="close">关闭</span>
-    <div class="tab_con">
-      <div class="tab_ul">
-        <ul>
-          <li>
-            <p>当前密码</p>
-            <input name="password_now" type="password"/>
-          </li>
-          <li>
-            <p>修改密码</p>
-            <input name="password_update" type="password"/>
-          </li>
-          <li>
-            <p>重复密码</p>
-            <input name="password_update_agin" type="password"/>
-          </li>
-        </ul>
-      </div>
+  <div class="tab_con">
+    <div class="tab_ul">
+      <ul>
+        <li>
+          <p>当前密码</p>
+          <input name="password_now" type="password"/>
+        </li>
+        <li>
+          <p>修改密码</p>
+          <input name="password_update" type="password"/>
+        </li>
+        <li>
+          <p>重复密码</p>
+          <input name="password_update_agin" type="password"/>
+        </li>
+      </ul>
     </div>
-    <div class="tab_btn"><button class="green_btn" onclick="update_password(<%= @schoolclass.id %>)">确认</button></div>
+  </div>
+  <div class="tab_btn"><button class="green_btn" onclick="update_password(<%= @schoolclass.id %>)">确认</button></div>
 </div>
 
 <div class="tab created_new_class" style="display :none">
@@ -133,3 +184,4 @@
     tishi("<%= flash[:notice] %>");
   </script>
 <% end %>
+

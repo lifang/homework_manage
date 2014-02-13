@@ -8,6 +8,7 @@ class Teacher < ActiveRecord::Base
   has_many :publish_question_packages, :dependent => :destroy
   belongs_to :user
   AVATAR_SIZE = [176]
+  SCREENSHOT_SIZE = [298]
   STATUS = {:YES => 0, :NO => 1}
   STATUS_NAME = {0 => '正常', 1 => "失效"}
 

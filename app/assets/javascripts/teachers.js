@@ -14,7 +14,6 @@ function create_school_class(school_class_id){
     var class_name = $("input[name='class_name']").val();
     var period_of_validity = $("input[name='period_of_validity']").val();
     var message;
-    alert(school_class_id)
     if (class_name==""){
         message = "请输入班级名称"
         tishi(message);
@@ -99,3 +98,26 @@ function update_password(school_class_id){
         }
     })
 }
+function shangchuanttouxiang(){
+    $("#submit_file").click();
+}
+function upload_avatar(obj,school_class_id){
+    png_reg = /\.png$|\.PNG/;
+    jpg_reg = /\.jpg$|\.JPG/;
+    var pic = $(obj).val();
+    if(png_reg.test(pic) == false && jpg_reg.test(pic) == false)
+    {
+        tishi("头像格式不正确，请重新选择JPG或PNG格式的图片！");
+        $(obj).val("");
+    }
+    else{
+        $(obj).parents("form").submit();
+    }
+}
+function cancel_upload(){
+       $("#changes_avatar").hide();
+       $("#changes_avatar").html("");
+}
+
+
+

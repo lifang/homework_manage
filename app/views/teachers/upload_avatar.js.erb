@@ -1,0 +1,7 @@
+<% if @status %>
+  $('#changes_avatar').html("<%= escape_javascript(render :partial => "cutphotos") %>");
+  $('#changes_avatar').show();
+<%else%>
+  message = "图片不存在,请重新选择！";
+  tishi(message);
+<% end %>

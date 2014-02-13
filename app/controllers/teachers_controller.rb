@@ -24,11 +24,12 @@ class TeachersController < ApplicationController
           notice = "班级班级已存在！"
           status = false
         else
-          if teacher.school_classes.create(:name => name,:period_of_validity => period_of_validity,
+          if @school_class = teacher.school_classes.create(:name => name,:period_of_validity => period_of_validity,
               :verification_code => verification_code,
               :status => SchoolClass::STATUS[:NORMAL],
               :teaching_material_id => teaching_material_id)
-            notice = "班级创建成功！"
+#            notice = "班级创建成功！"
+            flash[:verification_code] = "创建成功,班级验证码为:#{@school_class.verification_code}!"
             status = true
           else
             notice = "班级创建失败，请重新操作！"

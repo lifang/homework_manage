@@ -37,14 +37,14 @@ class Message < ActiveRecord::Base
         else
           if sender_id.to_i != reciver_id.to_i
             e_content = "[[" + sender.name + "]]回复了您：;||;" + content
-            Message.create(:user_id => u_id, :content => e_content, :micropost_id => micropost_id,
+            Message.create(:user_id => reciver_id, :content => e_content, :micropost_id => micropost_id,
                            :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id)
           end
         end
       else
           if sender_id.to_i != reciver_id.to_i
             e_content = "[[" + sender.name + "]]回复了您：;||;" + content
-            Message.create(:user_id => u_id, :content => e_content, :micropost_id => micropost_id,
+            Message.create(:user_id => reciver_id, :content => e_content, :micropost_id => micropost_id,
                            :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id)
           end
       end

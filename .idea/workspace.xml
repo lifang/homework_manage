@@ -52,7 +52,7 @@
       <file leaf-file-name="message.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/message.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="9" selection-start="2707" selection-end="2707" vertical-scroll-proportion="1.1122112" vertical-offset="159" max-vertical-offset="1190">
+            <state line="33" column="17" selection-start="1941" selection-end="1941" vertical-scroll-proportion="0.24257426" vertical-offset="414" max-vertical-offset="1190">
               <folding />
             </state>
           </provider>
@@ -3686,7 +3686,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/message.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="9" selection-start="2707" selection-end="2707" vertical-scroll-proportion="1.1122112" vertical-offset="159" max-vertical-offset="1190">
+        <state line="33" column="17" selection-start="1941" selection-end="1941" vertical-scroll-proportion="0.24257426" vertical-offset="414" max-vertical-offset="1190">
           <folding />
         </state>
       </provider>

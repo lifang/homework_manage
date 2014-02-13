@@ -70,8 +70,9 @@ function update_password(school_class_id){
     var password_update = $("input[name='password_update']").val();
     var password_update_agin = $("input[name='password_update_agin']").val();
 
-    if($.trim(password_update).length<6 || $.trim(password_update_agin).length<6){
-        tishi("密码长度不能小于6位数");
+    if($.trim(password_update).length<6 || $.trim(password_update_agin).length<6 ||
+        $.trim(password_update).length>20 || $.trim(password_update_agin).length>20){
+        tishi("请输入密码长度在6到20位之间");
         return false;
     }
     $.ajax({
@@ -115,8 +116,8 @@ function upload_avatar(obj,school_class_id){
     }
 }
 function cancel_upload(){
-       $("#changes_avatar").hide();
-       $("#changes_avatar").html("");
+    $("#changes_avatar").hide();
+    $("#changes_avatar").html("");
 }
 
 

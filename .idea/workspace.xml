@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/message.rb" afterPath="$PROJECT_DIR$/app/models/message.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,12 +30,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="students_controller.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="students_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="321" column="57" selection-start="13542" selection-end="13542" vertical-scroll-proportion="0.0" vertical-offset="2140" max-vertical-offset="3723">
+            <state line="672" column="51" selection-start="28247" selection-end="28247" vertical-scroll-proportion="0.10231023" vertical-offset="3423" max-vertical-offset="4233">
               <folding>
                 <element signature="e#3974#8004#0" expanded="true" />
+                <element signature="e#12040#15691#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -48,10 +51,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="message.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="message.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/message.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="66" selection-start="1053" selection-end="1053" vertical-scroll-proportion="0.4669967" vertical-offset="74" max-vertical-offset="935">
+            <state line="28" column="12" selection-start="1461" selection-end="1490" vertical-scroll-proportion="0.0" vertical-offset="176" max-vertical-offset="935">
               <folding />
             </state>
           </provider>
@@ -151,7 +154,6 @@
         <option value="$PROJECT_DIR$/app/controllers/messages_controller.rb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/style.css" />
         <option value="$PROJECT_DIR$/app/views/layouts/_left_side.html.erb" />
-        <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
         <option value="$PROJECT_DIR$/test/unit/helpers/share_questions_helper_test.rb" />
         <option value="$PROJECT_DIR$/app/views/question_packages/_share_questions.html.erb" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
@@ -164,6 +166,7 @@
         <option value="$PROJECT_DIR$/app/views/main_pages/_answer_area.html.erb" />
         <option value="$PROJECT_DIR$/app/models/student_answer_record.rb" />
         <option value="$PROJECT_DIR$/app/models/message.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
       </list>
     </option>
   </component>
@@ -3657,15 +3660,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="321" column="57" selection-start="13542" selection-end="13542" vertical-scroll-proportion="0.0" vertical-offset="2140" max-vertical-offset="3723">
-          <folding>
-            <element signature="e#3974#8004#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/student_answer_record.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="53" column="9" selection-start="2680" selection-end="2680" vertical-scroll-proportion="0.0" vertical-offset="646" max-vertical-offset="1309">
@@ -3685,8 +3679,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/message.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="66" selection-start="1053" selection-end="1053" vertical-scroll-proportion="0.4669967" vertical-offset="74" max-vertical-offset="935">
+        <state line="28" column="12" selection-start="1461" selection-end="1490" vertical-scroll-proportion="0.0" vertical-offset="176" max-vertical-offset="935">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="672" column="51" selection-start="28247" selection-end="28247" vertical-scroll-proportion="0.10231023" vertical-offset="3423" max-vertical-offset="4233">
+          <folding>
+            <element signature="e#3974#8004#0" expanded="true" />
+            <element signature="e#12040#15691#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

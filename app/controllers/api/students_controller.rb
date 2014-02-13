@@ -670,7 +670,7 @@ class Api::StudentsController < ApplicationController
   #获取教师的提示消息
   def get_teacher_messages
     user_id = params[:user_id].to_i
-    school_class_id = params[:school_class_id]
+    school_class_id = params[:school_class_id].to_i
     user = User.find_by_id user_id
     school_class = SchoolClass.find_by_id school_class_id
     teacher = user.teacher if !user.nil?

@@ -33,10 +33,10 @@ HomeworkManage::Application.routes.draw do
       post :create_first_class, :login, :regist
     end
   end
-  
+
   resources :school_classes do
     resources :main_pages
-    
+
     resources :results
     resources :homeworks do
       collection do
@@ -55,7 +55,7 @@ HomeworkManage::Application.routes.draw do
 
       collection do
         get :teacher_setting, :destroy_classes,:chang_class
-        post :create_class, :save_updated_teacher,:update_password
+        post :create_class, :save_updated_teacher,:update_password,:upload_avatar
       end
     end
 
@@ -79,11 +79,6 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
-  resource :share_questions do
-    collection do
-      post :view
-    end
-  end
   resources :results do
     collection do
       post :show_single_record

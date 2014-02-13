@@ -24,11 +24,12 @@ class TeachersController < ApplicationController
           notice = "班级班级已存在！"
           status = false
         else
-          if teacher.school_classes.create(:name => name,:period_of_validity => period_of_validity,
+          if @school_class = teacher.school_classes.create(:name => name,:period_of_validity => period_of_validity,
               :verification_code => verification_code,
               :status => SchoolClass::STATUS[:NORMAL],
               :teaching_material_id => teaching_material_id)
-            notice = "班级创建成功！"
+#            notice = "班级创建成功！"
+            flash[:verification_code] = "创建成功,班级验证码为:#{@school_class.verification_code}!"
             status = true
           else
             notice = "班级创建失败，请重新操作！"
@@ -45,20 +46,20 @@ class TeachersController < ApplicationController
 
   #教师上传头像
   def upload_avatar
-    teacher_id = params[:teacher_id]
-    avatar = params[:avatar]
-    teacher = Teacher.find_by_id teacher_id
-    if teacher.nil?
-      status = false
-      notice = "教师不存在！"
+    file_upload = params[:file_upload]
+    if !file_upload.nil?
+      img = MiniMagick::Image.read(file_upload)
+      img.format("jpg") if file_upload.content_type =~ /gif|png$/i   #把别的格式改为jpg
+      destination_dir = "avatars/teachers/#{Time.now.strftime('%Y-%m')}"
+      rename_file_name = "teacher_#{current_teacher.id}"
+      Dir.mkdir("#{Rails.root}/public/#{destination_dir}") if !Dir.exist? ("#{Rails.root}/public/#{destination_dir}")
+      img.write "#{Rails.root}/public/#{destination_dir}/#{rename_file_name}.jpg"
+      @status = "true"
+      @src = "/#{destination_dir}/#{rename_file_name}.jpg"
     else
-      if teacher.status == Teacher::STATUS[:YES]
-      else
-        status = false
-        notice = "教师已被禁用，无法操作！"
-      end
+      @status = "false"
+      @src = ""
     end
-    @info = {:status => status, :notice => notice}
   end
   #  进入设置页面
   def teacher_setting
@@ -70,18 +71,23 @@ class TeachersController < ApplicationController
   #  保存更新
   def save_updated_teacher
     avatar_url = current_user.avatar_url
-    file_upload = params[:file_upload]
- 
-
-    if !file_upload.nil?
-      destination_dir = "avatars/teachers/#{Time.now.strftime('%Y-%m')}"
-      rename_file_name = "teacher_#{current_teacher.id}"
-      filename = file_upload.original_filename
-      upload = upload_file destination_dir, rename_file_name, file_upload
-      if upload[:status] == true
-        avatar_url = upload[:url]
-        file_path = "#{Rails.root}/public"+avatar_url
-        avatar_url = narrow_picture(file_path,rename_file_name,filename,destination_dir)
+    file_path = "#{Rails.root}/public/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}.jpg"
+    file_paths = "#{Rails.root}/public/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}_176.jpg"
+    if !params[:w].nil?
+      File.delete file_paths  if File.exist?(file_paths)
+      img  = MiniMagick::Image.open(file_path)
+      Teacher::SCREENSHOT_SIZE.each do |size|
+        resize = size>img["width"] ? img["width"] :size
+        new_file = file_path.split(".")[0]+"_"+resize.to_s+"."+ file_path.split(".").reverse[0]
+        if img["width"]>img["height"]
+          img.run_command("convert #{file_path} -resize 298x298 #{new_file}")
+        else
+          resize = 298/(img["width"].to_f/img["height"])
+          img.run_command("convert #{file_path} -resize #{resize}x#{resize} #{new_file}")
+        end
+        imgs  = MiniMagick::Image.open(new_file)
+        imgs.run_command("convert #{new_file} -crop #{params[:w].to_i}x#{params[:h].to_i}+#{params[:x].to_i}+#{params[:y].to_i} #{file_paths}")
+        avatar_url = "/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}_176.jpg"
       end
     end
     if current_user.update_attributes(:name => params[:name],:avatar_url => avatar_url) && current_teacher.update_attributes(:email => params[:email])

@@ -47,11 +47,16 @@ class Api::StudentsController < ApplicationController
   def add_concern
     user_id = params[:user_id].to_i
     micropost_id = params[:micropost_id].to_i
-    followmicropost = FollowMicropost.new(:user_id => user_id, :micropost_id => micropost_id)
-    if followmicropost.save
-      render :json => {:status => 'success', :notice => '关注添加成功'}
+    followmicropost = FollowMicropost.find_by_user_id_and_micropost_id(user_id,micropost_id)
+    if followmicropost.nil?
+      followmicropost = FollowMicropost.new(:user_id => user_id, :micropost_id => micropost_id)
+      if followmicropost.save
+        render :json => {:status => 'success', :notice => '关注添加成功'}
+      else
+        render :json => {:status => 'error', :notice => '关注添加失败'}
+      end
     else
-      render :json => {:status => 'error', :notice => '关注添加失败'}
+      render :json => {:status => 'success', :notice => '该消息您已关注，请勿重复提交关注！'}
     end
   end
   #  取消关注
@@ -662,6 +667,39 @@ class Api::StudentsController < ApplicationController
     render :json => {:status => status, :notice => notice, :messages => messages}
   end
 
+  #获取教师的提示消息
+  def get_teacher_messages
+    user_id = params[:user_id].to_i
+    school_class_id = params[:school_class_id]
+    user = User.find_by_id user_id
+    school_class = SchoolClass.find_by_id school_class_id
+    teacher = user.teacher if !user.nil?
+    if user.nil? || school_class.nil?
+      notice = "用户信息错误!"
+      status = "error"
+    else
+      if teacher.nil?
+        notice = "用户信息错误!"
+        status = "error"
+      else
+        if user_id != 0
+          messages = Message.get_my_messages school_class, user_id
+          if messages.length == 0
+            status = "success"
+            notice = "暂无消息!"
+          else
+            status = "success"
+            notice = "获取完成!"
+          end
+        else
+          status = "error"
+          notice = "参数错误!"
+        end
+      end
+    end
+    render :json => {:status => status, :notice => notice, :messages => messages}
+  end
+
   #阅读我的提示消息
   def read_message
     user_id = params[:user_id]
@@ -748,5 +786,21 @@ class Api::StudentsController < ApplicationController
       end
     end
     render :json => {:status => status, :notice => notice}
+  end
+  
+  def new_homework
+    school_class_id = params[:school_class_id].to_i
+    student_id = params[:student_id].to_i
+    num = 0
+    pq_packages = PublishQuestionPackage.find_by_sql(["select id from publish_question_packages
+      where status = ? and end_time >= ? and school_class_id = ? ", PublishQuestionPackage::STATUS[:NEW], 
+      Time.now(), school_class_id])
+    if pq_packages.any?
+      s_a_records = StudentAnswerRecord.find_by_sql(["select count(id) total_count from student_answer_records 
+        where student_id = ? and publish_question_package_id in (?)", student_id, pq_packages])
+      finish_num = s_a_records.any? ? s_a_records[0].total_count : 0
+      num = pq_packages.length - finish_num
+    end
+    render :json => {:num => num}
   end
 end

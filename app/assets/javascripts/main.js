@@ -387,3 +387,53 @@ function validate_pic(obj)
     }
 }
 
+//刷新消息
+function reload_messages(class_id,user_id)
+{
+//    alert(class_id);
+    $.ajax({
+        async:true,
+        dataType:'json',
+        data:{
+            school_class_id : class_id,
+            user_id : user_id
+        },
+        url:"/api/students/get_teacher_messages",
+        type:'get',
+        success : function(data) {
+            if(data.messages.length <= 0)
+            {
+                $(".nav03 .nms").hide();
+            }
+            else
+            {
+                $(".nav03 .nms").show();
+            }
+        }
+    })
+}
+
+//查看分享的题目
+function view_share_question(share_question_id)
+{
+    $.ajax({
+        async:true,
+        dataType:'script',
+        data:{
+            share_question_id : share_question_id
+        },
+        url:"/share_questions/view",
+        type:'post',
+        success : function(data) {
+//            alert("success");
+        }
+    })
+}
+
+//关闭预览分享题目的窗口
+function close_view_share_question()
+{
+    $("#view_share_question").remove();
+    $(".article").show();
+}
+

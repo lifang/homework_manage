@@ -8,7 +8,7 @@ class MessagesController < ApplicationController
         inner join messages m on u.id=m.user_id
         inner join users s on m.sender_id=s.id
         where t.id=? and m.status=? and m.school_class_id=? order by m.created_at desc",
-        cookies[:teacher_id], Message::STATUS[:NOMAL], @class_id], :page => params[:page],
+        cookies[:teacher_id].to_i, Message::STATUS[:NOMAL], @class_id], :page => params[:page],
       :per_page => Message::PER_PAGE) if cookies[:teacher_id]
     
   end

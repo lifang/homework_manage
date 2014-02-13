@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/message.rb" afterPath="$PROJECT_DIR$/app/models/message.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -52,7 +51,7 @@
       <file leaf-file-name="message.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/message.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="42" selection-start="1435" selection-end="1435" vertical-scroll-proportion="0.4950495" vertical-offset="176" max-vertical-offset="935">
+            <state line="21" column="66" selection-start="1053" selection-end="1053" vertical-scroll-proportion="0.4669967" vertical-offset="74" max-vertical-offset="935">
               <folding />
             </state>
           </provider>
@@ -3686,7 +3685,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/message.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="42" selection-start="1435" selection-end="1435" vertical-scroll-proportion="0.4950495" vertical-offset="176" max-vertical-offset="935">
+        <state line="21" column="66" selection-start="1053" selection-end="1053" vertical-scroll-proportion="0.4669967" vertical-offset="74" max-vertical-offset="935">
           <folding />
         </state>
       </provider>

@@ -53,6 +53,12 @@ a.x {
 
 .wrap { width: 100%; height: 100%;}
 
+.register_box li.hint, .user_info li.hint {
+    color: #F00;
+    font-size: 12px;
+    text-align: center;
+    line-height: 38px;
+}
 
 
 /*-----------------登录---------------------------*/
@@ -104,9 +110,10 @@ a.x {
     text-shadow: 0px 1px 1px rgba(0,0,0,0.6);
     text-decoration: underline;
 }
-
+.register { overflow: hidden; display: none;}
+.register h1 { font-size: 18px; text-align: center; color: #92B81B; line-height: 36px;}
 /*--------------------注册----------------------*/
-.register_box { width: 320px; margin: 20px auto; display: none;}
+.register_box { width: 320px; margin: 20px auto;}
 /*上传头像*/
 .register_box li.avater { margin-bottom: 30px; font-size: 14px; height:inherit; line-height:inherit;}
 .register_box .avater_default { 
@@ -470,7 +477,7 @@ a.x {
 .work_info_head .work_head_time { float: left; color: #a5a2a3;}
 
 .work_info_head a.work_h_one { background: url(/assets/icon.png) no-repeat -44px -24px;}
-.work_info_head a.work_h_one:hover { background: url(/assets/icon.png) no-repeat 0 -24px;}
+/*.work_info_head a.work_h_one:hover { background: url(/assets/icon.png) no-repeat 0 -24px;}*/
 .work_info_head a.work_h_two { background: url(/assets/icon.png) no-repeat 0 -66px;}
 .work_info_head .work_head_time { float: left; color: #a5a2a3;}
 
@@ -497,14 +504,23 @@ a.x {
 .work_info_body dd a img { width: 50px; height: 50px;}
 .work_info_body dd p { font-size: 12px; text-align: center;}
 
-.work_book li { border-bottom: 1px #dddcdc solid; height: 40px; line-height: 40px; padding-left: 20px;}
+.work_book li {
+    border-bottom: 1px #dddcdc solid;
+    height: 40px; line-height: 40px;
+    padding-left: 20px;
+}
 .work_book li a { 
     color: #333;
     display: block;
     overflow: hidden;
     background: url(/assets/arrows_icon.png) no-repeat 145px -23px;
 }
-.work_book li a:hover, .work_book li a.hover { 
+
+.work_book li a:hover {
+    color:#92b81b;
+    background: url(/assets/arrows_icon.png) no-repeat 145px -54px;
+}
+.work_book li a.hover {
     color:#92b81b;
     background: url(/assets/arrows_icon.png) no-repeat 145px 13px;
 }

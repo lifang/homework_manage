@@ -12,24 +12,19 @@
     <% end %>
   </div>
   <div class="register">
-    <%= form_tag({:controller => :welcome, :action => :regist}, :multipart => true, :remote => true) do %>
+    <h1>注册</h1>
     <div class="register_box">
+      <%= form_tag({:controller => :welcome, :action => :regist}, :multipart => true, :remote => true) do %>
       <ul>
-        <li class="avater">
-          <div class="avater_default"><img id="avatar_img" src="assets/default_avater.jpg"></div>
-          <a href="javascript:void(0);" class="avater_a">
-            <input name="avatar"  type="file" onchange="validate_pic(this);">
-            <span>点击添加头像</span>
-          </a>
-        </li>
         <li><input id="r_name"  name="name" type="text" placeholder="姓名" class="otherInput"></li>
         <li><input id="r_email" name="email" type="text" placeholder="邮箱" class="otherInput"></li>
         <li><input id="r_password"  name="password" type="password" placeholder="密码" class="otherInput"></li>
         <li><input id="r_confirm_password" name="confirm_password" type="password" placeholder="确认密码" class="otherInput"></li>
+        <li class="hint">密码长度在6-20之间</li>
         <li class="register_btn"><button onclick="check_regist_info()" type="button">确认</button><a href="javascript:void(0);" class="goLogin_a">返回登录</a></li>
         <button id="register_submit_button" style="display: none;" type="submit">提交</button>
       </ul>
+      <% end %>
     </div>
-    <% end %>
   </div>
 </div>

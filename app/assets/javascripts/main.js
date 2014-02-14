@@ -69,13 +69,13 @@ $(function(){
             $(".login_bg").animate({
                 height: "60px"
             }, 200 , function(){
-                $(".register_box").css("display","block");
+                $(".register").css("display","block");
             });
         }
     });
     $(".goLogin_a").on("click",function(){
         if( !$(this).is(":animated")){
-            $(".register_box").css("display","none");
+            $(".register").css("display","none");
             $(".login_bg").animate({
                 height: "437px"
             }, 200 , function(){

@@ -178,10 +178,13 @@ function GoForthStep(question_pack_id, school_class_id){
 }
 
 function checkText(obj, path){
-    var value = $(obj).val();
+    var blanket_reg = new RegExp(/[\s]+/g);
+    var value = $.trim($(obj).val()).replace(blanket_reg," ");
     if($.trim(value)==""){
-    // alert("内容不能为空");
+//        tishi("内容不能为空");
+        $(obj).val("");
     }else{
+        $(obj).val(value);
         $(obj).parents("tr").before(branchQuestion);
         $(".book_box_table table > tbody > tr:odd").addClass("tbg");
         var done_tr = $(".book_box_table table tr.done_tr");
@@ -265,10 +268,22 @@ function ModifyQuestion(obj){
 }
 
 function hideInput(obj){
-    content = $(obj).val();
+    var old_content = $(obj).parents("td").next().find("input.td_text_input").val();
+    var blanket_reg = new RegExp(/[\s]+/g);
+    var content = $.trim($(obj).val()).replace(blanket_reg," ");
     if($.trim(content)==""){
-        tishi("内容不能为空!")
-    }else{
+        tishi("内容不能为空!");
+        $(obj).val(old_content);
+        $(obj).hide();
+        $(obj).parent().find("p").css("display","inline-block");
+    }
+    else if(content == old_content){
+        $(obj).hide();
+        $(obj).val(content);
+        $(obj).parent().find("p").css("display","inline-block");
+    }
+    else{
+        $(obj).val(content);
         $(obj).css("display","none");
         $(obj).parent().find("p").css("display","inline-block");
         $(obj).parent().find("p").html(content);

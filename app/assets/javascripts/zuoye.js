@@ -274,6 +274,8 @@ function hideInput(obj){
     if($.trim(content)==""){
         tishi("内容不能为空!");
         $(obj).val(old_content);
+        $(obj).hide();
+        $(obj).parent().find("p").css("display","inline-block");
     }else{
         $(obj).val(content);
         $(obj).css("display","none");

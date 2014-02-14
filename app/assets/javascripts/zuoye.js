@@ -178,9 +178,12 @@ function GoForthStep(question_pack_id, school_class_id){
 }
 
 function checkText(obj, path){
-    var value = $(obj).val();
+    var blanket_reg = new RegExp(/[\s]+/g);
+    var value = $.trim($(obj).val()).replace(blanket_reg," ");
+    $(obj).val(value);
     if($.trim(value)==""){
-    // alert("内容不能为空");
+    tishi("内容不能为空");
+    $(obj).val("");
     }else{
         $(obj).parents("tr").before(branchQuestion);
         $(".book_box_table table > tbody > tr:odd").addClass("tbg");

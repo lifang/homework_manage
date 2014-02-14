@@ -1,7 +1,12 @@
-<% if @status %>
+<% if @status.eql?("true") %>
   $('#changes_avatar').html("<%= escape_javascript(render :partial => "cutphotos") %>");
   $('#changes_avatar').show();
-<%else%>
-  message = "图片不存在,请重新选择！";
-  tishi(message);
+  $("#fugai").hide();
+  $("#fugai1").hide();
+<%else if @status.eql?("bigsize")%>
+    message = "图片不可大于1M";
+    tishi(message);
+    $("#fugai").hide();
+    $("#fugai1").hide();
+  <% end %>
 <% end %>

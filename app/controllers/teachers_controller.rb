@@ -28,7 +28,7 @@ class TeachersController < ApplicationController
               :verification_code => verification_code,
               :status => SchoolClass::STATUS[:NORMAL],
               :teaching_material_id => teaching_material_id)
-#            notice = "班级创建成功！"
+            #            notice = "班级创建成功！"
             flash[:verification_code] = "创建成功,班级验证码为:#{@school_class.verification_code}!"
             status = true
           else
@@ -48,14 +48,19 @@ class TeachersController < ApplicationController
   def upload_avatar
     file_upload = params[:file_upload]
     if !file_upload.nil?
-      img = MiniMagick::Image.read(file_upload)
-      img.format("jpg") if file_upload.content_type =~ /gif|png$/i   #把别的格式改为jpg
-      destination_dir = "avatars/teachers/#{Time.now.strftime('%Y-%m')}"
-      rename_file_name = "teacher_#{current_teacher.id}"
-      Dir.mkdir("#{Rails.root}/public/#{destination_dir}") if !Dir.exist? ("#{Rails.root}/public/#{destination_dir}")
-      img.write "#{Rails.root}/public/#{destination_dir}/#{rename_file_name}.jpg"
-      @status = "true"
-      @src = "/#{destination_dir}/#{rename_file_name}.jpg"
+      if file_upload.size > 1048576
+        @status = "bigsize"
+        @src = ""
+      else
+        img = MiniMagick::Image.read(file_upload)
+        img.format("jpg") if file_upload.content_type =~ /gif|png$/i   #把别的格式改为jpg
+        destination_dir = "avatars/teachers/#{Time.now.strftime('%Y-%m')}"
+        rename_file_name = "teacher_#{current_teacher.id}"
+        Dir.mkdir("#{Rails.root}/public/#{destination_dir}") if !Dir.exist? ("#{Rails.root}/public/#{destination_dir}")
+        img.write "#{Rails.root}/public/#{destination_dir}/#{rename_file_name}.jpg"
+        @status = "true"
+        @src = "/#{destination_dir}/#{rename_file_name}.jpg"
+      end
     else
       @status = "false"
       @src = ""

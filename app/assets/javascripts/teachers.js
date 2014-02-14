@@ -34,12 +34,8 @@ function create_school_class(school_class_id){
             },
             success: function(data){
                 if(data.status==true){
-                    message = data.notice;
                     $(".created_new_class").css("display","none");
-                    tishi(message);
-                    setTimeout('',2000);
                     window.location.href="/school_classes/" + school_class_id + "/teachers/teacher_setting";
-                //                    $(".create_success").show();
                 }else{
                     message = data.notice;
                     tishi(message);
@@ -70,8 +66,8 @@ function update_password(school_class_id){
     var password_update = $("input[name='password_update']").val();
     var password_update_agin = $("input[name='password_update_agin']").val();
 
-    if($.trim(password_update).length<6 || $.trim(password_update_agin).length<6 ||
-        $.trim(password_update).length>20 || $.trim(password_update_agin).length>20){
+    if(password_update.length<6 || password_update_agin.length<6 ||
+        password_update.length>20 || password_update_agin.length>20){
         tishi("请输入密码长度在6到20位之间");
         return false;
     }
@@ -112,6 +108,8 @@ function upload_avatar(obj,school_class_id){
         $(obj).val("");
     }
     else{
+        $("#fugai").show();
+        $("#fugai1").show();
         $(obj).parents("form").submit();
     }
 }

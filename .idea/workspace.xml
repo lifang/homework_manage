@@ -50,15 +50,16 @@
       <file leaf-file-name="zuoye.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="184" column="20" selection-start="7789" selection-end="7789" vertical-scroll-proportion="0.41337386" vertical-offset="612" max-vertical-offset="1734">
+            <state line="273" column="24" selection-start="10933" selection-end="10933" vertical-scroll-proportion="0.5864662" vertical-offset="1068" max-vertical-offset="2006">
               <folding>
                 <element signature="n#!!block;n#afterClickAddpage#0" expanded="true" />
-                <marker date="1392345974847" expanded="true" signature="144:1513" placeholder="..." />
-                <marker date="1392345974847" expanded="true" signature="179:723" placeholder="..." />
-                <marker date="1392345974847" expanded="true" signature="238:684" placeholder="..." />
-                <marker date="1392345974847" expanded="true" signature="796:1483" placeholder="..." />
-                <marker date="1392345974847" expanded="true" signature="909:1444" placeholder="..." />
-                <marker date="1392345974847" expanded="true" signature="973:1191" placeholder="..." />
+                <element signature="n#!!block;n#checkText#0" expanded="true" />
+                <marker date="1392347553090" expanded="true" signature="144:1513" placeholder="..." />
+                <marker date="1392347553090" expanded="true" signature="179:723" placeholder="..." />
+                <marker date="1392347553090" expanded="true" signature="238:684" placeholder="..." />
+                <marker date="1392347553090" expanded="true" signature="796:1483" placeholder="..." />
+                <marker date="1392347553090" expanded="true" signature="909:1444" placeholder="..." />
+                <marker date="1392347553090" expanded="true" signature="973:1191" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -3682,15 +3683,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="184" column="20" selection-start="7789" selection-end="7789" vertical-scroll-proportion="0.41337386" vertical-offset="612" max-vertical-offset="1734">
+        <state line="273" column="24" selection-start="10933" selection-end="10933" vertical-scroll-proportion="0.5864662" vertical-offset="1068" max-vertical-offset="2006">
           <folding>
             <element signature="n#!!block;n#afterClickAddpage#0" expanded="true" />
-            <marker date="1392345974847" expanded="true" signature="144:1513" placeholder="..." />
-            <marker date="1392345974847" expanded="true" signature="179:723" placeholder="..." />
-            <marker date="1392345974847" expanded="true" signature="238:684" placeholder="..." />
-            <marker date="1392345974847" expanded="true" signature="796:1483" placeholder="..." />
-            <marker date="1392345974847" expanded="true" signature="909:1444" placeholder="..." />
-            <marker date="1392345974847" expanded="true" signature="973:1191" placeholder="..." />
+            <element signature="n#!!block;n#checkText#0" expanded="true" />
+            <marker date="1392347553090" expanded="true" signature="144:1513" placeholder="..." />
+            <marker date="1392347553090" expanded="true" signature="179:723" placeholder="..." />
+            <marker date="1392347553090" expanded="true" signature="238:684" placeholder="..." />
+            <marker date="1392347553090" expanded="true" signature="796:1483" placeholder="..." />
+            <marker date="1392347553090" expanded="true" signature="909:1444" placeholder="..." />
+            <marker date="1392347553090" expanded="true" signature="973:1191" placeholder="..." />
           </folding>
         </state>
       </provider>

@@ -269,6 +269,9 @@ function ModifyQuestion(obj){
 
 function hideInput(obj){
     content = $(obj).val();
+    var blanket_reg = new RegExp(/[\s]+/g);
+    var content = $.trim($(obj).val()).replace(blanket_reg," ");
+    $(obj).val(content);
     if($.trim(content)==""){
         tishi("内容不能为空!")
     }else{

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -50,16 +49,16 @@
       <file leaf-file-name="zuoye.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="273" column="24" selection-start="10933" selection-end="10933" vertical-scroll-proportion="0.5864662" vertical-offset="1068" max-vertical-offset="2006">
+            <state line="185" column="19" selection-start="7811" selection-end="7811" vertical-scroll-proportion="0.3556231" vertical-offset="648" max-vertical-offset="2006">
               <folding>
                 <element signature="n#!!block;n#afterClickAddpage#0" expanded="true" />
-                <element signature="n#!!block;n#checkText#0" expanded="true" />
-                <marker date="1392347553090" expanded="true" signature="144:1513" placeholder="..." />
-                <marker date="1392347553090" expanded="true" signature="179:723" placeholder="..." />
-                <marker date="1392347553090" expanded="true" signature="238:684" placeholder="..." />
-                <marker date="1392347553090" expanded="true" signature="796:1483" placeholder="..." />
-                <marker date="1392347553090" expanded="true" signature="909:1444" placeholder="..." />
-                <marker date="1392347553090" expanded="true" signature="973:1191" placeholder="..." />
+                <element signature="n#!!block;n#hideInput#0" expanded="true" />
+                <marker date="1392347948326" expanded="true" signature="144:1513" placeholder="..." />
+                <marker date="1392347948326" expanded="true" signature="179:723" placeholder="..." />
+                <marker date="1392347948326" expanded="true" signature="238:684" placeholder="..." />
+                <marker date="1392347948326" expanded="true" signature="796:1483" placeholder="..." />
+                <marker date="1392347948326" expanded="true" signature="909:1444" placeholder="..." />
+                <marker date="1392347948326" expanded="true" signature="973:1191" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -3683,16 +3682,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="273" column="24" selection-start="10933" selection-end="10933" vertical-scroll-proportion="0.5864662" vertical-offset="1068" max-vertical-offset="2006">
+        <state line="185" column="19" selection-start="7811" selection-end="7811" vertical-scroll-proportion="0.3556231" vertical-offset="648" max-vertical-offset="2006">
           <folding>
             <element signature="n#!!block;n#afterClickAddpage#0" expanded="true" />
-            <element signature="n#!!block;n#checkText#0" expanded="true" />
-            <marker date="1392347553090" expanded="true" signature="144:1513" placeholder="..." />
-            <marker date="1392347553090" expanded="true" signature="179:723" placeholder="..." />
-            <marker date="1392347553090" expanded="true" signature="238:684" placeholder="..." />
-            <marker date="1392347553090" expanded="true" signature="796:1483" placeholder="..." />
-            <marker date="1392347553090" expanded="true" signature="909:1444" placeholder="..." />
-            <marker date="1392347553090" expanded="true" signature="973:1191" placeholder="..." />
+            <element signature="n#!!block;n#hideInput#0" expanded="true" />
+            <marker date="1392347948326" expanded="true" signature="144:1513" placeholder="..." />
+            <marker date="1392347948326" expanded="true" signature="179:723" placeholder="..." />
+            <marker date="1392347948326" expanded="true" signature="238:684" placeholder="..." />
+            <marker date="1392347948326" expanded="true" signature="796:1483" placeholder="..." />
+            <marker date="1392347948326" expanded="true" signature="909:1444" placeholder="..." />
+            <marker date="1392347948326" expanded="true" signature="973:1191" placeholder="..." />
           </folding>
         </state>
       </provider>

@@ -182,7 +182,7 @@ function checkText(obj, path){
     var value = $.trim($(obj).val()).replace(blanket_reg," ");
     $(obj).val(value);
     if($.trim(value)==""){
-    tishi("内容不能为空");
+//    tishi("内容不能为空");
     $(obj).val("");
     }else{
         $(obj).parents("tr").before(branchQuestion);

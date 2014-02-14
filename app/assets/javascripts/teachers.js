@@ -102,6 +102,13 @@ function upload_avatar(obj,school_class_id){
     png_reg = /\.png$|\.PNG/;
     jpg_reg = /\.jpg$|\.JPG/;
     var pic = $(obj).val();
+
+    var input_s = $('#file_uploads');
+    var file_size = input_s[0].files[0].size;
+    if(file_size>1048576){
+        tishi("图片不可大于1M");
+        return false;
+    }
     if(png_reg.test(pic) == false && jpg_reg.test(pic) == false)
     {
         tishi("头像格式不正确，请重新选择JPG或PNG格式的图片！");
@@ -116,6 +123,24 @@ function upload_avatar(obj,school_class_id){
 function cancel_upload(){
     $("#changes_avatar").hide();
     $("#changes_avatar").html("");
+}
+
+function getFileSize(fileObj) {
+    if (document.all) {
+        window.oldOnError = window.onerror;
+        window.onerror = function(err) {
+            if (err.indexOf('utomation') != -1) {
+                alert('No access to the file permissions.');
+                return true;
+            }
+            else
+                return false;
+        };
+        var fso = new ActiveXObject('Scripting.FileSystemObject');
+        var file = fso.GetFile(fileName);
+        window.onerror = window.oldOnError;
+        return file.Size;
+    }
 }
 
 

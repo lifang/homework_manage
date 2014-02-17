@@ -41,7 +41,7 @@
       <file leaf-file-name="students_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="803" column="5" selection-start="31503" selection-end="31503" vertical-scroll-proportion="0.74085367" vertical-offset="7781" max-vertical-offset="8177">
+            <state line="791" column="45" selection-start="30832" selection-end="30847" vertical-scroll-proportion="0.37804878" vertical-offset="7696" max-vertical-offset="8194">
               <folding>
                 <element signature="e#191#702#0" expanded="true" />
                 <element signature="e#3380#3962#0" expanded="true" />
@@ -3269,7 +3269,7 @@
     <frame x="-1" y="24" width="1368" height="745" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="true" weight="0.516129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.516129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.6903226" sideWeight="0.5" order="9" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.22507553" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -3619,7 +3619,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="803" column="5" selection-start="31503" selection-end="31503" vertical-scroll-proportion="0.74085367" vertical-offset="7781" max-vertical-offset="8177">
+        <state line="791" column="45" selection-start="30832" selection-end="30847" vertical-scroll-proportion="0.37804878" vertical-offset="7696" max-vertical-offset="8194">
           <folding>
             <element signature="e#191#702#0" expanded="true" />
             <element signature="e#3380#3962#0" expanded="true" />

@@ -795,6 +795,7 @@ class Api::StudentsController < ApplicationController
     pq_packages = PublishQuestionPackage.find_by_sql(["select id from publish_question_packages
       where status = ? and end_time >= ? and school_class_id = ? ", PublishQuestionPackage::STATUS[:NEW],
       Time.now(), school_class_id])
+    p pq_packages
     if pq_packages.any?
       s_a_records = StudentAnswerRecord.find_by_sql(["select count(id) total_count from student_answer_records
         where student_id = ? and publish_question_package_id in (?)", student_id, pq_packages])

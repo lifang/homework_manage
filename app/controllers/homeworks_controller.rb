@@ -13,6 +13,7 @@ class HomeworksController < ApplicationController
     @school_class = SchoolClass.find_by_id params[:school_class_id].to_i
     page = params[:page]
     @publish_question_packages = Teacher.get_publish_question_packages @school_class.id, page
+    p @publish_question_packages.map(&:status)
   end
 
   #删除题包

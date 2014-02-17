@@ -98,7 +98,7 @@ class TeachersController < ApplicationController
         imgs.run_command("convert #{new_file} -crop #{params[:w].to_i}x#{params[:h].to_i}+#{params[:x].to_i}+#{params[:y].to_i} #{file_paths}")
       end
     end
-    if current_user.update_attributes(:name => params[:name],:avatar_url => avatar_url) && current_teacher.update_attributes(:email => params[:email])
+    if current_user.update_attributes(:name => params[:name],:avatar_url => avatar_url) && current_teacher.update_attributes(:email => params[:email].strip)
       flash[:notice] = "操作成功!"
       redirect_to "/school_classes/#{params[:school_class_id].to_i}/teachers/teacher_setting"
     end

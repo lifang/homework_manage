@@ -11,6 +11,7 @@ class Teacher < ActiveRecord::Base
   SCREENSHOT_SIZE = [298]
   STATUS = {:YES => 0, :NO => 1}
   STATUS_NAME = {0 => '正常', 1 => "失效"}
+  TEAVHER_URL = "/assets/default_avater.jpg"
 
   def self.get_publish_question_packages school_class_id, page
     sql_str = "select q.id question_package_id, q.name, p.id publish_question_package_id,

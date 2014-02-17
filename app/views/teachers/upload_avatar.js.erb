@@ -3,10 +3,7 @@
   $('#changes_avatar').show();
   $("#fugai").hide();
   $("#fugai1").hide();
-<%else if @status.eql?("bigsize")%>
-    message = "图片不可大于1M";
-    tishi(message);
-    $("#fugai").hide();
-    $("#fugai1").hide();
-  <% end %>
+<%else %>
+  message = "上传图片失败";
+  tishi(message);
 <% end %>

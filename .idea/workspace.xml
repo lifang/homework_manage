@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/views/teachers/create_class.js.erb" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/application.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/style.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/teacher.rb" afterPath="$PROJECT_DIR$/app/models/teacher.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/teachers/teacher_setting.erb" afterPath="$PROJECT_DIR$/app/views/teachers/teacher_setting.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/teachers.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/teachers.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/teachers_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/teachers_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/teachers/upload_avatar.js.erb" afterPath="$PROJECT_DIR$/app/views/teachers/upload_avatar.js.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -46,21 +38,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="282" column="8" selection-start="7396" selection-end="7431" vertical-scroll-proportion="0.0" vertical-offset="958" max-vertical-offset="1836">
-              <folding>
-                <element signature="e#1594#2325#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="students_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="802" column="45" selection-start="31444" selection-end="31444" vertical-scroll-proportion="0.79268295" vertical-offset="7747" max-vertical-offset="8160">
+            <state line="803" column="5" selection-start="31503" selection-end="31503" vertical-scroll-proportion="0.74085367" vertical-offset="7781" max-vertical-offset="8177">
               <folding>
                 <element signature="e#191#702#0" expanded="true" />
                 <element signature="e#3380#3962#0" expanded="true" />
@@ -3288,7 +3269,7 @@
     <frame x="-1" y="24" width="1368" height="745" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.516129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="true" weight="0.516129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.6903226" sideWeight="0.5" order="9" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.22507553" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -3638,7 +3619,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="802" column="45" selection-start="31444" selection-end="31444" vertical-scroll-proportion="0.79268295" vertical-offset="7747" max-vertical-offset="8160">
+        <state line="803" column="5" selection-start="31503" selection-end="31503" vertical-scroll-proportion="0.74085367" vertical-offset="7781" max-vertical-offset="8177">
           <folding>
             <element signature="e#191#702#0" expanded="true" />
             <element signature="e#3380#3962#0" expanded="true" />

@@ -791,15 +791,16 @@ class Api::StudentsController < ApplicationController
   def new_homework
     school_class_id = params[:school_class_id].to_i
     student_id = params[:student_id].to_i
-    finish_id = []
-    if school_class_id != 0 && student_id != 0
-      sql_str = "SELECT p.id FROM homework_manage.publish_question_packages p
-      left join question_packages q on p.question_package_id = q.id
-      left join student_answer_records s on q.id = s.question_package_id
-       where p.school_class_id = #{school_class_id} and s.student_id = #{student_id}
-       and s.status = #{StudentAnswerRecord::STATUS[:FINISH]};"
-      finish_id = PublishQuestionPackage.find_by_sql sql_str
+    num = 0
+    pq_packages = PublishQuestionPackage.find_by_sql(["select id from publish_question_packages
+      where status = ? and end_time >= ? and school_class_id = ? ", PublishQuestionPackage::STATUS[:NEW],
+      Time.now(), school_class_id])
+    if pq_packages.any?
+      s_a_records = StudentAnswerRecord.find_by_sql(["select count(id) total_count from student_answer_records
+        where student_id = ? and publish_question_package_id in (?)", student_id, pq_packages])
+      finish_num = s_a_records.any? ? s_a_records[0].total_count : 0
+      num = pq_packages.length - finish_num
     end
-    render :json => {:finish_id => finish_id}
+    render :json => {:num => num}
   end
 end

@@ -4,9 +4,15 @@ function check_send_microposts(value){
         tishi("内容不能为空");
         return false;
     }
-    if(content.length>=250){
+    else if(content.length>=250){
         tishi("长度不能超过250");
         return false;
+    }
+    else
+    {
+        $(value).find("button").click(function(){
+            return false;
+        });
     }
 }
 
@@ -20,23 +26,27 @@ function main_reply(value){
         tishi("不能为空！");
         return false;
     }
-    var input=$(value).parent().parent().find("input");
-    var micropost_id= $(input[0]).val();
-    var micropost_user_id= $(input[1]).val();
-    var micropost_user_type= $(input[2]).val();
-    var teacher_id= $(input[3]).val();
-    var class_index =get_index(value);
-    $.ajax({
-        async:true,
-        type : 'get',
-        url:'/microposts/'+micropost_id+'/create_reply',
-        dataType:"script",
-        data  :"textarea=" + textarea + "&micropost_id=" + micropost_id+"&class_index="+class_index+"&page="+page
-        + "&micropost_user_id=" + micropost_user_id+ "&micropost_user_type=" + micropost_user_type+ "&teacher_id=" + teacher_id+"&conditions="+$("#condtions").val(),
-        success:function(data){
-            tishi("回复成功！");
-        }
-    });
+    else
+    {
+        $(value).attr("disabled","disabled");
+        var input=$(value).parent().parent().find("input");
+        var micropost_id= $(input[0]).val();
+        var micropost_user_id= $(input[1]).val();
+        var micropost_user_type= $(input[2]).val();
+        var teacher_id= $(input[3]).val();
+        var class_index =get_index(value);
+        $.ajax({
+            async:true,
+            type : 'get',
+            url:'/microposts/'+micropost_id+'/create_reply',
+            dataType:"script",
+            data  :"textarea=" + textarea + "&micropost_id=" + micropost_id+"&class_index="+class_index+"&page="+page
+                + "&micropost_user_id=" + micropost_user_id+ "&micropost_user_type=" + micropost_user_type+ "&teacher_id=" + teacher_id+"&conditions="+$("#condtions").val(),
+            success:function(data){
+                tishi("回复成功！");
+            }
+        });
+    }
 
 }
 

@@ -2,5 +2,6 @@
 tishi('<%= @info[:notice]  %>');
 setTimeout('location.href ="/school_classes/<%= params[:school_class_id].to_i %>/homeworks"',1000);
 <% else %>
+$("#publish_task").removeAttr("disabled");
 tishi('<%= @info[:notice] %>');
 <% end %>

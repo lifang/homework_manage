@@ -28,7 +28,7 @@ class TeachersController < ApplicationController
               :verification_code => verification_code,
               :status => SchoolClass::STATUS[:NORMAL],
               :teaching_material_id => teaching_material_id)
-#            notice = "班级创建成功！"
+            #            notice = "班级创建成功！"
             flash[:verification_code] = "创建成功,班级验证码为:#{@school_class.verification_code}!"
             status = true
           else
@@ -72,9 +72,7 @@ class TeachersController < ApplicationController
   def save_updated_teacher
     avatar_url = current_user.avatar_url
     file_path = "#{Rails.root}/public/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}.jpg"
-    file_paths = "#{Rails.root}/public/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}_176.jpg"
     if !params[:w].nil?
-      File.delete file_paths  if File.exist?(file_paths)
       img  = MiniMagick::Image.open(file_path)
       Teacher::SCREENSHOT_SIZE.each do |size|
         resize = size>img["width"] ? img["width"] :size
@@ -85,9 +83,19 @@ class TeachersController < ApplicationController
           resize = 298/(img["width"].to_f/img["height"])
           img.run_command("convert #{file_path} -resize #{resize}x#{resize} #{new_file}")
         end
+        if avatar_url.eql?(Teacher::TEAVHER_URL)
+          file_paths = "#{Rails.root}/public/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}_1.jpg"
+          avatar_url = "/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}_1.jpg"
+        else
+          index_name = avatar_url.split("_")[2]
+          index_a = index_name.split(".")[0].to_i + 1
+          file_used_paths = "#{Rails.root}/public#{avatar_url}"
+          File.delete file_used_paths  if File.exist?(file_used_paths)
+          file_paths = "#{Rails.root}/public/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}_#{index_a}.jpg"
+          avatar_url = "/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}_#{index_a}.jpg"
+        end
         imgs  = MiniMagick::Image.open(new_file)
         imgs.run_command("convert #{new_file} -crop #{params[:w].to_i}x#{params[:h].to_i}+#{params[:x].to_i}+#{params[:y].to_i} #{file_paths}")
-        avatar_url = "/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}_176.jpg"
       end
     end
     if current_user.update_attributes(:name => params[:name],:avatar_url => avatar_url) && current_teacher.update_attributes(:email => params[:email])

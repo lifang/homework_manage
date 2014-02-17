@@ -1,7 +1,9 @@
-<% if @status %>
+<% if @status.eql?("true") %>
   $('#changes_avatar').html("<%= escape_javascript(render :partial => "cutphotos") %>");
   $('#changes_avatar').show();
-<%else%>
-  message = "图片不存在,请重新选择！";
+  $("#fugai").hide();
+  $("#fugai1").hide();
+<%else %>
+  message = "上传图片失败";
   tishi(message);
 <% end %>

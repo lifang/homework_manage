@@ -872,7 +872,7 @@ a.x {
     text-align: center;
     position: absolute;
     background: #FFF;
-    z-index: 99;
+    z-index: 800;
 }
 .close { 
     width: 20px;

@@ -180,10 +180,16 @@ function GoForthStep(question_pack_id, school_class_id){
 function checkText(obj, path){
     var blanket_reg = new RegExp(/[\s]+/g);
     var value = $.trim($(obj).val()).replace(blanket_reg," ");
-    if($.trim(value)==""){
+    if(value==""){
 //        tishi("内容不能为空");
         $(obj).val("");
-    }else{
+    }
+    else if(value.match(/[^A-Za-z'0-9!,"' ]/g)!=null)
+    {
+        tishi("输入有错，有效范围:英文逗号、英文叹号、英文单引号、英文双引号、英文字母及数字");
+        $(obj).val("");
+    }
+    else{
         $(obj).val(value);
         $(obj).parents("tr").before(branchQuestion);
         $(".book_box_table table > tbody > tr:odd").addClass("tbg");
@@ -280,6 +286,12 @@ function hideInput(obj){
     else if(content == old_content){
         $(obj).hide();
         $(obj).val(content);
+        $(obj).parent().find("p").css("display","inline-block");
+    }
+    else if(content.match(/[^A-Za-z'0-9!,"' ]/g)!=null){
+        tishi("输入有错，有效范围:英文逗号、英文叹号、英文单引号、英文双引号、英文字母及数字");
+        $(obj).val(old_content);
+        $(obj).hide();
         $(obj).parent().find("p").css("display","inline-block");
     }
     else{

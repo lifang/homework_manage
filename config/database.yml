@@ -26,12 +26,12 @@ development:
 #  password: comdo2012
 #  host: 127.0.0.1
 #
-#production:
-#  adapter: mysql2
-#  encoding: utf8
-#  reconnect: false
-#  database: homework_manage
-#  pool: 5
-#  username: root
-#  password: comdo2012
-#  host: 127.0.0.1
+production:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: homework_manage
+  pool: 5
+  username: root
+  password: comdo2012
+  host: 127.0.0.1

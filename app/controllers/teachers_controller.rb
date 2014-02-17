@@ -50,9 +50,13 @@ class TeachersController < ApplicationController
     if !file_upload.nil?
       img = MiniMagick::Image.read(file_upload)
       img.format("jpg") if file_upload.content_type =~ /gif|png$/i   #把别的格式改为jpg
+      p 111
       destination_dir = "avatars/teachers/#{Time.now.strftime('%Y-%m')}"
+      p 222
       rename_file_name = "teacher_#{current_teacher.id}"
-      Dir.mkdir("#{Rails.root}/public/#{destination_dir}") if !Dir.exist? ("#{Rails.root}/public/#{destination_dir}")
+      p 333
+      FileUtils.mkdir_p("#{Rails.root}/public/#{destination_dir}") if !Dir.exist? ("#{Rails.root}/public/#{destination_dir}")
+      p 444
       img.write "#{Rails.root}/public/#{destination_dir}/#{rename_file_name}.jpg"
       @status = "true"
       @src = "/#{destination_dir}/#{rename_file_name}.jpg"

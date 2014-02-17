@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/homeworks/_publish_tasks_list.html.erb" afterPath="$PROJECT_DIR$/app/views/homeworks/_publish_tasks_list.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/homeworks_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/homeworks_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/teacher.rb" afterPath="$PROJECT_DIR$/app/models/teacher.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -86,7 +84,7 @@
       <file leaf-file-name="_publish_tasks_list.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/homeworks/_publish_tasks_list.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="16" selection-start="1096" selection-end="1096" vertical-scroll-proportion="0.45357144" vertical-offset="247" max-vertical-offset="731">
+            <state line="32" column="11" selection-start="1701" selection-end="1701" vertical-scroll-proportion="0.87857145" vertical-offset="298" max-vertical-offset="731">
               <folding />
             </state>
           </provider>
@@ -3769,7 +3767,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/homeworks/_publish_tasks_list.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="16" selection-start="1096" selection-end="1096" vertical-scroll-proportion="0.45357144" vertical-offset="247" max-vertical-offset="731">
+        <state line="32" column="11" selection-start="1701" selection-end="1701" vertical-scroll-proportion="0.87857145" vertical-offset="298" max-vertical-offset="731">
           <folding />
         </state>
       </provider>

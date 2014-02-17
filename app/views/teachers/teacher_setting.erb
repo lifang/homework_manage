@@ -188,4 +188,10 @@
   </div>
 </div>
 
+<script type="text/javascript">
+<% if flash[:verification_code] %>
+    tishi_code("<%= flash[:verification_code] %>");
+<% end %>
+</script>
+
 

@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/question_packages/_share_questions.html.erb" afterPath="$PROJECT_DIR$/app/views/question_packages/_share_questions.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/main.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.rb" afterPath="$PROJECT_DIR$/config/routes.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -16,7 +17,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/homework_manage@Development__homework_manage.coverage" NAME="Development: homework_manage Coverage Results" MODIFIED="1392621510445" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="homework_manage" />
+    <SUITE FILE_PATH="coverage/homework_manage@Development__homework_manage.coverage" NAME="Development: homework_manage Coverage Results" MODIFIED="1392627416904" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="homework_manage" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -30,49 +31,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/homeworks/index.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="10" selection-start="348" selection-end="348" vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="578">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="418" column="1" selection-start="11356" selection-end="11356" vertical-scroll-proportion="0.42326334" vertical-offset="1319" max-vertical-offset="1938">
+            <state line="421" column="20" selection-start="11427" selection-end="11427" vertical-scroll-proportion="0.0" vertical-offset="1916" max-vertical-offset="2482">
               <folding>
+                <element signature="n#!!block;n#delete_packages#0" expanded="true" />
+                <element signature="e#6682#7097#0" expanded="true" />
                 <element signature="n#!!block;n#check_time#0" expanded="true" />
-                <element signature="e#11368#11633#0" expanded="true" />
+                <element signature="n#!!block;n#show_single_record#0" expanded="true" />
+                <element signature="e#8651#8844#0" expanded="true" />
+                <element signature="e#11468#11529#0" expanded="true" />
+                <element signature="e#11564#11607#0" expanded="true" />
+                <element signature="n#!!block;n#close_view_share_question#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/questions/show.html.erb">
+      <file leaf-file-name="share_questions_controller.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/share_questions_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="29" selection-start="168" selection-end="168" vertical-scroll-proportion="-3.2692308" vertical-offset="0" max-vertical-offset="323">
-              <folding />
+            <state line="2" column="10" selection-start="79" selection-end="83" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
+              <folding>
+                <element signature="e#75#220#2" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/question_packages/show.html.erb">
+      <file leaf-file-name="routes.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/config/routes.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="8" selection-start="85" selection-end="85" vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="578">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="new.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/question_packages/new.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="0" selection-start="1104" selection-end="1104" vertical-scroll-proportion="-20.923077" vertical-offset="0" max-vertical-offset="680">
+            <state line="12" column="0" selection-start="368" selection-end="368" vertical-scroll-proportion="0.6559486" vertical-offset="0" max-vertical-offset="2482">
               <folding />
             </state>
           </provider>
@@ -81,7 +72,7 @@
       <file leaf-file-name="_share_questions.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/question_packages/_share_questions.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="80" selection-start="602" selection-end="602" vertical-scroll-proportion="-3.9615386" vertical-offset="220" max-vertical-offset="663">
+            <state line="19" column="82" selection-start="604" selection-end="604" vertical-scroll-proportion="-5.230769" vertical-offset="187" max-vertical-offset="663">
               <folding />
             </state>
           </provider>
@@ -134,7 +125,6 @@
         <option value="$PROJECT_DIR$/app/controllers/messages_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/layouts/_left_side.html.erb" />
         <option value="$PROJECT_DIR$/test/unit/helpers/share_questions_helper_test.rb" />
-        <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/app/views/questions/_show_branch.html.erb" />
         <option value="$PROJECT_DIR$/app/views/questions/show.js.erb" />
         <option value="$PROJECT_DIR$/app/controllers/share_questions_controller.rb" />
@@ -151,9 +141,10 @@
         <option value="$PROJECT_DIR$/app/views/homeworks/index.html.erb" />
         <option value="$PROJECT_DIR$/app/views/homeworks/publish_question_package.js.erb" />
         <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/question_packages/_share_questions.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/main.js" />
-        <option value="$PROJECT_DIR$/app/views/question_packages/_share_questions.html.erb" />
+        <option value="$PROJECT_DIR$/config/routes.rb" />
       </list>
     </option>
   </component>
@@ -345,6 +336,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="questions" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="question_packages" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -360,6 +373,46 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homeworks" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3343,16 +3396,16 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.516129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.7225807" sideWeight="0.5" order="13" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5951613" sideWeight="0.5" order="13" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47580644" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.47580644" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.22507553" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21601209" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4483871" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47741935" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5096774" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -3384,11 +3437,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/questions/edit.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="14" selection-start="1385" selection-end="1385" vertical-scroll-proportion="-2.8076923" vertical-offset="522" max-vertical-offset="833" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/results/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="67" column="4" selection-start="2818" selection-end="2818" vertical-scroll-proportion="0.6421053" vertical-offset="956" max-vertical-offset="1292" />
@@ -3432,16 +3480,6 @@
     <entry file="file://$PROJECT_DIR$/app/controllers/welcome_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="28" selection-start="357" selection-end="357" vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="1139" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/share_questions/view.js.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="33" selection-start="575" selection-end="575" vertical-scroll-proportion="0.14655173" vertical-offset="0" max-vertical-offset="580" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/share_questions_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="225" selection-end="225" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/teachers_controller.rb">
@@ -3523,13 +3561,6 @@
         <state line="21" column="31" selection-start="617" selection-end="617" vertical-scroll-proportion="0.4650456" vertical-offset="204" max-vertical-offset="1037" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/routes.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="339" selection-end="339" vertical-scroll-proportion="0.46646342" vertical-offset="51" max-vertical-offset="2499">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="0" selection-start="494" selection-end="494" vertical-scroll-proportion="0.33231708" vertical-offset="95" max-vertical-offset="16031">
@@ -3599,41 +3630,6 @@
         <state line="806" column="39" selection-start="31588" selection-end="31588" vertical-scroll-proportion="0.5335366" vertical-offset="7900" max-vertical-offset="8228" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/teachers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="24" selection-start="566" selection-end="566" vertical-scroll-proportion="0.19354838" vertical-offset="53" max-vertical-offset="629">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main_pages.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="8" selection-start="667" selection-end="667" vertical-scroll-proportion="0.5982405" vertical-offset="0" max-vertical-offset="765" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="273" column="1" selection-start="10908" selection-end="10908" vertical-scroll-proportion="0.24257426" vertical-offset="907" max-vertical-offset="2193">
-          <folding>
-            <element signature="n#!!block;n#checkText#0" expanded="true" />
-            <element signature="n#!!block;n#hideInput#0" expanded="true" />
-            <marker date="1392625297021" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1392625297021" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1392625297021" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1392625297021" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1392625297021" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1392625297021" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/homeworks/index.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="10" selection-start="348" selection-end="348" vertical-scroll-proportion="-4.576923" vertical-offset="0" max-vertical-offset="578">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/questions/_show_branch.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="30" selection-start="336" selection-end="352" vertical-scroll-proportion="0.3153457" vertical-offset="0" max-vertical-offset="680">
@@ -3648,41 +3644,123 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/questions/show.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/question_packages/new.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="29" selection-start="168" selection-end="168" vertical-scroll-proportion="-3.2692308" vertical-offset="0" max-vertical-offset="323">
+        <state line="32" column="0" selection-start="1104" selection-end="1104" vertical-scroll-proportion="0.93793106" vertical-offset="0" max-vertical-offset="680">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/question_packages/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="8" selection-start="85" selection-end="85" vertical-scroll-proportion="-1.9615384" vertical-offset="0" max-vertical-offset="578">
+        <state line="3" column="8" selection-start="85" selection-end="85" vertical-scroll-proportion="0.08793104" vertical-offset="0" max-vertical-offset="580">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/question_packages/new.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/questions/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="0" selection-start="1104" selection-end="1104" vertical-scroll-proportion="-20.923077" vertical-offset="0" max-vertical-offset="680">
+        <state line="5" column="29" selection-start="168" selection-end="168" vertical-scroll-proportion="0.14333895" vertical-offset="0" max-vertical-offset="593">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/homeworks/index.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="10" selection-start="348" selection-end="348" vertical-scroll-proportion="0.20517242" vertical-offset="0" max-vertical-offset="580">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/results_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="6" selection-start="1328" selection-end="1328" vertical-scroll-proportion="0.43870968" vertical-offset="0" max-vertical-offset="425">
+          <folding>
+            <element signature="e#1324#1735#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/share_questions/view.js.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="33" selection-start="575" selection-end="575" vertical-scroll-proportion="0.29929578" vertical-offset="0" max-vertical-offset="284">
+          <folding>
+            <marker date="1392190531772" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392190531772" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1392190531772" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="262" column="23" selection-start="10631" selection-end="10632" vertical-scroll-proportion="-1.3015873" vertical-offset="1482" max-vertical-offset="2822">
+          <folding>
+            <element signature="n#!!block;n#checkText#0" expanded="true" />
+            <element signature="n#!!block;n#removeBranchQues#0" expanded="true" />
+            <element signature="e#9427#9712#0" expanded="true" />
+            <element signature="e#9559#9698#0" expanded="true" />
+            <element signature="n#!!block;n#hideInput#0" expanded="true" />
+            <marker date="1392628612929" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392628612929" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392628612929" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392628612929" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392628612929" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1392628612929" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/teachers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="24" selection-start="566" selection-end="566" vertical-scroll-proportion="0.0" vertical-offset="56" max-vertical-offset="595">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main_pages.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="19" selection-start="1518" selection-end="1519" vertical-scroll-proportion="3.079365" vertical-offset="687" max-vertical-offset="935">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/question_packages/_share_questions.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="80" selection-start="602" selection-end="602" vertical-scroll-proportion="-3.9615386" vertical-offset="220" max-vertical-offset="663">
+        <state line="19" column="82" selection-start="604" selection-end="604" vertical-scroll-proportion="-5.230769" vertical-offset="187" max-vertical-offset="663">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="418" column="1" selection-start="11356" selection-end="11356" vertical-scroll-proportion="0.42326334" vertical-offset="1319" max-vertical-offset="1938">
+        <state line="421" column="20" selection-start="11427" selection-end="11427" vertical-scroll-proportion="0.0" vertical-offset="1916" max-vertical-offset="2482">
           <folding>
+            <element signature="n#!!block;n#delete_packages#0" expanded="true" />
+            <element signature="e#6682#7097#0" expanded="true" />
             <element signature="n#!!block;n#check_time#0" expanded="true" />
-            <element signature="e#11368#11633#0" expanded="true" />
+            <element signature="n#!!block;n#show_single_record#0" expanded="true" />
+            <element signature="e#8651#8844#0" expanded="true" />
+            <element signature="e#11468#11529#0" expanded="true" />
+            <element signature="e#11564#11607#0" expanded="true" />
+            <element signature="n#!!block;n#close_view_share_question#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/share_questions_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="10" selection-start="79" selection-end="83" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
+          <folding>
+            <element signature="e#75#220#2" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/routes.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="0" selection-start="368" selection-end="368" vertical-scroll-proportion="0.6559486" vertical-offset="0" max-vertical-offset="2482">
+          <folding />
         </state>
       </provider>
     </entry>

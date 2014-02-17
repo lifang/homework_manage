@@ -7,7 +7,7 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
-
+ post "/share_questions/view"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -36,7 +36,6 @@ HomeworkManage::Application.routes.draw do
 
   resources :school_classes do
     resources :main_pages
-
     resources :results
     resources :homeworks do
       collection do

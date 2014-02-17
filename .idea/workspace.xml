@@ -32,7 +32,7 @@
       <file leaf-file-name="index.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/homeworks/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="18" selection-start="636" selection-end="636" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="578">
+            <state line="15" column="18" selection-start="636" selection-end="636" vertical-scroll-proportion="-9.807693" vertical-offset="0" max-vertical-offset="578">
               <folding />
             </state>
           </provider>
@@ -41,15 +41,15 @@
       <file leaf-file-name="zuoye.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="188" column="49" selection-start="7906" selection-end="7906" vertical-scroll-proportion="0.57012194" vertical-offset="459" max-vertical-offset="2193">
+            <state line="186" column="42" selection-start="7837" selection-end="7837" vertical-scroll-proportion="0.10231023" vertical-offset="550" max-vertical-offset="2193">
               <folding>
                 <element signature="n#!!block;n#hideInput#0" expanded="true" />
-                <marker date="1392621790598" expanded="true" signature="144:1513" placeholder="..." />
-                <marker date="1392621790598" expanded="true" signature="179:723" placeholder="..." />
-                <marker date="1392621790598" expanded="true" signature="238:684" placeholder="..." />
-                <marker date="1392621790598" expanded="true" signature="796:1483" placeholder="..." />
-                <marker date="1392621790598" expanded="true" signature="909:1444" placeholder="..." />
-                <marker date="1392621790598" expanded="true" signature="973:1191" placeholder="..." />
+                <marker date="1392625193709" expanded="true" signature="144:1513" placeholder="..." />
+                <marker date="1392625193709" expanded="true" signature="179:723" placeholder="..." />
+                <marker date="1392625193709" expanded="true" signature="238:684" placeholder="..." />
+                <marker date="1392625193709" expanded="true" signature="796:1483" placeholder="..." />
+                <marker date="1392625193709" expanded="true" signature="909:1444" placeholder="..." />
+                <marker date="1392625193709" expanded="true" signature="973:1191" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -164,6 +164,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="RailsProjectView" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -415,7 +416,6 @@
       <pane id="Scope">
         <subPane subId="Default" />
       </pane>
-      <pane id="RailsProjectView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -3351,25 +3351,25 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.516129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.82258064" sideWeight="0.5" order="13" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.7225807" sideWeight="0.5" order="13" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.22507553" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21299094" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21601209" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4483871" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4483871" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5096774" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.47580644" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.47580644" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32819724" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.67741936" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" x="22" y="112" width="1325" height="477" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32973805" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -3397,12 +3397,12 @@
         <state line="184" column="23" selection-start="7788" selection-end="7788" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2193">
           <folding>
             <element signature="n#!!block;n#hideInput#0" expanded="true" />
-            <marker date="1392621790598" expanded="true" signature="144:1513" placeholder="..." />
-            <marker date="1392621790598" expanded="true" signature="179:723" placeholder="..." />
-            <marker date="1392621790598" expanded="true" signature="238:684" placeholder="..." />
-            <marker date="1392621790598" expanded="true" signature="796:1483" placeholder="..." />
-            <marker date="1392621790598" expanded="true" signature="909:1444" placeholder="..." />
-            <marker date="1392621790598" expanded="true" signature="973:1191" placeholder="..." />
+            <marker date="1392625193709" expanded="true" signature="144:1513" placeholder="..." />
+            <marker date="1392625193709" expanded="true" signature="179:723" placeholder="..." />
+            <marker date="1392625193709" expanded="true" signature="238:684" placeholder="..." />
+            <marker date="1392625193709" expanded="true" signature="796:1483" placeholder="..." />
+            <marker date="1392625193709" expanded="true" signature="909:1444" placeholder="..." />
+            <marker date="1392625193709" expanded="true" signature="973:1191" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -3605,9 +3605,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Gemfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="0" selection-start="897" selection-end="897" vertical-scroll-proportion="0.20527859" vertical-offset="525" max-vertical-offset="867">
-          <folding />
-        </state>
+        <state line="35" column="0" selection-start="897" selection-end="897" vertical-scroll-proportion="0.20527859" vertical-offset="525" max-vertical-offset="867" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/homeworks/publish_question_package.js.erb">
@@ -3617,7 +3615,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/homeworks_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="30" selection-start="2123" selection-end="2123" vertical-scroll-proportion="0.6219512" vertical-offset="153" max-vertical-offset="1496" />
+        <state line="54" column="30" selection-start="2123" selection-end="2123" vertical-scroll-proportion="0.6219512" vertical-offset="153" max-vertical-offset="1496">
+          <folding>
+            <element signature="e#226#487#0" expanded="true" />
+            <element signature="e#2095#5036#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/student_answer_record.rb">
@@ -3665,22 +3668,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/homeworks/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="18" selection-start="636" selection-end="636" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="578">
+        <state line="15" column="18" selection-start="636" selection-end="636" vertical-scroll-proportion="-9.807693" vertical-offset="0" max-vertical-offset="578">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="188" column="49" selection-start="7906" selection-end="7906" vertical-scroll-proportion="0.57012194" vertical-offset="459" max-vertical-offset="2193">
+        <state line="186" column="42" selection-start="7837" selection-end="7837" vertical-scroll-proportion="0.10231023" vertical-offset="550" max-vertical-offset="2193">
           <folding>
             <element signature="n#!!block;n#hideInput#0" expanded="true" />
-            <marker date="1392621790598" expanded="true" signature="144:1513" placeholder="..." />
-            <marker date="1392621790598" expanded="true" signature="179:723" placeholder="..." />
-            <marker date="1392621790598" expanded="true" signature="238:684" placeholder="..." />
-            <marker date="1392621790598" expanded="true" signature="796:1483" placeholder="..." />
-            <marker date="1392621790598" expanded="true" signature="909:1444" placeholder="..." />
-            <marker date="1392621790598" expanded="true" signature="973:1191" placeholder="..." />
+            <marker date="1392625193709" expanded="true" signature="144:1513" placeholder="..." />
+            <marker date="1392625193709" expanded="true" signature="179:723" placeholder="..." />
+            <marker date="1392625193709" expanded="true" signature="238:684" placeholder="..." />
+            <marker date="1392625193709" expanded="true" signature="796:1483" placeholder="..." />
+            <marker date="1392625193709" expanded="true" signature="909:1444" placeholder="..." />
+            <marker date="1392625193709" expanded="true" signature="973:1191" placeholder="..." />
           </folding>
         </state>
       </provider>

@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/main.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.rb" afterPath="$PROJECT_DIR$/config/routes.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -49,31 +46,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="share_questions_controller.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/share_questions_controller.rb">
+      <file leaf-file-name="zuoye.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="10" selection-start="79" selection-end="83" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
+            <state line="186" column="42" selection-start="7837" selection-end="7837" vertical-scroll-proportion="0.48231512" vertical-offset="462" max-vertical-offset="2822">
               <folding>
-                <element signature="e#75#220#2" expanded="true" />
+                <element signature="n#!!block;n#removeBranchQues#0" expanded="true" />
+                <element signature="e#9428#9713#0" expanded="true" />
+                <element signature="e#9560#9699#0" expanded="true" />
+                <element signature="n#!!block;n#liHover#0" expanded="true" />
+                <element signature="e#10266#10674#0" expanded="true" />
+                <element signature="e#10608#10660#0" expanded="true" />
+                <element signature="n#!!block;n#hideInput#0" expanded="true" />
+                <marker date="1392629234593" expanded="true" signature="144:1513" placeholder="..." />
+                <marker date="1392629234593" expanded="true" signature="179:723" placeholder="..." />
+                <marker date="1392629234593" expanded="true" signature="238:684" placeholder="..." />
+                <marker date="1392629234593" expanded="true" signature="796:1483" placeholder="..." />
+                <marker date="1392629234593" expanded="true" signature="909:1444" placeholder="..." />
+                <marker date="1392629234593" expanded="true" signature="973:1191" placeholder="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="routes.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/config/routes.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="0" selection-start="368" selection-end="368" vertical-scroll-proportion="0.6559486" vertical-offset="0" max-vertical-offset="2482">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_share_questions.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/question_packages/_share_questions.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="82" selection-start="604" selection-end="604" vertical-scroll-proportion="-5.230769" vertical-offset="187" max-vertical-offset="663">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -142,9 +133,9 @@
         <option value="$PROJECT_DIR$/app/views/homeworks/publish_question_package.js.erb" />
         <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/question_packages/_share_questions.html.erb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/main.js" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
       </list>
     </option>
   </component>
@@ -3692,25 +3683,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="262" column="23" selection-start="10631" selection-end="10632" vertical-scroll-proportion="-1.3015873" vertical-offset="1482" max-vertical-offset="2822">
-          <folding>
-            <element signature="n#!!block;n#checkText#0" expanded="true" />
-            <element signature="n#!!block;n#removeBranchQues#0" expanded="true" />
-            <element signature="e#9427#9712#0" expanded="true" />
-            <element signature="e#9559#9698#0" expanded="true" />
-            <element signature="n#!!block;n#hideInput#0" expanded="true" />
-            <marker date="1392628612929" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1392628612929" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1392628612929" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1392628612929" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1392628612929" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1392628612929" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/teachers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="24" selection-start="566" selection-end="566" vertical-scroll-proportion="0.0" vertical-offset="56" max-vertical-offset="595">
@@ -3732,6 +3704,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/config/routes.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="5" selection-start="247" selection-end="247" vertical-scroll-proportion="0.38263667" vertical-offset="0" max-vertical-offset="2482">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/share_questions_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="10" selection-start="79" selection-end="83" vertical-scroll-proportion="0.10493827" vertical-offset="0" max-vertical-offset="324">
+          <folding>
+            <element signature="e#75#220#2" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="421" column="20" selection-start="11427" selection-end="11427" vertical-scroll-proportion="0.0" vertical-offset="1916" max-vertical-offset="2482">
@@ -3748,19 +3736,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/share_questions_controller.rb">
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="10" selection-start="79" selection-end="83" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="221">
+        <state line="186" column="42" selection-start="7837" selection-end="7837" vertical-scroll-proportion="0.48231512" vertical-offset="462" max-vertical-offset="2822">
           <folding>
-            <element signature="e#75#220#2" expanded="true" />
+            <element signature="n#!!block;n#removeBranchQues#0" expanded="true" />
+            <element signature="e#9428#9713#0" expanded="true" />
+            <element signature="e#9560#9699#0" expanded="true" />
+            <element signature="n#!!block;n#liHover#0" expanded="true" />
+            <element signature="e#10266#10674#0" expanded="true" />
+            <element signature="e#10608#10660#0" expanded="true" />
+            <element signature="n#!!block;n#hideInput#0" expanded="true" />
+            <marker date="1392629234593" expanded="true" signature="144:1513" placeholder="..." />
+            <marker date="1392629234593" expanded="true" signature="179:723" placeholder="..." />
+            <marker date="1392629234593" expanded="true" signature="238:684" placeholder="..." />
+            <marker date="1392629234593" expanded="true" signature="796:1483" placeholder="..." />
+            <marker date="1392629234593" expanded="true" signature="909:1444" placeholder="..." />
+            <marker date="1392629234593" expanded="true" signature="973:1191" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/routes.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="368" selection-end="368" vertical-scroll-proportion="0.6559486" vertical-offset="0" max-vertical-offset="2482">
-          <folding />
         </state>
       </provider>
     </entry>

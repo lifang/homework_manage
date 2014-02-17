@@ -184,7 +184,7 @@ function checkText(obj, path){
 //        tishi("内容不能为空");
         $(obj).val("");
     }
-    else if(value.match(/[^A-Za-z'0-9!,"' ]/g)!=null)
+    else if(value.match(/[^A-Za-z'0-9!,?"' ]/g)!=null)
     {
         tishi("输入有错，有效范围:英文逗号、英文叹号、英文单引号、英文双引号、英文字母及数字");
         $(obj).val("");
@@ -288,7 +288,7 @@ function hideInput(obj){
         $(obj).val(content);
         $(obj).parent().find("p").css("display","inline-block");
     }
-    else if(content.match(/[^A-Za-z'0-9!,"' ]/g)!=null){
+    else if(content.match(/[^A-Za-z'0-9!,?"' ]/g)!=null){
         tishi("输入有错，有效范围:英文逗号、英文叹号、英文单引号、英文双引号、英文字母及数字");
         $(obj).val(old_content);
         $(obj).hide();

@@ -415,16 +415,15 @@ function reload_messages(class_id,user_id)
 }
 
 //查看分享的题目
-function view_share_question(share_question_id)
+function share_question_details(share_question_id)
 {
     $.ajax({
-        async:true,
-        dataType:'script',
+        url:"/share_questions/view",
+        type:"POST",
+        dataType:"script",
         data:{
             share_question_id : share_question_id
         },
-        url:"/share_questions/view",
-        type:'post',
         success : function(data) {
 //            alert("success");
         }

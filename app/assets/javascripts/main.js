@@ -275,11 +275,12 @@ function show_publish_task_panel(question_package_id)
 }
 
 //发布任务时验证时间
-function check_time()
+function check_time(obj)
 {
     end_time = $.trim($("#end_time").val());
     if(end_time != "")
     {
+        $(obj).attr("disabled","disabled");
         $("#submit_publish_task").click();
     }
     else

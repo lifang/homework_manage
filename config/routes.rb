@@ -35,7 +35,11 @@ HomeworkManage::Application.routes.draw do
   end
 
   resources :school_classes do
-    resources :main_pages
+    resources :main_pages do
+      collection do
+        post :delete_student
+      end
+    end
     resources :results
     resources :homeworks do
       collection do

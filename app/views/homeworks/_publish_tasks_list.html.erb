@@ -25,7 +25,7 @@
             <td><%= p.created_at.to_s[0,19] %></td>
             <td><p class="tooltip"><%= p.name %></p></td>
             <td><a href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>" class="td_view">预览</a></td>
-            <td><!--<a href="javascript:void(0);" class="td_write">编辑</a>--></td>
+            <td><a href="javascript:void(0);" class="td_write_ed">编辑</a></td>
             <td><a href="javascript:void(0);" class="td_trash" onclick="delete_packages(<%= p.publish_question_package_id  %>,<%= @school_class.id %>)">删除</a></td>
             <td><%= p.end_time.to_s[0,19] %></td>
           </tr>

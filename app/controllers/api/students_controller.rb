@@ -317,22 +317,17 @@ class Api::StudentsController < ApplicationController
   # 1.qq_openid唯一;2班级验证码唯一
   def record_person_info
     #后台测试时代码
-    #file = ""
-    #params.each_with_index do |e,index|
-    #  file = e[1]  if index == 0
-    #end
     qq_uid = params[:open_id]
     name = params[:name]
     nickname = params[:nickname]
     file = params[:avatar] #上传头像
     verification_code = params[:verification_code]
     student = Student.find_by_qq_uid qq_uid
+    school_class = SchoolClass.find_by_verification_code(verification_code)
     if student.nil?
-      school_class = SchoolClass.find_by_verification_code(verification_code)
       if !school_class.nil?
         if school_class.status == SchoolClass::STATUS[:EXPIRED] ||
             school_class.period_of_validity - Time.now <= 0
-          p school_class.period_of_validity - Time.now
           render :json => {:status => "error", :notice => "班级已失效！"}
         else
           Student.transaction do
@@ -386,9 +381,36 @@ class Api::StudentsController < ApplicationController
         render :json => {:status => status, :notice => notice}
       end
     else
-      notice = "qq账号已经存在,请直接登陆"
-      status = "error"
-      render :json => {:status => status, :notice => notice}
+      if !school_class.nil?
+        student.school_class_student_ralastions.create(:school_class_id => school_class.id)
+        class_id = school_class.id
+        class_name = school_class.name
+        tearcher_id = school_class.teacher.id
+        tearcher_name = school_class.teacher.user.name
+        classmates = SchoolClass.get_classmates school_class, student.id
+        task_messages = TaskMessage.get_task_messages school_class.id
+        page = 1
+        microposts = Micropost.get_microposts school_class,page
+        follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
+        daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
+        messages = Message.get_my_messages school_class, student.user.id
+        render :json => {:status => "success", :notice => "登记成功！",
+                         :student => {:id => student.id, :name => student.user.name,:user_id => student.user.id,
+                                      :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+                         :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+                                    :tearcher_id => tearcher_id },
+                         :classmates => classmates,
+                         :task_messages => task_messages,
+                         :microposts => microposts,
+                         :daily_tasks => daily_tasks,
+                         :follow_microposts_id => follow_microposts_id,
+                         :messages => messages
+        }
+      else
+        notice = "验证码错误,找不到相关班级!"
+        status = "error"
+        render :json => {:status => status, :notice => notice}
+      end
     end
   end
 

@@ -32,9 +32,31 @@
       <file leaf-file-name="students_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="411" column="62" selection-start="18510" selection-end="18510" vertical-scroll-proportion="0.85973597" vertical-offset="3389" max-vertical-offset="4692">
+            <state line="359" column="40" selection-start="15630" selection-end="15630" vertical-scroll-proportion="3.8978496" vertical-offset="5378" max-vertical-offset="14297">
               <folding>
+                <element signature="e#191#702#0" expanded="true" />
+                <element signature="e#715#1727#0" expanded="true" />
+                <element signature="e#1746#2345#0" expanded="true" />
+                <element signature="e#2358#2767#0" expanded="true" />
+                <element signature="e#2778#3366#0" expanded="true" />
+                <element signature="e#3380#3962#0" expanded="true" />
                 <element signature="e#3974#9681#0" expanded="true" />
+                <element signature="e#9700#10802#0" expanded="true" />
+                <element signature="e#10828#12151#0" expanded="true" />
+                <element signature="e#12166#13326#0" expanded="true" />
+                <element signature="e#13342#13638#0" expanded="true" />
+                <element signature="e#17212#19334#0" expanded="true" />
+                <element signature="e#19348#22699#0" expanded="true" />
+                <element signature="e#22715#23609#0" expanded="true" />
+                <element signature="e#23623#24542#0" expanded="true" />
+                <element signature="e#24555#25163#0" expanded="true" />
+                <element signature="e#25176#27644#0" expanded="true" />
+                <element signature="e#27657#28119#0" expanded="true" />
+                <element signature="e#28135#29174#0" expanded="true" />
+                <element signature="e#29191#30076#0" expanded="true" />
+                <element signature="e#30092#31725#0" expanded="true" />
+                <element signature="e#31739#32904#0" expanded="true" />
+                <element signature="e#32908#33717#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -3273,17 +3295,17 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="24" width="1368" height="745" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.516129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4516129" sideWeight="0.5" order="13" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.83225805" sideWeight="0.5" order="13" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.22507553" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47580644" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5096774" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.67741936" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" x="22" y="112" width="1325" height="477" />
+      <window_info id="REST Client" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.67741936" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" x="22" y="112" width="1325" height="477" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20468278" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -3773,9 +3795,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="411" column="62" selection-start="18510" selection-end="18510" vertical-scroll-proportion="0.85973597" vertical-offset="3389" max-vertical-offset="4692">
+        <state line="359" column="40" selection-start="15630" selection-end="15630" vertical-scroll-proportion="3.8978496" vertical-offset="5378" max-vertical-offset="14297">
           <folding>
+            <element signature="e#191#702#0" expanded="true" />
+            <element signature="e#715#1727#0" expanded="true" />
+            <element signature="e#1746#2345#0" expanded="true" />
+            <element signature="e#2358#2767#0" expanded="true" />
+            <element signature="e#2778#3366#0" expanded="true" />
+            <element signature="e#3380#3962#0" expanded="true" />
             <element signature="e#3974#9681#0" expanded="true" />
+            <element signature="e#9700#10802#0" expanded="true" />
+            <element signature="e#10828#12151#0" expanded="true" />
+            <element signature="e#12166#13326#0" expanded="true" />
+            <element signature="e#13342#13638#0" expanded="true" />
+            <element signature="e#17212#19334#0" expanded="true" />
+            <element signature="e#19348#22699#0" expanded="true" />
+            <element signature="e#22715#23609#0" expanded="true" />
+            <element signature="e#23623#24542#0" expanded="true" />
+            <element signature="e#24555#25163#0" expanded="true" />
+            <element signature="e#25176#27644#0" expanded="true" />
+            <element signature="e#27657#28119#0" expanded="true" />
+            <element signature="e#28135#29174#0" expanded="true" />
+            <element signature="e#29191#30076#0" expanded="true" />
+            <element signature="e#30092#31725#0" expanded="true" />
+            <element signature="e#31739#32904#0" expanded="true" />
+            <element signature="e#32908#33717#0" expanded="true" />
           </folding>
         </state>
       </provider>

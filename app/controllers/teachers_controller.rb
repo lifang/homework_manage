@@ -48,14 +48,19 @@ class TeachersController < ApplicationController
   def upload_avatar
     file_upload = params[:file_upload]
     if !file_upload.nil?
-      img = MiniMagick::Image.read(file_upload)
-      img.format("jpg") if file_upload.content_type =~ /gif|png$/i   #把别的格式改为jpg
-      destination_dir = "avatars/teachers/#{Time.now.strftime('%Y-%m')}"
-      rename_file_name = "teacher_#{current_teacher.id}"
-      FileUtils.mkdir_p("#{Rails.root}/public/#{destination_dir}") if !Dir.exist? ("#{Rails.root}/public/#{destination_dir}")
-      img.write "#{Rails.root}/public/#{destination_dir}/#{rename_file_name}.jpg"
-      @status = "true"
-      @src = "/#{destination_dir}/#{rename_file_name}.jpg"
+      if file_upload.size > 1048576
+        @status = "imgbig"
+        @src = ""
+      else
+        img = MiniMagick::Image.read(file_upload)
+        img.format("jpg") if file_upload.content_type =~ /gif|png$/i   #把别的格式改为jpg
+        destination_dir = "avatars/teachers/#{Time.now.strftime('%Y-%m')}"
+        rename_file_name = "teacher_#{current_teacher.id}"
+        FileUtils.mkdir_p("#{Rails.root}/public/#{destination_dir}") if !Dir.exist? ("#{Rails.root}/public/#{destination_dir}")
+        img.write "#{Rails.root}/public/#{destination_dir}/#{rename_file_name}.jpg"
+        @status = "true"
+        @src = "/#{destination_dir}/#{rename_file_name}.jpg"
+      end
     else
       @status = "false"
       @src = ""

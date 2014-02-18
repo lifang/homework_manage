@@ -4,6 +4,13 @@
   $("#fugai").hide();
   $("#fugai1").hide();
 <%else %>
-  message = "上传图片失败";
-  tishi(message);
-<% end %>
+  <% if @status.eql?("imgbig") %>
+    $("#fugai").hide();
+    $("#fugai1").hide();
+    message = "图片不可大于1M";
+    tishi(message);
+  <% else %>
+    message = "上传图片失败";
+    tishi(message);
+  <% end %>
+<%end%>

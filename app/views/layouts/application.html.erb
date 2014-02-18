@@ -5,6 +5,8 @@
     <title>HomeworkManage</title>
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application", "main_pages", "zuoye", "main" %>
+    <%= javascript_include_tag "teachers"%>
+    <%= javascript_include_tag "jquery.Jcrop.min"%>
 
     <script type="text/javascript" src="/assets/My97DatePicker/WdatePicker.js" ></script>
     <%= csrf_meta_tags %>
@@ -20,12 +22,12 @@
           </div>
         </div>
         <% flash.each do |x,y| %>
-         <div class="tab flash"  style="display:none;">
-          <span class="close">关闭</span>
-          <div class="tab_con">
-            <h1 class="red"><%=y%></h1>
+          <div class="tab flash"  style="display:none;">
+            <span class="close">关闭</span>
+            <div class="tab_con">
+              <h1 class="red"><%=y%></h1>
+            </div>
           </div>
-        </div>
         <%end%>
         <%= yield %>
       </div>     

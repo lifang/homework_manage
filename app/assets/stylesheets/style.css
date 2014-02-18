@@ -593,7 +593,7 @@ a.x {
     vertical-align: middle;
 }
 
-.td_view, .td_write, .td_trash, .td_timer { 
+.td_view, .td_write, .td_write_ed, .td_trash, .td_timer {
     width: 25px;
     height: 25px;
     display: inline-block;
@@ -603,6 +603,7 @@ a.x {
 }
 .td_view { background: url(/assets/td_icon.png) no-repeat 0px 0px;}
 .td_write { background: url(/assets/td_icon.png) no-repeat 0px -25px;}
+.td_write_ed { background: url(/assets/td_icon.png) no-repeat -26px -25px; cursor:default;}
 .td_trash { background: url(/assets/td_icon.png) no-repeat 0px -50px;}
 .td_timer { background: url(/assets/td_icon.png) no-repeat 0px -75px;}
 

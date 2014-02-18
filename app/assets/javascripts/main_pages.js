@@ -190,3 +190,21 @@ function height_adjusting(){
     $(".grade_box").css("height",$(".rightSide").height()-40);
     $(".work_book").css("height",$(".rightSide").height());
 }
+
+//删除学生与班级的关系
+function delete_student_relation(school_class_id, student_id)
+{
+    if(confirm("确认删除？"))
+        $.ajax({
+            async:true,
+            type : "POST",
+            url:"/school_classes/"+school_class_id+"/main_pages/delete_student",
+            dataType:"script",
+            data  :{
+               school_class_id : school_class_id,
+               student_id : student_id
+            },
+            success:function(data){
+            }
+        });
+}

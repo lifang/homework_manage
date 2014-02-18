@@ -98,24 +98,6 @@ function shangchuanttouxiang(){
     $("#submit_file").click();
 }
 function upload_avatar(obj,school_class_id){
-    var f=document.getElementById("file_uploads");
-    //     alert(f.value)
-    //    var ie = +[1,];
-    //    if(ie){
-    //        document.getElementById("img_none").src =f.value; //显示预览图片
-    //        var img=new Image();//动态创建img
-    //        img.src=f.value;
-    //        img.style.display="none";
-    //        if(img.readyState=="complete"){//已经load完毕，直接打印文件大小
-    //            alert(img.fileSize);//ie获取文件大小
-    //        }else{
-    //            img.onreadystatechange=function(){
-    //                if(img.readyState=='complete'){//当图片load完毕
-    //                    alert(img.fileSize);//ie获取文件大小
-    //                }
-    //            }
-    //        }
-    //}
     png_reg = /\.png$|\.PNG/;
     jpg_reg = /\.jpg$|\.JPG/;
     var pic = $(obj).val();
@@ -123,7 +105,6 @@ function upload_avatar(obj,school_class_id){
 //    var ie = +[1,];
 var isIE = document.all && window.external
     if(isIE){
-        alert(1111)
     }
     else{
         var file_size = input_s[0].files[0].size;

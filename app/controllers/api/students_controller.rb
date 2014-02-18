@@ -107,10 +107,12 @@ class Api::StudentsController < ApplicationController
     if student.nil?
       render :json => {:status => "error", :notice => "账号不存在，请先注册！"}
     else
-      school_class = SchoolClass.find_by_id student.last_visit_class_id
-      if !school_class.nil?
+      c_s_relation = SchoolClassStudentRalastion.
+          find_by_student_id_and_school_class_id(student.id,student.last_visit_class_id)
+      if !c_s_relation.nil?
+        school_class = SchoolClass.find_by_id student.last_visit_class_id.to_i
         if school_class.status == SchoolClass::STATUS[:EXPIRED] || (school_class.period_of_validity - Time.now) < 0
-          school_classes = student.school_classes.where("status != #{SchoolClass::STATUS[:EXPIRED]} and TIMESTAMPDIFF(SECOND,now(),school_classes.period_of_validity) > 0")
+          school_classes = student.school_classes.where("status = #{SchoolClass::STATUS[:NORMAL]} and TIMESTAMPDIFF(SECOND,now(),school_classes.period_of_validity) > 0")
           if school_classes && school_classes.length == 0
             render :json => {:status => "error", :notice => "上次访问的班级已失效！"}
           else
@@ -166,7 +168,7 @@ class Api::StudentsController < ApplicationController
           }
         end
       else
-        render :json => {:status => "error", :notice => "上次访问班级不存在！"}
+        render :json => {:status => "error", :notice => "您已被踢出该班级！"}
       end
     end
   end

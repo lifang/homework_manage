@@ -660,6 +660,12 @@ a.x {
     border: 1px #CCCCCC solid;
 }
 
+.readWrite_icon { padding-left: 40px;}
+.readWrite_icon li { float: left;}
+.readWrite_icon li a { display: block; height: 28px; line-height: 28px; padding-left: 30px; margin-right: 20px;}
+.readWrite_icon li.rw_read a { background: url(/assets/readWrite_icon.jpg) no-repeat 0 top;}
+.readWrite_icon li.rw_write a { background: url(/assets/readWrite_icon.jpg) no-repeat 0 bottom;}
+
 /*-----分享、删除-------*/
 .book_box_func { height: 28px; line-height: 28px; padding: 0 40px; margin: 10px 0;}
 .book_box_func ul { text-align: right; }
@@ -697,7 +703,7 @@ a.x {
 .progressBar ul {	
     position: absolute;
     top: -10px;
-    left: 112px;
+    left: 160px;
 }
 .progressBar li { 
     border-radius: 50%;

@@ -65,15 +65,27 @@
             </li>
             <li><p ><%= @user.name %></p><input name="name" type="text" value="<%= @user.name %>"/></li>
             <li><p ><%= @teacher.email %></p><input name="email" type="text" value="<%= @teacher.email %>"/></li>
-
             <h1>
-              <button type="button" class="green_btn" onclick="show_update_password()">修改密码</button>
               <button type="submit" id="submit_file" class="green_btn">保存更新</button>
             </h1>
           <% end %>
         </ul>
       </div>
     </div>
+
+    <div class="article">
+      <h1 class="title">修改密码</h1>
+      <div class="user_con">
+        <ul class="grade_info">
+          <li>
+            <h1>
+              <button type="button" class="green_btn" onclick="show_update_password()">修改密码</button>
+            </h1>
+          </li>
+        </ul>
+      </div>
+    </div>
+
 
     <div class="article">
       <h1 class="title">班级信息</h1>

@@ -18,6 +18,15 @@ class Teacher < ActiveRecord::Base
       q.created_at, p.status status, p.end_time from question_packages q left join publish_question_packages p
       on q.id = p.question_package_id where q.school_class_id = #{school_class_id} order by q.created_at desc"
     publish_question_packages = QuestionPackage.find_by_sql(sql_str).paginate(:page => page, :per_page => PublishQuestionPackage::PER_PAGE)
+    pub_package_id = []
+    publish_question_packages.each do |e|
+     if e.publish_question_package_id.nil? == false
+        pub_package_id << e.publish_question_package_id
+     end
+    end
+    student_answer_records = StudentAnswerRecord.where("school_class_id = ? and publish_question_package_id in (?)",school_class_id,pub_package_id)
+    student_answer_records.map!(&:publish_question_package_id).uniq!
+    info = {:publish_question_packages => publish_question_packages, :un_delete => student_answer_records  }
   end
 
   def has_password?(submitted_password)

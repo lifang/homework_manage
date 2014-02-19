@@ -12,7 +12,10 @@ class HomeworksController < ApplicationController
     teacher = Teacher.find_by_id cookies[:teacher_id]
     @school_class = SchoolClass.find_by_id params[:school_class_id].to_i
     page = params[:page]
-    @publish_question_packages = Teacher.get_publish_question_packages @school_class.id, page
+    tasks = Teacher.get_publish_question_packages @school_class.id, page
+    @publish_question_packages = tasks[:publish_question_packages]
+    @un_delete_task = tasks[:un_delete]
+    p @un_delete_task
   end
 
   #删除题包

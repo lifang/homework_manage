@@ -17,7 +17,7 @@
           </div>
         </td>
         <td width="100" class="td_func_bg">
-          <a href="javascript:void(0);" class="preview_icon" onclick="share_question_details(<%= sq.id  %>)">预览</a>
+          <a href="javascript:void(0);" class="preview_icon" onclick="share_question_details(this,<%= @question_pack.id %>,<%= @question.id %>, <%= sq.id  %>)">预览</a>
         </td>
         <td width="100" class="td_func_bg">
           <%= link_to "引用", reference_question_package_question_path(@question_pack, sq) + "?question_id=" + @question.id.to_s ,:remote => true, "data-type" => "script", :method => :post, :class => "td_a_green" %>

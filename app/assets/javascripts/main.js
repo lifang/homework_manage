@@ -1,33 +1,22 @@
 // JavaScript Document
 //tab
 function tabFunc(t){
-
-    var scolltop = document.body.scrollTop|document.documentElement.scrollTop;
-    var win_height = document.documentElement.clientHeight;//jQuery(document).height();
-    var z_layer_height = $(t).height();
-    $(t).css('top',(win_height-z_layer_height)/2 + scolltop);
-    var doc_width = $(document).width();
+    var win_width = $(window).width();
+    var win_height = $(window).height();
+    
+    var layer_height = $(t).height();
     var layer_width = $(t).width();
-    $(t).css('left',(doc_width-layer_width)/2);
-
-
-
-    //    var win_width = $(window).width();
-    //    var win_height = $(window).height();
-    //
-    //    var layer_height = $(t).height();
-    //    var layer_width = $(t).width();
-    //    //alert($(".tab").width());
-    //    if(!$(t).attr("class")=="tab list_classes"){
-    //        $(t).css('top',(win_height-layer_height)/2);
-    //    }else{
-    //        if(win_height>=layer_height){
-    //            $(t).css('top',(win_height-layer_height)/2);
-    //        }else{
-    //            $(t).css('top',0)
-    //        }
-    //    }
-    //    $(t).css('left',(win_width-layer_width)/2);
+    //alert($(".tab").width());
+    if(!$(t).attr("class")=="tab list_classes"){
+        $(t).css('top',(win_height-layer_height)/2);
+    }else{
+        if(win_height>=layer_height){
+            $(t).css('top',(win_height-layer_height)/2);
+        }else{
+            $(t).css('top',0)
+        }
+    }
+    $(t).css('left',(win_width-layer_width)/2);
     $(".close").click(function(){
         $(this).parents(t).css("display","none");
     });
@@ -36,7 +25,7 @@ $(function(){
     $(".flash").show();
     setTimeout("$('.flash').hide(1000)",2000);
     tabFunc(".tab");
-//tabFunc(".tab_article");
+    //tabFunc(".tab_article");
 })
 
 //页面高度
@@ -74,11 +63,10 @@ $(function(){
 $(function(){
     $(".goRegister_a").on("click",function(){
         if( !$(this).is(":animated")){
-            $(".login_box").animate({
-                opacity: 0
-            }, 200 );
+            $(".logoBox").css("display","none");
+            $(".downLoad").css("display","none");
             $(".login_bg").animate({
-                height: "60px"
+                height: "60px",
             }, 200 , function(){
                 $(".register").css("display","block");
             });
@@ -88,11 +76,10 @@ $(function(){
         if( !$(this).is(":animated")){
             $(".register").css("display","none");
             $(".login_bg").animate({
-                height: "437px"
+                height: "437px",
             }, 200 , function(){
-                $(".login_box").animate({
-                    opacity: 1
-                }, 200 );
+                $(".logoBox").css("display","block");
+                $(".downLoad").css("display","block");
             });
         }
     })
@@ -174,13 +161,13 @@ $(function(){
 //切换显示X
 function dia(e){
     $(e).hover(
-        function(){
-            $(this).find("a.x").css("display","block");
-        },
-        function(){
-            $(this).find("a.x").css("display","none");
-        }
-        );
+    function(){
+        $(this).find("a.x").css("display","block");
+    },
+    function(){
+        $(this).find("a.x").css("display","none");
+    }
+);
 }
 $(function(){
     dia(".question_area_con");
@@ -421,17 +408,18 @@ function reload_messages(class_id,user_id)
 }
 
 //查看分享的题目
-function share_question_details(share_question_id)
+function share_question_details(obj,q_pack_id,q_id,share_question_id)
 {
     $.ajax({
         url:"/share_questions/view",
         type:"POST",
         dataType:"script",
         data:{
-            share_question_id : share_question_id
+            share_question_id : share_question_id,
+            question_package_id : q_pack_id,
+            question_id : q_id
         },
         success : function(data) {
-        //            alert("success");
         }
     })
 }

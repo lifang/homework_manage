@@ -1,3 +1,6 @@
+$(".article").show();
+if($("#view_share_question").length > 0)
+$("#view_share_question").remove();
 tishi("引用成功");
 $(".steps").html("<%= j(render :partial => "edit_branch") %>");
 $(".book_box_table table > tbody > tr:odd").addClass("tbg");

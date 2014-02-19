@@ -1,5 +1,8 @@
 <div class="rightSide">
   <div class="main">
+    <% if @pub_pack.nil? %>
+        <div style="height: 38px;"><div style="width: 80px; text-align: center; margin: auto auto 0px auto;" ><a href="/school_classes/<%= params[:school_class_id] %>/question_packages/<%= @question_pack.id %>/questions" ><span class="green_btn">编辑</span></a></div></div>
+    <% end %>
     <% if params[:type].nil? %>
         <div style="height: 38px;"><div style="width: 80px; text-align: center; margin: 0px 10px 0px auto;" ><a href="/school_classes/<%= params[:school_class_id].to_i %>/homeworks" ><span class="green_btn">返回</span></a></div></div>
     <% else %>

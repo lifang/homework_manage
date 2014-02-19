@@ -110,24 +110,33 @@ class WelcomeController < ApplicationController
     status = false
     notice = "班级创建失败，请重新操作！"
     last_visit_class_id = false
-    if teacher.nil?
-      notice = "教师不存在，不能创建班级！"
-    else
-      if teacher.status == Teacher::STATUS[:YES]
-        Teacher.transaction do
-          @school_class = SchoolClass.create(:name => name,:period_of_validity => period_of_validity,
-            :verification_code => verification_code,:status => SchoolClass::STATUS[:NORMAL],
-            :teacher_id => teacher.id, :teaching_material_id => teaching_material_id)
-          if @school_class.save
-            teacher.update_attributes(:last_visit_class_id => @school_class.id)
-            flash[:verification_code] = "创建成功,班级验证码为:#{@school_class.verification_code}!"
-            status = true
-            last_visit_class_id = true
-          end
-        end
+    if verification_code < 111111
+      notice = "班级验证码生成失败，请重新创建班级！"
+      status = false
+    elsif verification_code >= 111111 && verification_code <= 999999
+
+      if teacher.nil?
+        notice = "教师不存在，不能创建班级！"
       else
-        notice = "教师已被禁用，无法进行操作！"
+        if teacher.status == Teacher::STATUS[:YES]
+          Teacher.transaction do
+            @school_class = SchoolClass.create(:name => name,:period_of_validity => period_of_validity,
+              :verification_code => verification_code,:status => SchoolClass::STATUS[:NORMAL],
+              :teacher_id => teacher.id, :teaching_material_id => teaching_material_id)
+            if @school_class.save
+              teacher.update_attributes(:last_visit_class_id => @school_class.id)
+              flash[:verification_code] = "创建成功,班级验证码为:#{@school_class.verification_code}!"
+              status = true
+              last_visit_class_id = true
+            end
+          end
+        else
+          notice = "教师已被禁用，无法进行操作！"
+        end
       end
+    else
+      notice = "班级可用验证码已到达上限，无法创建班级！"
+      status = false
     end
     @info = {:status => status, :notice => notice, :last_visit_class_id => last_visit_class_id}
   end

@@ -67,6 +67,7 @@ class QuestionPackagesController < ApplicationController
   #预览作业
   def show
     @question_pack = QuestionPackage.find_by_id(params[:id])
+    @pub_pack = PublishQuestionPackage.find_by_question_package_id @question_pack.id
     if params[:type].present?
       @questions = params[:type] == "listen" ? @question_pack.questions.listening : @question_pack.questions.reading
     else

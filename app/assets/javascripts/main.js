@@ -235,16 +235,20 @@ function check_value()
 }
 
 //检查班级信息
-function check_class_info()
+function check_class_info(obj)
 {
     teaching_material_id = $.trim($("#teaching_material_id").val());
     class_name = $.trim($("#class_name").val());
     period_of_validity = $.trim($("#period_of_validity").val());
 
     if(teaching_material_id == 0 || class_name == "" || period_of_validity == "")
+    {
         tishi('信息填写不完整不能为空！');
+    }
     else
+    {
         $("#submit_class_info").click();
+    }
 }
 
 //删除题包

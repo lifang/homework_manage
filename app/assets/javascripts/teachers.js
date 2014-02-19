@@ -94,9 +94,9 @@ function update_password(school_class_id){
         }
     })
 }
-function save_updated_click(){
-    $("#submit_file").click();
-}
+//function save_updated_avatars(){
+//    $("#submit_file").click();
+//}
 function upload_avatar(obj,school_class_id){
     png_reg = /\.png$|\.PNG/;
     jpg_reg = /\.jpg$|\.JPG/;

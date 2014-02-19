@@ -160,7 +160,7 @@ function GoForthStep(question_pack_id, school_class_id){
                 var question_pack_id = $("#hidden_question_pack_id").val();
                 $(".remark").parents("form").attr("action", "/school_classes/" + school_class_id +"/question_packages/" + question_pack_id );
                 $(".remark").parents("form").append("<input name=\"_method\" type=\"hidden\" value=\"put\">")
-                $(".remark").show();
+                $(".remark").show("<input name=\"_method\" type=\"hidden\" value=\"put\">");
                 $(".book_box_page li.hover").find("a").attr("href", "/school_classes/" + school_class_id +"/question_packages/" + question_pack_id + "/questions/" + question_id + "/edit");
                 $(".book_box_page li.hover").find("a").attr("data-remote", true);
                 $(".book_box_page li.hover").find("a").attr("data-type", "script");

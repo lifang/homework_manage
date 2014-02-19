@@ -1,14 +1,22 @@
 <div class="book_box_con">
-  <div class="progressBar clearAfter">
-    <ul>
-      <li>1</li>
-      <li>2</li>
-      <li>3</li>
-      <li class="hover">4</li>
-    </ul>
-  </div>
+  <!--<div class="progressBar clearAfter">-->
+    <!--<ul>-->
+      <!--<li>1</li>-->
+      <!--<li>2</li>-->
+      <!--<li>3</li>-->
+    <!--</ul>-->
+  <!--</div>-->
   <input type="hidden" id="hidden_question_id" value="<%= @question.try(:id) %>"/>
   <input type="hidden" id="hidden_question_pack_id" value="<%= @question_pack.id %>"/>
+  <div class="readWrite_icon clearAfter">
+    <ul>
+      <% if @question.types == Question::TYPES[:LISTENING] %>
+        <li class="rw_read"><a href="#">听写作业</a></li>
+      <% elsif @question.types == Question::TYPES[:READING] %>
+        <li class="rw_write"><a href="#">朗读作业</a></li>
+      <% end %>
+    </ul>
+  </div>
   <div class="book_box_func">
     <ul>
       <% if @question %>

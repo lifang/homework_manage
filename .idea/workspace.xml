@@ -2,22 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/images/downLoad.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/images/logo.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/images/nav_icon.png" afterPath="$PROJECT_DIR$/app/assets/images/nav_icon.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/questions/_edit_branch.html.erb" afterPath="$PROJECT_DIR$/app/views/questions/_edit_branch.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/_left_side.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/_left_side.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/questions/_new_branch.html.erb" afterPath="$PROJECT_DIR$/app/views/questions/_new_branch.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/questions/_new_reference.html.erb" afterPath="$PROJECT_DIR$/app/views/questions/_new_reference.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/homeworks/_publish_tasks_list.html.erb" afterPath="$PROJECT_DIR$/app/views/homeworks/_publish_tasks_list.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/main_pages/_questarea_box.html.erb" afterPath="$PROJECT_DIR$/app/views/main_pages/_questarea_box.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/questions/_show_branch.html.erb" afterPath="$PROJECT_DIR$/app/views/questions/_show_branch.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/messages/index.html.erb" afterPath="$PROJECT_DIR$/app/views/messages/index.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/results/index.html.erb" afterPath="$PROJECT_DIR$/app/views/results/index.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/welcome/index.html.erb" afterPath="$PROJECT_DIR$/app/views/welcome/index.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/main.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/share_questions/_view.html.erb" afterPath="$PROJECT_DIR$/app/views/share_questions/_view.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/question_packages/show.html.erb" afterPath="$PROJECT_DIR$/app/views/question_packages/show.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/style.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -46,21 +34,25 @@
       <file leaf-file-name="_view.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/share_questions/_view.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="21" selection-start="12" selection-end="21" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="391">
-              <folding>
-                <element signature="e#105#126#0" expanded="true" />
-                <element signature="e#132#215#0" expanded="true" />
-                <element signature="e#315#336#0" expanded="true" />
-                <element signature="e#342#425#0" expanded="true" />
-              </folding>
+            <state line="0" column="0" selection-start="0" selection-end="323" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="204">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="show.html.erb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/question_packages/show.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="10" selection-start="546" selection-end="546" vertical-scroll-proportion="0.29310346" vertical-offset="17" max-vertical-offset="680">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1272" column="6" selection-start="36102" selection-end="36102" vertical-scroll-proportion="0.27992633" vertical-offset="21472" max-vertical-offset="22967">
+            <state line="5" column="40" selection-start="223" selection-end="223" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="16422">
               <folding />
             </state>
           </provider>
@@ -99,7 +91,7 @@
       <file leaf-file-name="view.js.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/share_questions/view.js.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="69" selection-start="191" selection-end="191" vertical-scroll-proportion="-1.3076923" vertical-offset="0" max-vertical-offset="170">
+            <state line="2" column="68" selection-start="190" selection-end="190" vertical-scroll-proportion="-1.3076923" vertical-offset="0" max-vertical-offset="170">
               <folding>
                 <marker date="1392799459277" expanded="true" signature="79:93" placeholder="..." />
               </folding>
@@ -164,7 +156,6 @@
         <option value="$PROJECT_DIR$/app/models/school_class.rb" />
         <option value="$PROJECT_DIR$/app/controllers/welcome_controller.rb" />
         <option value="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" />
-        <option value="$PROJECT_DIR$/app/views/question_packages/show.html.erb" />
         <option value="$PROJECT_DIR$/app/views/share_questions/view.html.erb" />
         <option value="$PROJECT_DIR$/app/views/question_packages/_share_questions.html.erb" />
         <option value="$PROJECT_DIR$/app/views/share_questions/view.js.erb" />
@@ -172,8 +163,9 @@
         <option value="$PROJECT_DIR$/app/assets/javascripts/main.js" />
         <option value="$PROJECT_DIR$/app/views/questions/reference.js.erb" />
         <option value="$PROJECT_DIR$/app/controllers/homeworks_controller.rb" />
-        <option value="$PROJECT_DIR$/app/views/share_questions/_view.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/style.css" />
+        <option value="$PROJECT_DIR$/app/views/share_questions/_view.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/question_packages/show.html.erb" />
       </list>
     </option>
   </component>
@@ -307,6 +299,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="questions" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="question_packages" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3770,20 +3784,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/question_packages/show.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="25" selection-start="908" selection-end="908" vertical-scroll-proportion="-6.5384617" vertical-offset="0" max-vertical-offset="629">
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/question_packages_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="8" selection-start="481" selection-end="481" vertical-scroll-proportion="0.33333334" vertical-offset="80" max-vertical-offset="952">
@@ -3863,27 +3863,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/share_questions/view.js.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="69" selection-start="191" selection-end="191" vertical-scroll-proportion="-1.3076923" vertical-offset="0" max-vertical-offset="170">
-          <folding>
-            <marker date="1392799459277" expanded="true" signature="79:93" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/share_questions/_view.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="21" selection-start="12" selection-end="21" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
-          <folding>
-            <element signature="e#105#126#0" expanded="true" />
-            <element signature="e#132#215#0" expanded="true" />
-            <element signature="e#315#336#0" expanded="true" />
-            <element signature="e#342#425#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="31" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4335">
@@ -3914,7 +3893,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1272" column="6" selection-start="36102" selection-end="36102" vertical-scroll-proportion="0.27992633" vertical-offset="21472" max-vertical-offset="22967">
+        <state line="5" column="40" selection-start="223" selection-end="223" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="16422">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/share_questions/view.js.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="68" selection-start="190" selection-end="190" vertical-scroll-proportion="-1.3076923" vertical-offset="0" max-vertical-offset="170">
+          <folding>
+            <marker date="1392799459277" expanded="true" signature="79:93" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/share_questions/_view.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="323" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="204">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/question_packages/show.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="10" selection-start="546" selection-end="546" vertical-scroll-proportion="0.29310346" vertical-offset="17" max-vertical-offset="680">
           <folding />
         </state>
       </provider>

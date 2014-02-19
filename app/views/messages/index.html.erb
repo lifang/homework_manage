@@ -22,10 +22,14 @@
           <% end if @messages %>
         </ul>
       </div>
+
       <% if @messages.present? %>
-      <%= will_paginate @messages, :previous_label => "上一页", :next_label => "下一页", :class => "pageTurn" %>
+        <%= will_paginate @messages, :previous_label => "上一页", :next_label => "下一页", :class => "pageTurn" %>
       <% end %>
     </div>
+    <% if @messages.blank? %>
+      <p class="red" style="font-size: 20px;padding-top: 20px;text-align: center;">暂无信息提醒</p>
+    <% end %>
   </div>
 </div>
 <% if flash[:notice] %>

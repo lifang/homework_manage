@@ -2,19 +2,19 @@
   <div class="main setPaddingLeft">
     <div class="article">
       <div class="work_info">
-        <div class="work_info_head clearAfter">
-          <% if @publish_packages and @current_package %>
+      	<% if @publish_packages and @current_package %>
+        <div class="work_info_head clearAfter">          
             <% if  @current_package.listening_count > 0 %>
               <a href="/school_classes/<%= school_class_id %>/question_packages/<%= @question_package.try(:id) %>?type=listen" class="work_h_one">点击查看</a>
             <%  end %>
             <% if @current_package.reading_count > 0 %>
-              <a href="/school_classes/<%= school_class_id %>/question_packages/<%= @question_package.try(:id) %>?type=read" class="work_h_two" onMouseOver="show_eye(this)">点击查看</a>
+              <a href="/school_classes/<%= school_class_id %>/question_packages/<%= @question_package.try(:id) %>?type=read" class="work_h_two">点击查看</a>
             <% end %>
             <div class="work_head_time">
               <p>布置时间：<%= @current_package.created_at.strftime("%Y-%m-%d    %H：%M") if @current_package.created_at %></p>
               <p>截止时间：<%= @current_package.end_time.strftime("%Y-%m-%d    %H：%M") if @current_package.end_time %></p>
             </div>
-          <% end %>
+          
         </div>
         <div class="work_info_body" id="all_students">
           <h1><span>完成情况</span></h1>
@@ -44,6 +44,7 @@
         </div>
         <div class="work_info_body" id="single_student" style="display:none">
         </div>
+      <% end %>
       </div>
     </div>
     <div class="work_book">
@@ -65,9 +66,3 @@
     </div>
   </div>
 </div>
-<script>
-  function show_eye(obj){
-//    $(obj).css('background','url(/assets/icon.png) no-repeat 0 -24px;');
-    $(".work_h_two").style.background  = 'url(/assets/icon.png) no-repeat 0 -24px';
-}
-</script>

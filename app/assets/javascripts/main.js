@@ -61,30 +61,28 @@ $(function(){
 
 //登录注册页 动画
 $(function(){
-    $(".goRegister_a").on("click",function(){
-        if( !$(this).is(":animated")){
-            $(".login_box").animate({
-                opacity: 0
-            }, 200 );
-            $(".login_bg").animate({
-                height: "60px"
-            }, 200 , function(){
-                $(".register").css("display","block");
-            });
-        }
-    });
-    $(".goLogin_a").on("click",function(){
-        if( !$(this).is(":animated")){
-            $(".register").css("display","none");
-            $(".login_bg").animate({
-                height: "437px"
-            }, 200 , function(){
-                $(".login_box").animate({
-                    opacity: 1
-                }, 200 );
-            });
-        }
-    })
+	$(".goRegister_a").on("click",function(){
+		if( !$(this).is(":animated")){
+			$(".logoBox").css("display","none");
+			$(".downLoad").css("display","none");
+			$(".login_bg").animate({ 
+				height: "60px",
+			  }, 200 , function(){
+				 $(".register").css("display","block");
+				});
+		}
+	});
+	$(".goLogin_a").on("click",function(){
+		if( !$(this).is(":animated")){
+			$(".register").css("display","none");
+			$(".login_bg").animate({ 
+				height: "437px",
+			  }, 200 , function(){
+				 $(".logoBox").css("display","block");
+				 $(".downLoad").css("display","block");
+			});
+		}
+	})
 })
 
 //left菜单

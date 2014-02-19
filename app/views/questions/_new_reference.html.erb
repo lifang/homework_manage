@@ -1,11 +1,10 @@
 <div class="book_box_con">
-  <!--<div class="progressBar clearAfter">-->
-    <!--<ul>-->
-      <!--<li>1</li>-->
-      <!--<li>2</li>-->
-      <!--<li>3</li>-->
-    <!--</ul>-->
-  <!--</div>-->
+  <div class="readWrite_icon clearAfter">
+    <ul>
+       <li class="rw_read" id="new_xj_red" style="display: none;">听写题</li>
+       <li class="rw_write" id="new_xj_write" style="display: none;">朗读题</li>
+    </ul>
+  </div>
   <input type="hidden" id="hidden_question_id" value="<%= @question.id %>"/>
   <input type="hidden" id="hidden_question_pack_id" value="<%= @question_pack.id %>"/>
   <div class="book_box_func">

@@ -27,7 +27,7 @@
             <td><a href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>" class="td_view">预览</a></td>
             <td><a href="javascript:void(0);" class="td_write_ed">编辑</a></td>
             <% if @un_delete_task.include?(p.publish_question_package_id) %>
-                <td><a href="javascript:void(0);" class="td_trash">删除</a></td>
+                <td><a href="javascript:void(0);" class="td_trash_ed">删除</a></td>
             <% else %>
                 <td><a href="javascript:void(0);" class="td_trash" onclick="delete_packages(<%= p.publish_question_package_id  %>,<%= @school_class.id %>)">删除</a></td>
             <% end %>
@@ -39,7 +39,7 @@
 
 </table>
 <% if @publish_question_packages.blank? %>
-  <p  style="padding-top: 20px;font-size: 17px;">暂无作业包</p>
+  <p  style="padding-top: 20px;">暂无作业包</p>
 <% end %>
 <%= will_paginate @publish_question_packages,{:class => 'pageTurn', :previous_label => "上一页", :next_label => "下一页"} %>
 

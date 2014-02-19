@@ -154,6 +154,13 @@ function GoForthStep(question_pack_id, school_class_id){
         success:function(data){
             if(data!="-1" && data!="-2"){
                 $(".book_box .steps").html(data);
+                if (question_type == 0) {
+                	$("#new_xj_red").show();
+                	$("#new_xj_write").hide();
+                } else {
+                	$("#new_xj_red").hide();
+                	$("#new_xj_write").show();
+                }
                 $(".book_box_table table > tbody > tr:odd").addClass("tbg");
                 height_adjusting();
                 var question_id = $("#hidden_question_id").val();

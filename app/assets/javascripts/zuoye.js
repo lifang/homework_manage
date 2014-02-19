@@ -139,7 +139,7 @@ function GoForthStep(question_pack_id, school_class_id){
         tishi("请选择课！")
         return false;
     }
-    
+    $(".third_step .remark_btn").find("button").attr("disabled", "disabled");
     $.ajax({
         url: "/question_packages",
         type: "POST",

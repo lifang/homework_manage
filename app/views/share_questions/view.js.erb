@@ -1,6 +1,5 @@
 $(".article").hide();
 $(".main").prepend('<div id="view_share_question" style="display: none;"  class="article"></div>');
-$("#view_share_question").html("<%= j(render :partial => "questions/show_branch") %>");
+$("#view_share_question").html("<%= j(render :partial => "share_questions/view") %>");
 $("#view_share_question").find("[class='book_box_con']").css("margin-left","10px");
-$("#view_share_question").prepend('<div style="height: 58px;"><div style="width: 80px; height:38px;  text-align: center; margin: 10px 10px 10px auto;" ><a onclick="close_view_share_question();" ><span class="green_btn">返回</span></a></div></div>');
 $("#view_share_question").show();

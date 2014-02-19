@@ -26,7 +26,7 @@ class SchoolClass < ActiveRecord::Base
     max_verification_code =  VerificationCode.maximum(:code)
     verification_code = 0
     if max_verification_code.nil?
-      verification_code = 1111110000
+      verification_code = 111111
       begin
         VerificationCode.create(:code => verification_code)
       rescue

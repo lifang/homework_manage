@@ -94,7 +94,7 @@ function update_password(school_class_id){
         }
     })
 }
-function shangchuanttouxiang(){
+function save_updated_click(){
     $("#submit_file").click();
 }
 function upload_avatar(obj,school_class_id){

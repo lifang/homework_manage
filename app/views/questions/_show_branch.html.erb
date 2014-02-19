@@ -3,9 +3,9 @@
     <ul>
     	<% if @question %>
 	       <% if @question.types == Question::TYPES[:LISTENING] %>
-	         <li class="rw_read">听写作业</li>
+	         <li class="rw_read">听写题</li>
 	       <% else %>
-	         <li class="rw_write">朗读作业</li>
+	         <li class="rw_write">朗读题</li>
 	       <% end %>
        <% end %>
     </ul>

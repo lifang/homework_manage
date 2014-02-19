@@ -317,76 +317,71 @@ class Api::StudentsController < ApplicationController
   # 1.qq_openid唯一;2班级验证码唯一
   def record_person_info
     #后台测试时代码
-    #file = ""
-    #params.each_with_index do |e,index|
-    #  file = e[1]  if index == 0
-    #end
     qq_uid = params[:open_id]
     name = params[:name]
     nickname = params[:nickname]
     file = params[:avatar] #上传头像
     verification_code = params[:verification_code]
     student = Student.find_by_qq_uid qq_uid
-    if student.nil?
-      school_class = SchoolClass.find_by_verification_code(verification_code)
-      if !school_class.nil?
+    school_class = SchoolClass.find_by_verification_code(verification_code)
+    if !school_class.nil?
         if school_class.status == SchoolClass::STATUS[:EXPIRED] ||
             school_class.period_of_validity - Time.now <= 0
-          p school_class.period_of_validity - Time.now
           render :json => {:status => "error", :notice => "班级已失效！"}
         else
-          Student.transaction do
-            student = Student.create(:nickname => nickname, :qq_uid => qq_uid,
-              :status => Student::STATUS[:YES],
-              :last_visit_class_id => school_class.id)
-            destination_dir = "avatars/students/#{Time.now.strftime('%Y-%m')}"
-            rename_file_name = "student_#{student.id}"
-            avatar_url = ""
-            if !file.nil?
-              upload = upload_file destination_dir, rename_file_name, file
-              if upload[:status] == true
-                avatar_url = upload[:url]
+          if student.nil?
+            Student.transaction do
+              student = Student.create(:nickname => nickname, :qq_uid => qq_uid,
+                :status => Student::STATUS[:YES],
+                :last_visit_class_id => school_class.id)
+              destination_dir = "avatars/students/#{Time.now.strftime('%Y-%m')}"
+              rename_file_name = "student_#{student.id}"
+              avatar_url = ""
+              if !file.nil?
+                upload = upload_file destination_dir, rename_file_name, file
+                if upload[:status] == true
+                  avatar_url = upload[:url]
+                else
+                  avatar_url = "/assets/default_avater.jpg"
+                end
               else
                 avatar_url = "/assets/default_avater.jpg"
               end
-            else
-              avatar_url = "/assets/default_avater.jpg"
+              user = User.create(:name => name, :avatar_url => avatar_url)
+              student.update_attributes(:user_id => user.id)
             end
-            user = User.create(:name => name, :avatar_url => avatar_url)
-            student.update_attributes(:user_id => user.id)
-            student.school_class_student_ralastions.create(:school_class_id => school_class.id)
-            class_id = school_class.id
-            class_name = school_class.name
-            tearcher_id = school_class.teacher.id
-            tearcher_name = school_class.teacher.user.name
-            classmates = SchoolClass.get_classmates school_class, student.id
-            task_messages = TaskMessage.get_task_messages school_class.id
-            page = 1
-            microposts = Micropost.get_microposts school_class,page
-            follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-            daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
-            messages = Message.get_my_messages school_class, student.user.id
-            render :json => {:status => "success", :notice => "登记成功！",
-              :student => {:id => student.id, :name => student.user.name,:user_id => student.user.id,
-                :nickname => student.nickname, :avatar_url => student.user.avatar_url},
-              :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-                :tearcher_id => tearcher_id },
-              :classmates => classmates,
-              :task_messages => task_messages,
-              :microposts => microposts,
-              :daily_tasks => daily_tasks,
-              :follow_microposts_id => follow_microposts_id,
-              :messages => messages
-            }
           end
-        end
-      else
-        notice = "验证码错误,找不到相关班级!"
-        status = "error"
-        render :json => {:status => status, :notice => notice}
+          c_s_relation = student.school_class_student_ralastions.
+              where("school_class_id = #{school_class.id} and student_id = #{student.id}")
+          if c_s_relation && c_s_relation.length == 0
+            student.school_class_student_ralastions.create(:school_class_id => school_class.id)
+          end
+          class_id = school_class.id
+          class_name = school_class.name
+          tearcher_id = school_class.teacher.id
+          tearcher_name = school_class.teacher.user.name
+          classmates = SchoolClass.get_classmates school_class, student.id
+          task_messages = TaskMessage.get_task_messages school_class.id
+          page = 1
+          microposts = Micropost.get_microposts school_class,page
+          follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
+          daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
+          messages = Message.get_my_messages school_class, student.user.id
+          render :json => {:status => "success", :notice => "登记成功！",
+                           :student => {:id => student.id, :name => student.user.name,:user_id => student.user.id,
+                                        :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+                           :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+                                      :tearcher_id => tearcher_id },
+                           :classmates => classmates,
+                           :task_messages => task_messages,
+                           :microposts => microposts,
+                           :daily_tasks => daily_tasks,
+                           :follow_microposts_id => follow_microposts_id,
+                           :messages => messages
+          }
       end
     else
-      notice = "qq账号已经存在,请直接登陆"
+      notice = "验证码错误,找不到相关班级!"
       status = "error"
       render :json => {:status => status, :notice => notice}
     end

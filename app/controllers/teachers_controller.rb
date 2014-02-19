@@ -10,7 +10,7 @@ class TeachersController < ApplicationController
     name = params[:class_name]
     teaching_material_id = params[:teaching_material_id]
     period_of_validity = params[:period_of_validity]
-    verification_code = SecureRandom.hex(5)
+    verification_code = SchoolClass.get_verification_code
     teacher_id = cookies[:teacher_id]
     teacher = Teacher.find_by_id teacher_id
     teacher_id

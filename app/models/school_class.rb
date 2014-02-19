@@ -21,4 +21,24 @@ class SchoolClass < ActiveRecord::Base
     end
     classmates = SchoolClassStudentRalastion.find_by_sql classmates_sql
   end
+
+  def self.get_verification_code
+    max_verification_code =  VerificationCode.maximum(:code)
+    verification_code = 0
+    if max_verification_code.nil?
+      verification_code = 1111110000
+      begin
+        VerificationCode.create(:code => verification_code)
+      rescue
+        max_verification_code = VerificationCode.maximum(:code)
+        verification_code = max_verification_code + 1
+        VerificationCode.create(:code => verification_code)
+      end
+    else
+      max_verification_code =  VerificationCode.maximum(:code)
+      verification_code = max_verification_code + 1
+      VerificationCode.create(:code => verification_code)
+    end
+    verification_code
+  end
 end

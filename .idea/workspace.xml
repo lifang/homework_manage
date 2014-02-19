@@ -4,10 +4,6 @@
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/welcome/first.html.erb" afterPath="$PROJECT_DIR$/app/views/welcome/first.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/main.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/school_class.rb" afterPath="$PROJECT_DIR$/app/models/school_class.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/teachers_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/teachers_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/welcome_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/welcome_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -85,22 +81,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="first.html.erb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="first.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/welcome/first.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="25" selection-start="1169" selection-end="1176" vertical-scroll-proportion="-5.230769" vertical-offset="357" max-vertical-offset="680">
+            <state line="33" column="8" selection-start="1387" selection-end="1387" vertical-scroll-proportion="0.7285714" vertical-offset="357" max-vertical-offset="680">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="249" column="11" selection-start="6534" selection-end="6534" vertical-scroll-proportion="0.46708465" vertical-offset="888" max-vertical-offset="1989">
+            <state line="240" column="26" selection-start="6291" selection-end="6291" vertical-scroll-proportion="0.0" vertical-offset="761" max-vertical-offset="1921">
               <folding>
                 <element signature="n#!!block;n#share_question_details#0" expanded="true" />
-                <element signature="e#11395#11640#0" expanded="true" />
+                <element signature="e#11368#11613#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -3263,9 +3259,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="24" width="1368" height="745" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.516129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="true" weight="0.516129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4903226" sideWeight="0.5" order="13" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.22507553" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -3652,7 +3648,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="23" column="43" selection-start="1095" selection-end="1095" vertical-scroll-proportion="0.5610561" vertical-offset="51" max-vertical-offset="663">
           <folding>
-            <element signature="e#1105#1169#0" expanded="true" />
+            <element signature="e#1105#1169#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3723,13 +3719,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/welcome/first.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="25" selection-start="1169" selection-end="1176" vertical-scroll-proportion="-5.230769" vertical-offset="357" max-vertical-offset="680">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/teachers_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="20" selection-start="653" selection-end="653" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="1088">
@@ -3739,11 +3728,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="249" column="11" selection-start="6534" selection-end="6534" vertical-scroll-proportion="0.46708465" vertical-offset="888" max-vertical-offset="1989">
+        <state line="240" column="26" selection-start="6291" selection-end="6291" vertical-scroll-proportion="0.0" vertical-offset="761" max-vertical-offset="1921">
           <folding>
             <element signature="n#!!block;n#share_question_details#0" expanded="true" />
-            <element signature="e#11395#11640#0" expanded="true" />
+            <element signature="e#11368#11613#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/welcome/first.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="8" selection-start="1387" selection-end="1387" vertical-scroll-proportion="0.7285714" vertical-offset="357" max-vertical-offset="680">
+          <folding />
         </state>
       </provider>
     </entry>

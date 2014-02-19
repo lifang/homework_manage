@@ -102,8 +102,6 @@ class HomeworksController < ApplicationController
               status = true
               notice = "发布成功！"
               @publish_question_packages = Teacher.get_publish_question_packages @school_class.id, page
-              page = params[:page]
-              @publish_question_packages = @publish_question_packages.paginate(:page => page, :per_page => PublishQuestionPackage::PER_PAGE)
               content = "教师：#{teacher.user.name}于#{publish_question_package.created_at}发布了一个任务
                       '#{publish_question_package.question_package.name}',
                       任务截止时间：#{publish_question_package.end_time}"

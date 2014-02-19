@@ -410,17 +410,19 @@ function reload_messages(class_id,user_id)
 }
 
 //查看分享的题目
-function share_question_details(share_question_id)
+function share_question_details(obj,q_pack_id,q_id,share_question_id)
 {
     $.ajax({
         url:"/share_questions/view",
         type:"POST",
         dataType:"script",
         data:{
-            share_question_id : share_question_id
+            share_question_id : share_question_id,
+            question_package_id : q_pack_id,
+            question_id : q_id
         },
         success : function(data) {
-//            alert("success");
+
         }
     })
 }

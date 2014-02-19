@@ -1,4 +1,15 @@
 <div class="book_box_con">
+  <div class="readWrite_icon clearAfter">
+    <ul>
+    	<% if @question %>
+	       <% if @question.types == Question::TYPES[:LISTENING] %>
+	         <li class="rw_read">听写作业</li>
+	       <% else %>
+	         <li class="rw_write">朗读作业</li>
+	       <% end %>
+       <% end %>
+    </ul>
+  </div>	
   <div class="book_box_area">
     <div class="book_box_table">
       <table width="100%" border="0" cellspacing="0" cellpadding="0">

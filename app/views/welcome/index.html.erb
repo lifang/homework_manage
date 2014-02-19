@@ -1,8 +1,9 @@
 <div class="wrap">
   <div class="login_bg">
+  	<div class="logoBox">
     <%= form_tag({:controller => :welcome, :action => :login}, :remote => true) do %>
-    <div class="login_box">
-      <div class="i_logo">超级作业本</div>
+    <div class="i_logo">超级作业本</div>
+    <div class="login_box">      
       <ul>
         <li class="name"><input id="email" name="email" type="text" placeholder="邮箱"/></li>
         <li class="password"><input id="password" name="password" type="password" placeholder="密码"/></li>
@@ -11,6 +12,7 @@
       </ul>
     </div>
     <% end %>
+    </div>
     <div class="downLoad"><a href="/downloads/cjzyb.apk"><img src="/assets/downLoad.jpg" alt="DOWNLOAD" title="DOWNLOAD"></a></div>
   </div>
   <div class="register">

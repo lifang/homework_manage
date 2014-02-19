@@ -48,7 +48,7 @@
       <h1 class="title">个人信息</h1>
       <div class="user_con">
         <ul class="user_info">
-          <%= form_for :teachers, :url => {:action => :upload_avatar,:controller => :teachers},:html => {:multipart => true,:method => :post,onsubmit: "return check_nonempty()"},:remote => true, "data-type" => "script" do|f|  %>
+          <%= form_for :teachers, :url => {:action => :upload_avatar,:controller => :teachers},:html => {:multipart => true,:method => :post},:remote => true, "data-type" => "script" do|f|  %>
             <li class="avater">
               <div class="avater_default"><img src=<%=  @user.avatar_url%>/></div>
               <a href="javascript:void(0);" class="avater_a">
@@ -58,11 +58,11 @@
             </li>
             <button type="submit" id="submit_avatar" class="green_btn" style="display :none"></button>
           <% end %>
-
+          <li class="avater" id="changes_avatar" style="display:none;">
+          </li>
           <%= form_for :teachers, :url => { :action => :save_updated_teacher, :controller => :teachers},:html => {:multipart => true,:method => :post,onsubmit: "return check_nonempty()"} do|f|%>
 
-            <li class="avater" id="changes_avatar" style="display:none;">
-            </li>
+
             <li><p ><%= @user.name %></p><input name="name" type="text" value="<%= @user.name %>"/></li>
             <li><p ><%= @teacher.email %></p><input name="email" type="text" value="<%= @teacher.email %>"/></li>
             <h1>

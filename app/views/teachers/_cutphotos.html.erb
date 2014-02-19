@@ -1,12 +1,18 @@
+<%= form_for :teachers,:url => {:action => :update_avatar,:controller => :teachers},:html=>{:multipart => true,:method => :post,} do |f| %>
+  <div class="avater_imgBox"><img src="<%=  @src %>" id="cropbox"/></div>
+  <div style="text-align: center">
+    <button type="submit" class="confirm_btn" style="display: inline-block; margin: 5px 15px"> 确定 </button>
+    <button type="button" class="confirm_btn" onclick="cancel_upload()" style="display: inline-block;margin: 5px 15px"> 取消 </button>
+  </div>
 
-<div class="avater_imgBox"><img src="<%=  @src %>" id="cropbox"/></div>
-<button type="button" class="confirm_btn" onclick="cancel_upload()"> 取消 </button>
-<div style="display: none">
-  <input type="text" id="x" name="x" value="111"/>
-  <input type="text" id="y" name="y" value="1111"/>
-  <input type="text" id="w" name="w" value="111"/>
-  <input type="text" id="h" name="h" value="111"/>
-</div>
+  <div style="display: none">
+    <input type="text" id="x" name="x" value="111"/>
+    <input type="text" id="y" name="y" value="1111"/>
+    <input type="text" id="w" name="w" value="111"/>
+    <input type="text" id="h" name="h" value="111"/>
+  </div>
+<% end %>
+
 <script language="Javascript">
   <!--
   jQuery(function($){

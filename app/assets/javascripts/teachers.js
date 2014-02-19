@@ -3,10 +3,12 @@ function show_list_class(){
         var message = "暂无班级可切换";
         tishi(message);
     }else{
+        height_tab();
         $(".list_classes").show();
     }
 }
 function created_new_class(){
+    height_tab();
     $(".created_new_class").show();
 }
 function create_school_class(school_class_id){
@@ -58,6 +60,7 @@ function check_nonempty(){
     }
 }
 function show_update_password(){
+    height_tab();
     $(".update_password").show();
 }
 function update_password(school_class_id){

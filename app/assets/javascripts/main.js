@@ -88,11 +88,6 @@ $(function(){
 })
 
 //left菜单
-$(function(){
-    $(".firstNav > a").click(function(){
-        $(this).parent().find(".menu").toggle(300);
-    });
-})
 
 
 //user_info 修改姓名邮箱

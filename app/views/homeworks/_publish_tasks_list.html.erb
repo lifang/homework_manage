@@ -35,7 +35,7 @@
 
 </table>
 <% if @publish_question_packages.blank? %>
-  <p class="red" style="padding-top: 20px;font-size: 20px;">暂无作业包</p>
+  <p  style="padding-top: 20px;font-size: 17px;">暂无作业包</p>
 <% end %>
 <%= will_paginate @publish_question_packages,{:class => 'pageTurn', :previous_label => "上一页", :next_label => "下一页"} %>
 

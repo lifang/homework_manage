@@ -270,13 +270,13 @@ a.x {
 	padding-left: 30px;
 }
 
+.nav06 { background: url(/assets/nav_icon.png) no-repeat 0px -230px; padding-left: 30px;}
+.nav li a:hover .nav06, .nav li a.hover .nav06 { 
+	background: url(/assets/nav_icon.png) no-repeat 0px -206px; 
+	padding-left: 30px;
+}
+
 .nav li.out { margin-top: 30px;}
-
-
-.nav li .menu { display: none;}
-.nav li .menu a { background: #333333; border-top: 1px solid #000;}
-.nav li .menu a:hover, .nav li .menu a.hover { background: #333333; color: #92b81b;}
-.nav li .menu a:first-child { border: none;}
 
 
 /*right*/
@@ -609,7 +609,7 @@ a.x {
 	vertical-align: middle;
 }
 
-.td_view, .td_write, .td_write_ed, .td_trash, .td_timer { 
+.td_view, .td_write, .td_write_ed, .td_trash, .td_trash_ed, .td_timer { 
 	width: 25px; 
 	height: 25px; 
 	display: inline-block; 
@@ -621,6 +621,7 @@ a.x {
 .td_write { background: url(/assets/td_icon.png) no-repeat 0px -25px;}
 .td_write_ed { background: url(/assets/td_icon.png) no-repeat -26px -25px; cursor:default;}
 .td_trash { background: url(/assets/td_icon.png) no-repeat 0px -50px;}
+.td_trash_ed { background: url(/assets/td_icon.png) no-repeat -26px -50px; cursor:default;}
 .td_timer { background: url(/assets/td_icon.png) no-repeat 0px -75px;}
 
 .tbg { background: #f4f4f4;}
@@ -678,8 +679,8 @@ a.x {
 
 .readWrite_icon { padding-left: 40px;}
 .readWrite_icon li { float: left; display: block; height: 28px; line-height: 28px; padding-left: 30px; margin-right: 20px;}
-.readWrite_icon li.rw_read  { background: url(/assets/readWrite_icon.jpg) no-repeat 0 top;}
-.readWrite_icon li.rw_write  { background: url(/assets/readWrite_icon.jpg) no-repeat 0 bottom;}
+.readWrite_icon li.rw_read { background: url(/assets/readWrite_icon.jpg) no-repeat 0 top;}
+.readWrite_icon li.rw_write { background: url(/assets/readWrite_icon.jpg) no-repeat 0 bottom;}
 
 /*-----分享、删除-------*/
 .book_box_func { height: 28px; line-height: 28px; padding: 0 40px; margin: 10px 0;}

@@ -123,7 +123,6 @@ function upload_avatar(obj,school_class_id){
 //    var ie = +[1,];
 var isIE = document.all && window.external
     if(isIE){
-        alert(1111)
     }
     else{
         var file_size = input_s[0].files[0].size;

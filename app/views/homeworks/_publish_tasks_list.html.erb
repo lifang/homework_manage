@@ -1,37 +1,41 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <thead>
-  <tr>
-    <th>作业包创建时间</th>
-    <th>备注</th>
-    <th>预览</th>
-    <th>编辑</th>
-    <th>删除</th>
-    <th>截止时间</th>
-  </tr>
+    <tr>
+      <th>作业包创建时间</th>
+      <th>备注</th>
+      <th>预览</th>
+      <th>编辑</th>
+      <th>删除</th>
+      <th>截止时间</th>
+    </tr>
   </thead>
   <tbody>
-  <% @publish_question_packages.each do |p| %>
+    <% @publish_question_packages.each do |p| %>
       <% if p.publish_question_package_id.nil?  %>
-          <tr>
-            <td><%= p.created_at.to_s[0,19] %></td>
-            <td><p class="tooltip"><%= p.name %></p></td>
-            <td><a href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>" class="td_view">预览</a></td>
-            <td><a href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>/questions" class="td_write">编辑</a></td>
-            <td><%= link_to "删除", "/school_classes/#{school_class_id}/question_packages/#{p.question_package_id}", :method => :delete, :confirm => "确定删除？",:class => "td_trash" %></td>
-            <td><a href="javascript:void(0);" class="td_timer" onclick="show_publish_task_panel(<%= p.question_package_id %>)" title="点击发布" >时间</a></td>
-          </tr>
+        <tr>
+          <td><%= p.created_at.to_s[0,19] %></td>
+          <td><p class="tooltip"><%= p.name %></p></td>
+          <td><a href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>" class="td_view">预览</a></td>
+          <td><a href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>/questions" class="td_write">编辑</a></td>
+          <td><%= link_to "删除", "/school_classes/#{school_class_id}/question_packages/#{p.question_package_id}", :method => :delete, :confirm => "确定删除？",:class => "td_trash" %></td>
+          <td><a href="javascript:void(0);" class="td_timer" onclick="show_publish_task_panel(<%= p.question_package_id %>)" title="点击发布" >时间</a></td>
+        </tr>
       <% else %>
-          <tr>
-            <td><%= p.created_at.to_s[0,19] %></td>
-            <td><p class="tooltip"><%= p.name %></p></td>
-            <td><a href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>" class="td_view">预览</a></td>
-            <td><a href="javascript:void(0);" class="td_write_ed">编辑</a></td>
-            <td><a href="javascript:void(0);" class="td_trash" onclick="delete_packages(<%= p.publish_question_package_id  %>,<%= @school_class.id %>)">删除</a></td>
-            <td><%= p.end_time.to_s[0,19] %></td>
-          </tr>
+        <tr>
+          <td><%= p.created_at.to_s[0,19] %></td>
+          <td><p class="tooltip"><%= p.name %></p></td>
+          <td><a href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>" class="td_view">预览</a></td>
+          <td><a href="javascript:void(0);" class="td_write_ed">编辑</a></td>
+          <td><a href="javascript:void(0);" class="td_trash" onclick="delete_packages(<%= p.publish_question_package_id  %>,<%= @school_class.id %>)">删除</a></td>
+          <td><%= p.end_time.to_s[0,19] %></td>
+        </tr>
       <% end %>
-  <% end %>
+    <% end %>
   </tbody>
+
 </table>
+<% if @publish_question_packages.blank? %>
+  <p class="red" style="padding-top: 20px;font-size: 20px;">暂无作业包</p>
+<% end %>
 <%= will_paginate @publish_question_packages,{:class => 'pageTurn', :previous_label => "上一页", :next_label => "下一页"} %>
 

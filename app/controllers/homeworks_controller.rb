@@ -21,31 +21,36 @@ class HomeworksController < ApplicationController
     publish_question_package_id = params[:publish_question_package_id]
     school_class_id = params[:school_class_id]
     page = params[:page]
+    status = false
+    notice = "任务删除失败！"
     page = 1  if !page
     @school_class = SchoolClass.find_by_id school_class_id
     publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
     if !publish_question_package.nil?
-      questions_file_dir = "#{base_url}/que_ps/question_p_#{publish_question_package.question_package_id}"
-      FileUtils.remove_dir questions_file_dir if File.exist? questions_file_dir
-      if publish_question_package.task_message && publish_question_package.task_message.destroy
-        student_answer_record_dir = "#{base_url}/pub_que_ps/pub_#{publish_question_package.id}"
-        #删除答题文件
-        FileUtils.remove_dir student_answer_record_dir if Dir.exist? student_answer_record_dir
-        #删除答题记录
-        StudentAnswerRecord.delete_all("question_package_id = #{publish_question_package.question_package.id}")
-        #作业删除文件夹开始
-        delete_question_package_folder(publish_question_package.question_package)
-        #作业删除文件夹结束
-        publish_question_package.question_package.destroy
-        publish_question_package.destroy
-        status = true
-        notice = "任务删除成功！"
-        @publish_question_packages = Teacher.get_publish_question_packages @school_class.id, page
+      student_answer_records = StudentAnswerRecord.
+          where("publish_question_package_id = ? and school_class_id = ?",
+                publish_question_package.id,@school_class.id)
+      if student_answer_records.length == 0
+        questions_file_dir = "#{base_url}/que_ps/question_p_#{publish_question_package.question_package_id}"
+        FileUtils.remove_dir questions_file_dir if File.exist? questions_file_dir
+        if publish_question_package.task_message && publish_question_package.task_message.destroy
+          student_answer_record_dir = "#{base_url}/pub_que_ps/pub_#{publish_question_package.id}"
+          #删除答题文件
+          FileUtils.remove_dir student_answer_record_dir if Dir.exist? student_answer_record_dir
+          #删除答题记录
+          StudentAnswerRecord.delete_all("question_package_id = #{publish_question_package.question_package.id}")
+          #作业删除文件夹开始
+          delete_question_package_folder(publish_question_package.question_package)
+          #作业删除文件夹结束
+          publish_question_package.question_package.destroy
+          publish_question_package.destroy
+          status = true
+          notice = "任务删除成功！"
+        end
       else
-        notice = "任务删除失败，任务消息为空！"
+        notice = "已有学生答题，不能删除任务！"
       end
     else
-      status = false
       notice = "任务删除失败！"
     end
     @info = {:status => status, :notice => notice}

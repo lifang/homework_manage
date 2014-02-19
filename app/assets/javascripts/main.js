@@ -3,7 +3,7 @@
 function tabFunc(t){
     var win_width = $(window).width();
     var win_height = $(window).height();
-
+    
     var layer_height = $(t).height();
     var layer_width = $(t).width();
     //alert($(".tab").width());
@@ -25,7 +25,7 @@ $(function(){
     $(".flash").show();
     setTimeout("$('.flash').hide(1000)",2000);
     tabFunc(".tab");
-//tabFunc(".tab_article");
+    //tabFunc(".tab_article");
 })
 
 //页面高度
@@ -61,28 +61,28 @@ $(function(){
 
 //登录注册页 动画
 $(function(){
-	$(".goRegister_a").on("click",function(){
-		if( !$(this).is(":animated")){
-			$(".logoBox").css("display","none");
-			$(".downLoad").css("display","none");
-			$(".login_bg").animate({ 
-				height: "60px",
-			  }, 200 , function(){
-				 $(".register").css("display","block");
-				});
-		}
-	});
-	$(".goLogin_a").on("click",function(){
-		if( !$(this).is(":animated")){
-			$(".register").css("display","none");
-			$(".login_bg").animate({ 
-				height: "437px",
-			  }, 200 , function(){
-				 $(".logoBox").css("display","block");
-				 $(".downLoad").css("display","block");
-			});
-		}
-	})
+    $(".goRegister_a").on("click",function(){
+        if( !$(this).is(":animated")){
+            $(".logoBox").css("display","none");
+            $(".downLoad").css("display","none");
+            $(".login_bg").animate({
+                height: "60px",
+            }, 200 , function(){
+                $(".register").css("display","block");
+            });
+        }
+    });
+    $(".goLogin_a").on("click",function(){
+        if( !$(this).is(":animated")){
+            $(".register").css("display","none");
+            $(".login_bg").animate({
+                height: "437px",
+            }, 200 , function(){
+                $(".logoBox").css("display","block");
+                $(".downLoad").css("display","block");
+            });
+        }
+    })
 })
 
 //left菜单
@@ -161,13 +161,13 @@ $(function(){
 //切换显示X
 function dia(e){
     $(e).hover(
-        function(){
-            $(this).find("a.x").css("display","block");
-        },
-        function(){
-            $(this).find("a.x").css("display","none");
-        }
-        );
+    function(){
+        $(this).find("a.x").css("display","block");
+    },
+    function(){
+        $(this).find("a.x").css("display","none");
+    }
+);
 }
 $(function(){
     dia(".question_area_con");
@@ -185,8 +185,8 @@ $(function(){
 
 //创建作业 book_box_con
 $(function(){
- $(".book_box_con").css("min-height",$(".book_box_page").height());
- height_adjusting();
+    $(".book_box_con").css("min-height",$(".book_box_page").height());
+    height_adjusting();
 })
 
 //双击修改句子
@@ -384,7 +384,7 @@ function validate_pic(obj)
 //刷新消息
 function reload_messages(class_id,user_id)
 {
-//    alert(class_id);
+    //    alert(class_id);
     $.ajax({
         async:true,
         dataType:'json',
@@ -420,7 +420,6 @@ function share_question_details(obj,q_pack_id,q_id,share_question_id)
             question_id : q_id
         },
         success : function(data) {
-
         }
     })
 }
@@ -431,4 +430,12 @@ function close_view_share_question()
     $("#view_share_question").remove();
     $(".article").show();
 }
-
+function height_tab(){
+    var scolltop = document.body.scrollTop|document.documentElement.scrollTop;
+    var win_height = document.documentElement.clientHeight;//jQuery(document).height();
+    var z_layer_height = $(".tab").height();
+    $(".tab").css('top',(win_height-z_layer_height)/2 + scolltop/2);
+    var doc_width = $(document).width();
+    var layer_width = $(".tab").width();
+    $(".tab").css('left',(doc_width-layer_width)/2);
+}

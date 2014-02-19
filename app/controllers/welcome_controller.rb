@@ -114,8 +114,8 @@ class WelcomeController < ApplicationController
       notice = "班级验证码生成失败，请重新创建班级！"
       status = false
     elsif verification_code >= 111111 && verification_code <= 999999
-
-      if teacher.nil?
+      verification_code = verification_code.to_s + rand(9999).to_s
+          if teacher.nil?
         notice = "教师不存在，不能创建班级！"
       else
         if teacher.status == Teacher::STATUS[:YES]

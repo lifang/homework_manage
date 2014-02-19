@@ -1,5 +1,5 @@
 <div class="wib_title">
-  <a onclick="close_view_share_question();" class="back">返回</a>
   <a href="/question_packages/<%= @question_pack.id  %>/questions/<%= @share_question.id %>/reference?question_id=<%= @question.id  %>" class="quote" data-method="post" data-remote="true" data-type="script" rel="nofollow">引用</a>
+  <a href="javascript:void(0);" onclick="close_view_share_question();" class="back">返回</a>
 </div>
 <%= render :partial => "questions/show_branch" %>

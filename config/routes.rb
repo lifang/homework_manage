@@ -48,7 +48,7 @@ HomeworkManage::Application.routes.draw do
     end
     resources :messages do
       collection do
-        get :check_micropost
+        get :check_micropost,:new_message_remind
       end
     end
 

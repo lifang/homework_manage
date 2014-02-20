@@ -1,4 +1,5 @@
 #encoding: utf-8
+include MicropostsHelper
 class MessagesController < ApplicationController
   before_filter :sign?
   def index
@@ -30,5 +31,11 @@ class MessagesController < ApplicationController
     message = Message.find_by_id(mess_id)
     message.update_attribute("status", Message::STATUS[:READED]) if message
     redirect_to "/school_classes/#{class_id}/main_pages?condtions=#{uid}&init_mid=#{mid}"
+  end
+  def new_message_remind
+    message="nihao!!!"
+    receivervalue ="aaaa"
+    jpush_parameter message,receivervalue
+    render :nothing => true
   end
 end

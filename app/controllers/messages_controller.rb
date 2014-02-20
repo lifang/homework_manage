@@ -33,8 +33,8 @@ class MessagesController < ApplicationController
     redirect_to "/school_classes/#{class_id}/main_pages?condtions=#{uid}&init_mid=#{mid}"
   end
   def new_message_remind
-    message = "111111111111"
-    receivervalue ="a"
+    message = "1111111111ee11"
+    receivervalue ="d"
     jpush_parameter message,receivervalue
     render :nothing => true
   end

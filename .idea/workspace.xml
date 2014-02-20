@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/messages_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/messages_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helpers/microposts_helper.rb" afterPath="$PROJECT_DIR$/app/helpers/microposts_helper.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,7 +33,7 @@
       <file leaf-file-name="microposts_helper.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/helpers/microposts_helper.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="13" selection-start="636" selection-end="636" vertical-scroll-proportion="0.59385663" vertical-offset="47" max-vertical-offset="561">
+            <state line="14" column="18" selection-start="648" selection-end="648" vertical-scroll-proportion="0.4641638" vertical-offset="102" max-vertical-offset="561">
               <folding />
             </state>
           </provider>
@@ -40,7 +42,7 @@
       <file leaf-file-name="messages_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/messages_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="41" selection-start="1466" selection-end="1466" vertical-scroll-proportion="0.0" vertical-offset="339" max-vertical-offset="663">
+            <state line="37" column="14" selection-start="1439" selection-end="1439" vertical-scroll-proportion="0.0" vertical-offset="339" max-vertical-offset="663">
               <folding>
                 <element signature="e#116#704#0" expanded="true" />
                 <element signature="e#980#1345#0" expanded="true" />
@@ -3276,7 +3278,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/messages_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="41" selection-start="1466" selection-end="1466" vertical-scroll-proportion="0.0" vertical-offset="339" max-vertical-offset="663">
+        <state line="37" column="14" selection-start="1439" selection-end="1439" vertical-scroll-proportion="0.0" vertical-offset="339" max-vertical-offset="663">
           <folding>
             <element signature="e#116#704#0" expanded="true" />
             <element signature="e#980#1345#0" expanded="true" />
@@ -3286,7 +3288,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/helpers/microposts_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="636" selection-end="636" vertical-scroll-proportion="0.59385663" vertical-offset="47" max-vertical-offset="561">
+        <state line="14" column="18" selection-start="648" selection-end="648" vertical-scroll-proportion="0.4641638" vertical-offset="102" max-vertical-offset="561">
           <folding />
         </state>
       </provider>

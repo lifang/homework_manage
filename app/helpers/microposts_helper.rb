@@ -6,7 +6,7 @@ module MicropostsHelper
     code = Digest::MD5.hexdigest(input)
     msg_content =  "{\"n_title\":\"1111222\",\"n_content\":#{messages},\"n_extras\":{\"class_id\":\"2\"} }"
     content = {"n_content" => "#{messages}","n_title"=> "2iidid"}
-    content["extras"] = extras_params_hash if !extras_hash.nil? && extras_hash.class == Hash
+    content["extras"]=extras_hash if !extras_hash.nil? && extras_hash.class == Hash
     msg_content = content.to_json()
     map = Hash.new
     map.store("sendno", Micropost::JPUSH[:SENDNO])

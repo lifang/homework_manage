@@ -35,7 +35,7 @@ class MessagesController < ApplicationController
   def new_message_remind
     message = "1111111111ee11"
     receivervalue ="d"
-    jpush_parameter message,receivervalue
+    jpush_parameter message,receivervalue,{:wwww=>"eeeee"}
     render :nothing => true
   end
 end

@@ -22,12 +22,16 @@
           </div>
         </div>
         <% flash.each do |x,y| %>
-          <div class="tab flash"  style="display:none;">
-            <span class="close">关闭</span>
-            <div class="tab_con">
-              <h1 class="red"><%=y%></h1>
-            </div>
-          </div>
+            <% if x != "verification_code" %>
+              <% break %>
+            <% else %>
+              <div class="tab flash"  style="display:none;">
+                <span class="close">关闭</span>
+                <div class="tab_con">
+                  <h1 class="red"><%=y%></h1>
+                </div>
+              </div>
+            <%end%>
         <%end%>
         <%= yield %>
       </div>     

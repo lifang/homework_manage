@@ -15,7 +15,6 @@ class HomeworksController < ApplicationController
     tasks = Teacher.get_publish_question_packages @school_class.id, page
     @publish_question_packages = tasks[:publish_question_packages]
     @un_delete_task = tasks[:un_delete]
-    p @un_delete_task
   end
 
   #删除题包

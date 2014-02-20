@@ -8,6 +8,16 @@ class Micropost < ActiveRecord::Base
   USER_TYPES_NAME = {0 => '教师', 1 => '学生'}
   PER_PAGE = 20
 
+  JPUSH = {
+    :SENDNO => 1001,
+    :RECEIVERTYPE => 3,
+    :MASTERSECRET => "902d3da3dc9366734a84ee21",
+    :APP_KEY => "26e6b3d44da78ea902c7fac9",
+    :MSG_TYPE => 1,
+    :PLATFORM => "android",
+    :URI => "http://api.jpush.cn:8800/v2/push"
+  }
+
   #获取班级的microposts
   def self.get_microposts school_class, page, user_id=nil
     base_sql = "select m.id micropost_id, m.user_id, m.user_types, m.content, m.created_at,

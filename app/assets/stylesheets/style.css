@@ -515,7 +515,7 @@ a.x {
 }
 .work_info_body dl { overflow: hidden;}
 .work_info_body dt { height: 24px; line-height: 24px; color: #a5a2a3;}
-.work_info_body dd { width: 50px; float: left; margin: 10px;}
+.work_info_body dd { width: 50px; float: left; margin: 10px;height: 60px;}
 .work_info_body dd a { width: 50px; height: 50px; display: block; font-size: 0;}
 .work_info_body dd a img { width: 50px; height: 50px;}
 .work_info_body dd p { font-size: 12px; text-align: center;}

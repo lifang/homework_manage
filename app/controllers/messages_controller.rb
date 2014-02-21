@@ -11,7 +11,6 @@ class MessagesController < ApplicationController
         where t.id=? and m.status=? and m.school_class_id=? order by m.created_at desc",
         cookies[:teacher_id].to_i, Message::STATUS[:NOMAL], @class_id], :page => params[:page],
       :per_page => Message::PER_PAGE) if cookies[:teacher_id]
-    
   end
 
   def destroy
@@ -32,7 +31,13 @@ class MessagesController < ApplicationController
     message.update_attribute("status", Message::STATUS[:READED]) if message
     redirect_to "/school_classes/#{class_id}/main_pages?condtions=#{uid}&init_mid=#{mid}"
   end
+  
   def new_message_remind
+    class_id = params[:class_id]
+    sql = "SELECT s.nickname FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
+WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = 56"
+    student = Student.find_by_sql(sql)
+    p student.map(&:nickname)
     message = "1111111111ee11"
     receivervalue ="d"
     jpush_parameter message,receivervalue,{:wwww=>"eeeee"}

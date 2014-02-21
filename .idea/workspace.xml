@@ -4,7 +4,6 @@
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/message.rb" afterPath="$PROJECT_DIR$/app/models/message.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helpers/method_libs_helper.rb" afterPath="$PROJECT_DIR$/app/helpers/method_libs_helper.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -42,21 +41,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="method_libs_helper.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/helpers/method_libs_helper.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="347" column="6" selection-start="12576" selection-end="12576" vertical-scroll-proportion="0.0" vertical-offset="292" max-vertical-offset="884">
-              <folding>
-                <element signature="e#11704#12479#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="messages_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/messages_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="4" selection-start="698" selection-end="698" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="782">
+            <state line="13" column="4" selection-start="698" selection-end="698" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="782">
               <folding>
                 <element signature="e#708#976#0" expanded="true" />
                 <element signature="e#980#1345#0" expanded="true" />
@@ -69,8 +57,20 @@
       <file leaf-file-name="message.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/message.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="90" selection-start="2085" selection-end="2085" vertical-scroll-proportion="0.47635135" vertical-offset="330" max-vertical-offset="1088">
+            <state line="37" column="39" selection-start="2201" selection-end="2201" vertical-scroll-proportion="0.6317568" vertical-offset="255" max-vertical-offset="1071">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="method_libs_helper.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/helpers/method_libs_helper.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="345" column="51" selection-start="12532" selection-end="12532" vertical-scroll-proportion="0.0" vertical-offset="292" max-vertical-offset="884">
+              <folding>
+                <element signature="e#11704#12479#0" expanded="true" />
+                <element signature="e#12483#12637#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -3345,15 +3345,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/helpers/method_libs_helper.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="347" column="6" selection-start="12576" selection-end="12576" vertical-scroll-proportion="0.0" vertical-offset="292" max-vertical-offset="884">
-          <folding>
-            <element signature="e#11704#12479#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/messages_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="4" selection-start="698" selection-end="698" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="782">
@@ -3381,9 +3372,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/helpers/method_libs_helper.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="345" column="51" selection-start="12532" selection-end="12532" vertical-scroll-proportion="0.0" vertical-offset="292" max-vertical-offset="884">
+          <folding>
+            <element signature="e#11704#12479#0" expanded="true" />
+            <element signature="e#12483#12637#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/message.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="90" selection-start="2085" selection-end="2085" vertical-scroll-proportion="0.47635135" vertical-offset="330" max-vertical-offset="1088">
+        <state line="37" column="39" selection-start="2201" selection-end="2201" vertical-scroll-proportion="0.6317568" vertical-offset="255" max-vertical-offset="1071">
           <folding />
         </state>
       </provider>

@@ -342,4 +342,10 @@ module MethodLibsHelper
     end
     avatar_url
   end
+
+  def send_push_msg content, alias_name
+    unless teachers_id.include?(reciver_id.to_i)
+      jpush_parameter content, alias_name
+    end
+  end
 end

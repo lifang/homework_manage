@@ -10,6 +10,7 @@ class SchoolClass < ActiveRecord::Base
   has_many :school_class_student_ralastions, :dependent => :destroy
   has_many :students, :through =>  :school_class_student_ralastions
   validates_uniqueness_of :verification_code
+  #获取同班同学信息
   def self.get_classmates school_class, current_student_id=nil
     classmates_sql = "select s.id, u.name, u.avatar_url, s.nickname from
     school_class_student_ralastions r left join students s on
@@ -20,6 +21,22 @@ class SchoolClass < ActiveRecord::Base
       classmates_sql += "and s.id != #{current_student_id} "
     end
     classmates = SchoolClassStudentRalastion.find_by_sql classmates_sql
+    classmates_id = classmates.map(&:id).uniq
+    archivements_records = ArchivementsRecord
+      .where(["student_id in (?) and school_class_id = ?", classmates_id, school_class.id])
+      .select("student_id, archivement_score, archivement_types")
+      .group_by {|s| s.student_id }
+    collections = []
+    classmates.each do |classmate|
+      if archivements_records[classmate.id] == nil
+        archivement = []
+      else
+        archivement = archivements_records[classmate.id]
+      end
+      collections << {:id => classmate.id, :name => classmate.name, :avatar_url => classmate.avatar_url,
+              :archivement => archivement}
+    end
+    collections
   end
 
   def self.get_verification_code

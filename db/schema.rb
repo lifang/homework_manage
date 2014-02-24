@@ -11,7 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140221020734) do
+ActiveRecord::Schema.define(:version => 20140224035158) do
+
+  create_table "archivements_records", :force => true do |t|
+    t.integer  "school_class_id"
+    t.integer  "student_id"
+    t.integer  "archivement_score"
+    t.integer  "archivement_types"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "archivements_records", ["school_class_id"], :name => "index_archivements_records_on_school_class_id"
+  add_index "archivements_records", ["student_id"], :name => "index_archivements_records_on_student_id"
 
   create_table "branch_questions", :force => true do |t|
     t.string   "content"
@@ -23,6 +35,17 @@ ActiveRecord::Schema.define(:version => 20140221020734) do
   end
 
   add_index "branch_questions", ["question_id"], :name => "index_branch_questions_on_question_id"
+
+  create_table "card_bags", :force => true do |t|
+    t.integer  "school_class_id"
+    t.integer  "student_id"
+    t.integer  "knowledges_cards_count"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+  end
+
+  add_index "card_bags", ["school_class_id"], :name => "index_card_bags_on_school_class_id"
+  add_index "card_bags", ["student_id"], :name => "index_card_bags_on_student_id"
 
   create_table "cells", :force => true do |t|
     t.string   "name"
@@ -48,6 +71,18 @@ ActiveRecord::Schema.define(:version => 20140221020734) do
   add_index "follow_microposts", ["micropost_id"], :name => "index_follow_microposts_on_micropost_id"
   add_index "follow_microposts", ["user_id"], :name => "index_follow_microposts_on_user_id"
 
+  create_table "knowledges_cards", :force => true do |t|
+    t.integer  "card_bag_id"
+    t.integer  "mistake_types"
+    t.integer  "branch_question_id"
+    t.string   "your_answer"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  add_index "knowledges_cards", ["branch_question_id"], :name => "index_knowledges_cards_on_branch_question_id"
+  add_index "knowledges_cards", ["card_bag_id"], :name => "index_knowledges_cards_on_card_bag_id"
+
   create_table "messages", :force => true do |t|
     t.integer  "user_id"
     t.string   "content"
@@ -71,10 +106,19 @@ ActiveRecord::Schema.define(:version => 20140221020734) do
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
     t.integer  "reply_microposts_count", :default => 0
+    t.integer  "follow_micropost_count"
   end
 
   add_index "microposts", ["school_class_id"], :name => "index_microposts_on_school_class_id"
   add_index "microposts", ["user_id"], :name => "index_microposts_on_user_id"
+
+  create_table "props", :force => true do |t|
+    t.string   "name"
+    t.integer  "types"
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "publish_question_packages", :force => true do |t|
     t.integer  "question_package_id"
@@ -87,6 +131,7 @@ ActiveRecord::Schema.define(:version => 20140221020734) do
     t.datetime "updated_at",            :null => false
     t.integer  "listening_count"
     t.integer  "reading_count"
+    t.integer  "tag_id"
   end
 
   add_index "publish_question_packages", ["question_package_id"], :name => "index_publish_question_packages_on_question_package_id"
@@ -119,9 +164,34 @@ ActiveRecord::Schema.define(:version => 20140221020734) do
     t.integer  "cell_id"
     t.integer  "episode_id"
     t.boolean  "if_shared"
+    t.integer  "questions_time"
   end
 
   add_index "questions", ["question_package_id"], :name => "index_questions_on_question_package_id"
+
+  create_table "record_details", :force => true do |t|
+    t.integer  "used_time"
+    t.integer  "specified_time"
+    t.integer  "question_types"
+    t.integer  "correct_rate"
+    t.integer  "score"
+    t.integer  "is_complete"
+    t.integer  "student_answer_record_id"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
+
+  add_index "record_details", ["student_answer_record_id"], :name => "index_record_details_on_student_answer_record_id"
+
+  create_table "record_use_props", :force => true do |t|
+    t.integer  "user_prop_relation_id"
+    t.integer  "branch_question_id"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  add_index "record_use_props", ["branch_question_id"], :name => "index_record_use_props_on_branch_question_id"
+  add_index "record_use_props", ["user_prop_relation_id"], :name => "index_record_use_props_on_user_prop_relation_id"
 
   create_table "reply_microposts", :force => true do |t|
     t.integer  "sender_id"
@@ -218,6 +288,37 @@ ActiveRecord::Schema.define(:version => 20140221020734) do
 
   add_index "students", ["user_id"], :name => "index_students_on_user_id"
 
+  create_table "sys_messages", :force => true do |t|
+    t.integer  "school_class_id"
+    t.integer  "student_id"
+    t.string   "content"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "status"
+  end
+
+  add_index "sys_messages", ["school_class_id"], :name => "index_sys_messages_on_school_class_id"
+  add_index "sys_messages", ["student_id"], :name => "index_sys_messages_on_student_id"
+
+  create_table "tag_student_relations", :force => true do |t|
+    t.integer  "tag_id"
+    t.integer  "student_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "tag_student_relations", ["student_id"], :name => "index_tag_student_relations_on_student_id"
+  add_index "tag_student_relations", ["tag_id"], :name => "index_tag_student_relations_on_tag_id"
+
+  create_table "tags", :force => true do |t|
+    t.string   "name"
+    t.integer  "school_class_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "tags", ["school_class_id"], :name => "index_tags_on_school_class_id"
+
   create_table "task_messages", :force => true do |t|
     t.integer  "school_class_id"
     t.string   "content"
@@ -249,6 +350,19 @@ ActiveRecord::Schema.define(:version => 20140221020734) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "user_prop_relations", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "prop_id"
+    t.integer  "user_prop_num"
+    t.integer  "school_class_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "user_prop_relations", ["prop_id"], :name => "index_user_prop_relations_on_prop_id"
+  add_index "user_prop_relations", ["school_class_id"], :name => "index_user_prop_relations_on_school_class_id"
+  add_index "user_prop_relations", ["student_id"], :name => "index_user_prop_relations_on_student_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"

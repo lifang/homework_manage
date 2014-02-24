@@ -19,7 +19,7 @@ class Message < ActiveRecord::Base
         Message.create(:user_id => reciver_id, :content => m_content, :micropost_id => micropost_id,
                        :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id)
         student = Student.find_by_user_id reciver_id.to_i
-        send_push_msg m_content, student.alias_name, teachers_id if reciver_types == 0 && !student.nil?
+        send_push_msg m_content, student.alias_name, teachers_id, reciver_id if reciver_types == 0 && !student.nil?
       end
       follow_microposts = FollowMicropost.find_all_by_micropost_id(micropost_id.to_i)
       follow_users = follow_microposts.collect {|i| i.user_id }
@@ -28,12 +28,12 @@ class Message < ActiveRecord::Base
         Message.create(:user_id => reciver_id, :content => e_content, :micropost_id => micropost_id,
                        :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id)
         student = Student.find_by_user_id reciver_id.to_i
-        send_push_msg m_content, student.alias_name, teachers_id  if reciver_types == 0 && !student.nil?
+        send_push_msg m_content, student.alias_name, teachers_id, reciver_id  if reciver_types == 0 && !student.nil?
       end
       if follow_microposts.any?
         follow_users -= [sender_id.to_i]  if follow_users.include?(sender_id.to_i)
         students = Student.where(["user_id in (?)",follow_users]).map!(&:alias_name)
-        send_push_msg m_content, student.alias_name, teachers_id  if reciver_types == 0 && !student.nil?
+        send_push_msg m_content, student.alias_name, teachers_id, reciver_id  if reciver_types == 0 && !student.nil?
         follow_users.each do |u_id|
           unless sender_id.to_i == u_id
             f_content = "[[" + sender.name + "]]回复了您关注的消息：;||;" + content

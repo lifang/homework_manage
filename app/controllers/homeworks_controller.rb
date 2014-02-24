@@ -30,8 +30,8 @@ class HomeworksController < ApplicationController
     publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
     if !publish_question_package.nil?
       student_answer_records = StudentAnswerRecord.
-          where("publish_question_package_id = ? and school_class_id = ?",
-                publish_question_package.id,@school_class.id)
+        where("publish_question_package_id = ? and school_class_id = ?",
+        publish_question_package.id,@school_class.id)
       if student_answer_records.length == 0
         questions_file_dir = "#{base_url}/que_ps/question_p_#{publish_question_package.question_package_id}"
         FileUtils.remove_dir questions_file_dir if File.exist? questions_file_dir
@@ -108,6 +108,18 @@ class HomeworksController < ApplicationController
                 :period_of_validity => publish_question_package.end_time,
                 :status => TaskMessage::STATUS[:YES],
                 :publish_question_package_id => publish_question_package.id)
+
+              p  school_class_id
+              sql = "SELECT s.nickname FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
+WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = ?"
+              student = Student.find_by_sql([sql,school_class_id])
+              p student.map(&:nickname)
+              message = "1111111111ee11"
+              receivervalue ="d"
+              send_push_msg message,receivervalue,{:wwww=>"eeeee"}
+#              render :nothing => true
+
+              #              send_push_msg content, alias_name,teachers_id
             end
           end
         end

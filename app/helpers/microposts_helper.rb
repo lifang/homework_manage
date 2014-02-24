@@ -18,6 +18,5 @@ module MicropostsHelper
     map.store("msg_content",msg_content)
     map.store("platform", Micropost::JPUSH[:PLATFORM])
     data =  (Net::HTTP.post_form(URI.parse(Micropost::JPUSH[:URI]), map)).body
-    p data
   end
 end

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  student_id: 
+  prop_id: 1
+  user_prop_num: 
+  school_class_id: 1
+
+two:
+  student_id: 
+  prop_id: 1
+  user_prop_num: 
+  school_class_id: 1

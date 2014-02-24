@@ -52,23 +52,18 @@
       <file leaf-file-name="students_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="172" column="68" selection-start="8117" selection-end="8117" vertical-scroll-proportion="0.58721936" vertical-offset="2193" max-vertical-offset="4148">
+            <state line="387" column="18" selection-start="16647" selection-end="16647" vertical-scroll-proportion="0.23488773" vertical-offset="5916" max-vertical-offset="7021">
               <folding>
                 <element signature="e#191#702#0" expanded="true" />
                 <element signature="e#715#1727#0" expanded="true" />
                 <element signature="e#2778#3366#0" expanded="true" />
-                <element signature="e#3385#3967#0" expanded="true" />
-                <element signature="e#10827#11987#0" expanded="true" />
+                <element signature="e#3380#3962#0" expanded="true" />
+                <element signature="e#3974#8559#0" expanded="true" />
+                <element signature="e#8578#9680#0" expanded="true" />
+                <element signature="e#9706#11029#0" expanded="true" />
+                <element signature="e#11044#12204#0" expanded="true" />
+                <element signature="e#12577#15676#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="method_libs_helper.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/helpers/method_libs_helper.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="347" column="41" selection-start="12636" selection-end="12636" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -3347,20 +3342,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/helpers/method_libs_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="347" column="41" selection-start="12636" selection-end="12636" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
+        <state line="347" column="41" selection-start="12636" selection-end="12636" vertical-scroll-proportion="0.7753378" vertical-offset="0" max-vertical-offset="629">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="172" column="68" selection-start="8117" selection-end="8117" vertical-scroll-proportion="0.58721936" vertical-offset="2193" max-vertical-offset="4148">
+        <state line="387" column="18" selection-start="16647" selection-end="16647" vertical-scroll-proportion="0.23488773" vertical-offset="5916" max-vertical-offset="7021">
           <folding>
             <element signature="e#191#702#0" expanded="true" />
             <element signature="e#715#1727#0" expanded="true" />
             <element signature="e#2778#3366#0" expanded="true" />
-            <element signature="e#3385#3967#0" expanded="true" />
-            <element signature="e#10827#11987#0" expanded="true" />
+            <element signature="e#3380#3962#0" expanded="true" />
+            <element signature="e#3974#8559#0" expanded="true" />
+            <element signature="e#8578#9680#0" expanded="true" />
+            <element signature="e#9706#11029#0" expanded="true" />
+            <element signature="e#11044#12204#0" expanded="true" />
+            <element signature="e#12577#15676#0" expanded="true" />
           </folding>
         </state>
       </provider>

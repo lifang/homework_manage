@@ -82,7 +82,7 @@ class Api::StudentsController < ApplicationController
     render :json => {:classes => classes}
   end
   
-  #所有消息和我的消息
+  #我的消息
   def my_microposts    
     school_class = SchoolClass.find_by_id params[:school_class_id].to_i
     micropost_hash = {}
@@ -121,16 +121,17 @@ class Api::StudentsController < ApplicationController
             class_name = school_class.name
             tearcher_id = school_class.teacher.id
             tearcher_name = school_class.teacher.user.name
+            classmates = SchoolClass.get_classmates school_class, student.id
             page = 1
             microposts = Micropost.get_microposts school_class,page
             follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-            daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
             student.update_attributes(:last_visit_class_id => school_class.id)
             render :json => {:status => "success", :notice => "登录成功！",
               :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
                 :nickname => student.nickname, :avatar_url => student.user.avatar_url},
               :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
                 :tearcher_id => tearcher_id },
+              :classmates => classmates,
               :microposts => microposts,
               :follow_microposts_id => follow_microposts_id,
             }
@@ -140,6 +141,7 @@ class Api::StudentsController < ApplicationController
           class_name = school_class.name
           tearcher_id = school_class.teacher.id
           tearcher_name = school_class.teacher.user.name
+          classmates = SchoolClass.get_classmates school_class, student.id
           page = 1
           microposts = Micropost.get_microposts school_class,page
           follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
@@ -148,6 +150,7 @@ class Api::StudentsController < ApplicationController
               :nickname => student.nickname, :avatar_url => student.user.avatar_url},
             :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
               :tearcher_id => tearcher_id },
+            :classmates => classmates,
             :microposts => microposts,
             :follow_microposts_id => follow_microposts_id,
           }
@@ -162,6 +165,7 @@ class Api::StudentsController < ApplicationController
           class_name = school_class.name
           tearcher_id = school_class.teacher.id
           tearcher_name = school_class.teacher.user.name
+          classmates = SchoolClass.get_classmates school_class, student.id
           page = 1
           microposts = Micropost.get_microposts school_class,page
           follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
@@ -171,9 +175,9 @@ class Api::StudentsController < ApplicationController
                                         :nickname => student.nickname, :avatar_url => student.user.avatar_url},
                            :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
                                       :tearcher_id => tearcher_id },
+                           :classmates => classmates,
                            :microposts => microposts,
                            :follow_microposts_id => follow_microposts_id,
-                           :messages => messages
           }
         end
       end
@@ -339,23 +343,17 @@ class Api::StudentsController < ApplicationController
           tearcher_id = school_class.teacher.id
           tearcher_name = school_class.teacher.user.name
           classmates = SchoolClass.get_classmates school_class, student.id
-          task_messages = TaskMessage.get_task_messages school_class.id
           page = 1
           microposts = Micropost.get_microposts school_class,page
           follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-          daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
-          messages = Message.get_my_messages school_class, student.user.id
           render :json => {:status => "success", :notice => "登记成功！",
                            :student => {:id => student.id, :name => student.user.name,:user_id => student.user.id,
                                         :nickname => student.nickname, :avatar_url => student.user.avatar_url},
                            :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
                                       :tearcher_id => tearcher_id },
                            :classmates => classmates,
-                           :task_messages => task_messages,
                            :microposts => microposts,
-                           :daily_tasks => daily_tasks,
                            :follow_microposts_id => follow_microposts_id,
-                           :messages => messages
           }
       end
     else
@@ -387,23 +385,17 @@ class Api::StudentsController < ApplicationController
           tearcher_id = school_class.teacher.id
           tearcher_name = school_class.teacher.user.name
           classmates = SchoolClass.get_classmates school_class, student.id
-          task_messages = TaskMessage.get_task_messages school_class.id
           page = 1
           microposts = Micropost.get_microposts school_class,page
           follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-          daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
-          messages = Message.get_my_messages school_class, student.user.id
-          render :json => {:status => "success", :notice => "登陆成功！",
+          render :json => {:status => "success", :notice => "获取成功！",
             :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
               :nickname => student.nickname, :avatar_url => student.user.avatar_url},
             :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
               :tearcher_id => tearcher_id },
             :classmates => classmates,
-            :task_messages => task_messages,
             :microposts => microposts,
-            :daily_tasks => daily_tasks,
             :follow_microposts_id => follow_microposts_id,
-            :messages => messages
           }
         end
       else

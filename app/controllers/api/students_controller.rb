@@ -204,22 +204,38 @@ class Api::StudentsController < ApplicationController
       :user_answers => (answer_json.empty? ? "" : ActiveSupport::JSON.decode(answer_json))}
   end
 
-  #获取任务列表
-  def get_task_list
+  #获取当天最新任务
+  def get_newer_task
     student_id = params[:student_id]
     school_class_id = params[:school_class_id]
     student = Student.find_by_id student_id
     school_class = SchoolClass.find_by_id school_class_id
     status = "error"
     notice = "获取失败！"
+    tasks = nil
+    if !student.nil? && !school_class.nil?
+      tasks = PublishQuestionPackage.get_tasks school_class.id, student.id, "first"
+      status = "success"
+      notice = "获取成功！"
+    end
+    render :json => {:status => status, :notice => notice, :tasks => tasks}
+  end
+
+  #获取任务列表
+  def get_more_tasks
+    student_id = params[:student_id]
+    school_class_id = params[:school_class_id]
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    status = "error"
+    notice = "获取失败！"
+    tasks = nil
     if !student.nil? && !school_class.nil?
       tasks = PublishQuestionPackage.get_tasks school_class.id, student.id
-      tasks.each do |e|
-        p e
-      end
+      status = "success"
+      notice = "获取成功！"
     end
-
-    render :json => {:status => status, :notice => notice}
+    render :json => {:status => status, :notice => notice, :tasks => tasks}
   end
 
   #获取消息microposts(分页)

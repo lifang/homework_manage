@@ -18,10 +18,11 @@ HomeworkManage::Application.routes.draw do
         get 'add_concern','unfollow','switching_classes', 'delete_posts',
           'get_my_classes', 'into_daily_tasks', :get_microposts, :get_class_info,
           :get_answer_history, :my_microposts, :get_reply_microposts, :get_messages,
-          :get_teacher_messages, :new_homework, :get_classmates_info, :get_more_tasks, :get_newer_task
+          :get_teacher_messages, :new_homework, :get_classmates_info, :get_more_tasks,
+          :get_newer_task, :search_tasks
         post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info, :reply_message,
           :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
-          :read_message, :delete_message, :search_tasks
+          :read_message, :delete_message
       end
     end
   end

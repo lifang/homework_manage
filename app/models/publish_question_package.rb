@@ -30,7 +30,7 @@ class PublishQuestionPackage < ActiveRecord::Base
     tasks_sql += " order by p.start_time desc"
     tasks_sql += " limit 1" if !order_name.nil? && order_name == "first"
     pub_tasks = PublishQuestionPackage.find_by_sql tasks_sql
-    pub_tasks = pub_tasks[1..pub_tasks.length-1] if !order_name.nil? && order_name == "first"
+    pub_tasks = pub_tasks[1..pub_tasks.length-1] if order_name.nil? && date.nil?
     pub_ids = pub_tasks.map(&:id)
     que_pack_ids = pub_tasks.map(&:que_pack_id)
     student_answer_records = StudentAnswerRecord.get_student_answer_status school_class_id,student_id, pub_ids

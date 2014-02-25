@@ -214,7 +214,7 @@ class Api::StudentsController < ApplicationController
     notice = "获取失败！"
     tasks = nil
     if !student.nil? && !school_class.nil?
-      tasks = PublishQuestionPackage.get_tasks school_class.id, student.id, "first"
+      tasks = PublishQuestionPackage.get_tasks school_class.id, student.id,"first"
       status = "success"
       notice = "获取成功！"
     end
@@ -225,6 +225,7 @@ class Api::StudentsController < ApplicationController
   def get_more_tasks
     student_id = params[:student_id]
     school_class_id = params[:school_class_id]
+    today_newer_id = params[:today_newer_id]
     student = Student.find_by_id student_id
     school_class = SchoolClass.find_by_id school_class_id
     status = "error"
@@ -234,6 +235,24 @@ class Api::StudentsController < ApplicationController
       tasks = PublishQuestionPackage.get_tasks school_class.id, student.id
       status = "success"
       notice = "获取成功！"
+    end
+    render :json => {:status => status, :notice => notice, :tasks => tasks}
+  end
+
+  #查找某一天的所有任务
+  def search_tasks
+    student_id = params[:student_id]
+    school_class_id = params[:school_class_id]
+    date = params[:date]
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    status = "error"
+    notice = "查询出错！"
+    tasks = nil
+    if !student.nil? && !school_class.nil? && !date.nil?
+        status = "success"
+        notice = "查询完成！"
+        tasks = PublishQuestionPackage.get_tasks school_class.id, student.id, nil, date
     end
     render :json => {:status => status, :notice => notice, :tasks => tasks}
   end
@@ -257,9 +276,8 @@ class Api::StudentsController < ApplicationController
         school_class_student_relations = SchoolClassStudentRalastion.
           find_by_school_class_id_and_student_id school_class.id, student.id
         if school_class_student_relations.nil?
-          status = "success"
-          notice = "加载完成"
-
+          status = "error"
+          notice = "学生不属于该班级"
         else
           if school_class.status == SchoolClass::STATUS[:NORMAL]
             if page.nil?

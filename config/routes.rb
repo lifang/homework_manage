@@ -21,7 +21,7 @@ HomeworkManage::Application.routes.draw do
           :get_teacher_messages, :new_homework, :get_classmates_info, :get_more_tasks, :get_newer_task
         post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info, :reply_message,
           :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
-          :read_message, :delete_message
+          :read_message, :delete_message, :search_tasks
       end
     end
   end

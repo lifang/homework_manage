@@ -5,6 +5,7 @@ require 'rexml/parent'
 require 'time'
 include REXML
 include MethodLibsHelper
+include MicropostsHelper
 class HomeworksController < ApplicationController
   before_filter :sign?
   #作业主页
@@ -109,17 +110,11 @@ class HomeworksController < ApplicationController
                 :status => TaskMessage::STATUS[:YES],
                 :publish_question_package_id => publish_question_package.id)
 
-              p  school_class_id
               sql = "SELECT s.nickname FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
 WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = ?"
               student = Student.find_by_sql([sql,school_class_id])
-              p student.map(&:nickname)
-              message = "1111111111ee11"
-              receivervalue ="d"
-              send_push_msg message,receivervalue,{:wwww=>"eeeee"}
-#              render :nothing => true
-
-              #              send_push_msg content, alias_name,teachers_id
+              alias_name = student.map(&:nickname).join(",")
+              jpush_parameter content, alias_name
             end
           end
         end

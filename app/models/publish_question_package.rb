@@ -7,4 +7,42 @@ class PublishQuestionPackage < ActiveRecord::Base
   STATUS = {:NEW => 0, :FINISH => 1,:EXPIRED => 2}
   STATUS_NAME = {0 => "新任务", 1 => "完成",2 => '过期'}
   PER_PAGE = 10
+
+  #获取任务
+  def self.get_tasks school_class_id, student_id, order_name=nil
+    my_tag_ids = Tag.get_my_tag_ids school_class_id, student_id
+    tags = "#{my_tag_ids}".gsub(/\[/,"(").gsub(/\]/,")") if my_tag_ids && my_tag_ids.length != 0
+    tasks_sql = "select p.id, q.name,p.question_package_id que_pack_id,p.start_time,p.end_time,
+            p.question_packages_url FROM publish_question_packages p left join question_packages q
+            on p.question_package_id = q.id where p.school_class_id = #{school_class_id}"
+    tasks_sql += " and p.tag_id is null or p.tag_id in #{tags}"  if my_tag_ids && my_tag_ids.length != 0
+    tasks_sql += "order by p.start_time desc"
+    if !order_name.nil? && order_name == "first"
+      tasks_sql += " limit 1"
+    end
+    pub_tasks = PublishQuestionPackage.find_by_sql tasks_sql
+    pub_tasks = pub_tasks[1..pub_tasks.length-1] if order_name.nil?
+    pub_ids = pub_tasks.map(&:id)
+    que_pack_ids = pub_tasks.map(&:que_pack_id)
+    student_answer_records = StudentAnswerRecord.get_student_answer_status school_class_id,student_id, pub_ids
+    student_answer_records = student_answer_records.group_by{ |sar| sar.pub_id }
+    que_packs_types =  QuestionPackage.get_all_packs_que_types school_class_id, que_pack_ids
+    que_packs_types = que_packs_types.group_by{ |q| q.id }
+    tasks = []
+    pub_tasks.each_with_index do |task|
+      question_types = []
+      finish_types = []
+      if !que_packs_types[task.que_pack_id].nil?
+        question_types = que_packs_types[task.que_pack_id].map(&:types)
+      end
+      if !student_answer_records[task.id].nil?
+        finish_types = student_answer_records[task.id].map(&:types)
+      end
+      tasks << {:id => task.id, :name => task.name, :start_time => task.start_time,
+                :question_types => question_types, :finish_types => finish_types,
+                :end_time => task.end_time, :question_packages_url => task.question_packages_url
+      }
+    end
+    tasks
+  end
 end

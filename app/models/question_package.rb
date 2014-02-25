@@ -10,4 +10,19 @@ class QuestionPackage < ActiveRecord::Base
     on q_p.id = q.question_package_id where q_p.id=#{question_package_id}"
     questions = QuestionPackage.find_by_sql sql_str
   end
+
+  #获得所有题包中的所有题型
+  def self.get_all_packs_que_types school_class_id, que_pack_ids
+    qp_ids = "#{que_pack_ids}".gsub(/\[/,"(").gsub(/\]/,")")
+    sql_str = "select distinct qp.id, q.types from question_packages qp
+      left join questions q on qp.id = q.question_package_id
+       where qp.school_class_id = #{school_class_id}"
+    if qp_ids.scan(/^\(\)$/).length == 0
+      sql_str += " and qp.id in #{qp_ids}"
+      all_packs_que_types = QuestionPackage.find_by_sql sql_str
+    else
+      all_packs_que_types = []
+    end
+    all_packs_que_types
+  end
 end

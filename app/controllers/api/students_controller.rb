@@ -199,9 +199,27 @@ class Api::StudentsController < ApplicationController
       end
     end
     notice = status == false ? "没有作业内容。" : ""
-    render :json => {:status => status, :notice => notice, 
-      :package => (package_json.empty? ? "" : ActiveSupport::JSON.decode(package_json)), 
+    render :json => {:status => status, :notice => notice,
+      :package => (package_json.empty? ? "" : ActiveSupport::JSON.decode(package_json)),
       :user_answers => (answer_json.empty? ? "" : ActiveSupport::JSON.decode(answer_json))}
+  end
+
+  #获取任务列表
+  def get_task_list
+    student_id = params[:student_id]
+    school_class_id = params[:school_class_id]
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    status = "error"
+    notice = "获取失败！"
+    if !student.nil? && !school_class.nil?
+      tasks = PublishQuestionPackage.get_tasks school_class.id, student.id
+      tasks.each do |e|
+        p e
+      end
+    end
+
+    render :json => {:status => status, :notice => notice}
   end
 
   #获取消息microposts(分页)

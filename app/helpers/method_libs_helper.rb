@@ -1,7 +1,9 @@
+#encoding: utf-8
 module MethodLibsHelper
   require 'rexml/document'
   require 'rexml/element'
   require 'rexml/parent'
+  require 'net/http'
   include REXML
   #记录答题json
   def write_answer_json dirs_url, answer_file_full_name, question_id, branch_question_id, answer, types
@@ -343,9 +345,93 @@ module MethodLibsHelper
     avatar_url
   end
 
+  def jpush_parameter messages,receivervalue,extras_hash=nil
+    input ="#{Micropost::JPUSH[:SENDNO]}" + "#{Micropost::JPUSH[:RECEIVERTYPE]}" + receivervalue + Micropost::JPUSH[:MASTERSECRET]
+    code = Digest::MD5.hexdigest(input)
+    msg_content =  "{\"n_title\":\"1111222\",\"n_content\":#{messages},\"n_extras\":{\"class_id\":\"2\"} }"
+    content = {"n_content" => "#{messages}","n_title"=> "2iidid"}
+    content["extras"]=extras_hash if !extras_hash.nil? && extras_hash.class == Hash
+    msg_content = content.to_json()
+    map = Hash.new
+    map.store("sendno", Micropost::JPUSH[:SENDNO])
+    map.store("app_key", Micropost::JPUSH[:APP_KEY])
+    map.store("receiver_type", Micropost::JPUSH[:RECEIVERTYPE])
+    map.store("receiver_value",receivervalue)
+    map.store("verification_code", code)
+    map.store("msg_type",Micropost::JPUSH[:MSG_TYPE])
+    map.store("msg_content",msg_content)
+    map.store("platform", Micropost::JPUSH[:PLATFORM])
+    data =  (Net::HTTP.post_form(URI.parse(Micropost::JPUSH[:URI]), map)).body
+  end
+  
   def send_push_msg content, alias_name, teachers_id, reciver_id
     unless teachers_id.include?(reciver_id.to_i)
       jpush_parameter content, alias_name
     end
+  end
+
+  def is_delete_message user_id, school_class_id, message
+    user = User.find_by_id user_id
+    school_class = SchoolClass.find_by_id school_class_id
+    student = user.student if user.present?
+    if user.nil? || school_class.nil?
+      status = "error"
+      notice = "用户或班级信息错误,请重新登陆!"
+    else
+      if student.nil?
+        status = "error"
+        notice = "用户信息错误,请重新登陆!"
+      else
+        school_class_student_relations = SchoolClassStudentRalastion.
+          find_by_student_id_and_school_class_id student.id, school_class.id
+        if school_class_student_relations.nil?
+          status = "error"
+          notice = "用户与班级的关系不正确,请重新登陆!"
+        else
+          if message.nil?
+            status = "error"
+            notice = "消息不存在!"
+          else
+            if message.destroy
+              status = "success"
+              notice = "删除成功!"
+            else
+              status = "error"
+              status = "删除失败!"
+            end
+          end
+        end
+      end
+    end
+    info = {:status => status, :notice => notice}
+  end
+  def knowledges_card_list card_bag_id, student_id,school_class_id,page,mistake_types=nil
+    card_bag = CardBag.find_by_id card_bag_id
+    if card_bag.blank?
+      status = "error"
+      notice = "卡包不存在"
+      knowledges_card = nil
+    else
+      school_class = SchoolClass.find_by_id school_class_id
+      students = school_class.school_class_student_ralastions.map(&:student_id)
+      if card_bag.student_id.eql?(student_id)&&card_bag.school_class_id.eql?(school_class_id)&&students.include?(student_id)
+        sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types
+FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id = bq.id where kc.card_bag_id = ?"
+        if mistake_types.nil?
+          knowledges_card = KnowledgesCard.paginate_by_sql([sql,card_bag_id],:per_page =>CardBag::PER_PAGE ,:page => page)
+        else
+          mistake_types_sql = "and mistake_types=?"
+          sql += mistake_types_sql
+          knowledges_card = KnowledgesCard.paginate_by_sql([sql,card_bag_id,mistake_types],:per_page =>CardBag::PER_PAGE ,:page => page)
+        end
+        status = "success"
+        notice = "获取成功！！"
+      else
+        status = "error"
+        notice = "学生班级不匹配"
+        knowledges_card = nil
+      end
+    end
+    info = {:status => status,:notice => notice,:knowledges_card => knowledges_card}
   end
 end

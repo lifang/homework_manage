@@ -5,6 +5,7 @@ require 'rexml/parent'
 require 'time'
 include REXML
 include MethodLibsHelper
+include MicropostsHelper
 class HomeworksController < ApplicationController
   before_filter :sign?
   #作业主页
@@ -30,8 +31,8 @@ class HomeworksController < ApplicationController
     publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
     if !publish_question_package.nil?
       student_answer_records = StudentAnswerRecord.
-          where("publish_question_package_id = ? and school_class_id = ?",
-                publish_question_package.id,@school_class.id)
+        where("publish_question_package_id = ? and school_class_id = ?",
+        publish_question_package.id,@school_class.id)
       if student_answer_records.length == 0
         questions_file_dir = "#{base_url}/que_ps/question_p_#{publish_question_package.question_package_id}"
         FileUtils.remove_dir questions_file_dir if File.exist? questions_file_dir
@@ -108,6 +109,12 @@ class HomeworksController < ApplicationController
                 :period_of_validity => publish_question_package.end_time,
                 :status => TaskMessage::STATUS[:YES],
                 :publish_question_package_id => publish_question_package.id)
+
+              sql = "SELECT s.nickname FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
+WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = ?"
+              student = Student.find_by_sql([sql,school_class_id])
+              alias_name = student.map(&:nickname).join(",")
+              jpush_parameter content, alias_name
             end
           end
         end

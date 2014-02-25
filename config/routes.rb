@@ -23,7 +23,7 @@ HomeworkManage::Application.routes.draw do
           :get_knowledges_card,:delete_knowledges_card,:card_is_full,:use_props_record
         post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info,         
           :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
-          :read_message,:delete_sys_message
+          :delete_sys_message,:read_message,:search_tasks
       end
     end
   end

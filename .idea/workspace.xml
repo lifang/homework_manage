@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/publish_question_package.rb" afterPath="$PROJECT_DIR$/app/models/publish_question_package.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,7 +32,7 @@
       <file leaf-file-name="students_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="241" column="9" selection-start="10448" selection-end="10448" vertical-scroll-proportion="0.46977547" vertical-offset="3825" max-vertical-offset="14688">
+            <state line="243" column="36" selection-start="10502" selection-end="10502" vertical-scroll-proportion="0.1761658" vertical-offset="4029" max-vertical-offset="14688">
               <folding>
                 <element signature="e#191#702#0" expanded="true" />
                 <element signature="e#715#1727#0" expanded="true" />
@@ -44,24 +44,23 @@
                 <element signature="e#8218#9318#0" expanded="true" />
                 <element signature="e#9334#9860#0" expanded="true" />
                 <element signature="e#9874#10437#0" expanded="true" />
-                <element signature="e#10453#11025#0" expanded="true" />
-                <element signature="e#11051#12375#0" expanded="true" />
-                <element signature="e#12390#13550#0" expanded="true" />
-                <element signature="e#13566#13862#0" expanded="true" />
-                <element signature="e#13923#16893#0" expanded="true" />
-                <element signature="e#16910#17448#0" expanded="true" />
-                <element signature="e#17462#19115#0" expanded="true" />
-                <element signature="e#19129#22480#0" expanded="true" />
-                <element signature="e#22496#23390#0" expanded="true" />
-                <element signature="e#23404#24323#0" expanded="true" />
-                <element signature="e#24336#24944#0" expanded="true" />
-                <element signature="e#24957#26956#0" expanded="true" />
-                <element signature="e#26969#27431#0" expanded="true" />
-                <element signature="e#27447#28486#0" expanded="true" />
-                <element signature="e#28503#29388#0" expanded="true" />
-                <element signature="e#29404#31037#0" expanded="true" />
-                <element signature="e#31051#32216#0" expanded="true" />
-                <element signature="e#32232#33041#0" expanded="true" />
+                <element signature="e#11047#12371#0" expanded="true" />
+                <element signature="e#12386#13546#0" expanded="true" />
+                <element signature="e#13562#13858#0" expanded="true" />
+                <element signature="e#13919#16889#0" expanded="true" />
+                <element signature="e#16906#17444#0" expanded="true" />
+                <element signature="e#17458#19111#0" expanded="true" />
+                <element signature="e#19125#22476#0" expanded="true" />
+                <element signature="e#22492#23386#0" expanded="true" />
+                <element signature="e#23400#24319#0" expanded="true" />
+                <element signature="e#24332#24940#0" expanded="true" />
+                <element signature="e#24953#26952#0" expanded="true" />
+                <element signature="e#26965#27427#0" expanded="true" />
+                <element signature="e#27443#28482#0" expanded="true" />
+                <element signature="e#28499#29384#0" expanded="true" />
+                <element signature="e#29400#31033#0" expanded="true" />
+                <element signature="e#31047#32212#0" expanded="true" />
+                <element signature="e#32228#33037#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -70,7 +69,7 @@
       <file leaf-file-name="publish_question_package.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/publish_question_package.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="71" selection-start="1615" selection-end="1615" vertical-scroll-proportion="0.0" vertical-offset="394" max-vertical-offset="1071">
+            <state line="37" column="58" selection-start="2037" selection-end="2037" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1054">
               <folding />
             </state>
           </provider>
@@ -150,8 +149,8 @@
         <option value="$PROJECT_DIR$/app/models/record_detail.rb" />
         <option value="$PROJECT_DIR$/app/models/student_answer_record.rb" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
-        <option value="$PROJECT_DIR$/app/models/publish_question_package.rb" />
         <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
+        <option value="$PROJECT_DIR$/app/models/publish_question_package.rb" />
       </list>
     </option>
   </component>
@@ -2701,9 +2700,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="24" width="1368" height="745" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.516129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="true" weight="0.516129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.6983871" sideWeight="0.5" order="13" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5596774" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.22507553" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -3100,14 +3099,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/publish_question_package.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="71" selection-start="1615" selection-end="1615" vertical-scroll-proportion="0.0" vertical-offset="394" max-vertical-offset="1071">
+        <state line="37" column="58" selection-start="2037" selection-end="2037" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1054">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="241" column="9" selection-start="10448" selection-end="10448" vertical-scroll-proportion="0.46977547" vertical-offset="3825" max-vertical-offset="14688">
+        <state line="243" column="36" selection-start="10502" selection-end="10502" vertical-scroll-proportion="0.1761658" vertical-offset="4029" max-vertical-offset="14688">
           <folding>
             <element signature="e#191#702#0" expanded="true" />
             <element signature="e#715#1727#0" expanded="true" />
@@ -3119,24 +3118,23 @@
             <element signature="e#8218#9318#0" expanded="true" />
             <element signature="e#9334#9860#0" expanded="true" />
             <element signature="e#9874#10437#0" expanded="true" />
-            <element signature="e#10453#11025#0" expanded="true" />
-            <element signature="e#11051#12375#0" expanded="true" />
-            <element signature="e#12390#13550#0" expanded="true" />
-            <element signature="e#13566#13862#0" expanded="true" />
-            <element signature="e#13923#16893#0" expanded="true" />
-            <element signature="e#16910#17448#0" expanded="true" />
-            <element signature="e#17462#19115#0" expanded="true" />
-            <element signature="e#19129#22480#0" expanded="true" />
-            <element signature="e#22496#23390#0" expanded="true" />
-            <element signature="e#23404#24323#0" expanded="true" />
-            <element signature="e#24336#24944#0" expanded="true" />
-            <element signature="e#24957#26956#0" expanded="true" />
-            <element signature="e#26969#27431#0" expanded="true" />
-            <element signature="e#27447#28486#0" expanded="true" />
-            <element signature="e#28503#29388#0" expanded="true" />
-            <element signature="e#29404#31037#0" expanded="true" />
-            <element signature="e#31051#32216#0" expanded="true" />
-            <element signature="e#32232#33041#0" expanded="true" />
+            <element signature="e#11047#12371#0" expanded="true" />
+            <element signature="e#12386#13546#0" expanded="true" />
+            <element signature="e#13562#13858#0" expanded="true" />
+            <element signature="e#13919#16889#0" expanded="true" />
+            <element signature="e#16906#17444#0" expanded="true" />
+            <element signature="e#17458#19111#0" expanded="true" />
+            <element signature="e#19125#22476#0" expanded="true" />
+            <element signature="e#22492#23386#0" expanded="true" />
+            <element signature="e#23400#24319#0" expanded="true" />
+            <element signature="e#24332#24940#0" expanded="true" />
+            <element signature="e#24953#26952#0" expanded="true" />
+            <element signature="e#26965#27427#0" expanded="true" />
+            <element signature="e#27443#28482#0" expanded="true" />
+            <element signature="e#28499#29384#0" expanded="true" />
+            <element signature="e#29400#31033#0" expanded="true" />
+            <element signature="e#31047#32212#0" expanded="true" />
+            <element signature="e#32228#33037#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -22,7 +22,6 @@ class PublishQuestionPackage < ActiveRecord::Base
         and p.start_time <= '#{date_now} 23:59:59'"
     end
     if !date.nil?
-      p date
       tasks_sql += " and p.start_time >= '#{date} 00:00:00'
         and p.start_time <= '#{date} 23:59:59'"
     end

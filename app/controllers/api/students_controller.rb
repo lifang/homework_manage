@@ -239,7 +239,7 @@ class Api::StudentsController < ApplicationController
     render :json => {:status => status, :notice => notice, :tasks => tasks}
   end
 
-  #查找某一天的任务
+  #查询任务
   def search_tasks
     student_id = params[:student_id]
     school_class_id = params[:school_class_id]

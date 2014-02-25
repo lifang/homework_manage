@@ -221,7 +221,7 @@ class Api::StudentsController < ApplicationController
     render :json => {:status => status, :notice => notice, :tasks => tasks}
   end
 
-  #获取任务列表
+  #获取历史任务
   def get_more_tasks
     student_id = params[:student_id]
     school_class_id = params[:school_class_id]
@@ -239,7 +239,7 @@ class Api::StudentsController < ApplicationController
     render :json => {:status => status, :notice => notice, :tasks => tasks}
   end
 
-  #查找某一天的所有任务
+  #查找某一天的任务
   def search_tasks
     student_id = params[:student_id]
     school_class_id = params[:school_class_id]

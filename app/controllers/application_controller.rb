@@ -4,13 +4,13 @@ class ApplicationController < ActionController::Base
   include TeachersHelper
 
   def save_into_folder(question_package, branch_question, file)
-    media_path = "/public" + MEDIA_PATH % question_package.id
-    question_pack_path = Rails.root.to_s + media_path
+    media_path_url = "/public" + media_path % question_package.id
+    question_pack_path = Rails.root.to_s + media_path_url
     FileUtils.mkdir_p(question_pack_path) unless Dir.exists?(question_pack_path)
     file_extension = File.extname(file.original_filename)
     filename = "media_%d" % branch_question.id + file_extension
     File.open(question_pack_path + filename, "wb")  {|f| f.write(file.read) }
-    audio_path = MEDIA_PATH % question_package.id + filename
+    audio_path = media_path % question_package.id + filename
     return audio_path
   end
 

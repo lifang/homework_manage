@@ -27,6 +27,7 @@ gem "will_paginate", '3.0.3'
 gem 'remotipart', '~> 1.0' #ajax upload file
 gem "mini_magick", "3.5.0" #handle image
 gem 'carrierwave', "0.5.8" #upload image
+gem 'archive-zip', '0.6.0' #handle zip
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

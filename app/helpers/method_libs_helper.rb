@@ -362,6 +362,7 @@ module MethodLibsHelper
     map.store("msg_content",msg_content)
     map.store("platform", Micropost::JPUSH[:PLATFORM])
     data =  (Net::HTTP.post_form(URI.parse(Micropost::JPUSH[:URI]), map)).body
+    p data
   end
   
   def send_push_msg content, alias_name, teachers_id, reciver_id
@@ -369,7 +370,8 @@ module MethodLibsHelper
       jpush_parameter content, alias_name
     end
   end
-
+  
+  #删除提示消息和系统消息
   def is_delete_message user_id, school_class_id, message
     user = User.find_by_id user_id
     school_class = SchoolClass.find_by_id school_class_id
@@ -405,6 +407,8 @@ module MethodLibsHelper
     end
     info = {:status => status, :notice => notice}
   end
+
+  #列出卡包所有卡片的列表#根据分类查询列出卡包卡片的列表api
   def knowledges_card_list card_bag_id, student_id,school_class_id,page,mistake_types=nil
     card_bag = CardBag.find_by_id card_bag_id
     if card_bag.blank?
@@ -433,5 +437,25 @@ FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id
       end
     end
     info = {:status => status,:notice => notice,:knowledges_card => knowledges_card}
+  end
+
+  #压缩和推送
+  def compress_and_push file_dirs_url,question_package_id,school_class_id,content,publish_question_package
+    zip_url = "#{Rails.root}/public/#{file_dirs_url}/resourse.zip"
+    resourse_url = "#{Rails.root}/public#{media_path % question_package_id}"
+    question_packages_url = "#{Rails.root}/public#{publish_question_package.question_packages_url}"
+    resourse_zip_url = "/#{file_dirs_url}/resourse.zip"
+    p resourse_zip_url
+    Archive::Zip.archive("#{zip_url}","#{resourse_url}/.")
+    if File.exist?(question_packages_url)
+          Archive::Zip.archive("#{zip_url}","#{question_packages_url}")
+          publish_question_package.update_attributes(:question_packages_url => resourse_zip_url)
+    end
+
+    sql = "SELECT s.nickname FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
+WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = ?"
+    student = Student.find_by_sql([sql,school_class_id])
+    alias_name = student.map(&:nickname).join(",")
+    jpush_parameter content, alias_name
   end
 end

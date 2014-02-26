@@ -278,6 +278,20 @@ class Api::StudentsController < ApplicationController
     render :json => {:status => status, :notice => notice, :tasks => tasks}
   end
 
+  #获取题包内容
+  def get_question_package_details
+    student_id = params[:student_id]
+    school_class_id = params[:school_class_id]
+    publish_question_package_id = params[:publish_question_package_id]
+    status = "error"
+    notice = "查询出错！"
+    tasks = nil
+    if !student.nil? && !school_class.nil?
+      # -----------------------------------
+    end
+    render :json => {:status => status, :notice => notice }
+  end
+
   #获取消息microposts(分页)
   def get_microposts
     school_class_id = params[:school_class_id]

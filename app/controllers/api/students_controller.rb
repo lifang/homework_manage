@@ -21,19 +21,25 @@ class Api::StudentsController < ApplicationController
   end
   #  回复消息
   def reply_message
-    sender_id = params[:sender_id]
+    sender_id = params[:sender_id].to_i
     sender_types = params[:sender_types]
     content = params[:content].strip
     micropost_id = params[:micropost_id]
-    reciver_id = params[:reciver_id]
+    reciver_id = params[:reciver_id].to_i
     reciver_types = params[:reciver_types]
     school_class_id = params[:school_class_id]
     school_class = SchoolClass.find_by_id school_class_id
     students = school_class.school_class_student_ralastions.map(&:student_id)
-    teacher = school_class.teacher_id
+    teacher = school_class.teacher_id.to_i
+    teacher_arr = []
+    teacher_arr << teacher
     micropost = Micropost.find_by_id micropost_id.to_i
+    p teacher_arr.include?(sender_id)
+    p teacher_arr.include?(sender_id.to_s)
+    p teacher_arr.include?(reciver_id)
+    p teacher_arr.include?(reciver_id.to_s)
     if micropost
-      if (students.include?(sender_id.to_i)||teacher.include?(sender_id))&&(students.include?(reciver_id.to_i)||teacher.include?(reciver_id))
+      if (students.include?(sender_id)||teacher_arr.include?(sender_id))&&(students.include?(reciver_id.to_i)||teacher_arr.include?(reciver_id))
         Message.add_messages(micropost_id, reciver_id, reciver_types, sender_id, sender_types,
           content, school_class_id)
         replymicropost = ReplyMicropost.new(:sender_id => sender_id,

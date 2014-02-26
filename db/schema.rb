@@ -11,8 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-
-ActiveRecord::Schema.define(:version => 20140226060927) do
+ActiveRecord::Schema.define(:version => 20140226083009) do
 
   create_table "archivements_records", :force => true do |t|
     t.integer  "school_class_id"

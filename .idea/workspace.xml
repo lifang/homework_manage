@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/micropost.rb" afterPath="$PROJECT_DIR$/app/models/micropost.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -52,11 +52,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="micropost.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="micropost.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/micropost.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="53" selection-start="815" selection-end="815" vertical-scroll-proportion="0.42777777" vertical-offset="331" max-vertical-offset="1003">
+            <state line="24" column="53" selection-start="815" selection-end="815" vertical-scroll-proportion="0.0" vertical-offset="331" max-vertical-offset="1003">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="20140226083009_rename_column_follow_microposts_count_from_microposts.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/db/migrate/20140226083009_rename_column_follow_microposts_count_from_microposts.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="80" selection-start="169" selection-end="169" vertical-scroll-proportion="0.1761658" vertical-offset="0" max-vertical-offset="255">
+              <folding>
+                <element signature="e#179#274#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -77,7 +88,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/homeworks/publish_question_package.js.erb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/main_pages.js" />
         <option value="$PROJECT_DIR$/app/controllers/main_pages_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/main_pages/delete_student.js.erb" />
@@ -128,6 +138,7 @@
         <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
         <option value="$PROJECT_DIR$/public/pub_que_ps/questions.js" />
         <option value="$PROJECT_DIR$/app/models/micropost.rb" />
+        <option value="$PROJECT_DIR$/db/migrate/20140226083009_rename_column_follow_microposts_count_from_microposts.rb" />
       </list>
     </option>
   </component>
@@ -257,6 +268,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="pub_que_ps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="db" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="db" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migrate" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2697,11 +2740,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="40" selection-start="223" selection-end="223" vertical-scroll-proportion="0.14026402" vertical-offset="0" max-vertical-offset="16422" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/share_questions/view.js.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="68" selection-start="190" selection-end="190" vertical-scroll-proportion="0.05862069" vertical-offset="0" max-vertical-offset="580" />
@@ -3138,8 +3176,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/micropost.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="53" selection-start="815" selection-end="815" vertical-scroll-proportion="0.42777777" vertical-offset="331" max-vertical-offset="1003">
+        <state line="24" column="53" selection-start="815" selection-end="815" vertical-scroll-proportion="0.0" vertical-offset="331" max-vertical-offset="1003">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20140226083009_rename_column_follow_microposts_count_from_microposts.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="80" selection-start="169" selection-end="169" vertical-scroll-proportion="0.1761658" vertical-offset="0" max-vertical-offset="255">
+          <folding>
+            <element signature="e#179#274#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

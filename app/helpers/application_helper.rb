@@ -1,7 +1,17 @@
 #encoding: utf-8
 module ApplicationHelper
-  MEDIA_PATH = "/question_packages/#{Time.now.strftime("%Y%m")}/questions_package_%d/" #大题资源路径
-  SAHRE_MEDIA_PATH = "/question_packages/#{Time.now.strftime("%Y%m")}/share_questions_package_%d/" #大题资源路径
+#  MEDIA_PATH = "/question_packages/#{Time.now.strftime("%Y%m")}/questions_package_%d/" #大题资源路径
+#  SAHRE_MEDIA_PATH = "/question_packages/#{Time.now.strftime("%Y%m")}/share_questions_package_%d/" #大题资源路径
+  def media_path
+    if cookies[:teacher_id]
+     return "/question_packages/#{cookies[:teacher_id]}/questions_package_%d/"
+    end
+  end
+  def share_media_path
+    if cookies[:teacher_id]
+      return "/question_packages/#{cookies[:teacher_id]}/share_questions_package_%d/"
+    end
+  end
   
   def is_hover(*controller_names)
     controller_names.each do |name|

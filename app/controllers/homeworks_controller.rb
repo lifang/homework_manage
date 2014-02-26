@@ -1,4 +1,5 @@
 #encoding: utf-8
+require 'archive/zip'
 require 'rexml/document'
 require 'rexml/element'
 require 'rexml/parent'
@@ -109,12 +110,7 @@ class HomeworksController < ApplicationController
                 :period_of_validity => publish_question_package.end_time,
                 :status => TaskMessage::STATUS[:YES],
                 :publish_question_package_id => publish_question_package.id)
-
-              sql = "SELECT s.nickname FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
-WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = ?"
-              student = Student.find_by_sql([sql,school_class_id])
-              alias_name = student.map(&:nickname).join(",")
-              jpush_parameter content, alias_name
+              compress_and_push file_dirs_url,question_package_id,school_class_id,content,publish_question_package
             end
           end
         end

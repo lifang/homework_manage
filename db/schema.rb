@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140224035158) do
+ActiveRecord::Schema.define(:version => 20140226060927) do
 
   create_table "archivements_records", :force => true do |t|
     t.integer  "school_class_id"
@@ -30,8 +30,10 @@ ActiveRecord::Schema.define(:version => 20140224035158) do
     t.integer  "types"
     t.string   "resource_url"
     t.integer  "question_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.string   "options",      :limit => 1000
+    t.string   "answer"
   end
 
   add_index "branch_questions", ["question_id"], :name => "index_branch_questions_on_question_id"
@@ -165,6 +167,7 @@ ActiveRecord::Schema.define(:version => 20140224035158) do
     t.integer  "episode_id"
     t.boolean  "if_shared"
     t.integer  "questions_time"
+    t.text     "full_text"
   end
 
   add_index "questions", ["question_package_id"], :name => "index_questions_on_question_package_id"

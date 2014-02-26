@@ -283,13 +283,26 @@ class Api::StudentsController < ApplicationController
     student_id = params[:student_id]
     school_class_id = params[:school_class_id]
     publish_question_package_id = params[:publish_question_package_id]
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    publish_question_package = PublishQuestionPackage
+      .find_by_id publish_question_package_id
     status = "error"
-    notice = "查询出错！"
+    notice = "获取出错！"
+    answer_url = nil
     tasks = nil
-    if !student.nil? && !school_class.nil?
-      # -----------------------------------
+    if !student.nil? && !school_class.nil? && !publish_question_package.nil?
+      status = "error"
+      notice = "获取完成！"
+      question_packages_url = publish_question_package.question_packages_url
+      student_answer_record = StudentAnswerRecord
+      .find_by_student_id_and_publish_question_package_id(student.id,publish_question_package.id)
+      if !student_answer_record.nil? && !student_answer_record.answer_file_url.nil?
+        answer_url =  student_answer_record.answer_file_url
+      end
     end
-    render :json => {:status => status, :notice => notice }
+    render :json => {:status => status, :notice => notice,
+                  :question_packages_url => question_packages_url, :answer_url => answer_url}
   end
 
   #获取消息microposts(分页)

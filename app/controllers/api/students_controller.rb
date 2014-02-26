@@ -34,10 +34,6 @@ class Api::StudentsController < ApplicationController
     teacher_arr = []
     teacher_arr << teacher
     micropost = Micropost.find_by_id micropost_id.to_i
-    p teacher_arr.include?(sender_id)
-    p teacher_arr.include?(sender_id.to_s)
-    p teacher_arr.include?(reciver_id)
-    p teacher_arr.include?(reciver_id.to_s)
     if micropost
       if (students.include?(sender_id)||teacher_arr.include?(sender_id))&&(students.include?(reciver_id.to_i)||teacher_arr.include?(reciver_id))
         Message.add_messages(micropost_id, reciver_id, reciver_types, sender_id, sender_types,

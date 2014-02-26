@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.rb" afterPath="$PROJECT_DIR$/config/routes.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -29,45 +30,35 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="students_controller.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="students_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="322" column="42" selection-start="13419" selection-end="13419" vertical-scroll-proportion="0.0" vertical-offset="1581" max-vertical-offset="2958">
+            <state line="303" column="58" selection-start="13094" selection-end="13094" vertical-scroll-proportion="0.7357513" vertical-offset="1133" max-vertical-offset="3689">
               <folding>
                 <element signature="e#11471#12043#0" expanded="true" />
-                <element signature="e#12057#12463#0" expanded="true" />
-                <marker date="1393401355017" expanded="true" signature="732:1018" placeholder=" ... end" />
-                <marker date="1393401355017" expanded="true" signature="1899:2415" placeholder="if ... end" />
-                <marker date="1393401355017" expanded="true" signature="2845:3085" placeholder="if ... end" />
-                <marker date="1393401355017" expanded="true" signature="2923:3026" placeholder="if ... end" />
-                <marker date="1393401355017" expanded="true" signature="3584:3736" placeholder="if ... end" />
-                <marker date="1393401355017" expanded="true" signature="5383:7969" placeholder="if ... end" />
-                <marker date="1393401355017" expanded="true" signature="8098:9196" placeholder="if ... end" />
-                <marker date="1393401355017" expanded="true" signature="17409:17499" placeholder="if ... end" />
-                <marker date="1393401355017" expanded="true" signature="35191:36305" placeholder="if ... end" />
-                <marker date="1393401355017" expanded="true" signature="35331:36299" placeholder="if ... end" />
-                <marker date="1393401355017" expanded="true" signature="35775:36278" placeholder="if ... end" />
+                <element signature="e#13220#14544#0" expanded="true" />
+                <element signature="e#14559#15719#0" expanded="true" />
+                <marker date="1393404128341" expanded="true" signature="732:1018" placeholder=" ... end" />
+                <marker date="1393404128341" expanded="true" signature="1899:2415" placeholder="if ... end" />
+                <marker date="1393404128341" expanded="true" signature="2845:3085" placeholder="if ... end" />
+                <marker date="1393404128341" expanded="true" signature="2923:3026" placeholder="if ... end" />
+                <marker date="1393404128341" expanded="true" signature="3584:3736" placeholder="if ... end" />
+                <marker date="1393404128341" expanded="true" signature="5383:7969" placeholder="if ... end" />
+                <marker date="1393404128341" expanded="true" signature="8098:9196" placeholder="if ... end" />
+                <marker date="1393404128341" expanded="true" signature="18140:18230" placeholder="if ... end" />
+                <marker date="1393404128341" expanded="true" signature="35922:37036" placeholder="if ... end" />
+                <marker date="1393404128341" expanded="true" signature="36062:37030" placeholder="if ... end" />
+                <marker date="1393404128341" expanded="true" signature="36506:37009" placeholder="if ... end" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="micropost.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/micropost.rb">
+      <file leaf-file-name="routes.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/routes.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="53" selection-start="815" selection-end="815" vertical-scroll-proportion="0.0" vertical-offset="331" max-vertical-offset="1003">
+            <state line="23" column="39" selection-start="920" selection-end="948" vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="2601">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="20140226083009_rename_column_follow_microposts_count_from_microposts.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/db/migrate/20140226083009_rename_column_follow_microposts_count_from_microposts.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="80" selection-start="169" selection-end="169" vertical-scroll-proportion="0.1761658" vertical-offset="0" max-vertical-offset="255">
-              <folding>
-                <element signature="e#179#274#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -132,13 +123,13 @@
         <option value="$PROJECT_DIR$/app/models/question_package.rb" />
         <option value="$PROJECT_DIR$/app/models/record_detail.rb" />
         <option value="$PROJECT_DIR$/app/models/student_answer_record.rb" />
-        <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/app/models/publish_question_package.rb" />
         <option value="$PROJECT_DIR$/public/que_ps/question_p_222/questions.js" />
-        <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
         <option value="$PROJECT_DIR$/public/pub_que_ps/questions.js" />
         <option value="$PROJECT_DIR$/app/models/micropost.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20140226083009_rename_column_follow_microposts_count_from_microposts.rb" />
+        <option value="$PROJECT_DIR$/config/routes.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
       </list>
     </option>
   </component>
@@ -406,7 +397,7 @@
     <property name="recentsLimit" value="5" />
     <property name="dynamic.classpath" value="false" />
     <property name="FullScreen" value="false" />
-    <property name="SearchEverywhereHistory" value="c" />
+    <property name="SearchEverywhereHistory" value="&#10;c" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../online_classroom" />
     <property name="RailsGeneratorsPopup.hiddenIncluded" value="false" />
     <property name="Ruby.ViewRefParam.DefaultExtension" value="js.erb" />
@@ -444,6 +435,78 @@
   <component name="RestClientSettings">
     <option name="REQUEST_HISTORY">
       <list>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://localhost:3000" />
+          <option name="urlPath" value="/api/students/get_question_package_details" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="school_class_id" />
+                <option name="value" value="15" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="student_id" />
+                <option name="value" value="2" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="publish_question_package_id" />
+                <option name="value" value="86" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://localhost:3000" />
+          <option name="urlPath" value="/api/students/get_question_package_details" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="school_class_id" />
+                <option name="value" value="15" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="student_id" />
+                <option name="value" value="2" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="date" />
+                <option name="value" value="2014-02-25" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="" />
+        </RestClientRequest>
         <RestClientRequest>
           <option name="httpMethod" value="GET" />
           <option name="urlBase" value="http://localhost:3000" />
@@ -2372,134 +2435,6 @@
           <option name="textToSend" value="" />
           <option name="filesToSend" value="" />
         </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="GET" />
-          <option name="urlBase" value="http://0.0.0.0:3000" />
-          <option name="urlPath" value="/api/students/get_messages" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parameters">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="student_id" />
-                <option name="value" value="2" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="school_class_id" />
-                <option name="value" value="28" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="publish_question_package_id" />
-                <option name="value" value="45" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="question_id" />
-                <option name="value" value="45" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="branch_question_id" />
-                <option name="value" value="41" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="answer" />
-                <option name="value" value="123123" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="question_types" />
-                <option name="value" value="0" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="verification_code" />
-                <option name="value" value="ba35e2b3c9" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="school_class_id" />
-                <option name="value" value="20" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="user_id" />
-                <option name="value" value="14" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="textToSend" value="" />
-          <option name="filesToSend" value="" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="POST" />
-          <option name="urlBase" value="http://0.0.0.0:3000" />
-          <option name="urlPath" value="/api/students/get_messages" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parameters">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="student_id" />
-                <option name="value" value="2" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="school_class_id" />
-                <option name="value" value="28" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="publish_question_package_id" />
-                <option name="value" value="45" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="question_id" />
-                <option name="value" value="45" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="branch_question_id" />
-                <option name="value" value="41" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="answer" />
-                <option name="value" value="123123" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="question_types" />
-                <option name="value" value="0" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="verification_code" />
-                <option name="value" value="ba35e2b3c9" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="school_class_id" />
-                <option name="value" value="20" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="user_id" />
-                <option name="value" value="14" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="textToSend" value="" />
-          <option name="filesToSend" value="" />
-        </RestClientRequest>
       </list>
     </option>
   </component>
@@ -3099,13 +3034,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/routes.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="40" selection-start="861" selection-end="861" vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="2584">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/pub_que_ps/questions.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="21" selection-start="315" selection-end="315" vertical-scroll-proportion="0.1761658" vertical-offset="0" max-vertical-offset="1615">
@@ -3153,39 +3081,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
+    <entry file="file://$PROJECT_DIR$/db/migrate/20140226083009_rename_column_follow_microposts_count_from_microposts.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="322" column="42" selection-start="13419" selection-end="13419" vertical-scroll-proportion="0.0" vertical-offset="1581" max-vertical-offset="2958">
+        <state line="9" column="0" selection-start="279" selection-end="279" vertical-scroll-proportion="0.25844595" vertical-offset="0" max-vertical-offset="592">
           <folding>
-            <element signature="e#11471#12043#0" expanded="true" />
-            <element signature="e#12057#12463#0" expanded="true" />
-            <marker date="1393401355017" expanded="true" signature="732:1018" placeholder=" ... end" />
-            <marker date="1393401355017" expanded="true" signature="1899:2415" placeholder="if ... end" />
-            <marker date="1393401355017" expanded="true" signature="2845:3085" placeholder="if ... end" />
-            <marker date="1393401355017" expanded="true" signature="2923:3026" placeholder="if ... end" />
-            <marker date="1393401355017" expanded="true" signature="3584:3736" placeholder="if ... end" />
-            <marker date="1393401355017" expanded="true" signature="5383:7969" placeholder="if ... end" />
-            <marker date="1393401355017" expanded="true" signature="8098:9196" placeholder="if ... end" />
-            <marker date="1393401355017" expanded="true" signature="17409:17499" placeholder="if ... end" />
-            <marker date="1393401355017" expanded="true" signature="35191:36305" placeholder="if ... end" />
-            <marker date="1393401355017" expanded="true" signature="35331:36299" placeholder="if ... end" />
-            <marker date="1393401355017" expanded="true" signature="35775:36278" placeholder="if ... end" />
+            <element signature="e#82#175#0" expanded="true" />
+            <element signature="e#179#274#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/micropost.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="53" selection-start="815" selection-end="815" vertical-scroll-proportion="0.0" vertical-offset="331" max-vertical-offset="1003">
+        <state line="27" column="38" selection-start="1016" selection-end="1016" vertical-scroll-proportion="0.7927461" vertical-offset="0" max-vertical-offset="1003">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20140226083009_rename_column_follow_microposts_count_from_microposts.rb">
+    <entry file="file://$PROJECT_DIR$/config/routes.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="80" selection-start="169" selection-end="169" vertical-scroll-proportion="0.1761658" vertical-offset="0" max-vertical-offset="255">
+        <state line="23" column="39" selection-start="920" selection-end="948" vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="2601">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="303" column="58" selection-start="13094" selection-end="13094" vertical-scroll-proportion="0.7357513" vertical-offset="1133" max-vertical-offset="3689">
           <folding>
-            <element signature="e#179#274#0" expanded="true" />
+            <element signature="e#11471#12043#0" expanded="true" />
+            <element signature="e#13220#14544#0" expanded="true" />
+            <element signature="e#14559#15719#0" expanded="true" />
+            <marker date="1393404128341" expanded="true" signature="732:1018" placeholder=" ... end" />
+            <marker date="1393404128341" expanded="true" signature="1899:2415" placeholder="if ... end" />
+            <marker date="1393404128341" expanded="true" signature="2845:3085" placeholder="if ... end" />
+            <marker date="1393404128341" expanded="true" signature="2923:3026" placeholder="if ... end" />
+            <marker date="1393404128341" expanded="true" signature="3584:3736" placeholder="if ... end" />
+            <marker date="1393404128341" expanded="true" signature="5383:7969" placeholder="if ... end" />
+            <marker date="1393404128341" expanded="true" signature="8098:9196" placeholder="if ... end" />
+            <marker date="1393404128341" expanded="true" signature="18140:18230" placeholder="if ... end" />
+            <marker date="1393404128341" expanded="true" signature="35922:37036" placeholder="if ... end" />
+            <marker date="1393404128341" expanded="true" signature="36062:37030" placeholder="if ... end" />
+            <marker date="1393404128341" expanded="true" signature="36506:37009" placeholder="if ... end" />
           </folding>
         </state>
       </provider>

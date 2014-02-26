@@ -20,7 +20,8 @@ HomeworkManage::Application.routes.draw do
           :get_answer_history, :my_microposts, :get_reply_microposts, :get_messages,
           :get_classmates_info, :get_more_tasks, :get_newer_task,:get_teacher_messages,
           :new_homework, :reply_message, :delete_message,:get_sys_message,
-          :get_knowledges_card,:delete_knowledges_card,:card_is_full,:use_props_record
+          :get_knowledges_card,:delete_knowledges_card,:card_is_full,:use_props_record,
+          :get_question_package_details
         post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info,         
           :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
           :delete_sys_message,:read_message,:search_tasks

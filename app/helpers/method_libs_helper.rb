@@ -445,7 +445,6 @@ FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id
     resourse_url = "#{Rails.root}/public#{media_path % question_package_id}"
     question_packages_url = "#{Rails.root}/public#{publish_question_package.question_packages_url}"
     resourse_zip_url = "/#{file_dirs_url}/resourse.zip"
-    p resourse_zip_url
     Archive::Zip.archive("#{zip_url}","#{resourse_url}/.")
     if File.exist?(question_packages_url)
           Archive::Zip.archive("#{zip_url}","#{question_packages_url}")

@@ -473,12 +473,18 @@ class Api::StudentsController < ApplicationController
     school_class_id = params[:school_class_id]
     student = Student.find_by_id student_id
     school_class = SchoolClass.find_by_id school_class_id
-    if !school_class.nil? && !student.nil?
+    teacher = Teacher.find_by_id school_class.teacher_id
+    teacher_name = nil
+    teacher_avatar_url = nil
+    if !school_class.nil? && !student.nil? && !teacher.nil?
       classmates = SchoolClass.get_classmates school_class, student.id
+      teacher_name = teacher.user.name
+      teacher_avatar_url = teacher.user.avatar_url
       notice = "信息获取成功！"
       status = "success"
     end
-    render :json => {:status => status, :notice => notice, :classmates => classmates}
+    render :json => {:status => status, :notice => notice, :teacher_name => teacher_name,
+                     :teacher_avatar_url => teacher_avatar_url , :classmates => classmates}
   end
 
   #获取页面信息

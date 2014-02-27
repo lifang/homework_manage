@@ -20,7 +20,7 @@ class Micropost < ActiveRecord::Base
 
   #获取班级的microposts
   def self.get_microposts school_class, page, user_id=nil
-    page = 1 if page = 0
+    page = 1 if page.eql?(0)
     base_sql = "select m.id micropost_id, m.user_id, m.user_types, m.content, m.created_at,
                 m.reply_microposts_count, m.follow_microposts_count, u.name, u.avatar_url  from microposts m
                 inner join users u on u.id = m.user_id "

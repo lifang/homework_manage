@@ -189,12 +189,8 @@ class Api::StudentsController < ApplicationController
               :nickname => student.nickname, :avatar_url => student.user.avatar_url},
             :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
               :tearcher_id => tearcher_id },
-            :classmates => classmates,
-            :task_messages => task_messages,
             :microposts => microposts,
-            :daily_tasks => daily_tasks,
             :follow_microposts_id => follow_microposts_id,
-            :messages => messages
           }
         end
       end
@@ -292,7 +288,7 @@ class Api::StudentsController < ApplicationController
     status = "error"
     notice = "获取出错！"
     answer_url = nil
-    tasks = nil
+    props = nil
     if !student.nil? && !school_class.nil? && !publish_question_package.nil?
       status = "error"
       notice = "获取完成！"
@@ -301,10 +297,12 @@ class Api::StudentsController < ApplicationController
       .find_by_student_id_and_publish_question_package_id(student.id,publish_question_package.id)
       if !student_answer_record.nil? && !student_answer_record.answer_file_url.nil?
         answer_url =  student_answer_record.answer_file_url
+        props = Prop.get_prop_num school_class.id, student.id
       end
     end
     render :json => {:status => status, :notice => notice,
-                  :question_packages_url => question_packages_url, :answer_url => answer_url}
+                  :question_packages_url => question_packages_url,
+                  :answer_url => answer_url, :props => props}
   end
 
   #获取消息microposts(分页)

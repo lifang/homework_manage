@@ -25,7 +25,7 @@ class PublishQuestionPackage < ActiveRecord::Base
       tasks_sql += " and p.start_time >= '#{date} 00:00:00'
         and p.start_time <= '#{date} 23:59:59'"
     end
-    tasks_sql += " and p.tag_id is null or p.tag_id in #{tags}"  if my_tag_ids && my_tag_ids.length != 0
+    tasks_sql += " and (p.tag_id is null or p.tag_id in #{tags})"  if my_tag_ids && my_tag_ids.length != 0
     tasks_sql += " order by p.start_time desc"
     tasks_sql += " limit 1" if !order_name.nil? && order_name == "first"
     pub_tasks = PublishQuestionPackage.find_by_sql tasks_sql

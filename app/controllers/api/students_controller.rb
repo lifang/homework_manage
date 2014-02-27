@@ -60,9 +60,9 @@ class Api::StudentsController < ApplicationController
     if followmicropost.nil?
       Micropost.transaction do
         micropost = Micropost.find_by_id micropost_id
-        follow_micropost_count = micropost.follow_micropost_count.to_i + 1
+        follow_micropost_count = micropost.follow_microposts_count.to_i + 1
         followmicropost = FollowMicropost.new(:user_id => user_id, :micropost_id => micropost_id)
-        micropost.update_attributes(:follow_micropost_count => follow_micropost_count)
+        micropost.update_attributes(:follow_microposts_count => follow_micropost_count)
       end
       if followmicropost.save
         render :json => {:status => 'success', :notice => '关注添加成功'}
@@ -80,9 +80,9 @@ class Api::StudentsController < ApplicationController
     micropost = Micropost.find_by_id micropost_id
     followmicropost_exits = FollowMicropost.find_by_user_id_and_micropost_id(user_id, micropost_id)
     if followmicropost_exits && followmicropost_exits.destroy
-      if micropost.follow_micropost_count && micropost.follow_micropost_count > 0
-        follow_micropost_count = micropost.follow_micropost_count.to_i - 1
-        micropost.update_attributes(:follow_micropost_count => follow_micropost_count)
+      if micropost.follow_micropost_count && micropost.follow_microposts_count > 0
+        follow_micropost_count = micropost.follow_microposts_count.to_i - 1
+        micropost.update_attributes(:follow_microposts_count => follow_micropost_count)
       end
       render :json => {:status => 'success', :notice => '取消关注成功'}
     else

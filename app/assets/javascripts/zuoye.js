@@ -191,11 +191,11 @@ function checkText(obj, path){
 //        tishi("内容不能为空");
         $(obj).val("");
     }
-    else if(value.match(/[^A-Za-z'0-9!,?:."' ]/g)!=null)
-    {
-        tishi("输入有错，有效范围:英文字母、逗号、叹号、单引号、双引号、问号、冒号及数字");
-        $(obj).val("");
-    }
+//    else if(value.match(/[^A-Za-z'0-9!,?:."' ]/g)!=null)
+//    {
+//        tishi("输入有错，有效范围:英文字母、逗号、叹号、单引号、双引号、问号、冒号及数字");
+//        $(obj).val("");
+//    }
     else{
         $(obj).val(value);
         $(obj).parents("tr").before(branchQuestion);
@@ -295,12 +295,12 @@ function hideInput(obj){
         $(obj).val(content);
         $(obj).parent().find("p").css("display","inline-block");
     }
-    else if(content.match(/[^A-Za-z'0-9!,?:."' ]/g)!=null){
-        tishi("输入有错，有效范围:英文字母、逗号、叹号、单引号、双引号、问号、冒号及数字");
-        $(obj).val(old_content);
-        $(obj).hide();
-        $(obj).parent().find("p").css("display","inline-block");
-    }
+//    else if(content.match(/[^A-Za-z'0-9!,?:."' ]/g)!=null){
+//        tishi("输入有错，有效范围:英文字母、逗号、叹号、单引号、双引号、问号、冒号及数字");
+//        $(obj).val(old_content);
+//        $(obj).hide();
+//        $(obj).parent().find("p").css("display","inline-block");
+//    }
     else{
         $(obj).val(content);
         $(obj).css("display","none");

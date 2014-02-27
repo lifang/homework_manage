@@ -185,6 +185,14 @@ function GoForthStep(question_pack_id, school_class_id){
 }
 
 function checkText(obj, path){
+    var first_selected = $(".first_step").find(".addwork_btn a.selected");
+    var question_type = first_selected.find("span").hasClass("write_a") ? 0 : 1;  //大题题型， 0是听力， 1是朗读
+    var second_selected = $(".second_step").find(".addwork_btn a.selected");
+    var new_or_refer = second_selected.find("span").hasClass("build_a") ? 0 : 1;  //大题的小题来源， 0是新建， 1是引用
+
+    alert(question_type);
+    alert(new_or_refer);
+    alert(path);
     var blanket_reg = new RegExp(/[\s]+/g);
     var value = $.trim($(obj).val()).replace(blanket_reg," ");
     if(value==""){
@@ -197,17 +205,46 @@ function checkText(obj, path){
         $(obj).val("");
     }
     else{
-        $(obj).val(value);
-        $(obj).parents("tr").before(branchQuestion);
-        $(".book_box_table table > tbody > tr:odd").addClass("tbg");
-        var done_tr = $(".book_box_table table tr.done_tr");
-        var new_done_tr = done_tr.last();
-        new_done_tr.find("p.td_text_p").text(value);
-        new_done_tr.find("input.td_text_input").val(value);
-        new_done_tr.find("form").attr("action", path);
-        var index = done_tr.index(new_done_tr);
-        new_done_tr.find(".tr_index").val(index);
-        $(obj).val("");
+        if(question_type == 1)
+        {
+//            var form_url = $(obj).parent().
+            $(obj).val(value);
+            $(obj).parents("tr").before(branchQuestion);
+            $(".book_box_table table > tbody > tr:odd").addClass("tbg");
+            var done_tr = $(".book_box_table table tr.done_tr");
+            var new_done_tr = done_tr.last();
+            new_done_tr.find("p.td_text_p").text(value);
+            new_done_tr.find("input.td_text_input").val(value);
+            new_done_tr.find("form").attr("action", path);
+            var index = done_tr.index(new_done_tr);
+            new_done_tr.find(".tr_index").val(index);
+//            alert(11111);
+            $(obj).val("");
+            $.ajax({
+                async:true,
+                type : 'post',
+                url: path,
+                dataType:"script",
+                data  : "id="+id+"&page="+page+"&conditions="+$("#condtions").val(),
+                success:function(data){
+
+                }
+            });
+        }
+        else
+        {
+            $(obj).val(value);
+            $(obj).parents("tr").before(branchQuestion);
+            $(".book_box_table table > tbody > tr:odd").addClass("tbg");
+            var done_tr = $(".book_box_table table tr.done_tr");
+            var new_done_tr = done_tr.last();
+            new_done_tr.find("p.td_text_p").text(value);
+            new_done_tr.find("input.td_text_input").val(value);
+            new_done_tr.find("form").attr("action", path);
+            var index = done_tr.index(new_done_tr);
+            new_done_tr.find(".tr_index").val(index);
+            $(obj).val("");
+        }
     }
 }
 
@@ -280,10 +317,11 @@ function ModifyQuestion(obj){
     $(obj).parent().find(".td_text_input").val($(obj).html());
 }
 
-function hideInput(obj){
+function hideInput(obj,question_type){
     var old_content = $(obj).parents("td").next().find("input.td_text_input").val();
     var blanket_reg = new RegExp(/[\s]+/g);
     var content = $.trim($(obj).val()).replace(blanket_reg," ");
+    alert(question_type);
     if($.trim(content)==""){
         tishi("内容不能为空!");
         $(obj).val(old_content);

@@ -30,7 +30,7 @@
                 <div class="td_text">
                   <a href="javascript:void(0)" class="remove" onclick = "removeBranchQues(this)">删除</a>
                   <p class="td_text_p tooltip_title" title="双击句子可以进行编辑和修改" ondblclick="ModifyQuestion(this)"><%= branch.content %></p>
-                  <input name="branch_content[]" type="text" value="<%= branch.content %>" class="td_text_input" onblur="hideInput(this)"/>
+                  <input name="branch_content[]" type="text" value="<%= branch.content %>" class="td_text_input" onblur="hideInput(this,'<%= @question.types %>')"/>
                 </div>
               </td>
               <td width="100" class="td_func_bg">

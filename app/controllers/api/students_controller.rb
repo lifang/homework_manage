@@ -89,7 +89,7 @@ class Api::StudentsController < ApplicationController
       render :json => {:status => 'error', :notice => '取消关注失败'}
     end
   end
-  #切换班级
+  #显示班级列表
   def get_my_classes
     student_id = params[:student_id].to_i
     classes = SchoolClass.find_by_sql(["SELECT school_classes.id class_id,school_classes.name class_name
@@ -884,7 +884,7 @@ class Api::StudentsController < ApplicationController
       status = "success"
       notice = "获取成功！！"
     end
-    render :json => {:status => status,:notice => notice,:sysMessage => sysmessage }
+    render :json => {:status => status,:notice => notice,:sysmessage => sysmessage }
   end
   #列出卡包所有卡片的列表#根据分类查询列出卡包卡片的列表api
   def get_knowledges_card
@@ -926,38 +926,7 @@ class Api::StudentsController < ApplicationController
     end
     render :json => {:status => status,:notice => notice}
   end
-  #记录使用记录，并更新道具数量。
-  def use_props_record
-    student_id = params[:student_id]
-    prop_id = params[:prop_id]
-    school_class_id = params[:school_class_id]
-    branch_question_id = params[:branch_question_id]
-    userproprelation = UserPropRelation.find_by_student_id_and_prop_id_and_school_class_id student_id,prop_id,school_class_id
-    if userproprelation.present?
-      if userproprelation.user_prop_num>0
-        branchquestion = BranchQuestion.find_by_id branch_question_id
-        if branch_question_id && branchquestion.present?
-          user_prop_num = userproprelation.user_prop_num - 1
-          UserPropRelation.transaction do
-            userproprelation.update_attributes(:user_prop_num => user_prop_num)
-            RecordUseProp.create(:user_prop_relation_id => userproprelation.id, :branch_question_id => branch_question_id)
-          end
-          status = "success"
-          notice = "道具使用成功"
-        else
-          status = "error"
-          notice = "题目不存在"
-        end
-      else
-        status = "error"
-        notice = "道具数量小于1"
-      end
-    else
-      status = "error"
-      notice = "道具不存在"
-    end
-    render :json => {:status => status ,:notice => notice}
-  end
+
 
   #返回新任务的id
   def new_homework

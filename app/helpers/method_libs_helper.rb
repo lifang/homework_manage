@@ -419,7 +419,7 @@ module MethodLibsHelper
       school_class = SchoolClass.find_by_id school_class_id
       students = school_class.school_class_student_ralastions.map(&:student_id)
       if card_bag.student_id.eql?(student_id)&&card_bag.school_class_id.eql?(school_class_id)&&students.include?(student_id)
-        sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types
+        sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options
 FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id = bq.id where kc.card_bag_id = ?"
         if mistake_types.nil?
           knowledges_card = KnowledgesCard.paginate_by_sql([sql,card_bag_id],:per_page =>CardBag::PER_PAGE ,:page => page)

@@ -635,6 +635,7 @@ class Api::StudentsController < ApplicationController
     student_id = params[:student_id]
     school_class_id = params[:school_class_id]
     publish_question_package_id = params[:publish_question_package_id]
+    answer_file = params[:answer_file]
     student_answer_record = StudentAnswerRecord.find_by_student_id_and_school_class_id_and_publish_question_package_id student_id,school_class_id,publish_question_package_id
     if !student_answer_record.nil?
       if student_answer_record.status == StudentAnswerRecord::STATUS[:DEALING]

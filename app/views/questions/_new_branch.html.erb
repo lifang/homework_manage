@@ -4,6 +4,7 @@
        <li class="rw_read" id="new_xj_red" style="display: none;">听写题</li>
        <li class="rw_write" id="new_xj_write" style="display: none;">朗读题</li>
     </ul>
+    <input id="question_types" type="text" value="<%= @question_type  %>" style="display: none;">
   </div>
   <input type="hidden" id="hidden_question_id" value="<%= @question.id %>"/>
   <input type="hidden" id="hidden_question_pack_id" value="<%= @question_pack.id %>"/>
@@ -30,7 +31,7 @@
                 <div class="td_text">
                   <a href="javascript:void(0)" class="remove" onclick = "removeBranchQues(this)">删除</a>
                   <p class="td_text_p tooltip_title" title="双击句子可以进行编辑和修改" ondblclick="ModifyQuestion(this)"><%= branch.content %></p>
-                  <input name="branch_content[]" type="text" value="<%= branch.content %>" class="td_text_input" onblur="hideInput(this,'<%= @question.types %>')"/>
+                  <input name="branch_content[]" type="text" value="<%= branch.content %>" class="td_text_input" onblur="hideInput(this)"/>
                 </div>
               </td>
               <td width="100" class="td_func_bg">

@@ -21,6 +21,7 @@ var branchQuestion = "<tr class=\"done_tr\">\n\
                                 </form>\n\
                               </td>\n\
                      </tr>";
+
 var page = 1;
 var i = 10;
 
@@ -185,16 +186,9 @@ function GoForthStep(question_pack_id, school_class_id){
 }
 
 function checkText(obj, path){
-    var first_selected = $(".first_step").find(".addwork_btn a.selected");
-    var question_type = first_selected.find("span").hasClass("write_a") ? 0 : 1;  //大题题型， 0是听力， 1是朗读
-    var second_selected = $(".second_step").find(".addwork_btn a.selected");
-    var new_or_refer = second_selected.find("span").hasClass("build_a") ? 0 : 1;  //大题的小题来源， 0是新建， 1是引用
-
-    alert(question_type);
-    alert(new_or_refer);
-    alert(path);
     var blanket_reg = new RegExp(/[\s]+/g);
     var value = $.trim($(obj).val()).replace(blanket_reg," ");
+
     if(value==""){
 //        tishi("内容不能为空");
         $(obj).val("");
@@ -205,50 +199,55 @@ function checkText(obj, path){
         $(obj).val("");
     }
     else{
-        if(question_type == 1)
+        if($("#question_types").length > 0 )
         {
-//            var form_url = $(obj).parent().
-            $(obj).val(value);
-            $(obj).parents("tr").before(branchQuestion);
-            $(".book_box_table table > tbody > tr:odd").addClass("tbg");
-            var done_tr = $(".book_box_table table tr.done_tr");
-            var new_done_tr = done_tr.last();
-            new_done_tr.find("p.td_text_p").text(value);
-            new_done_tr.find("input.td_text_input").val(value);
-            new_done_tr.find("form").attr("action", path);
-            var index = done_tr.index(new_done_tr);
-            new_done_tr.find(".tr_index").val(index);
-//            alert(11111);
-            $(obj).val("");
-            $.ajax({
-                async:true,
-                type : 'post',
-                url: path,
-                dataType:"script",
-                data  : "id="+id+"&page="+page+"&conditions="+$("#condtions").val(),
-                success:function(data){
-
-                }
-            });
+            var question_types = $("#question_types").val();
+            if(question_types == 1)
+            {
+                $(obj).val(value);
+                $(obj).parents("tr").before(branchQuestion);
+                $(".book_box_table table > tbody > tr:odd").addClass("tbg");
+                var done_tr = $(".book_box_table table tr.done_tr");
+                var new_done_tr = done_tr.last();
+                new_done_tr.find("p.td_text_p").text(value);
+                new_done_tr.find("input.td_text_input").val(value);
+                new_done_tr.find("form").attr("action", path);
+                var index = done_tr.index(new_done_tr);
+                new_done_tr.find(".tr_index").val(index);
+                $(obj).parent().parent().prev().find("form").submit();
+                $(obj).val("");
+            }
+            else
+            {
+//                alert(question_types);
+                $(obj).val(value);
+                $(obj).parents("tr").before(branchQuestion);
+                $(".book_box_table table > tbody > tr:odd").addClass("tbg");
+                var done_tr = $(".book_box_table table tr.done_tr");
+                var new_done_tr = done_tr.last();
+                new_done_tr.find("p.td_text_p").text(value);
+                new_done_tr.find("input.td_text_input").val(value);
+                new_done_tr.find("form").attr("action", path);
+                var index = done_tr.index(new_done_tr);
+                new_done_tr.find(".tr_index").val(index);
+                $(obj).val("");
+            }
         }
-        else
-        {
-            $(obj).val(value);
-            $(obj).parents("tr").before(branchQuestion);
-            $(".book_box_table table > tbody > tr:odd").addClass("tbg");
-            var done_tr = $(".book_box_table table tr.done_tr");
-            var new_done_tr = done_tr.last();
-            new_done_tr.find("p.td_text_p").text(value);
-            new_done_tr.find("input.td_text_input").val(value);
-            new_done_tr.find("form").attr("action", path);
-            var index = done_tr.index(new_done_tr);
-            new_done_tr.find(".tr_index").val(index);
-            $(obj).val("");
+        else{
+            //没有题型则清空输入
         }
     }
 }
 
 function showPath(obj){
+    var tr_index = $(obj).parent().parent().find("[class='tr_index']").val();
+    if(tr_index=="")
+    {
+        var done_tr = $(".book_box_table table tr.done_tr");
+        var new_done_tr = $(obj).parent().parent().parent().parent();
+        var index = done_tr.index(new_done_tr);
+        $(obj).parent().parent().find("[class='tr_index']").val(index);
+    }
     var fil_name =  $(obj).val();
     var img_extension = fil_name.substring(fil_name.lastIndexOf('.') + 1).toLowerCase();
     if(img_extension == "mp3" || img_extension == "amr" || img_extension == "wav"){
@@ -317,11 +316,10 @@ function ModifyQuestion(obj){
     $(obj).parent().find(".td_text_input").val($(obj).html());
 }
 
-function hideInput(obj,question_type){
+function hideInput(obj){
     var old_content = $(obj).parents("td").next().find("input.td_text_input").val();
     var blanket_reg = new RegExp(/[\s]+/g);
     var content = $.trim($(obj).val()).replace(blanket_reg," ");
-    alert(question_type);
     if($.trim(content)==""){
         tishi("内容不能为空!");
         $(obj).val(old_content);

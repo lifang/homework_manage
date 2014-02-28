@@ -19,12 +19,11 @@ HomeworkManage::Application.routes.draw do
           'get_my_classes', 'into_daily_tasks', :get_microposts, :get_class_info,
           :get_answer_history, :my_microposts, :get_reply_microposts, :get_messages,
           :get_classmates_info, :get_more_tasks, :get_newer_task,:get_teacher_messages,
-          :new_homework, :reply_message, :delete_message,:get_sys_message,
-          :get_knowledges_card,:delete_knowledges_card,:card_is_full,:use_props_record,
-          :get_question_package_details
+          :new_homework, :delete_message,:get_sys_message,
+          :get_knowledges_card,:delete_knowledges_card,:card_is_full,:get_question_package_details
         post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info,         
           :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
-          :delete_sys_message,:read_message,:search_tasks
+          :delete_sys_message,:read_message,:search_tasks, :reply_message
       end
     end
   end
@@ -51,7 +50,7 @@ HomeworkManage::Application.routes.draw do
     end
     resources :messages do
       collection do
-        get :check_micropost,:new_message_remind
+        get :check_micropost
       end
     end
 

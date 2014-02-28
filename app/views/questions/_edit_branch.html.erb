@@ -38,7 +38,7 @@
                 <div class="td_text">
                   <%= link_to "删除", question_package_question_branch_question_path(@question_pack, @question, branch), :method => :delete, :confirm => "确定删除？", :remote => true, "data-type"=>"script", :class => "remove" %>
                   <p class="td_text_p tooltip_title" ondblclick="ModifyQuestion(this)"  title="双击句子可以进行编辑和修改"><%= branch.content %></p>
-                  <input name="branch_content[]" type="text" value="<%= branch.content %>" class="td_text_input" onblur="hideInput(this)"/>
+                  <input name="branch_content[]" type="text" value="<%= branch.content %>" class="td_text_input" onblur="hideInput(this,<%= @question.types %>)"/>
                 </div>
               </td>
               <% if branch.resource_url.nil? || (branch.resource_url && branch.resource_url.size==0) %>

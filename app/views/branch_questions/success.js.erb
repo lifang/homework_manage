@@ -1,19 +1,20 @@
-<% if @action_name == "create" %>
   tishi("保存成功");
+<% if @action_name == "create" %>
   current_tr = $($(".book_box_table table tr.done_tr")[<%= @tr_index %>])
-<% if @branch_question.resource_url.nil? %>
-current_tr.find("form").attr("action", "/question_packages/<%= @question_pack.id %>/questions/<%= @question.id %>/branch_questions")
-current_tr.find("form").attr("method", "post");
-current_tr.find("form").attr("data-remote", "true");
-current_tr.find("form").attr("data-type", "script");
-current_tr.find("td.td_func_bg a.up_voice_a").remove();
-current_tr.find("td.td_func_bg form").prepend('<a class="up_voice_a"><span>上传音频</span><input name="branch_url" type="file" onchange="showPath(this)"><input name="branch_id" value="<%= @branch_question.id  %>" type="text" style="display: none;" ></a>')
-<% else %>
-current_tr.find("form").attr("action", "<%= question_package_question_branch_question_path(@question_pack, @question, @branch_question) %>")
-current_tr.find("form").attr("method", "put");
-current_tr.find("td.td_func_bg a.up_voice_a").remove();
-current_tr.find("td.td_func_bg form").prepend('<a href="javascript:void(0)" class="voice_icon" onclick="playAudio(this)"><audio controls="controls"><source src=\"<%= @branch_question.resource_url %>\" type="audio/mpeg" />Your browser does not support the audio element.</audio></a>')
-<% end %>
+  <% if @branch_question.resource_url.nil? %>
+    current_tr.find("form").attr("action", "/question_packages/<%= @question_pack.id %>/questions/<%= @question.id %>/branch_questions")
+    current_tr.find("form").attr("method", "post");
+    current_tr.find("form").attr("data-remote", "true");
+    current_tr.find("form").attr("data-type", "script");
+    current_tr.find("td.td_func_bg a.up_voice_a").remove();
+    current_tr.find("td.td_func_bg form").prepend('<a class="up_voice_a"><span>上传音频</span><input name="branch_url" type="file" onchange="showPath(this)"><input name="branch_id" value="<%= @branch_question.id  %>" type="text" style="display: none;" ></a>')
+  <% else %>
+    current_tr.find("form").attr("action", "<%= question_package_question_branch_question_path(@question_pack, @question, @branch_question) %>")
+    current_tr.find("form").attr("method", "put");
+    current_tr.find("td.td_func_bg a.up_voice_a").remove();
+    current_tr.find("td.td_func_bg form").prepend('<a href="javascript:void(0)" class="voice_icon" onclick="playAudio(this)"><audio controls="controls"><source src=\"<%= @branch_question.resource_url %>\" type="audio/mpeg" />Your browser does not support the audio element.</audio></a>')
+  <% end %>
   $("#fugai").hide();
   $("#fugai1").hide();
+<% else %>
 <% end %>

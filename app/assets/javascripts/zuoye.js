@@ -190,7 +190,7 @@ function checkText(obj, path){
     var value = $.trim($(obj).val()).replace(blanket_reg," ");
 
     if(value==""){
-//        tishi("内容不能为空");
+        //        tishi("内容不能为空");
         $(obj).val("");
     }
     else if(value.match(/[^A-Za-z'0-9!,?:."' ]/g)!=null)
@@ -202,40 +202,27 @@ function checkText(obj, path){
         if($("#question_types").length > 0 )
         {
             var question_types = $("#question_types").val();
+            $(obj).val(value);
+            $(obj).parents("tr").before(branchQuestion);
+            $(obj).parents("tr").prev().find("input.td_text_input").attr("onblur", "hideInput(this," + question_types +")")
+            $(".book_box_table table > tbody > tr:odd").addClass("tbg");
+            var done_tr = $(".book_box_table table tr.done_tr");
+            var new_done_tr = done_tr.last();
+            new_done_tr.find("p.td_text_p").text(value);
+            new_done_tr.find("input.td_text_input").val(value);
+            new_done_tr.find("form").attr("action", path);
+            var index = done_tr.index(new_done_tr);
+            new_done_tr.find(".tr_index").val(index);
             if(question_types == 1)
             {
-                $(obj).val(value);
-                $(obj).parents("tr").before(branchQuestion);
-                $(".book_box_table table > tbody > tr:odd").addClass("tbg");
-                var done_tr = $(".book_box_table table tr.done_tr");
-                var new_done_tr = done_tr.last();
-                new_done_tr.find("p.td_text_p").text(value);
-                new_done_tr.find("input.td_text_input").val(value);
-                new_done_tr.find("form").attr("action", path);
-                var index = done_tr.index(new_done_tr);
-                new_done_tr.find(".tr_index").val(index);
                 $(obj).parent().parent().prev().find("form").submit();
-                $(obj).val("");
             }
-            else
-            {
-//                alert(question_types);
-                $(obj).val(value);
-                $(obj).parents("tr").before(branchQuestion);
-                $(".book_box_table table > tbody > tr:odd").addClass("tbg");
-                var done_tr = $(".book_box_table table tr.done_tr");
-                var new_done_tr = done_tr.last();
-                new_done_tr.find("p.td_text_p").text(value);
-                new_done_tr.find("input.td_text_input").val(value);
-                new_done_tr.find("form").attr("action", path);
-                var index = done_tr.index(new_done_tr);
-                new_done_tr.find(".tr_index").val(index);
-                $(obj).val("");
-            }
+            $(obj).val("");
+
         }
         else{
-            //没有题型则清空输入
-        }
+    //没有题型则清空输入
+    }
     }
 }
 
@@ -316,7 +303,7 @@ function ModifyQuestion(obj){
     $(obj).parent().find(".td_text_input").val($(obj).html());
 }
 
-function hideInput(obj){
+function hideInput(obj, ques_type){
     var old_content = $(obj).parents("td").next().find("input.td_text_input").val();
     var blanket_reg = new RegExp(/[\s]+/g);
     var content = $.trim($(obj).val()).replace(blanket_reg," ");
@@ -345,6 +332,23 @@ function hideInput(obj){
         $(obj).parents("td").next().find("input.td_text_input").val(content);
         if($(obj).parents("td").next().find("a").hasClass("voice_icon")){
             $(obj).parents("td").next().find("form").submit();
+        }else{
+            if(ques_type == 1){
+              var url = $(obj).parents("td").next().find("form").attr("action");
+              var branch_id = $(obj).parents("td").next().find("form").find("input[name='branch_id']").val();
+              $.ajax({
+                  url: url + "/" + branch_id,
+                  type: "PUT",
+                  dataType: "script",
+                  data: {"branch[content]" : content},
+                  success:function(data){
+                      //tishi(data.message == 1 ? "保存成功" : "保存失败")
+                  },
+                  error:function(data){
+                     tishi("请求出错了");
+                  }
+              })
+            }
         }
     }
 }

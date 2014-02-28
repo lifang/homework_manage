@@ -409,8 +409,9 @@ module MethodLibsHelper
   end
 
   #列出卡包所有卡片的列表#根据分类查询列出卡包卡片的列表api
-  def knowledges_card_list card_bag_id, student_id,school_class_id,page,mistake_types=nil
-    card_bag = CardBag.find_by_id card_bag_id
+  def knowledges_card_list student_id,school_class_id,page,mistake_types=nil
+    card_bag = CardBag.find_by_student_id_and_school_class_id student_id, school_class_id
+    card_bag_id = card_bag.id
     if card_bag.blank?
       status = "error"
       notice = "卡包不存在"
@@ -424,7 +425,7 @@ FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id
         if mistake_types.nil?
           knowledges_card = KnowledgesCard.paginate_by_sql([sql,card_bag_id],:per_page =>CardBag::PER_PAGE ,:page => page)
         else
-          mistake_types_sql = "and mistake_types=?"
+          mistake_types_sql = " and kc.mistake_types=?"
           sql += mistake_types_sql
           knowledges_card = KnowledgesCard.paginate_by_sql([sql,card_bag_id,mistake_types],:per_page =>CardBag::PER_PAGE ,:page => page)
         end

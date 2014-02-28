@@ -258,9 +258,14 @@ function showPath(obj){
 function removeBranchQues(obj){
     if(confirm("确定删除？")){
         var url = $(obj).parents("tr.done_tr").find("td.td_func_bg form").attr("action");
-        if($(obj).parents("tr.done_tr").find("td.td_func_bg a").hasClass("up_voice_a")){
+        var question_type = $("#question_types").val();
+        if($(obj).parents("tr.done_tr").find("td.td_func_bg a").hasClass("up_voice_a") && question_type == 0){
             $(obj).parents("tr.done_tr").remove();
         }else{
+            if(question_type == 1){
+                var branch_id = $(obj).parents("tr.done_tr").find("form input[name=branch_id]").val();
+                url = url + "/" + branch_id;
+            }
             $.ajax({
                 url:url,
                 type: "delete",

@@ -77,7 +77,8 @@ $(function(){
 //            alert(count_finish_line);
             if(count_line != 1)
             {
-                if(count_finish_line == (count_line-1))
+                var question_type = $("#question_types").val();
+                if((question_type!=1 && count_finish_line == (count_line-1)) || question_type==1)
                 {
                     all_li.removeClass("hover");
                     ul_parent.find("ul").append("<li  class=\"question_li hover\" onclick=\"liHover(this)\"><a href=\"#\">" + (index +1) +".</a></li>");
@@ -95,8 +96,9 @@ $(function(){
                         }
                     })
                 }
-                else
-                    tishi("有"+ (count_line-count_finish_line-1) +"题未编辑完成或未上传音频,请完成编辑！");
+                else{
+                      tishi("有"+ (count_line-count_finish_line-1) +"题未编辑完成或未上传音频,请完成编辑！");
+                }
             }
             else
             {

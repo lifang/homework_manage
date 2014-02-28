@@ -21,35 +21,26 @@ class Api::StudentsController < ApplicationController
   end
   #  回复消息
   def reply_message
-    sender_id = params[:sender_id].to_i
+    sender_id = params[:sender_id]
     sender_types = params[:sender_types]
     content = params[:content].strip
     micropost_id = params[:micropost_id]
-    reciver_id = params[:reciver_id].to_i
+    reciver_id = params[:reciver_id]
     reciver_types = params[:reciver_types]
     school_class_id = params[:school_class_id]
-    school_class = SchoolClass.find_by_id school_class_id
-    students = school_class.school_class_student_ralastions.map(&:student_id)
-    teacher = school_class.teacher_id.to_i
-    teacher_arr = []
-    teacher_arr << teacher
     micropost = Micropost.find_by_id micropost_id.to_i
     if micropost
-      if (students.include?(sender_id)||teacher_arr.include?(sender_id))&&(students.include?(reciver_id.to_i)||teacher_arr.include?(reciver_id))
-        Message.add_messages(micropost_id, reciver_id, reciver_types, sender_id, sender_types,
-          content, school_class_id)
-        replymicropost = ReplyMicropost.new(:sender_id => sender_id,
-          :sender_types => sender_types, :content => content,
-          :micropost_id => micropost_id, :reciver_id => reciver_id,:reciver_types => reciver_types)
-        replymicropost.save
-        micropost.update_attributes(:reply_microposts_count => (micropost.reply_microposts_count + 1))
-        render :json => {:status => 'success', :notice => '消息回复成功'}
-      else
-        render :json => {:status => 'error',:notice => '消息回复失败'}
-      end
+      Message.add_messages(micropost_id, reciver_id, reciver_types, sender_id, sender_types,
+        content, school_class_id)
+      replymicropost = ReplyMicropost.new(:sender_id => sender_id,
+        :sender_types => sender_types, :content => content,
+        :micropost_id => micropost_id, :reciver_id => reciver_id,:reciver_types => reciver_types)
+      replymicropost.save
+      micropost.update_attributes(:reply_microposts_count => (micropost.reply_microposts_count + 1))
+      render :json => {:status => 'success', :notice => '消息回复成功'}
     else
       render :json => {:status => 'error', :notice => '消息回复失败'}
-    end    
+    end
   end
   
   #  关注消息api
@@ -487,7 +478,7 @@ class Api::StudentsController < ApplicationController
       :teacher_avatar_url => teacher_avatar_url , :classmates => classmates}
   end
 
-  #获取页面信息
+  #切换班级
   def get_class_info
     school_class_id = params[:school_class_id]
     student_id = params[:student_id]
@@ -894,7 +885,6 @@ class Api::StudentsController < ApplicationController
   end
   #列出卡包所有卡片的列表#根据分类查询列出卡包卡片的列表api
   def get_knowledges_card
-
     student_id = params[:student_id].to_i
     school_class_id = params[:school_class_id].to_i
     page = params[:page].nil? ? 1 : params[:page].to_i

@@ -242,7 +242,7 @@ class Api::StudentsController < ApplicationController
     notice = "获取失败！"
     tasks = nil
     if !student.nil? && !school_class.nil?
-      tasks = PublishQuestionPackage.get_tasks school_class.id, student.id
+      tasks = PublishQuestionPackage.get_tasks school_class.id, student.id, nil, nil, today_newer_id
       status = "success"
       notice = "获取成功！"
     end
@@ -545,8 +545,6 @@ class Api::StudentsController < ApplicationController
           if school_class_student_relation.nil?
             notice = "该学生不属于当前班级,操作失败!"
           else
-            p student.id
-            p publish_question_package.id
             student_answer_record = StudentAnswerRecord.
               find_by_student_id_and_publish_question_package_id student.id, publish_question_package.id
             if student_answer_record.nil?
@@ -623,28 +621,64 @@ class Api::StudentsController < ApplicationController
 
   #完成某个题包
   def finish_question_packge
+    answer_file = ""
+    count = 0
+    params.each do |value|
+      if count == 0
+        answer_file = value[1]
+        count+=1
+      else
+        break
+      end
+    end
     student_id = params[:student_id]
     school_class_id = params[:school_class_id]
     publish_question_package_id = params[:publish_question_package_id]
-    answer_file = params[:answer_file]
-    student_answer_record = StudentAnswerRecord.find_by_student_id_and_school_class_id_and_publish_question_package_id student_id,school_class_id,publish_question_package_id
-    if !student_answer_record.nil?
-      if student_answer_record.status == StudentAnswerRecord::STATUS[:DEALING]
-        if student_answer_record.update_attributes(:status => StudentAnswerRecord::STATUS[:FINISH])
-          notice = "作业状态更新完成!"
-          status = "success"
-        else
-          notice = "作业状态更新失败,请重新操作!"
-          status = "error"
-        end
+    #answer_file = params[:answer_file]
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
+    status = "error"
+    notice = "记录失败！"
+    dir_url = "pub_que_ps/pub_#{publish_question_package_id}/answers"
+    rename_file_name = "student_#{student_id}"
+    file = upload_file dir_url, rename_file_name, answer_file
+    if file[:status] == true
+      student_answer_record = StudentAnswerRecord.find_by_student_id_and_school_class_id_and_publish_question_package_id student_id,school_class_id,publish_question_package_id
+      if student_answer_record.nil?
+        student_answer_record = student.student_answer_records.
+            create(:question_package_id => publish_question_package.question_package.id,
+                   :publish_question_package_id=> publish_question_package.id,
+                   :status => StudentAnswerRecord::STATUS[:DEALING],
+                   :school_class_id => school_class.id, :answer_file_url => file[:url])
       else
-        notice = "该作业已完成!"
-        status = "error"
+        student_answer_record.update_attributes(:answer_file_url => file[:url])
       end
+      answer_json = ""
+      anwser_file_url = "#{Rails.root}/public#{student_answer_record.answer_file_url}"
+      File.open(anwser_file_url) do |file|
+        file.each do |line|
+          answer_json += line.to_s
+        end
+      end
+      answer_records = ActiveSupport::JSON.decode(answer_json)
+      p answer_records
     else
-      notice = "参数错误!"
-      status = "error"
+
     end
+    #if !student_answer_record.nil?
+    #    if student_answer_record.update_attributes(:status => StudentAnswerRecord::STATUS[:FINISH])
+    #      notice = "作业状态更新完成!"
+    #      status = "success"
+    #    else
+    #      notice = "作业状态更新失败,请重新操作!"
+    #      status = "error"
+    #    end
+    #  end
+    #else
+    #  notice = "参数错误!"
+    #  status = "error"
+    #end
     render :json => {:status => status, :notice => notice}
   end
 

@@ -350,7 +350,7 @@ module MethodLibsHelper
     code = Digest::MD5.hexdigest(input)
     msg_content =  "{\"n_title\":\"1111222\",\"n_content\":#{messages},\"n_extras\":{\"class_id\":\"2\"} }"
     content = {"n_content" => "#{messages}","n_title"=> "2iidid"}
-    content["extras"]=extras_hash if !extras_hash.nil? && extras_hash.class == Hash
+    content["n_extras"]=extras_hash if !extras_hash.nil? && extras_hash.class == Hash
     msg_content = content.to_json()
     map = Hash.new
     map.store("sendno", Micropost::JPUSH[:SENDNO])
@@ -451,11 +451,11 @@ FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id
           Archive::Zip.archive("#{zip_url}","#{question_packages_url}")
           publish_question_package.update_attributes(:question_packages_url => resourse_zip_url)
     end
-
-    sql = "SELECT s.nickname FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
+    sql = "SELECT s.alias_name FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
 WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = ?"
     student = Student.find_by_sql([sql,school_class_id])
-    alias_name = student.map(&:nickname).join(",")
-    jpush_parameter content, alias_name
+    alias_name = student.map(&:alias_name).join(",")
+    extras_hash = {:type => 2}
+    jpush_parameter content, alias_name,extras_hash
   end
 end

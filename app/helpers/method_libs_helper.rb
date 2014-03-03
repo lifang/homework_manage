@@ -54,7 +54,6 @@ module MethodLibsHelper
         if q["id"].to_i == question_id.to_i
           count_question = 1
           q["branch_questions"].each do |branch_question|
-            p branch_question["id"]
             if branch_question["id"].to_i == branch_question_id.to_i
               count_branch_question = 1
               break
@@ -188,7 +187,6 @@ module MethodLibsHelper
     url = ""
     root_path = "#{Rails.root}/public"
     dirs = dirs_url.split("/")
-    p dirs
     dirs.each_with_index  do |e,i|
       url +=  "/"
       url += "#{e}"
@@ -362,7 +360,6 @@ module MethodLibsHelper
     map.store("msg_content",msg_content)
     map.store("platform", Micropost::JPUSH[:PLATFORM])
     data =  (Net::HTTP.post_form(URI.parse(Micropost::JPUSH[:URI]), map)).body
-    p data
   end
   
   def send_push_msg content, alias_name, teachers_id, reciver_id

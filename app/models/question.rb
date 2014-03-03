@@ -4,10 +4,10 @@ class Question < ActiveRecord::Base
   belongs_to :question_package
   has_many :branch_questions, :dependent => :destroy
 
-  TYPE_NAME_ARR = ["listening", "reading"]
-  TYPES = {:LISTENING => 0, :READING => 1}
-  TYPES_TITLE = {0 => "listening", 1 => "reading"}
-  TYPES_NAME = {0 => "听力", 1 => "朗读"}
+  TYPE_NAME_ARR = ["listening", "reading", "time_limit", "selecting", "lining", "cloze", "sort"]
+  TYPES = {:LISTENING => 0, :READING => 1, :TIME_LIMIT => 2, :SELECTING => 3, :LINING => 4, :CLOZE => 5, :SORT => 6 }
+  TYPES_TITLE = {0 => "listening", 1 => "reading", 2 => "time_limit", 3 => "selecting", 4 => "lining", 5 => "cloze", 6 => "sort" }
+  TYPES_NAME = {0 => "听力", 1 => "朗读",  2 => "十速", 3 => "选择", 4 => "连线", 5 => "完型", 6 => "排序"}
 
   TYPE_NAME_ARR.each do |type|
     scope type.to_sym, :conditions => { :types => TYPES[type.upcase.to_sym] }

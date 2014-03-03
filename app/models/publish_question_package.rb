@@ -8,8 +8,9 @@ class PublishQuestionPackage < ActiveRecord::Base
   STATUS_NAME = {0 => "新任务", 1 => "完成",2 => '过期'}
   PER_PAGE = 10
 
+
   #获取当日或历史任务
-  def self.get_tasks school_class_id, student_id, order_name=nil, date=nil
+  def self.get_tasks school_class_id, student_id, order_name=nil, date=nil, today_newer_id=nil
     my_tag_ids = Tag.get_my_tag_ids school_class_id, student_id
     tags = "#{my_tag_ids}".gsub(/\[/,"(").gsub(/\]/,")") if my_tag_ids && my_tag_ids.length != 0
     tasks_sql = "select p.id, q.name,p.question_package_id que_pack_id,p.start_time,p.end_time,
@@ -26,6 +27,7 @@ class PublishQuestionPackage < ActiveRecord::Base
         and p.start_time <= '#{date} 23:59:59'"
     end
     tasks_sql += " and (p.tag_id is null or p.tag_id in #{tags})"  if my_tag_ids && my_tag_ids.length != 0
+    tasks_sql += " and p.id != #{today_newer_id}" if !today_newer_id.nil?
     tasks_sql += " order by p.start_time desc"
     tasks_sql += " limit 1" if !order_name.nil? && order_name == "first"
     pub_tasks = PublishQuestionPackage.find_by_sql tasks_sql
@@ -52,5 +54,42 @@ class PublishQuestionPackage < ActiveRecord::Base
       }
     end
     tasks
+  end
+
+  #更新得分和成就
+  def self.update_scores_and_achirvements answer_json, student, school_class, publish_question_package, student_answer_record
+    p answer_json
+    if publish_question_package.id == answer_json["pub_id"].to_i
+      #记录道具使用记录及更新道具数量
+      if !answer_json["props"].nil?
+        props = Prop.get_prop_num school_class.id, student.id
+        props_types = props.map{|e| e[:types]}
+        props = props.group_by {|e| e[:types]}
+        answer_json["props"].each do |prop|
+          if props_types.include? prop["types"].to_i
+            user_prop_relation = UserPropRelation
+                  .find_by_id props[prop["types"].to_i][0][:user_prop_relation_id]
+            prop["branch_id"].each do |branch_id|
+              if user_prop_relation
+                r = RecordUseProp.create(:user_prop_relation_id => user_prop_relation.id,
+                                     :branch_question_id => branch_id)
+              end
+            end
+          end
+          if prop["branch_id"] && prop["branch_id"].length != 0
+            user_prop_relation.update_attributes(:user_prop_num =>
+                    (user_prop_relation.user_prop_num-prop["branch_id"].length).to_i)
+          end
+        end
+      end
+
+      p student_answer_record.record_details
+
+
+      #计算成就
+      if answer_json["status"].present? && answer_json["status"].to_i == PublishQuestionPackage::STATUS[:FINISH]
+
+      end
+    end
   end
 end

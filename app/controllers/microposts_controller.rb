@@ -71,7 +71,6 @@ class MicropostsController < ApplicationController
   def get_microposts 
     @condition = params[:condtions]
     @condition = nil if params[:condtions]==""
-    p 11111111111,params[:page]
     page = (params[:page].eql?("undefined") ? 1:params[:page])
       
     @scclass = SchoolClass.find(current_teacher.last_visit_class_id)

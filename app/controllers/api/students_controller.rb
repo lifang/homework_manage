@@ -662,23 +662,13 @@ class Api::StudentsController < ApplicationController
         end
       end
       answer_records = ActiveSupport::JSON.decode(answer_json)
-      p answer_records
+      PublishQuestionPackage.update_scores_and_achirvements answer_records, student, school_class, publish_question_package
+      notice = "作业状态更新完成!"
+      status = "success"
     else
-
+      notice = "作业状态更新失败,请重新操作!"
+      status = "error"
     end
-    #if !student_answer_record.nil?
-    #    if student_answer_record.update_attributes(:status => StudentAnswerRecord::STATUS[:FINISH])
-    #      notice = "作业状态更新完成!"
-    #      status = "success"
-    #    else
-    #      notice = "作业状态更新失败,请重新操作!"
-    #      status = "error"
-    #    end
-    #  end
-    #else
-    #  notice = "参数错误!"
-    #  status = "error"
-    #end
     render :json => {:status => status, :notice => notice}
   end
 
@@ -766,6 +756,26 @@ class Api::StudentsController < ApplicationController
       end
     end
     render :json => {:status => status, :notice => notice}
+  end
+
+  #获取我的成就
+  def get_my_archivements
+    student_id = params[:student_id].to_i
+    school_class_id = params[:school_class_id].to_i
+    notice = "用户信息错误!"
+    status = "error"
+    archivements = nil
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    school_class_student_relation = SchoolClassStudentRalastion
+              .find_by_school_class_id_and_student_id school_class_id, student_id
+    if !student.nil? && !school_class.nil? && !school_class_student_relation.nil?
+      archivements = ArchivementsRecord.where("school_class_id = ? and student_id = ?",school_class.id, student.id )
+          .select("student_id, school_class_id, archivement_score, archivement_types")
+      notice = "加载完成!"
+      status = "success"
+    end
+    render :json => {:status => status, :notice => notice, :archivements => archivements}
   end
 
   #获取我的提示消息

@@ -2,9 +2,10 @@
 class StudentAnswerRecord < ActiveRecord::Base
   attr_protected :authentications
   belongs_to :student
-  has_many :record_details
+  has_many :record_details, :dependent => :destroy
   STATUS = {:DEALING => 0, :FINISH => 1}
   STATUS_NAME = {0 => "进行中", 1 => "完成"}
+
 
   def self.ret_stuent_record(school_class_id, publish_packages_id)
     s_answer_records = StudentAnswerRecord.find_by_sql(["select

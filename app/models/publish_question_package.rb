@@ -57,36 +57,39 @@ class PublishQuestionPackage < ActiveRecord::Base
   end
 
   #更新得分和成就
-  def self.update_scores_and_achirvements answer_json, student, school_class, publish_question_package
+  def self.update_scores_and_achirvements answer_json, student, school_class, publish_question_package, student_answer_record
     p answer_json
-    #记录道具使用记录及更新道具数量
-    if !answer_json["props"].nil?
-      props = Prop.get_prop_num school_class.id, student.id
-      props_types = props.map{|e| e[:types]}
-      props = props.group_by {|e| e[:types]}
-      answer_json["props"].each do |prop|
-        if props_types.include? prop["types"].to_i
-          user_prop_relation = UserPropRelation
-                .find_by_id props[prop["types"].to_i][0][:user_prop_relation_id]
-          prop["branch_id"].each do |branch_id|
-            if user_prop_relation
-              r = RecordUseProp.create(:user_prop_relation_id => user_prop_relation.id,
-                                   :branch_question_id => branch_id)
-              p r
+    if publish_question_package.id == answer_json["pub_id"].to_i
+      #记录道具使用记录及更新道具数量
+      if !answer_json["props"].nil?
+        props = Prop.get_prop_num school_class.id, student.id
+        props_types = props.map{|e| e[:types]}
+        props = props.group_by {|e| e[:types]}
+        answer_json["props"].each do |prop|
+          if props_types.include? prop["types"].to_i
+            user_prop_relation = UserPropRelation
+                  .find_by_id props[prop["types"].to_i][0][:user_prop_relation_id]
+            prop["branch_id"].each do |branch_id|
+              if user_prop_relation
+                r = RecordUseProp.create(:user_prop_relation_id => user_prop_relation.id,
+                                     :branch_question_id => branch_id)
+              end
             end
           end
-        end
-        if prop["branch_id"] && prop["branch_id"].length != 0
-          user_prop_relation.update_attributes(:user_prop_num =>
-                  (user_prop_relation.user_prop_num-prop["branch_id"].length).to_i)
+          if prop["branch_id"] && prop["branch_id"].length != 0
+            user_prop_relation.update_attributes(:user_prop_num =>
+                    (user_prop_relation.user_prop_num-prop["branch_id"].length).to_i)
+          end
         end
       end
-    end
 
-    #
-    if answer_json["status"].present? && answer_json["status"].to_i == PublishQuestionPackage::STATUS[:FINISH]
-    else
+      p student_answer_record.record_details
 
+
+      #计算成就
+      if answer_json["status"].present? && answer_json["status"].to_i == PublishQuestionPackage::STATUS[:FINISH]
+
+      end
     end
   end
 end

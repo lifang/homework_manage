@@ -644,7 +644,9 @@ class Api::StudentsController < ApplicationController
     rename_file_name = "student_#{student_id}"
     file = upload_file dir_url, rename_file_name, answer_file
     if file[:status] == true
-      student_answer_record = StudentAnswerRecord.find_by_student_id_and_school_class_id_and_publish_question_package_id student_id,school_class_id,publish_question_package_id
+      student_answer_record = StudentAnswerRecord
+      .find_by_student_id_and_school_class_id_and_publish_question_package_id(student_id,
+                school_class_id,publish_question_package_id)
       if student_answer_record.nil?
         student_answer_record = student.student_answer_records.
             create(:question_package_id => publish_question_package.question_package.id,
@@ -662,7 +664,8 @@ class Api::StudentsController < ApplicationController
         end
       end
       answer_records = ActiveSupport::JSON.decode(answer_json)
-      PublishQuestionPackage.update_scores_and_achirvements answer_records, student, school_class, publish_question_package
+      PublishQuestionPackage.update_scores_and_achirvements(answer_records, student,
+                    school_class, publish_question_package, student_answer_record)
       notice = "作业状态更新完成!"
       status = "success"
     else

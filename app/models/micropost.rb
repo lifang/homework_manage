@@ -11,8 +11,8 @@ class Micropost < ActiveRecord::Base
   JPUSH = {
     :SENDNO => 1001,
     :RECEIVERTYPE => 3,
-    :MASTERSECRET => "902d3da3dc9366734a84ee21",
-    :APP_KEY => "26e6b3d44da78ea902c7fac9",
+    :MASTERSECRET => "a4e732fc19cebed1e37e5242",
+    :APP_KEY => "3d0213ed11e014e1a43bc12c",
     :MSG_TYPE => 1,
     :PLATFORM => "android",
     :URI => "http://api.jpush.cn:8800/v2/push"

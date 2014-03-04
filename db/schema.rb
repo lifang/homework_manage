@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140304043356) do
+ActiveRecord::Schema.define(:version => 20140304073103) do
 
   create_table "archivements_records", :force => true do |t|
     t.integer  "school_class_id"
@@ -90,13 +90,15 @@ ActiveRecord::Schema.define(:version => 20140304043356) do
     t.string   "content"
     t.integer  "school_class_id"
     t.integer  "status"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.integer  "sender_id"
     t.integer  "micropost_id"
+    t.integer  "reply_micropost_id"
   end
 
   add_index "messages", ["micropost_id"], :name => "index_messages_on_micropost_id"
+  add_index "messages", ["reply_micropost_id"], :name => "index_messages_on_reply_micropost_id"
   add_index "messages", ["school_class_id"], :name => "index_messages_on_school_class_id"
   add_index "messages", ["user_id"], :name => "index_messages_on_user_id"
 

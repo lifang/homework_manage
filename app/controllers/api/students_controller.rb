@@ -30,16 +30,17 @@ class Api::StudentsController < ApplicationController
     school_class_id = params[:school_class_id]
     micropost = Micropost.find_by_id micropost_id.to_i
     if micropost
-      Message.add_messages(micropost_id, reciver_id, reciver_types, sender_id, sender_types,
-        content, school_class_id)
       replymicropost = ReplyMicropost.new(:sender_id => sender_id,
         :sender_types => sender_types, :content => content,
         :micropost_id => micropost_id, :reciver_id => reciver_id,:reciver_types => reciver_types)
       replymicropost.save
+      reply_micropost_id = replymicropost.id
       micropost.update_attributes(:reply_microposts_count => (micropost.reply_microposts_count + 1))
-      render :json => {:status => 'success', :notice => '消息回复成功'}
+      Message.add_messages(micropost_id, reciver_id, reciver_types, sender_id, sender_types,
+        content, school_class_id,reply_micropost_id)
+      render :json => {:status => 'success', :notice => '消息回复成功',:replymicropost => replymicropost}
     else
-      render :json => {:status => 'error', :notice => '消息回复失败'}
+      render :json => {:status => 'error', :notice => '消息回复失败',:replymicropost=>[] }
     end
   end
   
@@ -646,13 +647,13 @@ class Api::StudentsController < ApplicationController
     if file[:status] == true
       student_answer_record = StudentAnswerRecord
       .find_by_student_id_and_school_class_id_and_publish_question_package_id(student_id,
-                school_class_id,publish_question_package_id)
+        school_class_id,publish_question_package_id)
       if student_answer_record.nil?
         student_answer_record = student.student_answer_records.
-            create(:question_package_id => publish_question_package.question_package.id,
-                   :publish_question_package_id=> publish_question_package.id,
-                   :status => StudentAnswerRecord::STATUS[:DEALING],
-                   :school_class_id => school_class.id, :answer_file_url => file[:url])
+          create(:question_package_id => publish_question_package.question_package.id,
+          :publish_question_package_id=> publish_question_package.id,
+          :status => StudentAnswerRecord::STATUS[:DEALING],
+          :school_class_id => school_class.id, :answer_file_url => file[:url])
       else
         student_answer_record.update_attributes(:answer_file_url => file[:url])
       end
@@ -665,7 +666,7 @@ class Api::StudentsController < ApplicationController
       end
       answer_records = ActiveSupport::JSON.decode(answer_json)
       PublishQuestionPackage.update_scores_and_achirvements(answer_records, student,
-                    school_class, publish_question_package, student_answer_record)
+        school_class, publish_question_package, student_answer_record)
       notice = "作业状态更新完成!"
       status = "success"
     else
@@ -771,10 +772,10 @@ class Api::StudentsController < ApplicationController
     student = Student.find_by_id student_id
     school_class = SchoolClass.find_by_id school_class_id
     school_class_student_relation = SchoolClassStudentRalastion
-              .find_by_school_class_id_and_student_id school_class_id, student_id
+    .find_by_school_class_id_and_student_id school_class_id, student_id
     if !student.nil? && !school_class.nil? && !school_class_student_relation.nil?
       archivements = ArchivementsRecord.where("school_class_id = ? and student_id = ?",school_class.id, student.id )
-          .select("student_id, school_class_id, archivement_score, archivement_types")
+      .select("student_id, school_class_id, archivement_score, archivement_types")
       notice = "加载完成!"
       status = "success"
     end
@@ -785,6 +786,7 @@ class Api::StudentsController < ApplicationController
   def get_messages
     user_id = params[:user_id]
     school_class_id = params[:school_class_id]
+    page = params[:page]
     user = User.find_by_id user_id
     school_class = SchoolClass.find_by_id school_class_id
     student = user.student if !user.nil?
@@ -802,7 +804,7 @@ class Api::StudentsController < ApplicationController
           notice = "用户信息错误!"
           status = "error"
         else
-          messages = Message.get_my_messages school_class, user_id
+          messages = Message.get_mine_messages school_class, user_id,page
           if messages.length == 0
             status = "success"
             notice = "暂无消息!"
@@ -917,6 +919,7 @@ class Api::StudentsController < ApplicationController
   #获取系统通知的内容
   def get_sys_message
     student_id = params[:student_id]
+    school_class_id = params[:school_class_id]
     student = Student.find_by_id student_id
     if student.blank?
       status = "error"
@@ -924,8 +927,8 @@ class Api::StudentsController < ApplicationController
       sysmessage = nil
     else
       page = params[:page].nil? ? 1 : params[:page]
-      sysmessage = SysMessage.paginate_by_sql(["select * from sys_messages WHERE student_id = ? order by created_at desc",
-          student_id],:per_page =>SysMessage::PER_PAGE ,:page => page)
+      sysmessage = SysMessage.paginate_by_sql(["select * from sys_messages WHERE student_id = ? and school_class_id = ? order by created_at desc",
+          student_id,school_class_id],:per_page =>SysMessage::PER_PAGE ,:page => page)
       status = "success"
       notice = "获取成功！！"
     end

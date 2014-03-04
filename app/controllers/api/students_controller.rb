@@ -646,13 +646,13 @@ class Api::StudentsController < ApplicationController
     if file[:status] == true
       student_answer_record = StudentAnswerRecord
       .find_by_student_id_and_school_class_id_and_publish_question_package_id(student_id,
-                school_class_id,publish_question_package_id)
+        school_class_id,publish_question_package_id)
       if student_answer_record.nil?
         student_answer_record = student.student_answer_records.
-            create(:question_package_id => publish_question_package.question_package.id,
-                   :publish_question_package_id=> publish_question_package.id,
-                   :status => StudentAnswerRecord::STATUS[:DEALING],
-                   :school_class_id => school_class.id, :answer_file_url => file[:url])
+          create(:question_package_id => publish_question_package.question_package.id,
+          :publish_question_package_id=> publish_question_package.id,
+          :status => StudentAnswerRecord::STATUS[:DEALING],
+          :school_class_id => school_class.id, :answer_file_url => file[:url])
       else
         student_answer_record.update_attributes(:answer_file_url => file[:url])
       end
@@ -665,7 +665,7 @@ class Api::StudentsController < ApplicationController
       end
       answer_records = ActiveSupport::JSON.decode(answer_json)
       PublishQuestionPackage.update_scores_and_achirvements(answer_records, student,
-                    school_class, publish_question_package, student_answer_record)
+        school_class, publish_question_package, student_answer_record)
       notice = "作业状态更新完成!"
       status = "success"
     else
@@ -771,10 +771,10 @@ class Api::StudentsController < ApplicationController
     student = Student.find_by_id student_id
     school_class = SchoolClass.find_by_id school_class_id
     school_class_student_relation = SchoolClassStudentRalastion
-              .find_by_school_class_id_and_student_id school_class_id, student_id
+    .find_by_school_class_id_and_student_id school_class_id, student_id
     if !student.nil? && !school_class.nil? && !school_class_student_relation.nil?
       archivements = ArchivementsRecord.where("school_class_id = ? and student_id = ?",school_class.id, student.id )
-          .select("student_id, school_class_id, archivement_score, archivement_types")
+      .select("student_id, school_class_id, archivement_score, archivement_types")
       notice = "加载完成!"
       status = "success"
     end
@@ -785,6 +785,7 @@ class Api::StudentsController < ApplicationController
   def get_messages
     user_id = params[:user_id]
     school_class_id = params[:school_class_id]
+    page = params[:page]
     user = User.find_by_id user_id
     school_class = SchoolClass.find_by_id school_class_id
     student = user.student if !user.nil?
@@ -802,7 +803,7 @@ class Api::StudentsController < ApplicationController
           notice = "用户信息错误!"
           status = "error"
         else
-          messages = Message.get_my_messages school_class, user_id
+          messages = Message.get_mine_messages school_class, user_id,page
           if messages.length == 0
             status = "success"
             notice = "暂无消息!"

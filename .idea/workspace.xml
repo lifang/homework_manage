@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db/migrate/20140304073103_add_part_number_to_messages.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/message.rb" afterPath="$PROJECT_DIR$/app/models/message.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/microposts_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/microposts_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/tasks/calculate_archivement.rake" afterPath="$PROJECT_DIR$/lib/tasks/calculate_archivement.rake" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -55,19 +52,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="calculate_archivement.rake" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="calculate_archivement.rake" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/tasks/calculate_archivement.rake">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="11" selection-start="2243" selection-end="2243" vertical-scroll-proportion="0.0" vertical-offset="384" max-vertical-offset="782">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="schema.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/db/schema.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="0" selection-start="735" selection-end="735" vertical-scroll-proportion="0.38636363" vertical-offset="0" max-vertical-offset="6664">
+            <state line="29" column="36" selection-start="1976" selection-end="1976" vertical-scroll-proportion="0.41880342" vertical-offset="248" max-vertical-offset="952">
               <folding />
             </state>
           </provider>
@@ -147,8 +135,8 @@
         <option value="$PROJECT_DIR$/public/answer.js" />
         <option value="$PROJECT_DIR$/public/questions.js" />
         <option value="$PROJECT_DIR$/app/models/publish_question_package.rb" />
-        <option value="$PROJECT_DIR$/lib/tasks/calculate_archivement.rake" />
         <option value="$PROJECT_DIR$/db/schema.rb" />
+        <option value="$PROJECT_DIR$/lib/tasks/calculate_archivement.rake" />
       </list>
     </option>
   </component>
@@ -2755,16 +2743,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/tasks/calculate_archivement.rake">
+    <entry file="file://$PROJECT_DIR$/db/schema.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="11" selection-start="2243" selection-end="2243" vertical-scroll-proportion="0.0" vertical-offset="384" max-vertical-offset="782">
+        <state line="13" column="0" selection-start="735" selection-end="735" vertical-scroll-proportion="-10.263986" vertical-offset="6092" max-vertical-offset="6664">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/schema.rb">
+    <entry file="file://$PROJECT_DIR$/lib/tasks/calculate_archivement.rake">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="735" selection-end="735" vertical-scroll-proportion="0.38636363" vertical-offset="0" max-vertical-offset="6664">
+        <state line="29" column="36" selection-start="1976" selection-end="1976" vertical-scroll-proportion="0.41880342" vertical-offset="248" max-vertical-offset="952">
           <folding />
         </state>
       </provider>

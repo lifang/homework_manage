@@ -30,7 +30,17 @@ namespace :calculate_archivement do
         qustion_types.each do |type|
           if all_types_records[type.to_i].present? && all_types_records[type.to_i].length !=0
             all_types_records[type.to_i].sort_by{|r| r.score }.reverse[0..5].each do |one_record|
-              p one_record.score
+              archivement = ArchivementsRecord
+                .find_by_student_id_and_school_class_id_and_archivement_types(one_record.student_id,
+                              one_record.school_class_id, ArchivementsRecord::TYPES[:PEFECT].to_i)
+              if archivement.nil?
+                archivement = ArchivementsRecord.create(:student_id => one_record.student_id,
+                              :school_class_id => one_record.school_class_id,
+                              :archivement_types => ArchivementsRecord::TYPES[:PEFECT].to_i,
+                              :archivement_score => 10)
+              else
+                archivement.update_attributes(:archivement_score => (archivement.archivement_score+10))
+              end
             end
           end
         end

@@ -38,9 +38,9 @@ class Api::StudentsController < ApplicationController
       micropost.update_attributes(:reply_microposts_count => (micropost.reply_microposts_count + 1))
       Message.add_messages(micropost_id, reciver_id, reciver_types, sender_id, sender_types,
         content, school_class_id,reply_micropost_id)
-      render :json => {:status => 'success', :notice => '消息回复成功'}
+      render :json => {:status => 'success', :notice => '消息回复成功',:replymicropost => replymicropost}
     else
-      render :json => {:status => 'error', :notice => '消息回复失败'}
+      render :json => {:status => 'error', :notice => '消息回复失败',:replymicropost=>[] }
     end
   end
   

@@ -30,13 +30,14 @@ class Api::StudentsController < ApplicationController
     school_class_id = params[:school_class_id]
     micropost = Micropost.find_by_id micropost_id.to_i
     if micropost
-      Message.add_messages(micropost_id, reciver_id, reciver_types, sender_id, sender_types,
-        content, school_class_id)
       replymicropost = ReplyMicropost.new(:sender_id => sender_id,
         :sender_types => sender_types, :content => content,
         :micropost_id => micropost_id, :reciver_id => reciver_id,:reciver_types => reciver_types)
       replymicropost.save
+      reply_micropost_id = replymicropost.id
       micropost.update_attributes(:reply_microposts_count => (micropost.reply_microposts_count + 1))
+      Message.add_messages(micropost_id, reciver_id, reciver_types, sender_id, sender_types,
+        content, school_class_id,reply_micropost_id)
       render :json => {:status => 'success', :notice => '消息回复成功'}
     else
       render :json => {:status => 'error', :notice => '消息回复失败'}
@@ -918,6 +919,7 @@ class Api::StudentsController < ApplicationController
   #获取系统通知的内容
   def get_sys_message
     student_id = params[:student_id]
+    school_class_id = params[:school_class_id]
     student = Student.find_by_id student_id
     if student.blank?
       status = "error"
@@ -925,8 +927,8 @@ class Api::StudentsController < ApplicationController
       sysmessage = nil
     else
       page = params[:page].nil? ? 1 : params[:page]
-      sysmessage = SysMessage.paginate_by_sql(["select * from sys_messages WHERE student_id = ? order by created_at desc",
-          student_id],:per_page =>SysMessage::PER_PAGE ,:page => page)
+      sysmessage = SysMessage.paginate_by_sql(["select * from sys_messages WHERE student_id = ? and school_class_id = ? order by created_at desc",
+          student_id,school_class_id],:per_page =>SysMessage::PER_PAGE ,:page => page)
       status = "success"
       notice = "获取成功！！"
     end

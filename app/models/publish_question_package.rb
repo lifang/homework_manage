@@ -7,7 +7,7 @@ class PublishQuestionPackage < ActiveRecord::Base
   STATUS = {:NEW => 0, :FINISH => 1,:EXPIRED => 2}
   STATUS_NAME = {0 => "新任务", 1 => "完成",2 => '过期'}
   PER_PAGE = 10
-
+  IS_CALC = {:WAIT => 0, :DEADL => 1}
 
   #获取当日或历史任务
   def self.get_tasks school_class_id, student_id, order_name=nil, date=nil, today_newer_id=nil
@@ -58,7 +58,8 @@ class PublishQuestionPackage < ActiveRecord::Base
 
   #更新得分和成就
   def self.update_scores_and_achirvements answer_json, student, school_class, publish_question_package, student_answer_record
-    #p answer_json
+
+      #p answer_json
     if publish_question_package.id == answer_json["pub_id"].to_i
       #更新任务的完成状态
       if answer_json["status"].present?
@@ -126,6 +127,8 @@ class PublishQuestionPackage < ActiveRecord::Base
               end
             end
           end
+          average_ratio = score/ratios_count <= 0 ? 0 : score/ratios_count
+
           record_details = RecordDetail
                 .find_by_question_types_and_student_answer_record_id(types,
                                           student_answer_record.id)
@@ -133,19 +136,17 @@ class PublishQuestionPackage < ActiveRecord::Base
             record_details = RecordDetail.create(:question_types => types,
                 :student_answer_record_id => student_answer_record.id,
                 :score => score, :is_complete => status, :used_time => use_time,
-                :specified_time => question.time)
+                :correct_rate => average_ratio, :specified_time => question.time)
           else
             record_details.update_attributes(:score => score, :is_complete => status,
-                               :specified_time => question.time, :used_time => use_time)
+                               :specified_time => question.time, :used_time => use_time,
+                               :correct_rate => average_ratio)
           end
 
           #计算成就
           if status = answer_details["status"].to_i == 1
             time = ((DateTime.parse(publish_question_package.end_time
                                     .strftime("%Y-%m-%d %H:%M:%S")) - DateTime.parse(update_time)) *24 * 60).to_i
-            average_ratio = score/ratios_count
-            p time
-            p average_ratio
             if time > 0
               if average_ratio >= 60 && average_ratio <= 100
                 ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:QUICKLY]
@@ -153,7 +154,6 @@ class PublishQuestionPackage < ActiveRecord::Base
                   ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:EARLY]
                 end
               end
-
               if average_ratio == 100
                 ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:ACCURATE]
               end

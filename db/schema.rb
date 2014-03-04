@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140226083009) do
+ActiveRecord::Schema.define(:version => 20140304043356) do
 
   create_table "archivements_records", :force => true do |t|
     t.integer  "school_class_id"
@@ -129,11 +129,12 @@ ActiveRecord::Schema.define(:version => 20140226083009) do
     t.string   "question_packages_url"
     t.datetime "start_time"
     t.datetime "end_time"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
     t.integer  "listening_count"
     t.integer  "reading_count"
     t.integer  "tag_id"
+    t.integer  "is_calc",               :default => 0
   end
 
   add_index "publish_question_packages", ["question_package_id"], :name => "index_publish_question_packages_on_question_package_id"

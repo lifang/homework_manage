@@ -58,8 +58,13 @@ class PublishQuestionPackage < ActiveRecord::Base
 
   #更新得分和成就
   def self.update_scores_and_achirvements answer_json, student, school_class, publish_question_package, student_answer_record
-    p answer_json
+    #p answer_json
     if publish_question_package.id == answer_json["pub_id"].to_i
+      #更新任务的完成状态
+      if answer_json["status"].present?
+        student_answer_record.update_attributes(:status => answer_json["status"].to_i)
+      end
+
       #记录道具使用记录及更新道具数量
       if !answer_json["props"].nil?
         props = Prop.get_prop_num school_class.id, student.id
@@ -83,12 +88,80 @@ class PublishQuestionPackage < ActiveRecord::Base
         end
       end
 
-      p student_answer_record.record_details
+      #查询题包下所有题型及各个题型的规定时间
+      sql_str = "select q.types, sum(questions_time) time from questions q
+          where question_package_id = #{publish_question_package.question_package.id} group by types"
+      quetsions_time = Question.find_by_sql(sql_str)
+      quetsions_time.each do |question|
+        answer_details = answer_json[Question::TYPES_TITLE[question.types.to_i]]
+        if answer_details.present?
+          p answer_details
+          types = Question::RECORD_TYPES[Question::TYPES_TITLE[question.types.to_i]]
+          status = answer_details["status"].to_i
+          update_time = answer_details["update_time"]
+          use_time = answer_details["use_time"]
+          score = 0
+          if [2,3,4,5,6].include? types
+            knowledges_cards_types = KnowledgesCard::MISTAKE_TYPES[:SELEST]  #选错
+          elsif types == 0
+            knowledges_cards_types = KnowledgesCard::MISTAKE_TYPES[:WRITE]   #拼错
+          elsif types == 1
+            knowledges_cards_types = KnowledgesCard::MISTAKE_TYPES[:READ]    #读错
+          end
+          card_bag = CardBag.find_by_student_id_and_school_class_id(student.id,
+                                  school_class.id)
 
+          if card_bag.nil?
+            card_bag = CardBag.create(:student_id => student.id, :school_class_id => school_class.id)
+          end
+          ratios_count = 0
+          answer_details["questions"].each do |question|
+            ratios = question["branch_questions"].map {|e| [e["id"].to_i, e["ratio"].to_i, e["answer"].to_s]}
+            ratios.each do |ratio|
+              score += ratio[1]
+              ratios_count += 1
+              if ratio[1] < 100 && ratio[2].gsub(" ","").size != 0              #插入知识卡片
+                card_bag.knowledges_cards.create(:mistake_types => knowledges_cards_types,
+                                    :branch_question_id => ratio[0], :your_answer => ratio[2])
+              end
+            end
+          end
+          record_details = RecordDetail
+                .find_by_question_types_and_student_answer_record_id(types,
+                                          student_answer_record.id)
+          if record_details.nil?
+            record_details = RecordDetail.create(:question_types => types,
+                :student_answer_record_id => student_answer_record.id,
+                :score => score, :is_complete => status, :used_time => use_time,
+                :specified_time => question.time)
+          else
+            record_details.update_attributes(:score => score, :is_complete => status,
+                               :specified_time => question.time, :used_time => use_time)
+          end
 
-      #计算成就
-      if answer_json["status"].present? && answer_json["status"].to_i == PublishQuestionPackage::STATUS[:FINISH]
+          #计算成就
+          if status = answer_details["status"].to_i == 1
+            time = ((DateTime.parse(publish_question_package.end_time
+                                    .strftime("%Y-%m-%d %H:%M:%S")) - DateTime.parse(update_time)) *24 * 60).to_i
+            average_ratio = score/ratios_count
+            p time
+            p average_ratio
+            if time > 0
+              if average_ratio >= 60 && average_ratio <= 100
+                ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:QUICKLY]
+                if time > 120
+                  ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:EARLY]
+                end
+              end
 
+              if average_ratio == 100
+                ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:ACCURATE]
+              end
+            end
+          end
+        else
+          break
+        end
       end
     end
   end

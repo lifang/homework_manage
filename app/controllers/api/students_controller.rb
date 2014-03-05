@@ -995,4 +995,10 @@ class Api::StudentsController < ApplicationController
     end
     render :json => {:new_id => new_id}
   end
+  
+  #返回当前app版本
+  def current_version
+    c_version = AppVersion.select("max(c_version) current_version")[0]
+    render :json => c_version
+  end
 end

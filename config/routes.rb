@@ -13,6 +13,7 @@ HomeworkManage::Application.routes.draw do
 
 
   namespace :api do
+    match 'current_version' => 'students#current_version'
     resources :students do
       collection do
         get 'add_concern','unfollow', 'delete_posts',

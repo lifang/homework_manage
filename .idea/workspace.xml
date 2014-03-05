@@ -5,9 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.rakeTasks" afterPath="$PROJECT_DIR$/.idea/.rakeTasks" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db/migrate/20140304094814_create_app_versions.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/app_version.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.rb" afterPath="$PROJECT_DIR$/config/routes.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -53,41 +56,68 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DATABASE/32c1f741-9db5-4343-a01b-54373707b46d.schema:homework_manage" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="DATABASE/32c1f741-9db5-4343-a01b-54373707b46d.schema:homework_manage" pinned="false" current="false" current-in-tab="false">
         <entry file="uml://DATABASE/32c1f741-9db5-4343-a01b-54373707b46d.schema:homework_manage">
           <provider selected="true" editor-type-id="UmlEditorProvider">
             <state>
               <ID>DATABASE</ID>
               <OriginalElement>32c1f741-9db5-4343-a01b-54373707b46d.schema:homework_manage</OriginalElement>
               <nodes>
-                <node x="294.0" y="330.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.teachers</node>
-                <node x="1036.0" y="614.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.questions</node>
-                <node x="568.0" y="330.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.microposts</node>
-                <node x="274.0" y="614.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.question_package_types</node>
-                <node x="668.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.students</node>
-                <node x="528.0" y="614.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.share_branch_questions</node>
-                <node x="842.0" y="330.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.task_messages</node>
-                <node x="782.0" y="614.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.branch_questions</node>
-                <node x="0.0" y="330.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.messages</node>
-                <node x="962.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.reply_microposts</node>
+                <node x="314.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.teachers</node>
+                <node x="842.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.archivements_records</node>
+                <node x="1042.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.students</node>
+                <node x="1096.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.share_branch_questions</node>
+                <node x="232.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.cells</node>
+                <node x="1356.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.messages</node>
+                <node x="508.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.props</node>
+                <node x="0.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.record_details</node>
+                <node x="425.0" y="1397.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.verification_codes</node>
+                <node x="446.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.tags</node>
+                <node x="0.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.tag_student_relations</node>
+                <node x="1350.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.sys_messages</node>
+                <node x="294.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.knowledges_cards</node>
+                <node x="214.0" y="1397.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.teaching_materials</node>
+                <node x="660.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.users</node>
+                <node x="630.0" y="1397.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.schema_migrations</node>
+                <node x="608.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.share_questions</node>
+                <node x="1315.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.school_class_student_ralastions</node>
+                <node x="374.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.questions</node>
+                <node x="902.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.microposts</node>
+                <node x="874.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.record_use_props</node>
+                <node x="0.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.question_package_types</node>
+                <node x="254.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.user_prop_relations</node>
+                <node x="1196.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.branch_questions</node>
+                <node x="568.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.task_messages</node>
+                <node x="1490.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.reply_microposts</node>
                 <node x="0.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.publish_question_packages</node>
-                <node x="0.0" y="614.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.school_classes</node>
-                <node x="536.0" y="875.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.follow_microposts</node>
-                <node x="750.0" y="875.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.users</node>
-                <node x="0.0" y="1090.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.schema_migrations</node>
-                <node x="0.0" y="875.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.share_questions</node>
-                <node x="334.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.student_answer_records</node>
-                <node x="234.0" y="875.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.school_class_student_ralastions</node>
-                <node x="964.0" y="875.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.question_packages</node>
+                <node x="0.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.school_classes</node>
+                <node x="1302.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.follow_microposts</node>
+                <node x="1088.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.card_tags</node>
+                <node x="742.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.card_bags</node>
+                <node x="976.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.card_tag_knowledges_card_relations</node>
+                <node x="708.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.student_answer_records</node>
+                <node x="0.0" y="1397.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.question_packages</node>
+                <node x="1516.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.episodes</node>
               </nodes>
               <notes />
               <edges />
-              <settings layout="Hierarchic Group" zoom="0.48195876288659795" x="612.5" y="543.9893048128342" />
-              <SelectedNodes />
+              <settings layout="Hierarchic Group" zoom="0.358695652173913" x="156.09090909090912" y="539.0909090909091" />
+              <SelectedNodes>
+                <node>32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.teachers</node>
+              </SelectedNodes>
               <Categories>
                 <Category>Key columns</Category>
                 <Category>Columns</Category>
               </Categories>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="schema.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/db/schema.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="411" column="0" selection-start="16260" selection-end="16260" vertical-scroll-proportion="0.7518248" vertical-offset="6575" max-vertical-offset="7123">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -164,12 +194,12 @@
         <option value="$PROJECT_DIR$/public/answer.js" />
         <option value="$PROJECT_DIR$/public/questions.js" />
         <option value="$PROJECT_DIR$/app/models/publish_question_package.rb" />
-        <option value="$PROJECT_DIR$/db/schema.rb" />
         <option value="$PROJECT_DIR$/lib/tasks/calculate_archivement.rake" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20140305020107_create_card_tags.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20140305022223_create_card_tag_knowledges_card_relations.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20140305021938_add_column_to_knowledges_card.rb" />
+        <option value="$PROJECT_DIR$/db/schema.rb" />
       </list>
     </option>
   </component>
@@ -2585,7 +2615,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/db/seeds.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="50" selection-start="781" selection-end="781" vertical-scroll-proportion="0.50524473" vertical-offset="0" max-vertical-offset="572" />
+        <state line="17" column="50" selection-start="781" selection-end="781" vertical-scroll-proportion="0.50524473" vertical-offset="0" max-vertical-offset="572">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/db/migrate/20140304043356_add_column_is_calc_to_publish_question_packages.rb">
@@ -2616,13 +2648,6 @@
     <entry file="file://$PROJECT_DIR$/app/models/archivements_record.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="18" selection-start="109" selection-end="115" vertical-scroll-proportion="0.09090909" vertical-offset="0" max-vertical-offset="561" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/schema.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="735" selection-end="735" vertical-scroll-proportion="-10.263986" vertical-offset="6092" max-vertical-offset="6664">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/tasks/calculate_archivement.rake">
@@ -2694,34 +2719,59 @@
           <ID>DATABASE</ID>
           <OriginalElement>32c1f741-9db5-4343-a01b-54373707b46d.schema:homework_manage</OriginalElement>
           <nodes>
-            <node x="294.0" y="330.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.teachers</node>
-            <node x="1036.0" y="614.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.questions</node>
-            <node x="568.0" y="330.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.microposts</node>
-            <node x="274.0" y="614.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.question_package_types</node>
-            <node x="668.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.students</node>
-            <node x="528.0" y="614.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.share_branch_questions</node>
-            <node x="842.0" y="330.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.task_messages</node>
-            <node x="782.0" y="614.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.branch_questions</node>
-            <node x="0.0" y="330.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.messages</node>
-            <node x="962.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.reply_microposts</node>
+            <node x="314.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.teachers</node>
+            <node x="842.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.archivements_records</node>
+            <node x="1042.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.students</node>
+            <node x="1096.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.share_branch_questions</node>
+            <node x="232.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.cells</node>
+            <node x="1356.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.messages</node>
+            <node x="508.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.props</node>
+            <node x="0.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.record_details</node>
+            <node x="425.0" y="1397.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.verification_codes</node>
+            <node x="446.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.tags</node>
+            <node x="0.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.tag_student_relations</node>
+            <node x="1350.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.sys_messages</node>
+            <node x="294.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.knowledges_cards</node>
+            <node x="214.0" y="1397.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.teaching_materials</node>
+            <node x="660.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.users</node>
+            <node x="630.0" y="1397.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.schema_migrations</node>
+            <node x="608.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.share_questions</node>
+            <node x="1315.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.school_class_student_ralastions</node>
+            <node x="374.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.questions</node>
+            <node x="902.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.microposts</node>
+            <node x="874.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.record_use_props</node>
+            <node x="0.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.question_package_types</node>
+            <node x="254.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.user_prop_relations</node>
+            <node x="1196.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.branch_questions</node>
+            <node x="568.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.task_messages</node>
+            <node x="1490.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.reply_microposts</node>
             <node x="0.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.publish_question_packages</node>
-            <node x="0.0" y="614.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.school_classes</node>
-            <node x="536.0" y="875.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.follow_microposts</node>
-            <node x="750.0" y="875.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.users</node>
-            <node x="0.0" y="1090.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.schema_migrations</node>
-            <node x="0.0" y="875.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.share_questions</node>
-            <node x="334.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.student_answer_records</node>
-            <node x="234.0" y="875.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.school_class_student_ralastions</node>
-            <node x="964.0" y="875.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.question_packages</node>
+            <node x="0.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.school_classes</node>
+            <node x="1302.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.follow_microposts</node>
+            <node x="1088.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.card_tags</node>
+            <node x="742.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.card_bags</node>
+            <node x="976.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.card_tag_knowledges_card_relations</node>
+            <node x="708.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.student_answer_records</node>
+            <node x="0.0" y="1397.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.question_packages</node>
+            <node x="1516.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.episodes</node>
           </nodes>
           <notes />
           <edges />
-          <settings layout="Hierarchic Group" zoom="0.48195876288659795" x="612.5" y="543.9893048128342" />
-          <SelectedNodes />
+          <settings layout="Hierarchic Group" zoom="0.358695652173913" x="156.09090909090912" y="539.0909090909091" />
+          <SelectedNodes>
+            <node>32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.teachers</node>
+          </SelectedNodes>
           <Categories>
             <Category>Key columns</Category>
             <Category>Columns</Category>
           </Categories>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/schema.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="411" column="0" selection-start="16260" selection-end="16260" vertical-scroll-proportion="0.7518248" vertical-offset="6575" max-vertical-offset="7123">
+          <folding />
         </state>
       </provider>
     </entry>

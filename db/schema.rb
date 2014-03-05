@@ -13,6 +13,12 @@
 
 ActiveRecord::Schema.define(:version => 20140305022223) do
 
+  create_table "app_versions", :force => true do |t|
+    t.float "c_version"
+  end
+
+  add_index "app_versions", ["c_version"], :name => "index_app_versions_on_c_version"
+
   create_table "archivements_records", :force => true do |t|
     t.integer  "school_class_id"
     t.integer  "student_id"

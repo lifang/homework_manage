@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140304073103) do
+ActiveRecord::Schema.define(:version => 20140305022223) do
 
   create_table "archivements_records", :force => true do |t|
     t.integer  "school_class_id"
@@ -49,6 +49,25 @@ ActiveRecord::Schema.define(:version => 20140304073103) do
   add_index "card_bags", ["school_class_id"], :name => "index_card_bags_on_school_class_id"
   add_index "card_bags", ["student_id"], :name => "index_card_bags_on_student_id"
 
+  create_table "card_tag_knowledges_card_relations", :force => true do |t|
+    t.integer  "card_tag_id"
+    t.integer  "knowledges_card_id"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  add_index "card_tag_knowledges_card_relations", ["card_tag_id"], :name => "index_card_tag_knowledges_card_relations_on_card_tag_id"
+  add_index "card_tag_knowledges_card_relations", ["knowledges_card_id"], :name => "index_card_tag_knowledges_card_relations_on_knowledges_card_id"
+
+  create_table "card_tags", :force => true do |t|
+    t.string   "name"
+    t.integer  "card_bag_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "card_tags", ["card_bag_id"], :name => "index_card_tags_on_card_bag_id"
+
   create_table "cells", :force => true do |t|
     t.string   "name"
     t.integer  "teaching_material_id"
@@ -80,10 +99,12 @@ ActiveRecord::Schema.define(:version => 20140304073103) do
     t.string   "your_answer"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.integer  "card_tag_id"
   end
 
   add_index "knowledges_cards", ["branch_question_id"], :name => "index_knowledges_cards_on_branch_question_id"
   add_index "knowledges_cards", ["card_bag_id"], :name => "index_knowledges_cards_on_card_bag_id"
+  add_index "knowledges_cards", ["card_tag_id"], :name => "index_knowledges_cards_on_card_tag_id"
 
   create_table "messages", :force => true do |t|
     t.integer  "user_id"

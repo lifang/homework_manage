@@ -975,6 +975,90 @@ class Api::StudentsController < ApplicationController
     render :json => {:status => status,:notice => notice}
   end
 
+  #  点显示标签列表
+  def card_tags_list
+    school_class_id = params[:school_class_id]
+    student_id = params[:student_id]
+    cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+    if cardbag
+      cardtags = CardTag.where("card_bag_id= ?",cardbag.id)
+      status = "success"
+      notice = "获取标签成功"
+    else
+      status = "error"
+      notice = "获取标签失败"
+      cardtags=[]
+    end
+    render :json => {:status=> status,:notice => notice, :cardtag=>cardtags}
+  end
+  #  新建标签并且加入知识卡片
+  def create_card_tag
+    knowledge_card_id = params[:knowledge_card_id]
+    name = params[:name]
+    school_class_id = params[:school_class_id]
+    student_id = params[:student_id]
+    cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+    if cardbag
+      cardbag_id = cardbag.id
+      card_tag = CardTag.find_by_name_and_card_bag_id name,cardbag_id
+      if card_tag
+        cardtagknowledgescardrelation = CardTagKnowledgesCardRelation.find_by_knowledges_card_id_and_card_tag_id knowledge_card_id,card_tag.id
+        if cardtagknowledgescardrelation
+          status = "error"
+          notice = "知识卡片已存在"
+        else
+          cardtagknowledgescardrelation = CardTagKnowledgesCardRelation.new(:knowledges_card_id => knowledge_card_id,:card_tag_id => card_tag.id)
+          if cardtagknowledgescardrelation.save
+            status = "success"
+            notice = "添加成功"
+          else
+            status = "error"
+            notice = "添加失败"
+          end
+        end
+      else
+        CardTag.transaction do
+          cardtag = CardTag.create(:name =>name,:card_bag_id => cardbag_id)
+          CardTagKnowledgesCardRelation.create(:knowledges_card_id => knowledge_card_id,:card_tag_id => cardtag.id)
+        end
+        status = "success"
+        notice = "添加成功"
+      end
+    else
+      status = "error"
+      notice = "标签创建失败"
+    end
+    render :json => {:status => status,:notice => notice}
+  end
+  #  搜索标签下的卡片
+  def search_tag_card
+    name = params[:name]
+    school_class_id = params[:school_class_id]
+    student_id = params[:student_id]
+    page = params[:page].nil? ? 1 : params[:page].to_i
+    cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+    knowledgescard = []
+    if cardbag
+      cardbag_id = cardbag.id
+      cardtag = CardTag.find_by_name_and_card_bag_id name,cardbag_id
+      if cardtag
+        sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options
+ from knowledges_cards kc INNER JOIN card_tag_knowledges_card_relations ctkcr on kc.id = ctkcr.knowledges_card_id
+INNER JOIN branch_questions bq on kc.branch_question_id = bq.id
+WHERE ctkcr.card_tag_id =?"
+        knowledgescard = KnowledgesCard.find_by_sql([sql,cardtag.id])
+        status = "success"
+        notice = "获取成功"
+      else
+        status = "error"
+        notice = "标签不存在"
+      end
+    else
+      status = "error"
+      notice = "卡包不存在"
+    end
+    render :json => {:status=>status,:notice=>notice,:knowledgescard => knowledgescard}
+  end
 
   #返回新任务的id
   def new_homework

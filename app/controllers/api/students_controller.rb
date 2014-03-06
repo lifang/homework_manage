@@ -14,9 +14,10 @@ class Api::StudentsController < ApplicationController
     micropost = Micropost.new(:user_id => user_id, :user_types => user_types, 
       :content => content, :school_class_id => school_class_id, :reply_microposts_count => 0)
     if micropost.save
-      render :json => {:status => 'success', :notice => '消息发布成功'}
+      micropost_return = Micropost.find_by_sql(["SELECT m.*,u.avatar_url,u.`name` from microposts m INNER JOIN users u on m.user_id = u.id where m.id = ?",micropost.id])
+      render :json => {:status => 'success', :notice => '消息发布成功',:micropost=>micropost_return}
     else
-      render :json => {:status => 'error', :notice => '消息发布失败'}
+      render :json => {:status => 'error', :notice => '消息发布失败',:micropost=>[]}
     end
   end
   #  回复消息
@@ -35,7 +36,6 @@ class Api::StudentsController < ApplicationController
         :micropost_id => micropost_id, :reciver_id => reciver_id,:reciver_types => reciver_types)
       replymicropost.save
       reply_micropost_id = replymicropost.id
-      p reply_micropost_id
       replymicropost_return = ReplyMicropost.find_by_sql(["select rm.id, rm.content, rm.sender_id, rm.sender_types, rm.reciver_id, rm.created_at, s.name sender_name,
               s.avatar_url sender_avatar_url, u.name reciver_name, u.avatar_url reciver_avatar_url
               from reply_microposts rm left join

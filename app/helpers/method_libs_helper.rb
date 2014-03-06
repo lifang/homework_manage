@@ -408,14 +408,15 @@ module MethodLibsHelper
   #列出卡包所有卡片的列表#根据分类查询列出卡包卡片的列表api
   def knowledges_card_list student_id,school_class_id,page,mistake_types=nil
     card_bag = CardBag.find_by_student_id_and_school_class_id student_id, school_class_id
-    card_bag_id = card_bag.id
     if card_bag.blank?
       status = "error"
       notice = "卡包不存在"
       knowledges_card = nil
     else
+      card_bag_id = card_bag.id
       school_class = SchoolClass.find_by_id school_class_id
-      students = school_class.school_class_student_ralastions.map(&:student_id)
+      students = []
+      students = school_class.school_class_student_ralastions.map(&:student_id) if school_class
       if card_bag.student_id.eql?(student_id)&&card_bag.school_class_id.eql?(school_class_id)&&students.include?(student_id)
         sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options
 FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id = bq.id where kc.card_bag_id = ?"
@@ -434,7 +435,7 @@ FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id
         knowledges_card = nil
       end
     end
-    info = {:status => status,:notice => notice,:knowledges_card => knowledges_card}
+    info = {:status => status,:notice => notice, :pages_count => knowledges_card.total_pages,:knowledges_card => knowledges_card}
   end
 
   #压缩和推送
@@ -445,8 +446,8 @@ FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id
     resourse_zip_url = "/#{file_dirs_url}/resourse.zip"
     Archive::Zip.archive("#{zip_url}","#{resourse_url}/.")
     if File.exist?(question_packages_url)
-          Archive::Zip.archive("#{zip_url}","#{question_packages_url}")
-          publish_question_package.update_attributes(:question_packages_url => resourse_zip_url)
+      Archive::Zip.archive("#{zip_url}","#{question_packages_url}")
+      publish_question_package.update_attributes(:question_packages_url => resourse_zip_url)
     end
     sql = "SELECT s.alias_name FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
 WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = ?"

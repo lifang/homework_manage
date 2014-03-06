@@ -35,10 +35,16 @@ class Api::StudentsController < ApplicationController
         :micropost_id => micropost_id, :reciver_id => reciver_id,:reciver_types => reciver_types)
       replymicropost.save
       reply_micropost_id = replymicropost.id
+      p reply_micropost_id
+      replymicropost_return = ReplyMicropost.find_by_sql(["select rm.id, rm.content, rm.sender_id, rm.sender_types, rm.reciver_id, rm.created_at, s.name sender_name,
+              s.avatar_url sender_avatar_url, u.name reciver_name, u.avatar_url reciver_avatar_url
+              from reply_microposts rm left join
+              users s on rm.sender_id = s.id left join users u on rm.reciver_id = u.id
+              where  rm.id=?",reply_micropost_id])
       micropost.update_attributes(:reply_microposts_count => (micropost.reply_microposts_count + 1))
       Message.add_messages(micropost_id, reciver_id, reciver_types, sender_id, sender_types,
         content, school_class_id,reply_micropost_id)
-      render :json => {:status => 'success', :notice => '消息回复成功',:replymicropost => replymicropost}
+      render :json => {:status => 'success', :notice => '消息回复成功',:replymicropost => replymicropost_return}
     else
       render :json => {:status => 'error', :notice => '消息回复失败',:replymicropost=>[] }
     end

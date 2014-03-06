@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb" line="619" mnemonic="1" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db/migrate/20140304094814_create_app_versions.rb" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/app_version.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/runConfigurations/Development__homework_manage.xml" afterPath="$PROJECT_DIR$/.idea/runConfigurations/Development__homework_manage.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/homework_manage.iml" afterPath="$PROJECT_DIR$/.idea/homework_manage.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/micropost.rb" afterPath="$PROJECT_DIR$/app/models/micropost.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.rb" afterPath="$PROJECT_DIR$/config/routes.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -22,7 +19,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/homework_manage@Development__homework_manage.coverage" NAME="Development: homework_manage Coverage Results" MODIFIED="1393914944110" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="homework_manage" />
+    <SUITE FILE_PATH="coverage/homework_manage@Development__homework_manage.coverage" NAME="Development: homework_manage Coverage Results" MODIFIED="1394093793812" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="homework_manage" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -36,99 +33,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="20140305020107_create_card_tags.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/db/migrate/20140305020107_create_card_tags.rb">
+      <file leaf-file-name="students_controller.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="38" selection-start="210" selection-end="210" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="20140305021938_add_column_to_knowledges_card.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/db/migrate/20140305021938_add_column_to_knowledges_card.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="0" selection-start="184" selection-end="184" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
+            <state line="142" column="26" selection-start="6347" selection-end="6347" vertical-scroll-proportion="0.5944056" vertical-offset="425" max-vertical-offset="4964">
               <folding>
-                <element signature="e#60#179#2" expanded="true" />
+                <element signature="e#6636#10748#0" expanded="true" />
+                <element signature="e#10768#11868#0" expanded="true" />
+                <element signature="e#14839#16163#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DATABASE/32c1f741-9db5-4343-a01b-54373707b46d.schema:homework_manage" pinned="false" current="false" current-in-tab="false">
-        <entry file="uml://DATABASE/32c1f741-9db5-4343-a01b-54373707b46d.schema:homework_manage">
-          <provider selected="true" editor-type-id="UmlEditorProvider">
-            <state>
-              <ID>DATABASE</ID>
-              <OriginalElement>32c1f741-9db5-4343-a01b-54373707b46d.schema:homework_manage</OriginalElement>
-              <nodes>
-                <node x="314.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.teachers</node>
-                <node x="842.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.archivements_records</node>
-                <node x="1042.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.students</node>
-                <node x="1096.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.share_branch_questions</node>
-                <node x="232.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.cells</node>
-                <node x="1356.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.messages</node>
-                <node x="508.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.props</node>
-                <node x="0.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.record_details</node>
-                <node x="425.0" y="1397.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.verification_codes</node>
-                <node x="446.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.tags</node>
-                <node x="0.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.tag_student_relations</node>
-                <node x="1350.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.sys_messages</node>
-                <node x="294.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.knowledges_cards</node>
-                <node x="214.0" y="1397.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.teaching_materials</node>
-                <node x="660.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.users</node>
-                <node x="630.0" y="1397.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.schema_migrations</node>
-                <node x="608.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.share_questions</node>
-                <node x="1315.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.school_class_student_ralastions</node>
-                <node x="374.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.questions</node>
-                <node x="902.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.microposts</node>
-                <node x="874.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.record_use_props</node>
-                <node x="0.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.question_package_types</node>
-                <node x="254.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.user_prop_relations</node>
-                <node x="1196.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.branch_questions</node>
-                <node x="568.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.task_messages</node>
-                <node x="1490.0" y="376.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.reply_microposts</node>
-                <node x="0.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.publish_question_packages</node>
-                <node x="0.0" y="683.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.school_classes</node>
-                <node x="1302.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.follow_microposts</node>
-                <node x="1088.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.card_tags</node>
-                <node x="742.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.card_bags</node>
-                <node x="976.0" y="967.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.card_tag_knowledges_card_relations</node>
-                <node x="708.0" y="0.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.student_answer_records</node>
-                <node x="0.0" y="1397.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.question_packages</node>
-                <node x="1516.0" y="1205.0">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.episodes</node>
-              </nodes>
-              <notes />
-              <edges />
-              <settings layout="Hierarchic Group" zoom="0.358695652173913" x="156.09090909090912" y="539.0909090909091" />
-              <SelectedNodes>
-                <node>32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.teachers</node>
-              </SelectedNodes>
-              <Categories>
-                <Category>Key columns</Category>
-                <Category>Columns</Category>
-              </Categories>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="schema.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/db/schema.rb">
+      <file leaf-file-name="routes.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/routes.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="411" column="0" selection-start="16260" selection-end="16260" vertical-scroll-proportion="0.7518248" vertical-offset="6575" max-vertical-offset="7123">
+            <state line="22" column="82" selection-start="886" selection-end="886" vertical-scroll-proportion="0.0" vertical-offset="114" max-vertical-offset="2618">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="20140305022223_create_card_tag_knowledges_card_relations.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/db/migrate/20140305022223_create_card_tag_knowledges_card_relations.rb">
+      <file leaf-file-name="micropost.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/micropost.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="5" selection-start="374" selection-end="374" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
-              <folding>
-                <element signature="e#71#374#2" expanded="true" />
-              </folding>
+            <state line="26" column="28" selection-start="979" selection-end="979" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1003">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -149,8 +80,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/share_questions/view.js.erb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/main.js" />
         <option value="$PROJECT_DIR$/app/views/questions/reference.js.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/style.css" />
         <option value="$PROJECT_DIR$/app/views/homeworks/index.html.erb" />
@@ -171,7 +100,6 @@
         <option value="$PROJECT_DIR$/app/models/record_detail.rb" />
         <option value="$PROJECT_DIR$/public/que_ps/question_p_222/questions.js" />
         <option value="$PROJECT_DIR$/public/pub_que_ps/questions.js" />
-        <option value="$PROJECT_DIR$/app/models/micropost.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20140226083009_rename_column_follow_microposts_count_from_microposts.rb" />
         <option value="$PROJECT_DIR$/app/controllers/homeworks_controller.rb" />
         <option value="$PROJECT_DIR$/app/controllers/microposts_controller.rb" />
@@ -182,7 +110,6 @@
         <option value="$PROJECT_DIR$/app/models/user_prop_relation.rb" />
         <option value="$PROJECT_DIR$/app/models/student.rb" />
         <option value="$PROJECT_DIR$/app/models/prop.rb" />
-        <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
         <option value="$PROJECT_DIR$/app/models/student_answer_record.rb" />
         <option value="$APPLICATION_HOME_DIR$/rubystubs193/kernel.rb" />
         <option value="$PROJECT_DIR$/app/models/question.rb" />
@@ -195,11 +122,15 @@
         <option value="$PROJECT_DIR$/public/questions.js" />
         <option value="$PROJECT_DIR$/app/models/publish_question_package.rb" />
         <option value="$PROJECT_DIR$/lib/tasks/calculate_archivement.rake" />
-        <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20140305020107_create_card_tags.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20140305022223_create_card_tag_knowledges_card_relations.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20140305021938_add_column_to_knowledges_card.rb" />
         <option value="$PROJECT_DIR$/db/schema.rb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/zuoye.js" />
+        <option value="$PROJECT_DIR$/db/migrate/20140305075811_remove_column_from_knowledges_card.rb" />
+        <option value="$PROJECT_DIR$/app/models/micropost.rb" />
+        <option value="$PROJECT_DIR$/config/routes.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
       </list>
     </option>
   </component>
@@ -242,30 +173,29 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="RailsProjectView">
-        <subPane>
+      <pane id="Scope">
+        <subPane subId="Default">
           <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="homework_manage" />
-              <option name="myItemType" value="org.jetbrains.plugins.ruby.rails.projectView.v2.nodes.RailsProjectNode" />
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="homework_manage" />
-              <option name="myItemType" value="org.jetbrains.plugins.ruby.rails.projectView.v2.nodes.RailsModuleNode" />
+            <PATH_ELEMENT USER_OBJECT="homework_manage">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
+        </subPane>
+        <subPane subId="Problems" />
+        <subPane subId="Project Files">
           <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="homework_manage" />
-              <option name="myItemType" value="org.jetbrains.plugins.ruby.rails.projectView.v2.nodes.RailsProjectNode" />
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="homework_manage" />
-              <option name="myItemType" value="org.jetbrains.plugins.ruby.rails.projectView.v2.nodes.RailsModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Controllers" />
-              <option name="myItemType" value="org.jetbrains.plugins.ruby.rails.projectView.v2.nodes.folders.ControllersFolderNode" />
+            <PATH_ELEMENT USER_OBJECT="homework_manage">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -298,39 +228,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="homework_manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="homework_manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="db" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="homework_manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="homework_manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="db" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="migrate" />
+              <option name="myItemId" value="config" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -366,31 +264,72 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Default">
           <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="homework_manage">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
-        <subPane subId="Problems" />
-        <subPane subId="Project Files">
+      </pane>
+      <pane id="RailsProjectView">
+        <subPane>
           <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="org.jetbrains.plugins.ruby.rails.projectView.v2.nodes.RailsProjectNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="homework_manage">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="org.jetbrains.plugins.ruby.rails.projectView.v2.nodes.RailsModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="org.jetbrains.plugins.ruby.rails.projectView.v2.nodes.RailsProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="org.jetbrains.plugins.ruby.rails.projectView.v2.nodes.RailsModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Controllers" />
+              <option name="myItemType" value="org.jetbrains.plugins.ruby.rails.projectView.v2.nodes.folders.ControllersFolderNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -407,7 +346,7 @@
     <property name="dynamic.classpath" value="false" />
     <property name="FullScreen" value="false" />
     <property name="SearchEverywhereHistory" value="&#10;c" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="RailsGeneratorsPopup.hiddenIncluded" value="false" />
     <property name="Ruby.ViewRefParam.DefaultExtension" value="js.erb" />
     <property name="LayoutCode.rearrangeEntriesXML" value="false" />
@@ -444,6 +383,160 @@
   <component name="RestClientSettings">
     <option name="REQUEST_HISTORY">
       <list>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://0.0.0.0:3001" />
+          <option name="urlPath" value="/api/students/login" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="school_class_id" />
+                <option name="value" value="15" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="student_id" />
+                <option name="value" value="2" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="publish_question_package_id" />
+                <option name="value" value="97" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="open_id" />
+                <option name="value" value="4444" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="$PROJECT_DIR$/public/answer.js" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://0.0.0.0:3001" />
+          <option name="urlPath" value="/api/students/login" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="school_class_id" />
+                <option name="value" value="15" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="student_id" />
+                <option name="value" value="2" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="publish_question_package_id" />
+                <option name="value" value="97" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="open_id" />
+                <option name="value" value="4444" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="$PROJECT_DIR$/public/answer.js" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="GET" />
+          <option name="urlBase" value="http://0.0.0.0:3001" />
+          <option name="urlPath" value="/api/students/get_follow_microposts" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="school_class_id" />
+                <option name="value" value="15" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="student_id" />
+                <option name="value" value="2" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="publish_question_package_id" />
+                <option name="value" value="97" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="$PROJECT_DIR$/public/answer.js" />
+        </RestClientRequest>
+        <RestClientRequest>
+          <option name="httpMethod" value="POST" />
+          <option name="urlBase" value="http://0.0.0.0:3001" />
+          <option name="urlPath" value="/api/students/get_follow_microposts" />
+          <option name="headers">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="Accept" />
+                <option name="value" value="*/*" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="Cache-Control" />
+                <option name="value" value="no-cache" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parameters">
+            <list>
+              <KeyValuePair>
+                <option name="key" value="school_class_id" />
+                <option name="value" value="15" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="student_id" />
+                <option name="value" value="2" />
+              </KeyValuePair>
+              <KeyValuePair>
+                <option name="key" value="publish_question_package_id" />
+                <option name="value" value="97" />
+              </KeyValuePair>
+            </list>
+          </option>
+          <option name="parametersEnabled" value="true" />
+          <option name="haveFileToSend" value="true" />
+          <option name="isFileUpload" value="true" />
+          <option name="textToSend" value="" />
+          <option name="filesToSend" value="$PROJECT_DIR$/public/answer.js" />
+        </RestClientRequest>
         <RestClientRequest>
           <option name="httpMethod" value="POST" />
           <option name="urlBase" value="http://0.0.0.0:3000" />
@@ -2102,106 +2195,6 @@
           <option name="textToSend" value="" />
           <option name="filesToSend" value="" />
         </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="GET" />
-          <option name="urlBase" value="http://localhost:3000" />
-          <option name="urlPath" value="/api/students/get_classmates" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parameters">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="school_class_id" />
-                <option name="value" value="15" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="student_id" />
-                <option name="value" value="1" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="textToSend" value="" />
-          <option name="filesToSend" value="" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="GET" />
-          <option name="urlBase" value="http://localhost:3000" />
-          <option name="urlPath" value="/api/students/get_classmates" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parameters">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="school_class_id" />
-                <option name="value" value="15" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="textToSend" value="" />
-          <option name="filesToSend" value="" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="GET" />
-          <option name="urlBase" value="http://localhost:3000" />
-          <option name="urlPath" value="/api/students/get_classmates" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="textToSend" value="" />
-          <option name="filesToSend" value="" />
-        </RestClientRequest>
-        <RestClientRequest>
-          <option name="httpMethod" value="GET" />
-          <option name="urlBase" value="http://localhost:3000" />
-          <option name="urlPath" value="/school_classes/10/messages/new_message_remind" />
-          <option name="headers">
-            <list>
-              <KeyValuePair>
-                <option name="key" value="Accept" />
-                <option name="value" value="*/*" />
-              </KeyValuePair>
-              <KeyValuePair>
-                <option name="key" value="Cache-Control" />
-                <option name="value" value="no-cache" />
-              </KeyValuePair>
-            </list>
-          </option>
-          <option name="parametersEnabled" value="true" />
-          <option name="textToSend" value="" />
-          <option name="filesToSend" value="" />
-        </RestClientRequest>
       </list>
     </option>
   </component>
@@ -2400,23 +2393,23 @@
     <frame x="-1" y="27" width="1368" height="742" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6970684" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" x="22" y="112" width="1325" height="477" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.516129" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5358306" sideWeight="0.5" order="13" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.22507553" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24848485" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2969697" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4723127" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5325733" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5096774" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5586319" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32819724" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="REST Client" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5928339" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" x="22" y="112" width="1325" height="477" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -2442,41 +2435,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/models/episode.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="2" selection-start="37" selection-end="69" vertical-scroll-proportion="0.028716216" vertical-offset="0" max-vertical-offset="592" />
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.rvm/gems/ruby-1.9.3-p484@rails3.1.2/gems/activesupport-3.2.1/lib/active_support/core_ext/enumerable.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="37" selection-start="1087" selection-end="1095" vertical-scroll-proportion="-1.6714286" vertical-offset="1080" max-vertical-offset="1734" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/helpers/microposts_helper.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="50" selection-start="657" selection-end="657" vertical-scroll-proportion="0.32297063" vertical-offset="0" max-vertical-offset="579" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/main_pages/index.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="29" selection-start="1796" selection-end="1796" vertical-scroll-proportion="0.46666667" vertical-offset="765" max-vertical-offset="1139" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/main_pages_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="51" selection-start="1711" selection-end="1711" vertical-scroll-proportion="0.36298934" vertical-offset="561" max-vertical-offset="1717" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/main_pages/_grade_box.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="19" selection-start="727" selection-end="727" vertical-scroll-proportion="0.39963832" vertical-offset="0" max-vertical-offset="553" />
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/rubystubs193/pathname.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="554" column="8" selection-start="17360" selection-end="17360" vertical-scroll-proportion="0.36150235" vertical-offset="6893" max-vertical-offset="7140" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/tag.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="39" selection-start="444" selection-end="444" vertical-scroll-proportion="0.5782313" vertical-offset="0" max-vertical-offset="374" />
@@ -2485,11 +2443,6 @@
     <entry file="file://$PROJECT_DIR$/db/migrate/20140226083009_rename_column_follow_microposts_count_from_microposts.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="0" selection-start="279" selection-end="279" vertical-scroll-proportion="0.25844595" vertical-offset="0" max-vertical-offset="592" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/micropost.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="33" selection-start="56" selection-end="87" vertical-scroll-proportion="0.058721934" vertical-offset="0" max-vertical-offset="1003" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/branch_questions_controller.rb">
@@ -2505,11 +2458,6 @@
     <entry file="file://$PROJECT_DIR$/app/controllers/share_questions_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="34" selection-start="200" selection-end="200" vertical-scroll-proportion="0.121212125" vertical-offset="0" max-vertical-offset="561" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/microposts_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="31" selection-start="2063" selection-end="2063" vertical-scroll-proportion="0.41880342" vertical-offset="10" max-vertical-offset="595" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/pub_que_ps/pub_1/answers/student_2.js">
@@ -2534,9 +2482,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/config/environment.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="209">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="209" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/branch_question.rb">
@@ -2586,9 +2532,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/helpers/method_libs_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="197" column="69" selection-start="6666" selection-end="6666" vertical-scroll-proportion="0.0" vertical-offset="3297" max-vertical-offset="3604">
-          <folding />
-        </state>
+        <state line="197" column="69" selection-start="6666" selection-end="6666" vertical-scroll-proportion="0.0" vertical-offset="3297" max-vertical-offset="3604" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/student.rb">
@@ -2608,16 +2552,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/follow_micropost.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="218">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="218" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/db/seeds.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="50" selection-start="781" selection-end="781" vertical-scroll-proportion="0.50524473" vertical-offset="0" max-vertical-offset="572">
-          <folding />
-        </state>
+        <state line="17" column="50" selection-start="781" selection-end="781" vertical-scroll-proportion="0.50524473" vertical-offset="0" max-vertical-offset="572" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/db/migrate/20140304043356_add_column_is_calc_to_publish_question_packages.rb">
@@ -2655,61 +2595,215 @@
         <state line="49" column="3" selection-start="2981" selection-end="2981" vertical-scroll-proportion="1.4239316" vertical-offset="0" max-vertical-offset="952" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/routes.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="26" selection-start="416" selection-end="416" vertical-scroll-proportion="0.2465035" vertical-offset="114" max-vertical-offset="2601" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/message.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="43" selection-start="380" selection-end="380" vertical-scroll-proportion="0.26748252" vertical-offset="0" max-vertical-offset="1275" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="258" column="57" selection-start="11270" selection-end="11270" vertical-scroll-proportion="0.3811966" vertical-offset="457" max-vertical-offset="2652">
-          <folding>
-            <element signature="e#14196#15356#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/question_package.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="63" selection-start="942" selection-end="942" vertical-scroll-proportion="0.61025643" vertical-offset="0" max-vertical-offset="585">
-          <folding />
-        </state>
+        <state line="21" column="63" selection-start="942" selection-end="942" vertical-scroll-proportion="0.61025643" vertical-offset="0" max-vertical-offset="585" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/knowledges_card.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="56" selection-start="179" selection-end="179" vertical-scroll-proportion="0.09090909" vertical-offset="0" max-vertical-offset="561">
-          <folding />
+        <state line="3" column="56" selection-start="179" selection-end="179" vertical-scroll-proportion="0.09090909" vertical-offset="0" max-vertical-offset="561" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/schema.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="411" column="0" selection-start="16260" selection-end="16260" vertical-scroll-proportion="0.7518248" vertical-offset="6575" max-vertical-offset="7123" />
+      </provider>
+    </entry>
+    <entry file="uml://RailsDependency/#homework_manage">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>RailsDependency</ID>
+          <OriginalElement>#homework_manage</OriginalElement>
+          <nodes>
+            <node x="" y="">User</node>
+            <node x="" y="">RecordUseProp</node>
+            <node x="" y="">Teacher</node>
+            <node x="" y="">Cell</node>
+            <node x="" y="">PublishQuestionPackage</node>
+            <node x="" y="">ReplyMicropost</node>
+            <node x="" y="">QuestionPackage</node>
+            <node x="" y="">UserPropRelation</node>
+            <node x="" y="">ShareBranchQuestion</node>
+            <node x="" y="">KnowledgesCard</node>
+            <node x="" y="">TagStudentRelation</node>
+            <node x="" y="">VerificationCode</node>
+            <node x="" y="">SchoolClass</node>
+            <node x="" y="">QuestionPackageType</node>
+            <node x="" y="">Prop</node>
+            <node x="" y="">Tag</node>
+            <node x="" y="">CardTagKnowledgesCardRelation</node>
+            <node x="" y="">Question</node>
+            <node x="" y="">CardTag</node>
+            <node x="" y="">TeachingMaterial</node>
+            <node x="" y="">ShareQuestion</node>
+            <node x="" y="">Micropost</node>
+            <node x="" y="">TaskMessage</node>
+            <node x="" y="">FollowMicropost</node>
+            <node x="" y="">AppVersion</node>
+            <node x="" y="">Message</node>
+            <node x="" y="">ArchivementsRecord</node>
+            <node x="" y="">SysMessage</node>
+            <node x="" y="">Student</node>
+            <node x="" y="">BranchQuestion</node>
+            <node x="" y="">Episode</node>
+            <node x="" y="">RecordDetail</node>
+            <node x="" y="">CardBag</node>
+            <node x="" y="">StudentAnswerRecord</node>
+            <node x="" y="">SchoolClassStudentRalastion</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="0.5962962962962962" x="822.0" y="1783.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Migration fields</Category>
+            <Category>Association fields</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20140305020107_create_card_tags.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="38" selection-start="210" selection-end="210" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272">
-          <folding />
+    <entry file="uml://GemDependency/#homework_manage">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>GemDependency</ID>
+          <OriginalElement>#homework_manage</OriginalElement>
+          <nodes>
+            <node x="" y="">rails</node>
+            <node x="" y="">treetop</node>
+            <node x="" y="">xml_to_json</node>
+            <node x="" y="">rake</node>
+            <node x="" y="">mini_portile</node>
+            <node x="" y="">net-scp</node>
+            <node x="" y="">polyglot</node>
+            <node x="" y="">carrierwave</node>
+            <node x="" y="">nokogiri</node>
+            <node x="" y="">rack</node>
+            <node x="" y="">actionmailer</node>
+            <node x="" y="">activerecord</node>
+            <node x="" y="">rack-cache</node>
+            <node x="" y="">multi_json</node>
+            <node x="" y="">will_paginate</node>
+            <node x="" y="">mime-types</node>
+            <node x="" y="">subexec</node>
+            <node x="" y="">remotipart</node>
+            <node x="" y="">railties</node>
+            <node x="" y="">activeresource</node>
+            <node x="" y="">io-like</node>
+            <node x="" y="">builder</node>
+            <node x="" y="">journey</node>
+            <node x="" y="">highline</node>
+            <node x="" y="">archive-zip</node>
+            <node x="" y="">mysql2</node>
+            <node x="" y="">capistrano</node>
+            <node x="" y="">mini_magick</node>
+            <node x="" y="">rdoc</node>
+            <node x="" y="">bundler</node>
+            <node x="" y="">net-ssh</node>
+            <node x="" y="">tzinfo</node>
+            <node x="" y="">net-sftp</node>
+            <node x="" y="">rack-ssl</node>
+            <node x="" y="">arel</node>
+            <node x="" y="">actionpack</node>
+            <node x="" y="">net-ssh-gateway</node>
+            <node x="" y="">json</node>
+            <node x="" y="">erubis</node>
+            <node x="" y="">rack-test</node>
+            <node x="" y="">mail</node>
+            <node x="" y="">tilt</node>
+            <node x="" y="">execjs</node>
+            <node x="" y="">#homework_manage</node>
+            <node x="" y="">jquery-rails</node>
+            <node x="" y="">thor</node>
+            <node x="" y="">activemodel</node>
+            <node x="" y="">activesupport</node>
+            <node x="" y="">sprockets</node>
+            <node x="" y="">uglifier</node>
+            <node x="" y="">i18n</node>
+            <node x="" y="">capistrano_colors</node>
+            <node x="" y="">hike</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="0.3104851330203443" x="1588.0" y="390.0" />
+          <SelectedNodes />
+          <Categories />
+          <SCOPE>All</SCOPE>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/db/migrate/20140305022223_create_card_tag_knowledges_card_relations.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="5" selection-start="374" selection-end="374" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
-          <folding>
-            <element signature="e#71#374#2" expanded="true" />
-          </folding>
-        </state>
+        <state line="11" column="0" selection-start="379" selection-end="379" vertical-scroll-proportion="0.33333334" vertical-offset="0" max-vertical-offset="561" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20140305021938_add_column_to_knowledges_card.rb">
+    <entry file="file://$PROJECT_DIR$/db/migrate/20140305020107_create_card_tags.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="184" selection-end="184" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="204">
-          <folding>
-            <element signature="e#60#179#2" expanded="true" />
-          </folding>
+        <state line="4" column="28" selection-start="133" selection-end="144" vertical-scroll-proportion="0.11623932" vertical-offset="0" max-vertical-offset="585" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/zuoye.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="202" column="60" selection-start="8559" selection-end="8559" vertical-scroll-proportion="0.7234042" vertical-offset="612" max-vertical-offset="2244" />
+      </provider>
+    </entry>
+    <entry file="uml://DATABASE/32c1f741-9db5-4343-a01b-54373707b46d">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>DATABASE</ID>
+          <OriginalElement>32c1f741-9db5-4343-a01b-54373707b46d</OriginalElement>
+          <nodes>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.teachers</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.archivements_records</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.students</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.share_branch_questions</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.cells</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.messages</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.props</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.record_details</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.verification_codes</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.tags</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.tag_student_relations</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.sys_messages</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.knowledges_cards</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.teaching_materials</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.users</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.schema_migrations</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.share_questions</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.school_class_student_ralastions</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.questions</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.microposts</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.record_use_props</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.question_package_types</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.user_prop_relations</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.branch_questions</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.task_messages</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.reply_microposts</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.publish_question_packages</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.school_classes</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.follow_microposts</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.card_tags</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.card_bags</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.card_tag_knowledges_card_relations</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.student_answer_records</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.question_packages</node>
+            <node x="" y="">32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.episodes</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="0.788618925831202" x="1396.0" y="1266.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Columns</Category>
+            <Category>Key columns</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
         </state>
       </provider>
     </entry>
@@ -2757,21 +2851,73 @@
           </nodes>
           <notes />
           <edges />
-          <settings layout="Hierarchic Group" zoom="0.358695652173913" x="156.09090909090912" y="539.0909090909091" />
+          <settings layout="Hierarchic Group" zoom="0.6740409207161125" x="273.0" y="721.0" />
           <SelectedNodes>
-            <node>32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.teachers</node>
+            <node>32c1f741-9db5-4343-a01b-54373707b46d.table:homework_manage.knowledges_cards</node>
           </SelectedNodes>
           <Categories>
-            <Category>Key columns</Category>
             <Category>Columns</Category>
+            <Category>Key columns</Category>
           </Categories>
+          <SCOPE>All</SCOPE>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/schema.rb">
+    <entry file="file://$PROJECT_DIR$/db/migrate/20140305075811_remove_column_from_knowledges_card.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="411" column="0" selection-start="16260" selection-end="16260" vertical-scroll-proportion="0.7518248" vertical-offset="6575" max-vertical-offset="7123">
+        <state line="11" column="0" selection-start="302" selection-end="302" vertical-scroll-proportion="0.31965813" vertical-offset="0" max-vertical-offset="585" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/microposts_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="17" selection-start="1059" selection-end="1059" vertical-scroll-proportion="0.37777779" vertical-offset="102" max-vertical-offset="901" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db/migrate/20140305021938_add_column_to_knowledges_card.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="4" selection-start="132" selection-end="173" vertical-scroll-proportion="0.08717949" vertical-offset="0" max-vertical-offset="585" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main_pages.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="32" selection-start="433" selection-end="435" vertical-scroll-proportion="0.3316062" vertical-offset="225" max-vertical-offset="1071">
+          <folding>
+            <element signature="n#!!block;n#check_send_microposts#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="212" column="36" selection-start="5669" selection-end="5669" vertical-scroll-proportion="0.03875969" vertical-offset="840" max-vertical-offset="1955">
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/routes.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="82" selection-start="886" selection-end="886" vertical-scroll-proportion="0.0" vertical-offset="114" max-vertical-offset="2618">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/micropost.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="28" selection-start="979" selection-end="979" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1003">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="142" column="26" selection-start="6347" selection-end="6347" vertical-scroll-proportion="0.5944056" vertical-offset="425" max-vertical-offset="4964">
+          <folding>
+            <element signature="e#6636#10748#0" expanded="true" />
+            <element signature="e#10768#11868#0" expanded="true" />
+            <element signature="e#14839#16163#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

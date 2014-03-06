@@ -137,7 +137,8 @@ class Api::StudentsController < ApplicationController
         sql_str = "select m.id micropost_id, m.user_id, m.user_types, m.content, m.created_at,
                 m.reply_microposts_count, m.follow_microposts_count, u.name, u.avatar_url
                 from microposts m inner join users u on u.id = m.user_id
-                where m.school_class_id = #{school_class.id} and m.id in (#{follow_microposts_id})"
+                where m.school_class_id = #{school_class.id} and m.id in (#{follow_microposts_id})
+                order by m.created_at desc"
         microposts = Micropost.paginate_by_sql(sql_str, :per_page => Micropost::PER_PAGE, :page => page)
         pages_count = microposts.total_pages
         status = "success"

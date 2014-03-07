@@ -1,6 +1,6 @@
 HomeworkManage::Application.routes.draw do
 
-  get "students/index"
+
 
   resources :microposts do
     get :create_reply
@@ -9,7 +9,7 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
- post "/share_questions/view"
+  post "/share_questions/view"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -67,10 +67,17 @@ HomeworkManage::Application.routes.draw do
         post :create_class, :save_updated_teacher,:update_password,:upload_avatar,:update_avatar
       end
     end
+    resources :students do
+      member do
+      end
+      collection do
+          get :index
+      end
+    end
 
     resources :question_packages do
       resources :questions do
-         resources :branch_questions
+        resources :branch_questions
       end
     end
   end

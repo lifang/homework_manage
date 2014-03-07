@@ -14,18 +14,32 @@ LEFT JOIN school_class_student_ralastions scsr on s.id = scsr.student_id LEFT JO
       where("sar.student_id in (?)",student_school_class.map(&:id))
     recorddetail_group = recorddetail.group_by{|recordde| recordde[:student_id]}.
       map { |k,v|  {:student_id => k,:correct_rate =>v.inject(0){ |arr, a| arr + a[:correct_rate] }/v.length,
-        :score=>v.inject(0){ |arr, a| arr + a[:score] }/v.length  }}
+        :score =>v.inject(0){ |arr, a| arr + a[:score] }/v.length  }}
     p recorddetail_group
     archivementsrecord = ArchivementsRecord.where("school_class_id = #{school_class_id}").group_by{|archivement| archivement[:student_id]}
-    student_situations = []
+    p archivementsrecord
+    @student_situations = []
     student_school_class.each do |student|
       student_situation = student.attributes
       student_situation[:student_id] = student.id
       student_situation[:nickname] = student.nickname
-      student_situation[:name] = student.name
+      student_situation[:user_name] = student.user_name
       student_situation[:avatar_url] = student.avatar_url
       student_situation[:created_at] = student.created_at
       student_situation[:tag_name] = student.tag_name
+      recorddetail.each do |recordd|
+        if student.id.eql?(recordd.student_id)
+          student_situation[:correct_rate] = recordd.correct_rate
+          student_situation[:score] = recordd.score
+        end
+      end
+      archivementsrecord.each do |student_id,archivement|
+        if student.id.eql?(student_id)
+          archivement.each do |archive|
+
+          end
+        end
+      end
     end
   end
 end

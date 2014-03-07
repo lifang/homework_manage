@@ -11,8 +11,8 @@ class Micropost < ActiveRecord::Base
   JPUSH = {
     :SENDNO => 1001,
     :RECEIVERTYPE => 3,
-    :MASTERSECRET => "902d3da3dc9366734a84ee21",
-    :APP_KEY => "26e6b3d44da78ea902c7fac9",
+    :MASTERSECRET => "a4e732fc19cebed1e37e5242",
+    :APP_KEY => "3d0213ed11e014e1a43bc12c",
     :MSG_TYPE => 1,
     :PLATFORM => "android",
     :URI => "http://api.jpush.cn:8800/v2/push"
@@ -20,8 +20,9 @@ class Micropost < ActiveRecord::Base
 
   #获取班级的microposts
   def self.get_microposts school_class, page, user_id=nil
+    page = 1 if page.eql?(0)
     base_sql = "select m.id micropost_id, m.user_id, m.user_types, m.content, m.created_at,
-                m.reply_microposts_count, u.name, u.avatar_url  from microposts m
+                m.reply_microposts_count, m.follow_microposts_count, u.name, u.avatar_url  from microposts m
                 inner join users u on u.id = m.user_id "
     condition_sql = " where school_class_id = ? "
     params_arr = ["", school_class.id]

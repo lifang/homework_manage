@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  used_time: 1
+  specified_time: 1
+  question_types: 1
+  correct_rate: MyString
+  score: 1
+  is_complete: 1
+  student_answer_record_id: 1
+
+two:
+  used_time: 1
+  specified_time: 1
+  question_types: 1
+  correct_rate: MyString
+  score: 1
+  is_complete: 1
+  student_answer_record_id: 1

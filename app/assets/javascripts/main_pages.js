@@ -64,12 +64,10 @@ function show_reply_again(value,name){
     height_adjusting();
     $(answer[1]).find("textarea").attr("id",id);
     location.href="#"+id;
-    
 }
 
 function send_more_replies(value,micropost_id){
     var current_page = $(value).parent().find(".current_page").val();
-    
     var index1=get_index(value);
     //tishi(index1+"--"+box.attr("class"));
     $.ajax({
@@ -80,7 +78,6 @@ function send_more_replies(value,micropost_id){
         data  : "micropost_id=" + micropost_id
         + "&index=" + index1+ "&current_page=" + current_page,
         success:function(data){
-
         }
     });
 

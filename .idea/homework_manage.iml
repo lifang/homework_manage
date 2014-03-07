@@ -54,12 +54,12 @@
       </EXTENSION>
       <EXTENSION ID="org.jetbrains.plugins.ruby.motion.run.MotionSimulatorRunExtension" />
       <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SCRIPT_ARGS" VALUE="" />
-      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="PORT" VALUE="3000" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="PORT" VALUE="3001" />
       <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="IP" VALUE="0.0.0.0" />
       <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="DUMMY_APP" VALUE="test/dummy" />
       <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RAILS_SERVER_TYPE" VALUE="default" />
       <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ENVIRONMENT_TYPE" VALUE="development" />
-      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="BROWSER_URL" VALUE="http://0.0.0.0:3000" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="BROWSER_URL" VALUE="http://0.0.0.0:3001" />
       <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="LAUNCH_JS" VALUE="false" />
       <RunnerSettings RunnerId="RubyDebugRunner" />
       <RunnerSettings RunnerId="RubyRunner" />
@@ -131,6 +131,7 @@
     <orderEntry type="library" scope="PROVIDED" name="activerecord (v3.2.1, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activeresource (v3.2.1, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activesupport (v3.2.1, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="archive-zip (v0.6.0, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="arel (v3.0.3, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.0.4, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bundler (v1.3.5, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
@@ -142,6 +143,7 @@
     <orderEntry type="library" scope="PROVIDED" name="highline (v1.6.20, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="hike (v1.2.3, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="i18n (v0.6.9, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="io-like (v0.3.0, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="journey (v1.0.4, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="jquery-rails (v2.1.4, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json (v1.8.1, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
@@ -156,7 +158,7 @@
     <orderEntry type="library" scope="PROVIDED" name="net-ssh (v2.8.0, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="net-ssh-gateway (v1.2.0, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.6.1, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="polyglot (v0.3.3, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="polyglot (v0.3.4, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack (v1.4.5, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-cache (v1.2, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-ssl (v1.3.3, RVM: ruby-1.9.3-p484 [rails3.1.2]) [gem]" level="application" />

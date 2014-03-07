@@ -1,5 +1,7 @@
 HomeworkManage::Application.routes.draw do
 
+
+
   resources :microposts do
     get :create_reply
     member do
@@ -7,21 +9,25 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
- post "/share_questions/view"
+  post "/share_questions/view"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
 
   namespace :api do
+    match 'current_version' => 'students#current_version'
     resources :students do
       collection do
-        get 'add_concern','unfollow','switching_classes', 'delete_posts',
+        get 'add_concern','unfollow', 'delete_posts',
           'get_my_classes', 'into_daily_tasks', :get_microposts, :get_class_info,
           :get_answer_history, :my_microposts, :get_reply_microposts, :get_messages,
-          :get_teacher_messages, :new_homework
-        post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info, :reply_message,
+          :get_classmates_info, :get_more_tasks, :get_newer_task,:get_teacher_messages,
+          :new_homework, :delete_message,:get_sys_message, :get_follow_microposts,
+          :get_knowledges_card,:delete_knowledges_card,:card_is_full,:get_question_package_details,
+          :get_my_archivements,:card_tags_list,:create_card_tag,:search_tag_card
+        post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info,
           :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
-          :read_message, :delete_message
+          :delete_sys_message,:read_message,:search_tasks, :reply_message
       end
     end
   end
@@ -61,10 +67,17 @@ HomeworkManage::Application.routes.draw do
         post :create_class, :save_updated_teacher,:update_password,:upload_avatar,:update_avatar
       end
     end
+    resources :students do
+      member do
+      end
+      collection do
+          get :index
+      end
+    end
 
     resources :question_packages do
       resources :questions do
-         resources :branch_questions
+        resources :branch_questions
       end
     end
   end

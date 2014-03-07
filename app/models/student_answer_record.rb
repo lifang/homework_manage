@@ -2,49 +2,11 @@
 class StudentAnswerRecord < ActiveRecord::Base
   attr_protected :authentications
   belongs_to :student
+  has_many :record_details, :dependent => :destroy
   STATUS = {:DEALING => 0, :FINISH => 1}
   STATUS_NAME = {0 => "进行中", 1 => "完成"}
 
-  def self.get_daily_tasks school_class_id, student_id
-    tasks = []
-    worked_tasks_sql = "select p.id, q.name,s.status,p.start_time,p.end_time, p.question_packages_url,
-      s.listening_answer_count, s.reading_answer_count, p.listening_count, p.reading_count FROM
-      student_answer_records s left join publish_question_packages p on
-      s.publish_question_package_id = p.id left join question_packages q on
-      p.question_package_id = q.id where p.school_class_id = #{school_class_id}
-      and s.student_id = #{student_id}"
-    worked_tasks= StudentAnswerRecord.find_by_sql worked_tasks_sql  #处理过的任务信息（包含进行中的和已完成的）
-    worked_tasks.each_with_index do |task,index|
-      tasks << {:id => task.id, :name => task.name, :start_time => task.start_time,
-                :end_time => task.end_time, :question_packages_url => task.question_packages_url,
-                :listening_schedule => "#{task.listening_answer_count}/#{task.listening_count}",
-                :reading_schedule => "#{task.reading_answer_count}/#{task.reading_count}"
-                }
-    end
-    worked_ids = "("
-    worked_tasks.each_with_index do |task,index|
-        worked_ids += "," if index > 0
-        worked_ids += "#{task.id}"
-    end
-    worked_ids += ")"
-    condition_sql = " and p.id not in #{worked_ids}"
-    unfinish_tasks_sql = "select p.id, q.name,p.start_time,p.end_time, p.question_packages_url,
-                    p.listening_count, p.reading_count  FROM publish_question_packages p
-                    left join question_packages q on p.question_package_id = q.id where
-                     p.school_class_id = #{school_class_id}"
-    unfinish_tasks_sql += condition_sql if worked_ids.scan("()").to_a.length == 0
-    unfinish_tasks = PublishQuestionPackage.find_by_sql unfinish_tasks_sql
-    unfinish_tasks.each do |task|
-      tasks << {:id => task.id, :name => task.name, :start_time => task.start_time,
-               :end_time => task.end_time, :question_packages_url => task.question_packages_url,
-               :listening_schedule => "#{0}/#{task.listening_count}",
-               :reading_schedule => "#{0}/#{task.reading_count}"
-               }
-    end
-    tasks.sort_by! { |t| t[:start_time] }.reverse!
-  end
-  
-  
+
   def self.ret_stuent_record(school_class_id, publish_packages_id)
     s_answer_records = StudentAnswerRecord.find_by_sql(["select
            sar.*, u.id user_id, u.name, u.avatar_url
@@ -57,5 +19,22 @@ class StudentAnswerRecord < ActiveRecord::Base
     answerd_users = (users and users[STATUS[:FINISH]]) ?  users[STATUS[:FINISH]] : []
     unanswerd_users = s_answer_records ? (s_answer_records - answerd_users) : []
     return [answerd_users, unanswerd_users]
-  end 
+  end
+
+  #获取学生的多种题型答题状态
+  def self.get_student_answer_status school_class_id, student_id, pub_ids
+    pub_ids = "#{pub_ids}".gsub(/\[/,"(").gsub(/\]/, ")")
+    answer_records_sql = "select distinct sar.publish_question_package_id pub_id, rd.question_types types
+      from student_answer_records sar left join record_details rd
+      on sar.id = rd.student_answer_record_id where sar.school_class_id =#{school_class_id}
+      and sar.student_id =#{student_id} and rd.student_answer_record_id is not null
+      and rd.is_complete = #{RecordDetail::STATUS[:FINISH]}"
+    if pub_ids.scan(/^\(\)$/).length == 0
+      answer_records_sql += " and sar.publish_question_package_id in #{pub_ids}"
+      student_answer_records = StudentAnswerRecord.find_by_sql answer_records_sql
+    else
+      student_answer_records = []
+    end
+    student_answer_records
+  end
 end

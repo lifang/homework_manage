@@ -14,9 +14,10 @@ class Api::StudentsController < ApplicationController
     micropost = Micropost.new(:user_id => user_id, :user_types => user_types, 
       :content => content, :school_class_id => school_class_id, :reply_microposts_count => 0)
     if micropost.save
-      render :json => {:status => 'success', :notice => '消息发布成功'}
+      micropost_return = Micropost.find_by_sql(["SELECT m.*,u.avatar_url,u.`name` from microposts m INNER JOIN users u on m.user_id = u.id where m.id = ?",micropost.id])
+      render :json => {:status => 'success', :notice => '消息发布成功',:micropost=>micropost_return}
     else
-      render :json => {:status => 'error', :notice => '消息发布失败'}
+      render :json => {:status => 'error', :notice => '消息发布失败',:micropost=>[]}
     end
   end
   #  回复消息
@@ -28,19 +29,25 @@ class Api::StudentsController < ApplicationController
     reciver_id = params[:reciver_id]
     reciver_types = params[:reciver_types]
     school_class_id = params[:school_class_id]
-    micropost = Micropost.find_by_id micropost_id.to_i    
+    micropost = Micropost.find_by_id micropost_id.to_i
     if micropost
-      Message.add_messages(micropost_id, reciver_id, reciver_types, sender_id, sender_types, 
-        content, school_class_id)
-      replymicropost = ReplyMicropost.new(:sender_id => sender_id, 
+      replymicropost = ReplyMicropost.new(:sender_id => sender_id,
         :sender_types => sender_types, :content => content,
         :micropost_id => micropost_id, :reciver_id => reciver_id,:reciver_types => reciver_types)
       replymicropost.save
+      reply_micropost_id = replymicropost.id
+      replymicropost_return = ReplyMicropost.find_by_sql(["select rm.id, rm.content, rm.sender_id, rm.sender_types, rm.reciver_id, rm.created_at, s.name sender_name,
+              s.avatar_url sender_avatar_url, u.name reciver_name, u.avatar_url reciver_avatar_url
+              from reply_microposts rm left join
+              users s on rm.sender_id = s.id left join users u on rm.reciver_id = u.id
+              where  rm.id=?",reply_micropost_id])
       micropost.update_attributes(:reply_microposts_count => (micropost.reply_microposts_count + 1))
-      render :json => {:status => 'success', :notice => '消息回复成功'}
+      Message.add_messages(micropost_id, reciver_id, reciver_types, sender_id, sender_types,
+        content, school_class_id,reply_micropost_id)
+      render :json => {:status => 'success', :notice => '消息回复成功',:replymicropost => replymicropost_return}
     else
-      render :json => {:status => 'error', :notice => '消息回复失败'}
-    end    
+      render :json => {:status => 'error', :notice => '消息回复失败',:replymicropost=>[] }
+    end
   end
   
   #  关注消息api
@@ -49,7 +56,12 @@ class Api::StudentsController < ApplicationController
     micropost_id = params[:micropost_id].to_i
     followmicropost = FollowMicropost.find_by_user_id_and_micropost_id(user_id,micropost_id)
     if followmicropost.nil?
-      followmicropost = FollowMicropost.new(:user_id => user_id, :micropost_id => micropost_id)
+      Micropost.transaction do
+        micropost = Micropost.find_by_id micropost_id
+        follow_micropost_count = micropost.follow_microposts_count.to_i + 1
+        followmicropost = FollowMicropost.new(:user_id => user_id, :micropost_id => micropost_id)
+        micropost.update_attributes(:follow_microposts_count => follow_micropost_count)
+      end
       if followmicropost.save
         render :json => {:status => 'success', :notice => '关注添加成功'}
       else
@@ -63,14 +75,19 @@ class Api::StudentsController < ApplicationController
   def unfollow
     user_id = params[:user_id].to_i
     micropost_id = params[:micropost_id].to_i
+    micropost = Micropost.find_by_id micropost_id
     followmicropost_exits = FollowMicropost.find_by_user_id_and_micropost_id(user_id, micropost_id)
     if followmicropost_exits && followmicropost_exits.destroy
+      if micropost.follow_microposts_count && micropost.follow_microposts_count > 0
+        follow_micropost_count = micropost.follow_microposts_count.to_i - 1
+        micropost.update_attributes(:follow_microposts_count => follow_micropost_count)
+      end
       render :json => {:status => 'success', :notice => '取消关注成功'}
     else
       render :json => {:status => 'error', :notice => '取消关注失败'}
     end
   end
-  #切换班级
+  #显示班级列表
   def get_my_classes
     student_id = params[:student_id].to_i
     classes = SchoolClass.find_by_sql(["SELECT school_classes.id class_id,school_classes.name class_name
@@ -87,7 +104,7 @@ class Api::StudentsController < ApplicationController
     school_class = SchoolClass.find_by_id params[:school_class_id].to_i
     micropost_hash = {}
     if school_class
-      micropost_hash = Micropost.get_microposts school_class, params[:page], params[:user_id]      
+      micropost_hash = Micropost.get_microposts school_class, params[:page], params[:user_id]
       if (params[:page].nil? or params[:page] == "1") and micropost_hash[:details_microposts].length == 0
         notice = "当前班级下暂无消息。"
       end
@@ -100,6 +117,42 @@ class Api::StudentsController < ApplicationController
     render :json => micropost_hash
   end
 
+  #获取我关注的消息
+  def get_follow_microposts
+    school_class_id = params[:school_class_id]
+    student_id = params[:student_id]
+    page = params[:page].to_i
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    page = 1 if page == 0
+    microposts = []
+    pages_count = 0
+    status = "error"
+    notice = "获取失败！"
+    if !student.nil? && !school_class.nil?
+      follow_microposts_record = FollowMicropost.where("user_id = ?",student.user_id)
+      follow_microposts_id = follow_microposts_record.map{|m| m.micropost_id }
+      follow_microposts_id = follow_microposts_id.to_s.gsub(/\[|\]/,"")
+      if follow_microposts_id.size > 0
+        sql_str = "select m.id micropost_id, m.user_id, m.user_types, m.content, m.created_at,
+                m.reply_microposts_count, m.follow_microposts_count, u.name, u.avatar_url
+                from microposts m inner join users u on u.id = m.user_id
+                where m.school_class_id = #{school_class.id} and m.id in (#{follow_microposts_id})
+                order by m.created_at desc"
+        microposts = Micropost.paginate_by_sql(sql_str, :per_page => Micropost::PER_PAGE, :page => page)
+        pages_count = microposts.total_pages
+        status = "success"
+        notice = "获取成功！"
+      else
+        microposts = []
+        status = "success"
+        notice = "您还未关注任何消息！"
+      end
+    end
+    render :json => {:status => status, :notice => notice, :microposts => microposts,
+                     :pages_count => pages_count}
+  end
+
   #qq登陆
   def login
     qq_uid = params[:open_id]
@@ -108,7 +161,7 @@ class Api::StudentsController < ApplicationController
       render :json => {:status => "error", :notice => "账号不存在，请先注册！"}
     else
       c_s_relation = SchoolClassStudentRalastion.
-          find_by_student_id_and_school_class_id(student.id,student.last_visit_class_id)
+        find_by_student_id_and_school_class_id(student.id,student.last_visit_class_id)
       if !c_s_relation.nil?
         school_class = SchoolClass.find_by_id student.last_visit_class_id.to_i
         if school_class.status == SchoolClass::STATUS[:EXPIRED] || (school_class.period_of_validity - Time.now) < 0
@@ -121,25 +174,17 @@ class Api::StudentsController < ApplicationController
             class_name = school_class.name
             tearcher_id = school_class.teacher.id
             tearcher_name = school_class.teacher.user.name
-            classmates = SchoolClass.get_classmates school_class, student.id
-            task_messages = TaskMessage.get_task_messages school_class.id
             page = 1
             microposts = Micropost.get_microposts school_class,page
             follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-            daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
-            messages = Message.get_my_messages school_class, student.user.id
             student.update_attributes(:last_visit_class_id => school_class.id)
             render :json => {:status => "success", :notice => "登录成功！",
               :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
                 :nickname => student.nickname, :avatar_url => student.user.avatar_url},
               :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
                 :tearcher_id => tearcher_id },
-              :classmates => classmates,
-              :task_messages => task_messages,
               :microposts => microposts,
-              :daily_tasks => daily_tasks,
               :follow_microposts_id => follow_microposts_id,
-              :messages => messages
             }
           end
         else
@@ -147,24 +192,16 @@ class Api::StudentsController < ApplicationController
           class_name = school_class.name
           tearcher_id = school_class.teacher.id
           tearcher_name = school_class.teacher.user.name
-          classmates = SchoolClass.get_classmates school_class, student.id
-          task_messages = TaskMessage.get_task_messages school_class.id
           page = 1
           microposts = Micropost.get_microposts school_class,page
           follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-          daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
-          messages = Message.get_my_messages school_class, student.user.id
           render :json => {:status => "success", :notice => "登录成功！",
             :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
               :nickname => student.nickname, :avatar_url => student.user.avatar_url},
             :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
               :tearcher_id => tearcher_id },
-            :classmates => classmates,
-            :task_messages => task_messages,
             :microposts => microposts,
-            :daily_tasks => daily_tasks,
             :follow_microposts_id => follow_microposts_id,
-            :messages => messages
           }
         end
       else
@@ -177,30 +214,23 @@ class Api::StudentsController < ApplicationController
           class_name = school_class.name
           tearcher_id = school_class.teacher.id
           tearcher_name = school_class.teacher.user.name
-          classmates = SchoolClass.get_classmates school_class, student.id
-          task_messages = TaskMessage.get_task_messages school_class.id
           page = 1
           microposts = Micropost.get_microposts school_class,page
           follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-          daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
-          messages = Message.get_my_messages school_class, student.user.id
           student.update_attributes(:last_visit_class_id => school_class.id)
           render :json => {:status => "success", :notice => "登录成功！",
-                           :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
-                                        :nickname => student.nickname, :avatar_url => student.user.avatar_url},
-                           :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-                                      :tearcher_id => tearcher_id },
-                           :classmates => classmates,
-                           :task_messages => task_messages,
-                           :microposts => microposts,
-                           :daily_tasks => daily_tasks,
-                           :follow_microposts_id => follow_microposts_id,
-                           :messages => messages
+            :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
+              :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+            :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+              :tearcher_id => tearcher_id },
+            :microposts => microposts,
+            :follow_microposts_id => follow_microposts_id,
           }
         end
       end
     end
   end
+
   #  点击每日任务获取题包
   def into_daily_tasks
     student_id = params[:student_id]
@@ -222,9 +252,91 @@ class Api::StudentsController < ApplicationController
       end
     end
     notice = status == false ? "没有作业内容。" : ""
-    render :json => {:status => status, :notice => notice, 
-      :package => (package_json.empty? ? "" : ActiveSupport::JSON.decode(package_json)), 
+    render :json => {:status => status, :notice => notice,
+      :package => (package_json.empty? ? "" : ActiveSupport::JSON.decode(package_json)),
       :user_answers => (answer_json.empty? ? "" : ActiveSupport::JSON.decode(answer_json))}
+  end
+
+  #获取当天最新任务
+  def get_newer_task
+    student_id = params[:student_id]
+    school_class_id = params[:school_class_id]
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    status = "error"
+    notice = "获取失败！"
+    tasks = nil
+    if !student.nil? && !school_class.nil?
+      tasks = PublishQuestionPackage.get_tasks school_class.id, student.id,"first"
+      status = "success"
+      notice = "获取成功！"
+    end
+    render :json => {:status => status, :notice => notice, :tasks => tasks}
+  end
+
+  #获取历史任务
+  def get_more_tasks
+    student_id = params[:student_id]
+    school_class_id = params[:school_class_id]
+    today_newer_id = params[:today_newer_id]
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    status = "error"
+    notice = "获取失败！"
+    tasks = nil
+    if !student.nil? && !school_class.nil?
+      tasks = PublishQuestionPackage.get_tasks school_class.id, student.id, nil, nil, today_newer_id
+      status = "success"
+      notice = "获取成功！"
+    end
+    render :json => {:status => status, :notice => notice, :tasks => tasks}
+  end
+
+  #查询任务
+  def search_tasks
+    student_id = params[:student_id]
+    school_class_id = params[:school_class_id]
+    date = params[:date]
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    status = "error"
+    notice = "查询出错！"
+    tasks = nil
+    if !student.nil? && !school_class.nil? && !date.nil?
+      status = "success"
+      notice = "查询完成！"
+      tasks = PublishQuestionPackage.get_tasks school_class.id, student.id, nil, date
+    end
+    render :json => {:status => status, :notice => notice, :tasks => tasks}
+  end
+
+  #获取题包内容
+  def get_question_package_details
+    student_id = params[:student_id]
+    school_class_id = params[:school_class_id]
+    publish_question_package_id = params[:publish_question_package_id]
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    publish_question_package = PublishQuestionPackage
+    .find_by_id publish_question_package_id
+    status = "error"
+    notice = "获取出错！"
+    answer_url = nil
+    props = nil
+    if !student.nil? && !school_class.nil? && !publish_question_package.nil?
+      status = "error"
+      notice = "获取完成！"
+      question_packages_url = publish_question_package.question_packages_url
+      student_answer_record = StudentAnswerRecord
+      .find_by_student_id_and_publish_question_package_id(student.id,publish_question_package.id)
+      if !student_answer_record.nil? && !student_answer_record.answer_file_url.nil?
+        answer_url =  student_answer_record.answer_file_url
+        props = Prop.get_prop_num school_class.id, student.id
+      end
+    end
+    render :json => {:status => status, :notice => notice,
+      :question_packages_url => question_packages_url,
+      :answer_url => answer_url, :props => props}
   end
 
   #获取消息microposts(分页)
@@ -246,9 +358,8 @@ class Api::StudentsController < ApplicationController
         school_class_student_relations = SchoolClassStudentRalastion.
           find_by_school_class_id_and_student_id school_class.id, student.id
         if school_class_student_relations.nil?
-          status = "success"
-          notice = "加载完成"
-
+          status = "error"
+          notice = "学生不属于该班级"
         else
           if school_class.status == SchoolClass::STATUS[:NORMAL]
             if page.nil?
@@ -325,60 +436,60 @@ class Api::StudentsController < ApplicationController
     student = Student.find_by_qq_uid qq_uid
     school_class = SchoolClass.find_by_verification_code(verification_code)
     if !school_class.nil?
-        if school_class.status == SchoolClass::STATUS[:EXPIRED] ||
-            school_class.period_of_validity - Time.now <= 0
-          render :json => {:status => "error", :notice => "班级已失效！"}
-        else
-          if student.nil?
-            Student.transaction do
-              student = Student.create(:nickname => nickname, :qq_uid => qq_uid,
-                :status => Student::STATUS[:YES],
-                :last_visit_class_id => school_class.id)
-              destination_dir = "avatars/students/#{Time.now.strftime('%Y-%m')}"
-              rename_file_name = "student_#{student.id}"
-              avatar_url = ""
-              if !file.nil?
-                upload = upload_file destination_dir, rename_file_name, file
-                if upload[:status] == true
-                  avatar_url = upload[:url]
-                else
-                  avatar_url = "/assets/default_avater.jpg"
-                end
+      if school_class.status == SchoolClass::STATUS[:EXPIRED] ||
+          school_class.period_of_validity - Time.now <= 0
+        render :json => {:status => "error", :notice => "班级已失效！"}
+      else
+        if student.nil?
+          Student.transaction do
+            student = Student.create(:nickname => nickname, :qq_uid => qq_uid,
+              :status => Student::STATUS[:YES],
+              :last_visit_class_id => school_class.id)
+            destination_dir = "avatars/students/#{Time.now.strftime('%Y-%m')}"
+            rename_file_name = "student_#{student.id}"
+            avatar_url = ""
+            if !file.nil?
+              upload = upload_file destination_dir, rename_file_name, file
+              if upload[:status] == true
+                avatar_url = upload[:url]
               else
                 avatar_url = "/assets/default_avater.jpg"
               end
-              user = User.create(:name => name, :avatar_url => avatar_url)
-              student.update_attributes(:user_id => user.id)
+            else
+              avatar_url = "/assets/default_avater.jpg"
             end
+            user = User.create(:name => name, :avatar_url => avatar_url)
+            student.update_attributes(:user_id => user.id)
           end
-          c_s_relation = student.school_class_student_ralastions.
-              where("school_class_id = #{school_class.id} and student_id = #{student.id}")
-          if c_s_relation && c_s_relation.length == 0
-            student.school_class_student_ralastions.create(:school_class_id => school_class.id)
-          end
-          class_id = school_class.id
-          class_name = school_class.name
-          tearcher_id = school_class.teacher.id
-          tearcher_name = school_class.teacher.user.name
-          classmates = SchoolClass.get_classmates school_class, student.id
-          task_messages = TaskMessage.get_task_messages school_class.id
-          page = 1
-          microposts = Micropost.get_microposts school_class,page
-          follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-          daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
-          messages = Message.get_my_messages school_class, student.user.id
-          render :json => {:status => "success", :notice => "登记成功！",
-                           :student => {:id => student.id, :name => student.user.name,:user_id => student.user.id,
-                                        :nickname => student.nickname, :avatar_url => student.user.avatar_url},
-                           :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-                                      :tearcher_id => tearcher_id },
-                           :classmates => classmates,
-                           :task_messages => task_messages,
-                           :microposts => microposts,
-                           :daily_tasks => daily_tasks,
-                           :follow_microposts_id => follow_microposts_id,
-                           :messages => messages
-          }
+        end
+        c_s_relation = student.school_class_student_ralastions.
+          where("school_class_id = #{school_class.id} and student_id = #{student.id}")
+        if c_s_relation && c_s_relation.length == 0
+          student.school_class_student_ralastions.create(:school_class_id => school_class.id)
+        end
+        class_id = school_class.id
+        class_name = school_class.name
+        tearcher_id = school_class.teacher.id
+        tearcher_name = school_class.teacher.user.name
+        classmates = SchoolClass.get_classmates school_class, student.id
+        task_messages = TaskMessage.get_task_messages school_class.id
+        page = 1
+        microposts = Micropost.get_microposts school_class,page
+        follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
+        daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
+        messages = Message.get_my_messages school_class, student.user.id
+        render :json => {:status => "success", :notice => "登记成功！",
+          :student => {:id => student.id, :name => student.user.name,:user_id => student.user.id,
+            :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+          :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+            :tearcher_id => tearcher_id },
+          :classmates => classmates,
+          :task_messages => task_messages,
+          :microposts => microposts,
+          :daily_tasks => daily_tasks,
+          :follow_microposts_id => follow_microposts_id,
+          :messages => messages
+        }
       end
     else
       notice = "验证码错误,找不到相关班级!"
@@ -387,7 +498,30 @@ class Api::StudentsController < ApplicationController
     end
   end
 
-  #获取页面信息
+  #获取同班同学及成就
+  def get_classmates_info
+    status = "error"
+    classmates = nil
+    notice = "用户信息错误！"
+    student_id = params[:student_id]
+    school_class_id = params[:school_class_id]
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    teacher = Teacher.find_by_id school_class.teacher_id
+    teacher_name = nil
+    teacher_avatar_url = nil
+    if !school_class.nil? && !student.nil? && !teacher.nil?
+      classmates = SchoolClass.get_classmates school_class, student.id
+      teacher_name = teacher.user.name
+      teacher_avatar_url = teacher.user.avatar_url
+      notice = "信息获取成功！"
+      status = "success"
+    end
+    render :json => {:status => status, :notice => notice, :teacher_name => teacher_name,
+      :teacher_avatar_url => teacher_avatar_url , :classmates => classmates}
+  end
+
+  #切换班级
   def get_class_info
     school_class_id = params[:school_class_id]
     student_id = params[:student_id]
@@ -408,24 +542,16 @@ class Api::StudentsController < ApplicationController
           class_name = school_class.name
           tearcher_id = school_class.teacher.id
           tearcher_name = school_class.teacher.user.name
-          classmates = SchoolClass.get_classmates school_class, student.id
-          task_messages = TaskMessage.get_task_messages school_class.id
           page = 1
           microposts = Micropost.get_microposts school_class,page
           follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-          daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
-          messages = Message.get_my_messages school_class, student.user.id
-          render :json => {:status => "success", :notice => "登陆成功！",
+          render :json => {:status => "success", :notice => "获取成功！",
             :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
               :nickname => student.nickname, :avatar_url => student.user.avatar_url},
             :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
               :tearcher_id => tearcher_id },
-            :classmates => classmates,
-            :task_messages => task_messages,
             :microposts => microposts,
-            :daily_tasks => daily_tasks,
             :follow_microposts_id => follow_microposts_id,
-            :messages => messages
           }
         end
       else
@@ -462,8 +588,6 @@ class Api::StudentsController < ApplicationController
           if school_class_student_relation.nil?
             notice = "该学生不属于当前班级,操作失败!"
           else
-            p student.id
-            p publish_question_package.id
             student_answer_record = StudentAnswerRecord.
               find_by_student_id_and_publish_question_package_id student.id, publish_question_package.id
             if student_answer_record.nil?
@@ -540,25 +664,55 @@ class Api::StudentsController < ApplicationController
 
   #完成某个题包
   def finish_question_packge
+    answer_file = ""
+    count = 0
+    params.each do |value|
+      if count == 0
+        answer_file = value[1]
+        count+=1
+      else
+        break
+      end
+    end
     student_id = params[:student_id]
     school_class_id = params[:school_class_id]
     publish_question_package_id = params[:publish_question_package_id]
-    student_answer_record = StudentAnswerRecord.find_by_student_id_and_school_class_id_and_publish_question_package_id student_id,school_class_id,publish_question_package_id
-    if !student_answer_record.nil?
-      if student_answer_record.status == StudentAnswerRecord::STATUS[:DEALING]
-        if student_answer_record.update_attributes(:status => StudentAnswerRecord::STATUS[:FINISH])
-          notice = "作业状态更新完成!"
-          status = "success"
-        else
-          notice = "作业状态更新失败,请重新操作!"
-          status = "error"
-        end
+    #answer_file = params[:answer_file]
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
+    status = "error"
+    notice = "记录失败！"
+    dir_url = "pub_que_ps/pub_#{publish_question_package_id}/answers"
+    rename_file_name = "student_#{student_id}"
+    file = upload_file dir_url, rename_file_name, answer_file
+    if file[:status] == true
+      student_answer_record = StudentAnswerRecord
+      .find_by_student_id_and_school_class_id_and_publish_question_package_id(student_id,
+        school_class_id,publish_question_package_id)
+      if student_answer_record.nil?
+        student_answer_record = student.student_answer_records.
+          create(:question_package_id => publish_question_package.question_package.id,
+          :publish_question_package_id=> publish_question_package.id,
+          :status => StudentAnswerRecord::STATUS[:DEALING],
+          :school_class_id => school_class.id, :answer_file_url => file[:url])
       else
-        notice = "该作业已完成!"
-        status = "error"
+        student_answer_record.update_attributes(:answer_file_url => file[:url])
       end
+      answer_json = ""
+      anwser_file_url = "#{Rails.root}/public#{student_answer_record.answer_file_url}"
+      File.open(anwser_file_url) do |file|
+        file.each do |line|
+          answer_json += line.to_s
+        end
+      end
+      answer_records = ActiveSupport::JSON.decode(answer_json)
+      PublishQuestionPackage.update_scores_and_achirvements(answer_records, student,
+        school_class, publish_question_package, student_answer_record)
+      notice = "作业状态更新完成!"
+      status = "success"
     else
-      notice = "参数错误!"
+      notice = "作业状态更新失败,请重新操作!"
       status = "error"
     end
     render :json => {:status => status, :notice => notice}
@@ -613,24 +767,16 @@ class Api::StudentsController < ApplicationController
           class_name = school_class.name
           tearcher_id = school_class.teacher.id
           tearcher_name = school_class.teacher.user.name
-          classmates = SchoolClass.get_classmates school_class, student.id
-          task_messages = TaskMessage.get_task_messages school_class.id
           page = 1
           microposts = Micropost.get_microposts school_class,page
           follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-          daily_tasks = StudentAnswerRecord.get_daily_tasks school_class.id, student.id
-          messages = Message.get_my_messages school_class, student.user.id
           render :json => {:status => "success", :notice => "验证成功！",
             :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
               :nickname => student.nickname, :avatar_url => student.user.avatar_url},
             :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
               :tearcher_id => tearcher_id },
-            :classmates => classmates,
-            :task_messages => task_messages,
             :microposts => microposts,
-            :daily_tasks => daily_tasks,
             :follow_microposts_id => follow_microposts_id,
-            :messages => messages
           }
         end
       else
@@ -658,10 +804,31 @@ class Api::StudentsController < ApplicationController
     render :json => {:status => status, :notice => notice}
   end
 
+  #获取我的成就
+  def get_my_archivements
+    student_id = params[:student_id].to_i
+    school_class_id = params[:school_class_id].to_i
+    notice = "用户信息错误!"
+    status = "error"
+    archivements = nil
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    school_class_student_relation = SchoolClassStudentRalastion
+    .find_by_school_class_id_and_student_id school_class_id, student_id
+    if !student.nil? && !school_class.nil? && !school_class_student_relation.nil?
+      archivements = ArchivementsRecord.where("school_class_id = ? and student_id = ?",school_class.id, student.id )
+      .select("student_id, school_class_id, archivement_score, archivement_types")
+      notice = "加载完成!"
+      status = "success"
+    end
+    render :json => {:status => status, :notice => notice, :archivements => archivements}
+  end
+
   #获取我的提示消息
   def get_messages
     user_id = params[:user_id]
     school_class_id = params[:school_class_id]
+    page = params[:page]
     user = User.find_by_id user_id
     school_class = SchoolClass.find_by_id school_class_id
     student = user.student if !user.nil?
@@ -679,7 +846,7 @@ class Api::StudentsController < ApplicationController
           notice = "用户信息错误!"
           status = "error"
         else
-          messages = Message.get_my_messages school_class, user_id
+          messages = Message.get_mine_messages school_class, user_id,page
           if messages.length == 0
             status = "success"
             notice = "暂无消息!"
@@ -778,49 +945,171 @@ class Api::StudentsController < ApplicationController
     user_id = params[:user_id]
     school_class_id = params[:school_class_id]
     message_id = params[:message_id]
-    user = User.find_by_id user_id
-    school_class = SchoolClass.find_by_id school_class_id
-    student = user.student
     message = Message.find_by_id message_id
-    if user.nil? || school_class.nil?
+    info = is_delete_message user_id, school_class_id, message
+    render :json => info
+  end
+  #删除系统通知
+  def delete_sys_message
+    user_id = params[:user_id]
+    school_class_id = params[:school_class_id]
+    sys_message_id = params[:sys_message_id]
+    message = SysMessage.find_by_id sys_message_id
+    info = is_delete_message user_id, school_class_id, message
+    render :json => info
+  end
+  #获取系统通知的内容
+  def get_sys_message
+    student_id = params[:student_id]
+    school_class_id = params[:school_class_id]
+    student = Student.find_by_id student_id
+    if student.blank?
       status = "error"
-      notice = "用户或班级信息错误,请重新登陆!"
+      notice = "用户不存在"
+      sysmessage = nil
     else
-      if student.nil?
-        status = "error"
-        notice = "用户信息错误,请重新登陆!"
-      else
-        school_class_student_relations = SchoolClassStudentRalastion.
-          find_by_student_id_and_school_class_id student.id, school_class.id
-        if school_class_student_relations.nil?
-          status = "error"
-          notice = "用户与班级的关系不正确,请重新登陆!"
-        else
-          if message.nil?
-            status = "error"
-            notice = "消息不存在!"
-          else
-            if message.destroy
-              status = "success"
-              notice = "删除成功!"
-            else
-              status = "error"
-              status = "删除失败!"
-            end
-          end
-        end
-      end
+      page = params[:page].nil? ? 1 : params[:page]
+      sysmessage = SysMessage.paginate_by_sql(["select * from sys_messages WHERE student_id = ? and school_class_id = ? order by created_at desc",
+          student_id,school_class_id],:per_page =>SysMessage::PER_PAGE ,:page => page)
+      status = "success"
+      notice = "获取成功！！"
     end
-    render :json => {:status => status, :notice => notice}
+    render :json => {:status => status,:notice => notice,:sysmessage => sysmessage }
+  end
+  #列出卡包所有卡片的列表#根据分类查询列出卡包卡片的列表api
+  def get_knowledges_card
+    student_id = params[:student_id].to_i
+    school_class_id = params[:school_class_id].to_i
+    page = params[:page].nil? ? 1 : params[:page].to_i
+    mistake_types = params[:mistake_types]
+    info = knowledges_card_list student_id,school_class_id,page,mistake_types
+    render :json => info
+  end
+  #删除卡片api
+  def delete_knowledges_card
+    knowledges_card_id = params[:knowledges_card_id]
+    knowledges_card = KnowledgesCard.find_by_id knowledges_card_id
+    status = "error"
+    notice = "删除失败!"
+    if knowledges_card && knowledges_card.destroy
+      status = "success"
+      notice = "删除成功!"
+    end
+    render :json => {:status => status,:notice => notice}
+  end
+  #做作业前判断卡包是否已满
+  def card_is_full
+    school_class_id = params[:school_class_id]
+    student_id = params[:student_id]
+    card_bag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+    if card_bag.present?
+      if card_bag.knowledges_cards_count < CardBag::CARDS_COUNT
+        status = "success"
+        notice = "卡槽暂有容量!"
+      else
+        status = "error"
+        notice = "卡槽容量已满!"
+      end
+    else
+      status = "error"
+      notice = "卡包不存在"
+    end
+    render :json => {:status => status,:notice => notice}
   end
 
+  #  点显示标签列表
+  def card_tags_list
+    school_class_id = params[:school_class_id]
+    student_id = params[:student_id]
+    cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+    if cardbag
+      cardtags = CardTag.where("card_bag_id= ?",cardbag.id)
+      status = "success"
+      notice = "获取标签成功"
+    else
+      status = "error"
+      notice = "获取标签失败"
+      cardtags=[]
+    end
+    render :json => {:status=> status,:notice => notice, :cardtag=>cardtags}
+  end
+  #  新建标签并且加入知识卡片
+  def create_card_tag
+    knowledge_card_id = params[:knowledge_card_id]
+    name = params[:name]
+    school_class_id = params[:school_class_id]
+    student_id = params[:student_id]
+    cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+    if cardbag
+      cardbag_id = cardbag.id
+      card_tag = CardTag.find_by_name_and_card_bag_id name,cardbag_id
+      if card_tag
+        cardtagknowledgescardrelation = CardTagKnowledgesCardRelation.find_by_knowledges_card_id_and_card_tag_id knowledge_card_id,card_tag.id
+        if cardtagknowledgescardrelation
+          status = "error"
+          notice = "知识卡片已存在"
+        else
+          cardtagknowledgescardrelation = CardTagKnowledgesCardRelation.new(:knowledges_card_id => knowledge_card_id,:card_tag_id => card_tag.id)
+          if cardtagknowledgescardrelation.save
+            status = "success"
+            notice = "添加成功"
+          else
+            status = "error"
+            notice = "添加失败"
+          end
+        end
+      else
+        CardTag.transaction do
+          cardtag = CardTag.create(:name =>name,:card_bag_id => cardbag_id)
+          CardTagKnowledgesCardRelation.create(:knowledges_card_id => knowledge_card_id,:card_tag_id => cardtag.id)
+        end
+        status = "success"
+        notice = "添加成功"
+      end
+    else
+      status = "error"
+      notice = "标签创建失败"
+    end
+    render :json => {:status => status,:notice => notice}
+  end
+  #  搜索标签下的卡片
+  def search_tag_card
+    name = params[:name]
+    school_class_id = params[:school_class_id]
+    student_id = params[:student_id]
+    page = params[:page].nil? ? 1 : params[:page].to_i
+    cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+    knowledgescard = []
+    if cardbag
+      cardbag_id = cardbag.id
+      cardtag = CardTag.find_by_name_and_card_bag_id name,cardbag_id
+      if cardtag
+        sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options
+ from knowledges_cards kc INNER JOIN card_tag_knowledges_card_relations ctkcr on kc.id = ctkcr.knowledges_card_id
+INNER JOIN branch_questions bq on kc.branch_question_id = bq.id
+WHERE ctkcr.card_tag_id =?"
+        knowledgescard = KnowledgesCard.find_by_sql([sql,cardtag.id])
+        status = "success"
+        notice = "获取成功"
+      else
+        status = "error"
+        notice = "标签不存在"
+      end
+    else
+      status = "error"
+      notice = "卡包不存在"
+    end
+    render :json => {:status=>status,:notice=>notice,:knowledgescard => knowledgescard}
+  end
+
+  #返回新任务的id
   def new_homework
     school_class_id = params[:school_class_id].to_i
     student_id = params[:student_id].to_i
     num = 0
     pq_packages = PublishQuestionPackage.find_by_sql(["select id from publish_question_packages
       where status = ? and end_time >= ? and school_class_id = ? ", PublishQuestionPackage::STATUS[:NEW],
-      Time.now(), school_class_id])
+        Time.now(), school_class_id])
     pq_packages.map!(&:id)
     if pq_packages.any?
       s_a_records = StudentAnswerRecord.find_by_sql(["select publish_question_package_id id from student_answer_records
@@ -831,5 +1120,11 @@ class Api::StudentsController < ApplicationController
       new_id = []
     end
     render :json => {:new_id => new_id}
+  end
+  
+  #返回当前app版本
+  def current_version
+    c_version = AppVersion.select("max(c_version) current_version")[0]
+    render :json => c_version
   end
 end

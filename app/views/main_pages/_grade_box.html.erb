@@ -8,9 +8,9 @@
             <ul>
               <%@classmates.each do |classmate|%>
               <li>
-                <a href="javascript:void(0);" onclick="delete_student_relation('<%= params[:school_class_id] %>','<%= classmate.id %>')" class="x">删除</a>
-                <span><img src="<%=classmate.avatar_url%>" /></span>
-                <p><%=classmate.name%></p>
+                <a href="javascript:void(0);" onclick="delete_student_relation('<%= params[:school_class_id] %>','<%= classmate[:id] %>')" class="x">删除</a>
+                <span><img src="<%=classmate[:avatar_url] %>" /></span>
+                <p><%=classmate[:name]%></p>
               </li>
               <%end%>
             </ul>

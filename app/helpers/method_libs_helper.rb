@@ -1,7 +1,9 @@
+#encoding: utf-8
 module MethodLibsHelper
   require 'rexml/document'
   require 'rexml/element'
   require 'rexml/parent'
+  require 'net/http'
   include REXML
   #记录答题json
   def write_answer_json dirs_url, answer_file_full_name, question_id, branch_question_id, answer, types
@@ -52,7 +54,6 @@ module MethodLibsHelper
         if q["id"].to_i == question_id.to_i
           count_question = 1
           q["branch_questions"].each do |branch_question|
-            p branch_question["id"]
             if branch_question["id"].to_i == branch_question_id.to_i
               count_branch_question = 1
               break
@@ -186,7 +187,6 @@ module MethodLibsHelper
     url = ""
     root_path = "#{Rails.root}/public"
     dirs = dirs_url.split("/")
-    p dirs
     dirs.each_with_index  do |e,i|
       url +=  "/"
       url += "#{e}"
@@ -351,9 +351,117 @@ module MethodLibsHelper
     avatar_url
   end
 
-  def send_push_msg content, alias_name,teachers_id
+  def jpush_parameter messages,receivervalue,extras_hash=nil
+    input ="#{Micropost::JPUSH[:SENDNO]}" + "#{Micropost::JPUSH[:RECEIVERTYPE]}" + receivervalue + Micropost::JPUSH[:MASTERSECRET]
+    code = Digest::MD5.hexdigest(input)
+    msg_content =  "{\"n_title\":\"1111222\",\"n_content\":#{messages},\"n_extras\":{\"class_id\":\"2\"} }"
+    content = {"n_content" => "#{messages}","n_title"=> "2iidid"}
+    content["n_extras"]=extras_hash if !extras_hash.nil? && extras_hash.class == Hash
+    msg_content = content.to_json()
+    map = Hash.new
+    map.store("sendno", Micropost::JPUSH[:SENDNO])
+    map.store("app_key", Micropost::JPUSH[:APP_KEY])
+    map.store("receiver_type", Micropost::JPUSH[:RECEIVERTYPE])
+    map.store("receiver_value",receivervalue)
+    map.store("verification_code", code)
+    map.store("msg_type",Micropost::JPUSH[:MSG_TYPE])
+    map.store("msg_content",msg_content)
+    map.store("platform", Micropost::JPUSH[:PLATFORM])
+    data =  (Net::HTTP.post_form(URI.parse(Micropost::JPUSH[:URI]), map)).body
+  end
+  
+  def send_push_msg content, alias_name, teachers_id, reciver_id
     unless teachers_id.include?(reciver_id.to_i)
       jpush_parameter content, alias_name
     end
+  end
+  
+  #删除提示消息和系统消息
+  def is_delete_message user_id, school_class_id, message
+    user = User.find_by_id user_id
+    school_class = SchoolClass.find_by_id school_class_id
+    student = user.student if user.present?
+    if user.nil? || school_class.nil?
+      status = "error"
+      notice = "用户或班级信息错误,请重新登陆!"
+    else
+      if student.nil?
+        status = "error"
+        notice = "用户信息错误,请重新登陆!"
+      else
+        school_class_student_relations = SchoolClassStudentRalastion.
+          find_by_student_id_and_school_class_id student.id, school_class.id
+        if school_class_student_relations.nil?
+          status = "error"
+          notice = "用户与班级的关系不正确,请重新登陆!"
+        else
+          if message.nil?
+            status = "error"
+            notice = "消息不存在!"
+          else
+            if message.destroy
+              status = "success"
+              notice = "删除成功!"
+            else
+              status = "error"
+              status = "删除失败!"
+            end
+          end
+        end
+      end
+    end
+    info = {:status => status, :notice => notice}
+  end
+
+  #列出卡包所有卡片的列表#根据分类查询列出卡包卡片的列表api
+  def knowledges_card_list student_id,school_class_id,page,mistake_types=nil
+    card_bag = CardBag.find_by_student_id_and_school_class_id student_id, school_class_id
+    if card_bag.blank?
+      status = "error"
+      notice = "卡包不存在"
+      knowledges_card = nil
+    else
+      card_bag_id = card_bag.id
+      school_class = SchoolClass.find_by_id school_class_id
+      students = []
+      students = school_class.school_class_student_ralastions.map(&:student_id) if school_class
+      if card_bag.student_id.eql?(student_id)&&card_bag.school_class_id.eql?(school_class_id)&&students.include?(student_id)
+        sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options
+FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id = bq.id where kc.card_bag_id = ?"
+        if mistake_types.nil?
+          knowledges_card = KnowledgesCard.paginate_by_sql([sql,card_bag_id],:per_page =>CardBag::PER_PAGE ,:page => page)
+        else
+          mistake_types_sql = " and kc.mistake_types=?"
+          sql += mistake_types_sql
+          knowledges_card = KnowledgesCard.paginate_by_sql([sql,card_bag_id,mistake_types],:per_page =>CardBag::PER_PAGE ,:page => page)
+        end
+        status = "success"
+        notice = "获取成功！！"
+      else
+        status = "error"
+        notice = "学生班级不匹配"
+        knowledges_card = nil
+      end
+    end
+    info = {:status => status,:notice => notice, :pages_count => knowledges_card.total_pages,:knowledges_card => knowledges_card}
+  end
+
+  #压缩和推送
+  def compress_and_push file_dirs_url,question_package_id,school_class_id,content,publish_question_package
+    zip_url = "#{Rails.root}/public/#{file_dirs_url}/resourse.zip"
+    resourse_url = "#{Rails.root}/public#{media_path % question_package_id}"
+    question_packages_url = "#{Rails.root}/public#{publish_question_package.question_packages_url}"
+    resourse_zip_url = "/#{file_dirs_url}/resourse.zip"
+    Archive::Zip.archive("#{zip_url}","#{resourse_url}/.")
+    if File.exist?(question_packages_url)
+      Archive::Zip.archive("#{zip_url}","#{question_packages_url}")
+      publish_question_package.update_attributes(:question_packages_url => resourse_zip_url)
+    end
+    sql = "SELECT s.alias_name FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
+WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = ?"
+    student = Student.find_by_sql([sql,school_class_id])
+    alias_name = student.map(&:alias_name).join(",")
+    extras_hash = {:type => 2}
+    jpush_parameter content, alias_name,extras_hash
   end
 end

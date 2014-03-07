@@ -39,7 +39,7 @@ class MicropostsController < ApplicationController
       #得到某个帖子的回复和帖子
       get_posts_and_replis
       Message.add_messages(reply.micropost_id, reply.reciver_id, reply.reciver_types,
-        reply.sender_id, reply.sender_types,reply.content, current_teacher.last_visit_class_id)
+        reply.sender_id, reply.sender_types,reply.content, current_teacher.last_visit_class_id,reply.id)
     end
   end
   def delete_micropost
@@ -71,7 +71,6 @@ class MicropostsController < ApplicationController
   def get_microposts 
     @condition = params[:condtions]
     @condition = nil if params[:condtions]==""
-    p 11111111111,params[:page]
     page = (params[:page].eql?("undefined") ? 1:params[:page])
       
     @scclass = SchoolClass.find(current_teacher.last_visit_class_id)

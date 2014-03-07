@@ -1,10 +1,12 @@
 #encoding: utf-8
+require 'archive/zip'
 require 'rexml/document'
 require 'rexml/element'
 require 'rexml/parent'
 require 'time'
 include REXML
 include MethodLibsHelper
+include MicropostsHelper
 class HomeworksController < ApplicationController
   before_filter :sign?
   #作业主页
@@ -30,8 +32,8 @@ class HomeworksController < ApplicationController
     publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
     if !publish_question_package.nil?
       student_answer_records = StudentAnswerRecord.
-          where("publish_question_package_id = ? and school_class_id = ?",
-                publish_question_package.id,@school_class.id)
+        where("publish_question_package_id = ? and school_class_id = ?",
+        publish_question_package.id,@school_class.id)
       if student_answer_records.length == 0
         questions_file_dir = "#{base_url}/que_ps/question_p_#{publish_question_package.question_package_id}"
         FileUtils.remove_dir questions_file_dir if File.exist? questions_file_dir
@@ -108,6 +110,7 @@ class HomeworksController < ApplicationController
                 :period_of_validity => publish_question_package.end_time,
                 :status => TaskMessage::STATUS[:YES],
                 :publish_question_package_id => publish_question_package.id)
+              compress_and_push file_dirs_url,question_package_id,school_class_id,content,publish_question_package
             end
           end
         end

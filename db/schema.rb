@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140305022223) do
+ActiveRecord::Schema.define(:version => 20140307030215) do
 
   create_table "app_versions", :force => true do |t|
     t.float "c_version"
@@ -43,6 +43,25 @@ ActiveRecord::Schema.define(:version => 20140305022223) do
   end
 
   add_index "branch_questions", ["question_id"], :name => "index_branch_questions_on_question_id"
+
+  create_table "branch_tags", :force => true do |t|
+    t.string   "name"
+    t.integer  "teacher_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "branch_tags", ["teacher_id"], :name => "index_branch_tags_on_teacher_id"
+
+  create_table "btags_bque_relations", :force => true do |t|
+    t.integer  "branch_question_id"
+    t.integer  "branch_tag_id"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  add_index "btags_bque_relations", ["branch_question_id"], :name => "index_btags_bque_relations_on_branch_question_id"
+  add_index "btags_bque_relations", ["branch_tag_id"], :name => "index_btags_bque_relations_on_branch_tag_id"
 
   create_table "card_bags", :force => true do |t|
     t.integer  "school_class_id"
@@ -105,12 +124,10 @@ ActiveRecord::Schema.define(:version => 20140305022223) do
     t.string   "your_answer"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
-    t.integer  "card_tag_id"
   end
 
   add_index "knowledges_cards", ["branch_question_id"], :name => "index_knowledges_cards_on_branch_question_id"
   add_index "knowledges_cards", ["card_bag_id"], :name => "index_knowledges_cards_on_card_bag_id"
-  add_index "knowledges_cards", ["card_tag_id"], :name => "index_knowledges_cards_on_card_tag_id"
 
   create_table "messages", :force => true do |t|
     t.integer  "user_id"
@@ -241,6 +258,16 @@ ActiveRecord::Schema.define(:version => 20140305022223) do
   add_index "reply_microposts", ["reciver_id"], :name => "index_reply_microposts_on_reciver_id"
   add_index "reply_microposts", ["sender_id"], :name => "index_reply_microposts_on_sender_id"
 
+  create_table "sbranch_branch_tag_relations", :force => true do |t|
+    t.integer  "share_branch_question_id"
+    t.integer  "branch_tag_id"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
+
+  add_index "sbranch_branch_tag_relations", ["branch_tag_id"], :name => "index_sbranch_branch_tag_relations_on_branch_tag_id"
+  add_index "sbranch_branch_tag_relations", ["share_branch_question_id"], :name => "index_sbranch_branch_tag_relations_on_share_branch_question_id"
+
   create_table "school_class_student_ralastions", :force => true do |t|
     t.integer  "student_id"
     t.integer  "school_class_id"
@@ -332,16 +359,6 @@ ActiveRecord::Schema.define(:version => 20140305022223) do
 
   add_index "sys_messages", ["school_class_id"], :name => "index_sys_messages_on_school_class_id"
   add_index "sys_messages", ["student_id"], :name => "index_sys_messages_on_student_id"
-
-  create_table "tag_student_relations", :force => true do |t|
-    t.integer  "tag_id"
-    t.integer  "student_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "tag_student_relations", ["student_id"], :name => "index_tag_student_relations_on_student_id"
-  add_index "tag_student_relations", ["tag_id"], :name => "index_tag_student_relations_on_tag_id"
 
   create_table "tags", :force => true do |t|
     t.string   "name"

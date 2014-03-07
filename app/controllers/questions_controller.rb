@@ -112,13 +112,8 @@ class QuestionsController < ApplicationController
   private
 
   #分享或者引用的时候，拷贝音频
-  def copy_file(media_path, question_pack, branch_question, source_resource_url)
-    full_media_path = "/public" + media_path % question_pack.id
-=======
-  #引用的时候，拷贝音频
   def copy_file(media_path_url, question_pack, branch_question, source_resource_url)
     full_media_path = "/public" + media_path_url % question_pack.id
->>>>>>> c6a3ca384ea04166c4d8e0ddff25fc16f095764c
     question_pack_folder = Rails.root.to_s + full_media_path
     original_resource_url = Rails.root.to_s + "/public" + source_resource_url
     FileUtils.mkdir_p(question_pack_folder) unless Dir.exists?(question_pack_folder)

@@ -104,7 +104,7 @@ class Api::StudentsController < ApplicationController
     school_class = SchoolClass.find_by_id params[:school_class_id].to_i
     micropost_hash = {}
     if school_class
-      micropost_hash = Micropost.get_microposts school_class, params[:page], params[:user_id]      
+      micropost_hash = Micropost.get_microposts school_class, params[:page], params[:user_id]
       if (params[:page].nil? or params[:page] == "1") and micropost_hash[:details_microposts].length == 0
         notice = "当前班级下暂无消息。"
       end
@@ -115,6 +115,42 @@ class Api::StudentsController < ApplicationController
     end
     micropost_hash.merge!({:notice => notice, :status => status})
     render :json => micropost_hash
+  end
+
+  #获取我关注的消息
+  def get_follow_microposts
+    school_class_id = params[:school_class_id]
+    student_id = params[:student_id]
+    page = params[:page].to_i
+    student = Student.find_by_id student_id
+    school_class = SchoolClass.find_by_id school_class_id
+    page = 1 if page == 0
+    microposts = []
+    pages_count = 0
+    status = "error"
+    notice = "获取失败！"
+    if !student.nil? && !school_class.nil?
+      follow_microposts_record = FollowMicropost.where("user_id = ?",student.user_id)
+      follow_microposts_id = follow_microposts_record.map{|m| m.micropost_id }
+      follow_microposts_id = follow_microposts_id.to_s.gsub(/\[|\]/,"")
+      if follow_microposts_id.size > 0
+        sql_str = "select m.id micropost_id, m.user_id, m.user_types, m.content, m.created_at,
+                m.reply_microposts_count, m.follow_microposts_count, u.name, u.avatar_url
+                from microposts m inner join users u on u.id = m.user_id
+                where m.school_class_id = #{school_class.id} and m.id in (#{follow_microposts_id})
+                order by m.created_at desc"
+        microposts = Micropost.paginate_by_sql(sql_str, :per_page => Micropost::PER_PAGE, :page => page)
+        pages_count = microposts.total_pages
+        status = "success"
+        notice = "获取成功！"
+      else
+        microposts = []
+        status = "success"
+        notice = "您还未关注任何消息！"
+      end
+    end
+    render :json => {:status => status, :notice => notice, :microposts => microposts,
+                     :pages_count => pages_count}
   end
 
   #qq登陆

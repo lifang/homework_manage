@@ -235,7 +235,11 @@ module MethodLibsHelper
                 branch_question_resource_url = branch_question.add_element("resource_url")
                 branch_que_id.add_text("#{e[:branch_question_id]}")
                 branch_content.add_text("#{e[:content]}")
-                branch_question_resource_url.add_text("#{e[:resource_url]}")
+                if !e[:resource_url].nil? && e[:resource_url].size != 0
+                  branch_question_resource_url.add_text("#{e[:resource_url]}")
+                else
+                  branch_question_resource_url.add_text(" ")
+                end
               end
             end
           end
@@ -275,7 +279,11 @@ module MethodLibsHelper
     que_id.add_text("#{question_params_obj[:id]}")
     branch_que_id.add_text("#{question_params_obj[:branch_question_id]}")
     branch_content.add_text("#{question_params_obj[:content]}")
-    branch_question_resource_url.add_text("#{question_params_obj[:resource_url]}")
+    if !question_params_obj[:resource_url].nil? && question_params_obj[:resource_url].size != 0
+      branch_question_resource_url.add_text("#{question_params_obj[:resource_url]}")
+    else
+      branch_question_resource_url.add_text(" ")
+    end
   end
 
   #将生成的题目包xml转换为json

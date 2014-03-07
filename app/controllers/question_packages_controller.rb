@@ -26,6 +26,7 @@ class QuestionPackagesController < ApplicationController
   def create
     question_type, new_or_refer, cell_id, episode_id, question_pack_id = params[:question_type].to_i, params[:new_or_refer], params[:cell_id], params[:episode_id], params[:question_pack_id]
     status = false
+    @question_type = question_type
     QuestionPackage.transaction do
       if new_or_refer == "0"
         status = create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)

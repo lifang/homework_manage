@@ -4,18 +4,29 @@ class BranchQuestionsController < ApplicationController
     @question_pack = QuestionPackage.find_by_id(params[:question_package_id])
     @question = Question.find_by_id(params[:question_id])
     @tr_index = params[:tr_index].to_i
+    @question_type = @question.types
+    content = params[:content]
+    params[:branch] = content if params[:branch].nil?
     BranchQuestion.transaction do
-      @branch_question = @question.branch_questions.create(params[:branch])
-      if @branch_question
-        if @branch_question == @question.branch_questions.first
-          @question.update_attribute(:name, @branch_question.content.length > 38 ? @branch_question.content[0..35] + "..." : @branch_question.content)
+      if params[:branch_id].nil?
+        @branch_question = @question.branch_questions.create(params[:branch])
+        if @branch_question
+          if @branch_question == @question.branch_questions.first
+            @question.update_attribute(:name, @branch_question.content.length > 38 ? @branch_question.content[0..35] + "..." : @branch_question.content)
+          end
+          resource_url_path = save_into_folder(@question_pack, @branch_question, params[:branch_url]) if params[:branch_url]
+          @branch_question.update_attributes({:resource_url => resource_url_path} ) if resource_url_path
+          @action_name = "create"
+          render :success
+        else
+          render :failed
         end
-        resource_url_path = save_into_folder(@question_pack, @branch_question, params[:branch_url])
+      else
+        @branch_question = BranchQuestion.find_by_id params[:branch_id].to_i
+        resource_url_path = save_into_folder(@question_pack, @branch_question, params[:branch_url]) if params[:branch_url]
         @branch_question.update_attributes({:resource_url => resource_url_path} ) if resource_url_path
         @action_name = "create"
         render :success
-      else
-        render :failed
       end
     end
   end
@@ -38,8 +49,10 @@ class BranchQuestionsController < ApplicationController
     @question = Question.find_by_id(params[:question_id])
     @branch_question = BranchQuestion.find_by_id(params[:id])
     if @branch_question.destroy
-      resource_path = (Rails.root.to_s + "/public" + @branch_question.resource_url)
-      File.delete resource_path if File.exists?(resource_path)
+      if !@branch_question.resource_url.nil?
+        resource_path = (Rails.root.to_s + "/public" + @branch_question.resource_url)
+        File.delete resource_path if File.exists?(resource_path)
+      end
       @status = 0
     else
       @status = 1

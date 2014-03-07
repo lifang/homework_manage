@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140307064220) do
+ActiveRecord::Schema.define(:version => 20140307070031) do
 
   create_table "app_versions", :force => true do |t|
     t.float "c_version"
@@ -329,6 +329,8 @@ ActiveRecord::Schema.define(:version => 20140307064220) do
     t.integer  "school_class_id"
     t.integer  "listening_answer_count"
     t.integer  "reading_answer_count"
+    t.integer  "average_correct_rate"
+    t.integer  "average_complete_rate"
   end
 
   add_index "student_answer_records", ["publish_question_package_id"], :name => "index_student_answer_records_on_publish_question_package_id"

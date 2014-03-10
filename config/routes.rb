@@ -76,7 +76,7 @@ HomeworkManage::Application.routes.draw do
       member do
       end
       collection do
-          get :index
+          get :index,:delete_student
       end
     end
 

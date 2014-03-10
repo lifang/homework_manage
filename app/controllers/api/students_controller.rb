@@ -480,7 +480,7 @@ class Api::StudentsController < ApplicationController
           :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
             :tearcher_id => tearcher_id },
           :microposts => microposts,
-          :follow_microposts_id => follow_microposts_id,
+          :follow_microposts_id => follow_microposts_id
         }
       end
     else

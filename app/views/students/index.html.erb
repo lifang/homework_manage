@@ -1,2 +1,52 @@
-<h1>Students#index</h1>
-<p>Find me in app/views/students/index.html.erb</p>
+<div class="rightSide">
+  <% if  @schoolclass %>
+    <pre><%= @schoolclass[0].name %></pre>
+    <pre><%= @schoolclass[0].verification_code %></pre>
+    <pre><%= @schoolclass[0].period_of_validity %></pre>
+    <pre><%= @schoolclass[0].count %></pre>
+  <% end %>
+
+  <% if @tags %>
+    <pre><% @tags.each do |tag| %><%= tag.name %> <% end %></pre>
+  <% end %>
+
+
+  <% @student_situations.each do |student_situation| %>
+    <%=link_to "删除","/school_classes/#{school_class_id}/students/delete_student?student_id=#{student_situation[:student_id]}",:confirm => "确定删除？" %>
+    <p><%= student_situation[:student_id] %></p>
+    <p><%= student_situation[:nickname]%></p>
+    <p><%= student_situation[:user_name]%></p>
+    <p><%= student_situation[:avatar_url]%></p>
+    <p><%= student_situation[:created_at]%></p>
+    <p><%= student_situation[:tag_name].nil? ? "未分组": student_situation[:tag_name]%></p>
+    <p><%= student_situation[:correct_rate]%></p>
+    <% if student_situation[:archivement] %>
+      <% student_situation[:archivement].each do |archive|%>
+        <% case archive.archivement_types %>
+        <% when ArchivementsRecord::TYPES[:PEFECT] %>
+          <pre><%= ArchivementsRecord::TYPES_NAME[0] %></pre>
+          <pre>等级：<%= archive.archivement_score/200  %></pre>
+        <% when ArchivementsRecord::TYPES[:ACCURATE] %>
+          <pre><%= ArchivementsRecord::TYPES_NAME[1] %></pre>
+          <pre>等级：<%= archive.archivement_score/200  %></pre>
+        <% when ArchivementsRecord::TYPES[:QUICKLY] %>
+          <pre><%= ArchivementsRecord::TYPES_NAME[2] %></pre>
+          <pre>等级：<%= archive.archivement_score/200  %></pre>
+        <% when ArchivementsRecord::TYPES[:EARLY] %>
+          <pre><%= ArchivementsRecord::TYPES_NAME[3] %></pre>
+          <pre>等级：<%= archive.archivement_score/200  %></pre>
+        <% else %>
+          <pre></pre>
+        <% end %>
+      <%end%>
+    <%  else %>
+    <% end %>
+  <% end %>
+
+  <div>
+    <% if @notice %>
+      <p><%= @notice %></p>
+    <% end %>
+  </div>
+
+</div>

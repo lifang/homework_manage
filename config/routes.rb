@@ -46,6 +46,11 @@ HomeworkManage::Application.routes.draw do
         post :delete_student
       end
     end
+    resources :statistics do
+      collection do
+        get :correct_rate
+      end
+    end
     resources :results
     resources :homeworks do
       collection do

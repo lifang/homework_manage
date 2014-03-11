@@ -9,6 +9,11 @@
   <% if @tags %>
     <pre><% @tags.each do |tag| %><%= tag.name %> <% end %></pre>
   <% end %>
+    <div class="remained">
+      <% if @ungrouped.count > 0 %>
+      <div style="color: red">注：本班有学院未分组</div>
+      <% end %>
+    </div>
 
   <% @student_situations.each do |student_situation| %>
     <%=link_to "删除","/school_classes/#{school_class_id}/students/delete_student?student_id=#{student_situation[:student_id]}",:confirm => "确定删除？" %>
@@ -18,11 +23,7 @@
     <p>头像地址 <%= student_situation[:avatar_url]%></p>
     <p>加入班级时间<%= student_situation[:created_at]%></p>
     <p>组名 <%= student_situation[:tag_name].nil? ? "未分组": student_situation[:tag_name]%></p>
-    <% if student_situation[:tag_name] %>
-      <input type="button" value="重新分组" onclick="delete_student_tag(this,<%= school_class_id %>,<%= student_situation[:student_id] %>)"/>
-    <%else%>
-      <input type="button" value="分组" onclick="delete_student_tag(this,<%= school_class_id %>,<%= student_situation[:student_id] %>)"/>
-    <% end %>
+    <input type="button" value="<%= student_situation[:tag_name].nil? ? "分组" : "重新分组" %>" onclick="delete_student_tag(this,<%= school_class_id %>,<%= student_situation[:student_id] %>)"/>
     <p>未完成次数<%= student_situation[:unfinished]%></p>
     <p>正确率：<%= student_situation[:correct_rate]%></p>
     <% if student_situation[:archivement] %>

@@ -1015,7 +1015,8 @@ class Api::StudentsController < ApplicationController
       status = "error"
       notice = "卡包不存在"
     end
-    render :json => {:status => status,:notice => notice}
+    time = Time.now.strftime("%F %R")
+    render :json => {:status => status,:notice => notice,:time=>time}
   end
 
   #  点显示标签列表
@@ -1072,6 +1073,7 @@ class Api::StudentsController < ApplicationController
       status = "error"
       notice = "标签创建失败"
     end
+
     render :json => {:status => status,:notice => notice,:cardtag => cardtag}
   end
   #  搜索标签下的卡片
@@ -1139,12 +1141,12 @@ WHERE ctkcr.card_tag_id =?"
     record_details = nil
     if !pub_id.nil? && !question_types.nil?
       record_details = StudentAnswerRecord
-        .joins("left join record_details rd on student_answer_records.id =
+      .joins("left join record_details rd on student_answer_records.id =
             rd.student_answer_record_id")
-        .joins("left join users u on student_answer_records.student_id = u.id")
-        .select("student_answer_records.student_id, u.name, u.avatar_url, rd.score")
-        .where(["publish_question_package_id = ? and rd.question_types = ?", pub_id.to_i, question_types.to_i])
-        .order("rd.score desc, rd.updated_at asc, rd.created_at asc").offset(0).limit(10)
+      .joins("left join users u on student_answer_records.student_id = u.id")
+      .select("student_answer_records.student_id, u.name, u.avatar_url, rd.score")
+      .where(["publish_question_package_id = ? and rd.question_types = ?", pub_id.to_i, question_types.to_i])
+      .order("rd.score desc, rd.updated_at asc, rd.created_at asc").offset(0).limit(10)
       status = "success"
       if record_details.length == 0
         notice = "暂无排行数据！"

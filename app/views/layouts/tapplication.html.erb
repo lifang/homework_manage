@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8"/>
     <title>HomeworkManage</title>
-    <%= stylesheet_link_tag    "application", :media => "all"  %>
-    <%= javascript_include_tag "application", "main_pages", "zuoye", "main" %>
+    <%= stylesheet_link_tag "new/tstyle.css", :media => "all" %>
+    <%= javascript_include_tag "application", "new/main" %>
     <%= javascript_include_tag "teachers"%>
     <%= javascript_include_tag "jquery.Jcrop.min"%>
 
@@ -13,8 +13,8 @@
   </head>
   <body>
     <div class="wrap">
+      <%= render "layouts/top_side" %>
       <div class="area clearAfter">
-        <%=render 'layouts/left_side'%>
         <div class="tab" id="tishi_div" style="display:none; z-index:1011;">
           <span class="close">关闭</span>
           <div class="tab_con">

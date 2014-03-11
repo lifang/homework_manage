@@ -1144,7 +1144,7 @@ WHERE ctkcr.card_tag_id =?"
         .joins("left join users u on student_answer_records.student_id = u.id")
         .select("student_answer_records.student_id, u.name, u.avatar_url, rd.score")
         .where(["publish_question_package_id = ? and rd.question_types = ?", pub_id.to_i, question_types.to_i])
-        .order("rd.score desc, rd.updated_at asc, rd.created_at asc;")
+        .order("rd.score desc, rd.updated_at asc, rd.created_at asc").offset(0).limit(10)
       status = "success"
       if record_details.length == 0
         notice = "暂无排行数据！"

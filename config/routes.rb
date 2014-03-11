@@ -76,7 +76,15 @@ HomeworkManage::Application.routes.draw do
       member do
       end
       collection do
-          get :index,:delete_student
+        get :index,:delete_student,:tag_student_list,:add_student_tag
+      end
+    end
+
+    resources :tags do
+      member do
+      end
+      collection do
+        post :delete_student_tag
       end
     end
 

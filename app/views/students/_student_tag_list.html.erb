@@ -1,0 +1,17 @@
+
+<h4><%= @tag.name %></h4>
+<h5>已有成员</h5>
+<% @student_hastags.each do |student_hastag| %>
+  <p><%= student_hastag.user.avatar_url %></p>
+  <p><%= student_hastag.user.name %></p>
+  <p>(<%= student_hastag.nickname %>)</p>
+<% end %>
+<br/>
+
+<h5>未分组成员</h5>
+<% @student_notags.each do |student_notag| %>
+  <%= link_to "添加",{:controller=> "students",:action=>'add_student_tag',:student_id => student_notag.id,:tag_id => @tag.id },remote: :true, 'data_type' => "script",:class=>"green_btn" %>
+  <p><%= student_notag.user.avatar_url %></p>
+  <p><%= student_notag.user.name %></p>
+  <p>(<%= student_notag.nickname %>)</p>
+<% end %>

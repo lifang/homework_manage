@@ -105,8 +105,8 @@ function upload_avatar(obj,school_class_id){
     jpg_reg = /\.jpg$|\.JPG/;
     var pic = $(obj).val();
     var input_s = $('#file_uploads');
-//    var ie = +[1,];
-var isIE = document.all && window.external
+    //    var ie = +[1,];
+    var isIE = document.all && window.external
     if(isIE){
     }
     else{
@@ -134,5 +134,21 @@ function cancel_upload(){
     $("#changes_avatar").html("");
 }
 
+function delete_student_tag(obj,school_class_id,student_id){
+
+    $.ajax({
+        url : "/school_classes/" + school_class_id + "/tags/delete_student_tag",
+        type:'post',
+        dataType : 'json',
+        data : {
+            student_id : student_id
+        },
+        success:function(data){
+            tishi(data.notice)
+            $(".tag_list").show()
+            $(obj).val("分组")
+        }
+    })
+}
 
 

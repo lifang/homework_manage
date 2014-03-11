@@ -1,0 +1,7 @@
+<%  if @student_hastags && @student_notags %>
+  $(".student_tag_list").html("<%= j(render :partial => 'student_tag_list' ) %>")
+  $(".student_tag_list").show();
+  tishi("<%= @notice  %>");
+<%  else %>
+  tishi("<%= @notice  %>");
+<% end %>

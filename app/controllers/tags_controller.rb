@@ -2,16 +2,18 @@ class TagsController < ApplicationController
   before_filter :sign?
   def destroy
     tag_id = params[:id]
-    tag = Tag.find(tag_id)
+    tag = Tag.find_by_id tag_id
     @notice = "删除失败"
     @status = 0
     begin
-      schoolclassstudentralastion = SchoolClassStudentRalastion.find_by_tag_id tag_id
-      if tag.destroy
-        @status = 1
-      end
-      if schoolclassstudentralastion.present?
-        schoolclassstudentralastion.update_attributes(:tag_id => nil )
+      Tag.transaction do
+        schoolclassstudentralastion = SchoolClassStudentRalastion.where("tag_id=#{tag_id}")
+        if tag.destroy
+          @status = 1
+        end
+        if schoolclassstudentralastion.present?
+          schoolclassstudentralastion.update_all(:tag_id => nil )
+        end
       end
     end
     if @status
@@ -38,13 +40,13 @@ class TagsController < ApplicationController
   def delete_student_tag
     student_id = params[:student_id]
     schoolclassstudentralastion = SchoolClassStudentRalastion.find_by_student_id_and_school_class_id student_id,school_class_id
+    tag = Tag.where("school_class_id=#{school_class_id}")
     status=0
-    notice="重新分组失败"
-    if schoolclassstudentralastion && schoolclassstudentralastion.update_attributes(:tag_id => nil)
+    if schoolclassstudentralastion
       status=1
-      notice="重新分组成功"
     end
-    render :json => {:status => status,:notice => notice}
+    p tag
+    render :json => {:status => status,:tag => tag,:schoolclassstudentralastion => schoolclassstudentralastion}
   end
 
 end

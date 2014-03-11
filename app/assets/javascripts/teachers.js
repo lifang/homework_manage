@@ -135,7 +135,7 @@ function cancel_upload(){
 }
 
 function delete_student_tag(obj,school_class_id,student_id){
-
+    var html = ""
     $.ajax({
         url : "/school_classes/" + school_class_id + "/tags/delete_student_tag",
         type:'post',
@@ -144,9 +144,18 @@ function delete_student_tag(obj,school_class_id,student_id){
             student_id : student_id
         },
         success:function(data){
-            tishi(data.notice)
+            alert(data.tag.length)
+            for(var i=0;i<data.tag.length;i++){
+                if(data.tag[i].id!= data.tag.tag_id){
+                    var name = data.tag[i].name
+                    var id = data.tag[i].id
+                }
+            }
+            tishi(data)
+            tishi(data.tag)
             $(".tag_list").show()
             $(obj).val("分组")
+            $("regrouping")
         }
     })
 }

@@ -426,15 +426,21 @@ module MethodLibsHelper
       students = []
       students = school_class.school_class_student_ralastions.map(&:student_id) if school_class
       if card_bag.student_id.eql?(student_id)&&card_bag.school_class_id.eql?(school_class_id)&&students.include?(student_id)
-        sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options,q.full_text
+        sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options,q.full_text,q.name card_tags_id
 FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id = bq.id LEFT JOIN questions q on
 q.id = bq.question_id where kc.card_bag_id = ?"
         if mistake_types.nil?
-          knowledges_card = KnowledgesCard.find_by_sql([sql,card_bag_id])
+          knowledges_cards = KnowledgesCard.find_by_sql([sql,card_bag_id])
         else
           mistake_types_sql = " and kc.mistake_types=?"
           sql += mistake_types_sql
-          knowledges_card = KnowledgesCard.find_by_sql([sql,card_bag_id,mistake_types])
+          knowledges_cards = KnowledgesCard.find_by_sql([sql,card_bag_id,mistake_types])
+        end
+        cardtag = CardTag.where("card_bag_id = #{card_bag_id}")
+        knowledges_cards.each do |knowledges_card|
+          knowledges_card_id = knowledges_card.id
+          cardTagknowledgescardrelation = CardTagKnowledgesCardRelation.find_by_sql("SELECT ctkcr.card_tag_id from card_tag_knowledges_card_relations ctkcr where knowledges_card_id = #{knowledges_card_id}")
+          knowledges_card.card_tags_id = cardTagknowledgescardrelation
         end
         status = "success"
         notice = "获取成功！！"
@@ -444,7 +450,7 @@ q.id = bq.question_id where kc.card_bag_id = ?"
         knowledges_card = nil
       end
     end
-    info = {:status => status,:notice => notice,:knowledges_card => knowledges_card}
+    info = {:status => status,:notice => notice,:knowledges_card => knowledges_cards,:tags => cardtag }
   end
 
   #压缩和推送

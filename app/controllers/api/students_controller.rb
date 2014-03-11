@@ -1041,6 +1041,7 @@ class Api::StudentsController < ApplicationController
     school_class_id = params[:school_class_id]
     student_id = params[:student_id]
     cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+    cardtag = nil
     if cardbag
       cardbag_id = cardbag.id
       card_tag = CardTag.find_by_name_and_card_bag_id name,cardbag_id
@@ -1071,7 +1072,7 @@ class Api::StudentsController < ApplicationController
       status = "error"
       notice = "标签创建失败"
     end
-    render :json => {:status => status,:notice => notice}
+    render :json => {:status => status,:notice => notice,:cardtag => cardtag}
   end
   #  搜索标签下的卡片
   def search_tag_card

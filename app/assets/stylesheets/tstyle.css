@@ -1,0 +1,328 @@
+*{ padding: 0; margin: 0;}
+body { 
+	background: url(/assets/new/bg.jpg) no-repeat center 0 fixed;
+	font-family:"微软雅黑", "宋体", Arial; 
+	font-size: 14px; 
+	color: #333;
+}
+img { border: none;}
+li { list-style: none;}
+a { text-decoration: none; color: #333;}
+input,button,select,textarea,img{outline:none}
+input { font-family:"微软雅黑"; font-size: 14px;}
+button { border: none; cursor: pointer; font-family:"微软雅黑"; font-size: 14px;}
+textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
+
+
+.clearAfter:after {
+	display: block;
+	overflow:hidden;
+	clear: both;
+	height:0;
+	visibility:hidden;
+	content:".";
+}
+
+/*tooltip*/
+.tooltip_box { position: absolute; z-index: 20000; }
+.tooltip_next { 
+    background: #FFF;
+	border: 1px #666666 solid;
+	box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+	border-radius: 0.2em; 
+	-moz-border-radius: 0.2em; 
+	-webkit-border-radius: 0.2em; 
+	line-height: 25px; 
+	text-align: center; 
+	padding: 5px 10px; 
+	color: #333;
+	max-width: 300px; 
+	word-break:break-all; 
+	word-wrap:break-word;
+}
+
+/*tab*/
+.mask { 
+    background: url(/assets/new/black.png) repeat; 
+	width: 100%; 
+	height: 100%;  
+	position: absolute; 
+	z-index: 10;
+	top: 0;
+	left: 0;
+	display: none;
+}
+
+.tab700 { width: 700px;}
+.tab, .s_tab {
+	background: #f6f6f6; 
+	border: 1px #dd5c05 solid; 
+	padding-bottom: 10px; 
+	z-index: 100;
+	display: none;
+}
+.s_tab { width: 200px; position: absolute;}
+.tab { position: fixed; }
+.tab_head { 
+	height: 32px; 
+	line-height: 32px; 
+	color: #FFF; 
+	background: #dd5c05; 
+	padding-left: 20px;
+}
+.tab_body { height: 400px; overflow-y: auto;}
+.tab_text { line-height: 24px; padding: 5px;}
+.close { 
+	width: 22px; 
+	height: 22px; 
+	display: block; 
+	background: url(/assets/new/close.jpg) no-repeat;
+	text-indent: -999px;
+	overflow: hidden;
+	position: absolute; 
+	top: 5px; 
+	right: 5px;
+	cursor: pointer;
+}
+
+
+
+.wrap { width: 960px; margin: 0 auto;}
+.head { height: 130px;}
+.logo { 
+	width: 160px; 
+	height: 80px;
+	overflow: hidden;
+	text-indent: -999px; 
+	background: url(/assets/new/logo.png) no-repeat;
+	float: left;
+}
+
+/*用户信息*/
+.userInfo { height: 38px; font-size: 12px; overflow: hidden;}
+.userInfo ul { float: right;}
+.userInfo li { float: left; height: 38px; margin: 0 10px;}
+.userInfo li.switchoverClass a { 
+	width: 22px; 
+	height: 13px;
+	display: inline-block;
+	text-indent: -999px;
+	overflow: hidden;
+	background: url(/assets/new/icon01.png) no-repeat 0 0;
+	margin-top: 12px;
+}
+.userInfo li.userName {
+	padding-left: 18px;
+	height: 16px;
+	line-height: 16px;
+	display: inline-block;
+	background: url(/assets/new/icon01.png) no-repeat 0 -16px;
+	margin-top: 10px;
+}
+.userInfo li.email a { 
+	padding-left: 18px;
+	height: 12px;
+	line-height: 12px;
+	display: inline-block;
+	background: url(/assets/new/icon01.png) no-repeat 0 -34px;
+	margin-top: 12px;
+}
+
+/*菜单*/
+.nav { 
+	background: #FFF; 
+	height: 58px; 
+	line-height: 58px; 
+	font-size: 16px; 
+	float: right; 
+	margin-top: 11px;
+}
+.nav li { float: left; margin: 0 55px;}
+.nav li a {}
+.nav li a:hover, .nav li a.hover { color: #36c77b;}
+
+/*统计*/
+.statistics { padding-top: 30px;}
+.statistics_head { height: 90px; background: #48d47e; text-align: center; position: relative;}
+.statistics_body { background: #FFF;}
+
+.sh_choose { padding: 0 10px; font-size: 0; position: absolute; top: 27px; left: 15px;}
+.sh_choose a {
+	width: 80px;
+	height: 32px;
+	line-height: 32px;
+	display: inline-block;
+	text-align: center;
+	background: #48d47e; 
+	border: 2px #5dee95 solid;
+	border-radius: 5px;
+	color: #FFF;
+	font-size: 16px;
+	margin: 0 5px;
+}
+.sh_choose a:hover, .sh_choose a.hover { background: #5dee95; }
+
+.sh_date { display: inline-block; color: #FFF; font-size: 16px; margin-top: 34px;}
+.sh_date .prev, .sh_date .next { 
+	width: 14px; 
+	height: 20px; 
+	display: inline-block; 
+	float: left; 
+	cursor: pointer;
+	text-indent: -999px;
+	overflow: hidden;
+}
+.sh_date .prev { background: url(/assets/new/icon01.png) no-repeat 0 -52px;}
+.sh_date .next { background: url(/assets/new/icon01.png) no-repeat 0 -76px;}
+.sh_date p { float: left; margin: 0 40px;}
+
+.sh_dateIcon { position: absolute; top: 27px; right: 30px;}
+.sh_dateIcon a {
+	width: 24px; 
+	height: 24px;
+	display: block;
+	text-indent: -999px;
+	overflow: hidden; 
+	background: url(/assets/new/icon01.png) no-repeat 0 -100px;
+}
+
+.sb_classify { overflow: hidden;}
+.sb_classify li { width: 479px; float: left;}
+.sb_classify h1 { font-size: 24px; color: #FFF; padding: 10px;}
+.sb_classify .complete { background: #1294c4; border-right: 1px #FFFFFF solid;}
+.sb_classify .complete h1 { text-align: left;}
+.sb_classify .correct { background: #38c9c8; border-left: 1px #FFFFFF solid;}
+.sb_classify .correct h1 { text-align: right;}
+
+.sb_classify .statistics_img { width: 200px; height: 200px; margin: 20px auto;}
+
+.sc_nav { text-align: center;}
+.sc_nav a {
+	width: 34px; 
+	height: 18px;
+	margin: 0 50px;
+	padding-bottom: 24px;
+	display: inline-block; 
+	font-size: 16px; 
+	color: #FFF; 
+	position: relative;
+}
+.sc_nav a.hover, .sc_nav a:hover {
+	background: url(/assets/new/icon01.png) no-repeat 0 -156px;
+}
+
+
+.sb_table {}
+.sb_table em { font-size: 12px; display: block;}
+
+.sb_table table { background: #fff;}
+.tbg { background: #f6f6f6;}
+.sb_table table td, .sb_table table th { 
+	padding: 10px 0;
+	height: 50px;
+	font-weight:inherit;
+	font-size: 16px;
+	text-align: center;
+}
+.sb_table table td { color: #999;}
+
+.sb_table .th_sort {
+	padding-right: 25px;
+	height: 22px; 
+	background: url(/assets/new/sort.png) no-repeat right center;
+}
+.sb_table .td_user { color: #666; line-height: 50px; font-size: 12px; text-align: left; padding-left: 30px;}
+.sb_table .td_user img { 
+	width: 50px; 
+	height: 50px;
+	border-radius: 50%; 
+	float: left; 
+	margin-right: 10px;
+}
+.sb_table .td_ratio { position: relative; width: 80px; display: inline-block;}
+.sb_table .td_seeQuestion {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 12px; 
+	height: 12px;
+	display: block; 
+	overflow: hidden;
+	text-indent: -999px;
+	background: url(/assets/new/icon02.png) no-repeat;
+}
+
+/*正确率-题型*/
+.sb_item {}
+.sb_item_list { margin-top: 10px; overflow: hidden; background: #eeeeee; padding: 10px 0; height: 200px;}
+.item_name { width: 200px; float: left; text-align: center; padding: 20px 0; color:#828282; }
+.item_content { overflow: hidden;}
+
+.q_speed, .q_choose, .q_read, .q_listen, .q_ligature { 
+	width: 60px; 
+	height: 52px; 
+	display: inline-block; 
+}
+.q_speed { background: url(/assets/new/icon03.png) no-repeat 0 0; }
+.q_choose { background: url(/assets/new/icon03.png) no-repeat 0 -53px; }
+.q_read { background: url(/assets/new/icon03.png) no-repeat 0 -105px; }
+.q_listen { background: url(/assets/new/icon03.png) no-repeat 0 -154px;}
+.q_ligature { background: url(/assets/new/icon03.png) no-repeat 0 -212px;}
+
+.item_name h2 { font-size: 16px; line-height: 32px;}
+
+.item_content {}
+.item_content li { 
+	width: 100px; 
+	height: 80px; 
+	text-align: center; 
+	line-height: 80px; 
+	position: relative;
+	color: #FFF;
+	font-size: 18px;
+	float: left;
+	margin: 5px 10px;
+}
+.item_content li span, .item_content li a { 
+	position: absolute; 
+	top: 0px; 
+	display: block; 
+	width: 22px; 
+	height: 22px;
+	line-height: 22px;
+}
+.item_content li span {left: 0px; }
+.item_content li a { 
+	right: 0px;
+	text-indent: -999px;
+	overflow: hidden;
+	background: url(/assets/new/icon02.png) no-repeat 0 -14px;
+}
+
+.color100 { background: #1dcb60;}
+.color90 { background: #6bcb1d;}
+.color80 { background: #a4cb1d;}
+.color70 { background: #cbb41d;}
+.color60 { background: #e09012;}
+.color50 { background: #ed6b24;}
+.color40 { background: #ed3224;}
+.color30 { background: #ed3224;}
+.color20 { background: #ed3224;}
+.color10 { background: #ed3224;}
+
+
+/*------题型----*/
+/*选择题*/
+.multipleChoice { padding: 20px;}
+.q_title { background: #FFF; padding: 5px 10px; font-size: 16px;}
+.q_left { float: left;}
+.q_right { overflow: hidden; padding-left: 20px;}
+.q_right li { overflow: hidden; margin: 20px 0; background: #FFF; padding: 5px 10px;}
+.q_right p { line-height: 22px; margin-left: 30px; overflow: hidden;}
+
+.icheckbox_square-green,
+.iradio_square-green { float: left;}
+
+
+
+

@@ -150,7 +150,7 @@ class Api::StudentsController < ApplicationController
       end
     end
     render :json => {:status => status, :notice => notice, :microposts => microposts,
-                     :pages_count => pages_count}
+      :pages_count => pages_count}
   end
 
   #qq登陆
@@ -266,12 +266,17 @@ class Api::StudentsController < ApplicationController
     status = "error"
     notice = "获取失败！"
     tasks = nil
+    knowledges_cards_count = nil
     if !student.nil? && !school_class.nil?
+      card_bag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+      if card_bag.present?
+        knowledges_cards_count = card_bag.knowledges_cards_count
+      end
       tasks = PublishQuestionPackage.get_tasks school_class.id, student.id,"first"
       status = "success"
       notice = "获取成功！"
     end
-    render :json => {:status => status, :notice => notice, :tasks => tasks}
+    render :json => {:status => status, :notice => notice, :tasks => tasks,:knowledges_cards_count=> knowledges_cards_count}
   end
 
   #获取历史任务
@@ -284,12 +289,17 @@ class Api::StudentsController < ApplicationController
     status = "error"
     notice = "获取失败！"
     tasks = nil
+    knowledges_cards_count = nil
     if !student.nil? && !school_class.nil?
+      card_bag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+      if card_bag.present?
+        knowledges_cards_count = card_bag.knowledges_cards_count
+      end
       tasks = PublishQuestionPackage.get_tasks school_class.id, student.id, nil, nil, today_newer_id
       status = "success"
       notice = "获取成功！"
     end
-    render :json => {:status => status, :notice => notice, :tasks => tasks}
+    render :json => {:status => status, :notice => notice, :tasks => tasks,:knowledges_cards_count=> knowledges_cards_count}
   end
 
   #查询任务
@@ -972,9 +982,8 @@ class Api::StudentsController < ApplicationController
   def get_knowledges_card
     student_id = params[:student_id].to_i
     school_class_id = params[:school_class_id].to_i
-    page = params[:page].nil? ? 1 : params[:page].to_i
     mistake_types = params[:mistake_types]
-    info = knowledges_card_list student_id,school_class_id,page,mistake_types
+    info = knowledges_card_list student_id,school_class_id,mistake_types
     render :json => info
   end
   #删除卡片api

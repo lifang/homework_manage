@@ -12,6 +12,7 @@ class PublishQuestionPackage < ActiveRecord::Base
   #获取当日或历史任务
   def self.get_tasks school_class_id, student_id, order_name=nil, date=nil, today_newer_id=nil
     my_tag_ids = Tag.get_my_tag_ids school_class_id, student_id
+    my_tag_ids.delete(nil)
     tags = "#{my_tag_ids}".gsub(/\[/,"(").gsub(/\]/,")") if my_tag_ids && my_tag_ids.length != 0
     tasks_sql = "select p.id, q.name,p.question_package_id que_pack_id,p.start_time,p.end_time,
             p.question_packages_url FROM publish_question_packages p left join question_packages q

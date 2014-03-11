@@ -414,7 +414,7 @@ module MethodLibsHelper
   end
 
   #列出卡包所有卡片的列表#根据分类查询列出卡包卡片的列表api
-  def knowledges_card_list student_id,school_class_id,page,mistake_types=nil
+  def knowledges_card_list student_id,school_class_id,mistake_types=nil
     card_bag = CardBag.find_by_student_id_and_school_class_id student_id, school_class_id
     if card_bag.blank?
       status = "error"
@@ -426,14 +426,15 @@ module MethodLibsHelper
       students = []
       students = school_class.school_class_student_ralastions.map(&:student_id) if school_class
       if card_bag.student_id.eql?(student_id)&&card_bag.school_class_id.eql?(school_class_id)&&students.include?(student_id)
-        sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options
-FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id = bq.id where kc.card_bag_id = ?"
+        sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options,q.full_text
+FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id = bq.id LEFT JOIN questions q on
+q.id = bq.question_id where kc.card_bag_id = ?"
         if mistake_types.nil?
-          knowledges_card = KnowledgesCard.paginate_by_sql([sql,card_bag_id],:per_page =>CardBag::PER_PAGE ,:page => page)
+          knowledges_card = KnowledgesCard.find_by_sql([sql,card_bag_id])
         else
           mistake_types_sql = " and kc.mistake_types=?"
           sql += mistake_types_sql
-          knowledges_card = KnowledgesCard.paginate_by_sql([sql,card_bag_id,mistake_types],:per_page =>CardBag::PER_PAGE ,:page => page)
+          knowledges_card = KnowledgesCard.find_by_sql([sql,card_bag_id,mistake_types])
         end
         status = "success"
         notice = "获取成功！！"
@@ -443,7 +444,7 @@ FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id
         knowledges_card = nil
       end
     end
-    info = {:status => status,:notice => notice, :pages_count => knowledges_card.total_pages,:knowledges_card => knowledges_card}
+    info = {:status => status,:notice => notice,:knowledges_card => knowledges_card}
   end
 
   #压缩和推送

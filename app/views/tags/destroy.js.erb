@@ -1,0 +1,6 @@
+<% if @status %>
+  $(".tag_list").html("<%= j(render :partial => "tag_list") %>")
+  tishi("<%= @notice %>")
+<% else %>
+  tishi("<%= @notice %>")
+<% end %>

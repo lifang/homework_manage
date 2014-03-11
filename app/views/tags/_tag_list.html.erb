@@ -1,0 +1,9 @@
+<% if @tags %>
+  <h2>班级分组</h2>
+  <label>根据班级同学进行分组</label>
+  <% @tags.each do |tag| %>
+    <%= link_to tag.name,{:controller=> "students",:action=>'tag_student_list',:tag_id => tag.id },remote: :true, 'data_type' => "script",:class=>"green_btn" %>
+    <%= link_to '删除',"/school_classes/#{params[:school_class_id].to_i}/tags/#{tag.id}", :method => :delete, :confirm => "确定删除？",remote: :true, 'data_type' => "script",:class=>"green_btn" %>
+  <% end %>
+<% end %>
+<input type="button" value="添加" onclick="show_update_password()"/>

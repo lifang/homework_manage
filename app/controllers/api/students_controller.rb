@@ -1015,8 +1015,7 @@ class Api::StudentsController < ApplicationController
       status = "error"
       notice = "卡包不存在"
     end
-    time = Time.now.strftime("%F %R")
-    render :json => {:status => status,:notice => notice,:time=>time}
+    render :json => {:status => status,:notice => notice}
   end
 
   #  点显示标签列表

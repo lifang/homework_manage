@@ -84,7 +84,8 @@ HomeworkManage::Application.routes.draw do
       member do
       end
       collection do
-        post :delete_student_tag
+        get 
+        post :delete_student_tag,:choice_tags
       end
     end
 

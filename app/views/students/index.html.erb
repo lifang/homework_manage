@@ -21,7 +21,7 @@
     <% if student_situation[:tag_name] %>
       <input type="button" value="重新分组" onclick="delete_student_tag(this,<%= school_class_id %>,<%= student_situation[:student_id] %>)"/>
     <%else%>
-      <input type="button" value="分组" onclick="show_tags()"/>
+      <input type="button" value="分组" onclick="delete_student_tag(this,<%= school_class_id %>,<%= student_situation[:student_id] %>)"/>
     <% end %>
     <p>未完成次数<%= student_situation[:unfinished]%></p>
     <p>正确率：<%= student_situation[:correct_rate]%></p>
@@ -118,7 +118,7 @@
       </div>
     </div>
   </div>
-    <div class="regrouping">
-    
-    </div>
+  <div class="regrouping" style="display: none">
+
+  </div>
 </div>

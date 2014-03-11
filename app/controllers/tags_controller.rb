@@ -1,3 +1,4 @@
+#encoding: utf-8
 class TagsController < ApplicationController
   before_filter :sign?
   def destroy
@@ -36,7 +37,7 @@ class TagsController < ApplicationController
     @tags = Tag.where("school_class_id=#{school_class_id}")
   end
 
-  #  重新分组
+  #tag 列表
   def delete_student_tag
     student_id = params[:student_id]
     schoolclassstudentralastion = SchoolClassStudentRalastion.find_by_student_id_and_school_class_id student_id,school_class_id
@@ -45,8 +46,16 @@ class TagsController < ApplicationController
     if schoolclassstudentralastion
       status=1
     end
-    p tag
     render :json => {:status => status,:tag => tag,:schoolclassstudentralastion => schoolclassstudentralastion}
   end
-
+  #  重新分组
+  def choice_tags
+    tag_id = params[:tag_id]
+    student_id = params[:student_id]
+    schoolclassstudentralastion = SchoolClassStudentRalastion.find_by_student_id_and_school_class_id student_id,school_class_id
+    if schoolclassstudentralastion
+      schoolclassstudentralastion.update_attributes(:tag_id => tag_id)
+    end
+    redirect_to "/school_classes/#{school_class_id}/students"
+  end
 end

@@ -1128,4 +1128,29 @@ WHERE ctkcr.card_tag_id =?"
     c_version = AppVersion.select("max(c_version) current_version")[0]
     render :json => c_version
   end
+
+  #获取某个任务的某种题型的排行情况
+  def get_rankings
+    pub_id = params[:pub_id]
+    question_types = params[:types]
+    status = "error"
+    notice = "获取出错！"
+    record_details = nil
+    if !pub_id.nil? && !question_types.nil?
+      record_details = StudentAnswerRecord
+        .joins("left join record_details rd on student_answer_records.id =
+            rd.student_answer_record_id")
+        .joins("left join users u on student_answer_records.student_id = u.id")
+        .select("student_answer_records.student_id, u.name, u.avatar_url, rd.score")
+        .where(["publish_question_package_id = ? and rd.question_types = ?", pub_id.to_i, question_types.to_i])
+        .order("rd.score desc, rd.updated_at asc, rd.created_at asc;")
+      status = "success"
+      if record_details.length == 0
+        notice = "暂无排行数据！"
+      else
+        notice = "获取完成！"
+      end
+    end
+    render :json => {:status => status, :notice => notice, :record_details => record_details}
+  end
 end

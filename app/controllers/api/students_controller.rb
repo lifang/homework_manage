@@ -1082,7 +1082,7 @@ class Api::StudentsController < ApplicationController
     card_tag_id = params[:card_tag_id]
     cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
     if cardbag
-      cardtagknowledgescardrelation = CardTagKnowledgesCardRelation.new(:knowledges_card_id => knowledge_card_id,:card_tag_id => card_tag_id)
+      cardtagknowledgescardrelation = CardTagKnowledgesCardRelation.find_by_knowledges_card_id_and_card_tag_id knowledge_card_id,card_tag_id
       if cardtagknowledgescardrelation
         cardtagknowledgescardrelation.destroy
         status = "success"

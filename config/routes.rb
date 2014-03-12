@@ -49,6 +49,7 @@ HomeworkManage::Application.routes.draw do
     resources :statistics do
       collection do
         get :correct_rate
+        post :checkout_by_date, :show_tag_task
       end
     end
     resources :results

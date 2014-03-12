@@ -34,6 +34,19 @@ class StatisticsController < ApplicationController
 
   #根据标签显示完成情况
   def show_tag_task
-
+    date = params[:date]
+    pub_id = params[:pub_id].to_i
+    tag_id = params[:tag_id]
+    @current_task = PublishQuestionPackage.find_by_id pub_id
+    info = PublishQuestionPackage.get_record_details(@current_task,
+                    tag_id,@current_task.school_class_id)
+    @question_types = info[:question_types]
+    @details = info[:details]
+    @average_complete_rate = info[:average_complete_rate]
+    @average_correct_rate = info[:average_correct_rate]
+    p @question_types
+    p @details
+    p @average_complete_rate
+    p @average_correct_rate
   end
 end

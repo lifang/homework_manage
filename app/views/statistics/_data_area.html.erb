@@ -1,0 +1,128 @@
+<% if !@current_task.nil? %>
+    <div class="sb_classify">
+      <ul>
+        <li class="complete">
+          <h1>完成率</h1>
+          <div class="statistics_img"><img src="/assets/new/95.jpg"><%= @average_complete_rate  %></div>
+          <div class="sc_nav"><a href="javascript:void(0);" class="hover" id="complete_btn">学员</a></div>
+        </li>
+        <li class="correct">
+          <h1>正确率</h1>
+          <div class="statistics_img"><img src="/assets/new/85.jpg"><%= @average_correct_rate  %></div>
+          <div class="sc_nav"><a href="javascript:void(0);" id="correct_btn">学员</a><a href="javascript:void(0);">题型</a></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sb_table">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" id="complete_table">
+        <thead>
+        <tr>
+          <th width="200">学员</th>
+          <% if @question_types.nil? %>
+              <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+          <% else %>
+              <% @question_types.each do |type| %>
+                  <th><%= Question::TYPES_NAME[type.to_i]  %></th>
+              <% end %>
+          <% end %>
+          <th><a href="javascript:void(0);" class="th_sort tooltip_title" title="点击排序">完成率</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if @details.nil? %>
+            <tr><td colspan="3" style="width: auto">&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+        <% else %>
+            <% @details.each do |student|  %>
+                <tr>
+                  <td width="200"><div class="td_user"><img src="<%= student[:avatar_url] %>"><%= student[:name] %></div></td>
+                  <% @question_types.each do |type| %>
+                      <% if student[:answer_details].nil? %>
+                          <td><em>-</em></td>
+                      <% else %>
+                          <% if student[:answer_details][type.to_i].nil? %>
+                              <td><em>-</em></td>
+                          <% else %>
+                              <td><img src="/assets/new/d.png"><em><%= student[:answer_details][type.to_i][0][:used_time] %></M></em></td>
+                          <% end %>
+                      <% end %>
+                  <% end %>
+                  <td><%= student[:average_complete_rate] %>%</td>
+                </tr>
+            <% end %>
+        <% end %>
+        </tbody>
+      </table>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" id="correct_table" style="display: none;">
+        <thead>
+        <tr>
+          <th width="200">学员</th>
+          <% if @question_types.nil? %>
+              <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+          <% else %>
+              <% @question_types.each do |type| %>
+                  <th><%= Question::TYPES_NAME[type.to_i]  %></th>
+              <% end %>
+          <% end %>
+          <th><a href="javascript:void(0);" class="th_sort tooltip_title" title="点击排序">正确率</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if @details.nil? %>
+            <tr><td colspan="3" style="width: auto">&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+        <% else %>
+            <% @details.each do |student|  %>
+                <tr>
+                  <td width="200"><div class="td_user"><img src="<%= student[:avatar_url] %>"><%= student[:name] %></div></td>
+                  <% @question_types.each do |type| %>
+                      <% if student[:answer_details].nil? %>
+                          <td><em>-</em></td>
+                      <% else %>
+                          <% if student[:answer_details][type.to_i].nil? %>
+                              <td><em>-</em></td>
+                          <% else %>
+                              <td>
+                                <div class="td_ratio">
+                                  <%= student[:answer_details][type.to_i][0][:correct_rate] %>%
+                                  <% if student[:answer_details][type.to_i][0][:correct_rate] < 100 %>
+                                      <a href="javascript:void(0);" class="td_seeQuestion tooltip_html">点击查看</a>
+                                  <% end %>
+                                </div>
+                                <em>
+                                  <%= student[:answer_details][type.to_i][0][:used_time] %>
+                                  </M>
+                                </em>
+                              </td>
+                          <% end %>
+                      <% end %>
+                  <% end %>
+                  <td><%= student[:average_correct_rate] %>%</td>
+                </tr>
+            <% end %>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+<% else %>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+      <tr style="height: 300px;">
+        <td style="text-align: center">暂无数据</td>
+      </tr>
+    </table>
+<% end %>
+<script>
+    $(document).ready(function(){
+        $("#complete_table").tablesorter();
+        $("#correct_table").tablesorter();
+    });
+
+    $("#complete_btn").click(function(){
+        $("#correct_table").hide();
+        $("#complete_table").show();
+    })
+
+    $("#correct_btn").click(function(){
+        $("#complete_table").hide();
+        $("#correct_table").show();
+    })
+</script>

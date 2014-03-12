@@ -25,9 +25,23 @@ Date.prototype.format = function(format){
 }
 
 //点击某个标签时
-function show_tag_task(tag_id, pub_id)
+function show_tag(school_class_id, date, tag_id, pub_id)
 {
-
+    $.ajax({
+        url: "/school_classes/"+ school_class_id +"/statistics/show_tag_task",
+        type: "POST",
+        dataType: "script",
+        data:{
+            date:date,
+            school_class_id:school_class_id,
+            tag_id:tag_id,
+            pub_id:pub_id
+        },
+        success:function(data){
+        },
+        error:function(data){
+        }
+    })
 }
 
 //左右切换日期
@@ -80,7 +94,6 @@ function checkout_date(obj, school_class_id)
         current_date = new Date(current_date);
         var date = new Date(current_date.setDate(current_date.getDate()-1));
         date = date.format("yyyy-MM-dd");
-//        alert(date);
         $.ajax({
             url: "/school_classes/"+ school_class_id +"/statistics/checkout_by_date",
             type: "POST",
@@ -90,10 +103,10 @@ function checkout_date(obj, school_class_id)
                 school_class_id:school_class_id
             },
             success:function(data){
-                if($("#current_date").val().length < 0)
-                {
-                    $("#current_date").val(date);
-                }
+//                if($("#current_date").val().length < 0)
+//                {
+//                    $("#current_date").val(date);
+//                }
             },
             error:function(data){
             }

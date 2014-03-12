@@ -24,7 +24,8 @@ HomeworkManage::Application.routes.draw do
           :get_classmates_info, :get_more_tasks, :get_newer_task,:get_teacher_messages,
           :new_homework, :delete_message,:get_sys_message, :get_follow_microposts,
           :get_knowledges_card,:delete_knowledges_card,:card_is_full,:get_question_package_details,
-          :get_my_archivements,:card_tags_list,:create_card_tag,:search_tag_card, :get_rankings
+          :get_my_archivements,:card_tags_list,:create_card_tag,:search_tag_card, :get_rankings,
+          :knoledge_tag_relation
         post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info,
           :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
           :delete_sys_message,:read_message,:search_tasks, :reply_message
@@ -85,7 +86,8 @@ HomeworkManage::Application.routes.draw do
       member do
       end
       collection do
-        post :delete_student_tag
+        get 
+        post :delete_student_tag,:choice_tags
       end
     end
 

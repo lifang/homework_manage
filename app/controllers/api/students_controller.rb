@@ -1074,6 +1074,39 @@ class Api::StudentsController < ApplicationController
     end
     render :json => {:status => status,:notice => notice,:cardtag => cardtag}
   end
+
+  def knoledge_tag_relation
+    knowledge_card_id = params[:knowledge_card_id]
+    school_class_id = params[:school_class_id]
+    student_id = params[:student_id]
+    card_tag_id = params[:card_tag_id]
+    cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+    if cardbag
+      cardtagknowledgescardrelation = CardTagKnowledgesCardRelation.new(:knowledges_card_id => knowledge_card_id,:card_tag_id => card_tag_id)
+      if cardtagknowledgescardrelation
+        cardtagknowledgescardrelation.destroy
+        status = "success"
+        type = 1
+        notice = "已移除"
+      else
+        cardtagknowledgescardrelation = CardTagKnowledgesCardRelation.new(:knowledges_card_id => knowledge_card_id,:card_tag_id => card_tag_id)
+        if cardtagknowledgescardrelation.save
+          status = "success"
+          notice = "添加成功"
+          type = 2
+        else
+          status = "error"
+          notice = "添加失败"
+          type = 0
+        end
+      end
+    else
+      status = "error"
+      notice = "卡包不存在！"
+      type = 0
+    end
+    render :json => {:status => status,:notice => notice,:type=>type}
+  end
   #  搜索标签下的卡片
   def search_tag_card
     name = params[:name]
@@ -1139,12 +1172,12 @@ WHERE ctkcr.card_tag_id =?"
     record_details = nil
     if !pub_id.nil? && !question_types.nil?
       record_details = StudentAnswerRecord
-        .joins("left join record_details rd on student_answer_records.id =
+      .joins("left join record_details rd on student_answer_records.id =
             rd.student_answer_record_id")
-        .joins("left join users u on student_answer_records.student_id = u.id")
-        .select("student_answer_records.student_id, u.name, u.avatar_url, rd.score")
-        .where(["publish_question_package_id = ? and rd.question_types = ?", pub_id.to_i, question_types.to_i])
-        .order("rd.score desc, rd.updated_at asc, rd.created_at asc").offset(0).limit(10)
+      .joins("left join users u on student_answer_records.student_id = u.id")
+      .select("student_answer_records.student_id, u.name, u.avatar_url, rd.score")
+      .where(["publish_question_package_id = ? and rd.question_types = ?", pub_id.to_i, question_types.to_i])
+      .order("rd.score desc, rd.updated_at asc, rd.created_at asc").offset(0).limit(10)
       status = "success"
       if record_details.length == 0
         notice = "暂无排行数据！"

@@ -38,7 +38,8 @@ function tabFunc(c,t){
 }
 $(function(){
 	tabFunc(".td_seeQuestion",".tab");
-	//tabFunc(".tab_article");
+	tabFunc(".switchoverClass a",".tab");
+	tabFunc("a.student_btn_a",".tab");
 })
 
 
@@ -59,10 +60,25 @@ function focusBlur(e){
 }
 
 $(function(){
-	focusBlur('.login_box input');//登录input默认值
-	focusBlur('.register_box input');//注册input默认值
+	focusBlur('.tab_switch li input');//
 })
 
+//班级分组
+$(function(){
+	$(".tab_switch li p").click(function(){
+		$(this).css("display","none");
+		$(this).parent().find("input").css("display","inline-block");
+		$(this).parent().find("input").focus();
+		$(this).parent().find("input").val($(this).html());
+	});	
+	$(".tab_switch li input").blur(function(){
+		$(this).css("display","none");
+		$(this).parent().find("p").css("display","inline-block");
+		$(this).parent().find("p").html($(this).val());
+		$(this).attr("value",$(this).val());
+		//alert($(this).val());
+	});
+})
 
 
 //tooltip-内容提示
@@ -116,7 +132,7 @@ $(function(){
 
 //table偶数行变色
 $(function(){
-  $(".sb_table table > tbody > tr:even").addClass("tbg");
-
+  $(".b_table table > tbody > tr:even").addClass("tbg");
+	$(".student_table table > tbody > tr:even").addClass("tbg");
 });
 

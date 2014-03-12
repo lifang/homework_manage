@@ -440,6 +440,7 @@ q.id = bq.question_id where kc.card_bag_id = ?"
         knowledges_cards.each do |knowledges_card|
           knowledges_card_id = knowledges_card.id
           cardTagknowledgescardrelation = CardTagKnowledgesCardRelation.find_by_sql("SELECT ctkcr.card_tag_id from card_tag_knowledges_card_relations ctkcr where knowledges_card_id = #{knowledges_card_id}")
+          cardTagknowledgescardrelation = cardTagknowledgescardrelation.map(&:card_tag_id)
           knowledges_card.card_tags_id = cardTagknowledgescardrelation
         end
         status = "success"

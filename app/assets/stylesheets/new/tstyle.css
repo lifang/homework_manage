@@ -1,9 +1,9 @@
 *{ padding: 0; margin: 0;}
 body {
-    background: url(/assets/new/bg.jpg) no-repeat center 0 fixed;
-    font-family:"微软雅黑", "宋体", Arial;
-    font-size: 14px;
-    color: #333;
+	background: url(/assets/new/bg.jpg) no-repeat center 0 fixed;
+	font-family:"微软雅黑", "宋体", Arial;
+	font-size: 14px;
+	color: #333;
 }
 img { border: none;}
 li { list-style: none;}
@@ -28,12 +28,12 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 .wrap { width: 960px; margin: 0 auto;}
 .head { height: 130px;}
 .logo {
-    width: 160px;
-    height: 80px;
-    overflow: hidden;
-    text-indent: -999px;
-    background: url(/assets/new/logo.png) no-repeat;
-    float: left;
+	width: 160px;
+	height: 80px;
+	overflow: hidden;
+	text-indent: -999px;
+	background: url(/assets/new/logo.png) no-repeat;
+	float: left;
 }
 .message { margin: 10px 0; background: #fa3333; color: #FFF; padding: 7px 10px; position: relative;}
 

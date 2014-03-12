@@ -30,8 +30,8 @@
         </tr>
         </thead>
         <tbody>
-        <% if @details.nil? %>
-            <tr><td colspan="3" style="width: auto">&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+        <% if @details.nil? || (!@details.nil? && @details.length == 0) %>
+            <tr><td colspan="3" style="width: auto; text-align: center;">暂无数据</td></tr>
         <% else %>
             <% @details.each do |student|  %>
                 <tr>
@@ -57,7 +57,7 @@
         <thead>
         <tr>
           <th width="200">学员</th>
-          <% if @question_types.nil? %>
+          <% if @question_types.nil? || (!@details.nil? && @details.length == 0) %>
               <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
           <% else %>
               <% @question_types.each do |type| %>
@@ -69,7 +69,7 @@
         </thead>
         <tbody>
         <% if @details.nil? %>
-            <tr><td colspan="3" style="width: auto">&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+            <tr><td colspan="3" style="width: auto; text-align: center;">暂无数据</td></tr>
         <% else %>
             <% @details.each do |student|  %>
                 <tr>
@@ -104,11 +104,13 @@
       </table>
     </div>
 <% else %>
+    <div class="b_table">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" >
       <tr style="height: 300px;">
         <td style="text-align: center">暂无数据</td>
       </tr>
     </table>
+    </div>
 <% end %>
 <script>
     $(document).ready(function(){

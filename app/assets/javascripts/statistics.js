@@ -78,7 +78,7 @@ function checkout_date(obj, school_class_id)
     else if(option == "prev")
     {
         current_date = new Date(current_date);
-        var date = new Date(current_date.setDate(current_date.getDate()-1))
+        var date = new Date(current_date.setDate(current_date.getDate()-1));
         date = date.format("yyyy-MM-dd");
 //        alert(date);
         $.ajax({
@@ -90,6 +90,10 @@ function checkout_date(obj, school_class_id)
                 school_class_id:school_class_id
             },
             success:function(data){
+                if($("#current_date").val().length < 0)
+                {
+                    $("#current_date").val(date);
+                }
             },
             error:function(data){
             }

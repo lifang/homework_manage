@@ -16,13 +16,19 @@
   <% end %>
   <div class="sh_date">
     <input id="today_date" type="hidden"  value="<%= @today_date %>">
-    <% if @current_date.present? %>
     <input id="current_date" type="hidden" value="<%= @current_date %>" >
-    <% else %>
-    <input id="current_date" type="hidden" value="<%= @today_date %>" >
-    <% end %>
     <span class="prev" onclick="checkout_date(this,'<%= params[:school_class_id] %>')" >prev</span>
-    <p><%= @current_task.nil? ? "#{@today_date.to_s.gsub("-",'/')}当日无作业" : "#{@current_task.created_at.strftime("%Y/%m/%d")}作业完成情况"  %> </p>
+    <p>
+      <% if @current_task.nil? %>
+          <% if @current_date.nil? %>
+            <%= "#{@today_date.to_s.gsub("-",'/')}当日无作业" %>
+          <% else %>
+            <%= "#{@current_date.to_s.gsub("-",'/')}当日无作业" %>
+          <% end %>
+      <% else %>
+        <%= "#{@current_task.created_at.strftime("%Y/%m/%d")}作业完成情况" %>
+      <% end %>
+    </p>
     <span class="next" onclick="checkout_date(this,'<%= params[:school_class_id] %>')" >next</span>
   </div>
   <div class="sh_dateIcon"><a href="javascript:void(0);" class="tooltip_html">选择日期</a></div>

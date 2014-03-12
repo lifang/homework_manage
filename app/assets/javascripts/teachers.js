@@ -9,6 +9,7 @@ function show_list_class(){
 }
 function created_new_class(){
     height_tab();
+    $(".school_class_list").hide();
     $(".created_new_class").show();
 }
 function create_school_class(school_class_id){
@@ -26,7 +27,7 @@ function create_school_class(school_class_id){
         tishi(message);
     }else{
         $.ajax({
-            url : "/school_classes/" + school_class_id + "/teachers/create_class",
+            url : "/school_classes/" + school_class_id + "/students",
             type:'post',
             dataType : 'json',
             data : {
@@ -61,6 +62,7 @@ function check_nonempty(){
 }
 function show_update_password(){
     height_tab();
+    $(".tag_list").hide();
     $(".update_password").show();
 }
 function update_password(school_class_id){
@@ -134,6 +136,16 @@ function cancel_upload(){
     $("#changes_avatar").html("");
 }
 
+
+function shwo_tags(){
+    height_tab()
+    $(".tag_list").show();
+}
+function show_switch_class(){
+    height_tab()
+    $(".school_class_list").show();
+}
+
 function delete_student_tag(obj,school_class_id,student_id){
     var html = ""
     var path = "/school_classes/"+ school_class_id +"/tags/choice_tags"
@@ -149,17 +161,30 @@ function delete_student_tag(obj,school_class_id,student_id){
                 if(data.tag[i].id!= data.schoolclassstudentralastion.tag_id){
                     var name = data.tag[i].name
                     var id = data.tag[i].id
-                      html +="<form action='"+ path +"' method='post' >\n\
-                               <input type='submit' value="+ name +">\n\
-                               <input type='text' name='tag_id' value="+ id +" style='display:none'>\n\
+                    html +="<li><form action='"+ path +"' method='post' >\n\
+                               <input type='submit' value="+ name +" class='tab_head'>\n\
+                               <input type='text' name='tag_id' value="+ id +" style='display:none' >\n\
                                 <input type='text' name='student_id' value="+ student_id +" style='display:none'>\n\
-                                </form>   ";
+                                </form>  </li> ";
                 }
             }
-            $(".regrouping").html(html);
+            var html_ul = "<a href='javascript:void(0);' class='close'>close</a>\n\
+<div class='tab_body clearAfter'><div class='tab_warning'>根据本班学员的个人情况进行分组</div><div class='tab_switch'>\n\
+<ul>"+ html +"</ul></div></div>"
+            $(".regrouping").html(html_ul);
             $(".regrouping").show()
         }
     })
 }
 
-
+//弹出框高度
+function height_tab(){
+    var scolltop = document.body.scrollTop|document.documentElement.scrollTop;
+    var win_height = document.documentElement.clientHeight;//jQuery(document).height();
+    var z_layer_height = $(".tab").height();
+    alert(scolltop/2)
+    $(".tab").css('top',10 + scolltop/2);
+    var doc_width = $(document).width();
+    var layer_width = $(".tab").width();
+    $(".tab").css('left',(doc_width-layer_width)/2);
+}

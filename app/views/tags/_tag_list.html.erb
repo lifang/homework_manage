@@ -1,9 +1,22 @@
 <% if @tags %>
-  <h2>班级分组</h2>
-  <label>根据班级同学进行分组</label>
-  <% @tags.each do |tag| %>
-    <%= link_to tag.name,{:controller=> "students",:action=>'tag_student_list',:tag_id => tag.id },remote: :true, 'data_type' => "script",:class=>"green_btn" %>
-    <%= link_to '删除',"/school_classes/#{params[:school_class_id].to_i}/tags/#{tag.id}", :method => :delete, :confirm => "确定删除？",remote: :true, 'data_type' => "script",:class=>"green_btn" %>
-  <% end %>
+  <a href="javascript:void(0);" class="close" >close</a>
+  <div class="tab_head">班级分组</div>
+  <div class="tab_body clearAfter">
+    <div class="tab_warning">根据本班学员的个人情况进行分组</div>
+    <div class="tab_switch">
+      <ul>
+        <% @tags.each do |tag| %>
+          <li>
+            <p><%= tag.name %></p>
+            <input name="" type="text" style="display: none;"/>
+            <a href="/school_classes/<%= params[:school_class_id].to_i %>/students/tag_student_list?tag_id=<%= tag.id %>" data-remote="true" data_type="script" class="group_icon tooltip_html">分组</a>
+            <%= link_to '删除班级',"/school_classes/#{params[:school_class_id].to_i}/tags/#{tag.id}", :method => :delete, :confirm => "确定删除？",remote: :true, 'data_type' => "script" ,:class=>'delete_icon tooltip_html'%>
+          </li>
+        <% end %>
+      </ul>
+      <div class="tab_switch_btn">
+        <a href="javascript:void(0);" onclick="show_update_password()">添加新组</a>
+      </div>
+    </div>
+  </div>
 <% end %>
-<input type="button" value="添加" onclick="show_update_password()"/>

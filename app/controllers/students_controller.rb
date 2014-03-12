@@ -1,5 +1,6 @@
 #encoding: utf-8
 class StudentsController < ApplicationController
+  layout "tapplication"
   before_filter :sign?
   def index
     sql_schoolclass = "SELECT *,(select COUNT(*) from school_class_student_ralastions scsr WHERE scsr.school_class_id = ?) count

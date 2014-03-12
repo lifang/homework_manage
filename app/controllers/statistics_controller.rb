@@ -9,7 +9,7 @@ class StatisticsController < ApplicationController
     info = PublishQuestionPackage.get_homework_statistics @today_date, school_class
     @all_tags = info[:all_tags]
     @current_task = info[:current_task]
-    @current_date =  @current_task.nil? ? nil : @current_task.created_at.strftime("%Y-%m-%d")
+    @current_date =  @current_task.nil? ? @today_date : @current_task.created_at.strftime("%Y-%m-%d")
     @question_types = info[:question_types]
     @details = info[:details]
     @average_correct_rate = info[:average_correct_rate]
@@ -25,7 +25,7 @@ class StatisticsController < ApplicationController
     info = PublishQuestionPackage.get_homework_statistics date, school_class
     @all_tags = info[:all_tags]
     @current_task = info[:current_task]
-    @current_date =  @current_task.nil? ? nil : @current_task.created_at.strftime("%Y-%m-%d")
+    @current_date = date
     @question_types = info[:question_types]
     @details = info[:details]
     @average_correct_rate = info[:average_correct_rate]

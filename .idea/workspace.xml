@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/statistics/_statistics_details.html.erb" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/statistics/checkout_by_date.js.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/statistics/index.html.erb" afterPath="$PROJECT_DIR$/app/views/statistics/index.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/publish_question_package.rb" afterPath="$PROJECT_DIR$/app/models/publish_question_package.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.rb" afterPath="$PROJECT_DIR$/config/routes.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/statistics/_statistics_details.html.erb" afterPath="$PROJECT_DIR$/app/views/statistics/_statistics_details.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/statistics.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/statistics.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/statistics_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/statistics_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/tapplication.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/tapplication.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -39,8 +34,11 @@
       <file leaf-file-name="statistics_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/statistics_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="43" selection-start="967" selection-end="967" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
-              <folding />
+            <state line="27" column="17" selection-start="1085" selection-end="1098" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="765">
+              <folding>
+                <element signature="e#107#721#0" expanded="true" />
+                <element signature="e#1317#1341#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -48,8 +46,18 @@
       <file leaf-file-name="statistics.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/statistics.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="0" selection-start="940" selection-end="940" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
-              <folding />
+            <state line="37" column="48" selection-start="1125" selection-end="1125" vertical-scroll-proportion="0.0" vertical-offset="353" max-vertical-offset="1615">
+              <folding>
+                <element signature="e#188#887#0" expanded="true" />
+                <element signature="n#!!block;n#show_tag_task#0" expanded="true" />
+                <element signature="e#1759#2266#0" expanded="true" />
+                <element signature="e#1970#2096#0" expanded="true" />
+                <element signature="e#2144#2171#0" expanded="true" />
+                <element signature="e#2217#2244#0" expanded="true" />
+                <element signature="e#2657#3162#0" expanded="true" />
+                <element signature="e#2946#3103#0" expanded="true" />
+                <element signature="e#3137#3152#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -57,7 +65,7 @@
       <file leaf-file-name="_statistics_details.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/statistics/_statistics_details.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="131" column="19" selection-start="6351" selection-end="6351" vertical-scroll-proportion="0.5114943" vertical-offset="1960" max-vertical-offset="2737">
+            <state line="25" column="61" selection-start="1270" selection-end="1270" vertical-scroll-proportion="0.61877394" vertical-offset="102" max-vertical-offset="2839">
               <folding>
                 <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#div#1;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#table#1;n#div#1;n#div#1;n#!!top" expanded="true" />
@@ -65,9 +73,18 @@
                 <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#tr#0;n#table#0;n#div#2;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#2;n#!!top" expanded="true" />
-                <element signature="e#6733#6807#0" expanded="true" />
-                <element signature="e#6846#6920#0" expanded="true" />
+                <element signature="e#6812#6886#0" expanded="true" />
+                <element signature="e#6925#6999#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/statistics/index.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="1" selection-start="20" selection-end="20" vertical-scroll-proportion="-0.65384614" vertical-offset="0" max-vertical-offset="170">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -148,14 +165,14 @@
         <option value="$PROJECT_DIR$/app/models/question_package.rb" />
         <option value="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
-        <option value="$PROJECT_DIR$/app/views/statistics/index.html.erb" />
         <option value="$PROJECT_DIR$/app/views/statistics/checkout_date.js.erb" />
         <option value="$PROJECT_DIR$/app/views/layouts/tapplication.html.erb" />
         <option value="$PROJECT_DIR$/app/views/statistics/checkout_by_date.js.erb" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
+        <option value="$PROJECT_DIR$/app/models/publish_question_package.rb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/statistics.js" />
         <option value="$PROJECT_DIR$/app/controllers/statistics_controller.rb" />
-        <option value="$PROJECT_DIR$/app/models/publish_question_package.rb" />
+        <option value="$PROJECT_DIR$/app/views/statistics/index.html.erb" />
         <option value="$PROJECT_DIR$/app/views/statistics/_statistics_details.html.erb" />
       </list>
     </option>
@@ -328,24 +345,6 @@
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="homework_manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="homework_manage" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -406,6 +405,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="javascripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javascripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="new" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -991,11 +1016,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/questions/success.js.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="21" selection-start="668" selection-end="668" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="340" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/questions/edit.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="28" selection-start="944" selection-end="944" vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="833" />
@@ -1138,11 +1158,6 @@
         <state line="20" column="0" selection-start="1159" selection-end="1159" vertical-scroll-proportion="0.651341" vertical-offset="0" max-vertical-offset="544" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/new/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="6" selection-start="292" selection-end="292" vertical-scroll-proportion="0.33333334" vertical-offset="0" max-vertical-offset="1411" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/question.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="12" selection-start="520" selection-end="530" vertical-scroll-proportion="0.27919707" vertical-offset="0" max-vertical-offset="548">
@@ -1232,13 +1247,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/statistics/index.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="24" selection-start="33" selection-end="43" vertical-scroll-proportion="0.0317757" vertical-offset="0" max-vertical-offset="535">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/layouts/tapplication.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="91" selection-start="250" selection-end="250" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="782">
@@ -1246,10 +1254,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/statistics_controller.rb">
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/new/icheck.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="43" selection-start="967" selection-end="967" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
-          <folding />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.92335767" vertical-offset="506" max-vertical-offset="1054">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/new/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="56" selection-start="288" selection-end="288" vertical-scroll-proportion="0.3030303" vertical-offset="0" max-vertical-offset="1258">
+          <folding>
+            <element signature="e#92#200#0" expanded="true" />
+            <element signature="n#!!block;n#tabFunc#0" expanded="true" />
+            <element signature="e#911#978#0" expanded="true" />
+            <element signature="n#!!block;n#focusBlur#0" expanded="true" />
+            <element signature="e#1035#1131#0" expanded="true" />
+            <element signature="e#1155#1251#0" expanded="true" />
+            <element signature="e#1269#1363#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1262,14 +1287,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/statistics.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="0" selection-start="940" selection-end="940" vertical-scroll-proportion="0.0" vertical-offset="336" max-vertical-offset="1751">
+        <state line="37" column="48" selection-start="1125" selection-end="1125" vertical-scroll-proportion="0.0" vertical-offset="353" max-vertical-offset="1615">
+          <folding>
+            <element signature="e#188#887#0" expanded="true" />
+            <element signature="n#!!block;n#show_tag_task#0" expanded="true" />
+            <element signature="e#1759#2266#0" expanded="true" />
+            <element signature="e#1970#2096#0" expanded="true" />
+            <element signature="e#2144#2171#0" expanded="true" />
+            <element signature="e#2217#2244#0" expanded="true" />
+            <element signature="e#2657#3162#0" expanded="true" />
+            <element signature="e#2946#3103#0" expanded="true" />
+            <element signature="e#3137#3152#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/statistics/index.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="1" selection-start="20" selection-end="20" vertical-scroll-proportion="-0.65384614" vertical-offset="0" max-vertical-offset="170">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/statistics_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="17" selection-start="1085" selection-end="1098" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="765">
+          <folding>
+            <element signature="e#107#721#0" expanded="true" />
+            <element signature="e#1317#1341#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/statistics/_statistics_details.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="131" column="19" selection-start="6351" selection-end="6351" vertical-scroll-proportion="0.5114943" vertical-offset="1960" max-vertical-offset="2737">
+        <state line="25" column="61" selection-start="1270" selection-end="1270" vertical-scroll-proportion="0.61877394" vertical-offset="102" max-vertical-offset="2839">
           <folding>
             <element signature="n#style#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#div#1;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#table#1;n#div#1;n#div#1;n#!!top" expanded="true" />
@@ -1277,8 +1329,8 @@
             <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
             <element signature="n#style#0;n#tr#0;n#table#0;n#div#2;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#0;n#tr#0;n#table#0;n#div#2;n#!!top" expanded="true" />
-            <element signature="e#6733#6807#0" expanded="true" />
-            <element signature="e#6846#6920#0" expanded="true" />
+            <element signature="e#6812#6886#0" expanded="true" />
+            <element signature="e#6925#6999#0" expanded="true" />
           </folding>
         </state>
       </provider>

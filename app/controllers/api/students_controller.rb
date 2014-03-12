@@ -1072,8 +1072,40 @@ class Api::StudentsController < ApplicationController
       status = "error"
       notice = "标签创建失败"
     end
-
     render :json => {:status => status,:notice => notice,:cardtag => cardtag}
+  end
+
+  def knoledge_tag_relation
+    knowledge_card_id = params[:knowledge_card_id]
+    school_class_id = params[:school_class_id]
+    student_id = params[:student_id]
+    card_tag_id = params[:card_tag_id]
+    cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+    if cardbag
+      cardtagknowledgescardrelation = CardTagKnowledgesCardRelation.new(:knowledges_card_id => knowledge_card_id,:card_tag_id => card_tag_id)
+      if cardtagknowledgescardrelation
+        cardtagknowledgescardrelation.destroy
+        status = "success"
+        type = 1
+        notice = "已移除"
+      else
+        cardtagknowledgescardrelation = CardTagKnowledgesCardRelation.new(:knowledges_card_id => knowledge_card_id,:card_tag_id => card_tag_id)
+        if cardtagknowledgescardrelation.save
+          status = "success"
+          notice = "添加成功"
+          type = 2
+        else
+          status = "error"
+          notice = "添加失败"
+          type = 0
+        end
+      end
+    else
+      status = "error"
+      notice = "卡包不存在！"
+      type = 0
+    end
+    render :json => {:status => status,:notice => notice,:type=>type}
   end
   #  搜索标签下的卡片
   def search_tag_card

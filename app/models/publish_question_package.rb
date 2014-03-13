@@ -194,13 +194,17 @@ class PublishQuestionPackage < ActiveRecord::Base
         all_tags << {:tag_name => e.name, :tag_id => e.id, :pub_id => today_tasks[e.id][0].id}
       end
       all_tags << {:tag_name => "全班", :tag_id => nil, :pub_id => today_tasks[nil][0].id} if tags_id.include?(nil)
-      current_task = today_tasks[tags[0].id.to_i][0]
-      first_tag_id = tags[0].id.to_i
-      info = PublishQuestionPackage.get_record_details current_task, first_tag_id,school_class.id
-      question_types = info[:question_types]
-      details = info[:details]
-      average_correct_rate = info[:average_correct_rate]
-      average_complete_rate = info[:average_complete_rate]
+      if today_tasks.present?
+        if tags.present?
+          current_task = today_tasks[tags[0].id.to_i][0]
+          first_tag_id = tags[0].id.to_i
+          info = PublishQuestionPackage.get_record_details current_task, first_tag_id,school_class.id
+          question_types = info[:question_types]
+          details = info[:details]
+          average_correct_rate = info[:average_correct_rate]
+          average_complete_rate = info[:average_complete_rate]
+        end
+      end
     end
     {:all_tags => all_tags, :current_task => current_task, :question_types => question_types,
      :details => details, :average_correct_rate => average_correct_rate,

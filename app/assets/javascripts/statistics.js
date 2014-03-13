@@ -113,3 +113,60 @@ function checkout_date(obj, school_class_id)
         })
     }
 }
+
+//按日期查询统计信息
+function show_date_status(obj, school_class_id)
+{
+    var date = $(obj).val();
+    $.ajax({
+        url: "/school_classes/"+ school_class_id +"/statistics/checkout_by_date",
+        type: "POST",
+        dataType: "script",
+        data:{
+            date:date,
+            school_class_id:school_class_id
+        },
+        success:function(data){
+        },
+        error:function(data){
+        }
+    })
+}
+
+//显示题型统计信息
+function shou_question_status(school_class_id, pub_id,tag_id)
+{
+    $.ajax({
+        url: "/school_classes/"+ school_class_id +"/statistics/show_question_statistics",
+        type: "POST",
+        dataType: "script",
+        data:{
+            pub_id:pub_id,
+            school_class_id:school_class_id
+        },
+        success:function(data){
+        },
+        error:function(data){
+        }
+    })
+}
+
+//显示错题
+function shou_incorrect_que(question_types, stu_ans_record_id, school_class_id)
+{
+    alert(question_types);
+    alert(stu_ans_record_id);
+    $.ajax({
+        url: "/school_classes/"+ school_class_id +"/statistics/show_incorrect_questions",
+        type: "POST",
+        dataType: "script",
+        data:{
+            question_types:question_types,
+            stu_ans_record_id:stu_ans_record_id
+        },
+        success:function(data){
+        },
+        error:function(data){
+        }
+    })
+}

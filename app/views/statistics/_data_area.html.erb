@@ -9,7 +9,12 @@
         <li class="correct">
           <h1>正确率</h1>
           <div class="statistics_img"><img src="/assets/new/85.jpg"><%= @average_correct_rate  %></div>
-          <div class="sc_nav"><a href="javascript:void(0);" id="correct_btn">学员</a><a href="javascript:void(0);">题型</a></div>
+          <div class="sc_nav"><a href="javascript:void(0);" id="correct_btn">学员</a>
+            <a href="javascript:void(0);"
+               onclick="shou_question_status('<%= @current_task.id %>',
+                       '<%= params[:school_class_id] %>')">题型
+            </a>
+          </div>
         </li>
       </ul>
     </div>
@@ -57,7 +62,7 @@
         <thead>
         <tr>
           <th width="200">学员</th>
-          <% if @question_types.nil? || (!@details.nil? && @details.length == 0) %>
+          <% if @question_types.nil? %>
               <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
           <% else %>
               <% @question_types.each do |type| %>
@@ -68,7 +73,7 @@
         </tr>
         </thead>
         <tbody>
-        <% if @details.nil? %>
+        <% if @details.nil? || (!@details.nil? && @details.length == 0) %>
             <tr><td colspan="3" style="width: auto; text-align: center;">暂无数据</td></tr>
         <% else %>
             <% @details.each do |student|  %>
@@ -85,7 +90,7 @@
                                 <div class="td_ratio">
                                   <%= student[:answer_details][type.to_i][0][:correct_rate] %>%
                                   <% if student[:answer_details][type.to_i][0][:correct_rate] < 100 %>
-                                      <a href="javascript:void(0);" class="td_seeQuestion tooltip_html">点击查看</a>
+                                      <a href="javascript:void(0);" class="td_seeQuestion tooltip_html" onclick="shou_incorrect_que('<%= type.to_i %>','<%= student[:answer_details][type.to_i][0][:id] %>', '<%= params[:school_class_id] %>')">点击查看</a>
                                   <% end %>
                                 </div>
                                 <em>
@@ -104,6 +109,7 @@
       </table>
     </div>
 <% else %>
+
     <div class="b_table">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" >
       <tr style="height: 300px;">
@@ -119,11 +125,13 @@
     });
 
     $("#complete_btn").click(function(){
+        $(".b_table .sb_item_list").remove();
         $("#correct_table").hide();
         $("#complete_table").show();
     })
 
     $("#correct_btn").click(function(){
+        $(".b_table .sb_item_list").remove();
         $("#complete_table").hide();
         $("#correct_table").show();
     })

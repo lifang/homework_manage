@@ -27,7 +27,7 @@ function create_school_class(school_class_id){
         tishi(message);
     }else{
         $.ajax({
-            url : "/school_classes/" + school_class_id + "/students",
+            url : "/school_classes/" + school_class_id + "/teachers/create_class",
             type:'post',
             dataType : 'json',
             data : {
@@ -38,7 +38,7 @@ function create_school_class(school_class_id){
             success: function(data){
                 if(data.status==true){
                     $(".created_new_class").css("display","none");
-                    window.location.href="/school_classes/" + school_class_id + "/teachers/teacher_setting";
+                    window.location.href="/school_classes/" + school_class_id + "/students";
                 }else{
                     message = data.notice;
                     tishi(message);
@@ -61,7 +61,6 @@ function check_nonempty(){
     }
 }
 function show_update_password(){
-    height_tab();
     $(".tag_list").hide();
     $(".update_password").show();
 }
@@ -138,11 +137,13 @@ function cancel_upload(){
 
 
 function shwo_tags(){
-    height_tab()
+    //    height_tab()
+    $(".mask").show()
     $(".tag_list").show();
 }
 function show_switch_class(){
-    height_tab()
+    //    height_tab()
+    $(".mask").show()
     $(".school_class_list").show();
 }
 
@@ -162,7 +163,7 @@ function delete_student_tag(obj,school_class_id,student_id){
                     var name = data.tag[i].name
                     var id = data.tag[i].id
                     html +="<li><form action='"+ path +"' method='post' >\n\
-                               <input type='submit' value="+ name +" class='tab_head'>\n\
+                               <input type='submit' value='"+ name +"' class='tab_head'>\n\
                                <input type='text' name='tag_id' value="+ id +" style='display:none' >\n\
                                 <input type='text' name='student_id' value="+ student_id +" style='display:none'>\n\
                                 </form>  </li> ";
@@ -182,9 +183,9 @@ function height_tab(){
     var scolltop = document.body.scrollTop|document.documentElement.scrollTop;
     var win_height = document.documentElement.clientHeight;//jQuery(document).height();
     var z_layer_height = $(".tab").height();
-    alert(scolltop/2)
-    $(".tab").css('top',10 + scolltop/2);
+    $(".tab").css('top',10);
     var doc_width = $(document).width();
     var layer_width = $(".tab").width();
+    alert(doc_width)
     $(".tab").css('left',(doc_width-layer_width)/2);
 }

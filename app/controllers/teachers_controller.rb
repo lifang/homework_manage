@@ -124,10 +124,16 @@ class TeachersController < ApplicationController
   end
   #  删除班级
   def destroy_classes
+    sql_schoolclass = "SELECT *,(select COUNT(*) from school_class_student_ralastions scsr WHERE scsr.school_class_id = ?) count
+from school_classes sc where sc.id=?"
+    @schoolclass = SchoolClass.find_by_sql([sql_schoolclass,school_class_id,school_class_id])
     school_class = SchoolClass.find_by_id(params[:id])
+    @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
     if school_class && school_class.destroy
       flash[:notice] = "操作成功!"
-      redirect_to "/school_classes/#{params[:school_class_id].to_i}/teachers/teacher_setting"
+      @status = 1
+    else
+      @status = 0
     end
   end
   #  切换班级

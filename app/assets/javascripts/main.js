@@ -24,7 +24,7 @@ function tabFunc(t){
 $(function(){
     $(".flash").show();
     setTimeout("$('.flash').hide(1000)",2000);
-    tabFunc(".tab");
+//    tabFunc(".tab");
     //tabFunc(".tab_article");
 })
 

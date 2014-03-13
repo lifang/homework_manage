@@ -1,0 +1,23 @@
+<a href="javascript:void(0);" class="close">close</a>
+<div class="tab_head">切换班级</div>
+<div class="tab_body clearAfter">
+  <div class="tab_warning">重新选择已有的班级或新建班级</div>
+  <div class="tab_switch">
+    <ul>
+      <% @schoolclasses.each do |schoolclass| %>
+        <% if  !schoolclass.id.eql?(@schoolclass[0].id)%>
+          <li>
+            <a href="/school_classes/<%= schoolclass.id %>/teachers/chang_class?id=<%=  schoolclass.id%>"><%= schoolclass.name %> </a>
+
+            <%= link_to "删除班级", "/school_classes/#{params[:school_class_id].to_i}/teachers/destroy_classes?id=#{schoolclass.id}",remote: :true, :confirm => "确定删除?" ,:class=>'delete_icon tooltip_html'%>
+          </li>
+        <%  else %>
+          <li>
+            <a href="javascript:void(0);"><%= schoolclass.name %></a> <span class="tooltip_html">当前班级</span>
+          </li>
+        <%  end %>
+      <% end %>
+    </ul>
+    <div class="tab_switch_btn"><a href="javascript:void(0);" onclick="created_new_class()">新建</a></div>
+  </div>
+</div>

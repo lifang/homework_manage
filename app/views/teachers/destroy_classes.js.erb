@@ -1,0 +1,3 @@
+<% if @status %>
+  $(".school_class_list").html("<%= j(render :partial=>'/students/school_class_list')  %>")
+<% end %>

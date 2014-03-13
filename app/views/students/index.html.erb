@@ -1,4 +1,4 @@
-<div class="tab created_new_class" style="display :none">
+<div class="tab tab500 created_new_class" style="display :none">
   <span class="close">关闭</span>
   <div class="tab_con">
     <div class="tab_ul">
@@ -26,17 +26,18 @@
 </div>
 
 
-<div class="tab update_password" style="display :none">
-  <span class="close">关闭</span>
+<div class="tab tab500 update_password" style="display :none">
+  <a href="javascript:void(0);" class="close" >close</a>
+  <div class="tab_head">班级分组</div>
   <div class="tab_con">
-    <div class="tab_ul">
+    <div class="tab_switch">
       <ul>
         <%= form_for :tags,:url => {:controller => 'tags',:action => 'create'},remote: :TRUE do |f| %>
           <li>
-            <p>分组名称</p>
+            <p></p>
             <input name="name_tag" type="text"/>
           </li>
-          <input type="submit" value="创建"/>
+          <input type="submit"  class="button_submit" value="创建"/>
         <% end %>
       </ul>
     </div>
@@ -53,7 +54,7 @@
         <% if  @schoolclass %>
           <li><span>班级名称：</span><%= @schoolclass[0].name %></li>
           <li><span>验证码：</span><%= @schoolclass[0].verification_code %></li>
-          <li><span>结业时间：</span><%= @schoolclass[0].period_of_validity.strftime("%F %R") %></li>
+          <li><span>结业时间：</span><%= @schoolclass[0].period_of_validity.strftime("%F") %></li>
           <li><span>班级人数：</span><%= @schoolclass[0].count %></li>
           <li><span>班级分组：</span>A组、B组</li>
         <% end %>
@@ -71,13 +72,16 @@
           <% @student_situations.each do |student_situation| %>
             <tr>
               <td>
-                <div class="td_student_img"><img src="/assets/new/user.jpg"/><a href="#" class="td_delete_a tooltip_html">删除学员</a></div>
+                <div class="td_student_img">
+                  <img src="<%= student_situation[:avatar_url] %>" width="90" height="90"/>
+                  <%=link_to "删除学员","/school_classes/#{school_class_id}/students/delete_student?student_id=#{student_situation[:student_id]}",:confirm => "确定删除？",:class =>'td_delete_a tooltip_html' %>
+                </div>
 
                 <div class="td_student_text">
                   <ul>
                     <li><span>姓名：</span><%= student_situation[:user_name]%></li>
                     <li><span>昵称：</span><%= student_situation[:nickname]%></li>
-                    <li><span>入学时间：</span><%= student_situation[:created_at]%></li>
+                    <li><span>入学时间：</span><%= student_situation[:created_at].strftime("%F")%></li>
                     <li><span>所在小组：</span><%= student_situation[:tag_name].nil? ? "未分组": student_situation[:tag_name]%>
                       <input type="button" class="student_text_a" value="<%= student_situation[:tag_name].nil? ? "分组" : "重新分组" %>" onclick="delete_student_tag(this,<%= school_class_id %>,<%= student_situation[:student_id] %>)"/>
                     </li>
@@ -86,7 +90,7 @@
               </td>
               <td>
                 <p>未交作业次数：<%= student_situation[:unfinished]%></p>
-                <p>平均正确率：<%= student_situation[:correct_rate]%></p>
+                <p>平均正确率：<%= number_to_percentage(student_situation[:correct_rate],precision:0) %></p>
               </td>
 
               <td>
@@ -121,33 +125,8 @@
 
 
 <div class="tab tab500 school_class_list">
-  <a href="javascript:void(0);" class="close">close</a>
-  <div class="tab_head">切换班级</div>
-  <div class="tab_body clearAfter">
-    <div class="tab_warning">重新选择已有的班级或新建班级</div>
-    <div class="tab_switch">
-      <ul>
-        <% @schoolclasses.each do |schoolclass| %>
-          <% if  !schoolclass.id.eql?(@schoolclass[0].id)%>
-            <li>
-              <a href="/school_classes/<%= schoolclass.id %>/teachers/chang_class?id=<%=  schoolclass.id%>"><%= schoolclass.name %> </a>
-
-              <%= link_to "删除班级", "/school_classes/#{params[:school_class_id].to_i}/teachers/destroy_classes?id=#{schoolclass.id}", :confirm => "确定删除?" ,:class=>'delete_icon tooltip_html'%>
-            </li>
-          <%  else %>
-            <li>
-              <a href="javascript:void(0);"><%= schoolclass.name %></a> <span class="tooltip_html">当前班级</span>
-            </li>
-          <%  end %>
-        <% end %>
-      </ul>
-      <div class="tab_switch_btn"><a href="javascript:void(0);" onclick="created_new_class()">新建</a></div>
-    </div>
-  </div>
+  <%= render :partial => 'school_class_list' %>
 </div>
-
-
-
 
 <div class="tab tab500 tag_list">
   <%=render :partial => "/tags/tag_list"%>

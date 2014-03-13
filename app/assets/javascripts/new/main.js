@@ -7,13 +7,31 @@ $(function(){
         $(".s_tab").css({
             'top':(e.pageY)+'px',
             'left':(e.pageX)+'px'
-            });
+        });
     });
 			
     $(".close").click(function(){
         $(this).parents(".s_tab").css("display","none");
     })
 })
+
+//页面弹出层高度
+$(function(){
+    var win_width = $(window).width();
+    var win_height = $(window).height();
+    var doc_width = $(document).width();
+    var doc_height = $(document).height();
+    var layer_height = $(".tab500").height();
+    var layer_width = $(".tab500").width();
+    $(".mask").css("height",doc_height);
+    $(".tab500").css('top',(win_height-layer_height)/6);
+    $(".tab500").css('left',(win_width-layer_width)/2);
+    $(document).on('click',".close",function(){
+        $(this).parents(".tab").css("display","none");
+        $(".mask").css("display","none");
+    })
+})
+
 
 //tab
 function tabFunc(c,t){
@@ -28,7 +46,6 @@ function tabFunc(c,t){
     $(".mask").css("height",doc_height);
 	
     $(c).click(function(){
-        $(t).css('display','block');
         $(t).css('top',(win_height-layer_height)/2);
         $(t).css('left',(win_width-layer_width)/2);
         $(".mask").css("display","block");
@@ -40,10 +57,11 @@ function tabFunc(c,t){
     });
 }
 $(function(){
-    tabFunc(".td_seeQuestion",".tab");
-    tabFunc(".switchoverClass a",".tab");
-    tabFunc("a.student_btn_a",".tab");
-})
+        tabFunc(".td_seeQuestion",".tab");
+        tabFunc(".switchoverClass a",".tab");
+//        tabFunc("a.student_btn_a",".tab");
+//        tabfunction(".tab")
+    })
 
 
 //登录默认值

@@ -41,12 +41,12 @@
 /*article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {*/
     /*display: block;*/
 /*}*/
-
+/*
 html {
     font-size: 100%;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
-}
+}*/
 
 /*a:focus {*/
     /*outline: thin dotted #333;*/
@@ -122,12 +122,12 @@ input[type="search"]::-webkit-search-decoration, input[type="search"]::-webkit-s
     -webkit-appearance: none;
 }
 
-textarea {
+/*textarea {
     overflow: auto;
     vertical-align: top;
-}
+}*/
 
-@media print {
+/*@media print {
     * {
         text-shadow: none !important;
         color: #000 !important;
@@ -135,21 +135,21 @@ textarea {
         box-shadow: none !important;
     }
 
-    /*a, a:visited {*/
-        /*text-decoration: underline;*/
-    /*}*/
+    a, a:visited {
+        text-decoration: underline;
+    }
 
-    /*a[href]:after {*/
-        /*content: " (" attr(href) ")";*/
-    /*}*/
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
 
-    /*abbr[title]:after {*/
-        /*content: " (" attr(title) ")";*/
-    /*}*/
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
 
-    /*.ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {*/
-        /*content: "";*/
-    /*}*/
+    .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+        content: "";
+    }
 
     pre, blockquote {
         border: 1px solid #999;
@@ -189,7 +189,7 @@ body {
     line-height: 20px;
     color: #333333;
     background-color: #ffffff;
-}
+}*/
 
 /*a {*/
     /*color: #0088cc;*/

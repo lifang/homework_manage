@@ -1,125 +1,162 @@
-<div class="rightSide">
-  <% if  @schoolclass %>
-    <pre><%= @schoolclass[0].name %></pre>
-    <pre><%= @schoolclass[0].verification_code %></pre>
-    <pre><%= @schoolclass[0].period_of_validity %></pre>
-    <pre><%= @schoolclass[0].count %></pre>
-  <% end %>
+<div class="tab created_new_class" style="display :none">
+  <span class="close">关闭</span>
+  <div class="tab_con">
+    <div class="tab_ul">
+      <ul>
+        <li>
+          <p>选择教材</p>
+          <select name="teaching_material_id">
+            <% @teachingmaterial.each   do |teachingmaterial| %>
+              <option value="<%= teachingmaterial.id%>"><%= teachingmaterial.name %></option>
+            <% end %>
+          </select>
+        </li>
+        <li>
+          <p>输入班级名称</p>
+          <input name="class_name" type="text"/>
+        </li>
+        <li>
+          <p>选择结束时间</p>
+          <input type="text" name="period_of_validity" id="started_at" value=""class="Wdate" readonly onclick="WdatePicker({dateFmt:'yyyy-MM-dd',autoPickDate:true,minDate:'%y-%M-%d'})"/>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="tab_btn"><button class="green_btn" onclick="create_school_class(<%= @schoolclass[0].id %>)">确认</button></div>
+</div>
 
-  <% if @tags %>
-    <pre><% @tags.each do |tag| %><%= tag.name %> <% end %></pre>
-  <% end %>
-    <div class="remained">
+
+<div class="tab update_password" style="display :none">
+  <span class="close">关闭</span>
+  <div class="tab_con">
+    <div class="tab_ul">
+      <ul>
+        <%= form_for :tags,:url => {:controller => 'tags',:action => 'create'},remote: :TRUE do |f| %>
+          <li>
+            <p>分组名称</p>
+            <input name="name_tag" type="text"/>
+          </li>
+          <input type="submit" value="创建"/>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="main">
+  <div class="student">
+    <div class="student_head">
+      <h1>新概念英语二班</h1>
+      <ul>
+        <% if  @schoolclass %>
+          <li><span>班级名称：</span><%= @schoolclass[0].name %></li>
+          <li><span>验证码：</span><%= @schoolclass[0].verification_code %></li>
+          <li><span>结业时间：</span><%= @schoolclass[0].period_of_validity.strftime("%F %R") %></li>
+          <li><span>班级人数：</span><%= @schoolclass[0].count %></li>
+          <li><span>班级分组：</span>A组、B组</li>
+        <% end %>
+      </ul>
+      <a href="javascript:void(0);" class="student_btn_a" onclick="shwo_tags()">班级分组</a>
+    </div>
+    <div class="message">
       <% if @ungrouped.count > 0 %>
-      <div style="color: red">注：本班有学院未分组</div>
+        <p>注：本班有学员未分组，为保证学员能够顺利做作业，请将未分组学员进行分组。</p><a href="#" class="close">close</a>
       <% end %>
     </div>
+    <div class="student_body">
+      <div class="student_table">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <% @student_situations.each do |student_situation| %>
+            <tr>
+              <td>
+                <div class="td_student_img"><img src="/assets/new/user.jpg"/><a href="#" class="td_delete_a tooltip_html">删除学员</a></div>
 
-  <% @student_situations.each do |student_situation| %>
-    <%=link_to "删除","/school_classes/#{school_class_id}/students/delete_student?student_id=#{student_situation[:student_id]}",:confirm => "确定删除？" %>
-    <p>学生id <%= student_situation[:student_id] %></p>
-    <p>昵称 <%= student_situation[:nickname]%></p>
-    <p>姓名 <%= student_situation[:user_name]%></p>
-    <p>头像地址 <%= student_situation[:avatar_url]%></p>
-    <p>加入班级时间<%= student_situation[:created_at]%></p>
-    <p>组名 <%= student_situation[:tag_name].nil? ? "未分组": student_situation[:tag_name]%></p>
-    <input type="button" value="<%= student_situation[:tag_name].nil? ? "分组" : "重新分组" %>" onclick="delete_student_tag(this,<%= school_class_id %>,<%= student_situation[:student_id] %>)"/>
-    <p>未完成次数<%= student_situation[:unfinished]%></p>
-    <p>正确率：<%= student_situation[:correct_rate]%></p>
-    <% if student_situation[:archivement] %>
-      <% student_situation[:archivement].each do |archive|%>
-        <% case archive.archivement_types %>
-        <% when ArchivementsRecord::TYPES[:PEFECT] %>
-          <pre><%= ArchivementsRecord::TYPES_NAME[0] %></pre>
-          <pre>等级：<%= archive.archivement_score/200  %></pre>
-        <% when ArchivementsRecord::TYPES[:ACCURATE] %>
-          <pre><%= ArchivementsRecord::TYPES_NAME[1] %></pre>
-          <pre>等级：<%= archive.archivement_score/200  %></pre>
-        <% when ArchivementsRecord::TYPES[:QUICKLY] %>
-          <pre><%= ArchivementsRecord::TYPES_NAME[2] %></pre>
-          <pre>等级：<%= archive.archivement_score/200  %></pre>
-        <% when ArchivementsRecord::TYPES[:EARLY] %>
-          <pre><%= ArchivementsRecord::TYPES_NAME[3] %></pre>
-          <pre>等级：<%= archive.archivement_score/200  %></pre>
-        <% else %>
-          <pre></pre>
-        <% end %>
-      <%end%>
-    <%  else %>
-    <% end %>
-    <br/>
-  <% end %>
+                <div class="td_student_text">
+                  <ul>
+                    <li><span>姓名：</span><%= student_situation[:user_name]%></li>
+                    <li><span>昵称：</span><%= student_situation[:nickname]%></li>
+                    <li><span>入学时间：</span><%= student_situation[:created_at]%></li>
+                    <li><span>所在小组：</span><%= student_situation[:tag_name].nil? ? "未分组": student_situation[:tag_name]%>
+                      <input type="button" class="student_text_a" value="<%= student_situation[:tag_name].nil? ? "分组" : "重新分组" %>" onclick="delete_student_tag(this,<%= school_class_id %>,<%= student_situation[:student_id] %>)"/>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+              <td>
+                <p>未交作业次数：<%= student_situation[:unfinished]%></p>
+                <p>平均正确率：<%= student_situation[:correct_rate]%></p>
+              </td>
 
-  <div>
-    <% if @notice %>
-      <p><%= @notice %></p>
-    <% end %>
-  </div>
-
-  <div class="tag_list">
-    <%=render :partial => "/tags/tag_list"%>
-  </div>
-
-  <div>
-    <% @schoolclasses.each do |schoolclass| %>
-      <% if  !schoolclass.id.eql?(@schoolclass[0].id)%>
-        <li><a href="/school_classes/<%= schoolclass.id %>/teachers/chang_class?id=<%=  schoolclass.id%>" class="tab_li_option"><%= schoolclass.name %> </a>
-          <%= link_to "删除", "/school_classes/#{params[:school_class_id].to_i}/teachers/destroy_classes?id=#{schoolclass.id}", :class => "delete_trash tooltip", :confirm => "确定删除?" %>
-        </li>
-      <%  else %>
-        <p><%= schoolclass.name %> 当前班级</p>
-      <%  end %>
-    <% end %>
-    <button onclick="created_new_class()">创建新班级</button>
-  </div>
-
-  <div class="tab created_new_class" style="display :none">
-    <span class="close">关闭</span>
-    <div class="tab_con">
-      <div class="tab_ul">
-        <ul>
-          <li>
-            <p>选择教材</p>
-            <select name="teaching_material_id">
-              <% @teachingmaterial.each   do |teachingmaterial| %>
-                <option value="<%= teachingmaterial.id%>"><%= teachingmaterial.name %></option>
-              <% end %>
-            </select>
-          </li>
-          <li>
-            <p>输入班级名称</p>
-            <input name="class_name" type="text"/>
-          </li>
-          <li>
-            <p>选择结束时间</p>
-            <input type="text" name="period_of_validity" id="started_at" value=""class="Wdate" readonly onclick="WdatePicker({dateFmt:'yyyy-MM-dd',autoPickDate:true,minDate:'%y-%M-%d'})"/>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="tab_btn"><button class="green_btn" onclick="create_school_class(<%= @schoolclass[0].id %>)">确认</button></div>
-  </div>
-  <div class="student_tag_list" style="display: none">
-
-  </div>
-
-  <div class="tab update_password" style="display :none">
-    <span class="close">关闭</span>
-    <div class="tab_con">
-      <div class="tab_ul">
-        <ul>
-          <%= form_for :tags,:url => {:controller => 'tags',:action => 'create'},remote: :TRUE do |f| %>
-            <li>
-              <p>分组名称</p>
-              <input name="name_tag" type="text"/>
-            </li>
-            <input type="submit" value="创建"/>
+              <td>
+                <div class="award">
+                  <ul>
+                    <% if student_situation[:archivement] %>
+                      <% student_situation[:archivement].each do |archive|%>
+                        <% case archive.archivement_types %>
+                        <% when ArchivementsRecord::TYPES[:PEFECT] %>
+                          <li class="award01 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[0] %>">LV.<%= archive.archivement_score/200  %></li>
+                        <% when ArchivementsRecord::TYPES[:ACCURATE] %>
+                          <li class="award02 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[1] %>">LV.<%= archive.archivement_score/200  %></li>
+                        <% when ArchivementsRecord::TYPES[:QUICKLY] %>
+                          <li class="award03 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[2] %>">LV.<%= archive.archivement_score/200  %></li>
+                        <% when ArchivementsRecord::TYPES[:EARLY] %>
+                          <li class="award04 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[3] %>">LV.<%= archive.archivement_score/200  %></li>
+                        <% else %>
+                          <pre></pre>
+                        <% end %>
+                      <%  end %>
+                    <%  end %>
+                  </ul>
+                </div>
+              </td>
+            </tr>
           <% end %>
-        </ul>
+        </table>
       </div>
     </div>
   </div>
-  <div class="regrouping" style="display: none">
+</div>
 
+
+<div class="tab tab500 school_class_list">
+  <a href="javascript:void(0);" class="close">close</a>
+  <div class="tab_head">切换班级</div>
+  <div class="tab_body clearAfter">
+    <div class="tab_warning">重新选择已有的班级或新建班级</div>
+    <div class="tab_switch">
+      <ul>
+        <% @schoolclasses.each do |schoolclass| %>
+          <% if  !schoolclass.id.eql?(@schoolclass[0].id)%>
+            <li>
+              <a href="/school_classes/<%= schoolclass.id %>/teachers/chang_class?id=<%=  schoolclass.id%>"><%= schoolclass.name %> </a>
+
+              <%= link_to "删除班级", "/school_classes/#{params[:school_class_id].to_i}/teachers/destroy_classes?id=#{schoolclass.id}", :confirm => "确定删除?" ,:class=>'delete_icon tooltip_html'%>
+            </li>
+          <%  else %>
+            <li>
+              <a href="javascript:void(0);"><%= schoolclass.name %></a> <span class="tooltip_html">当前班级</span>
+            </li>
+          <%  end %>
+        <% end %>
+      </ul>
+      <div class="tab_switch_btn"><a href="javascript:void(0);" onclick="created_new_class()">新建</a></div>
+    </div>
   </div>
+</div>
+
+
+
+
+<div class="tab tab500 tag_list">
+  <%=render :partial => "/tags/tag_list"%>
+</div>
+
+<div class="tab tab500 student_tag_list">
+
+</div>
+
+<div class="tab tab500 regrouping">
+
 </div>

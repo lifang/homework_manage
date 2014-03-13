@@ -135,7 +135,7 @@ class TeachersController < ApplicationController
     school_class_id = params[:id]
     current_teacher.update_attributes(:last_visit_class_id => school_class_id)
     params[:school_class_id] = school_class_id
-    redirect_to "/school_classes/#{params[:school_class_id].to_i}/main_pages"
+    redirect_to "/school_classes/#{params[:school_class_id].to_i}/students"
   end
   # 修改密码
   def update_password

@@ -1,17 +1,25 @@
+<a href="/school_classes/<%= params[:school_class_id].to_i %>/students" class="close">close</a>
+<div class="tab_head"><%= @tag.name %></div>
+<div class="tab_body clearAfter">
+  <div class="tab_grouping">
+    <div class="tab_grouping_list">
+      <h2>已有学员</h2>
+      <ul>
+        <% @student_hastags.each do |student_hastag| %>
+          <li><img src="<%= student_hastag.user.avatar_url %>" width="30" height="30"/><%= student_hastag.user.name %>(<%= student_hastag.nickname %>)</li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="tab_grouping_list">
+      <h2>未分组学员</h2>
+      <ul class="group_pr">
 
-<h4><%= @tag.name %></h4>
-<h5>已有成员</h5>
-<% @student_hastags.each do |student_hastag| %>
-  <p><%= student_hastag.user.avatar_url %></p>
-  <p><%= student_hastag.user.name %></p>
-  <p>(<%= student_hastag.nickname %>)</p>
-<% end %>
-<br/>
-
-<h5>未分组成员</h5>
-<% @student_notags.each do |student_notag| %>
-  <%= link_to "添加",{:controller=> "students",:action=>'add_student_tag',:student_id => student_notag.id,:tag_id => @tag.id },remote: :true, 'data_type' => "script",:class=>"green_btn" %>
-  <p><%= student_notag.user.avatar_url %></p>
-  <p><%= student_notag.user.name %></p>
-  <p>(<%= student_notag.nickname %>)</p>
-<% end %>
+        <% @student_notags.each do |student_notag| %>
+          <li>
+            <a href="/school_classes/<%= params[:school_class_id].to_i %>/students/add_student_tag?student_id=<%= student_notag.id %>&tag_id=<%= @tag.id %>" data-remote="true" data_type="script"><img src="<%= student_notag.user.avatar_url %>" width="30" height="30"/><%= student_notag.user.name %>(<%= student_notag.nickname %>)</a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

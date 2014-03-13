@@ -31,8 +31,26 @@
     </p>
     <span class="next" onclick="checkout_date(this,'<%= params[:school_class_id] %>')" >next</span>
   </div>
-  <div class="sh_dateIcon"><a href="javascript:void(0);" class="tooltip_html">选择日期</a></div>
+  <div class="sh_dateIcon">
+    <div class="controls input-append date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+      <input size="16" type="hidden" value="" onchange="show_date_status(this,'<%= params[:school_class_id] %>');" readonly>
+      <span class="add-on"><i class="icon-th"></i></span>
+    </div>
+  </div>
 </div>
 <div class="statistics_body">
     <%= render :partial => "statistics/data_area"%>
 </div>
+
+<script>
+    $('.form_date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>

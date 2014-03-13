@@ -30,9 +30,10 @@ class StatisticsController < ApplicationController
     @details = info[:details]
     @average_correct_rate = info[:average_correct_rate]
     @average_complete_rate = info[:average_complete_rate]
+    p @details
   end
 
-  #根据标签显示完成情况
+  #根据标签显示完成率及正确率统计
   def show_tag_task
     date = params[:date]
     pub_id = params[:pub_id].to_i
@@ -44,9 +45,20 @@ class StatisticsController < ApplicationController
     @details = info[:details]
     @average_complete_rate = info[:average_complete_rate]
     @average_correct_rate = info[:average_correct_rate]
-    p @question_types
-    p @details
-    p @average_complete_rate
-    p @average_correct_rate
+  end
+
+  #获取该任务下题型统计信息
+  def show_question_statistics
+    pub_id = params[:pub_id].to_i
+    tag_id = params[:tag_id].to_i
+    school_class_id = params[:school_class_id]
+    #publish_question_package = PublishQuestionPackage.find_by_id pub_id
+    #info = PublishQuestionPackage.get_quetion_types_statistics(current_task,
+    #      tag_id, school_class_id, pub_id)
+  end
+
+  #正确率列表——显示错题
+  def show_incorrect_questions
+    
   end
 end

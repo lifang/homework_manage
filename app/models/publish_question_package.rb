@@ -254,6 +254,11 @@ class PublishQuestionPackage < ActiveRecord::Base
       :average_correct_rate => average_correct_rate,
       :average_complete_rate => average_complete_rate}
   end
+
+  #按题型获取统计
+  def self.get_quetion_types_statistics current_task, tag_id, school_class_id, pub_id
+
+  end
 end
 
 

@@ -1,0 +1,4 @@
+$(".b_table table").hide();
+$(".b_table .sb_item_list").remove();
+$(".b_table").append('<%= j( render 'statistics/question_types_area')%>');
+$(".b_table .sb_item_list").show();

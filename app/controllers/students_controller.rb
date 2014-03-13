@@ -10,7 +10,7 @@ from school_classes sc where sc.id=?"
     @ungrouped = SchoolClassStudentRalastion.where("tag_id is null")
     @tags = Tag.where("school_class_id=#{school_class_id}")
     student_situations = Student.list_student school_class_id
-    @student_situations = student_situations.paginate(:page=> params[:page] ||= 1,:per_page=>2)
+    @student_situations = student_situations.paginate(:page=> params[:page] ||= 1,:per_page=>Student::PER_PAGE )
     @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
     @teachingmaterial = TeachingMaterial.all
   end

@@ -4,7 +4,6 @@ class TagsController < ApplicationController
   def destroy
     tag_id = params[:id]
     tag = Tag.find_by_id tag_id
-
     @notice = "删除失败"
     @status = 0
     begin
@@ -23,7 +22,7 @@ class TagsController < ApplicationController
     end
     @tags = Tag.where("school_class_id=#{school_class_id}")
     student_situations = Student.list_student school_class_id
-    @student_situations = student_situations.paginate(:page=> params[:page] ||= 1,:per_page=>2)
+    @student_situations = student_situations.paginate(:page=> params[:page] ||= 1,:per_page=>Student::PER_PAGE )
   end
   
   def create

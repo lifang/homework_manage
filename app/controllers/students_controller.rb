@@ -1,5 +1,6 @@
 #encoding: utf-8
 class StudentsController < ApplicationController
+  require 'will_paginate/array'
   layout "tapplication"
   before_filter :sign?
   def index
@@ -8,7 +9,8 @@ from school_classes sc where sc.id=?"
     @schoolclass = SchoolClass.find_by_sql([sql_schoolclass,school_class_id,school_class_id])
     @ungrouped = SchoolClassStudentRalastion.where("tag_id is null")
     @tags = Tag.where("school_class_id=#{school_class_id}")
-    @student_situations = Student.list_student school_class_id
+    student_situations = Student.list_student school_class_id
+    @student_situations = student_situations.paginate(:page=> params[:page] ||= 1,:per_page=>2)
     @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
     @teachingmaterial = TeachingMaterial.all
   end

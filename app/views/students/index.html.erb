@@ -26,7 +26,7 @@
 </div>
 
 
-<div class="tab tab500 update_password" style="display :none">
+<div class="tab tab500 create_new_tag" style="display :none">
   <a href="javascript:void(0);" class="close" >close</a>
   <div class="tab_head">班级分组</div>
   <div class="tab_con">
@@ -67,62 +67,11 @@
       <% end %>
     </div>
     <div class="student_body">
-      <div class="student_table">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <% @student_situations.each do |student_situation| %>
-            <tr>
-              <td>
-                <div class="td_student_img">
-                  <img src="<%= student_situation[:avatar_url] %>" width="90" height="90"/>
-                  <%=link_to "删除学员","/school_classes/#{school_class_id}/students/delete_student?student_id=#{student_situation[:student_id]}",:confirm => "确定删除？",:class =>'td_delete_a tooltip_html' %>
-                </div>
-
-                <div class="td_student_text">
-                  <ul>
-                    <li><span>姓名：</span><%= student_situation[:user_name]%></li>
-                    <li><span>昵称：</span><%= student_situation[:nickname]%></li>
-                    <li><span>入学时间：</span><%= student_situation[:created_at].strftime("%F")%></li>
-                    <li><span>所在小组：</span><%= student_situation[:tag_name].nil? ? "未分组": student_situation[:tag_name]%>
-                      <input type="button" class="student_text_a" value="<%= student_situation[:tag_name].nil? ? "分组" : "重新分组" %>" onclick="delete_student_tag(this,<%= school_class_id %>,<%= student_situation[:student_id] %>)"/>
-                    </li>
-                  </ul>
-                </div>
-              </td>
-              <td>
-                <p>未交作业次数：<%= student_situation[:unfinished]%></p>
-                <p>平均正确率：<%= number_to_percentage(student_situation[:correct_rate],precision:0) %></p>
-              </td>
-
-              <td>
-                <div class="award">
-                  <ul>
-                    <% if student_situation[:archivement] %>
-                      <% student_situation[:archivement].each do |archive|%>
-                        <% case archive.archivement_types %>
-                        <% when ArchivementsRecord::TYPES[:PEFECT] %>
-                          <li class="award01 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[0] %>">LV.<%= archive.archivement_score/200  %></li>
-                        <% when ArchivementsRecord::TYPES[:ACCURATE] %>
-                          <li class="award02 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[1] %>">LV.<%= archive.archivement_score/200  %></li>
-                        <% when ArchivementsRecord::TYPES[:QUICKLY] %>
-                          <li class="award03 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[2] %>">LV.<%= archive.archivement_score/200  %></li>
-                        <% when ArchivementsRecord::TYPES[:EARLY] %>
-                          <li class="award04 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[3] %>">LV.<%= archive.archivement_score/200  %></li>
-                        <% else %>
-                          <pre></pre>
-                        <% end %>
-                      <%  end %>
-                    <%  end %>
-                  </ul>
-                </div>
-              </td>
-            </tr>
-          <% end %>
-        </table>
-      </div>
+      <%= render :partial => 'student_body'  %>
     </div>
   </div>
 </div>
-
+<%= will_paginate @student_situations,remote:true,:previous_label=>'上一页',:next_label=>'下一页' %>
 
 <div class="tab tab500 school_class_list">
   <%= render :partial => 'school_class_list' %>

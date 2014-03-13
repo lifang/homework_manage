@@ -1,6 +1,9 @@
 <% if @status %>
   $(".tag_list").html("<%= j(render :partial => "tag_list") %>")
+  $(".create_new_tag").hide();
+  $(".mask").hide();
   tishi("<%= @notice %>")
 <% else %>
   tishi("<%= @notice %>")
+  $(".mask").hide();
 <% end %>

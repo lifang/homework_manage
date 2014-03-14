@@ -1,91 +1,29 @@
+<% if @question_types.present? && @question_types.class == Array %>
+  <% @question_types.each do  |quetion_type| %>
   <div class="sb_item_list">
     <div class="item_name">
-      <div class="q_speed"></div>
-      <h2>十速挑战</h2>
+      <div class="<%= questions_img_class(quetion_type) %>"></div>
+      <div ></div>
+      <h2><%= Question::TYPES_NAME[quetion_type.to_i]  %></h2>
       <p>平均正确率：68% </p>
       <p>平均用时：13.11秒</p>
     </div>
     <div class="item_content">
       <ul>
-        <li class="color100"><span>1</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color90"><span>2</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color80"><span>3</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color70"><span>4</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color60"><span>5</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color50"><span>6</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color40"><span>7</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color30"><span>8</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color20"><span>9</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color10"><span>10</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
+        <li class="<%= correct_rate_color 100 %>"><span>1</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
+        <li class="<%= correct_rate_color 90 %>"><span>2</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
+        <li class="<%= correct_rate_color 80 %>"><span>3</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
+        <li class="<%= correct_rate_color 70 %>"><span>4</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
+        <li class="<%= correct_rate_color 60 %>"><span>5</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
+        <li class="<%= correct_rate_color 50 %>"><span>6</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
+        <li class="<%= correct_rate_color 40 %>"><span>7</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
+        <li class="<%= correct_rate_color 30 %>"><span>8</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
+        <li class="<%= correct_rate_color 20 %>"><span>9</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
+        <li class="<%= correct_rate_color 100 %>"><span>10</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
       </ul>
     </div>
   </div>
-
-  <div class="sb_item_list">
-    <div class="item_name">
-      <div class="q_choose"></div>
-      <h2>选择</h2>
-      <p>平均正确率：68% </p>
-      <p>平均用时：13.11秒</p>
-    </div>
-    <div class="item_content">
-      <ul>
-        <li class="color100"><span>1</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color90"><span>2</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="sb_item_list">
-    <div class="item_name">
-      <div class="q_read"></div>
-      <h2>朗读</h2>
-      <p>平均正确率：68% </p>
-      <p>平均用时：13.11秒</p>
-    </div>
-    <div class="item_content">
-      <ul>
-        <li class="color100"><span>1</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color90"><span>2</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color80"><span>3</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color70"><span>4</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color60"><span>5</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="sb_item_list">
-    <div class="item_name">
-      <div class="q_listen"></div>
-      <h2>听力</h2>
-      <p>平均正确率：68% </p>
-      <p>平均用时：13.11秒</p>
-    </div>
-    <div class="item_content">
-      <ul>
-        <li class="color100"><span>1</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color90"><span>2</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color80"><span>3</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color70"><span>4</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="sb_item_list">
-    <div class="item_name">
-      <div class="q_ligature"></div>
-      <h2>连线</h2>
-      <p>平均正确率：68% </p>
-      <p>平均用时：13.11秒</p>
-    </div>
-    <div class="item_content">
-      <ul>
-        <li class="color100"><span>1</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="color90"><span>2</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-      </ul>
-    </div>
-  </div>
-</div>
+  <% end %>
 
 <div class="s_tab">
 <a href="javascript:void(0);" class="close">close</a>
@@ -94,3 +32,28 @@
   元音O的用法元音O的用法元音O的用法元音O的用法元音O的用法元音O的用法元音O的用法
 </p>
 </div>
+
+<script>
+    //统计-正确率-题型
+    $(document).ready(function(){
+        $(".item_content li a").click(function(e){
+            $(".s_tab").css('display','block');
+            $(".s_tab").css({
+                'top':(e.pageY)+'px',
+                'left':(e.pageX)+'px'
+            });
+        });
+    })
+    $(".s_tab .close").click(function(){
+        $(this).parents(".s_tab").css("display","none");
+    })
+</script>
+<% else%>
+    <div id="no_date" class="b_table">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+        <tr style="height: 300px;">
+          <td style="text-align: center">暂无数据</td>
+        </tr>
+      </table>
+    </div>
+<% end %>

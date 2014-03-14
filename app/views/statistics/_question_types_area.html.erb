@@ -4,23 +4,40 @@
     <div class="item_name">
       <div class="<%= questions_img_class(quetion_type) %>"></div>
       <div ></div>
-      <h2><%= Question::TYPES_NAME[quetion_type.to_i]  %></h2>
-      <p>平均正确率：68% </p>
-      <p>平均用时：13.11秒</p>
+      <h2><%= Question::TYPES_NAME[quetion_type]  %></h2>
+      <p>平均正确率：
+        <% if @use_times[quetion_type] %>
+            <%= @use_times[quetion_type][0][:correct_rate] %>%
+        <% else %>
+            暂无数据
+        <% end %>
+      </p>
+      <p>平均用时：
+        <% if @use_times[quetion_type] %>
+            <%= @use_times[quetion_type][0][:use_time] %>秒
+        <% else %>
+            暂无数据
+        <% end %>
+      </p>
     </div>
     <div class="item_content">
+      <% if @questions[quetion_type].present?  %>
       <ul>
-        <li class="<%= correct_rate_color 100 %>"><span>1</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="<%= correct_rate_color 90 %>"><span>2</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="<%= correct_rate_color 80 %>"><span>3</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="<%= correct_rate_color 70 %>"><span>4</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="<%= correct_rate_color 60 %>"><span>5</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="<%= correct_rate_color 50 %>"><span>6</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="<%= correct_rate_color 40 %>"><span>7</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="<%= correct_rate_color 30 %>"><span>8</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="<%= correct_rate_color 20 %>"><span>9</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
-        <li class="<%= correct_rate_color 100 %>"><span>10</span><a href="javascript:void(0);" class="tooltip_title" title="点击查看">标签</a>100%</li>
+            <% count=1 %>
+            <% @questions[quetion_type].each do |que| %>
+            <li class="<%= correct_rate_color que[:average_correct_rate] %>" onclick="show_que('<%= que[:id] %>','<%= params[:school_class_id] %>')"><span><%= count %></span><a href="javascript:void(0);" class="tooltip_title" title="点击查看" onclick="show_tags('<%= que[:id] %>','<%= params[:school_class_id] %>')">标签</a>
+              <% if que[:average_correct_rate] >= 0%>
+                <%= que[:average_correct_rate] %>%
+              <% else %>
+                暂无数据
+              <% end %>
+            </li>
+                <% count+=1 %>
+            <% end %>
       </ul>
+      <% else %>
+          暂无数据
+      <% end %>
     </div>
   </div>
   <% end %>
@@ -31,21 +48,26 @@
 <p class="tab_text">
   元音O的用法元音O的用法元音O的用法元音O的用法元音O的用法元音O的用法元音O的用法
 </p>
+<input type="hidden" id="tag_display_control" value="0">
 </div>
 
 <script>
     //统计-正确率-题型
     $(document).ready(function(){
         $(".item_content li a").click(function(e){
-            $(".s_tab").css('display','block');
-            $(".s_tab").css({
-                'top':(e.pageY)+'px',
-                'left':(e.pageX)+'px'
-            });
+            if($("#tag_display_control").val() == 1)
+            {
+                $(".s_tab").css('display','block');
+                $(".s_tab").css({
+                    'top':(e.pageY)+'px',
+                    'left':(e.pageX)+'px'
+                });
+            }
         });
     })
     $(".s_tab .close").click(function(){
         $(this).parents(".s_tab").css("display","none");
+        $("#tag_display_control").val(0);
     })
 </script>
 <% else%>

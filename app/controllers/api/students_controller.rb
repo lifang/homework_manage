@@ -1018,7 +1018,7 @@ class Api::StudentsController < ApplicationController
     render :json => {:status => status,:notice => notice}
   end
 
-  #  点显示标签列表
+  #  点击显示标签列表
   def card_tags_list
     school_class_id = params[:school_class_id]
     student_id = params[:student_id]
@@ -1074,7 +1074,7 @@ class Api::StudentsController < ApplicationController
     end
     render :json => {:status => status,:notice => notice,:cardtag => cardtag}
   end
-
+#添加或者取消进标签
   def knoledge_tag_relation
     knowledge_card_id = params[:knowledge_card_id]
     school_class_id = params[:school_class_id]

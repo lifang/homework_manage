@@ -60,9 +60,9 @@ function check_nonempty(){
         return false;
     }
 }
-function show_update_password(){
+function create_new_tag(){
     $(".tag_list").hide();
-    $(".update_password").show();
+    $(".create_new_tag").show();
 }
 function update_password(school_class_id){
     var password_now = $("input[name='password_now']").val();

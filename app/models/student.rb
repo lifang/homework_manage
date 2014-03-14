@@ -3,6 +3,7 @@ class Student < ActiveRecord::Base
   attr_protected :authentications
   STATUS = {:YES => 0, :NO => 1}
   STATUS_NAME = {0 => "正常", 1 => "失效"}
+  PER_PAGE = 2
   has_many :school_class_student_ralastions
   has_many :school_classes, :through => :school_class_student_ralastions
   has_many :student_answer_records, :dependent => :destroy
@@ -53,7 +54,20 @@ count1.student_id = count2.student_id"
       end
       archivementsrecord.each do |student_id,archivement|
         if student.id.eql?(student_id)
-          student_situation[:archivement] = archivement
+          archivement.each  do |a|
+            case a.archivement_types
+            when ArchivementsRecord::TYPES[:PEFECT]
+              student_situation[:archive_pefect] = a
+            when ArchivementsRecord::TYPES[:ACCURATE]
+              student_situation[:archive_accuraie] = a
+            when ArchivementsRecord::TYPES[:QUICKLY]
+              student_situation[:archive_quickly] = a
+            when ArchivementsRecord::TYPES[:EARLY]
+              student_situation[:archive_early] = a
+            else
+              p 2222
+            end
+          end
         end
       end
       @student_situations << student_situation

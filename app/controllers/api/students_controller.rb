@@ -1109,7 +1109,7 @@ class Api::StudentsController < ApplicationController
   end
   #  搜索标签下的卡片
   def search_tag_card
-    name = '%'+ params[:name].strip + '%' if params[:name]
+    name = params[:name].nil? ? '%'+ params[:name].strip + '%' : "%%"
     school_class_id = params[:school_class_id]
     student_id = params[:student_id]
     page = params[:page].nil? ? 1 : params[:page].to_i

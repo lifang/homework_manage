@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140307070031) do
+ActiveRecord::Schema.define(:version => 20140313144847) do
 
   create_table "app_versions", :force => true do |t|
     t.float "c_version"
@@ -215,6 +215,7 @@ ActiveRecord::Schema.define(:version => 20140307070031) do
     t.boolean  "if_shared"
     t.integer  "questions_time"
     t.text     "full_text"
+    t.string   "content"
   end
 
   add_index "questions", ["question_package_id"], :name => "index_questions_on_question_package_id"

@@ -4,14 +4,14 @@
         <li class="complete">
           <h1>完成率</h1>
           <div class="statistics_img"><img src="/assets/new/95.jpg"><%= @average_complete_rate  %></div>
-          <div class="sc_nav"><a href="javascript:void(0);" class="hover" id="complete_btn">学员</a></div>
+          <div class="sc_nav"><a href="javascript:void(0);" class="hover" onclick="click_complete_btn(this)">学员</a></div>
         </li>
         <li class="correct">
           <h1>正确率</h1>
           <div class="statistics_img"><img src="/assets/new/85.jpg"><%= @average_correct_rate  %></div>
-          <div class="sc_nav"><a href="javascript:void(0);" id="correct_btn">学员</a>
+          <div class="sc_nav"><a href="javascript:void(0);" onclick="click_correct_btn(this)">学员</a>
             <a href="javascript:void(0);"
-               onclick="shou_question_status('<%= @current_task.id %>',
+               onclick="shou_question_status(this,'<%= @current_task.id %>',
                        '<%= params[:school_class_id] %>')">题型
             </a>
           </div>
@@ -35,12 +35,13 @@
         </tr>
         </thead>
         <tbody>
-        <% if @details.nil? || (!@details.nil? && @details.length == 0) %>
+        <% if @details.nil?%>
             <tr><td colspan="3" style="width: auto; text-align: center;">暂无数据</td></tr>
         <% else %>
             <% @details.each do |student|  %>
                 <tr>
                   <td width="200"><div class="td_user"><img src="<%= student[:avatar_url] %>"><%= student[:name] %></div></td>
+                  <% if !@question_types.nil? %>
                   <% @question_types.each do |type| %>
                       <% if student[:answer_details].nil? %>
                           <td><em>-</em></td>
@@ -51,6 +52,9 @@
                               <td><img src="/assets/new/d.png"><em><%= student[:answer_details][type.to_i][0][:used_time] %></M></em></td>
                           <% end %>
                       <% end %>
+                  <% end %>
+                  <% else %>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                   <% end %>
                   <td><%= student[:average_complete_rate] %>%</td>
                 </tr>
@@ -79,27 +83,31 @@
             <% @details.each do |student|  %>
                 <tr>
                   <td width="200"><div class="td_user"><img src="<%= student[:avatar_url] %>"><%= student[:name] %></div></td>
-                  <% @question_types.each do |type| %>
-                      <% if student[:answer_details].nil? %>
-                          <td><em>-</em></td>
-                      <% else %>
-                          <% if student[:answer_details][type.to_i].nil? %>
+                  <% if !@question_types.nil? %>
+                      <% @question_types.each do |type| %>
+                          <% if student[:answer_details].nil? %>
                               <td><em>-</em></td>
                           <% else %>
-                              <td>
-                                <div class="td_ratio">
-                                  <%= student[:answer_details][type.to_i][0][:correct_rate] %>%
-                                  <% if student[:answer_details][type.to_i][0][:correct_rate] < 100 %>
-                                      <a href="javascript:void(0);" class="td_seeQuestion tooltip_html" onclick="shou_incorrect_que('<%= type.to_i %>','<%= student[:answer_details][type.to_i][0][:id] %>', '<%= params[:school_class_id] %>')">点击查看</a>
-                                  <% end %>
-                                </div>
-                                <em>
-                                  <%= student[:answer_details][type.to_i][0][:used_time] %>
-                                  </M>
-                                </em>
-                              </td>
+                              <% if student[:answer_details][type.to_i].nil? %>
+                                  <td><em>-</em></td>
+                              <% else %>
+                                  <td>
+                                    <div class="td_ratio">
+                                      <%= student[:answer_details][type.to_i][0][:correct_rate] %>%
+                                      <% if student[:answer_details][type.to_i][0][:correct_rate] < 100 %>
+                                          <a href="javascript:void(0);" class="td_seeQuestion tooltip_html" onclick="shou_incorrect_que('<%= type.to_i %>','<%= student[:answer_details][type.to_i][0][:id] %>', '<%= params[:school_class_id] %>')">点击查看</a>
+                                      <% end %>
+                                    </div>
+                                    <em>
+                                      <%= student[:answer_details][type.to_i][0][:used_time] %>
+                                      </M>
+                                    </em>
+                                  </td>
+                              <% end %>
                           <% end %>
                       <% end %>
+                  <% else %>
+                      <td>暂无数据</td>
                   <% end %>
                   <td><%= student[:average_correct_rate] %>%</td>
                 </tr>
@@ -124,15 +132,19 @@
         $("#correct_table").tablesorter();
     });
 
-    $("#complete_btn").click(function(){
+   function click_complete_btn(obj){
+        $(".sc_nav a").removeAttr("class");
+        $(obj).attr("class", "hover");
         $(".b_table .sb_item_list").remove();
         $("#correct_table").hide();
         $("#complete_table").show();
-    })
+    }
 
-    $("#correct_btn").click(function(){
+    function click_correct_btn(obj){
+        $(".sc_nav a").removeAttr("class");
+        $(obj).attr("class", "hover");
         $(".b_table .sb_item_list").remove();
         $("#complete_table").hide();
         $("#correct_table").show();
-    })
+    }
 </script>

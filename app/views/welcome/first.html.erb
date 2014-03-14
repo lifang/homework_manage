@@ -1,6 +1,6 @@
 <div class="wrap">
   <div class="login_bg">
-    <div class="tab">
+    <div class="tab" id="login_div" >
       <%= form_tag({:controller => :welcome, :action => :create_first_class}, :remote => true) do %>
       <div class="tab_con">
         <div class="tab_ul">
@@ -33,3 +33,9 @@
     </div>
   </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        show_windows("login_div");
+    })
+</script>

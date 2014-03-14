@@ -25,7 +25,7 @@ Date.prototype.format = function(format){
 }
 
 //点击某个标签时
-function show_tag(school_class_id, date, tag_id, pub_id)
+function show_tag(obj,school_class_id, date, tag_id, pub_id)
 {
     $.ajax({
         url: "/school_classes/"+ school_class_id +"/statistics/show_tag_task",
@@ -38,6 +38,8 @@ function show_tag(school_class_id, date, tag_id, pub_id)
             pub_id:pub_id
         },
         success:function(data){
+            $(".sh_choose a").removeAttr("class");
+            $(obj).attr("class", "hover");
         },
         error:function(data){
         }
@@ -57,7 +59,7 @@ function checkout_date(obj, school_class_id)
         {
             if(current_date == today_date)
             {
-                tishi("查询日期不能大于今日日期！");
+                msg("查询日期不能大于今日日期！");
             }
             else if(current_date < today_date)
             {
@@ -66,6 +68,7 @@ function checkout_date(obj, school_class_id)
                 today_date = new Date(today_date);
                 if(date <= today_date)
                 {
+                    $(".datetimepicker").remove();
                     date = new Date(date);
                     date = date.format("yyyy-MM-dd");
                     $.ajax({
@@ -84,13 +87,14 @@ function checkout_date(obj, school_class_id)
                 }
                 else
                 {
-                    tishi("查询日期不能大于今日日期！");
+                    msg("查询日期不能大于今日日期！");
                 }
             }
         }
     }
     else if(option == "prev")
     {
+        $(".datetimepicker").remove();
         current_date = new Date(current_date);
         var date = new Date(current_date.setDate(current_date.getDate()-1));
         date = date.format("yyyy-MM-dd");
@@ -118,23 +122,33 @@ function checkout_date(obj, school_class_id)
 function show_date_status(obj, school_class_id)
 {
     var date = $(obj).val();
-    $.ajax({
-        url: "/school_classes/"+ school_class_id +"/statistics/checkout_by_date",
-        type: "POST",
-        dataType: "script",
-        data:{
-            date:date,
-            school_class_id:school_class_id
-        },
-        success:function(data){
-        },
-        error:function(data){
-        }
-    })
+    var today_date = $("#today_date").val();
+    if(date > today_date)
+    {
+        msg("查询日期不能大于今日日期！");
+    }
+    else
+    {
+        $(".datetimepicker").remove();
+        $.ajax({
+            url: "/school_classes/"+ school_class_id +"/statistics/checkout_by_date",
+            type: "POST",
+            dataType: "script",
+            data:{
+                date:date,
+                school_class_id:school_class_id
+            },
+            success:function(data){
+            },
+            error:function(data){
+
+            }
+        })
+    }
 }
 
 //显示题型统计信息
-function shou_question_status(school_class_id, pub_id,tag_id)
+function shou_question_status(obj,pub_id, school_class_id)
 {
     $.ajax({
         url: "/school_classes/"+ school_class_id +"/statistics/show_question_statistics",
@@ -145,6 +159,8 @@ function shou_question_status(school_class_id, pub_id,tag_id)
             school_class_id:school_class_id
         },
         success:function(data){
+            $(".sc_nav a").removeAttr("class");
+            $(obj).attr("class", "hover");
         },
         error:function(data){
         }
@@ -154,15 +170,15 @@ function shou_question_status(school_class_id, pub_id,tag_id)
 //显示错题
 function shou_incorrect_que(question_types, stu_ans_record_id, school_class_id)
 {
-    alert(question_types);
-    alert(stu_ans_record_id);
+//    alert(question_types);
+//    alert(stu_ans_record_id);
     $.ajax({
         url: "/school_classes/"+ school_class_id +"/statistics/show_incorrect_questions",
         type: "POST",
         dataType: "script",
         data:{
             question_types:question_types,
-            stu_ans_record_id:stu_ans_record_id
+            student_answer_record:stu_ans_record_id
         },
         success:function(data){
         },

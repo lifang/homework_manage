@@ -1,5 +1,21 @@
 // JavaScript Document
 //tab
+
+//显示窗口
+function show_windows(div_id)
+{
+    var win_height = $(window).height();
+    var win_width = $(window).width();
+    var panel_height = $("#"+div_id+"").height();
+    var panel_width = $("#"+div_id+"").width();
+    var top = (win_height - panel_height)/2
+    var left = (win_width - panel_width)/2
+    if(top < 0) top = 0;
+    $("#"+div_id+"").css("top", top);
+    $("#"+div_id+"").css("left", left);
+    $("#"+div_id+"").css("display","block");
+}
+
 function tabFunc(t){
     var win_width = $(window).width();
     var win_height = $(window).height();
@@ -264,7 +280,7 @@ function delete_packages(publish_question_package_id,school_class_id)
 function show_publish_task_panel(question_package_id)
 {
     $("#question_package_id_value").val(question_package_id);
-    $("#publish_task_panel").show();
+    show_windows("publish_task_panel");
 }
 
 //发布任务时验证时间
@@ -338,6 +354,28 @@ function tishi(message){
     var doc_width = $(document).width();
     var layer_width = $("#tishi_div").width();
     $("#tishi_div").css('left',(doc_width-layer_width)/2);
+    $("#tishi_div").css('display','block');
+    jQuery('#tishi_div').fadeTo("slow",1);
+    $("#tishi_div .close").click(function(){
+        $("#tishi_div").css('display','none');
+    })
+    setTimeout(function(){
+        jQuery('#tishi_div').fadeTo("slow",0);
+    }, 3000);
+    setTimeout(function(){
+        $("#tishi_div").css('display','none');
+    }, 3000);
+}
+
+function msg(message){
+    $("#tishi_div .tab_con .red").html(message);
+    var scolltop = document.body.scrollTop|document.documentElement.scrollTop;
+    var win_height = $(window).height();
+    var tishi_div_height = $("#tishi_div").height();
+    $("#tishi_div").css('top',(win_height-tishi_div_height)/2);
+    var doc_width = $(document).width();
+    var tishi_div_width = $("#tishi_div").width();
+    $("#tishi_div").css('left',(doc_width-tishi_div_width)/2);
     $("#tishi_div").css('display','block');
     jQuery('#tishi_div').fadeTo("slow",1);
     $("#tishi_div .close").click(function(){

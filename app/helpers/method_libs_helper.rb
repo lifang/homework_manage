@@ -422,28 +422,77 @@ module MethodLibsHelper
       knowledges_card = nil
     else
       card_bag_id = card_bag.id
-      sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options,q.full_text,q.name card_tags_id
+      sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options,q.full_text
 FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id = bq.id LEFT JOIN questions q on
 q.id = bq.question_id where kc.card_bag_id = ?"
       if mistake_types.nil?
-        knowledges_cards = KnowledgesCard.find_by_sql([sql,card_bag_id])
+        knowledge_cards = KnowledgesCard.find_by_sql([sql,card_bag_id])
       else
         mistake_types_sql = " and kc.mistake_types=?"
         sql += mistake_types_sql
-        knowledges_cards = KnowledgesCard.find_by_sql([sql,card_bag_id,mistake_types])
+        knowledge_cards = KnowledgesCard.find_by_sql([sql,card_bag_id,mistake_types])
       end
       cardtag = CardTag.where("card_bag_id = #{card_bag_id}")
-      knowledges_cards.each do |knowledges_card|
-        knowledges_card_id = knowledges_card.id
-        cardTagknowledgescardrelation = CardTagKnowledgesCardRelation.find_by_sql("SELECT ctkcr.card_tag_id from card_tag_knowledges_card_relations ctkcr where knowledges_card_id = #{knowledges_card_id}")
-        cardTagknowledgescardrelation = cardTagknowledgescardrelation.map(&:card_tag_id)
-        knowledges_card.card_tags_id = cardTagknowledgescardrelation
+      cardtag_kcard_relation = CardTagKnowledgesCardRelation.where("card_tag_id in (?)" ,cardtag.map(&:id)).
+        group_by{|cardtag_kcard| cardtag_kcard.knowledges_card_id}
+      knowledges_cards = []
+      knowledge_cards.each do |knowledges_card|
+        know =  knowledges_card.attributes
+        know['card_tags_id']=[]
+        cardtag_kcard_relation.each do |knowledges_card_id,cardtag_kcard|
+          if knowledges_card.id.eql?(knowledges_card_id)
+            know['card_tags_id'] = cardtag_kcard.map(&:card_tag_id)
+          end
+        end
+        knowledges_cards << know
       end
+      #      knowledge_cards.each do |knowledges_card|
+      #        knowledges_card_id = knowledges_card.id
+      #        cardTagknowledgescardrelation = CardTagKnowledgesCardRelation.find_by_sql("SELECT ctkcr.card_tag_id from card_tag_knowledges_card_relations ctkcr where knowledges_card_id = #{knowledges_card_id}")
+      #        cardTagknowledgescardrelation = cardTagknowledgescardrelation.map(&:card_tag_id)
+      #        knowledges_card.card_tags_id = cardTagknowledgescardrelation
+      #      end
       status = "success"
       notice = "获取成功！！"
     end
     info = {:status => status,:notice => notice,:knowledges_card => knowledges_cards,:tags => cardtag }
   end
+
+#  通过错题类型或者标签名称查询
+  def knowledges_andcards_tolist school_class_id,student_id,name
+    cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+    knowledgescard = []
+    if cardbag
+      cardbag_id = cardbag.id
+      sql = "SELECT DISTINCT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options
+ from knowledges_cards kc  inner join card_tag_knowledges_card_relations ctkcr on kc.id = ctkcr.knowledges_card_id
+INNER JOIN card_tags ct on ct.id = ctkcr.card_tag_id
+INNER JOIN branch_questions bq on kc.branch_question_id = bq.id
+WHERE kc.card_bag_id =? and ct.`name` LIKE ? or kc.your_answer LIKE ? "
+      knowledgescard = KnowledgesCard.find_by_sql([sql,cardbag_id,name,name])
+      cardtag = CardTag.where("card_bag_id = #{cardbag_id}")
+      cardtag_kcard_relation = CardTagKnowledgesCardRelation.where("card_tag_id in (?)" ,cardtag.map(&:id)).
+        group_by{|cardtag_kcard| cardtag_kcard.knowledges_card_id}
+      knowledges_cards = []
+      knowledgescard.each do |knowledges_card|
+        know =  knowledges_card.attributes
+        know['card_tags_id']=[]
+        cardtag_kcard_relation.each do |knowledges_card_id,cardtag_kcard|
+          if knowledges_card.id.eql?(knowledges_card_id)
+            know['card_tags_id'] = cardtag_kcard.map(&:card_tag_id)
+          end
+        end
+        knowledges_cards << know
+      end
+      status = "success"
+      notice = "获取成功"
+    else
+      status = "error"
+      notice = "卡包不存在"
+    end
+    info = {:status=>status,:notice=>notice,:knowledgescard => knowledges_cards,:tags => cardtag }
+  end
+
 
   #压缩和推送
   def compress_and_push file_dirs_url,question_package_id,school_class_id,content,publish_question_package

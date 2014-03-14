@@ -1008,7 +1008,7 @@ class Api::StudentsController < ApplicationController
     render :json => {:status => status,:notice => notice}
   end
 
-  #  点显示标签列表
+  #  点击显示标签列表
   def card_tags_list
     school_class_id = params[:school_class_id]
     student_id = params[:student_id]
@@ -1064,7 +1064,7 @@ class Api::StudentsController < ApplicationController
     end
     render :json => {:status => status,:notice => notice,:cardtag => cardtag}
   end
-
+  #添加或者取消进标签
   def knoledge_tag_relation
     knowledge_card_id = params[:knowledge_card_id]
     school_class_id = params[:school_class_id]
@@ -1099,32 +1099,15 @@ class Api::StudentsController < ApplicationController
   end
   #  搜索标签下的卡片
   def search_tag_card
-    name = params[:name]
+    name = params[:name].nil? ? '%'+ params[:name].strip + '%' : "%%"
     school_class_id = params[:school_class_id]
     student_id = params[:student_id]
     page = params[:page].nil? ? 1 : params[:page].to_i
-    cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
-    knowledgescard = []
-    if cardbag
-      cardbag_id = cardbag.id
-      cardtag = CardTag.find_by_name_and_card_bag_id name,cardbag_id
-      if cardtag
-        sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options
- from knowledges_cards kc INNER JOIN card_tag_knowledges_card_relations ctkcr on kc.id = ctkcr.knowledges_card_id
-INNER JOIN branch_questions bq on kc.branch_question_id = bq.id
-WHERE ctkcr.card_tag_id =?"
-        knowledgescard = KnowledgesCard.find_by_sql([sql,cardtag.id])
-        status = "success"
-        notice = "获取成功"
-      else
-        status = "error"
-        notice = "标签不存在"
-      end
-    else
-      status = "error"
-      notice = "卡包不存在"
-    end
-    render :json => {:status=>status,:notice=>notice,:knowledgescard => knowledgescard}
+
+    info = knowledges_andcards_tolist school_class_id,student_id,name
+    
+
+    render :json =>info
   end
 
   #返回新任务的id

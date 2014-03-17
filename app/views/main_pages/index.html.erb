@@ -18,7 +18,9 @@
 				<input type="hidden"  id="class_id" value="<%= @school_class.id%>" />
 				<input type="hidden" name="condtions" id="condtions" value="" />
 				<div class="question_classify">
-					<a onclick="change_conditions('all')" class="<%= @condition.nil? ? "hover":""%>">全部</a><a onclick="change_conditions('my','<%= current_teacher.user_id%>')" class="<%= @condition.nil? ? "":"hover"%>">我的</a>
+					<a onclick="change_conditions('all')" class="<%= @condition.nil? ? "hover":""%>">全部</a>
+                                        <a onclick="change_conditions('my','<%= current_teacher.user_id%>')" class="<%= @condition.nil?||@condition=='false' ? "":"hover"%>">我的</a>
+                                        <a onclick="change_conditions('att')" class="<%= @condition=='false' ? "hover" : "" %>">关注</a>
 				</div>
 				<div id="reply_area">
 

@@ -9,7 +9,8 @@ class MainPagesController < ApplicationController
     @scclass = SchoolClass.find(@school_class.id)
     @classmates = SchoolClass::get_classmates(@scclass)
     page = @init_mid.nil? || @init_mid.to_i == 0 ? params[:page] : 1
-    array = Micropost::get_microposts @scclass,page,@condition
+    p @condition
+    array = Micropost::get_microposts @scclass,page,@condition,current_user.id
     microposts =array[:details_microposts]
     if @init_mid.nil? || @init_mid.to_i == 0
       @microposts = microposts

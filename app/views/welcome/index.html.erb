@@ -1,34 +1,69 @@
-<div class="wrap">
-  <div class="login_bg">
-  	<div class="logoBox">
-    <%= form_tag({:controller => :welcome, :action => :login}, :remote => true) do %>
-    <div class="i_logo">超级作业本</div>
-    <div class="login_box">      
+<script type="text/javascript">
+  $(function(){
+    $(".showConNum").on("click","li",function(){
+      if(!$(this).hasClass("on")){
+        $(".showConNum li").removeClass("on");
+        $(this).addClass("on");
+        var i = $(".showConNum li").index($(this));
+        $(".showCon ul").animate({top : -370*i + "px"},800);
+      }
+    });
+
+    $(".formBox").on("click","li",function(){
+      if(!$(this).hasClass("hover")){
+        $(".formBox li").removeClass("hover");
+        $(this).addClass("hover");
+        $(".form").hide();
+        $("." + $(this).attr("name")).show();
+      }
+    });
+  })
+</script>
+
+<div class="bg1"></div>
+<div class="bg2"></div>
+<div class="center">
+  <div class="showBox">
+    <div class="showCon">
       <ul>
-        <li class="name"><input id="email" name="email" type="text" placeholder="邮箱"/></li>
-        <li class="password"><input id="password" name="password" type="password" placeholder="密码"/></li>
-        <li class="login_btn"><button type="button" onclick="check_value();">登录</button><a href="javascript:void(0);" class="goRegister_a">注册</a></li>
-        <button id="login_submit_button" style="display: none;" type="submit">提交</button>
+        <li class="showCon_1"></li>
+        <li class="showCon_2"></li>
+        <li class="showCon_3"></li>
       </ul>
     </div>
-    <% end %>
-    </div>
-    <div class="downLoad"><a href="/downloads/cjzyb.apk"><img src="/assets/downLoad.jpg" alt="DOWNLOAD" title="DOWNLOAD"></a></div>
+    <ul class="showConNum">
+      <li class="on"></li>
+      <li></li>
+      <li></li>
+    </ul>
   </div>
-  <div class="register">
-    <h1>注册</h1>
-    <div class="register_box">
-      <%= form_tag({:controller => :welcome, :action => :regist}, :multipart => true, :remote => true) do %>
+
+  <div class="infoBox">
+    <a class="download">DOWNLOAD V1.0</a>
+    <div class="formBox">
       <ul>
-        <li><input id="r_name"  name="name" type="text" placeholder="姓名" class="otherInput"></li>
-        <li><input id="r_email" name="email" type="text" placeholder="邮箱" class="otherInput"></li>
-        <li><input id="r_password"  name="password" type="password" placeholder="密码" class="otherInput"></li>
-        <li><input id="r_confirm_password" name="confirm_password" type="password" placeholder="确认密码" class="otherInput"></li>
-        <li class="hint">密码长度在6-20之间</li>
-        <li class="register_btn"><button onclick="check_regist_info()" type="button">确认</button><a href="javascript:void(0);" class="goLogin_a">返回登录</a></li>
-        <button id="register_submit_button" style="display: none;" type="submit">提交</button>
+        <li class="hover" name="loginForm">登录</li>
+        <li name="regForm">注册</li>
       </ul>
-      <% end %>
+      <div class="form loginForm" style="display: block;">
+        <%= form_tag({:controller => :welcome, :action => :login}, :remote => true) do %>
+          <p><input id="email" name="email" type="text" placeholder="邮箱" class="username" /></p>
+          <p> <input id="password" name="password" type="password" placeholder="密码" class="password1" /> </p>
+          <p><button type="button" onclick="check_value();">登录</button></p>
+          <button id="login_submit_button" style="display: none;" type="submit">提交</button>
+        <% end %>
+      </div>
+      <div class="form regForm">
+        <%= form_tag({:controller => :welcome, :action => :regist}, :multipart => true, :remote => true) do %>
+          <p><input id="r_name"  name="name" type="text" placeholder="姓名" class="username"/></p>
+          <p><input id="r_email" name="email" type="text" placeholder="邮箱" class="eMail"/></p>
+          <p><input id="r_password"  name="password" type="password" placeholder="密码" class="password1"/></p>
+          <p><input id="r_confirm_password" name="confirm_password" type="password" placeholder="确认密码" class="password2"/></p>
+          <li class="hint">密码长度在6-20之间</li>
+          <p><button onclick="check_regist_info()" type="button">确认</button></p>
+          <button id="register_submit_button" style="display: none;" type="submit">提交</button>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

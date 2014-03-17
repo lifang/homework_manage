@@ -1,0 +1,69 @@
+/* CSS Document */
+*{ padding: 0; margin: 0;}
+body { font-family:"微软雅黑", "宋体", Arial; font-size: 12px; background: #fff;}
+img { border: none;}
+li { list-style: none;}
+a { text-decoration: none; cursor: pointer;}
+button { cursor: pointer;}
+input,button,select,textarea{ outline: none}
+
+.bg1 { position: fixed; width: 100%; height: 170px; background: #f4f4f4; }
+.bg2 {
+	position: fixed; top: 170px; width: 100%; height: 60px;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#e5e5e5), to(#ffffff));
+	background: -moz-linear-gradient(top, #e5e5e5,#ffffff);
+	background: -ms-linear-gradient(top,  #e5e5e5 0%,#ffffff 100%);
+	background: linear-gradient(top,  #e5e5e5 0%,#ffffff 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e5e5e5",endColorstr="#ffffff",GradientType=0);
+}
+
+.center { width: 1171px; margin: 0 auto; }
+.showBox { height: 560px; background: url(/assets/new/showBox.jpg) no-repeat; position: relative; box-shadow: 0 -5px 0 rgba(0, 0, 0, 0.15) inset;}
+.showCon { width: 953px; height: 370px; position: absolute; bottom: 0; left: 144px; overflow: hidden;}
+.showCon ul { position: absolute;}
+.showCon li { width: 953px; height: 370px; }
+.showCon_1 { background: url(/assets/new/showCon_1.png) no-repeat;}
+.showCon_2 { background: url(/assets/new/showCon_2.png) no-repeat;}
+.showCon_3 { background: url(/assets/new/showCon_3.png) no-repeat;}
+
+.showConNum { position: absolute; left: 172px; bottom: 50px;}
+.showConNum li { float: left; width: 10px; height: 10px; border-radius: 5px; margin: 0 10px; cursor: pointer; background: #7FEEF1;}
+.showConNum li.on { background: #fff;}
+
+.infoBox {
+	height: 380px;
+	position: relative;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#e5e5e5), to(#ffffff));
+	background: -moz-linear-gradient(top, #e5e5e5,#ffffff);
+	background: -ms-linear-gradient(top,  #e5e5e5 0%,#ffffff 100%);
+	background: linear-gradient(top,  #e5e5e5 0%,#ffffff 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e5e5e5",endColorstr="#ffffff",GradientType=0);
+}
+.download {
+    background: url("/assets/new/download.png") no-repeat 20px center #35CF90;
+	border-radius: 5px;
+    display: block;
+    height: 54px;
+    line-height: 54px;
+    width: 270px;
+	font-size: 18px;
+	color: #fff;
+	text-indent: 80px;
+	position: absolute;
+	top: 100px;
+	left: 200px;
+}
+.download span {}
+.formBox { width: 328px; margin-right: 76px; padding: 20px; float: right;}
+.formBox ul { text-align: center;}
+.formBox li { padding: 5px 15px; display: inline-block; border-radius: 8px; border: 1px solid rgba(0,0,0,0); color: #35cf90; margin: 0 10px;}
+.formBox li:hover,.formBox li.hover { border: 1px solid #35cf90;}
+.form { display: none;}
+.form p { margin: 20px; text-align: center;}
+.form p input[type="text"] { padding: 6px; border: 1px solid #35cf90; border-radius: 3px; width: 80%; font-size: 20px; text-indent: 32px; color: #a3a3a3;}
+.form p input[type="password"] { padding: 6px; border: 1px solid #35cf90; border-radius: 3px; width: 80%; font-size: 20px; text-indent: 32px; color: #a3a3a3;}
+.form p button { width: 85%; font-size: 16px; padding: 8px; background: #35cf90; border-radius: 5px; border: 0; color: #fff;}
+.username { background: url(/assets/new/login.png) no-repeat -2px -3px #fff;}
+.password1 { background: url(/assets/new/login.png) no-repeat -2px -137px #fff;}
+.password2 { background: url(/assets/new/login.png) no-repeat -2px -70px #fff;}
+.eMail { background: url(/assets/new/login.png) no-repeat -2px -204px #fff;}

@@ -167,18 +167,50 @@ function shou_question_status(obj,pub_id, school_class_id)
     })
 }
 
-//显示错题
+//显示错题的原题
 function shou_incorrect_que(question_types, stu_ans_record_id, school_class_id)
 {
-//    alert(question_types);
-//    alert(stu_ans_record_id);
     $.ajax({
         url: "/school_classes/"+ school_class_id +"/statistics/show_incorrect_questions",
         type: "POST",
         dataType: "script",
         data:{
             question_types:question_types,
-            student_answer_record:stu_ans_record_id
+            student_answer_record_id:stu_ans_record_id
+        },
+        success:function(data){
+        },
+        error:function(data){
+        }
+    })
+}
+
+//显示原题
+function show_que(que_id, school_class_id)
+{
+    $.ajax({
+        url: "/school_classes/"+ school_class_id +"/statistics/show_questions",
+        type: "POST",
+        dataType: "script",
+        data:{
+            question_id:que_id
+        },
+        success:function(data){
+        },
+        error:function(data){
+        }
+    })
+}
+
+//显示该题所有标签
+function show_tags(que_id, school_class_id)
+{
+    $.ajax({
+        url: "/school_classes/"+ school_class_id +"/statistics/show_all_tags",
+        type: "POST",
+        dataType: "script",
+        data:{
+            question_id:que_id
         },
         success:function(data){
         },

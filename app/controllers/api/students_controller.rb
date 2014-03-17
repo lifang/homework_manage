@@ -666,20 +666,10 @@ class Api::StudentsController < ApplicationController
 
   #完成某个题包
   def finish_question_packge
-    answer_file = ""
-    count = 0
-    params.each do |value|
-      if count == 0
-        answer_file = value[1]
-        count+=1
-      else
-        break
-      end
-    end
     student_id = params[:student_id]
     school_class_id = params[:school_class_id]
     publish_question_package_id = params[:publish_question_package_id]
-    #answer_file = params[:answer_file]
+    answer_file = params[:answer_file]
     student = Student.find_by_id student_id
     school_class = SchoolClass.find_by_id school_class_id
     publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id

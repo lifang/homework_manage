@@ -1,0 +1,6 @@
+<% if @status == true %>
+    $(".tab_text").text('<%= @tags %>');
+    $("#tag_display_control").val(1);
+<% else %>
+    msg('<%= @notice  %>');
+<% end %>

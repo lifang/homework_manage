@@ -41,7 +41,7 @@ function main_reply(value){
             url:'/microposts/'+micropost_id+'/create_reply',
             dataType:"script",
             data  :"textarea=" + textarea + "&micropost_id=" + micropost_id+"&class_index="+class_index+"&page="+page
-                + "&micropost_user_id=" + micropost_user_id+ "&micropost_user_type=" + micropost_user_type+ "&teacher_id=" + teacher_id+"&conditions="+$("#condtions").val(),
+            + "&micropost_user_id=" + micropost_user_id+ "&micropost_user_type=" + micropost_user_type+ "&teacher_id=" + teacher_id+"&conditions="+$("#condtions").val(),
             success:function(data){
                 tishi("回复成功！");
             }
@@ -112,14 +112,21 @@ function get_index2(value){
 function change_conditions(condtion,id){
     var value=0;
     var question_classify =$(".question_classify").children("a");
-    if(condtion!="all"){
+    if(condtion=="my"){
         $("#condtions").val(id);
         $(question_classify[0]).attr("class","");
         $(question_classify[1]).attr("class","hover");
-    }else{
+        $(question_classify[2]).attr("class","");
+    }else if(condtion=="all"){
         $(question_classify[0]).attr("class","hover");
         $(question_classify[1]).attr("class","");
+        $(question_classify[2]).attr("class","");
         $("#condtions").val("");
+    }else{
+        $(question_classify[0]).attr("class","");
+        $(question_classify[1]).attr("class","");
+        $(question_classify[2]).attr("class","hover");
+        $("#condtions").val("false");
     }
     value = $("#condtions").val();
     location.href="/school_classes/"+$("#class_id").val()+"/main_pages?condtions=" + value;
@@ -162,7 +169,7 @@ function  show_reply(value,micropost_id){
     var index = get_index(value);
     if(answer_area.css("display")=="none"){
         $(answer_area).show();
-         $.ajax({
+        $.ajax({
             async:true,
             type : 'get',
             url:"/microposts/"+micropost_id+"/particate_reply_show",
@@ -198,8 +205,8 @@ function delete_student_relation(school_class_id, student_id)
             url:"/school_classes/"+school_class_id+"/main_pages/delete_student",
             dataType:"script",
             data  :{
-               school_class_id : school_class_id,
-               student_id : student_id
+                school_class_id : school_class_id,
+                student_id : student_id
             },
             success:function(data){
             }

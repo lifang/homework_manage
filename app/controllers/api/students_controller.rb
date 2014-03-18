@@ -96,7 +96,15 @@ class Api::StudentsController < ApplicationController
             where school_classes.status = ? and school_classes.period_of_validity >= ?
             and school_class_student_ralastions.student_id = ?", 
         SchoolClass::STATUS[:NORMAL], Time.now(), student_id])
-    render :json => {:classes => classes}
+    if classes
+      status = "success"
+      notice = "获取成功！"
+    else
+      status = "error"
+      notice = "获取失败！"
+      classes= []
+    end
+    render :json => {:status=> status,:notice=>notice,:classes => classes}
   end
   
   #我的消息

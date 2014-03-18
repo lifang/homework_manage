@@ -31,11 +31,11 @@
   <div class="tab_head">班级分组</div>
   <div class="tab_con">
     <div class="tab_switch">
-      <ul>
+      <ul style="text-align :center;">
         <%= form_for :tags,:url => {:controller => 'tags',:action => 'create'},remote: :TRUE do |f| %>
-          <li>
-            <p></p>
-            <input name="name_tag" type="text"/>
+          <li class="p_input">
+            <p>组名：</p>
+            <input name="name_tag" type="text" style="display: none;" />
           </li>
           <input type="submit"  class="button_submit" value="创建"/>
         <% end %>
@@ -56,7 +56,9 @@
           <li><span>验证码：</span><%= @schoolclass[0].verification_code %></li>
           <li><span>结业时间：</span><%= @schoolclass[0].period_of_validity.strftime("%F") %></li>
           <li><span>班级人数：</span><%= @schoolclass[0].count %></li>
-          <li><span>班级分组：</span>A组、B组</li>
+          <li><span>班级分组：</span> <% if @tags %>
+              <% @tags.each do |tag| %><%= tag.name %> <% end %>
+            <% end %></li>
         <% end %>
       </ul>
       <a href="javascript:void(0);" class="student_btn_a" onclick="shwo_tags()">班级分组</a>

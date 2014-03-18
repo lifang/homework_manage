@@ -1,0 +1,19 @@
+<% count = 1 %>
+<% question[:branch_questions].each do |bq| %>
+<fieldset>
+  <legend><%= count %></count></legend>
+  <div class='q_topic'>
+    <div class='speedQuestions'>
+      <ul>
+        <li>
+          <a href='#' class='voice tooltip_title' title='音频'></a>
+        </li>
+        <li>
+          <p><%= bq[:content] %></p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</fieldset>
+<% count += 1 %>
+<% end %>

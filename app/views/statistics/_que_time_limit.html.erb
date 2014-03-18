@@ -1,0 +1,22 @@
+<% count = 1 %>
+<% question[:branch_questions].each do |bq| %>
+    <fieldset>
+      <legend><%= count %></count></legend>
+      <div class='q_topic'>
+        <div class='speedQuestions'>
+          <ul>
+            <li>
+              <a href='#' class="<%= bq[:answer]== "true" ? "true" : "false" %>">T</a>
+            </li>
+            <li>
+               <p><%= bq[:content] %></p>
+            </li>
+            <li>
+              <a href='#' class='<%= bq[:answer]== "true" ? "false" : "true" %>'>F</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </fieldset>"
+    <% count += 1 %>
+<% end %>

@@ -1,0 +1,49 @@
+<% count = 1 %>
+    <fieldset>
+      <legend><%= count %></count></legend>
+      <div class='ab_article'>
+        <div class='questions_item'>
+          <div class='gapFilling_textarea'>
+            <textarea name='' cols='' rows=''><%= question[:full_text] %></textarea>
+          </div>
+          <div class='gapFilling_box'>
+            <% count_b = 1 %>
+            <% question[:branch_questions].each do |bq| %>
+                <div class='gapFilling_questions'>
+                  <div class='gapFilling_questions_body'>
+                    <span class='gapFilling_numb'><%= count_b %></span>
+
+                    <div class='gq_article'>
+                      <div class='gq_article_title'>
+                        <div class='qt_text'><p><%= bq[:content]%></p><input name='' type='text'></div>
+                      </div>
+                      <ul>
+                        <% bq[:options].split(/\;\|\|\;/).each do |option| %>
+                            <% if bq[:answer].split(/\;\|\|\;/).length > 1 %>
+                                <li>
+                                  <div class='icheckbox_square-aero' style='position: relative;'>
+                                    <input type='checkbox' style='position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;'>
+                                    <ins class='iCheck-helper' style='position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;'></ins>
+                                  </div>
+                                  <div class='qt_text'><p><%= option %></p><input name='' type='text'></div>
+                                </li>
+                            <% else %>
+                                <li>
+                                  <div class='iradio_square-aero' style='position: relative;'>
+                                    <input type='radio' style='position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;'>
+                                    <ins class='iCheck-helper' style='position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;'></ins>
+                                  </div>
+                                  <div class='qt_text'><p><%= option %></p></p><input name='' type='text'></div>
+                                </li>
+                            <% end %>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <% count += 1 %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </fieldset>

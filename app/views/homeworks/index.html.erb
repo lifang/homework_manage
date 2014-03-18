@@ -1,10 +1,10 @@
-<div class="rightSide">
-  <div class="main">
-    <div class="article">
-      <div class="assignWork"><a href="/school_classes/<%= params[:school_class_id] %>/question_packages/new" class="tooltip">留作业</a></div>
-      <div id="assignWork_table" class="assignWork_table">
-        <%= render :partial => "publish_tasks_list" %>
-      </div>
+<div class="main">
+  <div class="assignment">
+    <div class="assignment_head">
+      <a href="/school_classes/<%= params[:school_class_id] %>/question_packages/new" class="assignment_btn_a">创建作业</a>
+    </div>
+    <div class="assignment_body">
+      <%= render :partial => "publish_tasks_list" %>
     </div>
   </div>
 </div>
@@ -26,3 +26,5 @@
   <button id="submit_publish_task" style="display: none;" class="green_btn" type="submit">提交</button>
   <% end %>
 </div>
+
+

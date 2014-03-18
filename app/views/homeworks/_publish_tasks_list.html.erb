@@ -22,14 +22,14 @@
                   <td><a href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>" class="preview_icon tooltip_html">预览</a></td>
                   <td><a href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>/questions" class="quote_icon tooltip_html">引用</a></td>
                   <td><%= link_to "删除", "/school_classes/#{school_class_id}/question_packages/#{p.question_package_id}", :method => :delete, :confirm => "确定删除？",:class => "delete_icon tooltip_html" %></td>
-                  <td><a href="javascript:void(0);" class="td_timer" onclick="show_publish_task_panel(<%= p.question_package_id %>)" title="点击发布" >截止时间</a></td>
+                  <td><a href="javascript:void(0);" class="time_icon tooltip_html" onclick="show_publish_task_panel(<%= p.question_package_id %>)" title="点击发布" >截止时间</a></td>
                 </tr>
             <% else %>
                 <tr>
                   <td><%= p.created_at.to_s[0,19] %></td>
                   <td><p class="tooltip"><%= p.name %></p></td>
-                  <td><a href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>" class="td_view">预览</a></td>
-                  <td><a href="javascript:void(0);" class="td_write_ed">编辑</a></td>
+                  <td><a href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>" class="preview_icon tooltip_html">预览</a></td>
+                  <td><a href="javascript:void(0);" class="quote_icon tooltip_html">引用</a></td>
                   <% if @un_delete_task.include?(p.publish_question_package_id) %>
                       <td><a href="javascript:void(0);" class="delete_icon_ed">删除</a></td>
                   <% else %>

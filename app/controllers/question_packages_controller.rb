@@ -68,14 +68,34 @@ class QuestionPackagesController < ApplicationController
   #预览作业
   def show
     @question_pack = QuestionPackage.find_by_id(params[:id])
-    @pub_pack = PublishQuestionPackage.find_by_question_package_id @question_pack.id
-    if params[:type].present?
-      @questions = params[:type] == "listen" ? @question_pack.questions.listening : @question_pack.questions.reading
-    else
-      @questions = @question_pack.questions
+    @origin_questions = nil
+    ques = []
+    question_id = Question.select("id").where("question_package_id = ?",@question_pack.id)
+    question = Question
+      .select("questions.id, questions.types, questions.name, questions.full_text,
+                    questions.content")
+      .where(["questions.id in (?)", question_id])
+    branch_questions = BranchQuestion
+      .select("content, resource_url, options, answer, question_id")
+      .where(["question_id in (?)", question_id])
+    branch_questions_id = branch_questions.map{|bq| bq.id}
+    branch_questions = branch_questions.group_by {|b| b.question_id}
+    p branch_questions
+    @tags = BtagsBqueRelation.joins("left join tags t on btags_bque_relations.branch_tag_id = t.id")
+        .select("btags_bque_relations.branch_question_id, t.id, t.name")
+        .where(["branch_question_id in (?)",branch_questions_id])
+        .group_by {|t| t.branch_question_id}
+    question.each do |q|
+      branch_ques = []
+      if branch_questions[q.id].present?
+        branch_ques = branch_questions[q.id]
+      end
+      ques << {:id => q.id, :name => q.name, :types => q.types, :full_text => q.full_text,
+               :content => q.content, :branch_questions => branch_ques}
     end
-    @question = @questions[0]
-    @branch_questions = BranchQuestion.where(:question_id => @question.try(:id)) if @question.present?
+    ques = ques.group_by {|q| q[:types]}
+    @question = ques[Question::TYPES[:TIME_LIMIT]].nil? ? [] : ques[Question::TYPES[:TIME_LIMIT]]
+    p @question
   end
 
   #删除作业

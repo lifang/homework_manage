@@ -1,5 +1,28 @@
 // JavaScript Document
 //tab
+//popup
+function popup(t){
+    var win_width = $(window).width();
+    var win_height = $(window).height();
+    var doc_width = $(document).width();
+    var doc_height = $(document).height();
+
+    var layer_height = $(t).height();
+    var layer_width = $(t).width();
+
+    var top = 0;
+    var left = 0;
+    $(".mask").css("height",doc_height);
+    $(t).css('top',top);
+    $(t).css('left',left);
+    $(".mask").css("display","block");
+    $(t).css('display','block');
+
+    $(".close").click(function(){
+        $(this).parents(t).css("display","none");
+        $(".mask").css("display","none");
+    });
+}
 
 //显示窗口
 function show_windows(div_id)
@@ -101,7 +124,21 @@ $(function(){
     })
 })
 
-//left菜单
+
+//点击作业列表展开隐藏
+$(function(){
+    $(".ab_list_title").click(function(){
+        if($(this).parent().find(".ab_list_box").is(":hidden")){
+            $(this).parent().find(".ab_list_box").show();
+            $(this).parent().addClass("ab_list_open");
+        }else{
+            $(this).parent().find(".ab_list_box").hide();
+            $(this).parent().removeClass("ab_list_open");
+        }
+
+    })
+})
+
 
 
 //user_info 修改姓名邮箱

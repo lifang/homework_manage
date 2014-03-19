@@ -1,41 +1,114 @@
 <div class="rightSide">
   <div class="main">
-    <div class="wib_title">
-      <% if @pub_pack.nil? %>
-          <a href="/school_classes/<%= params[:school_class_id] %>/question_packages/<%= @question_pack.id %>/questions" class="quote" >编辑</a>
-      <% end %>
-      <% if params[:type].nil? %>
-          <a href="/school_classes/<%= params[:school_class_id].to_i %>/homeworks"  class="back" >返回</a>
-      <% else %>
-          <a href="/school_classes/<%= params[:school_class_id].to_i %>/results"   class="back">返回</a>
-      <% end%>
-    </div>
+    <div class="assignment">
+      <div class="assignment_head">
+        <div class="select_box jqtransformdone">
+          <div class="rowElem">
+            <div class="jqTransformSelectWrapper" style="z-index: 10; width: 320px;"><div><span style="width: 255px;">Big Option test line with more wordssss</span><a href="#" class="jqTransformSelectOpen"></a></div><ul style="width: 318px; visibility: visible; display: none;"><li><a href="#" index="0" class="selected">Big Option test line with more wordssss</a></li><li><a href="#" index="1">Option 2</a></li><li><a href="#" index="2">Option 3</a></li><li><a href="#" index="3">Option 4</a></li><li><a href="#" index="4">Option 5</a></li><li><a href="#" index="5">Option 6</a></li><li><a href="#" index="6">Option 7</a></li><li><a href="#" index="7">Option 8</a></li></ul><select name="select1" class="jqTransformHidden" style="">
+              <option value="opt1">Big Option test line with more wordssss</option>
+              <option value="opt2">Option 2</option>
+              <option value="opt3">Option 3</option>
+              <option value="opt4">Option 4</option>
+              <option value="opt5">Option 5</option>
+              <option value="opt6">Option 6</option>
+              <option value="opt7">Option 7</option>
+              <option value="opt8">Option 8</option>
+            </select></div>
 
-    <div class="article">
-      <div class="book_box clearAfter">
-        <div class="book_box_page">
-          <a href="javascript:void(0);" class="bbp_up" onclick="questionUp(this)">&and;</a>
-          <div class="book_box_page_box">
-            <ul>
-              <% @questions.each_with_index do |question, index| %>
-                <li class="question_li <%= @question && @question.id == question.id ? "hover" : "" %>" onclick="liHover(this)">
-                  <a href="<%= school_class_question_package_question_path(school_class_id, @question_pack, question) %>" data-remote="true" data-type="script"><%= index+1 %>.</a></li>
-              <% end %>
+          </div>
+          <div class="rowElem">
+            <div class="jqTransformSelectWrapper" style="z-index: 9; width: 320px;"><div><span style="width: 255px;">Big Option test line with more wordssss</span><a href="#" class="jqTransformSelectOpen"></a></div><ul style="width: 318px; display: none; visibility: visible;"><li><a href="#" index="0" class="selected">Big Option test line with more wordssss</a></li><li><a href="#" index="1">Option 2</a></li><li><a href="#" index="2">Option 3</a></li><li><a href="#" index="3">Option 4</a></li><li><a href="#" index="4">Option 5</a></li><li><a href="#" index="5">Option 6</a></li><li><a href="#" index="6">Option 7</a></li><li><a href="#" index="7">Option 8</a></li></ul><select name="select2" class="jqTransformHidden" style="">
+              <option value="opt1">Big Option test line with more wordssss</option>
+              <option value="opt2">Option 2</option>
+              <option value="opt3">Option 3</option>
+              <option value="opt4">Option 4</option>
+              <option value="opt5">Option 5</option>
+              <option value="opt6">Option 6</option>
+              <option value="opt7">Option 7</option>
+              <option value="opt8">Option 8</option>
+            </select></div>
+          </div>
+        </div>
+      </div>
+      <div class="assignment_body">
+        <div class="assignment_body_list">
+          <div class="ab_list_title">
+            <h1>What's that?</h1>
+            <p>十速挑战 / 李芳 / 2014-02-12 / 参考时间：15秒</p>
+            <ul class="ab_func">
+              <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
+              <li><a href="#" class="save_icon tooltip_html">保存</a></li>
+              <li><a href="#" class="share_icon tooltip_html">分享</a></li>
+              <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
             </ul>
           </div>
-          <a href="javascript:void(0);" class="bbp_down"  onclick="questionDown(this)">&or;</a>
-        </div>
-        <div class="steps">
-          <%= render "/questions/show_branch" %>
+          <div class="ab_list_box" style="display: none;">
+            <div class="ab_article">
+              <div class="questions_item">
+                <div class="q_topic">
+                  <div class="speedQuestions">
+                    <ul>
+                      <li><a href="#" class="true">T</a></li>
+                      <li class="qt_text"><p>apple前面是用冠词an？</p><input name="" type="text"></li>
+                      <li><a href="#" class="false">F</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="qt_icon"><a href="#" class="tag tooltip_html">标签</a></div>
+                <div class="tag_ul">
+                  <ul>
+                    <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                    <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                    <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="questions_item">
+                <div class="q_topic">
+                  <div class="speedQuestions">
+                    <ul>
+                      <li><a href="#" class="true">T</a></li>
+                      <li class="qt_text"><p>apple前面是用冠词an？</p><input name="" type="text"></li>
+                      <li><a href="#" class="false">F</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="qt_icon"><a href="#" class="tag tooltip_html">标签</a></div>
+              </div>
+
+              <div class="questions_item">
+                <div class="q_topic">
+                  <div class="speedQuestions">
+                    <ul>
+                      <li><a href="#" class="true">T</a></li>
+                      <li class="qt_text"><p>apple前面是用冠词an？</p><input name="" type="text"></li>
+                      <li><a href="#" class="false">F</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="qt_icon"><a href="#" class="tag tooltip_html">标签</a></div>
+              </div>
+
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 <script>
+
+    $(function(){
+        $('.select_box').jqTransform();
+    });
+
     $(document).ready(function(){
         $(".steps .td_text_p").dblclick(function(){
             $(".td_text_p").show();
         });
+        $(".assignment_body_list").onclick(function(){
+            $(".assignment_body_list").addClass("ab_list_open");
+        })
     })
 </script>

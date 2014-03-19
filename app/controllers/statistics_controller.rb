@@ -1,7 +1,7 @@
 #encoding: utf-8
 include StatisticsHelper
 class StatisticsController < ApplicationController
-  layout "tapplication"
+  #layout "tapplication"
   #完成率及正确率统计
   def index
     school_class_id = params[:school_class_id]

@@ -1,6 +1,5 @@
 #encoding:utf-8
 class MainPagesController < ApplicationController
-  layout 'tapplication'
   before_filter :sign? 
   before_filter :get_school_class
   def index

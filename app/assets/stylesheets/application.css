@@ -10,7 +10,6 @@
  *
  *= require_self
  *= require common
- *= require jqtransform
  *= require jquery.Jcrop.min
  *= require login
  *= require style

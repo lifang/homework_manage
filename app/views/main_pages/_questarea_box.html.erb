@@ -1,24 +1,29 @@
-
 <%  @microposts.each_with_index do | micropost,index |%>
-  <div class="question_area_box" >
-    <div class="avater"><a href="#"><img src="<%=micropost.avatar_url%>" /></a></div>
-    <div class="question_area_con">
-      <a  class="x" onclick="delete_micropots(<%=micropost.micropost_id%>)">删除</a>
-      <div class="avater_name"><a href="#"><%=micropost.name%></a></div>
-      <div class="question_area_text"><%=micropost.content%></div>
-      <div class="question_text_func">
-        <span class="time"><%=micropost.created_at.to_s[0..19]%></span><a onclick="show_reply(this,<%=micropost.micropost_id%>)" class="answer_a">回复（<%=micropost.reply_microposts_count%>）</a>
+  <div class="askAnswer_area_box question_area_box">
+    <div class="askAnswer_avater"><img src="<%=micropost.avatar_url%>"/></div>
+    <div class="askAnswer_area_con question_area_con">
+      <a  href="javascript:void(0);" class="x" onclick="delete_micropots(<%=micropost.micropost_id%>)">删除</a>
+      <div class="askAnswer_area_text">
+        <a onclick="show_reply(this,<%=micropost.micropost_id%>)" val="0" class="answer_a"><%=micropost.content%></a>
       </div>
+      <div class="askAnswer_area_func">
+        <span><%=micropost.name%></span><span><%=micropost.created_at.to_s[0..19]%></span>
+        <a href="javascript:void(0);" onclick="show_reply(this,<%=micropost.micropost_id%>)" val="1" class="tooltip_title comment_icon" title="评论"><%=micropost.reply_microposts_count%></a>
+        <a href="javascript:void(0);" class="tooltip_title collect_icon_ed" title="收藏">3</a>
+      </div>
+
       <div class="answer_area" style="<% if (@init_mid && @init_mid.to_i == micropost.micropost_id) || @class_index.to_i ==index %>display:block;<% else %>display:none;<% end %>margin-top: 15px;">
         <% if (@init_mid && @init_mid.to_i == micropost.micropost_id) %>
-        <%=  render 'main_pages/answer_area' %>
+          <%=  render 'main_pages/answer_area' %>
         <% end %>
       </div>
     </div>
   </div>
 <%  end if @microposts %>
 <% if @microposts.blank? %>
-<p  style="padding-top: 20px;text-align: center;">暂无数据</p>
+  <p  style="padding-top: 20px;text-align: center;">暂无数据</p>
 <% end %>
+
+
 
 

@@ -3,9 +3,10 @@
   <head>
     <meta charset="utf-8"/>
     <title>HomeworkManage</title>
-    <%= stylesheet_link_tag "new/tstyle.css",'new/jqtransform.css', :media => "all" %>
+    <%= stylesheet_link_tag "new/style.css",'new/jqtransform.css', :media => "all" %>
+    <%= stylesheet_link_tag "new/skins/square/_all.css",'new/skins/square/aero.css', 'new/skins/square/blue.css', 'new/skins/square/green.css', 'new/skins/square/grey.css', 'new/skins/square/orange.css', 'new/skins/square/pink.css', 'new/skins/square/purple.css', 'new/skins/square/red.css', 'new/skins/square/square.css', 'new/skins/square/yellow.css', :media => "all" %>
     <%= javascript_include_tag "application", "new/main", "statistics", "main", "main_pages", "new/icheck", "new/jquery.tablesorter"  %>
-    <%= javascript_include_tag "teachers"%>
+    <%= javascript_include_tag "teachers","new/jquery.jqtransform" %>
     <%= javascript_include_tag "jquery.Jcrop.min"%>
     <script type="text/javascript" src="/assets/My97DatePicker/WdatePicker.js" ></script>
     <%= csrf_meta_tags %>
@@ -34,5 +35,8 @@
         <%= yield %>
       </div>     
     <div class="mask"></div>
+    <div class="tab tab840" id="popup_page">
+
+    </div>
   </body>
 </html>

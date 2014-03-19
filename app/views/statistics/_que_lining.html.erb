@@ -1,0 +1,16 @@
+<% count = 1 %>
+<fieldset>
+<legend><%= count %></count></legend>
+<% question[:branch_questions].each do |bq| %>
+      <div class='q_topic'>
+        <div class='ligatureQuestions'>
+          <ul>
+            <li class='qt_input'><input name='' type='text' value='<%= bq[:options].to_s.split(/\<\=\>/)[0] %>'></li>
+            <li><i></i></li>
+            <li class='qt_input'><input name='' type='text' value='<%= bq[:options].to_s.split(/\<\=\>/)[1] %>'></li>
+          </ul>
+        </div>
+      </div>
+    <% count += 1 %>
+<% end %>
+</fieldset>

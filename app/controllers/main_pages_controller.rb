@@ -1,5 +1,6 @@
 #encoding:utf-8
 class MainPagesController < ApplicationController
+  layout 'tapplication'
   before_filter :sign? 
   before_filter :get_school_class
   def index
@@ -9,7 +10,6 @@ class MainPagesController < ApplicationController
     @scclass = SchoolClass.find(@school_class.id)
     @classmates = SchoolClass::get_classmates(@scclass)
     page = @init_mid.nil? || @init_mid.to_i == 0 ? params[:page] : 1
-    p @condition
     array = Micropost::get_microposts @scclass,page,@condition,current_user.id
     microposts =array[:details_microposts]
     if @init_mid.nil? || @init_mid.to_i == 0

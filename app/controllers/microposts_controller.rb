@@ -91,6 +91,7 @@ class MicropostsController < ApplicationController
 
   def particate_reply_show
     @index = params[:index]
+    @types = params[:types].to_i
     get_posts_and_replis
   end
   def get_posts_and_replis

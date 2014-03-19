@@ -1,0 +1,38 @@
+<% count = 1 %>
+<% question[:branch_questions].each do |bq| %>
+    <fieldset>
+      <legend><%= count %></legend>
+      <div class='q_topic'>
+        <div class='multipleChoice'>
+          <div class='q_left'><img src='/assets/new/voice.jpg'></div>
+          <div class='q_right'>
+            <div class='q_title'><%= question[:content] %></div>
+            <ul>
+              <% if bq[:options].present? %>
+                  <% bq[:options].split(/\;\|\|\;/).each do |option| %>
+                      <% if bq[:answer].split(/\;\|\|\;/).length > 1 %>
+                          <li>
+                            <div class='icheckbox_square-green <%= bq[:answer].split(/\;\|\|\;/).include?(option) ? "checked" : "" %>' style='position: relative;'>
+                              <input type='checkbox' style='position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;'>
+                              <ins class='iCheck-helper' style='position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;'></ins>
+                            </div>
+                            <p><%= option %></p>
+                          </li>
+                      <% else %>
+                          <li>
+                            <div class='iradio_square-green <%= bq[:answer].split(/\;\|\|\;/).include?(option) ? "checked" : "" %>' style='position: relative;'>
+                              <input type='radio' name='iCheck' style='position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;'>
+                              <ins class='iCheck-helper' style='position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;'></ins>
+                            </div>
+                            <p><%= option %></p>
+                          </li>
+                      <% end %>
+                      <% count += 1 %>
+                  <% end %>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+<% end %>

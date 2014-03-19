@@ -1,17 +1,17 @@
 <div class="user">
-            <div class="avater"><img src="<%=current_teacher.avatar_url%>" width="100" height="100"/></div>
-            <div class="name"><%=current_teacher.name%></div>
-          </div>
-          <div class="grade_con clearAfter">
-            <h1><%=@scclass.name%></h1>
-            <h2>验证码:<%=@scclass.verification_code %></h2>
-            <ul>
-              <%@classmates.each do |classmate|%>
-              <li>
-                <a href="javascript:void(0);" onclick="delete_student_relation('<%= params[:school_class_id] %>','<%= classmate[:id] %>')" class="x">删除</a>
-                <span><img src="<%=classmate[:avatar_url] %>" /></span>
-                <p><%=classmate[:name]%></p>
-              </li>
-              <%end%>
-            </ul>
-          </div>
+  <div class="avater"><img src="<%=current_teacher.avatar_url%>" width="100" height="100"/></div>
+  <div class="name"><%=current_teacher.name%></div>
+</div>
+<div class="grade_con clearAfter">
+  <h1><%=@scclass.name%></h1>
+  <h2>验证码:<%=@scclass.verification_code %></h2>
+  <ul>
+    <%@classmates.each do |classmate|%>
+      <li>
+        <a href="javascript:void(0);" onclick="delete_student_relation('<%= params[:school_class_id] %>','<%= classmate[:id] %>')" class="x">删除</a>
+        <span><img src="<%=classmate[:avatar_url] %>" /></span>
+        <p><%=classmate[:name]%></p>
+      </li>
+    <%end%>
+  </ul>
+</div>

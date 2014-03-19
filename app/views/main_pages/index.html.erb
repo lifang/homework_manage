@@ -1,64 +1,135 @@
-<div class="rightSide">
-	<div class="main setPaddingRight">
-		<div class="article">
-			<div class="ask_area">
-                          <form action="/microposts" method="post" onsubmit="return check_send_microposts(this)" accept-charset="UTF-8">
-				<div class="ask_area_textarea">
-					<textarea name="microposts[content]" cols="" rows="" placeholder="提个问题或是分享一下你的心得吧。"></textarea>
-</div>				<div class="ask_area_btn">
-					<button class="green_btn">
-						发布
-					</button>
-				</div>
-                          </form>
-			</div>
-		</div>
-		<div class="article">
-			<div class="question_area">
-				<input type="hidden"  id="class_id" value="<%= @school_class.id%>" />
-				<input type="hidden" name="condtions" id="condtions" value="" />
-				<div class="question_classify">
-					<a onclick="change_conditions('all')" class="<%= @condition.nil? ? "hover":""%>">全部</a>
-                                        <a onclick="change_conditions('my','<%= current_teacher.user_id%>')" class="<%= @condition.nil?||@condition=='false' ? "":"hover"%>">我的</a>
-                                        <a onclick="change_conditions('att')" class="<%= @condition=='false' ? "hover" : "" %>">关注</a>
-				</div>
-				<div id="reply_area">
 
-					<%= render 'questarea_box'%>
+<script language="javascript">
+  $(function(){
+    $('.select_box').jqTransform();
+  });
+</script>
 
-				</div>
-				<div class="digg_pagination">
-					<%= will_paginate @microposts,remote:true,:previous_label=>'上一页',:next_label=>'下一页' %>
-					<script>
-						var aarr = $(".pagination").find("a");
-						for (var i = 0; i < aarr.length; i++) {
-							//alert($(aarr[i]).attr("href"));
-						var arr = $(aarr[i]).attr("href").split("&");
-						var s = "";
-						if (arr[1].split("=")[0] == "init_mid") {
-							for (var j = 0; j < arr.length; j++) {
-								if(j==arr.length-1){
-									s += arr[j];
-								}else if (j != 1) {
-									s += arr[j] + "&";
-								}
-							}
-							$(aarr[i]).attr("href", s)
-						  }
-						}
-					</script>
-				</div>
-			</div>
+<div class="main">
+  <div class="askAnswer">
+    <div class="askAnswer_head">
+      <div class="ask_nav">
+        <ul>
+          <input type="hidden"  id="class_id" value="<%= @school_class.id%>" />
+          <input type="hidden" name="condtions" id="condtions" value="" />
+          <li><a onclick="change_conditions('all')" class="<%= @condition.nil? ? "hover":""%>">全部问答</a></li>
+          <li><a onclick="change_conditions('my','<%= current_teacher.user_id%>')" class="<%= @condition.nil?||@condition=='false' ? "":"hover"%>">我的问答</a></li>
+          <li><a onclick="change_conditions('att')" class="<%= @condition=='false' ? "hover" : "" %>">关注的问答</a></li>
+        </ul>
+        <a href="#" class="ask_btn tooltip_html">提问</a>
+      </div>
+    </div>
+    <div class="askAnswer_body " id="reply_area">
+      <%= render 'questarea_box'%>
+    </div>
 
-		</div>
-		<div class="grade_box" style="height:100%">
-			<%= render 'grade_box'%>
-		</div>
-	</div>
+  </div>
 </div>
 
+
+<div class="tab_mess">
+  <h1>回复</h1>
+  <h2>信息内容</h2>
+  <div class="create_main_microposts">
+  <div class="textarea_box">
+    <textarea cols="" rows="">字数限制60字</textarea>
+  </div>
+  <div class="tab_mess_btn"><button>提交</button></div>
+  </div>
+</div>
+
+<div class="tab_user">
+  <h1>个人信息</h1>
+  <div class="tab_user_box">
+    <div class="tab_user_left">
+      <div class="avater_default"><img src="/assets/new/default_avater.jpg"/></div>
+      <a href="javascript:void(0);" class="avater_a">
+        <span>确定</span>
+        <input name="" multiple type="file"/>
+      </a>
+      <p>注：图片大小限定在1M以内</p>
+    </div>
+    <div class="tab_user_right">
+      <ul>
+        <li><label>姓名</label><input name="" type="text" disabled/></li>
+        <li><label>邮箱</label><input name="" type="text" disabled/></li>
+        <li><label>原密码</label><input name="" type="text"/></li>
+        <li><label>新密码</label><input name="" type="text"/></li>
+        <li><label>确认新密码</label><input name="" type="text"/></li>
+      </ul>
+    </div>
+
+  </div>
+  <div class="tab_user_btn"><button>保存</button></div>
+  <div class="tab_out_btn"><button>退出</button></div>
+</div>
+
+<div class="right_side_mess">
+  <a href="#" class="side_mess_delete">全部删除</a>
+  <div class="side_mess_box">
+    <ul>
+      <li><p>王小小回复您的留言</p><p>2014-03-04  21：30</p></li>
+      <li><p>王小小回复您的留言</p><p>2014-03-04  21：30</p></li>
+      <li><p>王小小回复您的留言</p><p>2014-03-04  21：30</p></li>
+    </ul>
+  </div>
+</div>
+
+
+<div class="tab tab500">
+  <a href="javascript:void(0);" class="close">close</a>
+  <div class="tab_head">创建班级</div>
+  <div class="tab_body clearAfter">
+    <div class="tab_warning">as大三大四的方式的风格豆腐干地方很多返回法国恢复供货</div>
+    <div class="tab_setClass">
+      <ul>
+        <li>
+          <div class="select_box">
+            <div class="rowElem">
+              <select name="select1" >
+                <option value="opt1">选择教材</option>
+                <option value="opt2">Option 2</option>
+                <option value="opt3">Option 3</option>
+                <option value="opt4">Option 4</option>
+                <option value="opt5">Option 5</option>
+                <option value="opt6">Option 6</option>
+                <option value="opt7">Option 7</option>
+                <option value="opt8">Option 8</option>
+              </select>
+
+            </div>
+          </div>
+        </li>
+        <li><input name="" type="text" value="班级名称"/></li>
+        <li>
+          <input name="" type="text" value="截止时间"/>
+        </li>
+      </ul>
+      <div class="tab_switch_btn"><a href="#">确定</a></div>
+    </div>
+  </div>
+</div>
+<script>
+  var aarr = $(".pagination").find("a");
+  for (var i = 0; i < aarr.length; i++) {
+    //alert($(aarr[i]).attr("href"));
+    var arr = $(aarr[i]).attr("href").split("&");
+    var s = "";
+    if (arr[1].split("=")[0] == "init_mid") {
+      for (var j = 0; j < arr.length; j++) {
+        if(j==arr.length-1){
+          s += arr[j];
+        }else if (j != 1) {
+          s += arr[j] + "&";
+        }
+      }
+      $(aarr[i]).attr("href", s)
+    }
+  }
+</script>
+
 <script type="text/javascript">
-    <% if flash[:verification_code] %>
+<% if flash[:verification_code] %>
     tishi_code("<%= flash[:verification_code] %>");
-    <% end %>
+<% end %>
 </script>

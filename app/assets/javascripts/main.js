@@ -20,7 +20,10 @@ $(function(){
 $(function(){
     $(".item_content li a").click(function(e){
         $(".s_tab").css('display','block');
-        $(".s_tab").css({'top':(e.pageY)+'px', 'left':(e.pageX)+'px'});
+        $(".s_tab").css({
+            'top':(e.pageY)+'px',
+            'left':(e.pageX)+'px'
+        });
     });
 
     $(".close").click(function(){
@@ -37,18 +40,23 @@ $(function(){
             $(".tab_mess").css({
                 'top':(e.pageY-$(".tab_mess").height()-50)+'px',
                 'left':(e.pageX-180)+'px'
-                });
+            });
         }else{
             $(".tab_mess").css({
                 'top':(e.pageY+30)+'px',
                 'left':(e.pageX-180)+'px'
-                });
+            });
         }
         return false;
     });
     $(document).bind('click', function (e) {
         if ( $(e.target).closest(".tab_mess").length>0 ) {
-            $(".tab_mess").css('display','block');
+            if($(e.target).closest(".form_cancel").length>0){
+                $(".tab_mess").css('display','none');
+                return false;
+            }else{
+                $(".tab_mess").css('display','block');
+            }
         }else{
             $(".tab_mess").css('display','none');
         }
@@ -63,21 +71,16 @@ $(function(){
         var html = '<form action="/microposts" method="post" onsubmit="return check_send_microposts(this)" accept-charset="UTF-8">\n\
                 <div class="textarea_box">\n\
 <textarea name="microposts[content]" cols="" rows="" placeholder="字数限制60字"></textarea></div>\n\
-                <div class="tab_mess_btn"><button class="">提交</button></div></form>'
+                <div class="tab_mess_btn">\n\
+<button type="submit" class="">提交</button>\n\
+<button type="button" class="form_cancel">取消</button></div></form>'
         $(".create_main_microposts").html(html)
         $(".tab_mess").css('display','block');
         $(".tab_mess").css({
             'top':(e.pageY+30)+'px',
             'left':(e.pageX-180)+'px'
-            });
+        });
         return false;
-    });
-    $(document).bind('click', function (e) {
-        if ( $(e.target).closest(".tab_mess").length>0 ) {
-            $(".tab_mess").css('display','block');
-        }else{
-            $(".tab_mess").css('display','none');
-        }
     });
 })
 
@@ -88,7 +91,7 @@ $(function(){
         $(".tag_tab").css({
             'top':(e.pageY+30)+'px',
             'left':(e.pageX-192)+'px'
-            });
+        });
         return false;
     });
     $(document).bind('click', function (e) {
@@ -123,7 +126,10 @@ $(function(){
 $(function(){
     $(".qt_icon a.tag").click(function(e){
         $(".tag_tab").css('display','block');
-        $(".tag_tab").css({'top':(e.pageY+30)+'px', 'left':(e.pageX-192)+'px'});
+        $(".tag_tab").css({
+            'top':(e.pageY+30)+'px',
+            'left':(e.pageX-192)+'px'
+        });
         return false;
     });
 
@@ -147,7 +153,7 @@ $(function(){
         $(".tab_user").css({
             'top':(e.pageY+30)+'px',
             'left':(e.pageX-470)+'px'
-            });
+        });
         return false;
     });
     $(document).bind('click', function (e) {
@@ -186,12 +192,12 @@ function tabFunc(c,t){
     });
 }
 $(function(){
-//    tabFunc(".td_seeQuestion",".tab");
-//    tabFunc(".switchoverClass a",".tab");
-//    tabFunc("a.student_btn_a",".tab");
-//    tabFunc("a.time_icon",".tab");
-//    tabFunc("a.clock_icon",".tab");
-})
+    //    tabFunc(".td_seeQuestion",".tab");
+    //    tabFunc(".switchoverClass a",".tab");
+    //    tabFunc("a.student_btn_a",".tab");
+    //    tabFunc("a.time_icon",".tab");
+    //    tabFunc("a.clock_icon",".tab");
+    })
 
 //页面弹出层高度
 $(function(){
@@ -270,7 +276,7 @@ $(function(){
         $(this).parent().find("p").css("display","inline-block");
         $(this).parent().find("p").html($(this).val());
         $(this).attr("value",$(this).val());
-        //alert($(this).val());
+    //alert($(this).val());
     });
 })
 
@@ -287,7 +293,7 @@ function ondblclick(a,b){
         $(this).parent().find("p").css("display","inline-block");
         $(this).parent().find("p").html($(this).val());
         $(this).attr("value",$(this).val());
-        //alert($(this).val());
+    //alert($(this).val());
     });
 }
 $(function(){
@@ -501,7 +507,7 @@ $(function(){
     $(".flash").show();
     setTimeout("$('.flash').hide(1000)",2000);
 //    tabFunc(".tab");
-    //tabFunc(".tab_article");
+//tabFunc(".tab_article");
 })
 
 //页面高度
@@ -657,7 +663,7 @@ function dia(e){
         function(){
             $(this).find("a.x").css("display","none");
         }
-    );
+        );
 }
 $(function(){
     dia(".question_area_con");
@@ -958,7 +964,9 @@ function del_all_unread_msg(user_id, school_class_id){
         type: "get",
         url: "/school_classes/"+school_class_id+"/messages/del_all_unread_msg",
         dataType: "json",
-        data: {user_id : user_id},
+        data: {
+            user_id : user_id
+        },
         success: function(data){
             window.location.reload();
         },

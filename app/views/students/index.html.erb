@@ -34,8 +34,8 @@
       <ul style="text-align :center;">
         <%= form_for :tags,:url => {:controller => 'tags',:action => 'create'},remote: :TRUE do |f| %>
           <li class="p_input">
-            <p>组名：</p>
-            <input name="name_tag" type="text" style="display: none;" />
+            <p></p>
+            <input name="name_tag" type="text" style="display: none;" placeholder="组名" />
           </li>
           <input type="submit"  class="button_submit" value="创建"/>
         <% end %>

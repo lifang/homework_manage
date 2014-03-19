@@ -22,16 +22,16 @@
           </div>
         </div>
         <% flash.each do |x,y| %>
-            <% if x != "verification_code" %>
-              <% break %>
-            <% else %>
-              <div class="tab flash"  style="display:none;">
-                <span class="close">关闭</span>
-                <div class="tab_con">
-                  <h1 class="red"><%=y%></h1>
-                </div>
+          <% if x != "verification_code" %>
+            <% break %>
+          <% else %>
+            <div class="tab flash"  style="display:none;">
+              <span class="close">关闭</span>
+              <div class="tab_con">
+                <h1 class="red"><%=y%></h1>
               </div>
-            <%end%>
+            </div>
+          <%end%>
         <%end%>
         <%= yield %>
       </div>     
@@ -40,5 +40,6 @@
     <div class="tab tab840" id="popup_page">
 
     </div>
+    
   </body>
 </html>

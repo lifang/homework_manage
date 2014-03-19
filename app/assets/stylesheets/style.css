@@ -385,7 +385,7 @@ li.p_input p, li.p_input input, .tab_switch li input {
 /*用户信息*/
 .userInfo { height: 38px; font-size: 12px; overflow: hidden;}
 .userInfo ul { float: right;}
-.userInfo li { float: left; height: 38px; margin: 0 10px;}
+.userInfo li { float: left; height: 38px; margin: 0 10px;line-height: 3;}
 .userInfo li.switchoverClass a {
     width: 22px;
     height: 13px;

@@ -10,7 +10,7 @@ development:
   database: homework_manage
   pool: 5
   username: root
-  password: comdo2012
+  password: root
   host: localhost
 
 # Warning: The database defined as "test" will be erased and

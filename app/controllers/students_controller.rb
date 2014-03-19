@@ -56,5 +56,4 @@ from school_classes sc where sc.id=?"
       end
     end
   end
-
 end

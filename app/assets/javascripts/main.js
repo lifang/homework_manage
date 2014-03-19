@@ -23,7 +23,7 @@ $(function(){
         $(".s_tab").css({
             'top':(e.pageY)+'px',
             'left':(e.pageX)+'px'
-            });
+        });
     });
 
     $(".close").click(function(){
@@ -51,7 +51,12 @@ $(function(){
     });
     $(document).bind('click', function (e) {
         if ( $(e.target).closest(".tab_mess").length>0 ) {
-            $(".tab_mess").css('display','block');
+            if($(e.target).closest(".form_cancel").length>0){
+                $(".tab_mess").css('display','none');
+                return false;
+            }else{
+                $(".tab_mess").css('display','block');
+            }
         }else{
             $(".tab_mess").css('display','none');
         }
@@ -66,7 +71,9 @@ $(function(){
         var html = '<form action="/microposts" method="post" onsubmit="return check_send_microposts(this)" accept-charset="UTF-8">\n\
                 <div class="textarea_box">\n\
 <textarea name="microposts[content]" cols="" rows="" placeholder="字数限制60字"></textarea></div>\n\
-                <div class="tab_mess_btn"><button class="">提交</button></div></form>'
+                <div class="tab_mess_btn">\n\
+<button type="submit" class="">提交</button>\n\
+<button type="button" class="form_cancel">取消</button></div></form>'
         $(".create_main_microposts").html(html)
         $(".tab_mess").css('display','block');
         $(".tab_mess").css({
@@ -74,13 +81,6 @@ $(function(){
             'left':(e.pageX-180)+'px'
         });
         return false;
-    });
-    $(document).bind('click', function (e) {
-        if ( $(e.target).closest(".tab_mess").length>0 ) {
-            $(".tab_mess").css('display','block');
-        }else{
-            $(".tab_mess").css('display','none');
-        }
     });
 })
 
@@ -129,7 +129,7 @@ $(function(){
         $(".tag_tab").css({
             'top':(e.pageY+30)+'px',
             'left':(e.pageX-192)+'px'
-            });
+        });
         return false;
     });
 
@@ -871,18 +871,18 @@ function msg(message){
 
 //第一次创建班级提示验证码
 function tishi_code(message){
-    $("#tishi_div .tab_con .red").html(message);
+    $("#tab_Prompt").find("p").first().html(message);
     var scolltop = document.body.scrollTop|document.documentElement.scrollTop;
     var win_height = document.documentElement.clientHeight;//jQuery(document).height();
-    var z_layer_height = $("#tishi_div").height();
-    $("#tishi_div").css('top',(win_height-z_layer_height)/2 + scolltop);
+    var z_layer_height = $("#tab_Prompt").height();
+    $("#tab_Prompt").css('top',(win_height-z_layer_height)/2 + scolltop);
     var doc_width = $(document).width();
-    var layer_width = $("#tishi_div").width();
-    $("#tishi_div").css('left',(doc_width-layer_width)/2);
-    $("#tishi_div").css('display','block');
-    jQuery('#tishi_div').fadeTo("slow",1);
-    $("#tishi_div .close").click(function(){
-        $("#tishi_div").css('display','none');
+    var layer_width = $("#tab_Prompt").width();
+    $("#tab_Prompt").css('left',(doc_width-layer_width)/2);
+    $("#tab_Prompt").css('display','block');
+    jQuery('#tab_Prompt').fadeTo("slow",1);
+    $("#tab_Prompt .x").click(function(){
+        $("#tab_Prompt").css('display','none');
     })
 }
 

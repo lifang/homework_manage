@@ -1,5 +1,5 @@
 class BranchQuestionsController < ApplicationController
-  before_filter :sign?
+  before_filter :sign?, :get_unread_messes
   def create
     @question_pack = QuestionPackage.find_by_id(params[:question_package_id])
     @question = Question.find_by_id(params[:question_id])

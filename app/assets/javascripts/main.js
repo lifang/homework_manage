@@ -826,24 +826,24 @@ function show_single_record(ids) {
 }
 
 function tishi(message){
-    $("#tishi_div .tab_con .red").html(message);
+    $("#tab_Prompt").find("p").first().html(message);
     var scolltop = document.body.scrollTop|document.documentElement.scrollTop;
     var win_height = document.documentElement.clientHeight;//jQuery(document).height();
-    var z_layer_height = $("#tishi_div").height();
-    $("#tishi_div").css('top',(win_height-z_layer_height)/2 + scolltop);
+    var z_layer_height = $("#tab_Prompt").height();
+    $("#tab_Prompt").css('top',(win_height-z_layer_height)/2 + scolltop);
     var doc_width = $(document).width();
-    var layer_width = $("#tishi_div").width();
-    $("#tishi_div").css('left',(doc_width-layer_width)/2);
-    $("#tishi_div").css('display','block');
-    jQuery('#tishi_div').fadeTo("slow",1);
-    $("#tishi_div .close").click(function(){
-        $("#tishi_div").css('display','none');
+    var layer_width = $("#tab_Prompt").width();
+    $("#tab_Prompt").css('left',(doc_width-layer_width)/2);
+    $("#tab_Prompt").css('display','block');
+    jQuery('#tab_Prompt').fadeTo("slow",1);
+    $("#tab_Prompt .x").click(function(){
+        $("#tab_Prompt").css('display','none');
     })
     setTimeout(function(){
-        jQuery('#tishi_div').fadeTo("slow",0);
+        jQuery('#tab_Prompt').fadeTo("slow",0);
     }, 3000);
     setTimeout(function(){
-        $("#tishi_div").css('display','none');
+        $("#tab_Prompt").css('display','none');
     }, 3000);
 }
 

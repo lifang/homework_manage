@@ -42,8 +42,8 @@
     <a class="download">DOWNLOAD V1.0</a>
     <div class="formBox">
       <ul>
-        <li class="hover" name="loginForm">登录</li>
-        <li name="regForm">注册</li>
+        <li class="hover" name="loginForm" style="cursor: pointer;">登录</li>
+        <li name="regForm" style="cursor: pointer;">注册</li>
       </ul>
       <div class="form loginForm" style="display: block;">
         <%= form_tag({:controller => :welcome, :action => :login}, :remote => true) do %>

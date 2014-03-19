@@ -51,7 +51,12 @@ $(function(){
     });
     $(document).bind('click', function (e) {
         if ( $(e.target).closest(".tab_mess").length>0 ) {
-            $(".tab_mess").css('display','block');
+            if($(e.target).closest(".form_cancel").length>0){
+                $(".tab_mess").css('display','none');
+                return false;
+            }else{
+                $(".tab_mess").css('display','block');
+            }
         }else{
             $(".tab_mess").css('display','none');
         }
@@ -66,7 +71,9 @@ $(function(){
         var html = '<form action="/microposts" method="post" onsubmit="return check_send_microposts(this)" accept-charset="UTF-8">\n\
                 <div class="textarea_box">\n\
 <textarea name="microposts[content]" cols="" rows="" placeholder="字数限制60字"></textarea></div>\n\
-                <div class="tab_mess_btn"><button class="">提交</button></div></form>'
+                <div class="tab_mess_btn">\n\
+<button type="submit" class="">提交</button>\n\
+<button type="button" class="form_cancel">取消</button></div></form>'
         $(".create_main_microposts").html(html)
         $(".tab_mess").css('display','block');
         $(".tab_mess").css({
@@ -74,13 +81,6 @@ $(function(){
             'left':(e.pageX-180)+'px'
         });
         return false;
-    });
-    $(document).bind('click', function (e) {
-        if ( $(e.target).closest(".tab_mess").length>0 ) {
-            $(".tab_mess").css('display','block');
-        }else{
-            $(".tab_mess").css('display','none');
-        }
     });
 })
 

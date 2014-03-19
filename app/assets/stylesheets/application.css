@@ -9,5 +9,10 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree .
+ *= require common
+ *= require jqtransform
+ *= require jquery.Jcrop.min
+ *= require login
+ *= require style
+ *= require zuoye
  */

@@ -1,3 +1,8 @@
+$(function(){
+    $(document).on('click',".form_cancel",function(){
+        $(".tab_mess").hide();
+    })
+})
 function check_send_microposts(value){
     var content =$.trim($(value).find("textarea").val());
     if(content == ""){
@@ -71,7 +76,9 @@ function show_reply_again(value,name){
                 <input type="hidden" value="'+ $(input[2]).val() +'" />\n\
                 <input type="hidden" value="'+ $(input[3]).val() +'" />\n\
                 <div class="textarea_box"><textarea cols="" rows=""></textarea></div>\n\
-                <div class="tab_mess_btn"><button onclick="main_reply(this)">提交</button></div>'
+                <div class="tab_mess_btn">  \n\
+<button onclick="main_reply(this)">提交</button>\n\
+<button >取消</button></div>'
     $(".create_main_microposts").html(html)
 }
 

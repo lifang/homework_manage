@@ -630,6 +630,15 @@ li.p_input p, li.p_input input, .tab_switch li input {
 .student_body { background: #FFF;}
 
 .student_head h1 { font-size: 20px; line-height: 40px; margin-bottom: 15px;}
+.student_head h1 .amendName { 
+	width: 20px; 
+	height: 20px; 
+	overflow: hidden; 
+	display: inline-block;
+	text-indent: -999px;
+	margin-left: 10px;
+	background: url(/assets/amendName.png) no-repeat;
+}
 .student_head li { line-height: 24px; font-size: 16px;}
 .student_head li span { display: inline-block; width: 80px; text-align: right;}
 .student_btn_a {

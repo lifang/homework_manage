@@ -30,6 +30,9 @@ HomeworkManage::Application.routes.draw do
           :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
           :delete_sys_message,:read_message,:search_tasks, :reply_message
       end
+      member do
+        
+      end
     end
   end
 
@@ -79,7 +82,8 @@ HomeworkManage::Application.routes.draw do
       member do
       end
       collection do
-        get :index,:delete_student,:tag_student_list,:add_student_tag
+        get :index,:delete_student,:tag_student_list,:add_student_tag,:edit_class
+        post :update_class
       end
     end
 

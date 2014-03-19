@@ -49,7 +49,9 @@
 <div class="main">
   <div class="student">
     <div class="student_head">
-      <h1>新概念英语二班</h1>
+      <h1><%= @schoolclass[0].name %>
+        <a href="/school_classes/<%=@schoolclass[0].id%>/students/edit_class" class="amendName tooltip_html" data-remote="true">修改班级名称</a>
+      </h1>
       <ul>
         <% if  @schoolclass %>
           <li><span>班级名称：</span><%= @schoolclass[0].name %></li>
@@ -74,6 +76,11 @@
   </div>
 </div>
 <%= will_paginate @student_situations,remote:true,:previous_label=>'上一页',:next_label=>'下一页' %>
+
+
+<div id = "edit_class_area" style="position:absolute;top: 65px;width: 960px;overflow: auto;">
+</div>
+
 
 <div class="tab tab500 school_class_list">
   <%= render :partial => 'school_class_list' %>

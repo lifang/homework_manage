@@ -4,6 +4,7 @@ class StudentsController < ApplicationController
   before_filter :sign?, :get_unread_messes
   before_filter :get_school_class
   def index
+
     sql_schoolclass = "SELECT *,(select COUNT(*) from school_class_student_ralastions scsr WHERE scsr.school_class_id = ?) count
 from school_classes sc where sc.id=?"
     @schoolclass = SchoolClass.find_by_sql([sql_schoolclass,school_class_id,school_class_id])
@@ -55,6 +56,25 @@ from school_classes sc where sc.id=?"
         @student_hastags = Student.student_hastags tag_id,school_class_id
         @student_notags = Student.student_notags school_class_id
       end
+    end
+  end
+
+  def edit_class
+    @teachering_materials = TeachingMaterial.select("id,name")
+    @teacher = Teacher.find_by_id cookies[:teacher_id]
+  end
+  def update_class
+    name = params[:class_name]
+    teaching_material_id = params[:teaching_material_id]
+    period_of_validity = params[:period_of_validity].to_s + " 23:59:59"
+    if @school_class.update_attributes(name:name,
+        period_of_validity:period_of_validity,
+        teaching_material_id:teaching_material_id)
+      flash[:success] = '更新成功！'
+      redirect_to school_class_students_path(@school_class)
+    else
+      flash[:error] = '更新失败！'
+      redirect_to school_class_students_path(@school_class)
     end
   end
 end

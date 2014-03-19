@@ -1,4 +1,47 @@
 
+<script language="Javascript">
+  <!--
+  jQuery(function($){
+
+    // Create variables (in this scope) to hold the API and image size
+    var jcrop_api, boundx, boundy;
+
+    $('#cropbox').Jcrop({
+      setSelect: [0,0,176,176],
+      boxWidth:298,
+      minSize:[100,100],
+      borderOpacity:0.3,
+      dragEdges:true,
+      allowSelect:true,
+      allowResize:true,
+      bgOpacity:0.6,
+      aspectRatio:1,
+      allowMove:true,
+      addClass: 'jcrop-handle',
+      onChange: updateCoords,
+      onSelect: updateCoords
+    },
+    function(){
+
+      jcrop_api = this;
+    });
+    function updateCoords(c)
+    {
+      $('#x').val(c.x);
+      $('#y').val(c.y);
+      $('#w').val(c.w);
+      $('#h').val(c.h);
+    };
+    function checkCoords()
+    {
+      if (parseInt($('#w').val())) return true;
+      alert('请选择裁剪区域');
+      return false;
+    };
+  });
+  -->
+</script>
+
 <script language="javascript">
   $(function(){
     $('.select_box').jqTransform();
@@ -41,40 +84,35 @@
 <div class="tab_user">
   <h1>个人信息</h1>
   <div class="tab_user_box">
-    <div class="tab_user_left">
-      <div class="avater_default"><img src="/assets/default_avater.jpg"/></div>
+<%= form_for :teachers, :url => {:action => :upload_avatar,:controller => :teachers},:html => {:multipart => true,:method => :post},:remote => true, "data-type" => "script" do|f|  %>
+
+    <div class="tab_user_left"> 
+      <div class="avater_default"><img src=<%=  @user.avatar_url%>/></div>
       <a href="javascript:void(0);" class="avater_a">
         <span>确定</span>
-        <input name="" multiple type="file"/>
+        <input name="file_upload" id="file_uploads"type="file" onchange="upload_avatar(this,<%= @schoolclass.id %>)"/>
       </a>
       <p>注：图片大小限定在1M以内</p>
+     
     </div>
+    <%end%>
+     <li class="avater" id="changes_avatar" style="display:none;position: absolute;left: 180px;top: 76px;background: #fff;width: 330px;height: 390px;  ">
+       
+     </li>
     <div class="tab_user_right">
       <ul>
-        <li><label>姓名</label><input name="" type="text" disabled/></li>
-        <li><label>邮箱</label><input name="" type="text" disabled/></li>
-        <li><label>原密码</label><input name="" type="text"/></li>
-        <li><label>新密码</label><input name="" type="text"/></li>
-        <li><label>确认新密码</label><input name="" type="text"/></li>
+        <li><label>姓名</label><input name="" type="text" value="<%= @user.name %>" disabled/></li>
+        <li><label>邮箱</label><input name="" type="text" value="<%= @teacher.email %>" disabled/></li>
+        <li><label>原密码</label><input name="password_now" type="password"/></li>
+        <li><label>新密码</label><input name="password_update" type="password"/></li>
+        <li><label>确认新密码</label><input name="password_update_agin" type="password"/></li>
       </ul>
     </div>
 
   </div>
-  <div class="tab_user_btn"><button>保存</button></div>
-  <div class="tab_out_btn"><button>退出</button></div>
+  <div class="tab_user_btn"><button onclick="update_password(<%= @schoolclass.id %>)">保存</button></div>
+  <div class="tab_out_btn"> <button onclick="cancle_main();">退出</button></div>
 </div>
-
-<div class="right_side_mess">
-  <a href="#" class="side_mess_delete">全部删除</a>
-  <div class="side_mess_box">
-    <ul>
-      <li><p>王小小回复您的留言</p><p>2014-03-04  21：30</p></li>
-      <li><p>王小小回复您的留言</p><p>2014-03-04  21：30</p></li>
-      <li><p>王小小回复您的留言</p><p>2014-03-04  21：30</p></li>
-    </ul>
-  </div>
-</div>
-
 
 <div class="tab tab500">
   <a href="javascript:void(0);" class="close">close</a>

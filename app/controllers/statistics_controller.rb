@@ -2,6 +2,9 @@
 include StatisticsHelper
 class StatisticsController < ApplicationController
   #layout "tapplication"
+
+  before_filter :sign?, :get_unread_messes
+  before_filter :get_school_class
   #完成率及正确率统计
   def index
     school_class_id = params[:school_class_id]
@@ -53,7 +56,7 @@ class StatisticsController < ApplicationController
     publish_question_package = PublishQuestionPackage.find_by_id pub_id
     tag_id = publish_question_package.tag_id unless publish_question_package.nil?
     info = PublishQuestionPackage.get_quetion_types_statistics(publish_question_package,
-          tag_id, school_class_id)
+      tag_id, school_class_id)
     @question_types = info[:question_types]
     @questions = info[:questions]
     use_times = info[:use_times]
@@ -64,7 +67,7 @@ class StatisticsController < ApplicationController
       use_times = 0
       times = e.map{|q| q[:use_time]}
       correct_rt = @questions[k].map do |q|
-         q[:average_correct_rate] if q[:average_correct_rate].present? && q[:average_correct_rate] >= 0
+        q[:average_correct_rate] if q[:average_correct_rate].present? && q[:average_correct_rate] >= 0
       end
       correct_rt = (eval correct_rt.join('+'))/correct_rt.length if correct_rt.present?
       use_times = (eval times.join('+'))/times.length if times.present?
@@ -99,51 +102,51 @@ class StatisticsController < ApplicationController
           rescue
             @notice = "答题记录读取失败！"
           end
-            wrong_ids = read_answer_hash answer_records,types
-            if wrong_ids.present?
-              ques_id = BranchQuestion
-                .joins("left join questions q on branch_questions.question_id = q.id")
-                .select("distinct q.id")
-                .where(["branch_questions.id in (?) and q.id is not null",wrong_ids])
-              if ques_id.present?
-                questions_id = ques_id.map(&:id)
-                questions = Question
-                  .select("questions.id, questions.types, questions.name, questions.full_text,
+          wrong_ids = read_answer_hash answer_records,types
+          if wrong_ids.present?
+            ques_id = BranchQuestion
+            .joins("left join questions q on branch_questions.question_id = q.id")
+            .select("distinct q.id")
+            .where(["branch_questions.id in (?) and q.id is not null",wrong_ids])
+            if ques_id.present?
+              questions_id = ques_id.map(&:id)
+              questions = Question
+              .select("questions.id, questions.types, questions.name, questions.full_text,
                     questions.content")
-                  .where(["questions.id in (?)", questions_id])
-                branch_questions = BranchQuestion
-                  .select("content, resource_url, options, answer, question_id")
-                  .where(["question_id in (?)", questions_id])
-                  .group_by {|b| b.question_id}
-                #p questions
-                #p branch_questions
-                if questions.present?
-                  ques = []
-                  questions.each do |q|
-                    branch_ques = []
-                    if branch_questions[q.id].present?
-                      branch_ques = branch_questions[q.id]
-                    end
-                    ques << {:id => q.id, :name => q.name, :types => q.types, :full_text => q.full_text,
-                    :content => q.content, :branch_questions => branch_ques}
+              .where(["questions.id in (?)", questions_id])
+              branch_questions = BranchQuestion
+              .select("content, resource_url, options, answer, question_id")
+              .where(["question_id in (?)", questions_id])
+              .group_by {|b| b.question_id}
+              #p questions
+              #p branch_questions
+              if questions.present?
+                ques = []
+                questions.each do |q|
+                  branch_ques = []
+                  if branch_questions[q.id].present?
+                    branch_ques = branch_questions[q.id]
                   end
-                  @origin_questions = {:types => types, :questions => ques}
-                  p @origin_questions
-                  @status = true
-                  @notice = "答题记录读取完成"
-                  @notice += ",未找到相关大题" if questions.length == 0
-                  @notice += "！"
-                else
-                  @status = false
-                  @notice = "没有找到相关题目！"
+                  ques << {:id => q.id, :name => q.name, :types => q.types, :full_text => q.full_text,
+                    :content => q.content, :branch_questions => branch_ques}
                 end
-              else
+                @origin_questions = {:types => types, :questions => ques}
+                p @origin_questions
                 @status = true
-                @notice = "答题记录读取完成,未找到相关大题！"
+                @notice = "答题记录读取完成"
+                @notice += ",未找到相关大题" if questions.length == 0
+                @notice += "！"
+              else
+                @status = false
+                @notice = "没有找到相关题目！"
               end
             else
-              @notice = "该学生#{Question::TYPES_NAME[types]}题没有答错的题目！"
+              @status = true
+              @notice = "答题记录读取完成,未找到相关大题！"
             end
+          else
+            @notice = "该学生#{Question::TYPES_NAME[types]}题没有答错的题目！"
+          end
         else
           @notice = "该学生答题记录不存在！"
         end
@@ -173,7 +176,7 @@ class StatisticsController < ApplicationController
           branch_ques = branch_questions[q.id]
         end
         ques << {:id => q.id, :name => q.name, :types => q.types, :full_text => q.full_text,
-                 :content => q.content, :branch_questions => branch_ques}
+          :content => q.content, :branch_questions => branch_ques}
       end
       @origin_questions = {:types => question[0].types, :questions => ques}
     end
@@ -189,9 +192,9 @@ class StatisticsController < ApplicationController
     if question_id
       tags = BranchQuestion.joins("left join btags_bque_relations bbr
             on branch_questions.id = bbr.branch_question_id")
-            .joins("left join branch_tags bt on bbr.branch_tag_id = bt.id")
-            .select("bt.name")
-            .where("bbr.id is not null and bt.id is not null and branch_questions.question_id = ?", question_id)
+      .joins("left join branch_tags bt on bbr.branch_tag_id = bt.id")
+      .select("bt.name")
+      .where("bbr.id is not null and bt.id is not null and branch_questions.question_id = ?", question_id)
       @tags = tags.to_json
       @status = true
       @notice = "标签加载完成！"

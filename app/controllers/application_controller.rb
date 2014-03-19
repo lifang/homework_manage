@@ -1,7 +1,8 @@
-class ApplicationController < ActionController::Base
+    class ApplicationController < ActionController::Base
   protect_from_forgery
   include ApplicationHelper
   include TeachersHelper
+  before_filter :get_teacher_infos
 
   def save_into_folder(question_package, branch_question, file)
     media_path_url = "/public" + media_path % question_package.id
@@ -30,5 +31,14 @@ class ApplicationController < ActionController::Base
       FileUtils.remove_dir question_pack_dir if Dir.exist? question_pack_dir
     end
 
+  end
+  def get_teacher_infos
+   
+    if current_teacher
+    @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
+    @schoolclass = SchoolClass.find(current_teacher.last_visit_class_id) if current_teacher.last_visit_class_id
+    @user = User.find(current_teacher.user_id)
+    @teachingmaterial = TeachingMaterial.all
+    end
   end
 end

@@ -2,10 +2,10 @@
   <div class="userInfo">
     <ul>
       <li class="switchoverClass"><a href="javascript:void(0);" class="tooltip_html" onclick="show_switch_class()">切换班级</a></li>
-      <li class="userName">xxx</li>
+      <li class="userName"><%= @user.name %></li>
       <!--<li><a href="/school_classes/<%= params[:school_class_id].to_i %>/teachers/teacher_setting" class=<%= is_hover("teachers") %>><span class="nav04">设置</span></a></li>-->
       <!--<li class="out"><a href="/welcome/teacher_exit"><span class="nav05">退出</span></a></li>-->
-      <li class="email"><a href="/school_classes/<%= params[:school_class_id].to_i %>/messages" class=<%= is_hover("messages") %>>1</a></li>
+      <li class="email"><a href="javascript:void(0)" class=<%= is_hover("messages") %>><%= @unread_messes.length %></a></li>
     </ul>
   </div>
   <div class="logo">超级作业本</div>
@@ -13,7 +13,7 @@
     <ul>
       <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/main_pages" class=<%=is_hover("main_pages") %>>问答</a></li>
       <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/homeworks" class="<%=is_hover("homeworks", "question_packages") %>">布置作业</a></li>
-      <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/statistics" class="<%=is_hover("results") %>">作业统计</a></li>
+      <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/statistics" class="<%=is_hover("statistics") %>">作业统计</a></li>
       <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/students" class="<%=is_hover("students") %>">学员情况</a></li>
     </ul>
   </div>

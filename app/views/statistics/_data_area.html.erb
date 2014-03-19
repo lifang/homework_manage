@@ -3,12 +3,12 @@
       <ul>
         <li class="complete">
           <h1>完成率</h1>
-          <div class="statistics_img"><img src="/assets/new/95.jpg"><%= @average_complete_rate  %></div>
+          <div class="statistics_img"><img src="/assets/95.jpg"><%= @average_complete_rate  %></div>
           <div class="sc_nav"><a href="javascript:void(0);" class="hover" onclick="click_complete_btn(this)">学员</a></div>
         </li>
         <li class="correct">
           <h1>正确率</h1>
-          <div class="statistics_img"><img src="/assets/new/85.jpg"><%= @average_correct_rate  %></div>
+          <div class="statistics_img"><img src="/assets/85.jpg"><%= @average_correct_rate  %></div>
           <div class="sc_nav"><a href="javascript:void(0);" onclick="click_correct_btn(this)">学员</a>
             <a href="javascript:void(0);"
                onclick="shou_question_status(this,'<%= @current_task.id %>',
@@ -49,7 +49,7 @@
                           <% if student[:answer_details][type.to_i].nil? %>
                               <td><em>-</em></td>
                           <% else %>
-                              <td><img src="/assets/new/d.png"><em><%= student[:answer_details][type.to_i][0][:used_time] %></M></em></td>
+                              <td><img src="/assets/d.png"><em><%= student[:answer_details][type.to_i][0][:used_time] %></M></em></td>
                           <% end %>
                       <% end %>
                   <% end %>

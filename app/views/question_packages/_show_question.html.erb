@@ -1,6 +1,8 @@
+<% count = 0 %>
 <% @question_type.each do |type| %>
-    <% @questions[0].each do |question| %>
-        <% case question[:types]%>
+    <div class="assignment_body" id="question_list_<%= type  %>" style="display: <%= count > 0 ? 'none' : 'block' %>">
+    <% @questions[type].each do |question| %>
+        <% case question[:types].to_i %>
             <% when Question::TYPES[:TIME_LIMIT] then%>
                 <%= render "question_packages/que_time_limit", {:question => question}  %>
             <% when Question::TYPES[:LISTENING] then %>
@@ -17,4 +19,6 @@
                 <%= render "question_packages/que_sort", {:question => question}  %>
         <% end %>
     <% end %>
+    </div>
+    <% count += 1 %>
 <% end %>

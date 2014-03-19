@@ -64,6 +64,15 @@ function show_reply_again(value,name){
     height_adjusting();
     $(answer[1]).find("textarea").attr("id",id);
     location.href="#"+id;
+    alert($(input[3]).val())
+    var html='<div class="ask_area" >\n\
+               <input type="hidden" value="'+$(input[0]).val()+'" />\n\
+                <input type="hidden" value="'+ $(input[1]).val() +'" />\n\
+                <input type="hidden" value="'+ $(input[2]).val() +'" />\n\
+                <input type="hidden" value="'+ $(input[3]).val() +'" />\n\
+                <div class="textarea_box"><textarea cols="" rows=""></textarea></div>\n\
+                <div class="tab_mess_btn"><button onclick="main_reply(this)">提交</button></div>'
+    $(".create_main_microposts").html(html)
 }
 
 function send_more_replies(value,micropost_id){

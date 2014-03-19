@@ -9,7 +9,7 @@
       <div class="askAnswer_area_func">
         <span><%=micropost.name%></span><span><%=micropost.created_at.to_s[0..19]%></span>
         <a href="javascript:void(0);" onclick="show_reply(this,<%=micropost.micropost_id%>)" val="1" class="tooltip_title comment_icon" title="评论"><%=micropost.reply_microposts_count%></a>
-        <a href="javascript:void(0);" class="tooltip_title collect_icon_ed" title="收藏">3</a>
+        <a href="javascript:void(0);" class="tooltip_title collect_icon_ed" title="收藏"><%= micropost.follow_microposts_count.nil? ? 0 : micropost.follow_microposts_count %></a>
       </div>
 
       <div class="answer_area" style="<% if (@init_mid && @init_mid.to_i == micropost.micropost_id) || @class_index.to_i ==index %>display:block;<% else %>display:none;<% end %>margin-top: 15px;">

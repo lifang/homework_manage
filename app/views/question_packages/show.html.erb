@@ -30,18 +30,13 @@
           </div>
         </div>
       </div>
-      <div class="assignment_body">
-        <% render :partial => "question_packages/show_question" %>
-      </div>
+      <%= render :partial => "question_packages/show_question" %>
       <div class="questionTypes">
         <div class="qType_menu clearAfter">
           <ul>
             <% @question_type.each do |type|%>
-              <li class="hover"><p><span class="<%= load_type_class type %>" onclick=""><%= Question::TYPES_NAME[type] %></span></p>
+              <li class="hover"><p><span class="<%= load_type_class type %>" onclick="show_questions(this,'<%= type  %>');"><%= Question::TYPES_NAME[type] %></span></p>
               <i class="arrows" style="display: none;"></i>
-              <div class="second_menu" style="display: none;">
-                <a href="#">新建</a><a href="#">引用</a>
-              </div>
             </li>
             <% end %>
           </ul>
@@ -58,8 +53,14 @@
         $(".steps .td_text_p").dblclick(function(){
             $(".td_text_p").show();
         });
-        $(".assignment_body_list").onclick(function(){
+        $(".assignment_body_list").click(function(){
             $(".assignment_body_list").addClass("ab_list_open");
         })
     })
+
+    function show_questions(obj,id)
+    {
+        $(".assignment_body").hide();
+        $("#question_list_"+id+"").show();
+    }
 </script>

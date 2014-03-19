@@ -1,0 +1,5 @@
+<% if @status == true %>
+  window.location.href="/school_classes/" + <%= params[:school_class_id].to_i %> + "/students";
+<%else%>
+  tishi('<%=@notice%>');
+<% end %>

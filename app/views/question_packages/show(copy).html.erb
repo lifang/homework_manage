@@ -1,0 +1,41 @@
+<div class="rightSide">
+  <div class="main">
+    <div class="wib_title">
+      <% if @pub_pack.nil? %>
+          <a href="/school_classes/<%= params[:school_class_id] %>/question_packages/<%= @question_pack.id %>/questions" class="quote" >编辑</a>
+      <% end %>
+      <% if params[:type].nil? %>
+          <a href="/school_classes/<%= params[:school_class_id].to_i %>/homeworks"  class="back" >返回</a>
+      <% else %>
+          <a href="/school_classes/<%= params[:school_class_id].to_i %>/results"   class="back">返回</a>
+      <% end%>
+    </div>
+
+    <div class="article">
+      <div class="book_box clearAfter">
+        <div class="book_box_page">
+          <a href="javascript:void(0);" class="bbp_up" onclick="questionUp(this)">&and;</a>
+          <div class="book_box_page_box">
+            <ul>
+              <% @questions.each_with_index do |question, index| %>
+                <li class="question_li <%= @question && @question.id == question.id ? "hover" : "" %>" onclick="liHover(this)">
+                  <a href="<%= school_class_question_package_question_path(school_class_id, @question_pack, question) %>" data-remote="true" data-type="script"><%= index+1 %>.</a></li>
+              <% end %>
+            </ul>
+          </div>
+          <a href="javascript:void(0);" class="bbp_down"  onclick="questionDown(this)">&or;</a>
+        </div>
+        <div class="steps">
+          <%= render "/questions/show_branch" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $(".steps .td_text_p").dblclick(function(){
+            $(".td_text_p").show();
+        });
+    })
+</script>

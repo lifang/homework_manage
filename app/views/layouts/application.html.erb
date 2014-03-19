@@ -4,10 +4,12 @@
     <meta charset="utf-8"/>
     <title>HomeworkManage</title>
     <%= stylesheet_link_tag    "application", :media => "all"  %>
-    <%= javascript_include_tag "application", "main_pages", "zuoye", "main" %>
+    <%= stylesheet_link_tag "style.css",'jqtransform.css', :media => "all" %>
+    <%= stylesheet_link_tag "new/skins/square/_all.css",'new/skins/square/aero.css', 'new/skins/square/blue.css', 'new/skins/square/green.css', 'new/skins/square/grey.css', 'new/skins/square/orange.css', 'new/skins/square/pink.css', 'new/skins/square/purple.css', 'new/skins/square/red.css', 'new/skins/square/square.css', 'new/skins/square/yellow.css', :media => "all" %>
+    <%= javascript_include_tag "application", "main_pages", "zuoye","statistics", "main", "main_pages", "icheck", "jquery.tablesorter"  %>
     <%= javascript_include_tag "teachers"%>
     <%= javascript_include_tag "jquery.Jcrop.min"%>
-
+    <%= javascript_include_tag "jquery.jqtransform.js"%>
     <script type="text/javascript" src="/assets/My97DatePicker/WdatePicker.js" ></script>
     <%= csrf_meta_tags %>
   </head>
@@ -35,6 +37,10 @@
         <%end%>
         <%= yield %>
       </div>     
+    </div>
+    <div class="mask"></div>
+    <div class="tab tab840" id="popup_page">
+
     </div>
   </body>
 </html>

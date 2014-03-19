@@ -11,7 +11,7 @@
             <ul>
               <li><span>姓名：</span><%= student_situation[:user_name]%></li>
               <li><span>昵称：</span><%= student_situation[:nickname]%></li>
-              <li><span>入学时间：</span><%= student_situation[:created_at].strftime("%F")%></li>
+              <li><span>入学时间：</span><%=  student_situation[:created_at].nil? ? ""  : student_situation[:created_at].strftime("%F")%></li>
               <li><span>所在小组：</span><%= student_situation[:tag_name].nil? ? "未分组": student_situation[:tag_name]%>
                 <input type="button" class="student_text_a" value="<%= student_situation[:tag_name].nil? ? "分组" : "重新分组" %>" onclick="delete_student_tag(this,<%= school_class_id %>,<%= student_situation[:student_id] %>)"/>
               </li>

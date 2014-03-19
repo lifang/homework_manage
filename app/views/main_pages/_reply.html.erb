@@ -1,18 +1,16 @@
 <%  @reply.each do |reply|%>
-  <div class="question_area_box">
-      <div class="avater"><a href="#"><img src="<%=reply.sender_avatar_url%>" /></a></div>
-      <div class="question_area_con">
-        <div class="avater_name"><a href="#"><%=reply.sender_name%></a> 回复 <a href="#"><%=reply.reciver_name%></a></div>
-        <div class="question_area_text"><%=reply.content%></div>
-        <div class="question_text_func">
-          <input type="hidden" value="<%=@micropost.id%>" />
-          <input type="hidden" value="<%=reply.sender_id%>" />
-          <input type="hidden" value="<%=reply.sender_types%>" />
-          <span class="time"><%=reply.created_at.to_s[0..19]%></span>
-          <a   class="answer_a" onclick="show_reply_again(this,'<%=reply.reciver_name%>')"> 回复 </a><a onclick="delete_reply(<%=reply.id%>)"  class="answer_a">删除</a>
-        </div>
-
+  <div class="askAnswer_area_box question_area_box">
+    <div class="askAnswer_avater"><img src="<%=  reply.sender_avatar_url%>"/></div>
+    <div class="askAnswer_area_con question_area_con">
+      <div class="askAnswer_area_text">
+        <%=reply.content%>
+      </div>
+      <div class="askAnswer_area_func">
+        <span><%=reply.sender_name%> 回复 <%=reply.reciver_name%> </span><span><%=reply.created_at.to_s[0..19]%></span>
+        <a href="javascript:void(0);" class="tooltip_title comment_icon" title="评论"></a>
       </div>
     </div>
+  </div>
 <%end%>
+
 

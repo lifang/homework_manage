@@ -68,22 +68,25 @@ class QuestionPackagesController < ApplicationController
   #预览作业
   def show
     @question_pack = QuestionPackage.find_by_id(params[:id])
+    teacher = Teacher.find_by_id cookies[:teacher_id]
+    @user = User.find_by_id teacher.user_id.to_i
     @origin_questions = nil
+    question_type = QuestionPackage.get_all_packs_que_types params[:school_class_id], [@question_pack.id]
+    @question_type = question_type.map(&:types)
     ques = []
     question_id = Question.select("id").where("question_package_id = ?",@question_pack.id)
     question = Question
-      .select("questions.id, questions.types, questions.name, questions.full_text,
-                    questions.content")
+      .select("id, types, name, full_text, content, questions_time, created_at")
       .where(["questions.id in (?)", question_id])
     branch_questions = BranchQuestion
-      .select("content, resource_url, options, answer, question_id")
+      .select("content, resource_url, options, answer, question_id, id")
       .where(["question_id in (?)", question_id])
     branch_questions_id = branch_questions.map{|bq| bq.id}
+    p branch_questions_id
     branch_questions = branch_questions.group_by {|b| b.question_id}
-    p branch_questions
-    @tags = BtagsBqueRelation.joins("left join tags t on btags_bque_relations.branch_tag_id = t.id")
-        .select("btags_bque_relations.branch_question_id, t.id, t.name")
-        .where(["branch_question_id in (?)",branch_questions_id])
+    @branch_tags = BtagsBqueRelation.joins("left join branch_tags bt on btags_bque_relations.branch_tag_id = bt.id")
+        .select("btags_bque_relations.branch_question_id, bt.id, bt.name")
+        .where(["branch_question_id in (?) and bt.id is not null",branch_questions_id])
         .group_by {|t| t.branch_question_id}
     question.each do |q|
       branch_ques = []
@@ -91,11 +94,12 @@ class QuestionPackagesController < ApplicationController
         branch_ques = branch_questions[q.id]
       end
       ques << {:id => q.id, :name => q.name, :types => q.types, :full_text => q.full_text,
-               :content => q.content, :branch_questions => branch_ques}
+               :questions_time => q.questions_time, :created_at => q.created_at,
+                :content => q.content, :branch_questions => branch_ques}
     end
-    ques = ques.group_by {|q| q[:types]}
-    @question = ques[Question::TYPES[:TIME_LIMIT]].nil? ? [] : ques[Question::TYPES[:TIME_LIMIT]]
+    @question = ques.group_by {|q| q[:types]}
     p @question
+    p @branch_tags
   end
 
   #删除作业

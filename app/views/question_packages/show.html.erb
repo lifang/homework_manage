@@ -31,132 +31,21 @@
         </div>
       </div>
       <div class="assignment_body">
-        <div class="assignment_body_list">
-          <div class="ab_list_title">
-            <h1>What's that?</h1>
-            <p>十速挑战 / 李芳 / 2014-02-12 / 参考时间：15秒</p>
-            <ul class="ab_func">
-              <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
-              <li><a href="#" class="save_icon tooltip_html">保存</a></li>
-              <li><a href="#" class="share_icon tooltip_html">分享</a></li>
-              <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
-            </ul>
-          </div>
-          <div class="ab_list_box" style="display: none;">
-            <div class="ab_article">
-              <div class="questions_item">
-                <div class="q_topic">
-                  <div class="speedQuestions">
-                    <ul>
-                      <li><a href="#" class="true">T</a></li>
-                      <li class="qt_text"><p>apple前面是用冠词an？</p><input name="" type="text"></li>
-                      <li><a href="#" class="false">F</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="qt_icon"><a href="#" class="tag tooltip_html">标签</a></div>
-                <div class="tag_ul">
-                  <ul>
-                    <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-                    <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-                    <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-                  </ul>
-                </div>
+        <% render :partial => "question_packages/show_question" %>
+      </div>
+      <div class="questionTypes">
+        <div class="qType_menu clearAfter">
+          <ul>
+            <% @question_type.each do |type|%>
+            <li class="hover"><p><span class="<%= load_type_class type %>" onclick=""><%= Question::TYPES_NAME[type] %></span></p>
+              <i class="arrows" style="display: none;"></i>
+              <div class="second_menu" style="display: none;">
+                <a href="#">新建</a><a href="#">引用</a>
               </div>
-
-              <div class="questions_item">
-                <div class="q_topic">
-                  <div class="speedQuestions">
-                    <ul>
-                      <li><a href="#" class="true">T</a></li>
-                      <li class="qt_text"><p>apple前面是用冠词an？</p><input name="" type="text"></li>
-                      <li><a href="#" class="false">F</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="qt_icon"><a href="#" class="tag tooltip_html">标签</a></div>
-              </div>
-
-              <div class="questions_item">
-                <div class="q_topic">
-                  <div class="speedQuestions">
-                    <ul>
-                      <li><a href="#" class="true">T</a></li>
-                      <li class="qt_text"><p>apple前面是用冠词an？</p><input name="" type="text"></li>
-                      <li><a href="#" class="false">F</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="qt_icon"><a href="#" class="tag tooltip_html">标签</a></div>
-              </div>
-
-            </div>
-          </div>
+            </li>
+            <% end %>
+          </ul>
         </div>
-
-        <div class="assignment_body_list">
-          <div class="ab_list_title">
-            <h1>What's that?</h1>
-            <p>十速挑战 / 李芳 / 2014-02-12 / 参考时间：15秒</p>
-            <ul class="ab_func">
-              <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
-              <li><a href="#" class="save_icon tooltip_html">保存</a></li>
-              <li><a href="#" class="share_icon tooltip_html">分享</a></li>
-              <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
-            </ul>
-          </div>
-          <div class="ab_list_box" style="display: none;">
-            <div class="ab_article">
-              <div class="questions_item">
-                <div class="q_topic">
-                  <div class="speedQuestions">
-                    <ul>
-                      <li><a href="#" class="true">T</a></li>
-                      <li class="qt_text"><p>apple前面是用冠词an？</p><input name="" type="text"></li>
-                      <li><a href="#" class="false">F</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="qt_icon"><a href="#" class="tag tooltip_html">标签</a></div>
-                <div class="tag_ul">
-                  <ul>
-                    <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-                    <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-                    <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="questions_item">
-                <div class="q_topic">
-                  <div class="speedQuestions">
-                    <ul>
-                      <li><a href="#" class="true">T</a></li>
-                      <li class="qt_text"><p>apple前面是用冠词an？</p><input name="" type="text"></li>
-                      <li><a href="#" class="false">F</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="qt_icon"><a href="#" class="tag tooltip_html">标签</a></div>
-              </div>
-
-              <div class="questions_item">
-                <div class="q_topic">
-                  <div class="speedQuestions">
-                    <ul>
-                      <li><a href="#" class="true">T</a></li>
-                      <li class="qt_text"><p>apple前面是用冠词an？</p><input name="" type="text"></li>
-                      <li><a href="#" class="false">F</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="qt_icon"><a href="#" class="tag tooltip_html">标签</a></div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>

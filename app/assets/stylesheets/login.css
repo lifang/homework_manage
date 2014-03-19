@@ -18,13 +18,13 @@ input,button,select,textarea{ outline: none}
 }
 
 .center { width: 1171px; margin: 0 auto; }
-.showBox { height: 560px; background: url(/assets/new/showBox.jpg) no-repeat; position: relative; box-shadow: 0 -5px 0 rgba(0, 0, 0, 0.15) inset;}
+.showBox { height: 560px; background: url(/assets/showBox.jpg) no-repeat; position: relative; box-shadow: 0 -5px 0 rgba(0, 0, 0, 0.15) inset;}
 .showCon { width: 953px; height: 370px; position: absolute; bottom: 0; left: 144px; overflow: hidden;}
 .showCon ul { position: absolute;}
 .showCon li { width: 953px; height: 370px; }
-.showCon_1 { background: url(/assets/new/showCon_1.png) no-repeat;}
-.showCon_2 { background: url(/assets/new/showCon_2.png) no-repeat;}
-.showCon_3 { background: url(/assets/new/showCon_3.png) no-repeat;}
+.showCon_1 { background: url(/assets/showCon_1.png) no-repeat;}
+.showCon_2 { background: url(/assets/showCon_2.png) no-repeat;}
+.showCon_3 { background: url(/assets/showCon_3.png) no-repeat;}
 
 .showConNum { position: absolute; left: 172px; bottom: 50px;}
 .showConNum li { float: left; width: 10px; height: 10px; border-radius: 5px; margin: 0 10px; cursor: pointer; background: #7FEEF1;}
@@ -40,7 +40,7 @@ input,button,select,textarea{ outline: none}
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e5e5e5",endColorstr="#ffffff",GradientType=0);
 }
 .download {
-    background: url("/assets/new/download.png") no-repeat 20px center #35CF90;
+    background: url("/assets/download.png") no-repeat 20px center #35CF90;
 	border-radius: 5px;
     display: block;
     height: 54px;
@@ -63,7 +63,7 @@ input,button,select,textarea{ outline: none}
 .form p input[type="text"] { padding: 6px; border: 1px solid #35cf90; border-radius: 3px; width: 80%; font-size: 20px; text-indent: 32px; color: #a3a3a3;}
 .form p input[type="password"] { padding: 6px; border: 1px solid #35cf90; border-radius: 3px; width: 80%; font-size: 20px; text-indent: 32px; color: #a3a3a3;}
 .form p button { width: 85%; font-size: 16px; padding: 8px; background: #35cf90; border-radius: 5px; border: 0; color: #fff;}
-.username { background: url(/assets/new/login.png) no-repeat -2px -3px #fff;}
-.password1 { background: url(/assets/new/login.png) no-repeat -2px -137px #fff;}
-.password2 { background: url(/assets/new/login.png) no-repeat -2px -70px #fff;}
-.eMail { background: url(/assets/new/login.png) no-repeat -2px -204px #fff;}
+.username { background: url(/assets/login.png) no-repeat -2px -3px #fff;}
+.password1 { background: url(/assets/login.png) no-repeat -2px -137px #fff;}
+.password2 { background: url(/assets/login.png) no-repeat -2px -70px #fff;}
+.eMail { background: url(/assets/login.png) no-repeat -2px -204px #fff;}

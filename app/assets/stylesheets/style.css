@@ -219,6 +219,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
     display: inline-block;
 }
 /*班级分组tab*/
+
 li.p_input p, li.p_input input, .tab_switch li input {
     width: 170px;
     height: 40px;
@@ -246,6 +247,49 @@ li.p_input p, li.p_input input, .tab_switch li input {
 .tab_grouping_list ul.group_pr li a:hover { background-color: #f0f0f0;}
 .tab_grouping_list li { height: 30px; line-height: 30px; margin: 10px 0; clear: both;}
 .tab_grouping_list li img { width: 30px; float: left; margin-right: 10px;}
+
+.button_submit{
+    width: 170px;
+    height: 40px;
+    background: #dd5c05;
+    color: #FFF;
+    display: inline-block;
+}
+.tab_switch li pre{
+    width: 170px;
+    height: 40px;
+    border: 1px #dd5c05 solid;
+    color: #dd5c05;
+    display: inline-block;
+    text-align: center;
+}
+.tab_switch li input {
+    width: 170px;
+    height: 40px;
+    border: 1px #dd5c05 solid;
+    display: inline-block;
+    text-align: center;
+}
+.tab_grouping { overflow: hidden; padding: 10px;}
+.tab_grouping_list { float: left; width: 220px; margin: 0 10px;}
+.tab_grouping_list h2 { color: #dd5c05; line-height: 28px; font-size: 14px;}
+.tab_grouping_list ul {
+    display: block;
+    background: #e4e5e4;
+    padding: 5px 10px;
+    height: 300px;
+    overflow: auto;
+}
+.tab_grouping_list ul.group_pr li a {
+    padding-left: 40px;
+    cursor: pointer;
+    background: url(/assets/icon02.png) no-repeat 0 -131px;
+    display: block;
+}
+.tab_grouping_list ul.group_pr li a:hover { background-color: #f0f0f0;}
+.tab_grouping_list li { height: 30px; line-height: 30px; margin: 10px 0; clear: both;}
+.tab_grouping_list li img { width: 30px; float: left; margin-right: 10px;}
+
 
 
 /*问答tab*/

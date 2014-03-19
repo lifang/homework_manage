@@ -1,3 +1,4 @@
+#encoding: utf-8
 module StatisticsHelper
   #根据题型显示图片
   def questions_img_class question_types
@@ -43,7 +44,7 @@ module StatisticsHelper
 
   #根据学生的答题记录返回学生答错的小题id
   def read_answer_hash answer_hash, types
-    wrongs_id = []
+    wrongs_branch_id = []
     p types
     if answer_hash.present?
       if answer_hash[Question::TYPE_NAME_ARR[types.to_i]].present? &&
@@ -55,13 +56,14 @@ module StatisticsHelper
             branch_questions = question["branch_questions"]
             branch_questions.each do |bq|
               if (bq["ratio"].to_i >= 0 && bq["ratio"].to_i < 100) && bq["id"].to_i > 0
-                wrongs_id << bq["id"].to_i
+                wrongs_branch_id << bq["id"].to_i
               end
             end
           end
         end
       end
     end
-    wrongs_id
+    p wrongs_branch_id
+    wrongs_branch_id
   end
 end

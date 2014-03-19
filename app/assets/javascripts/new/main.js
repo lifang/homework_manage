@@ -65,6 +65,22 @@ $(function(){
     tabFunc("a.clock_icon",".tab");
 })
 
+//页面弹出层高度
+$(function(){
+    var win_width = $(window).width();
+    var win_height = $(window).height();
+    var doc_width = $(document).width();
+    var doc_height = $(document).height();
+    var layer_height = $(".tab500").height();
+    var layer_width = $(".tab500").width();
+    $(".mask").css("height",doc_height);
+    $(".tab500").css('top',(win_height-layer_height)/6);
+    $(".tab500").css('left',(win_width-layer_width)/2);
+    $(document).on('click',".close",function(){
+        $(this).parents(".tab").css("display","none");
+        $(".mask").css("display","none");
+    })
+})
 
 //popup
 function popup(t){

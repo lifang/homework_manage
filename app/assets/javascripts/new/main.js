@@ -186,11 +186,11 @@ function tabFunc(c,t){
     });
 }
 $(function(){
-    tabFunc(".td_seeQuestion",".tab");
-    tabFunc(".switchoverClass a",".tab");
+//    tabFunc(".td_seeQuestion",".tab");
+//    tabFunc(".switchoverClass a",".tab");
 //    tabFunc("a.student_btn_a",".tab");
-    tabFunc("a.time_icon",".tab");
-    tabFunc("a.clock_icon",".tab");
+//    tabFunc("a.time_icon",".tab");
+//    tabFunc("a.clock_icon",".tab");
 })
 
 

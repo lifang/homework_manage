@@ -275,16 +275,19 @@ class Api::StudentsController < ApplicationController
     notice = "获取失败！"
     tasks = nil
     knowledges_cards_count = nil
+    props = nil
     if !student.nil? && !school_class.nil?
       card_bag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
       if card_bag.present?
         knowledges_cards_count = card_bag.knowledges_cards_count
       end
+      props = Prop.get_prop_num school_class.id, student.id
       tasks = PublishQuestionPackage.get_tasks school_class.id, student.id,"first"
       status = "success"
       notice = "获取成功！"
     end
-    render :json => {:status => status, :notice => notice, :tasks => tasks,:knowledges_cards_count=> knowledges_cards_count}
+    render :json => {:status => status, :notice => notice, :tasks => tasks,
+                    :knowledges_cards_count=> knowledges_cards_count, :props => props}
   end
 
   #获取历史任务
@@ -297,17 +300,20 @@ class Api::StudentsController < ApplicationController
     status = "error"
     notice = "获取失败！"
     tasks = nil
+    props = nil
     knowledges_cards_count = nil
     if !student.nil? && !school_class.nil?
       card_bag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
       if card_bag.present?
         knowledges_cards_count = card_bag.knowledges_cards_count
       end
+      props = Prop.get_prop_num school_class.id, student.id
       tasks = PublishQuestionPackage.get_tasks school_class.id, student.id, nil, nil, today_newer_id
       status = "success"
       notice = "获取成功！"
     end
-    render :json => {:status => status, :notice => notice, :tasks => tasks,:knowledges_cards_count=> knowledges_cards_count}
+    render :json => {:status => status, :notice => notice, :tasks => tasks,
+                     :knowledges_cards_count=> knowledges_cards_count, :props => props}
   end
 
   #查询任务
@@ -1022,7 +1028,7 @@ class Api::StudentsController < ApplicationController
     student_id = params[:student_id]
     cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
     if cardbag
-      cardtags = CardTag.where("card_bag_id= ?",cardbag.id)
+      cardtags = CardTag.select(["id,date_format(created_at,'%Y-%m-%d %H:%S') as creat "]).where("card_bag_id= ?",cardbag.id)
       status = "success"
       notice = "获取标签成功"
     else

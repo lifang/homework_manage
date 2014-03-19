@@ -86,8 +86,7 @@
   <div class="tab_user_box">
 <%= form_for :teachers, :url => {:action => :upload_avatar,:controller => :teachers},:html => {:multipart => true,:method => :post},:remote => true, "data-type" => "script" do|f|  %>
 
-    <div class="tab_user_left">
-            
+    <div class="tab_user_left"> 
       <div class="avater_default"><img src=<%=  @user.avatar_url%>/></div>
       <a href="javascript:void(0);" class="avater_a">
         <span>确定</span>

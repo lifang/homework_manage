@@ -4,7 +4,7 @@ require 'fileutils'
 require "mini_magick"
 include MethodLibsHelper
 class TeachersController < ApplicationController
-  before_filter :sign?
+  before_filter :sign?, :get_unread_messes
   #教师创建班级
   def create_class
     name = params[:class_name]
@@ -21,36 +21,35 @@ class TeachersController < ApplicationController
       teacher_id
       school_classes = SchoolClass.find_by_teacher_id_and_name(teacher_id,name)
       if teacher.nil?
-        notice = "教师不存在，不能创建班级！"
-        status = false
+        @notice = "教师不存在，不能创建班级！"
+        @status = false
       else
         if teacher.status == Teacher::STATUS[:YES]
           if !school_classes.nil?
-            notice = "班级班级已存在！"
-            status = false
+            @notice = "班级班级已存在！"
+            @status = false
           else
-            if @school_class = teacher.school_classes.create(:name => name,:period_of_validity => period_of_validity,
+            if school_class = teacher.school_classes.create(:name => name,:period_of_validity => period_of_validity,
                 :verification_code => verification_code,
                 :status => SchoolClass::STATUS[:NORMAL],
                 :teaching_material_id => teaching_material_id)
               #            notice = "班级创建成功！"
-              flash[:verification_code] = "创建成功,班级验证码为:#{@school_class.verification_code}!"
-              status = true
+              flash[:verification_code] = "创建成功,班级验证码为:#{school_class.verification_code}!"
+              @status = true
             else
-              notice = "班级创建失败，请重新操作！"
-              status = false
+              @notice = "班级创建失败，请重新操作！"
+              @status = false
             end
           end
         else
-          notice = "教师已被禁用，无法进行操作！"
-          status = false
+          @notice = "教师已被禁用，无法进行操作！"
+          @status = false
         end
       end
     else
-      notice = "班级可用验证码已到达上限，无法创建班级！"
-      status = false
-    end
-    render :json => {:status => status, :notice => notice}
+      @notice = "班级可用验证码已到达上限，无法创建班级！"
+      @status = false
+    end   
   end
 
   #教师上传头像

@@ -4,6 +4,7 @@
     <meta charset="utf-8"/>
     <title>HomeworkManage</title>
     <%= stylesheet_link_tag    "application", :media => "all"  %>
+    <%= stylesheet_link_tag    "/assets/jqtransform.css", "/assets/skins/square/_all.css", "/assets/skins/square/aero.css", "/assets/skins/square/blue.css", "/assets/skins/square/green.css", "/assets/skins/square/grey.css", "/assets/skins/square/orange.css", "/assets/skins/square/pink.css", "/assets/skins/square/purple.css", "/assets/skins/square/red.css", "/assets/skins/square/square.css", "/assets/skins/square/yellow.css", :media => "all"  %>
     <%= javascript_include_tag "application", "main_pages", "zuoye","statistics", "main", "main_pages", "icheck", "jquery.tablesorter"  %>
     <%= javascript_include_tag "teachers"%>
     <%= javascript_include_tag "jquery.Jcrop.min"%>
@@ -12,48 +13,34 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
+    <div class="tab_Prompt" id="tab_Prompt">
+      <a href="javascript:void(0)" class="x"></a>
+      <p></p>
+    </div>
     <div class="wrap">
       <div class="area clearAfter">
         <%=render 'layouts/top_side'%>
-        <div class="tab" id="tishi_div" style="display:none; z-index:1011;">
-          <span class="close">关闭</span>
-          <div class="tab_con">
-            <h1 class="red"></h1>
-          </div>
-        </div>
-        <% flash.each do |x,y| %>
-          <% if x != "verification_code" %>
-            <% break %>
-          <% else %>
-            <div class="tab flash"  style="display:none;">
-              <span class="close">关闭</span>
-              <div class="tab_con">
-                <h1 class="red"><%=y%></h1>
-              </div>
-            </div>
-          <%end%>
-        <%end%>
         <%= yield %>
-
         <div class="right_side_mess">
           <% if @unread_messes.any? %>
-          <a href="javascript:void(0)" class="side_mess_delete" onclick="del_all_unread_msg(<%= @unread_messes[0].user_id %>, <%= @unread_messes[0].school_class_id %>)">全部删除</a>
+            <a href="javascript:void(0)" class="side_mess_delete" onclick="del_all_unread_msg(<%= @unread_messes[0].user_id %>, <%= @unread_messes[0].school_class_id %>)">全部删除</a>
           <% end %>
           <div class="side_mess_box">
             <ul>
               <% @unread_messes.each do |um| %>
-              <a href="/school_classes/<%= @school_class.id %>/messages/check_micropost?uid=<%= um.user_id %>&mid=<%= um.micropost_id %>&mess_id=<%= um.id %>"><li><p><%= um.content.nil? ? "" : um.content.gsub(/\[|\]|;|\||/, "") %></p><p><%= um.created_at.nil? ? "" : um.created_at.strftime("%Y-%m-%d %H:%M") %></p></li></a>
+                <a href="/school_classes/<%= @school_class.id %>/messages/check_micropost?uid=<%= um.user_id %>&mid=<%= um.micropost_id %>&mess_id=<%= um.id %>"><li><p><%= um.content.nil? ? "" : um.content.gsub(/\[|\]|;|\||/, "") %></p><p><%= um.created_at.nil? ? "" : um.created_at.strftime("%Y-%m-%d %H:%M") %></p></li></a>
               <% end if @unread_messes.any? %>
             </ul>
           </div>
         </div>
-
       </div>     
     </div>
     <div class="mask"></div>
-    <div class="tab tab840" id="popup_page">
-
-    </div>
-    
+    <div class="tab tab840" id="popup_page"></div>
   </body>
+  <% if flash[:verification_code] %>
+    <script>
+      tishi_code('<%= flash[:verification_code] %>');
+    </script>
+  <% end %>
 </html>

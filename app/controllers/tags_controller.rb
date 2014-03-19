@@ -1,7 +1,7 @@
 #encoding: utf-8
 class TagsController < ApplicationController
   require 'will_paginate/array'
-  before_filter :sign?
+  before_filter :sign?, :get_unread_messes
   def destroy
     tag_id = params[:id]
     tag = Tag.find_by_id tag_id

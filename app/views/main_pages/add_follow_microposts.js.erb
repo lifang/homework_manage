@@ -1,0 +1,7 @@
+
+<%  if @status == "success" %>
+  tishi('<%= @notice %>')
+  setTimeout(location.href = "/school_classes/<%= params[:school_class_id] %>/main_pages?condtions=<%= @condition %>",1000);
+<% else %>
+  tishi('<%= @notice %>')
+<% end %>

@@ -1,7 +1,7 @@
 #encoding: utf-8
 include QuestionPackagesHelper
 class QuestionPackagesController < ApplicationController
-  before_filter :sign?
+  before_filter :sign?, :get_unread_messes
   before_filter :get_cells_and_episodes, :only => [:new, :render_new_question]
 
   def index

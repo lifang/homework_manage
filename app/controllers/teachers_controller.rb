@@ -112,14 +112,14 @@ class TeachersController < ApplicationController
     end
     if current_user.update_attributes(:avatar_url => avatar_url)
       flash[:notice] = "操作成功!"
-      redirect_to "/school_classes/#{params[:school_class_id].to_i}/teachers/teacher_setting"
+      redirect_to "/school_classes/#{params[:school_class_id].to_i}/main_pages"
     end
   end
   #  保存更新
   def save_updated_teacher
     if current_user.update_attributes(:name => params[:name]) && current_teacher.update_attributes(:email => params[:email].strip)
       flash[:notice] = "操作成功!"
-      redirect_to "/school_classes/#{params[:school_class_id].to_i}/teachers/teacher_setting"
+      redirect_to "/school_classes/#{params[:school_class_id].to_i}/main_pages"
     end
   end
   #  删除班级

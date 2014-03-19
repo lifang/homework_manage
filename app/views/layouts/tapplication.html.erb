@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>HomeworkManage</title>
+    <%= stylesheet_link_tag "new/style.css",'new/jqtransform.css', :media => "all" %>
+    <%= stylesheet_link_tag "new/skins/square/_all.css",'new/skins/square/aero.css', 'new/skins/square/blue.css', 'new/skins/square/green.css', 'new/skins/square/grey.css', 'new/skins/square/orange.css', 'new/skins/square/pink.css', 'new/skins/square/purple.css', 'new/skins/square/red.css', 'new/skins/square/square.css', 'new/skins/square/yellow.css', :media => "all" %>
+    <%= javascript_include_tag "application", "new/main", "statistics", "main", "main_pages", "new/icheck", "new/jquery.tablesorter"  %>
+    <%= javascript_include_tag "teachers","new/jquery.jqtransform" %>
+    <%= javascript_include_tag "jquery.Jcrop.min"%>
+    <script type="text/javascript" src="/assets/My97DatePicker/WdatePicker.js" ></script>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <div id="fugai" style="display: none;position: fixed ;top:0; z-index:802;width:100%;height:100%;opacity:0.7;background:#D1EEEE;">
+    </div>
+    <div id="fugai1" style="display: none;width:100%;height:100%;position: fixed ;top:0;z-index: 803;">
+      <div style="display:block;margin: 100px auto;text-align: center;height:80px;">
+        <h2 >图片上传中</h2>
+        <img src="/assets/009.gif" style=" width:80px;height:80px; "/>
+      </div>
+    </div>
+    
+    <div class="wrap">
+      <%= render "layouts/top_side" %>
+        <div class="tab" id="tishi_div" style="display:none; z-index:1011;">
+          <span class="close">关闭</span>
+          <div class="tab_con">
+            <h1 class="red"></h1>
+          </div>
+        </div>
+        <% flash.each do |x,y| %>
+            <% if x != "verification_code" %>
+              <% break %>
+            <% else %>
+              <div class="tab flash"  style="display:none;">
+                <span class="close">关闭</span>
+                <div class="tab_con">
+                  <h1 class="red"><%=y%></h1>
+                </div>
+              </div>
+            <%end%>
+        <%end%>
+        <%= yield %>
+      </div>     
+    <div class="mask"></div>
+    <div class="tab tab840" id="popup_page">
+
+    </div>
+    
+    
+
+  </body>
+</html>

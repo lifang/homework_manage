@@ -8,7 +8,7 @@ include REXML
 include MethodLibsHelper
 include MicropostsHelper
 class HomeworksController < ApplicationController
-  before_filter :sign?
+  before_filter :sign?, :get_unread_messes
   #作业主页
   def index
     teacher = Teacher.find_by_id cookies[:teacher_id]

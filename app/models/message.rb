@@ -3,7 +3,7 @@ class Message < ActiveRecord::Base
   attr_protected :authentications
   belongs_to :user
   belongs_to :micropost
-  STATUS = {:NOMAL => 0, :READED => 1} #未阅读 0  已阅读
+  STATUS = {:NOMAL => 0, :READED => 1} #0未阅读  1已阅读
   PER_PAGE = 10
   def self.add_messages(micropost_id, reciver_id, reciver_types, sender_id,
       sender_types, content, school_class_id,reply_micropost_id)

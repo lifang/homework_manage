@@ -1,7 +1,8 @@
 #encoding: utf-8
 class StudentsController < ApplicationController
   require 'will_paginate/array'
-  before_filter :sign?
+  before_filter :sign?, :get_unread_messes
+  before_filter :get_school_class
   def index
     sql_schoolclass = "SELECT *,(select COUNT(*) from school_class_student_ralastions scsr WHERE scsr.school_class_id = ?) count
 from school_classes sc where sc.id=?"

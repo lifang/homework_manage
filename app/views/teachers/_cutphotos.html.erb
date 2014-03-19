@@ -1,8 +1,8 @@
 <%= form_for :teachers,:url => {:action => :update_avatar,:controller => :teachers},:html=>{:multipart => true,:method => :post,} do |f| %>
   <div class="avater_imgBox"><img src="<%=  @src %>" id="cropbox"/></div>
-  <div style="text-align: center">
-    <button type="submit" class="confirm_btn" style="display: inline-block; margin: 5px 15px"> 确定 </button>
-    <button type="button" class="confirm_btn" onclick="cancel_upload()" style="display: inline-block;margin: 5px 15px"> 取消 </button>
+  <div style="text-align: center;margin-left: -73px;">
+    <button type="submit" class="confirm_btn" style="padding:10px; display: inline-block; margin: 5px 15px"> 确定 </button>
+    <button type="button" class="confirm_btn" onclick=" cancel_upload()" style="padding:10px; display: inline-block;margin: 5px 15px"> 取消 </button>
   </div>
 
   <div style="display: none">
@@ -18,7 +18,6 @@
   jQuery(function($){
     // Create variables (in this scope) to hold the API and image size
     var jcrop_api, boundx, boundy;
-
     $('#cropbox').Jcrop({
       setSelect: [0,0,176,176],
       boxWidth:298,
@@ -35,7 +34,6 @@
       onSelect: updateCoords
     },
     function(){
-
       jcrop_api = this;
     });
     function updateCoords(c)

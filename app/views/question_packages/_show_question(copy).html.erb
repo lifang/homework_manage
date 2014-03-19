@@ -1,5 +1,6 @@
 <% @question_type.each do |type| %>
-    <% @questions[0].each do |question| %>
+    <%= @questions[type][0][:id]  %>
+    <% @questions[type].each do |question| %>
         <% case question[:types]%>
             <% when Question::TYPES[:TIME_LIMIT] then%>
                 <%= render "question_packages/que_time_limit", {:question => question}  %>

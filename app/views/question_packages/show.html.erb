@@ -37,7 +37,7 @@
         <div class="qType_menu clearAfter">
           <ul>
             <% @question_type.each do |type|%>
-            <li class="hover"><p><span class="<%= load_type_class type %>" onclick=""><%= Question::TYPES_NAME[type] %></span></p>
+              <li class="hover"><p><span class="<%= load_type_class type %>" onclick=""><%= Question::TYPES_NAME[type] %></span></p>
               <i class="arrows" style="display: none;"></i>
               <div class="second_menu" style="display: none;">
                 <a href="#">新建</a><a href="#">引用</a>
@@ -51,11 +51,9 @@
   </div>
 </div>
 <script>
-
     $(function(){
         $('.select_box').jqTransform();
     });
-
     $(document).ready(function(){
         $(".steps .td_text_p").dblclick(function(){
             $(".td_text_p").show();

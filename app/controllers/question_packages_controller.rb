@@ -1,4 +1,5 @@
 #encoding: utf-8
+include QuestionPackagesHelper
 class QuestionPackagesController < ApplicationController
   before_filter :sign?
   before_filter :get_cells_and_episodes, :only => [:new, :render_new_question]
@@ -70,19 +71,20 @@ class QuestionPackagesController < ApplicationController
     @question_pack = QuestionPackage.find_by_id(params[:id])
     teacher = Teacher.find_by_id cookies[:teacher_id]
     @user = User.find_by_id teacher.user_id.to_i
+    @question_type = []
     @origin_questions = nil
-    question_type = QuestionPackage.get_all_packs_que_types params[:school_class_id], [@question_pack.id]
-    @question_type = question_type.map(&:types)
+    question_type = QuestionPackage.get_one_package_questions @question_pack.id
+    @question_type = question_type.map(&:types).uniq.sort if question_type.present?
+    p @question_type
     ques = []
-    question_id = Question.select("id").where("question_package_id = ?",@question_pack.id)
     question = Question
       .select("id, types, name, full_text, content, questions_time, created_at")
-      .where(["questions.id in (?)", question_id])
+      .where(["questions.question_package_id = ?", @question_pack.id])
+    question_id = question.map{|q| q.id }.uniq
     branch_questions = BranchQuestion
       .select("content, resource_url, options, answer, question_id, id")
       .where(["question_id in (?)", question_id])
     branch_questions_id = branch_questions.map{|bq| bq.id}
-    p branch_questions_id
     branch_questions = branch_questions.group_by {|b| b.question_id}
     @branch_tags = BtagsBqueRelation.joins("left join branch_tags bt on btags_bque_relations.branch_tag_id = bt.id")
         .select("btags_bque_relations.branch_question_id, bt.id, bt.name")
@@ -97,9 +99,9 @@ class QuestionPackagesController < ApplicationController
                :questions_time => q.questions_time, :created_at => q.created_at,
                 :content => q.content, :branch_questions => branch_ques}
     end
-    @question = ques.group_by {|q| q[:types]}
-    p @question
-    p @branch_tags
+    @questions = ques.group_by {|q| q[:types]}
+    p @questions
+    #p @branch_tags
   end
 
   #删除作业

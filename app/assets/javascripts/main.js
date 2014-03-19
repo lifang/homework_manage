@@ -20,7 +20,10 @@ $(function(){
 $(function(){
     $(".item_content li a").click(function(e){
         $(".s_tab").css('display','block');
-        $(".s_tab").css({'top':(e.pageY)+'px', 'left':(e.pageX)+'px'});
+        $(".s_tab").css({
+            'top':(e.pageY)+'px',
+            'left':(e.pageX)+'px'
+            });
     });
 
     $(".close").click(function(){
@@ -37,12 +40,12 @@ $(function(){
             $(".tab_mess").css({
                 'top':(e.pageY-$(".tab_mess").height()-50)+'px',
                 'left':(e.pageX-180)+'px'
-                });
+            });
         }else{
             $(".tab_mess").css({
                 'top':(e.pageY+30)+'px',
                 'left':(e.pageX-180)+'px'
-                });
+            });
         }
         return false;
     });
@@ -69,7 +72,7 @@ $(function(){
         $(".tab_mess").css({
             'top':(e.pageY+30)+'px',
             'left':(e.pageX-180)+'px'
-            });
+        });
         return false;
     });
     $(document).bind('click', function (e) {
@@ -88,7 +91,7 @@ $(function(){
         $(".tag_tab").css({
             'top':(e.pageY+30)+'px',
             'left':(e.pageX-192)+'px'
-            });
+        });
         return false;
     });
     $(document).bind('click', function (e) {
@@ -123,7 +126,10 @@ $(function(){
 $(function(){
     $(".qt_icon a.tag").click(function(e){
         $(".tag_tab").css('display','block');
-        $(".tag_tab").css({'top':(e.pageY+30)+'px', 'left':(e.pageX-192)+'px'});
+        $(".tag_tab").css({
+            'top':(e.pageY+30)+'px',
+            'left':(e.pageX-192)+'px'
+            });
         return false;
     });
 
@@ -147,7 +153,7 @@ $(function(){
         $(".tab_user").css({
             'top':(e.pageY+30)+'px',
             'left':(e.pageX-470)+'px'
-            });
+        });
         return false;
     });
     $(document).bind('click', function (e) {
@@ -186,12 +192,12 @@ function tabFunc(c,t){
     });
 }
 $(function(){
-//    tabFunc(".td_seeQuestion",".tab");
-//    tabFunc(".switchoverClass a",".tab");
-//    tabFunc("a.student_btn_a",".tab");
-//    tabFunc("a.time_icon",".tab");
-//    tabFunc("a.clock_icon",".tab");
-})
+    //    tabFunc(".td_seeQuestion",".tab");
+    //    tabFunc(".switchoverClass a",".tab");
+    //    tabFunc("a.student_btn_a",".tab");
+    //    tabFunc("a.time_icon",".tab");
+    //    tabFunc("a.clock_icon",".tab");
+    })
 
 //页面弹出层高度
 $(function(){
@@ -270,7 +276,7 @@ $(function(){
         $(this).parent().find("p").css("display","inline-block");
         $(this).parent().find("p").html($(this).val());
         $(this).attr("value",$(this).val());
-        //alert($(this).val());
+    //alert($(this).val());
     });
 })
 
@@ -287,7 +293,7 @@ function ondblclick(a,b){
         $(this).parent().find("p").css("display","inline-block");
         $(this).parent().find("p").html($(this).val());
         $(this).attr("value",$(this).val());
-        //alert($(this).val());
+    //alert($(this).val());
     });
 }
 $(function(){
@@ -501,7 +507,7 @@ $(function(){
     $(".flash").show();
     setTimeout("$('.flash').hide(1000)",2000);
 //    tabFunc(".tab");
-    //tabFunc(".tab_article");
+//tabFunc(".tab_article");
 })
 
 //页面高度
@@ -657,7 +663,7 @@ function dia(e){
         function(){
             $(this).find("a.x").css("display","none");
         }
-    );
+        );
 }
 $(function(){
     dia(".question_area_con");
@@ -820,24 +826,24 @@ function show_single_record(ids) {
 }
 
 function tishi(message){
-    $("#tishi_div .tab_con .red").html(message);
+    $("#tab_Prompt").find("p").first().html(message);
     var scolltop = document.body.scrollTop|document.documentElement.scrollTop;
     var win_height = document.documentElement.clientHeight;//jQuery(document).height();
-    var z_layer_height = $("#tishi_div").height();
-    $("#tishi_div").css('top',(win_height-z_layer_height)/2 + scolltop);
+    var z_layer_height = $("#tab_Prompt").height();
+    $("#tab_Prompt").css('top',(win_height-z_layer_height)/2 + scolltop);
     var doc_width = $(document).width();
-    var layer_width = $("#tishi_div").width();
-    $("#tishi_div").css('left',(doc_width-layer_width)/2);
-    $("#tishi_div").css('display','block');
-    jQuery('#tishi_div').fadeTo("slow",1);
-    $("#tishi_div .close").click(function(){
-        $("#tishi_div").css('display','none');
+    var layer_width = $("#tab_Prompt").width();
+    $("#tab_Prompt").css('left',(doc_width-layer_width)/2);
+    $("#tab_Prompt").css('display','block');
+    jQuery('#tab_Prompt').fadeTo("slow",1);
+    $("#tab_Prompt .x").click(function(){
+        $("#tab_Prompt").css('display','none');
     })
     setTimeout(function(){
-        jQuery('#tishi_div').fadeTo("slow",0);
+        jQuery('#tab_Prompt').fadeTo("slow",0);
     }, 3000);
     setTimeout(function(){
-        $("#tishi_div").css('display','none');
+        $("#tab_Prompt").css('display','none');
     }, 3000);
 }
 
@@ -950,4 +956,22 @@ function height_tab(){
     var doc_width = $(document).width();
     var layer_width = $(".tab").width();
     $(".tab").css('left',(doc_width-layer_width)/2);
+}
+
+//删除所有未读信息
+function del_all_unread_msg(user_id, school_class_id){
+    $.ajax({
+        type: "get",
+        url: "/school_classes/"+school_class_id+"/messages/del_all_unread_msg",
+        dataType: "json",
+        data: {
+            user_id : user_id
+        },
+        success: function(data){
+            window.location.reload();
+        },
+        erroe: function(data){
+            tishi("请求失败!")
+        }
+    })
 }

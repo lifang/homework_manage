@@ -65,7 +65,6 @@ module ApplicationHelper
   def sign?
     unless request.xhr?
       if cookies[:user_id].nil?  || cookies[:teacher_id].nil?
-
         redirect_to  "/"
       #else
       #  unless params[:school_class_id].nil?
@@ -76,5 +75,11 @@ module ApplicationHelper
         #end
       end
     end
+  end
+
+  def get_unread_messes
+    school_class_id = params[:school_class_id].to_i
+    @unread_messes = Message.where(["user_id =? and school_class_id = ? and status = ?",
+        cookies[:user_id].to_i, school_class_id, Message::STATUS[:NOMAL]])
   end
 end

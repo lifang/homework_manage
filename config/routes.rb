@@ -45,13 +45,14 @@ HomeworkManage::Application.routes.draw do
     resources :main_pages do
       collection do
         post :delete_student
+        get :add_follow_microposts
       end
     end
     resources :statistics do
       collection do
         get :correct_rate
         post :checkout_by_date, :show_tag_task, :show_question_statistics,
-             :show_incorrect_questions,:show_questions, :show_all_tags
+          :show_incorrect_questions,:show_questions, :show_all_tags
       end
     end
     resources :results
@@ -62,7 +63,7 @@ HomeworkManage::Application.routes.draw do
     end
     resources :messages do
       collection do
-        get :check_micropost,:new_message_remind
+        get :check_micropost, :new_message_remind,  :del_all_unread_msg
       end
     end
 

@@ -2,18 +2,41 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/main_pages/add_follow_microposts.js.erb" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/bootstrap-datetimepicker.js" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/bootstrap-datetimepicker.zh-CN.js" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/bootstrap.min.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/question_packages/_que_cloze.html.erb" afterPath="$PROJECT_DIR$/app/views/question_packages/_que_cloze.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/statistics/_que_cloze.html.erb" afterPath="$PROJECT_DIR$/app/views/statistics/_que_cloze.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/statistics/_que_selecting.html.erb" afterPath="$PROJECT_DIR$/app/views/statistics/_que_selecting.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/statistics/_question_types_area.html.erb" afterPath="$PROJECT_DIR$/app/views/statistics/_question_types_area.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/statistics/_statistics_details.html.erb" afterPath="$PROJECT_DIR$/app/views/statistics/_statistics_details.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/application.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/views/layouts/tapplication.html.erb" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/main_pages/_questarea_box.html.erb" afterPath="$PROJECT_DIR$/app/views/main_pages/_questarea_box.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/_top_side.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/_top_side.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/application.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/bootstrap/bootstrap.min.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/bootstrap/bootstrap.min.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/application_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/application_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helpers/application_helper.rb" afterPath="$PROJECT_DIR$/app/helpers/application_helper.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/branch_questions_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/branch_questions_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/welcome/first.html.erb" afterPath="$PROJECT_DIR$/app/views/welcome/first.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/homeworks_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/homeworks_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/homeworks/index.html.erb" afterPath="$PROJECT_DIR$/app/views/homeworks/index.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/main_pages/index.html.erb" afterPath="$PROJECT_DIR$/app/views/main_pages/index.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/welcome/index.html.erb" afterPath="$PROJECT_DIR$/app/views/welcome/index.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/login.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/login.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/welcome/login.js.erb" afterPath="$PROJECT_DIR$/app/views/welcome/login.js.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/main.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/main_pages_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/main_pages_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/message.rb" afterPath="$PROJECT_DIR$/app/models/message.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/messages_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/messages_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/microposts_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/microposts_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/questions_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/questions_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbproject/private/rake-d.txt" afterPath="$PROJECT_DIR$/nbproject/private/rake-d.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/results_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/results_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.rb" afterPath="$PROJECT_DIR$/config/routes.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/statistics_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/statistics_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/students_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/style.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/tags_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/tags_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/teachers_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/teachers_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/welcome.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/welcome.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -40,10 +63,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/statistics/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="6" selection-start="123" selection-end="123" vertical-scroll-proportion="0.12164579" vertical-offset="0" max-vertical-offset="559">
+            <state line="4" column="6" selection-start="123" selection-end="123" vertical-scroll-proportion="-2.6153846" vertical-offset="0" max-vertical-offset="170">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="application.html.erb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/layouts/application.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="54" column="7" selection-start="2550" selection-end="2550" vertical-scroll-proportion="0.75091577" vertical-offset="508" max-vertical-offset="1054">
               <folding />
             </state>
           </provider>
@@ -114,8 +146,8 @@
         <option value="$PROJECT_DIR$/app/views/statistics/_question_types_area.html.erb" />
         <option value="$PROJECT_DIR$/app/views/question_packages/_que_cloze.html.erb" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
-        <option value="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
         <option value="$PROJECT_DIR$/app/views/statistics/_que_selecting.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
       </list>
     </option>
   </component>
@@ -1089,13 +1121,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="953" column="0" selection-start="26475" selection-end="26475" vertical-scroll-proportion="4.1384616" vertical-offset="8153" max-vertical-offset="10676">
           <folding>
-            <element signature="e#638#1495#0" expanded="false" />
-            <element signature="e#716#1253#0" expanded="false" />
+            <element signature="e#676#1525#0" expanded="false" />
+            <element signature="e#754#1283#0" expanded="false" />
             <element signature="n#!!block;n#popup#1" expanded="false" />
-            <element signature="e#12568#12667#0" expanded="false" />
+            <element signature="e#12640#12739#0" expanded="false" />
             <element signature="n#!!block;n#show_windows#0" expanded="false" />
-            <marker date="1395200857920" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1395200857920" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1395216799009" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1395216799009" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1113,7 +1145,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="36" column="12" selection-start="1611" selection-end="1611" vertical-scroll-proportion="0.17435898" vertical-offset="0" max-vertical-offset="1207">
           <folding>
-            <element signature="e#1615#3826#0" expanded="false" />
+            <element signature="e#3787#5112#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1298,13 +1330,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/tapplication.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="23" selection-start="1304" selection-end="1304" vertical-scroll-proportion="0.5862069" vertical-offset="0" max-vertical-offset="1020">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/application.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="18" selection-start="598" selection-end="598" vertical-scroll-proportion="0.35664335" vertical-offset="0" max-vertical-offset="572">
@@ -1393,14 +1418,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="0" selection-start="207" selection-end="207" vertical-scroll-proportion="0.1551095" vertical-offset="0" max-vertical-offset="2312">
           <folding>
-            <element signature="e#210#780#0" expanded="true" />
-            <element signature="e#786#840#0" expanded="true" />
-            <element signature="e#872#1939#0" expanded="true" />
-            <element signature="e#1943#2314#0" expanded="true" />
-            <element signature="e#2318#2473#0" expanded="true" />
-            <element signature="e#2485#4232#0" expanded="true" />
-            <element signature="e#4631#4964#0" expanded="true" />
-            <element signature="e#4968#5478#0" expanded="true" />
+            <element signature="e#230#800#0" expanded="true" />
+            <element signature="e#806#860#0" expanded="true" />
+            <element signature="e#892#1959#0" expanded="true" />
+            <element signature="e#1963#2334#0" expanded="true" />
+            <element signature="e#2338#2493#0" expanded="true" />
+            <element signature="e#2505#4252#0" expanded="true" />
+            <element signature="e#4651#4984#0" expanded="true" />
+            <element signature="e#4988#5498#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1435,13 +1460,6 @@
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/application.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="1" selection-start="650" selection-end="650" vertical-scroll-proportion="0.4940171" vertical-offset="0" max-vertical-offset="585">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/application.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="132" selection-start="292" selection-end="292" vertical-scroll-proportion="0.21205822" vertical-offset="0" max-vertical-offset="833">
           <folding />
         </state>
       </provider>
@@ -1497,7 +1515,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/statistics/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="6" selection-start="123" selection-end="123" vertical-scroll-proportion="0.12164579" vertical-offset="0" max-vertical-offset="559">
+        <state line="4" column="6" selection-start="123" selection-end="123" vertical-scroll-proportion="-2.6153846" vertical-offset="0" max-vertical-offset="170">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/application.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="7" selection-start="2550" selection-end="2550" vertical-scroll-proportion="0.75091577" vertical-offset="508" max-vertical-offset="1054">
           <folding />
         </state>
       </provider>

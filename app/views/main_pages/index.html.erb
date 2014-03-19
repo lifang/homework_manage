@@ -86,8 +86,7 @@
   <div class="tab_user_box">
 <%= form_for :teachers, :url => {:action => :upload_avatar,:controller => :teachers},:html => {:multipart => true,:method => :post},:remote => true, "data-type" => "script" do|f|  %>
 
-    <div class="tab_user_left">
-            
+    <div class="tab_user_left"> 
       <div class="avater_default"><img src=<%=  @user.avatar_url%>/></div>
       <a href="javascript:void(0);" class="avater_a">
         <span>确定</span>
@@ -114,18 +113,6 @@
   <div class="tab_user_btn"><button onclick="update_password(<%= @schoolclass.id %>)">保存</button></div>
   <div class="tab_out_btn"> <button onclick="cancle_main();">退出</button></div>
 </div>
-
-<div class="right_side_mess">
-  <a href="#" class="side_mess_delete">全部删除</a>
-  <div class="side_mess_box">
-    <ul>
-      <li><p>王小小回复您的留言</p><p>2014-03-04  21：30</p></li>
-      <li><p>王小小回复您的留言</p><p>2014-03-04  21：30</p></li>
-      <li><p>王小小回复您的留言</p><p>2014-03-04  21：30</p></li>
-    </ul>
-  </div>
-</div>
-
 
 <div class="tab tab500">
   <a href="javascript:void(0);" class="close">close</a>
@@ -181,6 +168,6 @@
 
 <script type="text/javascript">
 <% if flash[:verification_code] %>
-    tishi_code("<%= flash[:verification_code] %>");
+    tishi("<%= flash[:verification_code] %>");
 <% end %>
 </script>

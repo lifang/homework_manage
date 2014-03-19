@@ -167,22 +167,25 @@ function delete_micropots(id){
 function  show_reply(value,micropost_id){
     var answer_area = $(value).parent().parent().find(".answer_area");
     var index = get_index(value);
+    var types = $(value).attr('val')
     if(answer_area.css("display")=="none"){
-        $(answer_area).show();
-        $.ajax({
-            async:true,
-            type : 'get',
-            url:"/microposts/"+micropost_id+"/particate_reply_show",
-            dataType:"script",
-            data  : "micropost_id="+micropost_id+"&index="+index,
-            success:function(data){
-
-            }
-        });
-
+        if (types== '0'){
+            $(answer_area).show();
+        }
     }else{
         $(answer_area).hide();
     }
+    $.ajax({
+        async:true,
+        type : 'get',
+        url:"/microposts/"+micropost_id+"/particate_reply_show",
+        dataType:"script",
+        data  : "micropost_id="+micropost_id+"&index="+index+'&types='+types,
+        success:function(data){
+        }
+    });
+
+    
    
 
  

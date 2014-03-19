@@ -1022,7 +1022,7 @@ class Api::StudentsController < ApplicationController
     student_id = params[:student_id]
     cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
     if cardbag
-      cardtags = CardTag.where("card_bag_id= ?",cardbag.id)
+      cardtags = CardTag.select(["id,date_format(created_at,'%Y-%m-%d %H:%S') as creat "]).where("card_bag_id= ?",cardbag.id)
       status = "success"
       notice = "获取标签成功"
     else

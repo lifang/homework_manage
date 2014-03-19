@@ -1,0 +1,6 @@
+<% if @status == "success" %>
+  tishi('<%= @notice %>')
+  $("#reply_area").html('<%= j(render'questarea_box') %>')
+<% else %>
+  tishi('<%= @notice %>')
+<% end %>

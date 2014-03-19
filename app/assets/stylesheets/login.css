@@ -60,10 +60,12 @@ input,button,select,textarea{ outline: none}
 .formBox li:hover,.formBox li.hover { border: 1px solid #35cf90;}
 .form { display: none;}
 .form p { margin: 20px; text-align: center;}
-.form p input[type="text"] { padding: 6px; border: 1px solid #35cf90; border-radius: 3px; width: 80%; font-size: 20px; text-indent: 32px; color: #a3a3a3;}
-.form p input[type="password"] { padding: 6px; border: 1px solid #35cf90; border-radius: 3px; width: 80%; font-size: 20px; text-indent: 32px; color: #a3a3a3;}
-.form p button { width: 85%; font-size: 16px; padding: 8px; background: #35cf90; border-radius: 5px; border: 0; color: #fff;}
+
 .username { background: url(/assets/login.png) no-repeat -2px -3px #fff;}
 .password1 { background: url(/assets/login.png) no-repeat -2px -137px #fff;}
 .password2 { background: url(/assets/login.png) no-repeat -2px -70px #fff;}
 .eMail { background: url(/assets/login.png) no-repeat -2px -204px #fff;}
+
+.form p input[type="text"] { padding: 6px 6px 6px 45px; border: 1px solid #35cf90; border-radius: 3px; width: 200px; font-size: 18px; color: #a3a3a3;}
+.form p input[type="password"] { padding: 6px 6px 6px 45px; border: 1px solid #35cf90; border-radius: 3px; width: 200px; font-size: 18px; color: #a3a3a3;}
+.form p button { width: 250px; font-size: 16px; padding: 8px; background: #35cf90; border-radius: 5px; border: 0; color: #fff;}

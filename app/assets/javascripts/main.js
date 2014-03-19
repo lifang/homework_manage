@@ -951,3 +951,19 @@ function height_tab(){
     var layer_width = $(".tab").width();
     $(".tab").css('left',(doc_width-layer_width)/2);
 }
+
+//删除所有未读信息
+function del_all_unread_msg(user_id, school_class_id){
+    $.ajax({
+        type: "get",
+        url: "/school_classes/"+school_class_id+"/messages/del_all_unread_msg",
+        dataType: "json",
+        data: {user_id : user_id},
+        success: function(data){
+            window.location.reload();
+        },
+        erroe: function(data){
+            tishi("请求失败!")
+        }
+    })
+}

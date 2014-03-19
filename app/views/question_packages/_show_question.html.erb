@@ -1,0 +1,18 @@
+<% @question_type.each do |type| %>
+<% case type %>
+<% when Question::TYPES[:LISTENING] then %>
+    <%= render "question_packages/que_listening", {:type => type} %>
+<% when Question::TYPES[:READING] then%>
+    <%= render "question_packages/que_reading", {:type => type}  %>
+<% when Question::TYPES[:TIME_LIMIT] then%>
+    <%= render "question_packages/que_time_limit", {:type => type}  %>
+<% when Question::TYPES[:SELECTING] then%>
+    <%= render "question_packages/que_selecting", {:type => type}  %>
+<% when Question::TYPES[:LINING] then%>
+    <%= render "question_packages/que_lining", {:type => type}  %>
+<% when Question::TYPES[:CLOZE] then%>
+    <%= render "question_packages/que_cloze", {:type => type}  %>
+<% when Question::TYPES[:SORT] then%>
+    <%= render "question_packages/que_sort", {:type => type}  %>
+<% end %>
+<% end %>

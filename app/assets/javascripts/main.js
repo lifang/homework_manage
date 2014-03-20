@@ -33,7 +33,7 @@ $(function(){
 
 //  问答留言   鼠标点击别处隐藏tab
 $(function(){
-    $(document).on('click',".askAnswer_area_func a.comment_icon",function(e){
+    $(".askAnswer_area_func a.comment_icon").click(function(e){
         $(".tab_mess").css('display','block');
         //alert($(".tab_mess").height()+e.pageY >= $(window).height())
         if( $(".tab_mess").height()+e.pageY >= $(window).height() ){
@@ -51,30 +51,16 @@ $(function(){
     });
     $(document).bind('click', function (e) {
         if ( $(e.target).closest(".tab_mess").length>0 ) {
-            if($(e.target).closest(".form_cancel").length>0){
-                $(".tab_mess").css('display','none');
-                return false;
-            }else{
-                $(".tab_mess").css('display','block');
-            }
+            $(".tab_mess").css('display','block');
         }else{
             $(".tab_mess").css('display','none');
         }
     });
 })
 
-
-
 //ask_btn 发布问答
 $(function(){
     $("a.ask_btn").click(function(e){
-        var html = '<form action="/microposts" method="post" onsubmit="return check_send_microposts(this)" accept-charset="UTF-8">\n\
-                <div class="textarea_box">\n\
-<textarea name="microposts[content]" cols="" rows="" placeholder="字数限制60字"></textarea></div>\n\
-                <div class="tab_mess_btn">\n\
-<button type="submit" class="">提交</button>\n\
-<button type="button" class="form_cancel">取消</button></div></form>'
-        $(".create_main_microposts").html(html)
         $(".tab_mess").css('display','block');
         $(".tab_mess").css({
             'top':(e.pageY+30)+'px',
@@ -82,7 +68,15 @@ $(function(){
         });
         return false;
     });
+    $(document).bind('click', function (e) {
+        if ( $(e.target).closest(".tab_mess").length>0 ) {
+            $(".tab_mess").css('display','block');
+        }else{
+            $(".tab_mess").css('display','none');
+        }
+    });
 })
+
 
 //作业题面 标签   鼠标点击别处隐藏tab
 $(function(){
@@ -120,8 +114,6 @@ $(function(){
     });
 })
 
-
-//页面弹出层高度
 //作业题面 标签
 $(function(){
     $(".qt_icon a.tag").click(function(e){
@@ -178,7 +170,7 @@ function tabFunc(c,t){
 
     $(".mask").css("height",doc_height);
 
-    $(c).click(function(){
+    $("body").on("click",c,function(){
         $(t).css('display','block');
         $(t).css('top',(win_height-layer_height)/2);
         $(t).css('left',(win_width-layer_width)/2);
@@ -186,18 +178,19 @@ function tabFunc(c,t){
         return false;
     })
 
-    $(".close").click(function(){
+    $("body").on("click", ".close", function(){
         $(this).parents(t).css("display","none");
         $(".mask").css("display","none");
+        $("#popup_page").hide();
     });
 }
 $(function(){
-    //    tabFunc(".td_seeQuestion",".tab");
-    //    tabFunc(".switchoverClass a",".tab");
-    //    tabFunc("a.student_btn_a",".tab");
-    //    tabFunc("a.time_icon",".tab");
-    //    tabFunc("a.clock_icon",".tab");
-    })
+    tabFunc(".td_seeQuestion",".tab");
+    tabFunc(".switchoverClass a",".tab");
+    tabFunc("a.student_btn_a",".tab");
+    tabFunc("a.time_icon",".tab");
+    tabFunc("a.clock_icon",".tab");
+})
 
 //页面弹出层高度
 $(function(){
@@ -280,6 +273,7 @@ $(function(){
     });
 })
 
+
 //题面 双击修改
 function ondblclick(a,b){
     $(a).dblclick(function(){
@@ -302,7 +296,7 @@ $(function(){
 
 //点击作业列表展开隐藏
 $(function(){
-    $(".ab_list_title").click(function(){
+    $("body").on("click",".ab_list_title",function(){
         if($(this).parent().find(".ab_list_box").is(":hidden")){
             $(this).parent().find(".ab_list_box").show();
             $(this).parent().addClass("ab_list_open");
@@ -325,6 +319,7 @@ $(function(){
         $(this).find(".second_menu").css("display","none");
     });
 })
+
 
 //题面 双击修改
 function ondblclick(a,b){
@@ -482,33 +477,7 @@ function show_windows(div_id)
     $("#"+div_id+"").css("display","block");
 }
 
-function tabFunc(t){
-    var win_width = $(window).width();
-    var win_height = $(window).height();
 
-    var layer_height = $(t).height();
-    var layer_width = $(t).width();
-    //alert($(".tab").width());
-    if(!$(t).attr("class")=="tab list_classes"){
-        $(t).css('top',(win_height-layer_height)/2);
-    }else{
-        if(win_height>=layer_height){
-            $(t).css('top',(win_height-layer_height)/2);
-        }else{
-            $(t).css('top',0)
-        }
-    }
-    $(t).css('left',(win_width-layer_width)/2);
-    $(".close").click(function(){
-        $(this).parents(t).css("display","none");
-    });
-}
-$(function(){
-    $(".flash").show();
-    setTimeout("$('.flash').hide(1000)",2000);
-//    tabFunc(".tab");
-//tabFunc(".tab_article");
-})
 
 //页面高度
 $(function(){

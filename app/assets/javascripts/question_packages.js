@@ -31,3 +31,10 @@ function no_change(obj){
       $(".assignment_body").show();
     }
 }
+
+//选择T或者F时改变样式
+function change_true_or_false(obj){
+    $(obj).parents("ul").find("a").removeAttr("class");
+    $(obj).attr("class", "true");
+
+}

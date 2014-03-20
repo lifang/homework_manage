@@ -1,0 +1,17 @@
+<script src="/assets/jquery.jqtransform.js" />
+
+
+<select name="select2" onchange="no_change(this)">
+  <%@episodes.each do |episode|%>
+    <option value="<%=episode.id%>"><%=episode.name%></option>
+  <%end%>
+</select>
+<script>
+  $(function(){
+    $('.rowElem').jqTransform();
+  });
+</script>
+<script>
+  $($('.rowElem')[1].children[0]).css("width","320px");
+</script>
+

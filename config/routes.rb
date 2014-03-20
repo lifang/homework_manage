@@ -98,6 +98,9 @@ HomeworkManage::Application.routes.draw do
     end
 
     resources :question_packages do
+      collection do
+        get :setting_episodes
+      end
       resources :questions do
         resources :branch_questions
       end

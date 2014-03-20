@@ -31,6 +31,14 @@ function no_change(obj){
         $(".assignment_body").show();
     }
 }
+
+
+//选择T或者F时改变样式
+function change_true_or_false(obj){
+    $(obj).parents("ul").find("a").removeAttr("class");
+    $(obj).attr("class", "true");
+}
+
 function add_wanxin_item(obj){
     var textarea = $(obj).parent().find("#wanxin_content");
     index = $(".gapFilling_box").find("gapFilling_questions").length+1;
@@ -39,8 +47,7 @@ function add_wanxin_item(obj){
     editor[0].text(text);
 
 }
-function show_this(){
-    
+function show_this(){    
     $(".ab_list_title").click(function(){
         if($(this).parent().find(".ab_list_box").is(":hidden")){
             $(this).parent().find(".ab_list_box").show();
@@ -49,6 +56,5 @@ function show_this(){
             $(this).parent().find(".ab_list_box").hide();
             $(this).parent().removeClass("ab_list_open");
         }
-
     })
 }

@@ -33,7 +33,7 @@ class QuestionPackagesController < ApplicationController
     @cells = Cell.find_by_id(params[:cell_id])
     @episodes = @cells.episodes
   end
- #show完形填空
+  #show完形填空
   def show_wanxin
 
   end
@@ -133,6 +133,14 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
+  #新建十速挑战
+  def new_time_limit
+    @b_tags = get_branch_tags(cookies[:teacher_id])
+    respond_to do |f|
+      f.js
+    end
+  end
+
   private
   #获取单元以及对于的课程
   def get_cells_and_episodes
@@ -154,4 +162,6 @@ class QuestionPackagesController < ApplicationController
     status = @question_pack && @question
     status
   end
+
+
 end

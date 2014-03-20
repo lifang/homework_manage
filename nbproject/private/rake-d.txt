@@ -6,6 +6,7 @@ assets\:precompile=
 assets\:precompile\:all=
 assets\:precompile\:nondigest=
 assets\:precompile\:primary=
+calculate_archivement\:archivement=
 db\:_dump=
 db\:abort_if_pending_migrations=
 db\:charset=

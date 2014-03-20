@@ -59,7 +59,7 @@ function checkout_date(obj, school_class_id)
         {
             if(current_date == today_date)
             {
-                msg("查询日期不能大于今日日期！");
+                tishi("查询日期不能大于今日日期！");
             }
             else if(current_date < today_date)
             {
@@ -87,7 +87,7 @@ function checkout_date(obj, school_class_id)
                 }
                 else
                 {
-                    msg("查询日期不能大于今日日期！");
+                    tishi("查询日期不能大于今日日期！");
                 }
             }
         }
@@ -115,17 +115,15 @@ function checkout_date(obj, school_class_id)
 }
 
 //按日期查询统计信息
-function show_date_status(obj, school_class_id)
+function show_date_status(date, school_class_id)
 {
-    var date = $(obj).val();
     var today_date = $("#today_date").val();
     if(date > today_date)
     {
-        msg("查询日期不能大于今日日期！");
+        tishi("查询日期不能大于今日日期！");
     }
     else
     {
-//        $(".datetimepicker").remove();
         $.ajax({
             url: "/school_classes/"+ school_class_id +"/statistics/checkout_by_date",
             type: "POST",

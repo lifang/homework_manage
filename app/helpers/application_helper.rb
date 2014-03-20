@@ -77,9 +77,16 @@ module ApplicationHelper
     end
   end
 
+  #获取未读信息提示
   def get_unread_messes
     school_class_id = params[:school_class_id].to_i
     @unread_messes = Message.where(["user_id =? and school_class_id = ? and status = ?",
         cookies[:user_id].to_i, school_class_id, Message::STATUS[:NOMAL]])
+  end
+
+  #获取题目标签
+  def get_branch_tags teacher_id
+    branch_tags = BranchTag.where(["teacher_id is null or teacher_id = ?", teacher_id])
+    return branch_tags
   end
 end

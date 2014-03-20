@@ -100,9 +100,10 @@ HomeworkManage::Application.routes.draw do
     resources :question_packages do
       collection do
         get :setting_episodes, :new_time_limit,:show_wanxin
+
       end
       member do
-        get :new_index
+        get :new_index,:show_wanxin,:create_wanxin,:show_ab_list_box
       end
       resources :questions do
         resources :branch_questions

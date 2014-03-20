@@ -35,7 +35,16 @@ class QuestionPackagesController < ApplicationController
   end
   #show完形填空
   def show_wanxin
-
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @questions = Question.where("types = ? and question_package_id = ?",Question::TYPES[:CLOZE],@question_packages.id)
+    end
+  def create_wanxin
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @question = Question.create(types:Question::TYPES[:CLOZE],question_package_id:@question_packages.id)
+    @questions = Question.where("types = ? and question_package_id = ?",Question::TYPES[:CLOZE],@question_packages.id)
+  end
+  def show_ab_list_box
+    
   end
   #新建题包其中第一个答题第三步之后，建题包，建答题
   def create

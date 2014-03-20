@@ -14,12 +14,13 @@ class QuestionsController < ApplicationController
       redirect_to "/school_classes/#{school_class_id}/question_packages/new"
     end
   end
-
-  def create
+#  显示完型
+  def show_select
     cell_id = params[:cell_id]
     episode_id = params[:episode_id]
     question_package_id = params[:question_package_id]
   end
+
   
   #编辑大题
   def edit

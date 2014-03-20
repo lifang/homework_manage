@@ -129,6 +129,12 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
+  resources :questions do
+    collection do
+      get :show_select
+    end
+  end
+
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

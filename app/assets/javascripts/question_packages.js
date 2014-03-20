@@ -13,7 +13,7 @@ function address_search_episodes(obj,school_class_id){
                 cell_id : $(obj).val()
             },
             success: function(data){
-                 $(obj).attr("disabled","disabled");
+                $(obj).attr("disabled","disabled");
             }
         });
     }
@@ -26,17 +26,17 @@ function no_change(obj){
         return false;
     }
     if(confirm("确认选择后就不能更改了？")){
-      $("#episode_id").val($(obj).val());
-      $(obj).attr("disabled","disabled");
-      $(".assignment_body").show();
+        $("#episode_id").val($(obj).val());
+        $(obj).attr("disabled","disabled");
+        $(".assignment_body").show();
     }
 }
 function add_wanxin_item(obj){
     var textarea = $(obj).parent().find("#wanxin_content");
     index = $(".gapFilling_box").find("gapFilling_questions").length+1;
-     var editor = KindEditor.instances;
-     var text = editor[0].text()+"["+index+"]"
-     editor[0].text(text);
+    var editor = KindEditor.instances;
+    var text = editor[0].text()+"["+index+"]"
+    editor[0].text(text);
 
 }
 function show_this(){

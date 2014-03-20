@@ -29,22 +29,11 @@ function create_school_class(school_class_id){
         $.ajax({
             url : "/school_classes/" + school_class_id + "/teachers/create_class",
             type:'post',
-            dataType : 'json',
+            dataType : 'script',
             data : {
                 teaching_material_id : teaching_material_id,
                 class_name : class_name,
                 period_of_validity : period_of_validity
-            },
-            success: function(data){
-                if(data.status==true){
-                    $(".created_new_class").css("display","none");
-                    window.location.href="/school_classes/" + school_class_id + "/students";
-                }else{
-                    message = data.notice;
-                    tishi(message);
-                }
-            },
-            error:function(){
             }
         });
     }
@@ -188,6 +177,5 @@ function height_tab(){
     $(".tab").css('top',10);
     var doc_width = $(document).width();
     var layer_width = $(".tab").width();
-    alert(doc_width)
     $(".tab").css('left',(doc_width-layer_width)/2);
 }

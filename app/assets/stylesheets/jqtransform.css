@@ -10,9 +10,11 @@ div.rowElem{
  * Selects
  * ------------- */
 .jqTransformSelectWrapper {
+    width: 320px;
 	position:relative;
 	height: 31px;
 	border: 1px #FFFFFF solid;
+
 }
 
 .jqTransformSelectWrapper div span {

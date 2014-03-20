@@ -5,7 +5,7 @@
   <div class="tab_switch">
     <ul>
       <% @schoolclasses.each do |schoolclass| %>
-        <% if  !schoolclass.id.eql?(@schoolclass[0].id)%>
+        <% if  !schoolclass.id.eql?(@schoolclass.id)%>
           <li>
             <a href="/school_classes/<%= schoolclass.id %>/teachers/chang_class?id=<%=  schoolclass.id%>"><%= schoolclass.name %> </a>
 

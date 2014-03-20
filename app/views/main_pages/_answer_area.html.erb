@@ -22,7 +22,11 @@
   <% end %>
 </div>
 <input type="hidden" class="current_page" value="1"/>
-<input type="button" onclick="send_more_replies(this,'<%=@micropost.id%>')" value="查看更多" />
+
+<div id="see_more">
+<%= render :partial => 'microposts/see_more'  %>
+</div>
+
 <div class="ask_area" style="display:none;">
   <input type="hidden" value="" />
   <input type="hidden" value="" />

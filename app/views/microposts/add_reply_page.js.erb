@@ -3,4 +3,5 @@ var box =$("#reply_area").children(".question_area_box");
 $(box[<%=@index%>]).find(".current_page").val(<%=@current_page%>);
 var html ='<%=j(render 'main_pages/reply')%>'
 $(box[<%=@index%>]).find(".reply_again_area").append(html);
+
 height_adjusting();

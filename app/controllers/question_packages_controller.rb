@@ -29,6 +29,10 @@ class QuestionPackagesController < ApplicationController
     @cells = Cell.find_by_id(params[:cell_id])
     @episodes = @cells.episodes
   end
+ #show完形填空
+  def show_wanxin
+
+  end
   #新建题包其中第一个答题第三步之后，建题包，建答题
   def create
     question_type, new_or_refer, cell_id, episode_id, question_pack_id = params[:question_type].to_i, params[:new_or_refer], params[:cell_id], params[:episode_id], params[:question_pack_id]

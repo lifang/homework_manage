@@ -31,3 +31,16 @@ function no_change(obj){
       $(".assignment_body").show();
     }
 }
+
+function show_this(){
+    $(".ab_list_title").click(function(){
+        if($(this).parent().find(".ab_list_box").is(":hidden")){
+            $(this).parent().find(".ab_list_box").show();
+            $(this).parent().addClass("ab_list_open");
+        }else{
+            $(this).parent().find(".ab_list_box").hide();
+            $(this).parent().removeClass("ab_list_open");
+        }
+
+    })
+}

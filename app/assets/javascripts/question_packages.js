@@ -31,3 +31,24 @@ function no_change(obj){
       $(".assignment_body").show();
     }
 }
+function add_wanxin_item(obj){
+    var textarea = $(obj).parent().find("#wanxin_content");
+    index = $(".gapFilling_box").find("gapFilling_questions").length+1;
+     var editor = KindEditor.instances;
+     var text = editor[0].text()+"["+index+"]"
+     editor[0].text(text);
+
+}
+function show_this(){
+    
+    $(".ab_list_title").click(function(){
+        if($(this).parent().find(".ab_list_box").is(":hidden")){
+            $(this).parent().find(".ab_list_box").show();
+            $(this).parent().addClass("ab_list_open");
+        }else{
+            $(this).parent().find(".ab_list_box").hide();
+            $(this).parent().removeClass("ab_list_open");
+        }
+
+    })
+}

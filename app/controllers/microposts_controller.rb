@@ -87,6 +87,8 @@ class MicropostsController < ApplicationController
     @scclass = SchoolClass.find(current_teacher.last_visit_class_id)
     array = ReplyMicropost::get_microposts @micropost.id,@current_page
     @reply = array[:reply_microposts]
+    @pages_count = array[:pages_count]
+    @page = array[:page]
   end
 
   def particate_reply_show
@@ -97,6 +99,8 @@ class MicropostsController < ApplicationController
   def get_posts_and_replis
     @micropost = Micropost.find_by_id(params[:micropost_id])
     @repiles = (ReplyMicropost::get_microposts @micropost.id,1)[:reply_microposts]
+    @repile_page = (ReplyMicropost::get_microposts @micropost.id,1)[:pages_count]
+    @page = (ReplyMicropost::get_microposts @micropost.id,1)[:page]
   end
 
 end

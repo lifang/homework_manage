@@ -1,0 +1,305 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>作业-创建</title>
+<script type="text/javascript" src="js/jQuery-v1.9.0.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<link href="style/style.css" rel="stylesheet" type="text/css">
+
+<!--美化select-->
+<script type="text/javascript" src="js/jquery.jqtransform.js"></script>
+<link href="style/jqtransform.css" rel="stylesheet" type="text/css">
+<script language="javascript">
+	$(function(){
+		$('.select_box').jqTransform();
+	});
+</script>
+
+<!-- iCheck http://www.bootcss.com/p/icheck/ -->
+<link href="skins/square/aero.css" rel="stylesheet">
+<script src="js/icheck.js"></script>
+</head>
+
+<body>
+<div class="wrap">
+	<div class="head clearAfter">
+    	<div class="userInfo">
+        	<ul>
+            	<li class="switchoverClass"><a href="javascript:void(0);" class="tooltip_html">切换班级</a></li>
+                <li class="userName"><a href="#">xxx</a></li>
+                <li class="email"><a href="#">1</a></li>
+            </ul>
+        </div>
+    	<div class="logo">超级作业本</div>
+        <div class="nav">
+        	<ul>
+            	<li><a href="#">问答</a></li>
+                <li><a href="#" class="hover">布置作业</a></li>
+                <li><a href="#">作业统计</a></li>
+                <li><a href="#">学员情况</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main">
+    	<div class="assignment">
+        	<div class="assignment_head">
+            <div class="select_box">
+                <div class="rowElem">
+                    <select name="select1" >
+                        <option value="opt1">Big Option test line with more wordssss</option>
+                        <option value="opt2">Option 2</option>
+                        <option value="opt3">Option 3</option>
+                        <option value="opt4">Option 4</option>
+                        <option value="opt5">Option 5</option>
+                        <option value="opt6">Option 6</option>
+                        <option value="opt7">Option 7</option>
+                        <option value="opt8">Option 8</option>
+                    </select>
+
+                </div>
+                <div class="rowElem">
+                    <select name="select2" >
+                        <option value="opt1">Big Option test line with more wordssss</option>
+                        <option value="opt2">Option 2</option>
+                        <option value="opt3">Option 3</option>
+                        <option value="opt4">Option 4</option>
+                        <option value="opt5">Option 5</option>
+                        <option value="opt6">Option 6</option>
+                        <option value="opt7">Option 7</option>
+                        <option value="opt8">Option 8</option>
+                    </select>
+                </div>
+               </div>
+            </div>
+            <div class="assignment_body">
+            	<div class="assignment_body_list">
+                	<div class="ab_list_title">
+                        <h1>未命名</h1>
+                        <p>连线 / 李芳 / 2014-02-12 / 参考时间：15秒</p>
+                        <ul class="ab_func">
+                        	<li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
+                            <li><a href="#" class="save_icon tooltip_html">保存</a></li>
+                            <li><a href="#" class="share_icon tooltip_html">分享</a></li>
+                            <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
+                        </ul>
+                    </div>
+                    <div class="ab_list_box" style="display: none;">
+                    	<div class="ab_article">
+                        	<div class="questions_item">
+                            	<div class="gapFilling_textarea">
+                                     <textarea name="" cols="" rows=""></textarea>
+                                </div>
+                                <div class="gapFilling_box">
+                                    <div class="gapFilling_questions">
+                                            <div class="gapFilling_questions_body">
+                                                <span class="gapFilling_numb">1.</span>
+                                                <div class="gq_article">
+                                                    <div class="gq_article_title"><div class="qt_text"><p>What’picture?</p><input name="" type="text"></div></div>
+                                                    <ul>
+                                                        <li><input type="checkbox"><div class="qt_text"><p>What’picture?</p><input name="" type="text"></div></li>
+                                                        <li><input type="checkbox"><div class="qt_text"><p>What’s this in the picture?</p><input name="" type="text"></div></li>
+                                                        <li><input type="radio"><div class="qt_text"><p>What’s this in the picture?</p><input name="" type="text"></div></li>
+                                                        <li><input type="radio"><div class="qt_text"><p>What’s this in the picture?</p><input name="" type="text"></div></li>
+                                                    </ul>
+                                                </div>
+                                             </div>
+                                             <div class="qt_icon">
+                                                 <a href="#" class="save tooltip_html">保存</a>
+                                                 <a href="#" class="tag tooltip_html">标签</a>
+                                             </div>
+                                             <div class="tag_ul">
+                                                  <ul>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                  </ul>
+                                              </div>
+
+                                    </div>
+
+                                    <div class="gapFilling_questions">
+                                            <div class="gapFilling_questions_body">
+                                                <span class="gapFilling_numb">1.</span>
+                                                <div class="gq_article">
+                                                    <div class="gq_article_title"><div><p>What’picture?</p></div></div>
+                                                    <ul>
+                                                        <li><input type="checkbox"><div><p>What’picture?</p></div></li>
+                                                        <li><input type="checkbox"><div><p>What’s this in the picture?</p></div></li>
+                                                        <li><input type="radio"><div><p>What’s this in the picture?</p></div></li>
+                                                        <li><input type="radio"><div><p>What’s this in the picture?</p></div></li>
+                                                    </ul>
+                                                </div>
+                                             </div>
+                                             <div class="qt_icon">
+                                                 <a href="#" class="save tooltip_html">保存</a>
+                                                 <a href="#" class="tag tooltip_html">标签</a>
+                                             </div>
+                                             <div class="tag_ul">
+                                                  <ul>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                  </ul>
+                                              </div>
+
+                                    </div>
+
+                                    <div class="gapFilling_questions">
+                                            <div class="gapFilling_questions_body">
+                                                <span class="gapFilling_numb">1.</span>
+                                                <div class="gq_article">
+                                                    <div class="gq_article_title"><div class="qt_input"><input name="" type="text"></div></div>
+                                                    <ul>
+                                                        <li><input type="checkbox"><div class="qt_input"><input name="" type="text"></div></li>
+                                                        <li><input type="checkbox"><div class="qt_input"><input name="" type="text"></div></li>
+                                                        <li><input type="radio"><div class="qt_input"><input name="" type="text"></div></li>
+                                                        <li><input type="radio"><div class="qt_input"><input name="" type="text"></div></li>
+                                                    </ul>
+                                                </div>
+                                             </div>
+                                             <div class="qt_icon">
+                                                 <a href="#" class="save tooltip_html">保存</a>
+                                                 <a href="#" class="tag tooltip_html">标签</a>
+                                             </div>
+                                             <div class="tag_ul">
+                                                  <ul>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                     <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+                                                  </ul>
+                                              </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="questionTypes">
+                	<div class="qType_menu clearAfter">
+                    	<ul>
+                        	<li class="hover"><p><span class="qType_speed">十速挑战</span></p>
+                            	<i class="arrows"></i>
+                            	<div class="second_menu">
+                                    <a href="#">新建</a><a href="#">引用</a>
+                                </div>
+                            </li>
+                            <li><p><span class="qType_write">听写</span></p>
+                            	<i class="arrows"></i>
+                            	<div class="second_menu">
+                                    <a href="#">新建</a><a href="#">引用</a>
+                                </div>
+                            </li>
+                            <li><p><span class="qType_read">朗读</span></p>
+                            	<i class="arrows"></i>
+                            	<div class="second_menu">
+                                    <a href="#">新建</a><a href="#">引用</a>
+                                </div>
+                            </li>
+                            <li><p><span class="qType_choose">选择</span></p>
+                            	<i class="arrows"></i>
+                            	<div class="second_menu">
+                                    <a href="#">新建</a><a href="#">引用</a>
+                                </div>
+                            </li>
+                            <li><p><span class="qType_ligature">连线</span></p>
+                            	<i class="arrows"></i>
+                            	<div class="second_menu">
+                                    <a href="#">新建</a><a href="#">引用</a>
+                                </div>
+                            </li>
+                            <li><p><span class="qType_sort">排序</span></p>
+                            	<i class="arrows"></i>
+                            	<div class="second_menu">
+                                    <a href="#">新建</a><a href="#">引用</a>
+                                </div>
+                            </li>
+                            <li class="last_child"><p><span class="qType_gap">完形</span></p>
+                            	<i class="arrows"></i>
+                            	<div class="second_menu">
+                                    <a href="#">新建</a><a href="#">引用</a>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <div class="complete_btn_box">
+                	<button>点击确定完成创建</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="tag_tab">
+	<span class="arrows">A</span>
+    <div class="search"><input name="" type="text"></div>
+    <ul>
+    	<li><input type="checkbox"><p>名词复数</p></li>
+        <li><input type="checkbox"><p>名词复数</p></li>
+        <li><input type="checkbox"><p>名词复数</p></li>
+        <li><input type="checkbox"><p>名词复数</p></li>
+        <li><input type="checkbox"><p>名词复数</p></li>
+    </ul>
+    <a href="#">新建“一般”</a>
+</div>
+<script>
+$(document).ready(function(){
+  $('input[type=checkbox], input[type=radio]').iCheck({
+   checkboxClass: 'icheckbox_square-aero',
+    radioClass: 'iradio_square-aero',
+    increaseArea: '20%' // optional
+  });
+});
+</script>
+
+<div class="tab tab500">
+	<a href="javascript:void(0);" class="close">close</a>
+	<div class="tab_head">设置时间</div>
+    <div class="tab_warning">为此题设置需要单独完成的参考时间</div>
+    <div class="tab_body clearAfter">
+    	<div class="setTime_tab">
+        	<ul>
+            	<li><input name="" type="text" value="时"></li>
+                <li><input name="" type="text" value="分"></li>
+                <li><input name="" type="text" value="秒"></li>
+            </ul>
+        </div>
+    </div>
+    <div class="tab_btn"><button type="submit">确定</button></div>
+</div>
+
+<div class="tab tab500">
+	<a href="javascript:void(0);" class="close">close</a>
+	<div class="tab_head">作业未命名</div>
+    <div class="tab_warning">要想分享，请给本体命名方便其他老师查找</div>
+    <div class="tab_body clearAfter">
+    	<div class="setShare_tab">
+        	<ul>
+            	<li><input name="" type="text" value="作业名称"></li>
+            </ul>
+        </div>
+    </div>
+    <div class="tab_btn"><button type="submit">确定</button></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+
+<div class="ab_list_title" onclick="show_this()">
+  <h1>未命名</h1>
+  <p>连线 / 李芳 / 2014-02-12 / 参考时间：15秒</p>
+  <ul class="ab_func">
+    <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
+    <li><a href="#" class="save_icon tooltip_html">保存</a></li>
+    <li><a href="#" class="share_icon tooltip_html">分享</a></li>
+    <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
+  </ul>
+</div>
+<div class="ab_list_box" style="display: none;">
+  <div class="ab_article">
+    <div class="questions_item">
+      <div class="gapFilling_textarea">
+        <textarea id="wanxin_content" name="wanxin_content" class="wanxin_content"></textarea>
+        <button onclick="add_wanxin_item(this)">增加一个选项</button>
+      </div>
+      <div class="gapFilling_box">
+          <%=render 'wanxin/gapfilling_questions' %>
+      </div>
+    </div>
+  </div>
+</div>

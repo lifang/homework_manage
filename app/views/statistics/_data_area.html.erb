@@ -1,14 +1,58 @@
+<!--圆环图表-->
+<script src="/assets/Chart.js"></script>
+<!--[if lte IE 8]>
+<script type="text/javascript" src="/assets/excanvas.js"></script>
+<![endif]-->
+<script>
+    function load(){
+        var cv01Data = [
+            {
+                value : 20,
+                color : "#41a9cf"
+            },
+            {
+                value : 80,
+                color : "#fff"
+            }
+
+        ];
+        var cv02Data = [
+            {
+                value : 20,
+                color : "#5fd3d3"
+            },
+            {
+                value : 80,
+                color : "#fff"
+            }
+
+        ];
+
+        //var myDoughnut = new Chart(document.getElementById("canvas").getContext("2d")).Doughnut(doughnutData);
+        var ctx01 = document.getElementById("cv01").getContext("2d");
+        var myDoughnut01 = new Chart(ctx01).Doughnut(cv01Data);
+
+        var ctx02 = document.getElementById("cv02").getContext("2d");
+        var myDoughnut02 = new Chart(ctx02).Doughnut(cv02Data);
+    }
+</script>
 <% if !@current_task.nil? %>
     <div class="sb_classify">
       <ul>
         <li class="complete">
           <h1>完成率</h1>
-          <div class="statistics_img"><img src="/assets/95.jpg"><%= @average_complete_rate  %></div>
+          <div class="statistics_img">
+            <span><%= @average_complete_rate  %>%</span>
+            <canvas id="cv01" height="200" width="200" style="border:0;"></canvas>
+          </div>
           <div class="sc_nav"><a href="javascript:void(0);" class="hover" onclick="click_complete_btn(this)">学员</a></div>
         </li>
         <li class="correct">
           <h1>正确率</h1>
-          <div class="statistics_img"><img src="/assets/85.jpg"><%= @average_correct_rate  %></div>
+          <div class="statistics_img">
+            <span><%= @average_correct_rate  %>%</span>
+            <canvas id="cv02" height="200" width="200"></canvas>
+          </div>
           <div class="sc_nav"><a href="javascript:void(0);" onclick="click_correct_btn(this)">学员</a>
             <a href="javascript:void(0);"
                onclick="shou_question_status(this,'<%= @current_task.id %>',
@@ -19,7 +63,7 @@
       </ul>
     </div>
 
-    <div class="b_table">
+    <div class="b_table" onloadstart="load()">
       <table width="100%" border="0" cellspacing="0" cellpadding="0" id="complete_table">
         <thead>
         <tr>

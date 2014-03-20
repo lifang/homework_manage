@@ -75,6 +75,7 @@ $(function(){
 <button type="submit" class="">提交</button>\n\
 <button type="button" class="form_cancel">取消</button></div></form>'
         $(".create_main_microposts").html(html)
+        $(".tab_mess").find(".h1_content").html("提问")
         $(".tab_mess").css('display','block');
         $(".tab_mess").css({
             'top':(e.pageY+30)+'px',
@@ -974,4 +975,42 @@ function del_all_unread_msg(user_id, school_class_id){
             tishi("请求失败!")
         }
     })
+}
+
+//动态加载统计圆环
+function load(complete_rate, correct_rate){
+    if($("#cv02").length > 0)
+    {
+        var cv1 = [100-complete_rate, complete_rate]
+        var cv2 = [100-correct_rate, correct_rate]
+        var cv01Data = [
+            {
+                value : cv1[0],
+                color : "#41a9cf"
+            },
+            {
+                value : cv1[1],
+                color : "#fff"
+            }
+
+        ];
+        var cv02Data = [
+            {
+                value : cv2[0],
+                color : "#5fd3d3"
+            },
+            {
+                value : cv2[1],
+                color : "#fff"
+            }
+
+        ];
+
+        //var myDoughnut = new Chart(document.getElementById("canvas").getContext("2d")).Doughnut(doughnutData);
+        var ctx01 = document.getElementById("cv01").getContext("2d");
+        var myDoughnut01 = new Chart(ctx01).Doughnut(cv01Data);
+
+        var ctx02 = document.getElementById("cv02").getContext("2d");
+        var myDoughnut02 = new Chart(ctx02).Doughnut(cv02Data);
+    }
 }

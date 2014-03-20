@@ -107,10 +107,6 @@ function checkout_date(obj, school_class_id)
                 school_class_id:school_class_id
             },
             success:function(data){
-//                if($("#current_date").val().length < 0)
-//                {
-//                    $("#current_date").val(date);
-//                }
             },
             error:function(data){
             }
@@ -129,7 +125,7 @@ function show_date_status(obj, school_class_id)
     }
     else
     {
-        $(".datetimepicker").remove();
+//        $(".datetimepicker").remove();
         $.ajax({
             url: "/school_classes/"+ school_class_id +"/statistics/checkout_by_date",
             type: "POST",

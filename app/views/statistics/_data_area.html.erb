@@ -3,12 +3,18 @@
       <ul>
         <li class="complete">
           <h1>完成率</h1>
-          <div class="statistics_img"><img src="/assets/95.jpg"><%= @average_complete_rate  %></div>
+          <div class="statistics_img">
+            <span><%= @average_complete_rate  %>%</span>
+            <canvas id="cv01" height="200" width="200" style="border:0;"></canvas>
+          </div>
           <div class="sc_nav"><a href="javascript:void(0);" class="hover" onclick="click_complete_btn(this)">学员</a></div>
         </li>
         <li class="correct">
           <h1>正确率</h1>
-          <div class="statistics_img"><img src="/assets/85.jpg"><%= @average_correct_rate  %></div>
+          <div class="statistics_img">
+            <span><%= @average_correct_rate  %>%</span>
+            <canvas id="cv02" height="200" width="200"></canvas>
+          </div>
           <div class="sc_nav"><a href="javascript:void(0);" onclick="click_correct_btn(this)">学员</a>
             <a href="javascript:void(0);"
                onclick="shou_question_status(this,'<%= @current_task.id %>',
@@ -19,7 +25,7 @@
       </ul>
     </div>
 
-    <div class="b_table">
+    <div class="b_table" onloadstart="load()">
       <table width="100%" border="0" cellspacing="0" cellpadding="0" id="complete_table">
         <thead>
         <tr>
@@ -128,10 +134,13 @@
 <% end %>
 <script>
     $(document).ready(function(){
+        if($("#cv02").length > 0)
+        {
+            load(<%= @average_complete_rate %>,<%= @average_correct_rate %>);
+        }
         $("#complete_table").tablesorter();
         $("#correct_table").tablesorter();
     });
-
    function click_complete_btn(obj){
         $(".sc_nav a").removeAttr("class");
         $(obj).attr("class", "hover");

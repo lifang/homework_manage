@@ -16,8 +16,8 @@ class StatisticsController < ApplicationController
     @current_date =  @current_task.nil? ? @today_date : @current_task.created_at.strftime("%Y-%m-%d")
     @question_types = info[:question_types]
     @details = info[:details]
-    @average_correct_rate = info[:average_correct_rate]
-    @average_complete_rate = info[:average_complete_rate]
+    @average_correct_rate = info[:average_correct_rate].present? ? info[:average_correct_rate].nil? : 0
+    @average_complete_rate = info[:average_complete_rate].present? ? info[:average_complete_rate] : 0
   end
 
   #切换日期

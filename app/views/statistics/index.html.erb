@@ -1,5 +1,20 @@
+<%= javascript_include_tag "/assets/bootstrap/bootstrap-datetimepicker.js", "/assets/bootstrap/bootstrap-datetimepicker.zh-CN.js", "/assets/bootstrap/bootstrap.min.js" %>
+<%= stylesheet_link_tag "/assets/bootstrap/bootstrap.min.css", :rel => "stylesheet", :media => "screen" %>
+<%= stylesheet_link_tag "/assets/bootstrap/bootstrap-datetimepicker.min.css", :rel => "stylesheet", :media => "screen" %>
 <div class="main">
   <div class="statistics">
     <%= render :partial => "statistics/statistics_details" %>
   </div>
 </div>
+<script>
+    $('.form_date').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>

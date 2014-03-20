@@ -69,6 +69,7 @@ function show_reply_again(value,name){
     height_adjusting();
     $(answer[1]).find("textarea").attr("id",id);
     location.href="#"+id;
+    $(".tab_mess").find(".h1_content").html("回复")
     var html='<div class="ask_area" >\n\
                <input type="hidden" value="'+$(input[0]).val()+'" />\n\
                 <input type="hidden" value="'+ $(input[1]).val() +'" />\n\
@@ -79,7 +80,9 @@ function show_reply_again(value,name){
 <button onclick="main_reply(this,'+ index +')">提交</button>\n\
 <button >取消</button></div>'
     $(".create_main_microposts").html(html)
+
 }
+
 
 function send_more_replies(value,micropost_id){
     var current_page = $(value).parent().find(".current_page").val();

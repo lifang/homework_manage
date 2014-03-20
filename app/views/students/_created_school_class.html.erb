@@ -1,0 +1,26 @@
+<a href="javascript:void(0);" class="close">close</a>
+<div class="tab_head">创建班级</div>
+<div class="tab_body clearAfter">
+  <div class="tab_warning">请按提示输入内容</div>
+  <div class="tab_setClass">
+    <ul>
+      <li>
+        <div class="select_box">
+          <div class="rowElem">
+            <select name="teaching_material_id" >
+              <option value="opt1">选择教材</option>
+              <% @teachingmaterial.each   do |teachingmaterial| %>
+                <option value="<%= teachingmaterial.id%>"><%= teachingmaterial.name %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </li>
+      <li><input name="class_name" type="text" placeholder="班级名称"/></li>
+      <li>
+        <input name="period_of_validity" type="text" placeholder="请选择时间" id="started_at" value=""class="Wdate" readonly onclick="WdatePicker({dateFmt:'yyyy-MM-dd',autoPickDate:true,minDate:'%y-%M-%d'})"/>
+      </li>
+    </ul>
+    <div class="tab_switch_btn"><a href="javascript:void(0);" onclick="create_school_class(<%= @schoolclass.id %>)" >确定</a></div>
+  </div>
+</div>

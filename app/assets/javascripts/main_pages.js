@@ -21,7 +21,7 @@ function check_send_microposts(value){
     }
 }
 
-function main_reply(value){
+function main_reply(value,index){
     var page = $(".pagination em").html();
     if($(".pagination em").length==0){
         page = 1;
@@ -39,7 +39,7 @@ function main_reply(value){
         var micropost_user_id= $(input[1]).val();
         var micropost_user_type= $(input[2]).val();
         var teacher_id= $(input[3]).val();
-        var class_index =get_index(value);
+        var class_index =index;
         $.ajax({
             async:true,
             type : 'get',
@@ -69,7 +69,6 @@ function show_reply_again(value,name){
     height_adjusting();
     $(answer[1]).find("textarea").attr("id",id);
     location.href="#"+id;
-    alert($(input[3]).val())
     var html='<div class="ask_area" >\n\
                <input type="hidden" value="'+$(input[0]).val()+'" />\n\
                 <input type="hidden" value="'+ $(input[1]).val() +'" />\n\
@@ -77,7 +76,7 @@ function show_reply_again(value,name){
                 <input type="hidden" value="'+ $(input[3]).val() +'" />\n\
                 <div class="textarea_box"><textarea cols="" rows=""></textarea></div>\n\
                 <div class="tab_mess_btn">  \n\
-<button onclick="main_reply(this)">提交</button>\n\
+<button onclick="main_reply(this,'+ index +')">提交</button>\n\
 <button >取消</button></div>'
     $(".create_main_microposts").html(html)
 }

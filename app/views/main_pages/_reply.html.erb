@@ -2,6 +2,7 @@
   <div class="askAnswer_area_box question_area_box">
     <div class="askAnswer_avater"><img src="<%=  reply.sender_avatar_url%>"/></div>
     <div class="askAnswer_area_con question_area_con">
+      <a  href="javascript:void(0);" class="x" onclick="delete_reply(this,<%=reply.id%>,'<%=@micropost.id%>')" >删除</a>
       <div class="askAnswer_area_text">
         <%=reply.content%>
       </div>

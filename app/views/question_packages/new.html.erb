@@ -1,35 +1,97 @@
-<div class="rightSide">
-  <div class="main">
-    <div class="article">
-      <div class="book_box clearAfter">
-        <div class="book_box_page">
-          <a href="javascript:void(0);" class="bbp_up" onclick="questionUp(this)">&and;</a>
-          <div class="book_box_page_box">
-            <ul>
-              <li class="question_li hover" onclick="liHover(this)"><a href="#">1.</a></li>
-            </ul>
-          </div>
-          <div class="addPage"><a href="javascript:void(0)">+</a></div>
-          <a href="javascript:void(0);" class="bbp_down"  onclick="questionDown(this)">&or;</a>
+<div class="main">
+  <div class="assignment">
+    <div class="assignment_head">
+      <div class="select_box">
+        <div class="rowElem">
+          <select name="select1" id="select1" onchange="address_search_episodes(this, <%= @school_class.id %>, 0)">
+            <option value="0">请选择单元</option>
+            <%@cells.each do |cell|%>
+              <option value="<%=cell.id%>">
+                <%=cell.name%>
+              </option>
+            <%end%>
+          </select>
         </div>
-
-        <div class="steps">
-          <%= render "three_step" %>
+        <div class="rowElem" id="select2">
+          <select name="select2" >
+            <option value="opt1">请先选择单元</option>
+          </select>
         </div>
       </div>
-
-      <%= form_for [current_school_class, @question_pack] do |f| %>
-        <div class="remark" style="display:none">
-          <h1>填写作业备注</h1>
-          <div class="remark_con"><%= f.text_area :name, :rows => 5 %></div>
-          <div class="remark_btn"><button class="green_btn" onclick="return confirm('请您确保已编辑完成题目')">保存作业</button></div>
-        </div>
-      <% end %>
     </div>
+    <div class="assignment_body" id="question_list" style="display:none;" >
+      <div class="assignment_body_list"></div>
+      <div class="questionTypes">
+        <div class="qType_menu clearAfter">
+          <ul>
+            <li class="hover"><p><span class="qType_speed">十速挑战</span></p>
+              <i class="arrows"></i>
+              <div class="second_menu">
+                <a href="#">新建</a><a href="#">引用</a>
+              </div>
+            </li>
+            <li><p><span class="qType_write">听写</span></p>
+              <i class="arrows"></i>
+              <div class="second_menu">
+                <a href="#">新建</a><a href="#">引用</a>
+              </div>
+            </li>
+            <li><p><span class="qType_read">朗读</span></p>
+              <i class="arrows"></i>
+              <div class="second_menu">
+                <a href="#">新建</a><a href="#">引用</a>
+              </div>
+            </li>
+            <li><p><span class="qType_choose">选择</span></p>
+              <i class="arrows"></i>
+              <div class="second_menu">
+                <a href="#">新建</a><a href="#">引用</a>
+              </div>
+            </li>
+            <li><p><span class="qType_ligature">连线</span></p>
+              <i class="arrows"></i>
+              <div class="second_menu">
+                <a href="#">新建</a><a href="#">引用</a>
+              </div>
+            </li>
+            <li><p><span class="qType_sort">排序</span></p>
+              <i class="arrows"></i>
+              <div class="second_menu">
+                <a href="#">新建</a><a href="#">引用</a>
+              </div>
+            </li>
+            <li class="last_child"><p><span class="qType_gap">完形</span></p>
+              <i class="arrows"></i>
+              <div class="second_menu">
+                <a href="#">新建</a><a href="#">引用</a>
+              </div>
+            </li>
+          </ul>
 
+        </div>
+      </div>
+      <div class="complete_btn_box">
+        <input type="hidden"  id="cell_id" value=""/>
+        <input type="hidden"  id="episode_id" value=""/>
+        <input type="hidden"  id="question_package_id" value="<%=@question_pack.id%>"/>
+        <button>点击确定完成创建</button>
+      </div>
+    </div>
   </div>
-
 </div>
 <script>
+  $(function(){
+    $('.select_box').jqTransform();
+  });
+  $(document).ready(function(){
+    $(".steps .td_text_p").dblclick(function(){
+      $(".td_text_p").show();
+    });
+  })
 
+  function show_questions(obj,id)
+  {
+    $(".assignment_body").hide();
+    $("#question_list_"+id+"").show();
+  }
 </script>

@@ -3,7 +3,7 @@ include QuestionPackagesHelper
 class QuestionPackagesController < ApplicationController
   before_filter :sign?, :get_unread_messes
   before_filter :get_cells_and_episodes, :only => [:new, :render_new_question]
-
+  before_filter :get_school_class
   def index
     respond_to do |f|
       #分享题目的分页
@@ -20,9 +20,15 @@ class QuestionPackagesController < ApplicationController
   end
   
   def new
-    @question_pack = QuestionPackage.new
+    @question_pack = QuestionPackage.create
+    # question_type = QuestionPackage.get_one_package_questions @question_pack.id
+    @question_type = Question::TYPES_NAME
+    @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
   end
-
+  def setting_episodes
+    @cells = Cell.find_by_id(params[:cell_id])
+    @episodes = @cells.episodes
+  end
   #新建题包其中第一个答题第三步之后，建题包，建答题
   def create
     question_type, new_or_refer, cell_id, episode_id, question_pack_id = params[:question_type].to_i, params[:new_or_refer], params[:cell_id], params[:episode_id], params[:question_pack_id]
@@ -71,33 +77,32 @@ class QuestionPackagesController < ApplicationController
     @question_pack = QuestionPackage.find_by_id(params[:id])
     teacher = Teacher.find_by_id cookies[:teacher_id]
     @user = User.find_by_id teacher.user_id.to_i
-    @question_type = []
     @origin_questions = nil
     question_type = QuestionPackage.get_one_package_questions @question_pack.id
-    @question_type = question_type.map(&:types).uniq.sort if question_type.present?
+    @question_type = question_type.map(&:types).uniq.sort if question_type.present? || []
     p @question_type
     ques = []
     question = Question
-      .select("id, types, name, full_text, content, questions_time, created_at")
-      .where(["questions.question_package_id = ?", @question_pack.id])
+    .select("id, types, name, full_text, content, questions_time, created_at")
+    .where(["questions.question_package_id = ?", @question_pack.id])
     question_id = question.map{|q| q.id }.uniq
     branch_questions = BranchQuestion
-      .select("content, resource_url, options, answer, question_id, id")
-      .where(["question_id in (?)", question_id])
+    .select("content, resource_url, options, answer, question_id, id")
+    .where(["question_id in (?)", question_id])
     branch_questions_id = branch_questions.map{|bq| bq.id}
     branch_questions = branch_questions.group_by {|b| b.question_id}
     @branch_tags = BtagsBqueRelation.joins("left join branch_tags bt on btags_bque_relations.branch_tag_id = bt.id")
-        .select("btags_bque_relations.branch_question_id, bt.id, bt.name")
-        .where(["branch_question_id in (?) and bt.id is not null",branch_questions_id])
-        .group_by {|t| t.branch_question_id}
+    .select("btags_bque_relations.branch_question_id, bt.id, bt.name")
+    .where(["branch_question_id in (?) and bt.id is not null",branch_questions_id])
+    .group_by {|t| t.branch_question_id}
     question.each do |q|
       branch_ques = []
       if branch_questions[q.id].present?
         branch_ques = branch_questions[q.id]
       end
       ques << {:id => q.id, :name => q.name, :types => q.types, :full_text => q.full_text,
-               :questions_time => q.questions_time, :created_at => q.created_at,
-                :content => q.content, :branch_questions => branch_ques}
+        :questions_time => q.questions_time, :created_at => q.created_at,
+        :content => q.content, :branch_questions => branch_ques}
     end
     @questions = ques.group_by {|q| q[:types]}
     p @questions

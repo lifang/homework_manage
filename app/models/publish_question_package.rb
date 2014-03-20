@@ -189,11 +189,9 @@ class PublishQuestionPackage < ActiveRecord::Base
     if today_tasks.length > 0
       tags_id = today_tasks.map(&:tag_id)
       today_tasks = today_tasks.group_by { |t| t.tag_id }
-      p today_tasks
       tags = Tag.where("id in (?)", tags_id)
       tags.sort_by! { |t| t.name }
       all_tags = []
-      p tags
       tags.each do |e|
         all_tags << {:tag_name => e.name, :tag_id => e.id, :pub_id => today_tasks[e.id][0].id,
                       :created_at => today_tasks[e.id][0].created_at}
@@ -201,11 +199,10 @@ class PublishQuestionPackage < ActiveRecord::Base
       all_tags << {:tag_name => "全班", :tag_id => 0, :pub_id => today_tasks[0][0].id,
                   :created_at => today_tasks[0][0].created_at} if tags_id.include?(0)
       all_tags.sort_by!{|t|t[:tag_name]}
-      p all_tags
-      if today_tasks.present?
-        if tags[0].present? && tags[0].id != nil
-          p today_tasks
+      if today_tasks.length > 0
+        if all_tags.length > 0
           current_task = today_tasks[all_tags[0][:tag_id].to_i][0]
+          p current_task
           first_tag_id = all_tags[0][:tag_id].to_i
           info = PublishQuestionPackage.get_record_details current_task, first_tag_id, school_class.id
           question_types = info[:question_types]

@@ -101,6 +101,9 @@ HomeworkManage::Application.routes.draw do
       collection do
         get :setting_episodes,:show_wanxin
       end
+      member do
+        get :new_index
+      end
       resources :questions do
         resources :branch_questions
       end

@@ -1,3 +1,25 @@
+<script charset="utf-8" src="/assets/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="/assets/kindeditor/lang/zh_CN.js"></script>
+<script>
+   function full_text(){
+    KindEditor.ready(function(K) {
+      window.editor = K.create('.wanxin_content', {
+        width : '370px',
+        minWidth : '370px',
+        items : ['source',
+          'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+          'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist'],
+        afterCreate : function() {
+          this.sync();
+        },
+        afterBlur: function(){
+          this.sync();
+        }//同步KindEditor的值到textarea文本框
+      });
+    });
+  }
+ full_text();
+</script>
 <div class="main">
   <div class="assignment">
     <div class="assignment_head">

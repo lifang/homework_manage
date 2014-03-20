@@ -21,9 +21,13 @@ class QuestionPackagesController < ApplicationController
   
   def new
     @question_pack = QuestionPackage.create
-    # question_type = QuestionPackage.get_one_package_questions @question_pack.id
+    redirect_to "/school_classes/#{@school_class.id}/question_packages/#{@question_pack.id}/new_index"
+  end
+  def new_index
+    @question_pack = QuestionPackage.find_by_id(params[:id])
     @question_type = Question::TYPES_NAME
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
+    render 'new'
   end
   def setting_episodes
     @cells = Cell.find_by_id(params[:cell_id])

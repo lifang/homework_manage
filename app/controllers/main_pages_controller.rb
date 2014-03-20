@@ -94,7 +94,6 @@ class MainPagesController < ApplicationController
   end
   def add_follow_microposts
     @condition =  params[:condtions].nil? || params[:condtions].strip=="" ? nil : params[:condtions].strip
-    p @condition
     micropost_id = params[:micropost_id].to_i
     followmicropost = FollowMicropost.find_by_user_id_and_micropost_id(current_user.id,micropost_id)
     if followmicropost.nil?

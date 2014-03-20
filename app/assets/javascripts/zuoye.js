@@ -128,6 +128,8 @@ function afterClickAddpage(){
 function GoForthStep(question_pack_id, school_class_id){
     var first_selected = $(".first_step").find(".addwork_btn a.selected");
     var question_type = first_selected.find("span").hasClass("write_a") ? 0 : 1;  //大题题型， 0是听力， 1是朗读
+    question_type = first_selected.find("span").hasClass("select_a")? 3 : question_type //选择题
+    question_type = first_selected.find("span").hasClass("select_a")? 4 : question_type //连线题
     var second_selected = $(".second_step").find(".addwork_btn a.selected");
     var new_or_refer = second_selected.find("span").hasClass("build_a") ? 0 : 1;  //大题的小题来源， 0是新建， 1是引用
 

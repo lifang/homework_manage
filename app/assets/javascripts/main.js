@@ -75,6 +75,7 @@ $(function(){
 <button type="submit" class="">提交</button>\n\
 <button type="button" class="form_cancel">取消</button></div></form>'
         $(".create_main_microposts").html(html)
+        $(".tab_mess").find(".h1_content").html("提问")
         $(".tab_mess").css('display','block');
         $(".tab_mess").css({
             'top':(e.pageY+30)+'px',

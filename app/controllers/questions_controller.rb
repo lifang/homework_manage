@@ -13,7 +13,12 @@ class QuestionsController < ApplicationController
       flash[:notice] = "作业里面没有题目，重新创建或者删除作业"
       redirect_to "/school_classes/#{school_class_id}/question_packages/new"
     end
-    
+  end
+
+  def create
+    cell_id = params[:cell_id]
+    episode_id = params[:episode_id]
+    question_package_id = params[:question_package_id]
   end
   
   #编辑大题

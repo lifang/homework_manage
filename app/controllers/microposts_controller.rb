@@ -11,9 +11,9 @@ class MicropostsController < ApplicationController
     micropost = Micropost.new
     micropost.content = content
     micropost.user_id = current_teacher.user_id
-    micropost.user_types = 0
+    micropost.user_types = Micropost::USER_TYPES[:TEACHER]
     micropost.school_class_id = current_teacher.last_visit_class_id
-    micropost.reply_microposts_count = 0
+#    micropost.reply_microposts_count = 0
     if micropost.save
       flash[:success]='发表成功！' 
       redirect_to school_class_main_pages_path(@school_class)
@@ -31,7 +31,7 @@ class MicropostsController < ApplicationController
     reply.content = params[:textarea]
     reply.micropost_id = params[:micropost_id]
     reply.sender_id = params[:teacher_id]
-    reply.sender_types = 0
+    reply.sender_types = Micropost::USER_TYPES[:TEACHER]
     reply.reciver_id = params[:micropost_user_id]
     reply.reciver_types = params[:micropost_user_type]
     if reply.save
@@ -87,6 +87,8 @@ class MicropostsController < ApplicationController
     @scclass = SchoolClass.find(current_teacher.last_visit_class_id)
     array = ReplyMicropost::get_microposts @micropost.id,@current_page
     @reply = array[:reply_microposts]
+    @pages_count = array[:pages_count]
+    @page = array[:page]
   end
 
   def particate_reply_show
@@ -97,6 +99,8 @@ class MicropostsController < ApplicationController
   def get_posts_and_replis
     @micropost = Micropost.find_by_id(params[:micropost_id])
     @repiles = (ReplyMicropost::get_microposts @micropost.id,1)[:reply_microposts]
+    @repile_page = (ReplyMicropost::get_microposts @micropost.id,1)[:pages_count]
+    @page = (ReplyMicropost::get_microposts @micropost.id,1)[:page]
   end
 
 end

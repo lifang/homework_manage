@@ -20,22 +20,25 @@
         <a href="#" class="ask_btn tooltip_html">提问</a>
       </div>
     </div>
-    <div class="askAnswer_body " id="reply_area">
-      <%= render 'questarea_box'%>
+    <div class="askAnswer_body " >
+      <div class="askAnswer_area" id="reply_area">
+        <%= render 'questarea_box'%>
+      </div>
     </div>
 
   </div>
 </div>
 
 
+
 <div class="tab_mess">
-  <h1>回复</h1>
+  <h1 class="h1_content">回复</h1>
   <h2>信息内容</h2>
   <div class="create_main_microposts">
-  <div class="textarea_box">
-    <textarea cols="" rows="">字数限制60字</textarea>
-  </div>
-  <div class="tab_mess_btn"><button>提交</button></div>
+    <div class="textarea_box">
+      <textarea cols="" rows="">字数限制60字</textarea>
+    </div>
+    <div class="tab_mess_btn"><button>提交</button></div>
   </div>
 </div>
 

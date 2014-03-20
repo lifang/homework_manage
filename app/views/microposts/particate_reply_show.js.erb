@@ -1,8 +1,8 @@
 <% if @types==1 %>
+  $(".tab_mess").find(".h1_content").html("回复")
   $(".create_main_microposts").html('<%= j(render 'input_reply') %>')
 <% else  %>
   var box =$("#reply_area").children(".question_area_box");
   $(box[<%=@index%>]).find(".answer_area").html('<%=j(render 'main_pages/answer_area')%>');
-
   height_adjusting();
 <% end %>

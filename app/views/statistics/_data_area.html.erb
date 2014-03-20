@@ -1,41 +1,3 @@
-<!--圆环图表-->
-<script src="/assets/Chart.js"></script>
-<!--[if lte IE 8]>
-<script type="text/javascript" src="/assets/excanvas.js"></script>
-<![endif]-->
-<script>
-    function load(){
-        var cv01Data = [
-            {
-                value : 20,
-                color : "#41a9cf"
-            },
-            {
-                value : 80,
-                color : "#fff"
-            }
-
-        ];
-        var cv02Data = [
-            {
-                value : 20,
-                color : "#5fd3d3"
-            },
-            {
-                value : 80,
-                color : "#fff"
-            }
-
-        ];
-
-        //var myDoughnut = new Chart(document.getElementById("canvas").getContext("2d")).Doughnut(doughnutData);
-        var ctx01 = document.getElementById("cv01").getContext("2d");
-        var myDoughnut01 = new Chart(ctx01).Doughnut(cv01Data);
-
-        var ctx02 = document.getElementById("cv02").getContext("2d");
-        var myDoughnut02 = new Chart(ctx02).Doughnut(cv02Data);
-    }
-</script>
 <% if !@current_task.nil? %>
     <div class="sb_classify">
       <ul>
@@ -172,10 +134,13 @@
 <% end %>
 <script>
     $(document).ready(function(){
+        if($("#cv02").length > 0)
+        {
+            load(<%= @average_complete_rate %>,<%= @average_correct_rate %>);
+        }
         $("#complete_table").tablesorter();
         $("#correct_table").tablesorter();
     });
-
    function click_complete_btn(obj){
         $(".sc_nav a").removeAttr("class");
         $(obj).attr("class", "hover");

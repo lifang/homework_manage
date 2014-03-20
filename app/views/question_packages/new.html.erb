@@ -1,3 +1,25 @@
+<script charset="utf-8" src="/assets/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="/assets/kindeditor/lang/zh_CN.js"></script>
+<script>
+   function full_text(){
+    KindEditor.ready(function(K) {
+      window.editor = K.create('.wanxin_content', {
+        width : '370px',
+        minWidth : '370px',
+        items : ['source',
+          'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+          'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist'],
+        afterCreate : function() {
+          this.sync();
+        },
+        afterBlur: function(){
+          this.sync();
+        }//同步KindEditor的值到textarea文本框
+      });
+    });
+  }
+ full_text();
+</script>
 <div class="main">
   <div class="assignment">
     <div class="assignment_head">
@@ -20,7 +42,9 @@
       </div>
     </div>
     <div class="assignment_body" id="question_list" style="display:none;" >
-      <div class="assignment_body_list"></div>
+      <div class="assignment_body_list">
+        
+      </div>
       <div class="questionTypes">
         <div class="qType_menu clearAfter">
           <ul>
@@ -64,7 +88,8 @@
             <li class="last_child"><p><span class="qType_gap">完形</span></p>
               <i class="arrows"></i>
               <div class="second_menu">
-                <a href="#">新建</a><a href="#">引用</a>
+                <%=link_to '新建',show_wanxin_school_class_question_packages_path(@shool_class),remote:true%>
+                <a href="#">引用</a>
               </div>
             </li>
           </ul>
@@ -72,9 +97,9 @@
         </div>
       </div>
       <div class="complete_btn_box">
-        <input type="hidden"  id="cell_id" value=""/>
-        <input type="hidden"  id="episode_id" value=""/>
-        <input type="hidden"  id="question_package_id" value="<%=@question_pack.id%>"/>
+        <input type="hidden"  name="cell_id" id="cell_id" value=""/>
+        <input type="hidden"  name="episode_id" id="episode_id" value=""/>
+        <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=@question_pack.id%>"/>
         <button>点击确定完成创建</button>
       </div>
     </div>

@@ -115,9 +115,8 @@ function checkout_date(obj, school_class_id)
 }
 
 //按日期查询统计信息
-function show_date_status(obj, school_class_id)
+function show_date_status(date, school_class_id)
 {
-    var date = $(obj).val();
     var today_date = $("#today_date").val();
     if(date > today_date)
     {

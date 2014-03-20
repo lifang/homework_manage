@@ -20,7 +20,7 @@ class QuestionPackagesController < ApplicationController
   end
   
   def new
-    @question_pack = QuestionPackage.new
+    @question_pack = QuestionPackage.create
     # question_type = QuestionPackage.get_one_package_questions @question_pack.id
     @question_type = Question::TYPES_NAME
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )

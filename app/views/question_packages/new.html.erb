@@ -6,10 +6,11 @@
           <select name="select1" id="select1" onchange="address_search_episodes(this, <%= @school_class.id %>, 0)">
             <option value="0">请选择单元</option>
             <%@cells.each do |cell|%>
-              <option value="<%=cell.id%>"><%=cell.name%></option>
+              <option value="<%=cell.id%>">
+                <%=cell.name%>
+              </option>
             <%end%>
           </select>
-
         </div>
         <div class="rowElem" id="select2">
           <select name="select2" >
@@ -72,6 +73,7 @@
       <div class="complete_btn_box">
         <input type="hidden"  id="cell_id" value=""/>
         <input type="hidden"  id="episode_id" value=""/>
+        <input type="hidden"  id="question_package_id" value="<%@question_pack.id%>"/>
         <button>点击确定完成创建</button>
       </div>
     </div>

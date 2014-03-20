@@ -517,7 +517,7 @@ $(function(){
             $(".logoBox").css("display","none");
             $(".downLoad").css("display","none");
             $(".login_bg").animate({
-                height: "60px",
+                height: "60px"
             }, 200 , function(){
                 $(".register").css("display","block");
             });
@@ -527,7 +527,7 @@ $(function(){
         if( !$(this).is(":animated")){
             $(".register").css("display","none");
             $(".login_bg").animate({
-                height: "437px",
+                height: "437px"
             }, 200 , function(){
                 $(".logoBox").css("display","block");
                 $(".downLoad").css("display","block");

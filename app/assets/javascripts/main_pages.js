@@ -85,7 +85,7 @@ function show_reply_again(value,name){
 
 
 function send_more_replies(value,micropost_id){
-    var current_page = $(value).parent().find(".current_page").val();
+    var current_page = $(value).parent().parent().find(".current_page").val();
     var index1=get_index(value);
     //tishi(index1+"--"+box.attr("class"));
     $.ajax({

@@ -69,7 +69,6 @@ function show_reply_again(value,name){
     height_adjusting();
     $(answer[1]).find("textarea").attr("id",id);
     location.href="#"+id;
-    alert($(input[3]).val())
     var html='<div class="ask_area" >\n\
                <input type="hidden" value="'+$(input[0]).val()+'" />\n\
                 <input type="hidden" value="'+ $(input[1]).val() +'" />\n\
@@ -109,7 +108,6 @@ function get_index(value){
 
         }
     }
-    alert(index1)
     return index1;
 }
 function get_index2(value){

@@ -22,12 +22,14 @@ class WelcomeController < ApplicationController
         if @school_class
           if @school_class.status == SchoolClass::STATUS[:EXPIRED] || (@school_class.period_of_validity.to_i - Time.now.to_i) < 0
             @school_classes = teacher.school_classes.
-                where("status = #{SchoolClass::STATUS[:NORMAL]} and TIMESTAMPDIFF(SECOND,now(),school_classes.period_of_validity) > 0")
+              where("status = #{SchoolClass::STATUS[:NORMAL]} and TIMESTAMPDIFF(SECOND,now(),school_classes.period_of_validity) > 0")
             if @school_classes && @school_classes.length == 0
               status = true
               flash[:notice] = "上次登陆班级失效，请重新创建班级！"
               last_visit_class = false
             else
+              @teachingmaterial = TeachingMaterial.all
+              @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
               @school_class = @school_classes.first
               teacher.update_attributes(:last_visit_class_id => @school_class.id)
               last_visit_class = true
@@ -115,7 +117,7 @@ class WelcomeController < ApplicationController
       status = false
     elsif verification_code >= 111111 && verification_code <= 999999
       verification_code = verification_code.to_s + rand(9999).to_s
-          if teacher.nil?
+      if teacher.nil?
         notice = "教师不存在，不能创建班级！"
       else
         if teacher.status == Teacher::STATUS[:YES]

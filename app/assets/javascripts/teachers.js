@@ -177,6 +177,5 @@ function height_tab(){
     $(".tab").css('top',10);
     var doc_width = $(document).width();
     var layer_width = $(".tab").width();
-    alert(doc_width)
     $(".tab").css('left',(doc_width-layer_width)/2);
 }

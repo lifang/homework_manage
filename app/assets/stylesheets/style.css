@@ -958,7 +958,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 .complete_btn_box button { background: #21b4c0; padding: 10px 50px; color: #FFF;}
 
 /*tag知识点*/
-.tag_tab { background: #29bd7f; padding: 10px; width: 200px; position: absolute; display: none;}
+.tag_tab { background: #29bd7f; padding: 10px; width: 200px; position: absolute; display: none; z-index: 1000;}
 .tag_tab .arrows {
     width: 16px;
     height: 9px;

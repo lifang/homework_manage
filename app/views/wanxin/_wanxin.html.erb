@@ -1,6 +1,9 @@
+<input type="hidden"  name="current_index" id="current_index" value="-1"/>
 <%@questions.each do |q|%>
   <div>
-    <div class="ab_list_title" onclick="show_this(this,<%=q.id%>),<%=@school_class.id%>">
+    <div class="ab_list_title" onclick="show_this(this,<%=q.id%>,<%=@school_class.id%>)">
+      <input type="hidden" class="questions_id" value="<%=q.id%>" />
+
       <h1>未命名</h1>
       <p>完形 / <%=current_user.name%> / <%=q.created_at.strftime("%Y-%m-%d")%> / 参考时间：15秒</p>
       <ul class="ab_func">
@@ -14,7 +17,7 @@
       <div class="ab_article">
         <div class="questions_item">
           <div class="gapFilling_textarea">
-            <textarea id="wanxin_content" name="wanxin_content" class="wanxin_content"></textarea>
+            <textarea id="wanxin_content" name="wanxin_content" class="wanxin_content"><%=q.content%></textarea>
             <button onclick="add_wanxin_item(this)">增加一个选项</button>
           </div>
           <div class="gapFilling_box">

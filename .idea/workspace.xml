@@ -2,18 +2,39 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/question_packages/new_listening.js.erb" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/question_packages/new_reading.js.erb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/kindeditor/themes/default/000.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/kindeditor/themes/default/save.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/kindeditor/themes/default/sign.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/question_packages/_new_time_limit_set_time.html.erb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/kindeditor/plugins/commit/commit.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/kindeditor/plugins/mark/mark.js" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/bootstrap-datetimepicker.js" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/bootstrap-datetimepicker.zh-CN.js" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/bootstrap.min.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/question_packages/_listening_or_reading_que.html.erb" afterPath="$PROJECT_DIR$/app/views/question_packages/_listening_or_reading_que.html.erb" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/private/config.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/private/private.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/private/private.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/private/rake-d.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/project.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/nbproject/project.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/wanxin/_gapfilling_questions.html.erb" afterPath="$PROJECT_DIR$/app/views/wanxin/_gapfilling_questions.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/question_packages/_new_time_limit.html.erb" afterPath="$PROJECT_DIR$/app/views/question_packages/_new_time_limit.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/question_packages/_select2.html.erb" afterPath="$PROJECT_DIR$/app/views/question_packages/_select2.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/_user_info.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/_user_info.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/wanxin/_wanxin.html.erb" afterPath="$PROJECT_DIR$/app/views/wanxin/_wanxin.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/application.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/kindeditor/themes/default/default.css" afterPath="$PROJECT_DIR$/app/assets/javascripts/kindeditor/themes/default/default.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/main.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/helpers/method_libs_helper.rb" afterPath="$PROJECT_DIR$/app/helpers/method_libs_helper.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/question_packages/new.html.erb" afterPath="$PROJECT_DIR$/app/views/question_packages/new.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/question.rb" afterPath="$PROJECT_DIR$/app/models/question.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/question_packages/new_reading.js.erb" afterPath="$PROJECT_DIR$/app/views/question_packages/new_reading.js.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/question_packages.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/question_packages.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.rb" afterPath="$PROJECT_DIR$/config/routes.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/question_packages/show_ab_list_box.js.erb" afterPath="$PROJECT_DIR$/app/views/question_packages/show_ab_list_box.js.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/style.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/kindeditor/lang/zh_CN.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/kindeditor/lang/zh_CN.js" />
     </list>
     <ignored path="homework_manage.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -51,24 +72,26 @@
       <file leaf-file-name="question_packages.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/question_packages.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="62" selection-start="1253" selection-end="1253" vertical-scroll-proportion="0.0" vertical-offset="508" max-vertical-offset="2193">
+            <state line="16" column="13" selection-start="556" selection-end="556" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2533">
               <folding>
-                <element signature="n#!!block;n#address_search_episodes#0" expanded="true" />
-                <element signature="e#230#566#0" expanded="true" />
                 <element signature="e#489#556#0" expanded="true" />
+                <element signature="n#!!block;n#add_l_r_question#0" expanded="true" />
                 <element signature="e#1566#1857#0" expanded="true" />
                 <element signature="e#1649#1807#0" expanded="true" />
                 <element signature="e#1840#1851#0" expanded="true" />
                 <element signature="n#!!block;n#change_true_or_false#0" expanded="true" />
                 <element signature="n#!!block;n#add_wanxin_item#0" expanded="true" />
                 <element signature="n#!!block;n#show_this#0" expanded="true" />
-                <element signature="n#!!block;n#show_this#1" expanded="true" />
-                <element signature="e#4345#4493#0" expanded="true" />
-                <marker date="1395388499354" expanded="true" signature="2952:3037" placeholder="..." />
-                <marker date="1395388499354" expanded="true" signature="2998:3037" placeholder="..." />
-                <marker date="1395388499354" expanded="true" signature="3086:3752" placeholder="..." />
-                <marker date="1395388499354" expanded="true" signature="3209:3737" placeholder="..." />
-                <marker date="1395388499354" expanded="true" signature="3793:3911" placeholder="..." />
+                <element signature="e#3849#3997#0" expanded="true" />
+                <element signature="n#!!block;n#create_wanxin#0" expanded="true" />
+                <element signature="e#4831#5003#0" expanded="true" />
+                <element signature="n#!!block;n#show_wanxin#0" expanded="true" />
+                <element signature="e#5115#5285#0" expanded="true" />
+                <marker date="1395389078102" expanded="true" signature="2653:2738" placeholder="..." />
+                <marker date="1395389078102" expanded="true" signature="2699:2738" placeholder="..." />
+                <marker date="1395389078102" expanded="true" signature="2787:3453" placeholder="..." />
+                <marker date="1395389078102" expanded="true" signature="2910:3438" placeholder="..." />
+                <marker date="1395389078102" expanded="true" signature="3494:3612" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -77,38 +100,75 @@
       <file leaf-file-name="question_packages_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/question_packages_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="24" selection-start="1354" selection-end="1354" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="1564">
+            <state line="90" column="12" selection-start="3162" selection-end="3162" vertical-scroll-proportion="0.0" vertical-offset="1938" max-vertical-offset="3349">
               <folding>
                 <element signature="e#846#1245#0" expanded="true" />
-                <element signature="e#2732#3799#0" expanded="true" />
+                <element signature="e#1258#1590#0" expanded="true" />
+                <element signature="e#2901#3120#0" expanded="true" />
+                <element signature="e#3152#4219#0" expanded="true" />
+                <element signature="e#4223#4594#0" expanded="true" />
+                <element signature="e#4598#4753#0" expanded="true" />
+                <element signature="e#4765#6459#0" expanded="true" />
+                <element signature="e#6471#6829#0" expanded="true" />
+                <element signature="e#6843#7124#0" expanded="true" />
+                <element signature="e#7147#7524#0" expanded="true" />
+                <element signature="e#7538#8088#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="new_listening.js.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/question_packages/new_listening.js.erb">
+      <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="31" selection-start="31" selection-end="31" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="102">
-              <folding />
+            <state line="206" column="42" selection-start="6080" selection-end="6080" vertical-scroll-proportion="0.0" vertical-offset="2040" max-vertical-offset="6545">
+              <folding>
+                <element signature="e#264#299#0" expanded="true" />
+                <element signature="e#327#634#0" expanded="true" />
+                <element signature="e#567#631#0" expanded="true" />
+                <element signature="e#672#1507#0" expanded="true" />
+                <element signature="e#1311#1503#0" expanded="true" />
+                <element signature="e#1537#2547#0" expanded="true" />
+                <element signature="e#1575#2305#0" expanded="true" />
+                <element signature="e#2351#2543#0" expanded="true" />
+                <element signature="e#2587#3272#0" expanded="true" />
+                <element signature="e#2630#2820#0" expanded="true" />
+                <element signature="e#2704#2790#0" expanded="true" />
+                <element signature="e#2866#3268#0" expanded="true" />
+                <element signature="e#3189#3251#0" expanded="true" />
+                <element signature="e#3305#3806#0" expanded="true" />
+                <element signature="e#3457#3513#0" expanded="true" />
+                <element signature="e#3558#3802#0" expanded="true" />
+                <element signature="e#3842#4314#0" expanded="true" />
+                <element signature="n#!!block;n#tabFunc#0" expanded="true" />
+                <element signature="e#5078#5299#0" expanded="true" />
+                <element signature="e#5324#5887#0" expanded="true" />
+                <element signature="n#!!block;n#reload_messages#0" expanded="true" />
+                <element signature="e#24289#24749#0" expanded="true" />
+                <element signature="e#24535#24743#0" expanded="true" />
+                <element signature="n#!!block;n#share_question_details#0" expanded="true" />
+                <element signature="e#24847#25137#0" expanded="true" />
+                <element signature="e#24947#25085#0" expanded="true" />
+                <element signature="e#25120#25131#0" expanded="true" />
+                <element signature="n#!!block;n#height_tab#0" expanded="true" />
+                <element signature="n#!!block;n#del_all_unread_msg#0" expanded="true" />
+                <element signature="n#!!block;n#load#0" expanded="true" />
+                <marker date="1395388770942" expanded="true" signature="1706:2010" placeholder="..." />
+                <marker date="1395388770942" expanded="true" signature="1752:1848" placeholder="..." />
+                <marker date="1395388770942" expanded="true" signature="1894:2003" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="new_reading.js.erb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/views/question_packages/new_reading.js.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="105" selection-end="105" vertical-scroll-proportion="0.10828026" vertical-offset="0" max-vertical-offset="314">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="new.html.erb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="new.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/question_packages/new.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="143" selection-start="1834" selection-end="1952" vertical-scroll-proportion="-5.8846154" vertical-offset="476" max-vertical-offset="1904">
-              <folding />
+            <state line="46" column="8" selection-start="1558" selection-end="1558" vertical-scroll-proportion="0.117486335" vertical-offset="433" max-vertical-offset="1870">
+              <folding>
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#p#0;n#li#6;n#ul#0;n#div#0;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -116,7 +176,7 @@
       <file leaf-file-name="routes.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/routes.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="102" column="40" selection-start="3039" selection-end="3039" vertical-scroll-proportion="0.0" vertical-offset="1541" max-vertical-offset="3383">
+            <state line="104" column="9" selection-start="3100" selection-end="3100" vertical-scroll-proportion="0.0" vertical-offset="1581" max-vertical-offset="3417">
               <folding />
             </state>
           </provider>
@@ -181,14 +241,14 @@
         <option value="$PROJECT_DIR$/app/views/question_packages/_new_listening_or_reading.html.erb" />
         <option value="$PROJECT_DIR$/app/models/publish_question_package.rb" />
         <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
-        <option value="$PROJECT_DIR$/config/routes.rb" />
-        <option value="$PROJECT_DIR$/app/views/question_packages/new.html.erb" />
         <option value="$PROJECT_DIR$/app/views/question_packages/_listening_or_reading_que.html.erb" />
-        <option value="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" />
         <option value="$PROJECT_DIR$/app/models/question.rb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/question_packages.js" />
         <option value="$PROJECT_DIR$/app/views/question_packages/new_listening.js.erb" />
         <option value="$PROJECT_DIR$/app/views/question_packages/new_reading.js.erb" />
+        <option value="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" />
+        <option value="$PROJECT_DIR$/config/routes.rb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/question_packages.js" />
+        <option value="$PROJECT_DIR$/app/views/question_packages/new.html.erb" />
       </list>
     </option>
   </component>
@@ -1104,7 +1164,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="49" y="24" width="1317" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.6640867" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.7337461" sideWeight="0.5" order="12" side_tool="false" content_ui="combo" />
@@ -1115,7 +1175,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32819724" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39164087" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29102167" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5096774" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1254,11 +1314,6 @@
     <entry file="file://$PROJECT_DIR$/app/assets/javascripts/Chart.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="980" column="29" selection-start="27087" selection-end="27087" vertical-scroll-proportion="0.051987767" vertical-offset="3417" max-vertical-offset="3774" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/statistics/_data_area.html.erb">
@@ -1400,48 +1455,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/routes.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="102" column="40" selection-start="3039" selection-end="3039" vertical-scroll-proportion="0.0" vertical-offset="1541" max-vertical-offset="3383">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/question_packages/new.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="143" selection-start="1834" selection-end="1952" vertical-scroll-proportion="-5.8846154" vertical-offset="476" max-vertical-offset="1904">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/question.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="0" selection-start="863" selection-end="863" vertical-scroll-proportion="0.59327215" vertical-offset="44" max-vertical-offset="527">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/question_packages.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="62" selection-start="1253" selection-end="1253" vertical-scroll-proportion="0.0" vertical-offset="508" max-vertical-offset="2193">
-          <folding>
-            <element signature="n#!!block;n#address_search_episodes#0" expanded="true" />
-            <element signature="e#230#566#0" expanded="true" />
-            <element signature="e#489#556#0" expanded="true" />
-            <element signature="e#1566#1857#0" expanded="true" />
-            <element signature="e#1649#1807#0" expanded="true" />
-            <element signature="e#1840#1851#0" expanded="true" />
-            <element signature="n#!!block;n#change_true_or_false#0" expanded="true" />
-            <element signature="n#!!block;n#add_wanxin_item#0" expanded="true" />
-            <element signature="n#!!block;n#show_this#0" expanded="true" />
-            <element signature="n#!!block;n#show_this#1" expanded="true" />
-            <element signature="e#4345#4493#0" expanded="true" />
-            <marker date="1395388499354" expanded="true" signature="2952:3037" placeholder="..." />
-            <marker date="1395388499354" expanded="true" signature="2998:3037" placeholder="..." />
-            <marker date="1395388499354" expanded="true" signature="3086:3752" placeholder="..." />
-            <marker date="1395388499354" expanded="true" signature="3209:3737" placeholder="..." />
-            <marker date="1395388499354" expanded="true" signature="3793:3911" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1452,27 +1469,120 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/question_packages_controller.rb">
+    <entry file="file://$PROJECT_DIR$/app/views/question_packages/new_reading.js.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="24" selection-start="1354" selection-end="1354" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="1564">
-          <folding>
-            <element signature="e#846#1245#0" expanded="true" />
-            <element signature="e#2732#3799#0" expanded="true" />
-          </folding>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="314">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/question_packages/new_listening.js.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="31" selection-start="31" selection-end="31" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="314">
+        <state line="0" column="33" selection-start="33" selection-end="33" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="314">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/question_packages/new_reading.js.erb">
+    <entry file="file://$PROJECT_DIR$/app/controllers/question_packages_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="105" selection-end="105" vertical-scroll-proportion="0.10828026" vertical-offset="0" max-vertical-offset="314">
+        <state line="90" column="12" selection-start="3162" selection-end="3162" vertical-scroll-proportion="0.0" vertical-offset="1938" max-vertical-offset="3349">
+          <folding>
+            <element signature="e#846#1245#0" expanded="true" />
+            <element signature="e#1258#1590#0" expanded="true" />
+            <element signature="e#2901#3120#0" expanded="true" />
+            <element signature="e#3152#4219#0" expanded="true" />
+            <element signature="e#4223#4594#0" expanded="true" />
+            <element signature="e#4598#4753#0" expanded="true" />
+            <element signature="e#4765#6459#0" expanded="true" />
+            <element signature="e#6471#6829#0" expanded="true" />
+            <element signature="e#6843#7124#0" expanded="true" />
+            <element signature="e#7147#7524#0" expanded="true" />
+            <element signature="e#7538#8088#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="206" column="42" selection-start="6080" selection-end="6080" vertical-scroll-proportion="0.0" vertical-offset="2040" max-vertical-offset="6545">
+          <folding>
+            <element signature="e#264#299#0" expanded="true" />
+            <element signature="e#327#634#0" expanded="true" />
+            <element signature="e#567#631#0" expanded="true" />
+            <element signature="e#672#1507#0" expanded="true" />
+            <element signature="e#1311#1503#0" expanded="true" />
+            <element signature="e#1537#2547#0" expanded="true" />
+            <element signature="e#1575#2305#0" expanded="true" />
+            <element signature="e#2351#2543#0" expanded="true" />
+            <element signature="e#2587#3272#0" expanded="true" />
+            <element signature="e#2630#2820#0" expanded="true" />
+            <element signature="e#2704#2790#0" expanded="true" />
+            <element signature="e#2866#3268#0" expanded="true" />
+            <element signature="e#3189#3251#0" expanded="true" />
+            <element signature="e#3305#3806#0" expanded="true" />
+            <element signature="e#3457#3513#0" expanded="true" />
+            <element signature="e#3558#3802#0" expanded="true" />
+            <element signature="e#3842#4314#0" expanded="true" />
+            <element signature="n#!!block;n#tabFunc#0" expanded="true" />
+            <element signature="e#5078#5299#0" expanded="true" />
+            <element signature="e#5324#5887#0" expanded="true" />
+            <element signature="n#!!block;n#reload_messages#0" expanded="true" />
+            <element signature="e#24289#24749#0" expanded="true" />
+            <element signature="e#24535#24743#0" expanded="true" />
+            <element signature="n#!!block;n#share_question_details#0" expanded="true" />
+            <element signature="e#24847#25137#0" expanded="true" />
+            <element signature="e#24947#25085#0" expanded="true" />
+            <element signature="e#25120#25131#0" expanded="true" />
+            <element signature="n#!!block;n#height_tab#0" expanded="true" />
+            <element signature="n#!!block;n#del_all_unread_msg#0" expanded="true" />
+            <element signature="n#!!block;n#load#0" expanded="true" />
+            <marker date="1395388770942" expanded="true" signature="1706:2010" placeholder="..." />
+            <marker date="1395388770942" expanded="true" signature="1752:1848" placeholder="..." />
+            <marker date="1395388770942" expanded="true" signature="1894:2003" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/routes.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="104" column="9" selection-start="3100" selection-end="3100" vertical-scroll-proportion="0.0" vertical-offset="1581" max-vertical-offset="3417">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/question_packages.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="13" selection-start="556" selection-end="556" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2533">
+          <folding>
+            <element signature="e#489#556#0" expanded="true" />
+            <element signature="n#!!block;n#add_l_r_question#0" expanded="true" />
+            <element signature="e#1566#1857#0" expanded="true" />
+            <element signature="e#1649#1807#0" expanded="true" />
+            <element signature="e#1840#1851#0" expanded="true" />
+            <element signature="n#!!block;n#change_true_or_false#0" expanded="true" />
+            <element signature="n#!!block;n#add_wanxin_item#0" expanded="true" />
+            <element signature="n#!!block;n#show_this#0" expanded="true" />
+            <element signature="e#3849#3997#0" expanded="true" />
+            <element signature="n#!!block;n#create_wanxin#0" expanded="true" />
+            <element signature="e#4831#5003#0" expanded="true" />
+            <element signature="n#!!block;n#show_wanxin#0" expanded="true" />
+            <element signature="e#5115#5285#0" expanded="true" />
+            <marker date="1395389078102" expanded="true" signature="2653:2738" placeholder="..." />
+            <marker date="1395389078102" expanded="true" signature="2699:2738" placeholder="..." />
+            <marker date="1395389078102" expanded="true" signature="2787:3453" placeholder="..." />
+            <marker date="1395389078102" expanded="true" signature="2910:3438" placeholder="..." />
+            <marker date="1395389078102" expanded="true" signature="3494:3612" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/question_packages/new.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="8" selection-start="1558" selection-end="1558" vertical-scroll-proportion="0.117486335" vertical-offset="433" max-vertical-offset="1870">
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p#0;n#li#6;n#ul#0;n#div#0;n#div#2;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

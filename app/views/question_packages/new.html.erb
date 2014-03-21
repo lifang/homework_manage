@@ -8,7 +8,9 @@
         minWidth : '370px',
         items : ['source',
           'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-          'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist'],
+          'removeformat', '|',
+          'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+          '|','mark','commit'],
         afterCreate : function() {
           this.sync();
         },
@@ -42,16 +44,15 @@
       </div>
     </div>
     <div class="assignment_body" id="question_list" style="display:none;" >
-      <div class="assignment_body_list">
-
-      </div>
-      <div class="questionTypes">
+        
+    </div>
+    <div class="questionTypes">
         <div class="qType_menu clearAfter">
           <ul>
             <li class="hover"><p><span class="qType_speed">十速挑战</span></p>
               <i class="arrows"></i>
               <div class="second_menu">
-                <a href="/school_classes/<%= @school_class.id %>/question_packages/new_time_limit" data-type="script" data-remote="true">新建</a>        
+                <a href="/school_classes/<%= @school_class.id %>/question_packages/new_time_limit" data-type="script" data-remote="true">新建</a>
                 <a href="javascript:void(0)">引用</a>
               </div>
             </li>
@@ -90,13 +91,11 @@
             </li>
             <li class="last_child">
               <p>
-                <%=link_to show_wanxin_school_class_question_package_path(@school_class,@question_pack),remote:true do%>
-                  <span class="qType_gap">完形</span>
-                <%end%>
-              </p>
+                <span  class="qType_gap" style=" cursor: pointer;" onclick="show_wanxin(<%=  @school_class.id%>,<%=  @question_pack.id%>)">完形</span>
+                </p>
               <i class="arrows"></i>
               <div class="second_menu">
-                <%=link_to '新建',create_wanxin_school_class_question_package_path(@school_class,@question_pack),remote:true%>
+                <a onclick="create_wanxin(<%=  @school_class.id%>,<%=  @question_pack.id%>)">新建</a>
                 <a href="#">引用</a>
               </div>
             </li>
@@ -105,15 +104,16 @@
         </div>
       </div>
       <div class="complete_btn_box">
+        <input type="hidden"  name="school_class_id" id="school_class_id" value="<%=@school_class.id%>"/>
         <input type="hidden"  name="cell_id" id="cell_id" value=""/>
         <input type="hidden"  name="episode_id" id="episode_id" value=""/>
         <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=@question_pack.id%>"/>
         <button>点击确定完成创建</button>
       </div>
-    </div>
   </div>
 </div>
 <script>
+  var gloab_index =-1;
   $(function(){
     $('.select_box').jqTransform();
   });

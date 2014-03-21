@@ -422,7 +422,7 @@ module MethodLibsHelper
       knowledges_card = nil
     else
       card_bag_id = card_bag.id
-      sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options,q.full_text
+      sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options,q.full_text,q.id question_id
 FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id = bq.id LEFT JOIN questions q on
 q.id = bq.question_id where kc.card_bag_id = ?"
       if mistake_types.nil?
@@ -432,6 +432,26 @@ q.id = bq.question_id where kc.card_bag_id = ?"
         sql += mistake_types_sql
         knowledge_cards = KnowledgesCard.find_by_sql([sql,card_bag_id,mistake_types])
       end
+      branch_id = []
+      knowledge = knowledge_cards.group_by{ |knowledge_card| knowledge_card.types }
+      knowledge.each do |types,knowledge_card|
+        if types==Question::TYPES[:LINING] || types==Question::TYPES[:CLOZE]
+          knowledge_card.map(&:question_id).each do |arr_br_id|
+            branch_id << arr_br_id
+          end
+        end
+      end
+      branch_questions = BranchQuestion.where("question_id in (?)",branch_id).select("content,answer,question_id")
+      branch_questions_arr = branch_questions.group_by{|branch_question|branch_question.question_id}
+   
+      knowledge_cards.each do |knowledg|
+        branch_questions_arr.each do |question_id,branch_question|
+          if knowledg.question_id == question_id
+            knowledg.answer = branch_question
+          end
+        end
+      end
+
       cardtag = CardTag.where("card_bag_id = #{card_bag_id}")
       cardtag_kcard_relation = CardTagKnowledgesCardRelation.where("card_tag_id in (?)" ,cardtag.map(&:id)).
         group_by{|cardtag_kcard| cardtag_kcard.knowledges_card_id}
@@ -458,18 +478,38 @@ q.id = bq.question_id where kc.card_bag_id = ?"
     info = {:status => status,:notice => notice,:knowledges_card => knowledges_cards,:tags => cardtag }
   end
 
-#  通过错题类型或者标签名称查询
+  #  通过错题类型或者标签名称查询
   def knowledges_andcards_tolist school_class_id,student_id,name
     cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
     knowledgescard = []
     if cardbag
       cardbag_id = cardbag.id
-      sql = "SELECT DISTINCT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options
+      sql = "SELECT DISTINCT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options,q.id question_id
  from knowledges_cards kc  inner join card_tag_knowledges_card_relations ctkcr on kc.id = ctkcr.knowledges_card_id
 INNER JOIN card_tags ct on ct.id = ctkcr.card_tag_id
 INNER JOIN branch_questions bq on kc.branch_question_id = bq.id
+inner join questions q on  q.id = bq.question_id
 WHERE kc.card_bag_id =? and ct.`name` LIKE ? or kc.your_answer LIKE ? "
       knowledgescard = KnowledgesCard.find_by_sql([sql,cardbag_id,name,name])
+      branch_id = []
+      knowledge = knowledgescard.group_by{ |knowledge_card| knowledge_card.types }
+      knowledge.each do |types,knowledge_card|
+        if types==Question::TYPES[:LINING] || types==Question::TYPES[:CLOZE]
+          knowledge_card.map(&:question_id).each do |arr_br_id|
+            branch_id << arr_br_id
+          end
+        end
+      end
+      branch_questions = BranchQuestion.where("question_id in (?)",branch_id)
+      branch_questions_arr = branch_questions.group_by{|branch_question|branch_question.question_id}
+
+      knowledgescard.each do |knowledg|
+        branch_questions_arr.each do |question_id,branch_question|
+          if knowledg.question_id == question_id
+            knowledg.answer = branch_question.map(&:answer)
+          end
+        end
+      end
       cardtag = CardTag.where("card_bag_id = #{cardbag_id}")
       cardtag_kcard_relation = CardTagKnowledgesCardRelation.where("card_tag_id in (?)" ,cardtag.map(&:id)).
         group_by{|cardtag_kcard| cardtag_kcard.knowledges_card_id}

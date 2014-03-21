@@ -19,14 +19,15 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
-  #新建朗读题
-  def new_reading
-
-  end
-
-  #新建听力题
-  def new_listening
-
+  #新建听力题或朗读题
+  def new_reading_listening_que
+    teacher = Teacher.find_by_id cookies[:teacher_id]
+    @user = teacher.user.name
+    @question = Question
+                  .create(:types => params[:types].to_i,
+                          :question_package_id => params[:que_pack_id].to_i,
+                          :cell_id => params[:cell_id].to_i,
+                          :episode_id => params[:episode_id].to_i)
   end
 
   def new

@@ -103,7 +103,7 @@ HomeworkManage::Application.routes.draw do
             :new_reading, :new_reading
       end
       member do
-        get :new_index
+        get :new_index,:show_wanxin,:create_wanxin,:show_ab_list_box
       end
       resources :questions do
         resources :branch_questions
@@ -127,6 +127,12 @@ HomeworkManage::Application.routes.draw do
   resources :results do
     collection do
       post :show_single_record
+    end
+  end
+
+  resources :questions do
+    collection do
+      get :show_select
     end
   end
 

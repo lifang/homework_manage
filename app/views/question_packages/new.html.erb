@@ -45,13 +45,14 @@
       <div class="assignment_body_list">
         
       </div>
-      <div class="questionTypes">
+    </div>
+    <div class="questionTypes">
         <div class="qType_menu clearAfter">
           <ul>
             <li class="hover"><p><span class="qType_speed">十速挑战</span></p>
               <i class="arrows"></i>
               <div class="second_menu">
-                <a href="/school_classes/<%= @school_class.id %>/question_packages/new_time_limit" data-type="script" data-remote="true">新建</a>        
+                <a href="/school_classes/<%= @school_class.id %>/question_packages/new_time_limit" data-type="script" data-remote="true">新建</a>
                 <a href="javascript:void(0)">引用</a>
               </div>
             </li>
@@ -102,7 +103,6 @@
         <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=@question_pack.id%>"/>
         <button>点击确定完成创建</button>
       </div>
-    </div>
   </div>
 </div>
 <script>

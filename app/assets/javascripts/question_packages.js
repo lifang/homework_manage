@@ -85,21 +85,41 @@ function show_this(){
 
 }
 function show_this(obj,question_id,school_class_id){
-   
+     
     if($(obj).parent().find(".ab_list_box").is(":hidden")){
-        var pp = $(obj).parent().parent().find("div");
-        for(var i=0;i<pp.length;i++){
-            $(pp[i]).find(".ab_list_box").hide();
-            $(pp[i]).removeClass("ab_list_open");
-        }
         $.ajax({
             dataType:"script" ,
             url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/show_ab_list_box"
         });
-        $(obj).parent().find(".ab_list_box").show();
-        $(obj).parent().addClass("ab_list_open");
+        var pp = $(obj).parent().parent().find("div");
+        for(var i=0;i<pp.length;i++){
+            if(pp[i]!=$(obj).parent()){
+            $(pp[i]).find(".ab_list_box").hide();
+            $(pp[i]).removeClass("ab_list_open");
+            }
+        }
+//
+//        $(obj).parent().children(".ab_list_box").show();
+//        $(obj).addClass("ab_list_open");
     }else{
-        $(obj).parent().find(".ab_list_box").hide();
-        $(obj).parent().removeClass("ab_list_open");
+//        $(obj).parent().find(".ab_list_box").hide();
+//        $(obj).removeClass("ab_list_open");
     }
+}
+
+function create_wanxin(school_class_id,question_id){
+    var episode_id = $("#episode_id").val();
+    $.ajax({
+        dataType:"script" ,
+        url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/create_wanxin",
+        data:"episode_id="+episode_id
+    });
+}
+function show_wanxin(school_class_id,question_id){
+    var episode_id = $("#episode_id").val();
+    $.ajax({
+        dataType:"script" ,
+        url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/show_wanxin",
+        data:"episode_id="+episode_id
+    });
 }

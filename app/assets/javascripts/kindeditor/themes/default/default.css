@@ -413,6 +413,16 @@
 	width: 16px;
 	height: 16px;
 }
+.ke-icon-mark {
+	background:0px -1248px;
+	width: 16px;
+	height: 16px;
+}
+.ke-icon-commit {
+	background:0px -1266px;
+	width: 16px;
+	height: 16px;
+}
 /* container */
 .ke-container {
 	display: block;
@@ -439,7 +449,7 @@
 	display: block;
 }
 .ke-toolbar-icon-url {
-	background-image: url(default.png);
+	background-image: url(000.png);
 }
 .ke-toolbar .ke-outline {
 	border: 1px solid #F0F0EE;

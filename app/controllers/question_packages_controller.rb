@@ -19,14 +19,15 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
-  #新建朗读题
-  def new_reading
-
-  end
-
-  #新建听力题
-  def new_listening
-
+  #新建听力题或朗读题
+  def new_reading_listening_que
+    teacher = Teacher.find_by_id cookies[:teacher_id]
+    @user = teacher.user.name
+    @question = Question
+                  .create(:types => params[:types].to_i,
+                          :question_package_id => params[:que_pack_id].to_i,
+                          :cell_id => params[:cell_id].to_i,
+                          :episode_id => params[:episode_id].to_i)
   end
 
   def new
@@ -45,13 +46,21 @@ class QuestionPackagesController < ApplicationController
   end
   #show完形填空
   def show_wanxin
+    episode_id = params[:episode_id]
     @question_packages = QuestionPackage.find_by_id(params[:id])
-    @questions = Question.where("types = ? and question_package_id = ?",Question::TYPES[:CLOZE],@question_packages.id)
-    end
+    @questions = Question.where("types = ? and question_package_id = ? and episode_id = ?",
+      Question::TYPES[:CLOZE],
+      @question_packages.id,
+      episode_id)
+  end
   def create_wanxin
+    episode_id = params[:episode_id]
     @question_packages = QuestionPackage.find_by_id(params[:id])
-    @question = Question.create(types:Question::TYPES[:CLOZE],question_package_id:@question_packages.id)
-    @questions = Question.where("types = ? and question_package_id = ?",Question::TYPES[:CLOZE],@question_packages.id)
+    @question = Question.create(types:Question::TYPES[:CLOZE],question_package_id:@question_packages.id,episode_id:episode_id)
+    @questions = Question.where("types = ? and question_package_id = ? and episode_id = ?",
+      Question::TYPES[:CLOZE],
+      @question_packages.id,
+      episode_id)
   end
   def show_ab_list_box
     

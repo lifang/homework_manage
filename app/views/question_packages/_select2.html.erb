@@ -2,6 +2,7 @@
 
 
 <select name="select2" onchange="no_change(this)">
+  <option value="0">请选择课程</option>
   <%@episodes.each do |episode|%>
     <option value="<%=episode.id%>"><%=episode.name%></option>
   <%end%>

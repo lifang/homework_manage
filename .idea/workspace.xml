@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0372debd-6601-4f84-a7da-5d54ef488adf" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/question_packages/_listening_or_reading_que.html.erb" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/bootstrap-datetimepicker.js" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/bootstrap-datetimepicker.zh-CN.js" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/bootstrap.min.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/publish_question_package.rb" afterPath="$PROJECT_DIR$/app/models/publish_question_package.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/routes.rb" afterPath="$PROJECT_DIR$/config/routes.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -79,7 +75,7 @@
       <file leaf-file-name="publish_question_package.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/publish_question_package.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="25" selection-start="2590" selection-end="2590" vertical-scroll-proportion="0.43448275" vertical-offset="598" max-vertical-offset="6698">
+            <state line="39" column="64" selection-start="2032" selection-end="2032" vertical-scroll-proportion="0.37586206" vertical-offset="445" max-vertical-offset="6698">
               <folding />
             </state>
           </provider>
@@ -111,7 +107,7 @@
       <file leaf-file-name="new.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/question_packages/new.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="73" selection-start="1506" selection-end="1506" vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="425">
+            <state line="42" column="10" selection-start="1432" selection-end="1432" vertical-scroll-proportion="-5.230769" vertical-offset="0" max-vertical-offset="425">
               <folding>
                 <element signature="tag#div#0;tag#div#0;tag#div#0" expanded="false" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -1083,8 +1079,8 @@
     <frame x="49" y="24" width="1317" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.6644951" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.8266254" sideWeight="0.5" order="12" side_tool="false" content_ui="combo" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.6640867" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.628483" sideWeight="0.5" order="12" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.22507553" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.55727553" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1384,7 +1380,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/question_packages/new.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="73" selection-start="1506" selection-end="1506" vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="425">
+        <state line="42" column="10" selection-start="1432" selection-end="1432" vertical-scroll-proportion="-5.230769" vertical-offset="0" max-vertical-offset="425">
           <folding>
             <element signature="tag#div#0;tag#div#0;tag#div#0" expanded="false" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -1463,7 +1459,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/publish_question_package.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="25" selection-start="2590" selection-end="2590" vertical-scroll-proportion="0.43448275" vertical-offset="598" max-vertical-offset="6698">
+        <state line="39" column="64" selection-start="2032" selection-end="2032" vertical-scroll-proportion="0.37586206" vertical-offset="445" max-vertical-offset="6698">
           <folding />
         </state>
       </provider>

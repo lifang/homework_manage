@@ -37,7 +37,7 @@ class PublishQuestionPackage < ActiveRecord::Base
     pub_ids = pub_tasks.present? ? pub_tasks.map(&:id) : []
     que_pack_ids = pub_tasks.present? ? pub_tasks.map(&:que_pack_id) : []
     s_a_rs = StudentAnswerRecord
-      .select("id, answer_file_url")
+      .select("publish_question_package_id id, answer_file_url")
       .where(["publish_question_package_id in (?) and student_id = ?", pub_ids, student_id])
     s_a_rs = s_a_rs.group_by {|s| s.id}
     s_a_r_status = StudentAnswerRecord.get_student_answer_status school_class_id, student_id, pub_ids

@@ -18,9 +18,19 @@ class QuestionPackagesController < ApplicationController
       f.html
     end
   end
-  
+
+  #新建朗读题
+  def new_reading
+
+  end
+
+  #新建听力题
+  def new_listening
+
+  end
+
   def new
-    @question_pack = QuestionPackage.create
+    @question_pack = QuestionPackage.create(:school_class_id => @school_class.id)
     redirect_to "/school_classes/#{@school_class.id}/question_packages/#{@question_pack.id}/new_index"
   end
   def new_index
@@ -35,7 +45,16 @@ class QuestionPackagesController < ApplicationController
   end
   #show完形填空
   def show_wanxin
-
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @questions = Question.where("types = ? and question_package_id = ?",Question::TYPES[:CLOZE],@question_packages.id)
+    end
+  def create_wanxin
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @question = Question.create(types:Question::TYPES[:CLOZE],question_package_id:@question_packages.id)
+    @questions = Question.where("types = ? and question_package_id = ?",Question::TYPES[:CLOZE],@question_packages.id)
+  end
+  def show_ab_list_box
+    
   end
   #新建题包其中第一个答题第三步之后，建题包，建答题
   def create

@@ -63,7 +63,7 @@ class QuestionPackagesController < ApplicationController
       episode_id)
   end
   def show_ab_list_box
-    
+    @question_packages = QuestionPackage.find_by_id(params[:id])
   end
 
   def save_wanxin_content
@@ -73,6 +73,15 @@ class QuestionPackagesController < ApplicationController
       render text:1
     else
       render text:0
+    end
+  end
+
+  def save_wanxin_branch_question
+    branch_question_id = params[:branch_question_id]
+    if branch_question_id==""
+      
+    else
+
     end
   end
 

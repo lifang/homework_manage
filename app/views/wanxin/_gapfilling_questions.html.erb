@@ -1,23 +1,23 @@
-<script>
-    ondblclick(".qt_text p",".qt_text input");
-</script>
-
 <%index=0%>
+
 <div class='gapFilling_questions'>
+  <input type="hidden" class="branch_question_id" value="" />
   <div class='gapFilling_questions_body'>
     <span class='gapFilling_numb'><%=index+=1%></span>
     <div class='gq_article'>
-      <div class='gq_article_title'><div class='qt_text'><p> </p><input name='' type='text'/></div></div>
+      <form class="branch_question_form">
+      <div class='gq_article_title'><div class='qt_text'><p></p><input name='title' type='text'/></div></div>
       <ul>
-        <li><input type='radio' name='radio_<%=index%>'/><div class='qt_text'><p> </p><input name='' type='text' /></div></li>
-        <li><input type='radio' name='radio_<%=index%>'/><div class='qt_text'><p> </p><input name='' type='text'/></div></li>
-        <li><input type='radio' name='radio_<%=index%>'/><div class='qt_text'><p> </p><input name='' type='text'/></div></li>
-        <li><input type='radio' name='radio_<%=index%>'/><div class='qt_text'><p> </p><input name='' type='text'/></div></li>
+        <li><input type='radio' name='radio_<%=index%>' value="1"/><div class='qt_text'><p> </p><input name='option[]' type='text' /></div></li>
+        <li><input type='radio' name='radio_<%=index%>' value="2"/><div class='qt_text'><p> </p><input name='option[]' type='text'/></div></li>
+        <li><input type='radio' name='radio_<%=index%>' value="3"/><div class='qt_text'><p> </p><input name='option[]' type='text'/></div></li>
+        <li><input type='radio' name='radio_<%=index%>' value="4"/><div class='qt_text'><p> </p><input name='option[]' type='text'/></div></li>
       </ul>
+      </form>
     </div>
   </div>
   <div class='qt_icon'>
-    <a href='#' class='save tooltip_html'>保存</a>
+    <a style="cursor: pointer;" onclick="save_wanxin_branch(this,<%=  @school_class.id%>,<%= @question_packages.id%>)" class='save tooltip_html'>保存</a>
     <a href='#' class='tag tooltip_html'>标签</a>
   </div>
   <div class='tag_ul'>
@@ -26,12 +26,15 @@
     </ul>
   </div>
 </div>
+
 <script>
-  $(document).ready(function(){
+  ondblclick(".qt_text p",".qt_text input");
+  function add_style_to_wanxin() {
     $('input[type=checkbox], input[type=radio]').iCheck({
       checkboxClass: 'icheckbox_square-aero',
       radioClass: 'iradio_square-aero',
       increaseArea: '20%' // optional
     });
-  });
+  }
+  add_style_to_wanxin();
 </script>

@@ -104,7 +104,7 @@ HomeworkManage::Application.routes.draw do
       end
       member do
         get :new_index,:show_wanxin,:create_wanxin,
-          :show_ab_list_box,:save_wanxin_content
+          :show_ab_list_box,:save_wanxin_content,:save_wanxin_branch_question
       end
       resources :questions do
         resources :branch_questions

@@ -74,6 +74,7 @@ function add_wanxin_item(obj){
   <div class='tag_ul'><ul></ul></div></div> \n\
 ";
     $(".gapFilling_box").append(html);
+    add_style_to_wanxin();
 
 }
 function show_this(obj,question_id,school_class_id){
@@ -121,5 +122,29 @@ function show_wanxin(school_class_id,question_id){
         dataType:"script" ,
         url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/show_wanxin",
         data:"episode_id="+episode_id
+    });
+}
+
+function save_wanxin_branch(obj,school_class,question_pack){
+    var question_id = $($(obj).parents(".ab_list_open")[0]).find(".questions_id").val();
+    var params = $($(obj).parents(".gapFilling_questions")[0]).find("form").serialize();
+    var branch_question = $($(obj).parents(".gapFilling_questions")[0]).find(".branch_question_form");
+    var texts = branch_question.find("input[type=text]");
+    for(var i=0;i<texts.length;i++){
+        if($.trim($(texts[i]).val())==""){
+            alert("存在选项为空！");
+            return false;
+        }
+    }
+    var radios = branch_question.find("input[type=radio]:checked").length;
+    if(radios == 0){
+        alert("请给出正确答案！");
+        return false;
+    }
+    var branch_question_id = $($(obj).parents(".gapFilling_questions")[0]).find(".branch_question_id").val();
+    $.ajax({
+        dataType:"script" ,
+        url:"/school_classes/"+school_class+"/question_packages/"+question_pack+"/save_wanxin_branch_question",
+        data:"question_id="+question_id+"&branch_question_id="+branch_question_id+"&"+params
     });
 }

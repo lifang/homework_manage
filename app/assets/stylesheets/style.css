@@ -938,6 +938,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     padding: 0 10px;
     font-size: 16px;
     width: 318px;
+    min-height: 36px;
 }
 
 .gq_article li input[type="text"], .gq_article li p {
@@ -946,7 +947,8 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     line-height: 36px;
     padding: 0 10px;
     font-size: 14px;
-    overflow: hidden
+    overflow: hidden;
+    min-height: 36px;
 }
 .gq_article li { overflow: hidden; margin: 10px 0; background: #f0f0f0; padding-left: 10px; font-size: 0;}
 

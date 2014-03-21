@@ -84,12 +84,12 @@
       <file leaf-file-name="students_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="674" column="42" selection-start="28422" selection-end="28422" vertical-scroll-proportion="0.43001688" vertical-offset="2193" max-vertical-offset="4352">
+            <state line="679" column="9" selection-start="28579" selection-end="28579" vertical-scroll-proportion="0.54468805" vertical-offset="2210" max-vertical-offset="4386">
               <folding>
                 <element signature="e#12270#13185#0" expanded="true" />
                 <element signature="e#13199#14178#0" expanded="true" />
                 <element signature="e#14190#15147#0" expanded="true" />
-                <element signature="e#28675#30677#0" expanded="true" />
+                <element signature="e#28694#30696#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1485,12 +1485,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="674" column="42" selection-start="28422" selection-end="28422" vertical-scroll-proportion="0.43001688" vertical-offset="2193" max-vertical-offset="4352">
+        <state line="679" column="9" selection-start="28579" selection-end="28579" vertical-scroll-proportion="0.54468805" vertical-offset="2210" max-vertical-offset="4386">
           <folding>
             <element signature="e#12270#13185#0" expanded="true" />
             <element signature="e#13199#14178#0" expanded="true" />
             <element signature="e#14190#15147#0" expanded="true" />
-            <element signature="e#28675#30677#0" expanded="true" />
+            <element signature="e#28694#30696#0" expanded="true" />
           </folding>
         </state>
       </provider>

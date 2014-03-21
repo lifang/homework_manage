@@ -673,9 +673,11 @@ class Api::StudentsController < ApplicationController
       s_a_r = StudentAnswerRecord
           .find_by_publish_question_package_id_and_student_id(publish_question_package.id,
                                                               student.id)
-      answer_url = s_a_r.answer_file_url if s_a_r.present?
-      status = "success"
-      notice = "获取成功！"
+      if !s_a_r.nil?
+        answer_url = s_a_r.answer_file_url
+        status = "success"
+        notice = "获取成功！"
+      end
     end
     render :json =>  {:status => status, :notice => notice, :answer_url => answer_url}
   end

@@ -91,9 +91,8 @@
             </li>
             <li class="last_child">
               <p>
-                  <span class="qType_gap" onclick="show_wanxin(<%=  @school_class.id%>,<%=  @question_pack.id%>)">完形</span>
+                <span  class="qType_gap" style=" cursor: pointer;" onclick="show_wanxin(<%=  @school_class.id%>,<%=  @question_pack.id%>)">完形</span>
                 </p>
-
               <i class="arrows"></i>
               <div class="second_menu">
                 <a onclick="create_wanxin(<%=  @school_class.id%>,<%=  @question_pack.id%>)">新建</a>
@@ -105,6 +104,7 @@
         </div>
       </div>
       <div class="complete_btn_box">
+        <input type="hidden"  name="school_class_id" id="school_class_id" value="<%=@school_class.id%>"/>
         <input type="hidden"  name="cell_id" id="cell_id" value=""/>
         <input type="hidden"  name="episode_id" id="episode_id" value=""/>
         <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=@question_pack.id%>"/>
@@ -114,6 +114,7 @@
   </div>
 </div>
 <script>
+  var gloab_index =-1;
   $(function(){
     $('.select_box').jqTransform();
   });

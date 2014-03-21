@@ -5,7 +5,7 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/bootstrap-datetimepicker.js" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/bootstrap-datetimepicker.zh-CN.js" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/assets/javascripts/bootstrap.min.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/publish_question_package.rb" afterPath="$PROJECT_DIR$/app/models/publish_question_package.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="homework_manage.iws" />
@@ -72,15 +72,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="publish_question_package.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/models/publish_question_package.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="64" selection-start="2032" selection-end="2032" vertical-scroll-proportion="0.37586206" vertical-offset="445" max-vertical-offset="6698">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="student_answer_record.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/student_answer_record.rb">
           <provider selected="true" editor-type-id="text-editor">
@@ -90,15 +81,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="students_controller.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="students_controller.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="315" column="87" selection-start="14172" selection-end="14172" vertical-scroll-proportion="0.0" vertical-offset="947" max-vertical-offset="4454">
+            <state line="674" column="42" selection-start="28422" selection-end="28422" vertical-scroll-proportion="0.43001688" vertical-offset="2193" max-vertical-offset="4352">
               <folding>
                 <element signature="e#12270#13185#0" expanded="true" />
+                <element signature="e#13199#14178#0" expanded="true" />
                 <element signature="e#14190#15147#0" expanded="true" />
-                <element signature="e#27863#28757#0" expanded="true" />
-                <element signature="e#28771#30773#0" expanded="true" />
+                <element signature="e#28675#30677#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -200,8 +191,8 @@
         <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/app/controllers/question_packages_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/question_packages/_listening_or_reading_que.html.erb" />
-        <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
         <option value="$PROJECT_DIR$/app/models/publish_question_package.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/api/students_controller.rb" />
       </list>
     </option>
   </component>
@@ -352,6 +343,32 @@
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="question_packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -368,6 +385,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homework_manage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1080,7 +1111,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.6640867" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.628483" sideWeight="0.5" order="12" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.7337461" sideWeight="0.5" order="12" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="true" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.22507553" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.55727553" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1428,6 +1459,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/student_answer_record.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="11" selection-start="1103" selection-end="1103" vertical-scroll-proportion="0.0" vertical-offset="189" max-vertical-offset="782">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/publish_question_package.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="24" selection-start="2643" selection-end="2643" vertical-scroll-proportion="0.61551726" vertical-offset="510" max-vertical-offset="6698">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/question_packages/_listening_or_reading_que.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="24" column="72" selection-start="1112" selection-end="1112" vertical-scroll-proportion="-15.692307" vertical-offset="0" max-vertical-offset="867">
@@ -1438,29 +1483,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/student_answer_record.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="11" selection-start="1103" selection-end="1103" vertical-scroll-proportion="0.0" vertical-offset="189" max-vertical-offset="782">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/api/students_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="315" column="87" selection-start="14172" selection-end="14172" vertical-scroll-proportion="0.0" vertical-offset="947" max-vertical-offset="4454">
+        <state line="674" column="42" selection-start="28422" selection-end="28422" vertical-scroll-proportion="0.43001688" vertical-offset="2193" max-vertical-offset="4352">
           <folding>
             <element signature="e#12270#13185#0" expanded="true" />
+            <element signature="e#13199#14178#0" expanded="true" />
             <element signature="e#14190#15147#0" expanded="true" />
-            <element signature="e#27863#28757#0" expanded="true" />
-            <element signature="e#28771#30773#0" expanded="true" />
+            <element signature="e#28675#30677#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/publish_question_package.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="64" selection-start="2032" selection-end="2032" vertical-scroll-proportion="0.37586206" vertical-offset="445" max-vertical-offset="6698">
-          <folding />
         </state>
       </provider>
     </entry>

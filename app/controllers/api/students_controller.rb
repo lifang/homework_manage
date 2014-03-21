@@ -663,27 +663,21 @@ class Api::StudentsController < ApplicationController
   #获取历史答题记录
   def get_answer_history
     student_id = params[:student_id]
-    school_class_id = params[:school_class_id]
-    question_package_id = params[:question_package_id]
+    publish_question_package_id = params[:publish_question_package_id]
     student = Student.find_by_id student_id
-    school_class = SchoolClass.find_by_id school_class_id
-    question_package = QuestionPackage.find_by_id question_package_id
-
+    publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
     status = "error"
-    #读xml存入字符串变量
-    question_packages_xml = ""
-    questions_xml_dir = "#{Rails.root}/public/homework_system/question_packages
-              /question_package_#{question_package.id}/answers/"
-    file_url = "#{questions_xml_dir}student_#{student.id}.xml"
-    File.open(file_url,"r") do |file|
-      file.each do |line|
-        question_packages_xml += line
-      end
+    notice = "获取失败！"
+    answer_url = nil
+    if publish_question_package.present? && student.present?
+      s_a_r = StudentAnswerRecord
+          .find_by_publish_question_package_id_and_student_id(publish_question_package.id,
+                                                              student.id)
+      answer_url = s_a_r.answer_file_url if s_a_r.present?
+      status = "success"
+      notice = "获取成功！"
     end
-    #转换成hash
-    questions_collections = restruct_xml question_packages_xml
-
-    render :json =>  {"status" => status, "questions" => questions_collections}
+    render :json =>  {:status => status, :notice => notice, :answer_url => answer_url}
   end
 
   #完成某个题包

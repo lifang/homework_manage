@@ -18,9 +18,19 @@ class QuestionPackagesController < ApplicationController
       f.html
     end
   end
-  
+
+  #新建朗读题
+  def new_reading
+
+  end
+
+  #新建听力题
+  def new_listening
+
+  end
+
   def new
-    @question_pack = QuestionPackage.create
+    @question_pack = QuestionPackage.create(:school_class_id => @school_class.id)
     redirect_to "/school_classes/#{@school_class.id}/question_packages/#{@question_pack.id}/new_index"
   end
   def new_index

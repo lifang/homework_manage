@@ -58,14 +58,15 @@
             <li><p><span class="qType_write">听写</span></p>
               <i class="arrows"></i>
               <div class="second_menu">
-                <a href="#">新建</a>
+                <a href="javascript:void(0)" onclick="add_l_r_question(0, <%= params[:school_class_id]  %>)">新建</a>
                 <a href="#">引用</a>
               </div>
             </li>
             <li><p><span class="qType_read">朗读</span></p>
               <i class="arrows"></i>
               <div class="second_menu">
-                <a href="#">新建</a><a href="#">引用</a>
+                <a href="javascript:void(0)" onclick="add_l_r_question(1, <%= params[:school_class_id]  %>)">新建</a>
+                <a href="#">引用</a>
               </div>
             </li>
             <li><p><span class="qType_choose">选择</span></p>

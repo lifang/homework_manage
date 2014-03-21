@@ -32,6 +32,37 @@ function no_change(obj){
     }
 }
 
+//添加听力或朗读题
+function add_l_r_question(type, school_class_id )
+{
+    if($("#question_list_"+type+"").length > 0){}
+    else
+    {
+//        var div_questions_body = "<div class='assignment_body' id='question_list_"+type+"'> </div>";
+//        $("#question_list").after(div_questions_body);
+    }
+    var question_package_id = $("#question_package_id").val();
+    var cell_id = $("#cell_id").val();
+    var episode_id = $("#episode_id").val();
+    if(type == 0)
+        var url = "/school_classes/"+school_class_id+"/question_packages/new_listening";
+    else if(type == 1)
+        var url = "/school_classes/"+school_class_id+"/question_packages/new_reading";
+    $.ajax({
+        type: "get",
+        dataType: "script",
+        url: url,
+        data: {
+            type : type,
+            question_package_id : question_package_id,
+            episode_id : episode_id,
+            cell_id : cell_id
+        },
+        success: function(data){
+        }
+    });
+}
+
 
 //选择T或者F时改变样式
 function change_true_or_false(obj){

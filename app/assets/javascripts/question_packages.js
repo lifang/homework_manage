@@ -35,11 +35,15 @@ function no_change(obj){
 //添加听力或朗读题
 function add_l_r_question(type, school_class_id )
 {
-    if($("#question_list_"+type+"").length > 0){}
+
+    if($("#question_list_"+type+"").length > 0)
+    {
+        alert($("#question_list_"+type+"").parents().last().index());
+    }
     else
     {
-//        var div_questions_body = "<div class='assignment_body' id='question_list_"+type+"'> </div>";
-//        $("#question_list").after(div_questions_body);
+        var div_questions_body = "<div class='assignment_body' id='question_list_"+type+"'> </div>";
+        $("#question_list").after(div_questions_body);
     }
     var question_package_id = $("#question_package_id").val();
     var cell_id = $("#cell_id").val();

@@ -32,13 +32,6 @@ function no_change(obj){
     }
 }
 
-
-//选择T或者F时改变样式
-function change_true_or_false(obj){
-    $(obj).parents("ul").find("a").removeAttr("class");
-    $(obj).attr("class", "true");
-}
-
 function add_wanxin_item(obj){
      
     var parent_ab_list_box = $(obj).parents(".ab_list_box")[0];

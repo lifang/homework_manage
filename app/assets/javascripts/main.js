@@ -97,10 +97,14 @@ $(function(){
         return false;
     });
     $(document).bind('click', function (e) {
-        if ( $(e.target).closest(".tag_tab").length>0 ) {
+        if ( $(e.target).closest(".tag_tab").length>0 || $(e.target).closest("a.tag_1").length>0) {
             $(".tag_tab").css('display','block');
         }else{
             $(".tag_tab").css('display','none');
+            var checks = $(".tag_tab").find("input[type='checkbox']");
+            $.each(checks,function(){
+                $(this).removeAttr("checked");
+            })
         }
     });
 })
@@ -122,29 +126,6 @@ $(function(){
     });
 })
 
-//作业题面 标签
-$(function(){
-    $(".qt_icon a.tag").click(function(e){
-        $(".tag_tab").css('display','block');
-        $(".tag_tab").css({
-            'top':(e.pageY+30)+'px',
-            'left':(e.pageX-192)+'px'
-        });
-        return false;
-    });
-
-    $(document).bind('click', function (e) {
-
-        if ( $(e.target).closest(".tag_tab").length>0 ) {
-            $(".tag_tab").css('display','block');
-        }else{
-            $(".tag_tab").css('display','none');
-        }
-
-    });
-
-
-})
 
 // 个人信息 鼠标点击别处隐藏tab
 $(function(){
@@ -197,7 +178,8 @@ $(function(){
     tabFunc(".switchoverClass a",".tab");
     tabFunc("a.student_btn_a",".tab");
     tabFunc("a.time_icon",".tab");
-    tabFunc("a.clock_icon",".tab");
+    tabFunc("#time_limit_clock_icon","#time_limit_set_time");
+
 })
 
 //页面弹出层高度

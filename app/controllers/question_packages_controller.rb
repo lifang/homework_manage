@@ -184,11 +184,43 @@ class QuestionPackagesController < ApplicationController
   #新建十速挑战
   def new_time_limit
     @b_tags = get_branch_tags(cookies[:teacher_id])
+    teacher = Teacher.find_by_id(cookies[:teacher_id])
+    user = User.find_by_id(teacher.user_id) if teacher && teacher.user_id
+    @user_name = user.name if user
     respond_to do |f|
       f.js
     end
   end
 
+  #检查该题包下是否已经有十速挑战
+  def check_time_limit
+    status = 1
+    q_p_id = params[:q_p_id].to_i
+    question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT], q_p_id)
+    time_limit_len = BranchQuestion.where(["question_id=?", question.id]).length if question
+    if time_limit_len && time_limit_len > 0
+      status = 0
+    end
+    render :json => {:status => status}
+  end
+
+  #创建十速挑战
+  def create_time_limit
+    BranchQuestion.transaction do
+      time_limit = params[:time_limit]
+      q_p_id = params[:question_package_id]
+      cell_id = params[:cell_id]
+      espisode_id = params[:espisode_id]
+      question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT], q_p_id)
+      if question.nil?
+        question = Question.new(:types => Question::TYPES[:TIME_LIMIT], :cell_id => cell_id, :episode_id => espisode_id)
+        question
+      end
+      time_limit.each do |k, v|
+        
+      end
+    end
+  end
   private
   #获取单元以及对于的课程
   def get_cells_and_episodes

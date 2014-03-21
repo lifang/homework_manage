@@ -745,6 +745,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 .ab_func li a.save_icon { background: url(/assets/icon06.png) no-repeat 0 -50px; display: none;}
 .ab_func li a.share_icon { background: url(/assets/icon06.png) no-repeat 0 -75px;}
 .ab_func li a.delete_icon { background: url(/assets/icon06.png) no-repeat 0 -125px;}
+.ab_func li a.time_limit_clock_icon { background: url(/assets/icon06.png) no-repeat 0 0;}
 
 .ab_func_disabled li i.clock_icon { background: url(/assets/icon06.png) no-repeat 0 -223px;}
 .ab_func_disabled li i.save_icon { background: url(/assets/icon06.png) no-repeat 0 -248px;}
@@ -785,6 +786,9 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     overflow: hidden;
 }
 .qt_icon a.tag {
+    background: url(/assets/icon07.png) no-repeat 0 0;
+}
+.qt_icon a.tag_1 {
     background: url(/assets/icon07.png) no-repeat 0 0;
 }
 .qt_icon a.delete {

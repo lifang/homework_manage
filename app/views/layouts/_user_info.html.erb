@@ -54,10 +54,10 @@
 <%= form_for :teachers, :url => {:action => :upload_avatar,:controller => :teachers},:html => {:multipart => true,:method => :post},:remote => true, "data-type" => "script" do|f|  %>
 
     <div class="tab_user_left">
-      <div class="avater_default"><img src=<%=  @user.avatar_url%>/></div>
+      <div class="avater_default"><img src='<%=  @user.avatar_url%>' width="90px"/></div>
       <a href="javascript:void(0);" class="avater_a">
         <span>确定</span>
-        <input name="file_upload" id="file_uploads"type="file" onchange="upload_avatar(this,<%= @school_class.id %>)"/>
+        <input  name="file_upload" id="file_uploads"type="file" onchange="upload_avatar(this,<%= @school_class.id %>)"/>
       </a>
       <p>注：图片大小限定在1M以内</p>
 

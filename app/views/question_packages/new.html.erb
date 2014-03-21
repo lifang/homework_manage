@@ -1,14 +1,16 @@
 <script charset="utf-8" src="/assets/kindeditor/kindeditor.js"></script>
 <script charset="utf-8" src="/assets/kindeditor/lang/zh_CN.js"></script>
 <script>
-   function full_text(){
+  function full_text(){
     KindEditor.ready(function(K) {
       window.editor = K.create('.wanxin_content', {
         width : '370px',
         minWidth : '370px',
         items : ['source',
           'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-          'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist'],
+          'removeformat', '|',
+          'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+          '|','mark','commit'],
         afterCreate : function() {
           this.sync();
         },
@@ -18,7 +20,7 @@
       });
     });
   }
- full_text();
+  full_text();
 </script>
 <div class="main">
   <div class="assignment">
@@ -43,7 +45,7 @@
     </div>
     <div class="assignment_body" id="question_list" style="display:none;" >
       <div class="assignment_body_list">
-        
+
       </div>
     </div>
     <div class="questionTypes">
@@ -59,7 +61,8 @@
             <li><p><span class="qType_write">听写</span></p>
               <i class="arrows"></i>
               <div class="second_menu">
-                <a href="#">新建</a><a href="#">引用</a>
+                <a href="#">新建</a>
+                <a href="#">引用</a>
               </div>
             </li>
             <li><p><span class="qType_read">朗读</span></p>
@@ -71,7 +74,8 @@
             <li><p><span class="qType_choose">选择</span></p>
               <i class="arrows"></i>
               <div class="second_menu">
-                <a href="#">新建</a><a href="#">引用</a>
+                <%= link_to "新建", "/questions/show_select", :class => "qtype_choose" ,remote:true %>
+                <a href="#">引用</a>
               </div>
             </li>
             <li><p><span class="qType_ligature">连线</span></p>
@@ -86,10 +90,13 @@
                 <a href="#">新建</a><a href="#">引用</a>
               </div>
             </li>
-            <li class="last_child"><p><span class="qType_gap">完形</span></p>
+            <li class="last_child">
+              <p>
+                <span  class="qType_gap" style=" cursor: pointer;" onclick="show_wanxin(<%=  @school_class.id%>,<%=  @question_pack.id%>)">完形</span>
+                </p>
               <i class="arrows"></i>
               <div class="second_menu">
-                <%=link_to '新建',show_wanxin_school_class_question_packages_path(@shool_class),remote:true%>
+                <a onclick="create_wanxin(<%=  @school_class.id%>,<%=  @question_pack.id%>)">新建</a>
                 <a href="#">引用</a>
               </div>
             </li>
@@ -98,6 +105,7 @@
         </div>
       </div>
       <div class="complete_btn_box">
+        <input type="hidden"  name="school_class_id" id="school_class_id" value="<%=@school_class.id%>"/>
         <input type="hidden"  name="cell_id" id="cell_id" value=""/>
         <input type="hidden"  name="episode_id" id="episode_id" value=""/>
         <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=@question_pack.id%>"/>
@@ -106,6 +114,7 @@
   </div>
 </div>
 <script>
+  var gloab_index =-1;
   $(function(){
     $('.select_box').jqTransform();
   });

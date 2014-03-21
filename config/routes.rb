@@ -99,11 +99,13 @@ HomeworkManage::Application.routes.draw do
 
     resources :question_packages do
       collection do
-        get :setting_episodes, :new_time_limit,:show_wanxin, :check_time_limit
+        get :setting_episodes, :new_time_limit,:show_wanxin, :check_time_limit,
+          :new_reading_listening_que
         post :create_time_limit
       end
       member do
-        get :new_index
+        get :new_index,:show_wanxin,:create_wanxin,
+          :show_ab_list_box,:save_wanxin_content
       end
       resources :questions do
         resources :branch_questions
@@ -127,6 +129,13 @@ HomeworkManage::Application.routes.draw do
   resources :results do
     collection do
       post :show_single_record
+    end
+  end
+
+  resources :questions do
+    collection do
+      get :show_select
+      post :save_select
     end
   end
 

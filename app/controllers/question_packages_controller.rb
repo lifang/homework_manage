@@ -18,9 +18,20 @@ class QuestionPackagesController < ApplicationController
       f.html
     end
   end
-  
+
+  #新建听力题或朗读题
+  def new_reading_listening_que
+    teacher = Teacher.find_by_id cookies[:teacher_id]
+    @user = teacher.user.name
+    @question = Question
+                  .create(:types => params[:types].to_i,
+                          :question_package_id => params[:que_pack_id].to_i,
+                          :cell_id => params[:cell_id].to_i,
+                          :episode_id => params[:episode_id].to_i)
+  end
+
   def new
-    @question_pack = QuestionPackage.create
+    @question_pack = QuestionPackage.create(:school_class_id => @school_class.id)
     redirect_to "/school_classes/#{@school_class.id}/question_packages/#{@question_pack.id}/new_index"
   end
   def new_index
@@ -35,8 +46,36 @@ class QuestionPackagesController < ApplicationController
   end
   #show完形填空
   def show_wanxin
-
+    episode_id = params[:episode_id]
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @questions = Question.where("types = ? and question_package_id = ? and episode_id = ?",
+      Question::TYPES[:CLOZE],
+      @question_packages.id,
+      episode_id)
   end
+  def create_wanxin
+    episode_id = params[:episode_id]
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @question = Question.create(types:Question::TYPES[:CLOZE],question_package_id:@question_packages.id,episode_id:episode_id)
+    @questions = Question.where("types = ? and question_package_id = ? and episode_id = ?",
+      Question::TYPES[:CLOZE],
+      @question_packages.id,
+      episode_id)
+  end
+  def show_ab_list_box
+    
+  end
+
+  def save_wanxin_content
+    content = params[:content]
+    @question = Question.find_by_id(params[:id])
+    if @question.update_attribute(:content, content)
+      render text:1
+    else
+      render text:0
+    end
+  end
+
   #新建题包其中第一个答题第三步之后，建题包，建答题
   def create
     question_type, new_or_refer, cell_id, episode_id, question_pack_id = params[:question_type].to_i, params[:new_or_refer], params[:cell_id], params[:episode_id], params[:question_pack_id]

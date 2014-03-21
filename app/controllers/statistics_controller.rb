@@ -1,8 +1,6 @@
 #encoding: utf-8
 include StatisticsHelper
 class StatisticsController < ApplicationController
-  #layout "tapplication"
-
   before_filter :sign?, :get_unread_messes
   before_filter :get_school_class
   #完成率及正确率统计

@@ -18,9 +18,20 @@ class QuestionPackagesController < ApplicationController
       f.html
     end
   end
-  
+
+  #新建听力题或朗读题
+  def new_reading_listening_que
+    teacher = Teacher.find_by_id cookies[:teacher_id]
+    @user = teacher.user.name
+    @question = Question
+                  .create(:types => params[:types].to_i,
+                          :question_package_id => params[:que_pack_id].to_i,
+                          :cell_id => params[:cell_id].to_i,
+                          :episode_id => params[:episode_id].to_i)
+  end
+
   def new
-    @question_pack = QuestionPackage.create
+    @question_pack = QuestionPackage.create(:school_class_id => @school_class.id)
     redirect_to "/school_classes/#{@school_class.id}/question_packages/#{@question_pack.id}/new_index"
   end
   def new_index

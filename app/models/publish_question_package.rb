@@ -36,8 +36,12 @@ class PublishQuestionPackage < ActiveRecord::Base
     pub_tasks = pub_tasks[1..pub_tasks.length-1] if order_name.nil? && date.nil?
     pub_ids = pub_tasks.present? ? pub_tasks.map(&:id) : []
     que_pack_ids = pub_tasks.present? ? pub_tasks.map(&:que_pack_id) : []
-    student_answer_records = StudentAnswerRecord.get_student_answer_status school_class_id, student_id, pub_ids
-    student_answer_records = student_answer_records.group_by { |sar| sar.pub_id }
+    s_a_rs = StudentAnswerRecord
+      .select("publish_question_package_id id, answer_file_url")
+      .where(["publish_question_package_id in (?) and student_id = ?", pub_ids, student_id])
+    s_a_rs = s_a_rs.group_by {|s| s.id}
+    s_a_r_status = StudentAnswerRecord.get_student_answer_status school_class_id, student_id, pub_ids
+    s_a_r_status = s_a_r_status.group_by { |sar| sar.pub_id }
     que_packs_types = QuestionPackage.get_all_packs_que_types school_class_id, que_pack_ids
     que_packs_types = que_packs_types.group_by { |q| q.id }
     tasks = []
@@ -45,14 +49,18 @@ class PublishQuestionPackage < ActiveRecord::Base
       pub_tasks.each_with_index do |task|
         question_types = []
         finish_types = []
+        answer_url = nil
         if !que_packs_types[task.que_pack_id].nil?
           question_types = que_packs_types[task.que_pack_id].map(&:types)
         end
-        if !student_answer_records[task.id].nil?
-          finish_types = student_answer_records[task.id].map(&:types)
+        if !s_a_r_status[task.id].nil?
+          finish_types = s_a_r_status[task.id].map(&:types)
+        end
+        if !s_a_rs[task.id].nil?
+          answer_url = s_a_rs[task.id][0][:answer_file_url]
         end
         tasks << {:id => task.id, :name => task.name, :start_time => task.start_time,
-                  :question_types => question_types, :finish_types => finish_types,
+                  :question_types => question_types, :finish_types => finish_types, :answer_url => answer_url,
                   :end_time => task.end_time, :question_packages_url => task.question_packages_url
         }
       end

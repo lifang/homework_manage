@@ -12,7 +12,7 @@
     </thead>
     <tbody>
     <% if @publish_question_packages.blank? %>
-        <p  style="padding-top: 20px;">暂无作业包</p>
+        <tr><td colspan="6" style="text-align: center">暂无作业包</td></tr>
     <% else %>
         <% @publish_question_packages.each do |p| %>
             <% if p.publish_question_package_id.nil?  %>

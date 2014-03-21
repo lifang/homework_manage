@@ -133,6 +133,7 @@ HomeworkManage::Application.routes.draw do
   resources :questions do
     collection do
       get :show_select
+      post :save_select
     end
   end
 

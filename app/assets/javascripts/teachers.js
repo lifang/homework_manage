@@ -179,3 +179,8 @@ function height_tab(){
     var layer_width = $(".tab").width();
     $(".tab").css('left',(doc_width-layer_width)/2);
 }
+
+
+function onclick_submit(obj){
+    $(".submit_sava").click();
+}

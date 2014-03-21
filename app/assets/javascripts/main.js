@@ -331,19 +331,19 @@ $(function(){
 
 //题面 双击修改
 function ondblclick(a,b){
-    $(a).dblclick(function(){
+    $("body").on('dblclick',a,function(){
         $(this).css("display","none");
         $(this).parent().find("input").css("display","inline-block");
         $(this).parent().find("input").focus();
         $(this).parent().find("input").val($(this).html());
-    });
-    $(b).blur(function(){
+    })
+    $("body").on('blur',b,function(){
         $(this).css("display","none");
         $(this).parent().find("p").css("display","inline-block");
         $(this).parent().find("p").html($(this).val());
         $(this).attr("value",$(this).val());
     //alert($(this).val());
-    });
+    })
 }
 $(function(){
     ondblclick(".qt_text p",".qt_text input");
@@ -960,25 +960,25 @@ function load(complete_rate, correct_rate){
         var cv1 = [100-complete_rate, complete_rate]
         var cv2 = [100-correct_rate, correct_rate]
         var cv01Data = [
-            {
-                value : cv1[0],
-                color : "#41a9cf"
-            },
-            {
-                value : cv1[1],
-                color : "#fff"
-            }
+        {
+            value : cv1[0],
+            color : "#41a9cf"
+        },
+        {
+            value : cv1[1],
+            color : "#fff"
+        }
 
         ];
         var cv02Data = [
-            {
-                value : cv2[0],
-                color : "#5fd3d3"
-            },
-            {
-                value : cv2[1],
-                color : "#fff"
-            }
+        {
+            value : cv2[0],
+            color : "#5fd3d3"
+        },
+        {
+            value : cv2[1],
+            color : "#fff"
+        }
 
         ];
 

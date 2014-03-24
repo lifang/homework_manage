@@ -58,18 +58,77 @@ function add_l_r_question(type, school_class_id )
     });
 }
 
+
 //选择上传音频文件
 function select_audio(obj)
 {   
     $(obj).next().find("[class='file']").click();
-
 }
 
-//
-function ob_listeng_or_reading(obj, school_class_id)
+//听力和朗读上传音频文件
+function check_audio(obj, types, school_class_id)
 {
     var question_package_id = $("#question_package_id").val();
     var cell_id = $("#cell_id").val();
+    var episode_id = $("#episode_id").val();
+    var question_id = $(obj).parent().parent().parent().parent().parent().parent().parent().parent().prev().find("[class='question_id']").val();
+    var types = $(obj).parent().parent().parent().parent().parent().parent().parent().parent().prev().find("[class='question_types']").val();
+    var q_index = $(obj).parent().parent().parent().parent().parent().parent().parent().parent().parent().index();
+    var b_index = $(obj).parent().parent().parent().parent().parent().parent().index();
+    var value = $.trim($(obj).val());  
+    alert(school_class_id);
+    if(types == 0) //听写
+    {
+        var url =  "/school_classes/"+school_class_id+"/question_packages/save_listening";
+            $.ajax({
+                type: "post",
+                dataType: "script",
+                url: url,
+                data: {
+                    q_index : q_index,
+                    b_index : b_index,
+                    types : types,
+                    content : value,
+                    question_id : question_id,
+                    question_package_id : question_package_id,
+                    episode_id : episode_id,
+                    cell_id : cell_id
+                },
+                success: function(data){
+                }
+            }); 
+    }
+    else if(types == 1)  // 朗读
+    {
+         var url =  "/school_classes/"+school_class_id+"/question_packages/save_reading";
+            $.ajax({
+                type: "post",
+                dataType: "script",
+                url: url,
+                data: {
+                    q_index : q_index,
+                    b_index : b_index,
+                    types : types,
+                    content : value,
+                    question_id : question_id,
+                    question_package_id : question_package_id,
+                    episode_id : episode_id,
+                    cell_id : cell_id
+                },
+                success: function(data){
+                }
+            });
+    }
+}
+
+//听力和朗读的onblur事件
+function ob_listeng_or_reading(obj, school_class_id)
+{
+    var question_package_id = $("#question_package_id").val();
+    var question_id = $(obj).parent().parent().parent().parent().parent().parent().parent().prev().find("[class='question_id']").val();
+    var cell_id = $("#cell_id").val();
+    var q_index = $(obj).parent().parent().parent().parent().parent().parent().parent().parent().index();
+    var b_index = $(obj).parent().parent().parent().parent().parent().index();
     var episode_id = $("#episode_id").val();
     var types = $(obj).parent().parent().parent().parent().parent().parent().parent().prev().find("[class='question_types']").val();
     var value = $.trim($(obj).val());
@@ -91,13 +150,16 @@ function ob_listeng_or_reading(obj, school_class_id)
                 dataType: "script",
                 url: url,
                 data: {
+                    q_index : q_index,
+                    b_index : b_index,
                     types : types,
+                    content : value,
+                    question_id : question_id,
                     question_package_id : question_package_id,
                     episode_id : episode_id,
                     cell_id : cell_id
                 },
                 success: function(data){
-                    alert(data);
                 }
             });
         }

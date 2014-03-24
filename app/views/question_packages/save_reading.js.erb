@@ -1,1 +1,6 @@
-alert(2222);
+<% if @status == true %>
+$("div.assignment_body_list:eq("+<%= @q_index %>+")").find("div.questions_item:eq("+ <%= @b_index %> +")").find("[class='branch_iq']").val(<%= @branch_question.id %>);
+$("div.assignment_body_list:eq("+<%= @q_index %>+")").find("[class='ab_article']").append("<%=j(render 'l_r_branch_que', {:types=> @types} )%>");
+<% end%>
+
+tishi("<%= @notice %>");

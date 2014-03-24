@@ -44,7 +44,7 @@
       </div>
     </div>
     <div class="assignment_body" id="question_list" style="display:none;" >
-
+      <%=  render :partial => 'question_packages/questions_list' %>
     </div>
     <div class="questionTypes" style="display:none;">
 
@@ -53,7 +53,7 @@
           <li class="hover"><p><span class="qType_speed">十速挑战</span></p>
             <i class="arrows"></i>
             <div class="second_menu">
-              <a href="/school_classes/<%= @school_class.id %>/question_packages/new_time_limit" data-type="script" data-remote="true">新建</a>
+              <a href="javascript:void(0)" onclick="new_time_limit(<%= @school_class.id %>)">新建</a>
               <a href="javascript:void(0)">引用</a>
             </div>
           </li>
@@ -71,9 +71,6 @@
               <a href="#">引用</a>
             </div>
           </li>
-
-          
-
           <li><p><a href="/school_classes/<%= params[:school_class_id].to_i %>/question_packages/<%= @question_pack.id %>/questions/question_selects_all?types=3&question_package_id=<%= @question_pack.id %>" data-remote="true">
                 <span class="qType_choose">选择</span></a></p>
             <i class="arrows"></i>
@@ -93,7 +90,8 @@
           <li><p><span class="qType_sort">排序</span></p>
             <i class="arrows"></i>
             <div class="second_menu">
-              <a href="#">新建</a><a href="#">引用</a>
+              <a onclick="create_paixu(<%=  @school_class.id%>,<%=  @question_pack.id%>)">新建</a>
+              <a href="#">引用</a>
             </div>
           </li>
           <li class="last_child">
@@ -107,7 +105,6 @@
             </div>
           </li>
         </ul>
-
       </div>
     </div>
     <div class="complete_btn_box" style="display:none;">

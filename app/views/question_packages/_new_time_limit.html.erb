@@ -1,39 +1,70 @@
 <%= form_tag "/school_classes/#{@school_class.id}/question_packages/create_time_limit", :method => :post, :id => "create_time_limit_form", :remote => true do %>
   <div class="ab_list_title" id="time_limt_ab_list_title">
-    <h1 id="edit_time_limit_name" style="cursor: pointer;">未命名</h1>
-    <input type="text" name="time_limit_name" id="time_limit_name" style="display:none;"/>
-    <p>十速挑战/ <%= @user_name %>/ <%= Time.now.strftime("%Y-%m-%d") %>/ <span id="cankaoshijian">参考时间：未指定</span></p>
-    <input type="hidden" name="create_time_limit_hour" id="create_time_limit_hour"/>
-    <input type="hidden" name="create_time_limit_minute" id="create_time_limit_minute"/>
-    <input type="hidden" name="create_time_limit_second" id="create_time_limit_second"/>
+    <h1 id="time_limit_name"><%= @time_limit_que_name.nil? ? "未命名" : @time_limit_que_name %></h1>
+    <p>十速挑战/ <%= @time_limit_user_name %>/ <%= @time_limit_que_time.nil? ? Time.now.strftime("%Y-%m-%d") : @time_limit_que_time %>/ <span id="cankaoshijian">参考时间：未指定</span></p>
+    <input type="hidden" name="create_time_limit_hour" id="create_time_limit_hour" value=""/>
+    <input type="hidden" name="create_time_limit_minute" id="create_time_limit_minute" value=""/>
+    <input type="hidden" name="create_time_limit_second" id="create_time_limit_second" value=""/>
     <ul class="ab_func">
-      <li><a href="javascript:void(0)" class="clock_icon tooltip_html" title="设定时间" id="time_limit_clock_icon">设定时间</a></li>
+      <li><a href="javascript:void(0)" class="clock_icon tooltip_html" title="设定时间" id="time_limit_clock_icon">指定时间</a></li>
       <li><a href="javascript:void(0)" class="save_icon tooltip_html" title="保存">保存</a></li>
-      <li><a href="javascript:void(0)" class="share_icon tooltip_html">分享</a></li>
-      <li><a href="javascript:void(0)" class="delete_icon tooltip_html">删除</a></li>
+      <li><a href="javascript:void(0)" class="share_icon tooltip_html" id="new_time_limit_share" title="分享">分享</a></li>
+      <li><a href="javascript:void(0)" class="delete_icon tooltip_html" title="删除">删除</a></li>
     </ul>
   </div>
   <div class="ab_list_box" style="display: none;">
     <div class="ab_article" id="time_limit_ab_article">
-      <% 10.times do |t| %>
-        <div class="questions_item" id="time_limit_item_<%= t %>">
-          <div class="q_topic">
-            <div class="speedQuestions">
+      <% if @time_limit_branch_que && @time_limit_branch_que.length == 10 %>
+        <% @time_limit_branch_que.each do |bq| %>
+          <div class="questions_item" id="time_limit_item_<%= bq.id %>">
+            <div class="q_topic">
+              <div class="speedQuestions">
+                <ul>
+                  <li><a href="javascript:void(0)" onclick="change_true_or_false(this)" <% if bq.answer=="true" %>class="true"<% end %>>T</a></li>
+                  <li class="qt_input">
+                    <input name="[time_limit][<%= bq.id %>][content]" type="text" value="<%= bq.content %>"/></li>
+                  <li><a href="javascript:void(0)" onclick="change_true_or_false(this)" <% if bq.answer=="false" %>class="true"<% end %>>F</a></li>
+                  <input type="hidden" name="[time_limit][<%= bq.id %>][answer]" aid="ddd" value="<%= bq.answer=="true" ? "true" : "false" %>"/>
+                </ul>
+              </div>
+            </div>
+            <div class="qt_icon"><a href="javascript:void(0)" class="tag_1 tooltip_html" onclick="add_b_tags(this, <%= bq.id %>)">标签</a></div>
+            <div class="tag_ul">
               <ul>
-                <li><a href="javascript:void(0)" onclick="change_true_or_false(this)">T</a></li>
-                <li class="qt_input">
-                  <input name="[time_limit][<%= t %>][content]" type="text"/></li>
-                <li><a href="javascript:void(0)" onclick="change_true_or_false(this)">F</a></li>
-                <input type="hidden" name="[time_limit][<%= t %>][answer]" aid="ddd"/>
+                <% @time_limit_tags.each do |t| %>
+                  <% if t.bq_id == bq.id %>
+                    <li>
+                      <p><%= t.name %></p>
+                      <a href="javascript:void(0)" class="x" onclick="remove_tags_from_time_limit(this)">x</a>
+                      <input type="hidden" name="[time_limit][<%= bq.id %>][tags][]" value="<%= t.bt_id %>"/>
+                    </li>
+                  <% end %>
+                <% end if @time_limit_tags %>
               </ul>
             </div>
           </div>
-          <div class="qt_icon"><a href="javascript:void(0)" class="tag_1 tooltip_html" onclick="add_b_tags(this, <%= t %>)">标签</a></div>
-          <div class="tag_ul">
-            <ul>
-            </ul>
+        <% end %>
+      <% else %>
+        <% 10.times do |t| %>
+          <div class="questions_item" id="time_limit_item_<%= t %>">
+            <div class="q_topic">
+              <div class="speedQuestions">
+                <ul>
+                  <li><a href="javascript:void(0)" onclick="change_true_or_false(this)">T</a></li>
+                  <li class="qt_input">
+                    <input name="[time_limit][<%= t %>][content]" type="text"/></li>
+                  <li><a href="javascript:void(0)" onclick="change_true_or_false(this)">F</a></li>
+                  <input type="hidden" name="[time_limit][<%= t %>][answer]" aid="ddd"/>
+                </ul>
+              </div>
+            </div>
+            <div class="qt_icon"><a href="javascript:void(0)" class="tag_1 tooltip_html" onclick="add_b_tags(this, <%= t %>)">标签</a></div>
+            <div class="tag_ul">
+              <ul>
+              </ul>
+            </div>
           </div>
-        </div>
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -43,29 +74,29 @@
 <div class="tag_tab" id="tags_table">
   <span class="arrows">A</span>
   <div class="search">
-    <input name="" type="text"/></div>
+    <input type="text" oninput="search_b_tags(this, <%= @school_class.id  %>)"/></div>
   <ul>
     <% @b_tags.each do |bt| %>
       <li><input type="checkbox" value="<%= bt.id %>" onclick="add_tags_to_time_limit(this,'<%= bt.id %>', '<%= bt.name %>')"/><p><%= bt.name %></p></li>
     <% end %>
-    <input type="hidden" value=""/>
   </ul>
-  <a href="#">新建“一般”</a>
+  <input type="hidden" value=""/>
+  <a href="javascript:void(0)" onclick="add_b_tag(this, <%= @school_class.id  %>)"></a>
 </div>
-
-
 <script>
-  //保存小题验证
   $(function(){
+    //保存小题验证
     $("#time_limt_ab_list_title").on("click", ".save_icon", function(){
       var flag = true;
       var q_items = $("#time_limit_ab_article").find("div.questions_item");
-      //var time_limit_name = $.trim($("#time_limit_name").val());
-      //if(time_limit_name=="" || time_limit_name=="未命名"){
-      //  flag = false;
-       // tishi("请输入该十速挑战的名称!");
-      //  return false;
-      //}
+      var hour = $("#create_time_limit_hour").val();
+      var minute = $("#create_time_limit_minute").val();
+      var second = $("#create_time_limit_second").val();
+      if((hour=="" || hour=="时") && (minute=="" || minute=="分") && (second=="" || second=="秒")){
+        flag = false;
+        tishi("尚未指定时间");
+        return false;
+      };
       $.each(q_items, function(){
         var id = $(this).attr("id").split("_")[3];
         var txt = $.trim($(this).find(".speedQuestions ul input[type='text']").first().val());
@@ -81,11 +112,11 @@
         }
       });
       if(flag){
-        var school_class_id = <%= @school_class.id %>
+        var school_class_id = <%= @school_class.id %>;
         var q_p_id = $("#question_package_id").val();
         var cell_id = $("#cell_id").val();
-        var espisode_id = $("#episode_id").val();
-        if(q_p_id=="" || q_p_id==undefined || school_class_id=="" || school_class_id==undefined || cell_id=="" || cell_id==undefined || espisode_id=="" || espisode_id==undefined){
+        var episode_id = $("#episode_id").val();
+        if(q_p_id=="" || q_p_id==undefined || school_class_id=="" || school_class_id==undefined || cell_id=="" || cell_id==undefined || episode_id=="" || episode_id==undefined){
           tishi("数据错误!");
         }else{
           $.ajax({
@@ -101,7 +132,7 @@
               if(has_no_time_limit){
                 $("#create_time_limit_form").append("<input type='hidden' name='question_package_id' value='"+q_p_id+"'/>");
                 $("#create_time_limit_form").append("<input type='hidden' name='cell_id' value='"+cell_id+"'/>");
-                $("#create_time_limit_form").append("<input type='hidden' name='espisode_id' value='"+espisode_id+"'/>");
+                $("#create_time_limit_form").append("<input type='hidden' name='episode_id' value='"+episode_id+"'/>");
                 $("#create_time_limit_form").submit();
               }
             },
@@ -113,6 +144,93 @@
       }
       return false;
     });
+
+    //分享
+    $("#time_limt_ab_list_title").on("click", ".share_icon", function(){
+      var q_p_id = $("#question_package_id").val();
+      var cell_id = $("#cell_id").val();
+      var episode_id = $("#episode_id").val();
+      var school_class_id = <%= @school_class.id %>;
+      if(q_p_id==undefined || q_p_id==""){
+        tishi("数据错误!");
+      }else{
+        $.ajax({
+          type: "get",
+          url: "/school_classes/"+school_class_id+"/question_packages/check_time_limit",
+          dataType: "json",
+          data: {q_p_id : q_p_id, cell_id : cell_id, episode_id : episode_id},
+          success: function(data){
+            if(data.status==1){
+              tishi("该大题下尚未有任何十速挑战题目,请先创建并保存!");
+            }else{
+              var time_limit_name = $("#time_limit_name").text();
+              if(time_limit_name==undefined || time_limit_name=="" || time_limit_name=="未命名"){
+                $("#new_time_limit_set_name").show();
+                $(".mask").show();
+              }else{
+                var school_class_id = <%= @school_class.id %>;
+                $.ajax({
+                  type: "get",
+                  url: "/school_classes/"+school_class_id+"/question_packages/share_time_limit",
+                  dataType: "json",
+                  data: {q_p_id : q_p_id, time_limit_name : time_limit_name, cell_id : cell_id, episode_id : episode_id},
+                  success: function(data){
+                    if(data.status==1){
+                      tishi("分享成功!");
+                    }else{
+                      tishi("分享失败!");
+                    }
+                  },
+                  error: function(data){
+                    tishi("数据错误!");
+                  }
+                })
+              }
+            }
+          },
+          error: function(data){
+            tishi("分享失败!");
+          }
+        })
+      };
+      return false;
+    });
+
+    //删除
+    $("#time_limt_ab_list_title").on("click", ".delete_icon", function(){
+      var flag = confirm("确定删除该题包下的十速挑战吗?");
+      if(flag){
+        var school_class_id = <%= @school_class.id %>;
+        var q_p_id = $("#question_package_id").val();
+        var cell_id = $("#cell_id").val();
+        var episode_id = $("#episode_id").val();
+        $.ajax({
+          type: "get",
+          url: "/school_classes/"+school_class_id+"/question_packages/delete_time_limit",
+          dataType: "json",
+          data: {q_p_id : q_p_id, cell_id : cell_id, episode_id : episode_id},
+          success: function(data){
+            if(data.status==1){
+              tishi("删除成功!");
+              //              $.ajax({
+              //                type: "get",
+              //                url: "/school_classes/"+school_class_id+"/question_packages/new_time_limit",
+              //                dataType: "script",
+              //                data: {cell_id : cell_id, episode_id : episode_id, question_package_id : q_p_id}
+              //              })
+              $("#time_limit_assignment_body_list").remove();
+            }else{
+              tishi("删除失败!");
+            }
+          },
+          error: function(data){
+            tishi("数据错误!");
+          }
+        })
+      }
+      return false;
+    });
+
   })
 
 
@@ -142,7 +260,7 @@
   }
 
   //添加标签
-  function add_tags_to_time_limit(obj, time_limit_id, time_limit_name){
+  function add_tags_to_time_limit(obj, tag_id, tag_name){
     var index = $("#tags_table").find("input[type='hidden']").first().val();
     if($(obj).attr("checked")=="checked"){
       if(index==""){
@@ -151,13 +269,13 @@
         var has_tags = $("#time_limit_item_"+index+" .tag_ul ul").find("input[type='hidden']");   //验证是否已添加该标签
         var flag = true;
         $.each(has_tags, function(name,val){
-          if($(this).val()==time_limit_id){
+          if($(this).val()==tag_id){
             flag = false;
           }
         });
         if(flag){
-          $("#time_limit_item_"+index+" .tag_ul ul").append("<li><p>"+time_limit_name+"</p><a href='jsvsacript:void(0)' class='x' onclick='remove_tags_from_time_limit(this)'>x</a>\n\
-      <input type='hidden' name='[time_limit]["+index+"][tags][]' value='"+time_limit_id+"'/></li>");
+          $("#time_limit_item_"+index+" .tag_ul ul").append("<li><p>"+tag_name+"</p><a href='jsvsacript:void(0)' class='x' onclick='remove_tags_from_time_limit(this)'>x</a>\n\
+      <input type='hidden' name='[time_limit]["+index+"][tags][]' value='"+tag_id+"'/></li>");
         }
       }
     }
@@ -197,4 +315,39 @@
       $(".mask").hide();
     }
   }
+
+  //设定名称验证
+  function new_time_limit_set_name_valid(){
+    var name = $.trim($("#new_time_limit_name").val());
+    var q_p_id = $("#question_package_id").val();
+    var cell_id = $("#cell_id").val();
+    var episode_id = $("#episode_id").val();
+    if(name=="" || name=="名称"){
+      tishi("请输入名称!");
+    }else if(q_p_id==undefined || q_p_id==""){
+      tishi("数据错误!");
+    }else{
+      var school_class_id = <%= @school_class.id %>;
+      $.ajax({
+        type: "get",
+        url: "/school_classes/"+school_class_id+"/question_packages/share_time_limit",
+        dataType: "json",
+        data: {q_p_id : q_p_id, time_limit_name : name, cell_id : cell_id, episode_id : episode_id},
+        success: function(data){
+          if(data.status==1){
+            tishi("分享成功!");
+            $("#new_time_limit_set_name").hide();
+            $(".mask").hide();
+            $("#time_limit_name").text(name);
+          }else{
+            tishi("分享失败!");
+          }
+        },
+        error: function(data){
+          tishi("数据错误!");
+        }
+      })
+    }
+  }
+
 </script>

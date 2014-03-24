@@ -115,7 +115,7 @@ function change_true_or_false(obj){
     $(obj).attr("class", "true");
 }
 
-function add_wanxin_item(obj){
+function add_wanxin_item(obj,shcool_id,question_package_id){
      
     var parent_ab_list_box = $(obj).parents(".ab_list_box")[0];
     var parent_index = -1;
@@ -135,7 +135,7 @@ function add_wanxin_item(obj){
    <input type='hidden' class='branch_question_id' /> <span class='gapFilling_numb'>"+index+"</span> \n\
     <div class='gq_article'> \n\
       <form class='branch_question_form'>  \n\
-      <div class='gq_article_title'><div class='qt_text'><p>111</p><input name='title' type='text'></div></div> \n\
+      <div class='gq_article_title'><div class='qt_text'><p></p><input name='title' type='text'></div></div> \n\
       <ul> \n\
         <li><input type='radio' name='radio_"+index+"' value='0'/><div class='qt_text'><p></p><input name='option[]' type='text'></div></li> \n\
         <li><input type='radio' name='radio_"+index+"' value='1'/><div class='qt_text'><p></p><input name='option[]' type='text'></div></li> \n\
@@ -146,8 +146,8 @@ function add_wanxin_item(obj){
     </div> \n\
   </div> \n\
   <div class='qt_icon'> \n\
-    <a style='cursor: pointer;' onclick='save_wanxin_branch(this,"+shcool_id+","+question_back_id+")' class='save tooltip_html wangping_save'>保存</a> \n\
-    <a href='#' class='delete tooltip_html wangping_delete'>删除</a> \n\
+    <a style='cursor: pointer;' onclick='save_wanxin_branch(this,"+shcool_id+","+question_package_id+")' class='save tooltip_html wangping_save'>保存</a> \n\
+    <a style='cursor: pointer;display: none;' class='delete tooltip_html wangping_delete' onclick = 'delete_wanxin_option(this,"+shcool_id+","+question_package_id+")'>删除</a> \n\
     <a href='#' class='tag tooltip_html'>标签</a> \n\
   </div> \n\
   <div class='tag_ul'><ul></ul></div></div> \n\
@@ -157,7 +157,7 @@ function add_wanxin_item(obj){
     ondblclick(".qt_text p",".qt_text input");
 
 }
-function show_this(obj,question_id,school_class_id){
+function show_this(obj,question_packages,school_class_id){
     var questions_id = $(obj).find(".questions_id").val();
     if($(obj).parent().find(".ab_list_box").is(":hidden")){
     
@@ -170,7 +170,7 @@ function show_this(obj,question_id,school_class_id){
         }
         $.ajax({
             dataType:"script" ,
-            url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/show_ab_list_box",
+            url:"/school_classes/"+school_class_id+"/question_packages/"+question_packages+"/show_ab_list_box",
             data:"question_id="+questions_id+"&index="+gloab_index
         });
         for(var i=0;i<pp.length;i++){
@@ -197,6 +197,14 @@ function create_wanxin(school_class_id,question_id){
         data:"episode_id="+episode_id
     });
 }
+function create_paixu(school_class_id,question_id){
+    var episode_id = $("#episode_id").val();
+    $.ajax({
+        dataType:"script" ,
+        url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/create_paixu",
+        data:"episode_id="+episode_id
+    });
+}
 function show_wanxin(school_class_id,question_id){
     var episode_id = $("#episode_id").val();
     $.ajax({
@@ -206,6 +214,75 @@ function show_wanxin(school_class_id,question_id){
     });
 }
 
+
+//新建十速挑战
+function new_time_limit(school_class_id){
+    var cell_id = $("#cell_id").val();
+    var episode_id = $("#episode_id").val();
+    var question_package_id = $("#question_package_id").val();
+    $.ajax({
+        type: "get",
+        url: "/school_classes/"+school_class_id+"/question_packages/new_time_limit",
+        dataType: "script",
+        data: {cell_id : cell_id, episode_id : episode_id, question_package_id : question_package_id}
+    })
+}
+
+//搜索标签
+  function search_b_tags(obj, school_class_id){
+    var tag_name = $.trim($(obj).val());
+    $.ajax({
+      type: "get",
+      url: "/school_classes/"+school_class_id+"/question_packages/search_b_tags",
+      dataType: "json",
+      data: {tag_name : tag_name},
+      success: function(data){
+          $(obj).parents("div.tag_tab").find("ul").empty();
+          if(data.b_tags.length > 0){
+              $.each(data.b_tags, function(index, val){
+                  $(obj).parents("div.tag_tab").find("ul").append("<li><input type='checkbox' value='"+val.id+"' \n\
+                onclick='add_tags_to_time_limit(this,\""+val.id+"\",\""+val.name+"\")'/><p>"+val.name+"</p></li>");
+              })
+          }else{
+               $(obj).parents("div.tag_tab").find("ul").html("无");
+               if(tag_name!=""){
+                   $(obj).parents("div.tag_tab").find("a").first().text("新建\""+tag_name+"\"");
+               }
+          }
+      },
+      error: function(data){
+          tishi("数据错误!");
+      }
+    })
+  }
+
+//新建标签
+function add_b_tag(obj, school_class_id){
+  var tag_name = $(obj).text().split("\"")[1];
+  if(tag_name != undefined && tag_name != ""){
+      $.ajax({
+          type: "get",
+          url: "/school_classes/"+school_class_id+"/question_packages/add_b_tags",
+          dataType: "json",
+          data: {tag_name : tag_name},
+          success: function(data){
+              if(data.status==0){
+                  tishi("保存失败!");
+              }else if(data.status==2){
+                  tishi("保存失败,已有同名的标签!");
+              }else{
+                  tishi("新建成功!");
+                   $(obj).parents("div.tag_tab").find("ul").html("<li><input type='checkbox' value='"+data.tag_id+"' \n\
+ onclick='add_tags_to_time_limit(this,\""+data.tag_id+"\",\""+data.tag_name+"\")'/><p>"+data.tag_name+"</p></li>");
+                  $(obj).text("");
+              }
+          },
+          erroe: function(data){
+              tishi("数据错误!");
+          }
+      })
+  }
+}
 function save_wanxin_branch(obj,school_class,question_pack){
     var question_id = $($(obj).parents(".ab_list_open")[0]).find(".questions_id").val();
     var params = $($(obj).parents(".gapFilling_questions")[0]).find("form").serialize();
@@ -238,14 +315,44 @@ function save_wanxin_branch(obj,school_class,question_pack){
     });
 }
 
-function delete_wanxin_option(obj,school_class,question_pack){
-    var branch_question_id = $(obj).parent().parent().find(".branch_question_id");
+function save_paixu_branch(obj,school_class,question_pack){
+    var question_id = $($(obj).parents(".ab_list_open")[0]).find(".questions_id").val();
+    var params = $($(obj).parents(".questions_item")[0]).find("form").serialize();
+    var branch_question = $($(obj).parents(".gapFilling_questions")[0]).find(".branch_question_form");
+    var content = branch_question.find("input[type=text]").val();
+    if($.trim(content) == ""){
+        alert("内容不能为空！");
+        return false;
+    }
+    var branch_question_id = $($(obj).parents(".questions_item")[0]).find(".branch_question_id").val();
+    $.ajax({
+        dataType:"text" ,
+        url:"/school_classes/"+school_class+"/question_packages/"+question_pack+"/save_paixu_branch_question",
+        data:"question_id="+question_id+"&branch_question_id="+branch_question_id+"&"+params,
+        success:function(data){
+            if(data==1){
+                $(obj).parents(".gapFilling_questions").find(".wangping_save").hide();
+                $(obj).parents(".gapFilling_questions").find(".wangping_delete").show();
+                alert('保存成功！');
+            }
+
+        }
+    });
+    
+}
+
+
+function delete_wanxin_option(obj,school_class,question_package){
+    var branch_question_id = $(obj).parent().parent().find(".branch_question_id").val();
+    var question_id = $($(obj).parents(".assignment_body_list")[0]).find(".questions_id").val();
+    if(confirm("是否确定删除？")){
     $.ajax({
         dataType:"script" ,
-        url:"/school_classes/"+school_class+"/question_packages/"+question_pack+"/delete_wanxin_branch_question",
-        data:"branch_question_id="+branch_question_id+"&index="+gloab_index,
+        url:"/school_classes/"+school_class+"/question_packages/"+question_package+"/delete_wanxin_branch_question",
+        data:"branch_question_id="+branch_question_id+"&question_id="+question_id+"&index="+gloab_index,
         success:function(data){
 
         }
     });
+    }
 }

@@ -29,8 +29,11 @@ function no_change(obj){
         $("#episode_id").val($(obj).val());
         $(obj).attr("disabled","disabled");
         $(".assignment_body").show();
+        $(".questionTypes").show();
+        $(".complete_btn_box").show();
     }
 }
+
 
 //添加听力或朗读题
 function add_l_r_question(type, school_class_id )
@@ -91,34 +94,35 @@ function add_wanxin_item(obj){
     //editor[parent_index].text(text);
     var html = "<div class='gapFilling_questions'> \n\
   <div class='gapFilling_questions_body'> \n\
-    <span class='gapFilling_numb'>"+index+"</span> \n\
+   <input type='hidden' class='branch_question_id' /> <span class='gapFilling_numb'>"+index+"</span> \n\
     <div class='gq_article'> \n\
-      <div class='gq_article_title'><div class='qt_text'><p></p><input name='' type='text'></div></div> \n\
+      <form class='branch_question_form'>  \n\
+      <div class='gq_article_title'><div class='qt_text'><p>111</p><input name='title' type='text'></div></div> \n\
       <ul> \n\
-        <li><input type='radio' name='radio_<%=index%>'/><div class='qt_text'><p></p><input name='' type='text'></div></li> \n\
-        <li><input type='radio' name='radio_<%=index%>'/><div class='qt_text'><p></p><input name='' type='text'></div></li> \n\
-        <li><input type='radio' name='radio_<%=index%>'/><div class='qt_text'><p></p><input name='' type='text'></div></li> \n\
-        <li><input type='radio' name='radio_<%=index%>'/><div class='qt_text'><p></p><input name='' type='text'></div></li> \n\
+        <li><input type='radio' name='radio_"+index+"' value='0'/><div class='qt_text'><p></p><input name='option[]' type='text'></div></li> \n\
+        <li><input type='radio' name='radio_"+index+"' value='1'/><div class='qt_text'><p></p><input name='option[]' type='text'></div></li> \n\
+        <li><input type='radio' name='radio_"+index+"' value='2'/><div class='qt_text'><p></p><input name='option[]' type='text'></div></li> \n\
+        <li><input type='radio' name='radio_"+index+"' value='3'/><div class='qt_text'><p></p><input name='option[]' type='text'></div></li> \n\
       </ul> \n\
+      </form>\n\
     </div> \n\
   </div> \n\
   <div class='qt_icon'> \n\
-    <a href='#' class='save tooltip_html'>保存</a> \n\
+    <a style='cursor: pointer;' onclick='save_wanxin_branch(this,"+shcool_id+","+question_back_id+")' class='save tooltip_html wangping_save'>保存</a> \n\
+    <a href='#' class='delete tooltip_html wangping_delete'>删除</a> \n\
     <a href='#' class='tag tooltip_html'>标签</a> \n\
   </div> \n\
   <div class='tag_ul'><ul></ul></div></div> \n\
 ";
     $(".gapFilling_box").append(html);
+    add_style_to_wanxin();
+    ondblclick(".qt_text p",".qt_text input");
 
 }
 function show_this(obj,question_id,school_class_id){
-
+    var questions_id = $(obj).find(".questions_id").val();
     if($(obj).parent().find(".ab_list_box").is(":hidden")){
-        
-        $.ajax({
-            dataType:"script" ,
-            url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/show_ab_list_box"
-        });
+    
         var pp = $(obj).parent().parent().children("div");
         var ab = $(obj).parent().parent().children("div").find(".ab_list_title");
         for(var i=0;i<ab.length;i++){
@@ -126,6 +130,11 @@ function show_this(obj,question_id,school_class_id){
                 gloab_index =i;
             }
         }
+        $.ajax({
+            dataType:"script" ,
+            url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/show_ab_list_box",
+            data:"question_id="+questions_id+"&index="+gloab_index
+        });
         for(var i=0;i<pp.length;i++){
             if(pp[i]!=$(obj).parent()){
                 $(pp[i]).find(".ab_list_box").hide();
@@ -156,5 +165,49 @@ function show_wanxin(school_class_id,question_id){
         dataType:"script" ,
         url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/show_wanxin",
         data:"episode_id="+episode_id
+    });
+}
+
+function save_wanxin_branch(obj,school_class,question_pack){
+    var question_id = $($(obj).parents(".ab_list_open")[0]).find(".questions_id").val();
+    var params = $($(obj).parents(".gapFilling_questions")[0]).find("form").serialize();
+    var branch_question = $($(obj).parents(".gapFilling_questions")[0]).find(".branch_question_form");
+    var texts = branch_question.find("input[type=text]");
+    for(var i=0;i<texts.length;i++){
+        if($.trim($(texts[i]).val())==""){
+            alert("存在选项为空！");
+            return false;
+        }
+    }
+    var radios = branch_question.find("input[type=radio]:checked").length;
+    if(radios == 0){
+        alert("请给出正确答案！");
+        return false;
+    }
+    var branch_question_id = $($(obj).parents(".gapFilling_questions")[0]).find(".branch_question_id").val();
+    $.ajax({
+        dataType:"text" ,
+        url:"/school_classes/"+school_class+"/question_packages/"+question_pack+"/save_wanxin_branch_question",
+        data:"question_id="+question_id+"&branch_question_id="+branch_question_id+"&"+params,
+        success:function(data){
+            if(data==1){
+                $(obj).parents(".gapFilling_questions").find(".wangping_save").hide();
+                $(obj).parents(".gapFilling_questions").find(".wangping_delete").show();
+                alert('保存成功！');
+            }
+            
+        }
+    });
+}
+
+function delete_wanxin_option(obj,school_class,question_pack){
+    var branch_question_id = $(obj).parent().parent().find(".branch_question_id");
+    $.ajax({
+        dataType:"script" ,
+        url:"/school_classes/"+school_class+"/question_packages/"+question_pack+"/delete_wanxin_branch_question",
+        data:"branch_question_id="+branch_question_id+"&index="+gloab_index,
+        success:function(data){
+
+        }
     });
 }

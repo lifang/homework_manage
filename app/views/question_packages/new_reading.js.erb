@@ -1,0 +1,3 @@
+$("#question_list_<%= @question.types %>").append('<%= j(render :partial => "question_packages/listening_or_reading_que") %>');
+$(".assignment_body").hide();
+$("#question_list_<%= @question.types %>").show();

@@ -44,78 +44,78 @@
       </div>
     </div>
     <div class="assignment_body" id="question_list" style="display:none;" >
-      <div class="assignment_body_list">
+
+    </div>
+    <div class="questionTypes">
+      <div class="qType_menu clearAfter">
+        <ul>
+          <li class="hover"><p><span class="qType_speed">十速挑战</span></p>
+            <i class="arrows"></i>
+            <div class="second_menu">
+              <a href="/school_classes/<%= @school_class.id %>/question_packages/new_time_limit" data-type="script" data-remote="true">新建</a>
+              <a href="javascript:void(0)">引用</a>
+            </div>
+          </li>
+          <li><p><span class="qType_write">听写</span></p>
+            <i class="arrows"></i>
+            <div class="second_menu">
+              <a href="javascript:void(0)" onclick="add_l_r_question(0, <%= params[:school_class_id]  %>)">新建</a>
+              <a href="#">引用</a>
+            </div>
+          </li>
+          <li><p><span class="qType_read">朗读</span></p>
+            <i class="arrows"></i>
+            <div class="second_menu">
+              <a href="javascript:void(0)" onclick="add_l_r_question(1, <%= params[:school_class_id]  %>)">新建</a>
+              <a href="#">引用</a>
+            </div>
+          </li>
+          <li><p><a href="/school_classes/<%= params[:school_class_id].to_i %>/question_packages/<%= @question_pack.id %>/questions/question_selects_all?types=3&question_package_id=<%= @question_pack.id %>" data-remote="true">
+                <span class="qType_choose">选择</span></a></p>
+            <i class="arrows"></i>
+            <div class="second_menu">
+              <%= link_to '新建',{:controller => 'questions',:action =>'show_select',:question_package_id=>@question_pack.id ,:types=>3}  ,remote:true%>
+              <a href="#">引用</a>
+            </div>
+          </li>
+          <li><p><span class="qType_ligature">连线</span></p>
+            <i class="arrows"></i>
+            <div class="second_menu">
+              <%= link_to '新建',{:controller => 'questions',:action =>'new_lianxian',:question_package_id=>@question_pack.id ,:types=>4}  ,remote:true%>
+              <a href="#">引用</a>
+            </div>
+          </li>
+          <li><p><span class="qType_sort">排序</span></p>
+            <i class="arrows"></i>
+            <div class="second_menu">
+              <a href="#">新建</a><a href="#">引用</a>
+            </div>
+          </li>
+          <li class="last_child">
+            <p>
+              <span  class="qType_gap" style=" cursor: pointer;" onclick="show_wanxin(<%=  @school_class.id%>,<%=  @question_pack.id%>)">完形</span>
+            </p>
+            <i class="arrows"></i>
+            <div class="second_menu">
+              <a onclick="create_wanxin(<%=  @school_class.id%>,<%=  @question_pack.id %>)">新建</a>
+              <a href="#">引用</a>
+            </div>
+          </li>
+        </ul>
 
       </div>
-      <div class="questionTypes">
-        <div class="qType_menu clearAfter">
-          <ul>
-            <li class="hover"><p><span class="qType_speed">十速挑战</span></p>
-              <i class="arrows"></i>
-              <div class="second_menu">
-                <a href="/school_classes/<%= @school_class.id %>/question_packages/new_time_limit" data-type="script" data-remote="true">新建</a>        
-                <a href="javascript:void(0)">引用</a>
-              </div>
-            </li>
-            <li><p><span class="qType_write">听写</span></p>
-              <i class="arrows"></i>
-              <div class="second_menu">
-                <a href="#">新建</a>
-                <a href="#">引用</a>
-              </div>
-            </li>
-            <li><p><span class="qType_read">朗读</span></p>
-              <i class="arrows"></i>
-              <div class="second_menu">
-                <a href="#">新建</a><a href="#">引用</a>
-              </div>
-            </li>
-            <li><p><a href="/school_classes/<%= params[:school_class_id].to_i %>/question_packages/<%= @question_pack.id %>/questions/question_selects_all?types=3&question_package_id=<%= @question_pack.id %>" data-remote="true">
-                  <span class="qType_choose">选择</span></a></p>
-              <i class="arrows"></i>
-              <div class="second_menu">
-                <%= link_to '新建',{:controller => 'questions',:action =>'show_select',:question_package_id=>@question_pack.id ,:types=>3}  ,remote:true%>
-                <a href="#">引用</a>
-              </div>
-            </li>
-            <li><p><span class="qType_ligature">连线</span></p>
-              <i class="arrows"></i>
-              <div class="second_menu">
-                <%= link_to '新建',{:controller => 'questions',:action =>'new_lianxian',:question_package_id=>@question_pack.id ,:types=>4}  ,remote:true%>
-                <a href="#">引用</a>
-              </div>
-            </li>
-            <li><p><span class="qType_sort">排序</span></p>
-              <i class="arrows"></i>
-              <div class="second_menu">
-                <a href="#">新建</a><a href="#">引用</a>
-              </div>
-            </li>
-            <li class="last_child">
-              <p>
-                <span class="qType_gap" onclick="show_wanxin(<%=  @school_class.id %>,<%=  @question_pack.id%>)">完形</span>
-              </p>
-
-              <i class="arrows"></i>
-              <div class="second_menu">
-                <a onclick="create_wanxin(<%=  @school_class.id%>,<%=  @question_pack.id %>)">新建</a>
-                <a href="#">引用</a>
-              </div>
-            </li>
-          </ul>
-
-        </div>
-      </div>
-      <div class="complete_btn_box">
-        <input type="hidden"  name="cell_id" id="cell_id" value=""/>
-        <input type="hidden"  name="episode_id" id="episode_id" value=""/>
-        <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=@question_pack.id%>"/>
-        <button>点击确定完成创建</button>
-      </div>
+    </div>
+    <div class="complete_btn_box">
+      <input type="hidden"  name="school_class_id" id="school_class_id" value="<%=@school_class.id%>"/>
+      <input type="hidden"  name="cell_id" id="cell_id" value=""/>
+      <input type="hidden"  name="episode_id" id="episode_id" value=""/>
+      <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=@question_pack.id%>"/>
+      <button>点击确定完成创建</button>
     </div>
   </div>
 </div>
 <script>
+  var gloab_index =-1;
   $(function(){
     $('.select_box').jqTransform();
   });

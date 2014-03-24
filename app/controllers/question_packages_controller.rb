@@ -49,6 +49,7 @@ class QuestionPackagesController < ApplicationController
     @question_pack = QuestionPackage.find_by_id(params[:id])
     @question_type = Question::TYPES_NAME
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
+    @questions = Question.where("question_package_id=#{@question_pack.id}")
     render 'new'
   end
   def setting_episodes

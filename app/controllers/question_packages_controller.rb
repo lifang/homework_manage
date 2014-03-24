@@ -1,5 +1,6 @@
 #encoding: utf-8
 include QuestionPackagesHelper
+include MethodLibsHelper
 class QuestionPackagesController < ApplicationController
   before_filter :sign?, :get_unread_messes
   before_filter :get_cells_and_episodes, :only => [:new, :render_new_question]
@@ -19,12 +20,22 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
+  #显示听力或朗读题
+  def show_questions
+    types = params[:types]
+    question_package_id = params[:question_package_id]
+    episode_id = params[:episode_id]
+    cell_id = params[:cell_id]
+    que_sql = ""
+    @question =  Question.find_by_sql que_sql
+  end 
+
   #新建朗读题/听力题
   def new_reading_or_listening
     teacher = Teacher.find_by_id cookies[:teacher_id].to_i
     @user = teacher.user
-    @question = Question.create(:types => params[:type].to_i,
-      :question_package_id => params[:que_pack_id].to_i,
+    @question = Question.create(:types => params[:types].to_i,
+      :question_package_id => params[:question_package_id].to_i,
       :cell_id => params[:cell_id].to_i,
       :episode_id => params[:episode_id].to_i)
     @types = @question.types
@@ -34,39 +45,125 @@ class QuestionPackagesController < ApplicationController
   def save_listening
     @q_index = params[:q_index].to_i
     @b_index = params[:b_index].to_i
-    @types = params[:types]
-    question_id = params[:question_id]
-    @status = false
-    @notice = "小题创建失败！"
-    content = params[:content]
-    @branch_question = BranchQuestion.create(:content => content, :question_id => question_id)
-    unless @branch_question.nil? 
-      @status = true
-      @notice = "小题创建完成！"
-    end
-    p @q_index
-    p @b_index
-    p @branch_question   
-
+    types = params[:types]
+    file = params[:file]
+    branch_id = params[:branch_id]
+    if types.present?
+      @types = types.to_i
+      @question = Question.find_by_id params[:question_id].to_i
+      @question_id = @question.id
+      if branch_id.present?
+        @branch_question = BranchQuestion.find_by_id branch_id
+        if @branch_question.nil?
+          @status = -1
+          @notice = "该小题不存在，修改失败！"
+        else
+          if @branch_question.update_attributes(:content => params[:content])
+            @status = 0
+            @notice = "小题修改成功！"  
+          else
+            @status = -1
+            @notice = "小题修改失败！"    
+          end
+        end
+      else
+        @status = -1
+        @notice = "小题创建失败！"
+        content = params[:content]
+        
+        if !file.nil?
+          @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
+          destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
+          rename_file_name = "media_#{@branch_question.id}"
+          upload = upload_file destination_dir, rename_file_name, file
+          if upload[:status] == true
+            resource_url = upload[:url]
+            if @branch_question.update_attributes(:resource_url=>resource_url)
+              @status = 1
+              @notice = "小题创建完成！"
+            else
+              @status = -1
+              @notice = "小题创建失败！"    
+            end  
+          else
+            @status = -1
+            @notice = "小题创建失败！"
+          end
+        else
+          @status = -1
+          @notice = "文件不能为空！"
+        end
+      end  
+    else
+      @status = -1
+      @notice = "该小题不存在数据错误，题型不能为空！" 
+    end  
   end 
   
  #创建朗读题小题
   def save_reading
     @q_index = params[:q_index].to_i
     @b_index = params[:b_index].to_i
-    @types = params[:types]
-    question_id = params[:question_id]
-    @status = false
-    @notice = "小题创建失败！"
-    content = params[:content]
-    @branch_question = BranchQuestion.create(:content => content, :question_id => question_id)
-    unless @branch_question.nil? 
-      @status = true
-      @notice = "小题创建完成！"
-    end
-    p @q_index
-    p @b_index
-    p @branch_question      
+    types = params[:types]
+    file = params[:file]
+    if types.present?
+      @types = types.to_i
+      @question = Question.find_by_id params[:question_id].to_i
+      @question_id = @question.id
+      branch_id = params[:branch_id]
+      if branch_id.present?
+        @branch_question = BranchQuestion.find_by_id branch_id
+        if @branch_question.nil?
+          @status = -1
+          @notice = "该小题不存在，修改失败！"
+        else
+          if !file.nil?
+            destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
+            rename_file_name = "media_#{@branch_question.id}"
+            upload = upload_file destination_dir, rename_file_name, file
+            if upload[:status] == true
+              resource_url = upload[:url]
+              if @branch_question.update_attributes(:resource_url=>resource_url)
+                @status = 2
+                @notice = "文件上传成功！！"
+              else
+                @status = -1
+                @notice = "文件上传失败！"    
+              end  
+            else
+              @status = -1
+              @notice = "小题创建失败！"
+            end
+          else
+            if params[:content].present?
+              if @branch_question.update_attributes(:content => params[:content] )
+                @status = 0
+                @notice = "小题修改成功！"  
+              else
+                @status = -1
+                @notice = "小题修改失败！" 
+              end
+            else
+                
+            end  
+          end
+
+          
+        end
+      else
+        @status = -1
+        @notice = "小题创建失败！"
+        content = params[:content]
+        @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
+        unless @branch_question.nil? 
+          @status = 1
+          @notice = "小题创建完成！"
+        end
+      end  
+    else
+      @status = -1
+      @notice = "该小题不存在数据错误，题型不能为空！" 
+    end    
   end 
 
   def new

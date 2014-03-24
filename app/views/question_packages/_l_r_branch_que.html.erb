@@ -7,20 +7,28 @@
             <% if types == Question::TYPES[:LISTENING] %>
               <%= form_tag({:action => :save_listening}, :multipart => true ,:remote => true) do %>
                 <input type="file" name="file" class="file" onchange="check_audio(this,<%= types %>, <%= params[:school_class_id] %>)">
-                <input type="text" class="branch_iq" name="branch_iq">
-                <input type="text" name="types" class="types">
+                <input type="text" name="question_id" class="question_id" value="<%= question_id %>">
+                <input type="text" name="branch_id" class="branch_id" >
+                <input type="text" name="types" class="types" value="<%= types %>">
                 <input type="text" name="content" class="content">
+                <input type="text" name="q_index" class="q_index">
+                <input type="text" name="b_index" class="b_index">
               <% end %>
-            <% else %>  
+            <% elsif types == Question::TYPES[:READING] %>
               <%= form_tag({:action => :save_reading}, :multipart => true ,:remote => true) do %>
                 <input type="file" name="file" class="file" onchange="check_audio(this,<%= types %>, <%= params[:school_class_id] %>)">
-                <input type="text" class="branch_iq" name="branch_iq">
-                <input type="text" name="types" class="types">
+                <input type="text" name="question_id" class="question_id" value="<%= question_id %>">
+                <input type="text" name="branch_id" class="branch_id" >
+                <input type="text" name="types" class="types" value="<%= types %>">
                 <input type="text" name="content" class="content">
+                <input type="text" name="q_index" class="q_index">
+                <input type="text" name="b_index" class="b_index">
               <% end %>
             <% end %>  
         </li>
           <li class="qt_input">
+            <input type="text" name="question_id" class="question_id" value="<%= question_id %>">
+            <input type="text" name="types" class="types" value="<%= types %>">
             <p style="display:none;" ondblclick="$(this).hide();$(this).next().show();"></p>
             <input class="content" type="text" value="" onblur="ob_listeng_or_reading(this,<%= params[:school_class_id] %>)" >
           </li>

@@ -1,5 +1,6 @@
 <% @questions.each do |question| %>
   <% if question.id != @question.id%>
+    <% p question.branch_questions %>
     <div class="assignment_body_list" >
       <div class="ab_list_title">
         <h1>未命名</h1>
@@ -16,20 +17,16 @@
           <% question.branch_questions.each do |branch_question| %>
             <div class="questions_item">
               <div class="q_topic">
-                <div class="multipleChoice">
-                  <div class="q_left"><img src="/assets/voice.jpg"/></div>
-                  <div class="q_right">
-                    <div class="q_title"><div class="qt_text"><p><%= branch_question.content %></p><input name="" type="text"/></div></div>
-                    <ul>
-                      <% branch_question.options.split(";||;").each do |bq_option| %>
-                        <li><input type="checkbox"/><div class="qt_text"><p><%= bq_option %></p><input name="" type="text"/></div></li>
-                      <% end %>
-                    </ul>
-                  </div>
+                <div class="ligatureQuestions">
+                  <ul>
+                    <li class="qt_input"><p><%= branch_question.options.split(";||;")[0] %></p><input name="" type="text"/></li>
+                    <li><i></i></li>
+                    <li class="qt_input"><p><%= branch_question.options.split(";||;")[1] %></p><input name="" type="text"/></li>
+                  </ul>
                 </div>
               </div>
               <div class="qt_icon">
-                <a href="#" class="delete tooltip_html">删除</a>
+                <a href="#" class="save tooltip_html">保存</a>
                 <a href="#" class="tag tooltip_html">标签</a>
               </div>
               <div class="tag_ul">
@@ -47,7 +44,11 @@
   <% end %>
 <% end %>
 
-<div class="assignment_body_list">
+
+
+
+
+<div class="assignment_body_list" >
   <div class="ab_list_title">
     <h1>未命名</h1>
     <p>选择 / 李芳 / 2014-02-12 / 参考时间：15秒</p>
@@ -61,32 +62,27 @@
   <div class="ab_list_box">
     <div class="ab_article" id="now_new_branch">
       <div class="questions_item">
-        <%= form_for :question,:url => { :action => :save_select, :controller => :questions }, :method=>"post" ,remote: :true do |f|%>
+        <%= form_for :question,:url => { :action => :save_lianxian, :controller => :questions }, :method=>"post" ,remote: :true do |f|%>
           <div class="q_topic">
-            <div class="multipleChoice">
-              <div class="q_left"><img src="/assets/multipleChoice.jpg"/></div>
-              <div class="q_right">
-                <div class="q_title"><div class="qt_text"><p></p><input name="select_content" type="text"/></div></div>
-                <ul>
-                  <li><input type="checkbox" name="check_select[]" value="1"/><div class="qt_text"><p></p><input name="select_value1" type="text"/></div></li>
-                  <li><input type="checkbox" name="check_select[]" value="2"/><div class="qt_text"><p></p><input name="select_value2" type="text"/></div></li>
-                  <li><input type="checkbox" name="check_select[]" value="3"/><div class="qt_text"><p></p><input name="select_value3" type="text"/></div></li>
-                  <li><input type="checkbox" name="check_select[]" value="4"/><div class="qt_text"><p></p><input name="select_value4" type="text"/></div></li>
-                </ul>
-              </div>
+            <div class="ligatureQuestions">
+              <ul>
+                <li class="qt_input"><p>ddd</p><input name="left_lianxian" type="text"/></li>
+                <li><i></i></li>
+                <li class="qt_input"><p>sdd</p><input name="right_lianxian" type="text"/></li>
+              </ul>
             </div>
           </div>
           <div class="qt_icon">
             <a href="javascript:void(0)" class="save tooltip_html" onclick="onclick_submit(this)">
-              <input class="submit_sava" type="submit" style="display:none" value="保存"/>
+
             </a>
             <a href="javascript:void(0)" class="delete tooltip_html">删除</a>
             <a href="javascript:void(0)" class="tag tooltip_html">标签</a>
           </div>
           <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_package_id %>"/>
-
           <input type="hidden" name="question_id" value="<%= @question.id %>"/>
-
+          <input type="hidden" name="content_index" val="0"/>
+          <input class="submit_sava" type="submit" style="display:none" value="保存"/>
         <% end %>
         <div class="tag_ul">
           <ul>
@@ -100,6 +96,9 @@
   </div>
 </div>
 
+
+
+
 <script>
   $(document).ready(function(){
     $('input[type=checkbox], input[type=radio]').iCheck({
@@ -109,5 +108,4 @@
     });
   });
 </script>
-
 

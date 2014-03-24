@@ -100,12 +100,16 @@ HomeworkManage::Application.routes.draw do
     resources :question_packages do
       collection do
         get :setting_episodes, :new_time_limit,:show_wanxin,
-            :new_reading_listening_que
+          :new_reading_listening_que
       end
       member do
         get :new_index,:show_wanxin,:create_wanxin,:show_ab_list_box
       end
       resources :questions do
+        collection do
+          get :show_select,:question_selects_all,:new_lianxian
+          post :save_select,:save_lianxian
+        end
         resources :branch_questions
       end
     end
@@ -120,6 +124,9 @@ HomeworkManage::Application.routes.draw do
       member do
         post :share, :reference
       end
+      collection do
+        get :show_branch_question
+      end
       resources :branch_questions
     end
   end
@@ -130,12 +137,7 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
-  resources :questions do
-    collection do
-      get :show_select
-      post :save_select
-    end
-  end
+
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'

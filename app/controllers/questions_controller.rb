@@ -14,17 +14,103 @@ class QuestionsController < ApplicationController
       redirect_to "/school_classes/#{school_class_id}/question_packages/new"
     end
   end
-  #  显示完型
+
+
+  #显示当前题包下的题目
+  def question_selects_all
+    types = params[:types]
+    question_package_id =  params[:question_package_id]
+    @questions = Question.where("question_package_id=#{question_package_id}").where("types=#{types}")
+  end
+  def show_branch_question
+    question_id = params[:question_id]
+    types = params[:types]
+    @branch_question = BranchQuestion.where("question_id=#{question_id}").where("types=#{types}")
+    if @branch_question
+      render :json =>{:status=>1}
+    else
+      render :json => {:status=>0}
+    end
+  end
+  #  显示选择
   def show_select
-    cell_id = params[:cell_id]
-    episode_id = params[:episode_id]
-    question_package_id = params[:question_package_id]
+    cell_id = params[:select1]
+    episode_id = params[:select2]
+    types = params[:types]
+    @question_package_id = params[:question_package_id]
+    @questions = Question.where("question_package_id=#{@question_package_id}").where("types=#{types}")
+    @question = Question.create(:cell_id=>cell_id,:episode_id=>episode_id,:question_package_id=>@question_package_id,:types=>Question::TYPES[:SELECTING])
   end
   #保存选择题
   def save_select
-    question_package_id = params[:question_package_id]
-    params[:check_select]
-    @questions = Question.find_by_question_package_id question_package_id
+    @question_id = params[:question_id]
+    @question = Question.find_by_id @question_id
+    select_content = params[:select_content]
+    check_select = params[:check_select]
+    select_value1 = params[:select_value1]
+    select_value2 = params[:select_value2]
+    select_value3 = params[:select_value3]
+    select_value4 = params[:select_value4]
+    answer = ""
+    options = select_value1 + ";||;"+ select_value2 +";||;"+ select_value3 + ";||;" + select_value4
+    if check_select
+      check_select.each do |check|
+        case check.to_i
+        when 1
+          if answer.blank?
+            answer += select_value1
+          else
+            answer += ';||;' + select_value1
+          end
+        when 2
+          if answer.blank?
+            answer += select_value2
+          else
+            answer += ';||;' + select_value2
+          end
+        when 3
+          if answer.blank?
+            answer += select_value3
+          else
+            answer += ';||;' + select_value3
+          end
+        when 4
+          if answer.blank?
+            answer += select_value4
+          else
+            answer += ';||;' + select_value4
+          end
+        else
+          p 2222
+        end
+      end
+    end
+    branch_question = BranchQuestion.create(:content=>select_content,:types=>Question::TYPES[:SELECTING],:question_id=>@question_id,
+      :options=>options,:answer=> answer)
+    #    @question_package_id = params[:question_package_id]
+    #    @questions = Question.find_by_question_package_id @question_package_id
+  end
+
+  #创建连线题连线
+  def new_lianxian
+    cell_id = params[:select1]
+    episode_id = params[:select2]
+    types = params[:types]
+    @question_package_id = params[:question_package_id]
+    @questions = Question.where("question_package_id=#{@question_package_id}").where("types=#{types}")
+    @question = Question.create(:cell_id=>cell_id,:episode_id=>episode_id,:question_package_id=>@question_package_id,:types=>Question::TYPES[:LINING])
+  end
+  #  保存连线题
+  def save_lianxian
+    content_index = params[:content_index]
+    @content_index = content_index.to_i+1
+    left_lianxian = params[:left_lianxian]
+    right_lianxian = params[:right_lianxian]
+    question_id = params[:question_id]
+    @question = Question.find_by_id question_id
+    options = left_lianxian + ';||;' + right_lianxian
+    branch_question = BranchQuestion.create(:content=>content_index,:types=>Question::TYPES[:LINING],:question_id=>question_id,
+      :options=>options,:answer=> options)
   end
 
   

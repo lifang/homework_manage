@@ -100,8 +100,8 @@ HomeworkManage::Application.routes.draw do
     resources :question_packages do
       collection do
         get :setting_episodes, :new_time_limit,:show_wanxin, :check_time_limit,
-          :new_reading, :new_listening
-        post :create_time_limit
+          :new_reading_or_listening
+        post :create_time_limit, :save_listening, :save_reading
       end
       member do
         get :new_index,:show_wanxin,:create_wanxin,

@@ -39,22 +39,10 @@ function no_change(obj){
 function add_l_r_question(type, school_class_id )
 {
 
-    if($("#question_list_"+type+"").length > 0)
-    {
-        alert($("#question_list_"+type+"").parents().last().index());
-    }
-    else
-    {
-        var div_questions_body = "<div class='assignment_body' id='question_list_"+type+"'> </div>";
-        $("#question_list").after(div_questions_body);
-    }
     var question_package_id = $("#question_package_id").val();
     var cell_id = $("#cell_id").val();
     var episode_id = $("#episode_id").val();
-    if(type == 0)
-        var url = "/school_classes/"+school_class_id+"/question_packages/new_listening";
-    else if(type == 1)
-        var url = "/school_classes/"+school_class_id+"/question_packages/new_reading";
+    var url = "/school_classes/"+school_class_id+"/question_packages/new_reading_or_listening";
     $.ajax({
         type: "get",
         dataType: "script",
@@ -70,6 +58,56 @@ function add_l_r_question(type, school_class_id )
     });
 }
 
+//选择上传音频文件
+function select_audio(obj)
+{   
+    $(obj).next().find("[class='file']").click();
+
+}
+
+//
+function ob_listeng_or_reading(obj, school_class_id)
+{
+    var question_package_id = $("#question_package_id").val();
+    var cell_id = $("#cell_id").val();
+    var episode_id = $("#episode_id").val();
+    var types = $(obj).parent().parent().parent().parent().parent().parent().parent().prev().find("[class='question_types']").val();
+    var value = $.trim($(obj).val());
+    if(value != "")
+    {
+        $(obj).prev().text(value);
+        $(obj).hide();
+        $(obj).prev().show();
+        $(obj).parent().prev().find("[class='types']").val(types);
+        $(obj).parent().prev().find("[class='content']").val(value);
+        if(types == 0)  //听写
+        {
+        }
+        else if(types == 1) // 朗读
+        {
+            var url =  "/school_classes/"+school_class_id+"/question_packages/save_reading";
+            $.ajax({
+                type: "post",
+                dataType: "script",
+                url: url,
+                data: {
+                    types : types,
+                    question_package_id : question_package_id,
+                    episode_id : episode_id,
+                    cell_id : cell_id
+                },
+                success: function(data){
+                    alert(data);
+                }
+            });
+        }
+    }
+    else
+    {
+        tishi("小题内容不能为空！");
+    }
+
+}
 
 //选择T或者F时改变样式
 function change_true_or_false(obj){

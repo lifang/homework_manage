@@ -19,26 +19,25 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
-  #新建朗读题
-  def new_reading
+  #新建朗读题/听力题
+  def new_reading_or_listening
     teacher = Teacher.find_by_id cookies[:teacher_id].to_i
     @user = teacher.user
-    @question = Question.create(:types => params[:types].to_i,
+    @question = Question.create(:types => params[:type].to_i,
       :question_package_id => params[:que_pack_id].to_i,
       :cell_id => params[:cell_id].to_i,
       :episode_id => params[:episode_id].to_i)
   end
 
-  #新建听力题
-  def new_listening
-    teacher = Teacher.find_by_id cookies[:teacher_id]
-    @user = teacher.user
-    @question = Question
-    .create(:types => params[:type].to_i,
-            :question_package_id => params[:que_pack_id].to_i,
-            :cell_id => params[:cell_id].to_i,
-            :episode_id => params[:episode_id].to_i)
-  end
+  #创建听力题小题
+  def save_listening
+
+  end 
+  
+ #创建朗读题小题
+  def save_reading
+    
+  end 
 
   def new
     @question_pack = QuestionPackage.create(:school_class_id => @school_class.id)

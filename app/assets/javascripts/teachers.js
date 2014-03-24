@@ -184,8 +184,8 @@ function height_tab(){
 function onclick_submit(obj){
 //    $(obj).find(".submit_sava").click();
 //    $(obj).children(".submit_sava").click();
-alert(1111)
-    $(".submit_sava").click();
+//    $(".submit_sava").click();
+    $(obj).parent().parent().find(".submit_sava").click();
 }
 
 

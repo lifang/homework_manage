@@ -6,7 +6,7 @@ class QuestionPackagesController < ApplicationController
   before_filter :get_school_class
   def index
     respond_to do |f|
-      #分享题目的分页
+      #分享题目的分�?
       f.js{
         @question_pack = QuestionPackage.find_by_id(params[:question_package_id])
         @question = Question.find_by_id(params[:question_id])
@@ -23,8 +23,7 @@ class QuestionPackagesController < ApplicationController
   def new_reading
     teacher = Teacher.find_by_id cookies[:teacher_id].to_i
     @user = teacher.user
-    @question = Question
-    .create(:types => params[:types].to_i,
+    @question = Question.create(:types => params[:types].to_i,
       :question_package_id => params[:que_pack_id].to_i,
       :cell_id => params[:cell_id].to_i,
       :episode_id => params[:episode_id].to_i)
@@ -49,6 +48,7 @@ class QuestionPackagesController < ApplicationController
     @question_pack = QuestionPackage.find_by_id(params[:id])
     @question_type = Question::TYPES_NAME
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
+    @questions = Question.where("question_package_id=#{@question_pack.id}")
     render 'new'
   end
   def setting_episodes
@@ -138,14 +138,36 @@ class QuestionPackagesController < ApplicationController
     @branch_questions.each_with_index do |bq|
       @values << bq.options.split(";||;").index { |x| x == bq.answer }
     end
-    
   end
 
   def create_paixu
-     episode_id = params[:episode_id]
+    episode_id = params[:episode_id]
     @question_packages = QuestionPackage.find_by_id(params[:id])
     @question = Question.create(types:Question::TYPES[:CLOZE],question_package_id:@question_packages.id,episode_id:episode_id)
-     
+  end
+
+  def save_paixu_branch_question
+    branch_question_id = params[:branch_question_id]
+    content = params[:content]
+    answer = content
+    if branch_question_id==""
+      if BranchQuestion.create(content:content,
+          question_id:params[:question_id],
+          answer:answer)
+        render text:1
+      else
+        render text:0
+      end
+    else
+      branch_question = BranchQuestion.find_by_id(branch_question_id)
+      if branch_question.update_attributes(content:content,
+          answer:answer
+        )
+        render text:1
+      else
+        render text:0
+      end
+    end
   end
 
   def delete_branch_question branch_question_id
@@ -240,11 +262,9 @@ class QuestionPackagesController < ApplicationController
   def destroy
     question_pack = QuestionPackage.find_by_id(params[:id])
     QuestionPackage.transaction do
-    
       #作业删除文件夹开始
       delete_question_package_folder(question_pack)
       #作业删除文件夹结束
-      
       if question_pack.destroy
         flash[:notice] = "删除成功"
         redirect_to "/school_classes/#{school_class_id}/homeworks"
@@ -254,10 +274,21 @@ class QuestionPackagesController < ApplicationController
 
   #新建十速挑战
   def new_time_limit
+    cell_id = params[:cell_id].to_i
+    episode_id = params[:episode_id].to_i
+    question_package_id = params[:question_package_id].to_i
     @b_tags = get_branch_tags(cookies[:teacher_id])
     teacher = Teacher.find_by_id(cookies[:teacher_id])
     user = User.find_by_id(teacher.user_id) if teacher && teacher.user_id
     @user_name = user.name if user
+    question = Question.find_by_types_and_question_package_id_and_cell_id_and_episode_id(Question::TYPES[:TIME_LIMIT],
+      question_package_id, cell_id, episode_id)
+    @que_name = question.name if question
+    @que_time = question.created_at.strftime("%Y-%m-%d") if question && question.created_at
+    @branch_que = BranchQuestion.where(["question_id=?", question.id]) if question
+    @tags = BtagsBqueRelation.find_by_sql(["select bt.name, bbr.branch_question_id bq_id, bbr.branch_tag_id bt_id from
+        btags_bque_relations bbr left join branch_tags bt on bbr.branch_tag_id=bt.id
+        where bbr.branch_question_id in (?)", @branch_que.map(&:id)]) if @branch_que
     respond_to do |f|
       f.js
     end
@@ -267,7 +298,10 @@ class QuestionPackagesController < ApplicationController
   def check_time_limit
     status = 1
     q_p_id = params[:q_p_id].to_i
-    question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT], q_p_id)
+    cell_id = params[:cell_id].to_i
+    episode_id = params[:episode_id].to_i
+    question = Question.find_by_types_and_question_package_id_and_cell_id_and_episode_id(Question::TYPES[:TIME_LIMIT], q_p_id,
+      cell_id, episode_id)
     time_limit_len = BranchQuestion.where(["question_id=?", question.id]).length if question
     if time_limit_len && time_limit_len > 0
       status = 0
@@ -279,21 +313,92 @@ class QuestionPackagesController < ApplicationController
   def create_time_limit
     BranchQuestion.transaction do
       time_limit = params[:time_limit]
-      q_p_id = params[:question_package_id]
-      cell_id = params[:cell_id]
-      espisode_id = params[:espisode_id]
-      question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT], q_p_id)
-      if question.nil?
-        question = Question.new(:types => Question::TYPES[:TIME_LIMIT], :cell_id => cell_id, :episode_id => espisode_id)
-        question
+      q_p_id = params[:question_package_id].to_i
+      cell_id = params[:cell_id].to_i
+      episode_id = params[:episode_id].to_i
+      time = 0
+      hour = params[:create_time_limit_hour]
+      minute = params[:create_time_limit_minute]
+      second = params[:create_time_limit_second]
+      unless hour.nil? || hour.strip=="" || hour.eql?("时") || hour.to_i==0
+        time += hour.to_i * 360
+      end
+      unless minute.nil? || minute.strip=="" || minute.eql?("分") || minute.to_i==0
+        time += minute.to_i * 60
+      end
+      unless second.nil? || second.strip=="" || second.eql?("秒") || second.to_i==0
+        time += minute.to_i
+      end
+
+      @question = Question.find_by_types_and_question_package_id_and_cell_id_and_episode_id(Question::TYPES[:TIME_LIMIT], q_p_id,
+        cell_id, episode_id)
+      if @question.nil?
+        @question = Question.new(:types => Question::TYPES[:TIME_LIMIT], :cell_id => cell_id, :episode_id => episode_id,
+          :questions_time => time, :question_package_id => q_p_id)
+        @question.save
+      else
+        @question.update_attribute("questions_time", time)
+        has_bq = BranchQuestion.where(["question_id=?", @question.id])
+        has_bq.each do |hb|
+          BtagsBqueRelation.delete_all(["branch_question_id=?", hb.id])
+          hb.destroy
+        end if has_bq.any?
       end
       time_limit.each do |k, v|
-        
+        content = v["content"]
+        answer = v["answer"]
+        tags = v["tags"].nil? ? nil : v["tags"]
+        bq = BranchQuestion.create(:content => content, :question_id => @question.id, :answer => answer)
+        if tags
+          tags.each do |t|
+            BtagsBqueRelation.create(:branch_question_id => bq.id, :branch_tag_id => t.to_i)
+          end
+        end
       end
     end
   end
+
+  #分享十速挑战
+  def share_time_limit
+    Question.transaction do
+      status = 0
+      name = params[:time_limit_name]
+      cell_id = params[:cell_id].to_i
+      episode_id = params[:episode_id].to_i
+      q_p_id = params[:q_p_id].to_i
+      question = Question.find_by_types_and_question_package_id_and_cell_id_and_episode_id(Question::TYPES[:TIME_LIMIT],
+        q_p_id, cell_id, episode_id)
+      if question && question.update_attribute("name", name)
+        status = 1
+      end
+      render :json => {:status => status}
+    end
+  end
+
+  #删除十速挑战
+  def delete_time_limit
+    Question.transaction do
+      q_p_id = params[:q_p_id].to_i
+      cell_id = params[:cell_id].to_i
+      episode_id = params[:episode_id].to_i
+      status = 1
+      question = Question.find_by_types_and_question_package_id_and_cell_id_and_episode_id(Question::TYPES[:TIME_LIMIT], q_p_id,
+        cell_id, episode_id)
+      begin
+        bqs = BranchQuestion.where(["question_id = ?", question.id]) if question
+        BtagsBqueRelation.delete_all(["branch_question_id in (?)", bqs.map(&:id)]) if bqs
+        bqs.each do |bq|
+          bq.destroy
+        end if bqs
+        question.destroy if question
+      rescue
+        status = 0
+      end
+      render :json => {:status => status}
+    end
+  end
   private
-  #获取单元以及对于的课程
+  #获取单元以及对于的课�?
   def get_cells_and_episodes
     school_class = SchoolClass.find_by_id(school_class_id) if school_class_id
     teaching_material = school_class.teaching_material if school_class

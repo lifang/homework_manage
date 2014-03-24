@@ -49,8 +49,7 @@ class MainPagesController < ApplicationController
         Student.transaction do
           #查询该学生发布的消息
           microposts_id = Micropost.
-            where("user_id = ? and school_class_id = ?", student.user_id, school_class_id)
-          .map(&:id)
+            where("user_id = ? and school_class_id = ?", student.user_id, school_class_id).map(&:id)
           #查询该班级的所有消息
           current_class_microposts_id = Micropost.where("school_class_id = ?", school_class_id)
           #删除该学生发布的消息

@@ -100,12 +100,13 @@ HomeworkManage::Application.routes.draw do
     resources :question_packages do
       collection do
         get :setting_episodes, :new_time_limit,:show_wanxin, :check_time_limit,
+          :new_reading_listening_que, :share_time_limit, :delete_time_limit,
           :new_reading, :new_listening
         post :create_time_limit
       end
       member do
         get :new_index,:show_wanxin,:create_wanxin,:create_paixu,
-          :show_ab_list_box,:save_wanxin_content,:save_wanxin_branch_question,:delete_wanxin_branch_question
+          :show_ab_list_box,:save_wanxin_content,:save_wanxin_branch_question,:save_paixu_branch_question,:delete_wanxin_branch_question
       end
       resources :questions do
         collection do

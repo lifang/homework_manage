@@ -266,15 +266,18 @@ $(function(){
 
 //题面 双击修改
 function ondblclick(a,b){
+
     $(a).dblclick(function(){
+        $(this).parents(".gapFilling_questions").find(".wangping_save").show();
+        $(this).parents(".gapFilling_questions").find(".wangping_delete").hide();
         $(this).css("display","none");
-        $(this).parent().find("input").css("display","inline-block");
+        $(this).parent().find("input").css("display","block");
         $(this).parent().find("input").focus();
         $(this).parent().find("input").val($(this).html());
     });
     $(b).blur(function(){
         $(this).css("display","none");
-        $(this).parent().find("p").css("display","inline-block");
+        $(this).parent().find("p").css("display","block");
         $(this).parent().find("p").html($(this).val());
         $(this).attr("value",$(this).val());
     //alert($(this).val());
@@ -312,21 +315,23 @@ $(function(){
 
 
 //题面 双击修改
-function ondblclick(a,b){
-    $("body").on('dblclick',a,function(){
-        $(this).css("display","none");
-        $(this).parent().find("input").css("display","inline-block");
-        $(this).parent().find("input").focus();
-        $(this).parent().find("input").val($(this).html());
-    })
-    $("body").on('blur',b,function(){
-        $(this).css("display","none");
-        $(this).parent().find("p").css("display","inline-block");
-        $(this).parent().find("p").html($(this).val());
-        $(this).attr("value",$(this).val());
-    //alert($(this).val());
-    })
-}
+//function ondblclick(a,b){
+//
+//    $("body").on('dblclick',a,function(){
+//
+//        $(this).css("display","none");
+//        $(this).parent().find("input").css("display","inline-block");
+//        $(this).parent().find("input").focus();
+//        $(this).parent().find("input").val($(this).html());
+//    })
+//    $("body").on('blur',b,function(){
+//        $(this).css("display","none");
+//        $(this).parent().find("p").css("display","inline-block");
+//        $(this).parent().find("p").html($(this).val());
+//        $(this).attr("value",$(this).val());
+//    //alert($(this).val());
+//    })
+//}
 $(function(){
     ondblclick(".qt_text p",".qt_text input");
 })

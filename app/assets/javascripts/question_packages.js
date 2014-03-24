@@ -39,22 +39,10 @@ function no_change(obj){
 function add_l_r_question(type, school_class_id )
 {
 
-    if($("#question_list_"+type+"").length > 0)
-    {
-        alert($("#question_list_"+type+"").parents().last().index());
-    }
-    else
-    {
-        var div_questions_body = "<div class='assignment_body' id='question_list_"+type+"'> </div>";
-        $("#question_list").after(div_questions_body);
-    }
     var question_package_id = $("#question_package_id").val();
     var cell_id = $("#cell_id").val();
     var episode_id = $("#episode_id").val();
-    if(type == 0)
-        var url = "/school_classes/"+school_class_id+"/question_packages/new_listening";
-    else if(type == 1)
-        var url = "/school_classes/"+school_class_id+"/question_packages/new_reading";
+    var url = "/school_classes/"+school_class_id+"/question_packages/new_reading_or_listening";
     $.ajax({
         type: "get",
         dataType: "script",
@@ -70,6 +58,56 @@ function add_l_r_question(type, school_class_id )
     });
 }
 
+//选择上传音频文件
+function select_audio(obj)
+{   
+    $(obj).next().find("[class='file']").click();
+
+}
+
+//
+function ob_listeng_or_reading(obj, school_class_id)
+{
+    var question_package_id = $("#question_package_id").val();
+    var cell_id = $("#cell_id").val();
+    var episode_id = $("#episode_id").val();
+    var types = $(obj).parent().parent().parent().parent().parent().parent().parent().prev().find("[class='question_types']").val();
+    var value = $.trim($(obj).val());
+    if(value != "")
+    {
+        $(obj).prev().text(value);
+        $(obj).hide();
+        $(obj).prev().show();
+        $(obj).parent().prev().find("[class='types']").val(types);
+        $(obj).parent().prev().find("[class='content']").val(value);
+        if(types == 0)  //听写
+        {
+        }
+        else if(types == 1) // 朗读
+        {
+            var url =  "/school_classes/"+school_class_id+"/question_packages/save_reading";
+            $.ajax({
+                type: "post",
+                dataType: "script",
+                url: url,
+                data: {
+                    types : types,
+                    question_package_id : question_package_id,
+                    episode_id : episode_id,
+                    cell_id : cell_id
+                },
+                success: function(data){
+                    alert(data);
+                }
+            });
+        }
+    }
+    else
+    {
+        tishi("小题内容不能为空！");
+    }
+
+}
 
 //选择T或者F时改变样式
 function change_true_or_false(obj){
@@ -120,9 +158,8 @@ function add_wanxin_item(obj,shcool_id,question_package_id){
 
 }
 function show_this(obj,question_packages,school_class_id){
-    var questions_id = $(obj).find(".questions_id").val();
+    var question_id = $(obj).find(".question_id").val();
     if($(obj).parent().find(".ab_list_box").is(":hidden")){
-    
         var pp = $(obj).parent().parent().children("div");
         var ab = $(obj).parent().parent().children("div").find(".ab_list_title");
         for(var i=0;i<ab.length;i++){
@@ -133,7 +170,7 @@ function show_this(obj,question_packages,school_class_id){
         $.ajax({
             dataType:"script" ,
             url:"/school_classes/"+school_class_id+"/question_packages/"+question_packages+"/show_ab_list_box",
-            data:"question_id="+questions_id+"&index="+gloab_index
+            data:"question_id="+question_id+"&index="+gloab_index
         });
         for(var i=0;i<pp.length;i++){
             if(pp[i]!=$(obj).parent()){
@@ -142,13 +179,31 @@ function show_this(obj,question_packages,school_class_id){
             }
             
         }
-    //
-    //        $(obj).parent().children(".ab_list_box").show();
-    //        $(obj).addClass("ab_list_open");
-    }else{
-//        $(obj).parent().find(".ab_list_box").hide();
-//        $(obj).removeClass("ab_list_open");
+    }
 }
+function show_the_paixu(obj,question_packages,school_class_id){
+    var question_id = $(obj).find(".question_id").val();
+    if($(obj).parent().find(".ab_list_box").is(":hidden")){
+        var pp = $(obj).parent().parent().children("div");
+        var ab = $(obj).parent().parent().children("div").find(".ab_list_title");
+        for(var i=0;i<ab.length;i++){
+            if(ab[i] == obj){
+                gloab_index =i;
+            }
+        }
+        $.ajax({
+            dataType:"script" ,
+            url:"/school_classes/"+school_class_id+"/question_packages/"+question_packages+"/show_the_paixu",
+            data:"question_id="+question_id+"&index="+gloab_index
+        });
+        for(var i=0;i<pp.length;i++){
+            if(pp[i]!=$(obj).parent()){
+                $(pp[i]).find(".ab_list_box").hide();
+                $(pp[i]).removeClass("ab_list_open");
+            }
+
+        }
+    }
 }
 
 function create_wanxin(school_class_id,question_id){
@@ -186,7 +241,11 @@ function new_time_limit(school_class_id){
         type: "get",
         url: "/school_classes/"+school_class_id+"/question_packages/new_time_limit",
         dataType: "script",
-        data: {cell_id : cell_id, episode_id : episode_id, question_package_id : question_package_id}
+        data: {
+            cell_id : cell_id,
+            episode_id : episode_id,
+            question_package_id : question_package_id
+        }
     })
 }
 
@@ -246,7 +305,7 @@ function add_b_tag(obj, school_class_id){
   }
 }
 function save_wanxin_branch(obj,school_class,question_pack){
-    var question_id = $($(obj).parents(".ab_list_open")[0]).find(".questions_id").val();
+    var question_id = $($(obj).parents(".ab_list_open")[0]).find(".question_id").val();
     var params = $($(obj).parents(".gapFilling_questions")[0]).find("form").serialize();
     var branch_question = $($(obj).parents(".gapFilling_questions")[0]).find(".branch_question_form");
     var texts = branch_question.find("input[type=text]");
@@ -278,9 +337,9 @@ function save_wanxin_branch(obj,school_class,question_pack){
 }
 
 function save_paixu_branch(obj,school_class,question_pack){
-    var question_id = $($(obj).parents(".ab_list_open")[0]).find(".questions_id").val();
+    var question_id = $($(obj).parents(".ab_list_open")[0]).find(".question_id").val();
     var params = $($(obj).parents(".questions_item")[0]).find("form").serialize();
-    var branch_question = $($(obj).parents(".gapFilling_questions")[0]).find(".branch_question_form");
+    var branch_question = $($(obj).parents(".questions_item")[0]).find(".branch_question_form");
     var content = branch_question.find("input[type=text]").val();
     if($.trim(content) == ""){
         alert("内容不能为空！");
@@ -293,9 +352,39 @@ function save_paixu_branch(obj,school_class,question_pack){
         data:"question_id="+question_id+"&branch_question_id="+branch_question_id+"&"+params,
         success:function(data){
             if(data==1){
-                $(obj).parents(".gapFilling_questions").find(".wangping_save").hide();
-                $(obj).parents(".gapFilling_questions").find(".wangping_delete").show();
+                $(obj).parents(".questions_item").find(".wangping_save").hide();
+                $(obj).parents(".questions_item").find(".wangping_delete").show();
+
+                var html = "\n\
+<div class='questions_item'> \n\
+    <input type='hidden' class='branch_question_id' value='' /> \n\
+    <div class='q_topic'> \n\
+      <form class='branch_question_form'>\n\
+        <div class='sortQuestions qt_input'>\n\
+          <div class='qt_text'><p style='min-height: 36px;display: block;'></p><input name='content' type='text' value=' '/></div>\n\
+        </div>\n\
+      </form>\n\
+    </div>\n\
+    <div class='qt_icon'>\n\
+      <a style='cursor: pointer;' onclick='save_paixu_branch(this,"+school_class+","+question_pack+")' class='save tooltip_html wangping_save'>保存</a>\n\
+      <a style='cursor: pointer;display: none;' class='delete tooltip_html wangping_delete'>删除</a>\n\
+      <a href='#' class='tag tooltip_html'>标签</a>\n\
+    </div>\n\
+    <div class='tag_ul'>\n\
+      <ul>\n\
+        <li><p>不定冠词</p><a href='#' class='x'>X</a></li>\n\
+      </ul>\n\
+    </div>\n\
+  </div>"
+                $($(obj).parents(".ab_article")[0]).append(html);
                 alert('保存成功！');
+
+            }else if(data==3){
+                $(obj).parents(".questions_item").find(".wangping_save").hide();
+                $(obj).parents(".questions_item").find(".wangping_delete").show();
+                alert('保存成功！');
+            }else if(data==2){
+                alert('保存失败！');
             }
 
         }
@@ -306,15 +395,23 @@ function save_paixu_branch(obj,school_class,question_pack){
 
 function delete_wanxin_option(obj,school_class,question_package){
     var branch_question_id = $(obj).parent().parent().find(".branch_question_id").val();
-    var question_id = $($(obj).parents(".assignment_body_list")[0]).find(".questions_id").val();
+    var question_id = $($(obj).parents(".assignment_body_list")[0]).find(".question_id").val();
     if(confirm("是否确定删除？")){
-    $.ajax({
-        dataType:"script" ,
-        url:"/school_classes/"+school_class+"/question_packages/"+question_package+"/delete_wanxin_branch_question",
-        data:"branch_question_id="+branch_question_id+"&question_id="+question_id+"&index="+gloab_index,
-        success:function(data){
-
-        }
-    });
+        $.ajax({
+            dataType:"script" ,
+            url:"/school_classes/"+school_class+"/question_packages/"+question_package+"/delete_wanxin_branch_question",
+            data:"branch_question_id="+branch_question_id+"&question_id="+question_id+"&index="+gloab_index
+        });
+    }
+}
+function delete_paixu_option(obj,school_class,question_package){
+    var branch_question_id = $(obj).parent().parent().find(".branch_question_id").val();
+    var question_id = $($(obj).parents(".assignment_body_list")[0]).find(".question_id").val();
+    if(confirm("是否确定删除？")){
+        $.ajax({
+            dataType:"script" ,
+            url:"/school_classes/"+school_class+"/question_packages/"+question_package+"/delete_paixu_branch_question",
+            data:"branch_question_id="+branch_question_id+"&question_id="+question_id+"&index="+gloab_index
+        });
     }
 }

@@ -239,32 +239,6 @@ class Api::StudentsController < ApplicationController
     end
   end
 
-  #  点击每日任务获取题包
-  def into_daily_tasks
-    student_id = params[:student_id]
-    p_q_package_id = params[:publish_question_package_id]
-    p_q_package = PublishQuestionPackage.find_by_id p_q_package_id.to_i
-    package_json = ""
-    answer_json = ""
-    status = false
-    if p_q_package
-      begin
-        package_json = File.open("#{Rails.root}/public#{p_q_package.question_packages_url}").read if p_q_package and p_q_package.question_packages_url
-        status = true
-        s_a_record = StudentAnswerRecord.find_by_student_id_and_publish_question_package_id(student_id, p_q_package_id)
-        if s_a_record
-          answer_json = File.open("#{Rails.root}/public#{s_a_record.answer_file_url}").read if s_a_record and s_a_record.answer_file_url
-        end
-      rescue
-        notice = "文件加载错误，请稍后重试。"
-      end
-    end
-    notice = status == false ? "没有作业内容。" : ""
-    render :json => {:status => status, :notice => notice,
-      :package => (package_json.empty? ? "" : ActiveSupport::JSON.decode(package_json)),
-      :user_answers => (answer_json.empty? ? "" : ActiveSupport::JSON.decode(answer_json))}
-  end
-
   #获取当天最新任务
   def get_newer_task
     student_id = params[:student_id]

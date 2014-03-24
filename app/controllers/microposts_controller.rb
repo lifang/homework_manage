@@ -3,9 +3,9 @@ class MicropostsController < ApplicationController
 
   before_filter :get_school_class, :get_unread_messes
   def index
-   
+
   end
-  
+
   def create
     content = params[:microposts][:content]
     micropost = Micropost.new
@@ -15,18 +15,18 @@ class MicropostsController < ApplicationController
     micropost.school_class_id = current_teacher.last_visit_class_id
 #    micropost.reply_microposts_count = 0
     if micropost.save
-      flash[:success]='发表成功！' 
+      flash[:success]='发表成功！'
       redirect_to school_class_main_pages_path(@school_class)
     else
       flash[:success]='发表失败！'
       render 'main_pages/index'
     end
   end
-  
+
   def create_reply
     @class_index =-1
     @class_index = params[:class_index] unless params[:class_index].nil?
-   
+
     reply = ReplyMicropost.new
     reply.content = params[:textarea]
     reply.micropost_id = params[:micropost_id]
@@ -43,7 +43,7 @@ class MicropostsController < ApplicationController
     end
   end
   def delete_micropost
-    
+
     reply = Micropost.find_by_id(params[:id])
     if reply&&reply.destroy
       get_microposts
@@ -59,7 +59,7 @@ class MicropostsController < ApplicationController
     if reply&&reply.destroy
       #get_microposts
       array = ReplyMicropost::get_microposts @micropost.id,1
-      
+
       @reply = array[:reply_microposts]
       @reply_count = @reply.length
       @temp ='删除成功'
@@ -67,12 +67,12 @@ class MicropostsController < ApplicationController
       @temp='删除失败'
     end
   end
-  
-  def get_microposts 
+
+  def get_microposts
     @condition = params[:condtions]
     @condition = nil if params[:condtions]==""
     page = (params[:page].eql?("undefined") ? 1:params[:page])
-      
+
     @scclass = SchoolClass.find(current_teacher.last_visit_class_id)
     @classmates = SchoolClass::get_classmates(@scclass)
     array = Micropost::get_microposts @scclass,page,@condition

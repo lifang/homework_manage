@@ -332,6 +332,7 @@ $(function(){
 //    //alert($(this).val());
 //    })
 //}
+
 $(function(){
     ondblclick(".qt_text p",".qt_text input");
 })

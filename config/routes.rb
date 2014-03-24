@@ -100,9 +100,9 @@ HomeworkManage::Application.routes.draw do
     resources :question_packages do
       collection do
         get :setting_episodes, :new_time_limit,:show_wanxin, :check_time_limit,
-          :new_reading_listening_que, :share_time_limit, :delete_time_limit,
-          :new_reading, :new_listening
-        post :create_time_limit
+          :new_reading_or_listening, :share_time_limit, :delete_time_limit,
+          :search_b_tags, :add_b_tags
+        post :create_time_limit, :save_listening, :save_reading
       end
       member do
         get :new_index,:show_wanxin,:create_wanxin,:create_paixu,

@@ -1,11 +1,11 @@
 <div class="questions_item">
-  <%= form_for :question,:url => { :action => :save_select, :controller => :questions }, :method=>"post" ,remote: :true do |f|%>
+  <%= form_for :question,:url => { :action => :save_lianxian, :controller => :questions }, :method=>"post" ,remote: :true do |f|%>
     <div class="q_topic">
       <div class="ligatureQuestions">
         <ul>
-          <li class="qt_input"><p>dsds</p><input name="left_lianxian" type="text"/></li>
+          <li class="qt_text"><p>dsds</p><input name="left_lianxian" type="text"/></li>
           <li><i></i></li>
-          <li class="qt_input"><p>ddsd</p><input name="right_lianxian" type="text"/></li>
+          <li class="qt_text"><p>ddsd</p><input name="right_lianxian" type="text"/></li>
         </ul>
       </div>
     </div>

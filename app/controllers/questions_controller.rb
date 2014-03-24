@@ -34,6 +34,7 @@ class QuestionsController < ApplicationController
   end
   #  显示选择
   def show_select
+    p 1111111
     cell_id = params[:select1]
     episode_id = params[:select2]
     types = params[:types]

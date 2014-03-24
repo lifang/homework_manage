@@ -23,8 +23,7 @@ class QuestionPackagesController < ApplicationController
   def new_reading
     teacher = Teacher.find_by_id cookies[:teacher_id].to_i
     @user = teacher.user
-    @question = Question
-    .create(:types => params[:types].to_i,
+    @question = Question.create(:types => params[:types].to_i,
       :question_package_id => params[:que_pack_id].to_i,
       :cell_id => params[:cell_id].to_i,
       :episode_id => params[:episode_id].to_i)
@@ -133,7 +132,7 @@ class QuestionPackagesController < ApplicationController
     @index = params[:index]
     branch_question_id = params[:branch_question_id]
     delete_branch_question branch_question_id
-    
+
   end
 
   def delete_branch_question branch_question_id
@@ -228,11 +227,11 @@ class QuestionPackagesController < ApplicationController
   def destroy
     question_pack = QuestionPackage.find_by_id(params[:id])
     QuestionPackage.transaction do
-    
+
       #作业删除文件夹开始
       delete_question_package_folder(question_pack)
       #作业删除文件夹结束
-      
+
       if question_pack.destroy
         flash[:notice] = "删除成功"
         redirect_to "/school_classes/#{school_class_id}/homeworks"
@@ -276,7 +275,7 @@ class QuestionPackagesController < ApplicationController
         question
       end
       time_limit.each do |k, v|
-        
+
       end
     end
   end

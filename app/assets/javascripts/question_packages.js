@@ -116,3 +116,16 @@ function show_wanxin(school_class_id,question_id){
         data:"episode_id="+episode_id
     });
 }
+
+//新建十速挑战
+function new_time_limit(school_class_id){
+    var cell_id = $("#cell_id").val();
+    var episode_id = $("#episode_id").val();
+    var question_package_id = $("#question_package_id").val();
+    $.ajax({
+        type: "get",
+        url: "/school_classes/"+school_class_id+"/question_packages/new_time_limit",
+        dataType: "script",
+        data: {cell_id : cell_id, episode_id : episode_id, question_package_id : question_package_id}
+    })
+}

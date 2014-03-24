@@ -104,7 +104,7 @@ HomeworkManage::Application.routes.draw do
         post :create_time_limit
       end
       member do
-        get :new_index,:show_wanxin,:create_wanxin,
+        get :new_index,:show_wanxin,:create_wanxin,:create_paixu,
           :show_ab_list_box,:save_wanxin_content,:save_wanxin_branch_question,:delete_wanxin_branch_question
       end
       resources :questions do

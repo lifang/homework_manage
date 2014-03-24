@@ -36,9 +36,9 @@ class QuestionPackagesController < ApplicationController
     @user = teacher.user
     @question = Question
     .create(:types => params[:type].to_i,
-            :question_package_id => params[:que_pack_id].to_i,
-            :cell_id => params[:cell_id].to_i,
-            :episode_id => params[:episode_id].to_i)
+      :question_package_id => params[:que_pack_id].to_i,
+      :cell_id => params[:cell_id].to_i,
+      :episode_id => params[:episode_id].to_i)
   end
 
   def new
@@ -68,14 +68,14 @@ class QuestionPackagesController < ApplicationController
     episode_id = params[:episode_id]
     @question_packages = QuestionPackage.find_by_id(params[:id])
     @question = Question.create(types:Question::TYPES[:CLOZE],question_package_id:@question_packages.id,episode_id:episode_id)
-    @questions = Question.where("types = ? and question_package_id = ? and episode_id = ?",
-      Question::TYPES[:CLOZE],
-      @question_packages.id,
-      episode_id)
+    @questions = []
+    @questions << @question
   end
+  
   def show_ab_list_box
     @index = params[:index]
     @question_packages = QuestionPackage.find_by_id(params[:id])
+    @question_id = params[:question_id]
     @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
     @options = @branch_questions.map{|d| d.options.split(";||;")}
     @values=[]
@@ -100,7 +100,6 @@ class QuestionPackagesController < ApplicationController
     option = params[:option]
     options = option.join(";||;")
     index =-1
-    p 111111111111,params
     params.each do |t|
       if t[0] =~ /radio_/
         index = t[1].to_i
@@ -129,10 +128,24 @@ class QuestionPackagesController < ApplicationController
     end
   end
   def delete_wanxin_branch_question
-    @index = params[:index]
     branch_question_id = params[:branch_question_id]
     delete_branch_question branch_question_id
+    @index = params[:index]
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
+    @options = @branch_questions.map{|d| d.options.split(";||;")}
+    @values=[]
+    @branch_questions.each_with_index do |bq|
+      @values << bq.options.split(";||;").index { |x| x == bq.answer }
+    end
     
+  end
+
+  def create_paixu
+     episode_id = params[:episode_id]
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @question = Question.create(types:Question::TYPES[:CLOZE],question_package_id:@question_packages.id,episode_id:episode_id)
+     
   end
 
   def delete_branch_question branch_question_id

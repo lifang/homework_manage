@@ -182,6 +182,61 @@ function new_time_limit(school_class_id){
     })
 }
 
+//搜索标签
+  function search_b_tags(obj, school_class_id){
+    var tag_name = $.trim($(obj).val());
+    $.ajax({
+      type: "get",
+      url: "/school_classes/"+school_class_id+"/question_packages/search_b_tags",
+      dataType: "json",
+      data: {tag_name : tag_name},
+      success: function(data){
+          $(obj).parents("div.tag_tab").find("ul").empty();
+          if(data.b_tags.length > 0){
+              $.each(data.b_tags, function(index, val){
+                  $(obj).parents("div.tag_tab").find("ul").append("<li><input type='checkbox' value='"+val.id+"' \n\
+                onclick='add_tags_to_time_limit(this,\""+val.id+"\",\""+val.name+"\")'/><p>"+val.name+"</p></li>");
+              })
+          }else{
+               $(obj).parents("div.tag_tab").find("ul").html("无");
+               if(tag_name!=""){
+                   $(obj).parents("div.tag_tab").find("a").first().text("新建\""+tag_name+"\"");
+               }
+          }
+      },
+      error: function(data){
+          tishi("数据错误!");
+      }
+    })
+  }
+
+//新建标签
+function add_b_tag(obj, school_class_id){
+  var tag_name = $(obj).text().split("\"")[1];
+  if(tag_name != undefined && tag_name != ""){
+      $.ajax({
+          type: "get",
+          url: "/school_classes/"+school_class_id+"/question_packages/add_b_tags",
+          dataType: "json",
+          data: {tag_name : tag_name},
+          success: function(data){
+              if(data.status==0){
+                  tishi("保存失败!");
+              }else if(data.status==2){
+                  tishi("保存失败,已有同名的标签!");
+              }else{
+                  tishi("新建成功!");
+                   $(obj).parents("div.tag_tab").find("ul").html("<li><input type='checkbox' value='"+data.tag_id+"' \n\
+ onclick='add_tags_to_time_limit(this,\""+data.tag_id+"\",\""+data.tag_name+"\")'/><p>"+data.tag_name+"</p></li>");
+                  $(obj).text("");
+              }
+          },
+          erroe: function(data){
+              tishi("数据错误!");
+          }
+      })
+  }
+}
 function save_wanxin_branch(obj,school_class,question_pack){
     var question_id = $($(obj).parents(".ab_list_open")[0]).find(".questions_id").val();
     var params = $($(obj).parents(".gapFilling_questions")[0]).find("form").serialize();

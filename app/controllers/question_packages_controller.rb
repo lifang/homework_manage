@@ -35,9 +35,9 @@ class QuestionPackagesController < ApplicationController
     @user = teacher.user
     @question = Question
     .create(:types => params[:type].to_i,
-            :question_package_id => params[:que_pack_id].to_i,
-            :cell_id => params[:cell_id].to_i,
-            :episode_id => params[:episode_id].to_i)
+      :question_package_id => params[:que_pack_id].to_i,
+      :cell_id => params[:cell_id].to_i,
+      :episode_id => params[:episode_id].to_i)
   end
 
   def new
@@ -45,10 +45,12 @@ class QuestionPackagesController < ApplicationController
     redirect_to "/school_classes/#{@school_class.id}/question_packages/#{@question_pack.id}/new_index"
   end
   def new_index
+    @b_tags = get_branch_tags(cookies[:teacher_id])
     @question_pack = QuestionPackage.find_by_id(params[:id])
     @question_type = Question::TYPES_NAME
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
     @questions = Question.where("question_package_id=#{@question_pack.id}")
+    get_has_time_limit(@question_pack.id)
     render 'new'
   end
   def setting_episodes
@@ -239,21 +241,10 @@ class QuestionPackagesController < ApplicationController
 
   #新建十速挑战
   def new_time_limit
-    cell_id = params[:cell_id].to_i
-    episode_id = params[:episode_id].to_i
+    #    cell_id = params[:cell_id].to_i
+    #    episode_id = params[:episode_id].to_i
     question_package_id = params[:question_package_id].to_i
-    @b_tags = get_branch_tags(cookies[:teacher_id])
-    teacher = Teacher.find_by_id(cookies[:teacher_id])
-    user = User.find_by_id(teacher.user_id) if teacher && teacher.user_id
-    @user_name = user.name if user
-    question = Question.find_by_types_and_question_package_id_and_cell_id_and_episode_id(Question::TYPES[:TIME_LIMIT],
-      question_package_id, cell_id, episode_id)
-    @que_name = question.name if question
-    @que_time = question.created_at.strftime("%Y-%m-%d") if question && question.created_at
-    @branch_que = BranchQuestion.where(["question_id=?", question.id]) if question
-    @tags = BtagsBqueRelation.find_by_sql(["select bt.name, bbr.branch_question_id bq_id, bbr.branch_tag_id bt_id from
-        btags_bque_relations bbr left join branch_tags bt on bbr.branch_tag_id=bt.id
-        where bbr.branch_question_id in (?)", @branch_que.map(&:id)]) if @branch_que
+    get_has_time_limit(question_package_id)
     respond_to do |f|
       f.js
     end
@@ -263,10 +254,9 @@ class QuestionPackagesController < ApplicationController
   def check_time_limit
     status = 1
     q_p_id = params[:q_p_id].to_i
-    cell_id = params[:cell_id].to_i
-    episode_id = params[:episode_id].to_i
-    question = Question.find_by_types_and_question_package_id_and_cell_id_and_episode_id(Question::TYPES[:TIME_LIMIT], q_p_id,
-      cell_id, episode_id)
+    #    cell_id = params[:cell_id].to_i
+    #    episode_id = params[:episode_id].to_i
+    question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT], q_p_id)
     time_limit_len = BranchQuestion.where(["question_id=?", question.id]).length if question
     if time_limit_len && time_limit_len > 0
       status = 0
@@ -279,8 +269,8 @@ class QuestionPackagesController < ApplicationController
     BranchQuestion.transaction do
       time_limit = params[:time_limit]
       q_p_id = params[:question_package_id].to_i
-      cell_id = params[:cell_id].to_i
-      episode_id = params[:episode_id].to_i
+      #      cell_id = params[:cell_id].to_i
+      #      episode_id = params[:episode_id].to_i
       time = 0
       hour = params[:create_time_limit_hour]
       minute = params[:create_time_limit_minute]
@@ -295,10 +285,9 @@ class QuestionPackagesController < ApplicationController
         time += minute.to_i
       end
 
-      @question = Question.find_by_types_and_question_package_id_and_cell_id_and_episode_id(Question::TYPES[:TIME_LIMIT], q_p_id,
-        cell_id, episode_id)
+      @question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT], q_p_id)
       if @question.nil?
-        @question = Question.new(:types => Question::TYPES[:TIME_LIMIT], :cell_id => cell_id, :episode_id => episode_id,
+        @question = Question.new(:types => Question::TYPES[:TIME_LIMIT],
           :questions_time => time, :question_package_id => q_p_id)
         @question.save
       else
@@ -328,11 +317,10 @@ class QuestionPackagesController < ApplicationController
     Question.transaction do
       status = 0
       name = params[:time_limit_name]
-      cell_id = params[:cell_id].to_i
-      episode_id = params[:episode_id].to_i
+      #      cell_id = params[:cell_id].to_i
+      #      episode_id = params[:episode_id].to_i
       q_p_id = params[:q_p_id].to_i
-      question = Question.find_by_types_and_question_package_id_and_cell_id_and_episode_id(Question::TYPES[:TIME_LIMIT],
-        q_p_id, cell_id, episode_id)
+      question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT],q_p_id)
       if question && question.update_attribute("name", name)
         status = 1
       end
@@ -344,11 +332,10 @@ class QuestionPackagesController < ApplicationController
   def delete_time_limit
     Question.transaction do
       q_p_id = params[:q_p_id].to_i
-      cell_id = params[:cell_id].to_i
-      episode_id = params[:episode_id].to_i
+      #      cell_id = params[:cell_id].to_i
+      #      episode_id = params[:episode_id].to_i
       status = 1
-      question = Question.find_by_types_and_question_package_id_and_cell_id_and_episode_id(Question::TYPES[:TIME_LIMIT], q_p_id,
-        cell_id, episode_id)
+      question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT], q_p_id)
       begin
         bqs = BranchQuestion.where(["question_id = ?", question.id]) if question
         BtagsBqueRelation.delete_all(["branch_question_id in (?)", bqs.map(&:id)]) if bqs
@@ -360,6 +347,38 @@ class QuestionPackagesController < ApplicationController
         status = 0
       end
       render :json => {:status => status}
+    end
+  end
+
+  #搜索标签
+  def search_b_tags
+    tag_name = params[:tag_name]
+    teacher_id = cookies[:teacher_id]
+    if tag_name == ""
+      b_tags = get_branch_tags(teacher_id)
+    else
+      name = "%#{tag_name.strip.gsub(/[%_]/){|x| '\\' + x}}%"
+      b_tags = BranchTag.where(["(name like ? and teacher_id is null) or (name like ? and teacher_id=?)", name, name, teacher_id])
+    end
+    render :json => {:b_tags => b_tags}
+  end
+
+  #添加标签
+  def add_b_tags
+    BranchTag.transaction do
+      tag_name = params[:tag_name]
+      teacher_id = cookies[:teacher_id]
+      status = 0
+      old_tag = BranchTag.find_by_name_and_teacher_id(tag_name, teacher_id)
+      if old_tag
+        status = 2    #表示已有同名的标签
+      else
+        b_tag = BranchTag.new(:name => tag_name, :teacher_id => teacher_id)
+        if b_tag.save
+          status = 1
+        end
+      end
+      render :json => {:status => status, :tag_id => status==1 ? b_tag.id : 0, :tag_name => status==1 ? b_tag.name : ""}
     end
   end
   private

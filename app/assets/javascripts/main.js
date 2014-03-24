@@ -270,6 +270,8 @@ function ondblclick(a,b){
     $("body").on('dblclick',a,function(){
         $(this).parents(".gapFilling_questions").find(".wangping_save").show();
         $(this).parents(".gapFilling_questions").find(".wangping_delete").hide();
+        $(this).parents(".questions_item").find(".wangping_save").show();
+        $(this).parents(".questions_item").find(".wangping_delete").hide();
         $(this).css("display","none");
         $(this).parent().find("input").css("display","block");
         $(this).parent().find("input").focus();

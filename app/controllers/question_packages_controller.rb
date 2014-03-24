@@ -117,7 +117,6 @@ class QuestionPackagesController < ApplicationController
 
   def save_wanxin_content
     content = params[:content]
-
     @question = Question.find_by_id(params[:id])
     if @question.update_attribute(:content, content)
       render text:1
@@ -174,12 +173,12 @@ class QuestionPackagesController < ApplicationController
   def create_paixu
     episode_id = params[:episode_id]
     @question_packages = QuestionPackage.find_by_id(params[:id])
-    @question = Question.create(types:Question::TYPES[:CLOZE],question_package_id:@question_packages.id,episode_id:episode_id)
+    @question = Question.create(types:Question::TYPES[:SORT],question_package_id:@question_packages.id,episode_id:episode_id)
   end
 
   def save_paixu_branch_question
     branch_question_id = params[:branch_question_id]
-    content = params[:content]
+    content = params[:content].strip.gsub(/\s+/," ")
     answer = content
     if branch_question_id==""
       if BranchQuestion.create(content:content,
@@ -194,11 +193,25 @@ class QuestionPackagesController < ApplicationController
       if branch_question.update_attributes(content:content,
           answer:answer
         )
-        render text:1
+        render text:3
       else
         render text:0
       end
     end
+  end
+  def show_the_paixu
+    @index = params[:index]
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @question_id = params[:question_id]
+    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
+  end
+
+  def delete_paixu_branch_question
+    branch_question_id = params[:branch_question_id]
+    delete_branch_question branch_question_id
+    @index = params[:index]
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
   end
 
   def delete_branch_question branch_question_id

@@ -78,15 +78,13 @@
           </div>
           <div class="qt_icon">
             <a href="javascript:void(0)" class="save tooltip_html" onclick="onclick_submit(this)">
-              <input class="submit_sava" type="submit" style="display:none" value="保存"/>
             </a>
             <a href="javascript:void(0)" class="delete tooltip_html">删除</a>
             <a href="javascript:void(0)" class="tag tooltip_html">标签</a>
           </div>
           <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_package_id %>"/>
-
           <input type="hidden" name="question_id" value="<%= @question.id %>"/>
-
+          <input class="submit_sava" type="submit" style="display:none" value="保存"/>
         <% end %>
         <div class="tag_ul">
           <ul>

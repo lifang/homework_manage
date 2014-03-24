@@ -135,7 +135,7 @@ function shwo_tags(){
 function show_switch_class(){
     //    height_tab()
     $(".mask").show()
-    $(".school_class_list").show();
+    $("#school_class_list").show();
 }
 
 function delete_student_tag(obj,school_class_id,student_id){
@@ -182,5 +182,26 @@ function height_tab(){
 
 
 function onclick_submit(obj){
-    $(".submit_sava").click();
+//    $(obj).find(".submit_sava").click();
+//    $(obj).children(".submit_sava").click();
+//    $(".submit_sava").click();
+    $(obj).parent().parent().find(".submit_sava").click();
+}
+
+
+function show_branch_question(obj,question_package_id,question_id,types){
+
+    $.ajax({
+        url : "/question_packages/"+ question_package_id +"/questions/show_branch_question",
+        type: 'get',
+        dataType : 'json',
+        data : {
+            question_id : question_id,
+            types : types
+        },
+        success :function(data){
+            
+        }
+    })
+
 }

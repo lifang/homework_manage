@@ -1,0 +1,42 @@
+<div class="questions_item">
+  <%= form_for :question,:url => { :action => :save_select, :controller => :questions }, :method=>"post" ,remote: :true do |f|%>
+    <div class="q_topic">
+      <div class="multipleChoice">
+        <div class="q_left"><img src="/assets/multipleChoice.jpg"/></div>
+        <div class="q_right">
+          <div class="q_title"><div class="qt_text"><p></p><input name="select_content" type="text"/></div></div>
+          <ul>
+            <li><input type="checkbox" name="check_select[]" value="1"/><div class="qt_text"><p></p><input name="select_value1" type="text"/></div></li>
+            <li><input type="checkbox" name="check_select[]" value="2"/><div class="qt_text"><p></p><input name="select_value2" type="text"/></div></li>
+            <li><input type="checkbox" name="check_select[]" value="3"/><div class="qt_text"><p></p><input name="select_value3" type="text"/></div></li>
+            <li><input type="checkbox" name="check_select[]" value="4"/><div class="qt_text"><p></p><input name="select_value4" type="text"/></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="qt_icon">
+      <a href="javascript:void(0)" class="save tooltip_html" onclick="onclick_submit(this)"></a>
+      <a href="javascript:void(0)" class="delete tooltip_html">删除</a>
+      <a href="javascript:void(0)" class="tag tooltip_html">标签</a>
+    </div>
+    <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_package_id %>"/>
+    <input type="hidden" name="question_id" value="<%= @question.id %>"/>
+    <input class="submit_sava" type="submit" style="display:none" value="保存"/>
+  <% end %>
+  <div class="tag_ul">
+    <ul>
+      <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+      <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+      <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+    </ul>
+  </div>
+</div>
+<script>
+  $(document).ready(function(){
+    $('input[type=checkbox], input[type=radio]').iCheck({
+      checkboxClass: 'icheckbox_square-aero',
+      radioClass: 'iradio_square-aero',
+      increaseArea: '20%' // optional
+    });
+  });
+</script>

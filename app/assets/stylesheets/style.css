@@ -644,13 +644,13 @@ li.p_input p, li.p_input input, .tab_switch li input {
 
 .student_head h1 { font-size: 20px; line-height: 40px; margin-bottom: 15px;}
 .student_head h1 .amendName { 
-	width: 20px; 
-	height: 20px; 
-	overflow: hidden; 
-	display: inline-block;
-	text-indent: -999px;
-	margin-left: 10px;
-	background: url(/assets/amendName.png) no-repeat;
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    display: inline-block;
+    text-indent: -999px;
+    margin-left: 10px;
+    background: url(/assets/amendName.png) no-repeat;
 }
 .student_head li { line-height: 24px; font-size: 16px;}
 .student_head li span { display: inline-block; width: 80px; text-align: right;}
@@ -831,11 +831,11 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     margin-bottom:10px;
     line-height: 36px;
 }
-.multipleChoice .q_title p { margin: 0px; padding: 0 10px; width: 90%; line-height: 36px;}
+.multipleChoice .q_title p { margin: 0px; padding: 0 10px; width: 90%; line-height: 36px;min-height:36px; }
 .multipleChoice .q_left { float: left; width: 86px; margin-right: 20px;}
 .multipleChoice .q_right { overflow: hidden;}
 .multipleChoice .q_right li { overflow: hidden; margin: 10px 0; background: #f0f0f0; padding-left: 10px; font-size: 0;}
-.multipleChoice .q_right li p { line-height: 36px; overflow: hidden; width: 90%; font-size: 14px; }
+.multipleChoice .q_right li p { line-height: 36px; overflow: hidden; width: 90%; font-size: 14px; min-height:36px; }
 
 /*十速挑战*/
 .speedQuestions { overflow: hidden;}
@@ -863,6 +863,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 
 .speedQuestions .qt_text p, .speedQuestions .qt_text input, .speedQuestions .qt_input input {
     line-height: 36px;
+    min-height:36px; 
     background: #f0f0f0;
     margin: 0 10px;
     padding: 0 10px;
@@ -942,6 +943,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     padding: 0 10px;
     font-size: 16px;
     width: 318px;
+    min-height: 36px;
 }
 
 .gq_article li input[type="text"], .gq_article li p {
@@ -950,7 +952,8 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     line-height: 36px;
     padding: 0 10px;
     font-size: 14px;
-    overflow: hidden
+    overflow: hidden;
+    min-height: 36px;
 }
 .gq_article li { overflow: hidden; margin: 10px 0; background: #f0f0f0; padding-left: 10px; font-size: 0;}
 

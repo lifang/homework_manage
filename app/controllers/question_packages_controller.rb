@@ -19,14 +19,25 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
-  #新建听力题或朗读�?
-  def new_reading_listening_que
-    teacher = Teacher.find_by_id cookies[:teacher_id]
-    @user = teacher.user.name
+  #新建朗读题
+  def new_reading
+    teacher = Teacher.find_by_id cookies[:teacher_id].to_i
+    @user = teacher.user
     @question = Question.create(:types => params[:types].to_i,
       :question_package_id => params[:que_pack_id].to_i,
       :cell_id => params[:cell_id].to_i,
       :episode_id => params[:episode_id].to_i)
+  end
+
+  #新建听力题
+  def new_listening
+    teacher = Teacher.find_by_id cookies[:teacher_id]
+    @user = teacher.user
+    @question = Question
+    .create(:types => params[:type].to_i,
+            :question_package_id => params[:que_pack_id].to_i,
+            :cell_id => params[:cell_id].to_i,
+            :episode_id => params[:episode_id].to_i)
   end
 
   def new
@@ -37,6 +48,7 @@ class QuestionPackagesController < ApplicationController
     @question_pack = QuestionPackage.find_by_id(params[:id])
     @question_type = Question::TYPES_NAME
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
+    @questions = Question.where("question_package_id=#{@question_pack.id}")
     render 'new'
   end
   def setting_episodes
@@ -62,11 +74,19 @@ class QuestionPackagesController < ApplicationController
       episode_id)
   end
   def show_ab_list_box
-    
+    @index = params[:index]
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
+    @options = @branch_questions.map{|d| d.options.split(";||;")}
+    @values=[]
+    @branch_questions.each_with_index do |bq|
+      @values << bq.options.split(";||;").index { |x| x == bq.answer }
+    end
   end
 
   def save_wanxin_content
     content = params[:content]
+
     @question = Question.find_by_id(params[:id])
     if @question.update_attribute(:content, content)
       render text:1
@@ -75,6 +95,54 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
+  def save_wanxin_branch_question
+    branch_question_id = params[:branch_question_id]
+    option = params[:option]
+    options = option.join(";||;")
+    index =-1
+    p 111111111111,params
+    params.each do |t|
+      if t[0] =~ /radio_/
+        index = t[1].to_i
+      end
+    end
+    answer = option[index]
+    if branch_question_id==""
+      if BranchQuestion.create(content:params[:title],
+          question_id:params[:question_id],
+          options:options,
+          answer:answer)
+        render text:1
+      else
+        render text:0
+      end
+    else
+      branch_question = BranchQuestion.find_by_id(branch_question_id)
+      if branch_question.update_attributes(content:params[:title],
+          options:options,
+          answer:answer
+        )
+        render text:1
+      else
+        render text:0
+      end
+    end
+  end
+  def delete_wanxin_branch_question
+    @index = params[:index]
+    branch_question_id = params[:branch_question_id]
+    delete_branch_question branch_question_id
+
+  end
+
+  def delete_branch_question branch_question_id
+    branch_question = BranchQuestion.find_by_id(branch_question_id)
+    if branch_question && branch_question.destroy
+      return 1
+    else
+      return 0
+    end
+  end
   #新建题包其中第一个答题第三步之后，建题包，建答题
   def create
     question_type, new_or_refer, cell_id, episode_id, question_pack_id = params[:question_type].to_i, params[:new_or_refer], params[:cell_id], params[:episode_id], params[:question_pack_id]
@@ -159,11 +227,9 @@ class QuestionPackagesController < ApplicationController
   def destroy
     question_pack = QuestionPackage.find_by_id(params[:id])
     QuestionPackage.transaction do
-    
-      #作业删除文件夹开�?
+      #作业删除文件夹开始
       delete_question_package_folder(question_pack)
-      #作业删除文件夹结�?
-      
+      #作业删除文件夹结束
       if question_pack.destroy
         flash[:notice] = "删除成功"
         redirect_to "/school_classes/#{school_class_id}/homeworks"

@@ -1,1 +1,2 @@
+$("#question_list").find("div.assignment_body_list").hide();
 $("#question_list").append('<%= j(render "question_packages/listening_or_reading_que", {:types =>  @question.types, :question_id => @question.id, :name => @user.name, :created_at => @question.created_at.strftime("%Y-%m-%d"), :questions_time => @question.questions_time, :resource_url => nil }) %>');

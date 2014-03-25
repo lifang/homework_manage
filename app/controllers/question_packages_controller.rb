@@ -179,7 +179,6 @@ class QuestionPackagesController < ApplicationController
     @questions = Question.where("question_package_id=#{@question_pack.id}")
     que = @questions.group_by {|q| q.types}
     que = que[0].map{|q| q.id}
-    p que
     get_has_time_limit(@question_pack.id)
     @reading_and_listening_branch  = Question.get_has_reading_and_listening_branch(@questions)
     p @reading_and_listening_branch

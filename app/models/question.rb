@@ -63,5 +63,19 @@ class Question < ActiveRecord::Base
     info = {:answer=>answer,:options=>options}
   end
 
-
+  def self.get_has_reading_and_listening_branch ques
+    branch_ques = {}
+    if ques.present?
+      ques = ques.group_by {|q| q.types} 
+      reading_que_id = ques[Question::TYPES[:READING]].map { |q|  q.id}
+      listening_que_id = ques[Question::TYPES[:LISTENING]].map { |q|  q.id}
+      reading_and_listening_que_id = reading_que_id + listening_que_id
+        
+      branch_ques = BranchQuestion
+        .select("id,question_id,content, resource_url")
+        .where(["question_id in (?)", reading_and_listening_que_id])
+      branch_ques = branch_ques.group_by {|bq| bq.question_id}
+    end
+    branch_ques 
+  end  
 end

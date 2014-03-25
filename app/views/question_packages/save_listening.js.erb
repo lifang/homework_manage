@@ -1,8 +1,8 @@
 <% if @status == 1 %>
-$("div.assignment_body_list:eq("+<%= @q_index %>+")").find("div.questions_item:eq("+ <%= @b_index %> +")").find("[class='branch_id']").val(<%= @branch_question.id %>);
-$("div.assignment_body_list:eq("+<%= @q_index %>+")").find("[class='ab_article']").append("<%=j(render 'l_r_branch_que', {:types=> @types, :question_id => @question_id} )%>");
-$("div.assignment_body_list:eq("+<%= @q_index %>+")").find("div.questions_item:eq("+ <%= @b_index %> +")").find("ul.branch_question").find("li:eq(0)").find("a:eq(0)").remove();
-$("div.assignment_body_list:eq("+<%= @q_index %>+")").find("div.questions_item:eq("+ <%= @b_index %> +")").find("ul.branch_question").find("li:eq(0)").prepend('<%=j(render "voice_tmp", {:resource_url=> @branch_question.resource_url} )%>');
-$("div.assignment_body_list:eq("+<%= @q_index %>+")").find("div.questions_item:eq("+ <%= @b_index %> +")").find("ul.branch_question").find("li:eq(0)").find("[class='file']").remove();
+$("div.assignment_body_list:eq("+<%= @q_index-2 %>+")").find("div.questions_item:eq("+ <%= @b_index %> +")").find("[class='branch_id']").val(<%= @branch_question.id %>);
+$("div.assignment_body_list:eq("+<%= @q_index-2 %>+")").find("[class='ab_article']").append("<%=j(render 'l_r_branch_que', {:types=> @types, :question_id => @question_id, :content => nil, :resource_url =>nil ,:branch_id => nil,:count_q => (@q_index-1), :count_b => (@b_index+1)} )%>");
+$("div.assignment_body_list:eq("+<%= @q_index-2 %>+")").find("div.questions_item:eq("+ <%= @b_index %> +")").find("ul.branch_question").find("li:eq(0)").find("a:eq(0)").remove();
+$("div.assignment_body_list:eq("+<%= @q_index-2 %>+")").find("div.questions_item:eq("+ <%= @b_index %> +")").find("ul.branch_question").find("li:eq(0)").prepend('<%=j(render "voice_tmp", {:resource_url=> @branch_question.resource_url} )%>');
+$("div.assignment_body_list:eq("+<%= @q_index-2 %>+")").find("div.questions_item:eq("+ <%= @b_index %> +")").find("ul.branch_question").find("li:eq(0)").find("[class='file']").remove();
 <% end%>
 tishi("<%= @notice %>");

@@ -27,16 +27,46 @@ class QuestionPackagesController < ApplicationController
       :question_package_id => params[:que_pack_id].to_i,
       :cell_id => params[:cell_id].to_i,
       :episode_id => params[:episode_id].to_i)
+    @types = @question.types
   end
 
   #创建听力题小题
   def save_listening
+    @q_index = params[:q_index].to_i
+    @b_index = params[:b_index].to_i
+    @types = params[:types]
+    question_id = params[:question_id]
+    @status = false
+    @notice = "小题创建失败！"
+    content = params[:content]
+    @branch_question = BranchQuestion.create(:content => content, :question_id => question_id)
+    unless @branch_question.nil? 
+      @status = true
+      @notice = "小题创建完成！"
+    end
+    p @q_index
+    p @b_index
+    p @branch_question   
 
   end 
   
  #创建朗读题小题
   def save_reading
-    
+    @q_index = params[:q_index].to_i
+    @b_index = params[:b_index].to_i
+    @types = params[:types]
+    question_id = params[:question_id]
+    @status = false
+    @notice = "小题创建失败！"
+    content = params[:content]
+    @branch_question = BranchQuestion.create(:content => content, :question_id => question_id)
+    unless @branch_question.nil? 
+      @status = true
+      @notice = "小题创建完成！"
+    end
+    p @q_index
+    p @b_index
+    p @branch_question      
   end 
 
   def new
@@ -183,7 +213,7 @@ class QuestionPackagesController < ApplicationController
     @question_packages = QuestionPackage.find_by_id(params[:id])
     @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
   end
-
+#删除小题
   def delete_branch_question branch_question_id
     branch_question = BranchQuestion.find_by_id(branch_question_id)
     if branch_question && branch_question.destroy

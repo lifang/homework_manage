@@ -905,6 +905,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     float: left;
     padding: 0 10px;
     font-size: 16px;
+    min-height:36px; 
 }
 .ligatureQuestions input { border: none; background: #FFF; height: 36px; display: none;}
 .ligatureQuestions .qt_input input { border: none; background: #FFF; height: 36px; display: block;}

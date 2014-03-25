@@ -112,14 +112,16 @@ HomeworkManage::Application.routes.draw do
       end
       resources :questions do
         collection do
-          get :show_select,:question_selects_all,:new_lianxian
-          post :save_select,:save_lianxian
+
         end
-        resources :branch_questions
+        resources :branch_questions do
+          collection do
+            get 
+          end
+        end
       end
     end
   end
-
 
   resources :question_packages do
     member do
@@ -131,6 +133,8 @@ HomeworkManage::Application.routes.draw do
       end
       collection do
         get :show_branch_question
+        get :show_select,:question_selects_all,:new_lianxian,:delete_branch_question
+        post :save_select,:save_lianxian,:update_select
       end
       resources :branch_questions
     end

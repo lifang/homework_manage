@@ -468,7 +468,8 @@ function add_b_tags(type, obj){
                 add_tags_to_time_limit($(this), tag_id, tag_name);
             })           
         })
-    }else if(type=="select"){
+    }else if(type=="listening_and_reading_tags"){
+        $(obj).parent().next().find("ul")
 
     }
     return false;

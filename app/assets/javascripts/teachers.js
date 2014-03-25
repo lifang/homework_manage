@@ -219,3 +219,25 @@ function show_branch_question(obj,question_package_id,question_id,types){
     })
 
 }
+
+//选择上传音频或者视屏
+function select_upload(obj){
+    $("#input_select_upload").click();
+}
+
+
+function diaoyong(){
+    var file_upload = $("#loading").attr("name");
+    alert(file_upload);
+    $.ajax({
+        url:"products/upload",
+        type: "post",
+        dataType: "text",
+        data : {
+            file_upload : file_upload
+        },
+        success:function(data){
+            alert(data);
+        }
+    })
+}

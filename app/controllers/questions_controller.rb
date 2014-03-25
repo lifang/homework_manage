@@ -15,6 +15,10 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def select_upload
+    
+  end
+
 
   #显示当前题包下的题目
   def question_selects_all

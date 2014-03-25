@@ -18,7 +18,7 @@
   </div>
   <div class="ab_list_box" style="display:none;">
     <div class="ab_article">
-      <% if @reading_and_listening_branch[question.id].present? %>
+      <% if @reading_and_listening_branch && @reading_and_listening_branch[question.id].present? %>
         <% count_b = 0 %>
         <% @reading_and_listening_branch[question.id].each do |branch| %>
         <%= render "l_r_branch_que" ,{:types => question.types, :question_id => question.id, :resource_url => branch.resource_url, :branch_id => branch.id, :content => branch.content, :count_q => nil, :count_b => count_b } %>

@@ -1,36 +1,65 @@
-<%@branch_questions.each_with_index do|branch_q,index|%>
+<%index=0%>
+<%@branch_questions.each do|branch_q|%>
+  <div class='gapFilling_questions'>
+    <input type="hidden" class="branch_question_id" value="<%=branch_q.id%>" />
+    <div class='gapFilling_questions_body'>
+      <span class='gapFilling_numb'><%=index+1%></span>
+      <div class='gq_article'>
+        <form class="branch_question_form">
+          <div class='gq_article_title'><div class='qt_text'><p><%=branch_q.content.strip%></p><input name='title' type='text' value="<%=branch_q.content.strip%>"/></div></div>
+          <ul>
+            <li><input type='radio' name='radio_<%=index%>' value="0" <%=@values[index] == 0 ? "checked":""%>/><div class='qt_text'><p><%=@options[index][0].strip%></p><input name='option[]' type='text' value="<%=@options[index][0].strip%>" /></div></li>
+            <li><input type='radio' name='radio_<%=index%>' value="1" <%=@values[index] == 1 ? "checked":""%>/><div class='qt_text'><p><%=@options[index][1].strip%></p><input name='option[]' type='text' value="<%=@options[index][1].strip%>"/></div></li>
+            <li><input type='radio' name='radio_<%=index%>' value="2" <%=@values[index] == 2 ? "checked":""%>/><div class='qt_text'><p><%=@options[index][2].strip%></p><input name='option[]' type='text' value="<%=@options[index][2].strip%>"/></div></li>
+            <li><input type='radio' name='radio_<%=index%>' value="3" <%=@values[index] == 3 ? "checked":""%>/><div class='qt_text'><p><%=@options[index][3].strip%></p><input name='option[]' type='text' value="<%=@options[index][3].strip%>"/></div></li>
+          </ul>
+        </form>
+      </div>
+    </div>
+    <div class='qt_icon'>
+      <a  style="cursor: pointer;display: none;" onclick="save_wanxin_branch(this,<%=  @school_class.id%>,<%= @question_packages.id%>)" class='save tooltip_html wangping_save'>保存</a>
+      <a  class='delete tooltip_html wangping_delete' onclick = 'delete_wanxin_option(this,<%=  @school_class.id%>,<%= @question_packages.id%>)'>删除</a>
+      <a  style="cursor: pointer;" onclick="add_wanxin_tags(this, <%= @school_class.id  %>)" class="tag tooltip_html wangping_tag"></a>
+    </div>
+    <div class='tag_ul'>
+
+      <ul>
+
+        <li><p>不定冠词</p><a href='#' class='x'>X</a></li>
+
+      </ul>
+
+    </div>
+  </div>
+  <%index+=1%>
+<%end%>
 <div class='gapFilling_questions'>
-  <input type="hidden" class="branch_question_id" value="<%=branch_q.id%>" />
+  <input type="hidden" class="branch_question_id" value="" />
   <div class='gapFilling_questions_body'>
     <span class='gapFilling_numb'><%=index+1%></span>
     <div class='gq_article'>
       <form class="branch_question_form">
-      <div class='gq_article_title'><div class='qt_text'><p><%=branch_q.content.strip%></p><input name='title' type='text' value="<%=branch_q.content.strip%>"/></div></div>
-      <ul>
-        <li><input type='radio' name='radio_<%=index%>' value="0" <%=@values[index] == 0 ? "checked":""%>/><div class='qt_text'><p><%=@options[index][0].strip%></p><input name='option[]' type='text' value="<%=@options[index][0].strip%>" /></div></li>
-        <li><input type='radio' name='radio_<%=index%>' value="1" <%=@values[index] == 1 ? "checked":""%>/><div class='qt_text'><p><%=@options[index][1].strip%></p><input name='option[]' type='text' value="<%=@options[index][1].strip%>"/></div></li>
-        <li><input type='radio' name='radio_<%=index%>' value="2" <%=@values[index] == 2 ? "checked":""%>/><div class='qt_text'><p><%=@options[index][2].strip%></p><input name='option[]' type='text' value="<%=@options[index][2].strip%>"/></div></li>
-        <li><input type='radio' name='radio_<%=index%>' value="3" <%=@values[index] == 3 ? "checked":""%>/><div class='qt_text'><p><%=@options[index][3].strip%></p><input name='option[]' type='text' value="<%=@options[index][3].strip%>"/></div></li>
-      </ul>
+        <div class='gq_article_title'><div class='qt_text'><p></p><input name='title' type='text' value=""/></div></div>
+        <ul>
+          <li><input type='radio' name='radio_<%=index%>' value="0" <%=@values[index] == 0 ? "checked":""%>/><div class='qt_text'><p></p><input name='option[]' type='text' value="" /></div></li>
+          <li><input type='radio' name='radio_<%=index%>' value="1" <%=@values[index] == 1 ? "checked":""%>/><div class='qt_text'><p></p><input name='option[]' type='text' value=""/></div></li>
+          <li><input type='radio' name='radio_<%=index%>' value="2" <%=@values[index] == 2 ? "checked":""%>/><div class='qt_text'><p></p><input name='option[]' type='text' value=""/></div></li>
+          <li><input type='radio' name='radio_<%=index%>' value="3" <%=@values[index] == 3 ? "checked":""%>/><div class='qt_text'><p></p><input name='option[]' type='text' value=""/></div></li>
+        </ul>
       </form>
     </div>
   </div>
   <div class='qt_icon'>
-    <a  style="cursor: pointer;display: none;" onclick="save_wanxin_branch(this,<%=  @school_class.id%>,<%= @question_packages.id%>)" class='save tooltip_html wangping_save'>保存</a>
-    <a  class='delete tooltip_html wangping_delete' onclick = 'delete_wanxin_option(this,<%=  @school_class.id%>,<%= @question_packages.id%>)'>删除</a>
-    <a  style="cursor: pointer;" onclick="add_wanxin_tags(this, <%= @school_class.id  %>)" class="tag tooltip_html wangping_tag"></a>
+    <a  style="cursor: pointer;" onclick="save_wanxin_branch(this,<%=  @school_class.id%>,<%= @question_packages.id%>)" class='save tooltip_html wangping_save'>保存</a>
+    <a  style="cursor: pointer;display: none;" class='delete tooltip_html wangping_delete' onclick = 'delete_wanxin_option(this,<%=  @school_class.id%>,<%= @question_packages.id%>)'>删除</a>
+    <a  style="cursor: pointer;display: none;" onclick="add_wanxin_tags(this)" class="tag tooltip_html wangping_tag"></a>
   </div>
   <div class='tag_ul'>
-
     <ul>
-      
-      <li><p>不定冠词</p><a href='#' class='x'>X</a></li>
-    
     </ul>
-  
+
   </div>
 </div>
-<%end%>
 <script>
   ondblclick(".qt_text p",".qt_text input");
   

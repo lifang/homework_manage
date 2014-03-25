@@ -1,0 +1,8 @@
+<ul>
+  <%@tags.each do |tag|%>
+    <li><p><%=tag.name%></p>
+      <a onclick="delete_tags(this,<%=@school_class.id%>,<%=@question_packages.id%>,<%=tag.id%>,<%=  @branch_question.id%>,'paixu')" class="x">X</a>
+    </li>
+    <%end%>
+</ul>
+

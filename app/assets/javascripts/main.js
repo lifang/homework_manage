@@ -359,7 +359,6 @@ $(function(){
             "left":(e.pageX+x)+"px"
         }).show("fast");
     }).mouseout(function(){
-
         $(".tooltip_box").remove();
     }).mousemove(function(e){
         $(".tooltip_box").css({

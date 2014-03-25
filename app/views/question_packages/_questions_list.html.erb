@@ -1,4 +1,4 @@
-<% @questions.each do |question| %>
+<% @questions.each_with_index do |question,index| %>
   <% case question.types %>
   <% when Question::TYPES[:READING] || Question::TYPES[:LISTENING]%>
     <%= render "edit_l_or_r_que",{:question => question} %>
@@ -125,6 +125,7 @@
     </div>
   <% when Question::TYPES[:CLOZE] %>
     <div class="assignment_body_list">
+      <input type="hidden" class="the_index_of_div" value="<%=index%>" />
       <div class="ab_list_title" onclick="show_this(this,<%=question.question_package_id%>,<%=@school_class.id%>)">
         <input type="hidden" class="question_id" value="<%=question.id%>" />
         <h1><%=question.name.nil? ? "未命名":question.name %></h1>
@@ -151,6 +152,7 @@
     </div>
   <% when Question::TYPES[:SORT] %>
     <div class="assignment_body_list">
+      <input type="hidden" class="the_index_of_div" value="<%=index%>" />
       <div class="ab_list_title" onclick="show_the_paixu(this,<%=question.question_package_id%>,<%=@school_class.id%>)">
         <input type="hidden" class="question_id" value="<%==question.id%>" />
         <h1><%=question.name.nil? ? "未命名":question.name %></h1>
@@ -169,19 +171,6 @@
   <%else%>
   <% end %>
 <% end %>
-
-<div class="tag_tab" id="wp_tags_table">
-  <span class="arrows">A</span>
-  <div class="search">
-    <input type="text" oninput="search_b_tags(this, <%= @school_class.id  %>)"/></div>
-  <ul>
-    <% @b_tags.each do |bt| %>
-      <li><input type="checkbox" value="<%= bt.id %>" onclick="add_tags_to_time_limit(this,'<%= bt.id %>', '<%= bt.name %>')"/><p><%= bt.name %></p></li>
-    <% end %>
-  </ul>
-  <input type="hidden" value=""/>
-  <a href="javascript:void(0)" onclick="add_b_tag(this, <%= @school_class.id  %>)"></a>
-</div>
 
 <script>
   $(document).ready(function(){

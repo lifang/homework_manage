@@ -1,20 +1,41 @@
-<div class="book_box_con">
-  <div class="readWrite_icon clearAfter">
-    <ul>
-       <li class="rw_read" id="new_xj_red" style="display: none;">听写题</li>
-       <li class="rw_write" id="new_xj_write" style="display: none;">朗读题</li>
-    </ul>
-  </div>
-  <input type="hidden" id="hidden_question_id" value="<%= @question.id %>"/>
-  <input type="hidden" id="hidden_question_pack_id" value="<%= @question_pack.id %>"/>
-  <div class="book_box_func">
-    <p></p>
-    <div class="sort"><a href="/question_packages?question_package_id=<%= @question_pack.id %>&question_id=<%= @question.id %>&sort_name=up" data-remote="true" data-type="script">时间</a></div>
-  </div>
-  <div class="book_box_area">
-    <div class="book_box_table">
-      <%= render "share_questions" %>
+<div class="assignment_body">
+  <div class="ass_panel"><a href="#" class="back">返回</a></div>
+
+  <div class="assignment_body_list">
+    <div class="ab_list_title">
+      <h1>What's that?</h1>
+      <p>十速挑战 / 李芳 / 2014-02-12 / 参考时间：15秒</p>
+      <div class="ab_func">
+        <a href="#" class="quote_btn_a"><span>引用</span></a>
+        <p>被引用12次</p>
+      </div>
+    </div>
+    
+    <div class="ab_list_box" style="display: none;">
+      <div class="ab_article">
+        <div class="questions_item">
+          <div class="q_topic">
+            <div class="speedQuestions">
+              <ul>
+                <li><a href="#" class="true">T</a></li>
+                <li class="qt_text"><p>apple前面是用冠词an？</p><input name="" type="text"/></li>
+                <li><a href="#" class="false">F</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="qt_icon" style="display: none;"><a href="#" class="tag tooltip_html">标签</a></div>
+          <div class="tag_ul">
+            <ul>
+              <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+              <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+              <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
-
+  <%= render "/question_packages/share_questions" %>
 </div>
+

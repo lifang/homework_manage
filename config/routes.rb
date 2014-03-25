@@ -120,6 +120,11 @@ HomeworkManage::Application.routes.draw do
           end
         end
       end
+      resources :share_questions do
+        collection do
+          get :list_questions_by_type
+        end
+      end
     end
   end
 

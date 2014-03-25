@@ -1,5 +1,6 @@
 #encoding: utf-8
 include QuestionPackagesHelper
+include MethodLibsHelper
 class QuestionPackagesController < ApplicationController
   before_filter :sign?, :get_unread_messes
   before_filter :get_cells_and_episodes, :only => [:new, :render_new_question]
@@ -19,12 +20,22 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
+  #显示听力或朗读题
+  def show_questions
+    types = params[:types]
+    question_package_id = params[:question_package_id]
+    episode_id = params[:episode_id]
+    cell_id = params[:cell_id]
+    que_sql = ""
+    @question =  Question.find_by_sql que_sql
+  end 
+
   #新建朗读题/听力题
   def new_reading_or_listening
     teacher = Teacher.find_by_id cookies[:teacher_id].to_i
     @user = teacher.user
-    @question = Question.create(:types => params[:type].to_i,
-      :question_package_id => params[:que_pack_id].to_i,
+    @question = Question.create(:types => params[:types].to_i,
+      :question_package_id => params[:question_package_id].to_i,
       :cell_id => params[:cell_id].to_i,
       :episode_id => params[:episode_id].to_i)
     @types = @question.types
@@ -34,45 +45,132 @@ class QuestionPackagesController < ApplicationController
   def save_listening
     @q_index = params[:q_index].to_i
     @b_index = params[:b_index].to_i
-    @types = params[:types]
-    question_id = params[:question_id]
-    @status = false
-    @notice = "小题创建失败！"
-    content = params[:content]
-    @branch_question = BranchQuestion.create(:content => content, :question_id => question_id)
-    unless @branch_question.nil? 
-      @status = true
-      @notice = "小题创建完成！"
-    end
-    p @q_index
-    p @b_index
-    p @branch_question   
-
+    types = params[:types]
+    file = params[:file]
+    branch_id = params[:branch_id]
+    if types.present?
+      @types = types.to_i
+      @question = Question.find_by_id params[:question_id].to_i
+      @question_id = @question.id
+      if branch_id.present?
+        @branch_question = BranchQuestion.find_by_id branch_id
+        if @branch_question.nil?
+          @status = -1
+          @notice = "该小题不存在，修改失败！"
+        else
+          if @branch_question.update_attributes(:content => params[:content])
+            @status = 0
+            @notice = "小题修改成功！"  
+          else
+            @status = -1
+            @notice = "小题修改失败！"    
+          end
+        end
+      else
+        @status = -1
+        @notice = "小题创建失败！"
+        content = params[:content]
+        
+        if !file.nil?
+          @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
+          destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
+          rename_file_name = "media_#{@branch_question.id}"
+          upload = upload_file destination_dir, rename_file_name, file
+          if upload[:status] == true
+            resource_url = upload[:url]
+            if @branch_question.update_attributes(:resource_url=>resource_url)
+              @status = 1
+              @notice = "小题创建完成！"
+            else
+              @status = -1
+              @notice = "小题创建失败！"    
+            end  
+          else
+            @status = -1
+            @notice = "小题创建失败！"
+          end
+        else
+          @status = -1
+          @notice = "文件不能为空！"
+        end
+      end  
+    else
+      @status = -1
+      @notice = "该小题不存在数据错误，题型不能为空！" 
+    end  
   end 
   
- #创建朗读题小题
+  #创建朗读题小题
   def save_reading
     @q_index = params[:q_index].to_i
     @b_index = params[:b_index].to_i
-    @types = params[:types]
-    question_id = params[:question_id]
-    @status = false
-    @notice = "小题创建失败！"
-    content = params[:content]
-    @branch_question = BranchQuestion.create(:content => content, :question_id => question_id)
-    unless @branch_question.nil? 
-      @status = true
-      @notice = "小题创建完成！"
-    end
-    p @q_index
-    p @b_index
-    p @branch_question      
+    types = params[:types]
+    file = params[:file]
+    if types.present?
+      @types = types.to_i
+      @question = Question.find_by_id params[:question_id].to_i
+      @question_id = @question.id
+      branch_id = params[:branch_id]
+      if branch_id.present?
+        @branch_question = BranchQuestion.find_by_id branch_id
+        if @branch_question.nil?
+          @status = -1
+          @notice = "该小题不存在，修改失败！"
+        else
+          if !file.nil?
+            destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
+            rename_file_name = "media_#{@branch_question.id}"
+            upload = upload_file destination_dir, rename_file_name, file
+            if upload[:status] == true
+              resource_url = upload[:url]
+              if @branch_question.update_attributes(:resource_url=>resource_url)
+                @status = 2
+                @notice = "文件上传成功！！"
+              else
+                @status = -1
+                @notice = "文件上传失败！"    
+              end  
+            else
+              @status = -1
+              @notice = "小题创建失败！"
+            end
+          else
+            if params[:content].present?
+              if @branch_question.update_attributes(:content => params[:content] )
+                @status = 0
+                @notice = "小题修改成功！"  
+              else
+                @status = -1
+                @notice = "小题修改失败！" 
+              end
+            else
+                
+            end  
+          end
+
+          
+        end
+      else
+        @status = -1
+        @notice = "小题创建失败！"
+        content = params[:content]
+        @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
+        unless @branch_question.nil? 
+          @status = 1
+          @notice = "小题创建完成！"
+        end
+      end  
+    else
+      @status = -1
+      @notice = "该小题不存在数据错误，题型不能为空！" 
+    end    
   end 
 
   def new
     @question_pack = QuestionPackage.create(:school_class_id => @school_class.id)
     redirect_to "/school_classes/#{@school_class.id}/question_packages/#{@question_pack.id}/new_index"
   end
+  
   def new_index
     @b_tags = get_branch_tags(cookies[:teacher_id])
     @question_pack = QuestionPackage.find_by_id(params[:id])
@@ -80,6 +178,8 @@ class QuestionPackagesController < ApplicationController
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
     @questions = Question.where("question_package_id=#{@question_pack.id}")
     get_has_time_limit(@question_pack.id)
+    #引用url
+    @reference_part_url = "/school_classes/#{@school_class.id}/question_packages/#{@question_pack.id}/share_questions/list_questions_by_type"
     render 'new'
   end
   def setting_episodes
@@ -213,7 +313,7 @@ class QuestionPackagesController < ApplicationController
     @question_packages = QuestionPackage.find_by_id(params[:id])
     @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
   end
-#删除小题
+  #删除小题
   def delete_branch_question branch_question_id
     branch_question = BranchQuestion.find_by_id(branch_question_id)
     if branch_question && branch_question.destroy
@@ -229,7 +329,7 @@ class QuestionPackagesController < ApplicationController
     @question_type = question_type
     QuestionPackage.transaction do
       if new_or_refer == "0"
-        status = create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)
+        status, @question, @question_pack = QuestionPackage.create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)
         if status
           render :partial => "questions/new_branch"
         else
@@ -238,7 +338,7 @@ class QuestionPackagesController < ApplicationController
       else
         @share_questions = ShareQuestion.share_questions(cell_id, episode_id, question_type, "desc", 1)
         if @share_questions.present?
-          status = create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)
+          status, @question, @question_pack = QuestionPackage.create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)
           if status
             render :partial =>"questions/new_reference"
           else
@@ -466,19 +566,5 @@ class QuestionPackagesController < ApplicationController
     @cells = teaching_material.cells if teaching_material
     @episodes = Episode.where(:cell_id => @cells.map(&:id)).group_by{|e| e.cell_id} if @cells
   end
-
-  def create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)
-    if question_pack_id.present?
-      @question_pack = QuestionPackage.find_by_id(question_pack_id)
-    else
-      @question_pack = QuestionPackage.create(:school_class_id => school_class_id)
-    end
-    if @question_pack
-      @question = @question_pack.questions.create({:cell_id => cell_id, :episode_id => episode_id, :types => question_type})
-    end
-    status = @question_pack && @question
-    status
-  end
-
 
 end

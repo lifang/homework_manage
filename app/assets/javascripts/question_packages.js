@@ -36,7 +36,7 @@ function no_change(obj){
 
 
 //添加听力或朗读题
-function add_l_r_question(type, school_class_id )
+function add_l_r_question(types, school_class_id )
 {
 
     var question_package_id = $("#question_package_id").val();
@@ -48,7 +48,7 @@ function add_l_r_question(type, school_class_id )
         dataType: "script",
         url: url,
         data: {
-            type : type,
+            types : types,
             question_package_id : question_package_id,
             episode_id : episode_id,
             cell_id : cell_id
@@ -65,82 +65,127 @@ function select_audio(obj)
     $(obj).next().find("[class='file']").click();
 }
 
-//听力和朗读上传音频文件
-function check_audio(obj, types, school_class_id)
+//显示该单元该课下的题目
+function show_ques(types, school_class_id)
 {
     var question_package_id = $("#question_package_id").val();
     var cell_id = $("#cell_id").val();
     var episode_id = $("#episode_id").val();
-    var question_id = $(obj).parent().parent().parent().parent().parent().parent().parent().parent().prev().find("[class='question_id']").val();
-    var types = $(obj).parent().parent().parent().parent().parent().parent().parent().parent().prev().find("[class='question_types']").val();
-    var q_index = $(obj).parent().parent().parent().parent().parent().parent().parent().parent().parent().index();
-    var b_index = $(obj).parent().parent().parent().parent().parent().parent().index();
-    var value = $.trim($(obj).val());  
-    alert(school_class_id);
-    if(types == 0) //听写
+    var url = "/school_classes/"+school_class_id+"/question_packages/show_questions";
+    $.ajax({
+        type: "get",
+        dataType: "script",
+        url: url,
+        data: {
+            types : types,
+            question_package_id : question_package_id,
+            episode_id : episode_id,
+            cell_id : cell_id
+        },
+        success: function(data){
+        }
+    }); 
+}
+
+//播放音频文件
+function playAudio(obj){
+    var oAudio =  $(obj).find("audio")[0];
+    if (oAudio.paused) {
+        oAudio.play();
+    }
+    else {
+        oAudio.pause();
+    }
+}
+
+//听力和朗读上传音频文件
+function check_audio(obj, types, school_class_id)
+{
+    var question_id = $(obj).parent().find("[class='question_id']").val();
+    var branch_id = $.trim($(obj).parent().find("[class='branch_id']").val());
+    var types = $(obj).parent().find("[class='types']").val();
+    var q_index = $(obj).parent().find("[class='q_index']").val();
+    var b_index = $(obj).parent().find("[class='b_index']").val();
+    var content = $.trim($(obj).parent().find("[class='content']").val());  
+  
+ 
+   if(types == 0) //听写
     {
-        var url =  "/school_classes/"+school_class_id+"/question_packages/save_listening";
-        $.ajax({
-            type: "post",
-            dataType: "script",
-            url: url,
-            data: {
-                q_index : q_index,
-                b_index : b_index,
-                types : types,
-                content : value,
-                question_id : question_id,
-                question_package_id : question_package_id,
-                episode_id : episode_id,
-                cell_id : cell_id
-            },
-            success: function(data){
-            }
-        });
+
+
+        if(content != "")
+        {
+            $(obj).parent().submit();
+        }
+        else
+        {
+            tishi("小题内容不能为空！");
+            $(obj).val();
+        }
     }
     else if(types == 1)  // 朗读
     {
-        var url =  "/school_classes/"+school_class_id+"/question_packages/save_reading";
-        $.ajax({
-            type: "post",
-            dataType: "script",
-            url: url,
-            data: {
-                q_index : q_index,
-                b_index : b_index,
-                types : types,
-                content : value,
-                question_id : question_id,
-                question_package_id : question_package_id,
-                episode_id : episode_id,
-                cell_id : cell_id
-            },
-            success: function(data){
-            }
-        });
-    }
+        if(content != "")
+        {
+            if(branch_id != "")
+            {   
+             $(obj).parent().submit();
+            } 
+        }
+        else
+        {
+            tishi("小题内容不能为空！");
+            $(obj).val();
+        }    
+
+    } 
+
 }
 
 //听力和朗读的onblur事件
 function ob_listeng_or_reading(obj, school_class_id)
 {
     var question_package_id = $("#question_package_id").val();
-    var question_id = $(obj).parent().parent().parent().parent().parent().parent().parent().prev().find("[class='question_id']").val();
     var cell_id = $("#cell_id").val();
+    var episode_id = $("#episode_id").val();
+    var question_id = $(obj).parent().find("[class='question_id']").val();
+    var branch_id = $.trim($(obj).parent().prev().find("[class='branch_id']").val());
     var q_index = $(obj).parent().parent().parent().parent().parent().parent().parent().parent().index();
     var b_index = $(obj).parent().parent().parent().parent().parent().index();
-    var episode_id = $("#episode_id").val();
-    var types = $(obj).parent().parent().parent().parent().parent().parent().parent().prev().find("[class='question_types']").val();
-    var value = $.trim($(obj).val());
-    if(value != "")
+    var types = $(obj).parent().find("[class='types']").val();
+    var content = $.trim($(obj).val());
+    if(content != "")
     {
-        $(obj).prev().text(value);
+
+        $(obj).prev().text(content);
         $(obj).hide();
         $(obj).prev().show();
-        $(obj).parent().prev().find("[class='types']").val(types);
-        $(obj).parent().prev().find("[class='content']").val(value);
+        $(obj).parent().prev().find("form").find("[class='q_index']").val(q_index);
+        $(obj).parent().prev().find("form").find("[class='b_index']").val(b_index);
+        $(obj).parent().prev().find("form").find("[class='content']").val(content);
+
         if(types == 0)  //听写
         {
+            if(branch_id != "")
+            {
+               var url =  "/school_classes/"+school_class_id+"/question_packages/save_listening";
+                $.ajax({
+                    type: "post",
+                    dataType: "script",
+                    url: url,
+                    data: {
+                        branch_id : branch_id,
+                        types : types,
+                        content : content,
+                        question_id : question_id,
+                        question_package_id : question_package_id,
+                        episode_id : episode_id,
+                        cell_id : cell_id
+                    },
+                    success: function(data){
+                    }
+                }); 
+            }
         }
         else if(types == 1) // 朗读
         {
@@ -150,10 +195,11 @@ function ob_listeng_or_reading(obj, school_class_id)
                 dataType: "script",
                 url: url,
                 data: {
+                    branch_id : branch_id, 
                     q_index : q_index,
                     b_index : b_index,
                     types : types,
-                    content : value,
+                    content : content,
                     question_id : question_id,
                     question_package_id : question_package_id,
                     episode_id : episode_id,

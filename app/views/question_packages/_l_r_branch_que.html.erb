@@ -3,34 +3,38 @@
       <div class="speedQuestions">
         <ul class="branch_question">
           <li>
-            <a href="javascript:void(0)"  onclick="select_audio(this)" class="voice tooltip_title" title="点击上传音频"></a>
+            <% if resource_url.present?  %>
+              <%= render "voice_tmp", {:resource_url => resource_url} %>
+            <% else %>            
+              <a href="javascript:void(0)"  onclick="select_audio(this)" class="voice tooltip_title" title="点击上传音频"></a>
+            <% end %>
             <% if types == Question::TYPES[:LISTENING] %>
               <%= form_tag({:action => :save_listening}, :multipart => true ,:remote => true) do %>
                 <input type="file" name="file" class="file" style="display:none;" onchange="check_audio(this,<%= types %>, <%= params[:school_class_id] %>)">
                 <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>">
-                <input type="hidden" name="branch_id" class="branch_id" >
+                <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>">
                 <input type="hidden" name="types" class="types" value="<%= types %>">
-                <input type="hidden" name="content" class="content">
-                <input type="hidden" name="q_index" class="q_index">
-                <input type="hidden" name="b_index" class="b_index">
+                <input type="hidden" name="content" class="content" value="<%= content.present?  ? content : "" %>">
+                <input type="hidden" name="q_index" class="q_index" value="<%= count_q.present?  ? count_q : "" %>">
+                <input type="hidden" name="b_index" class="b_index"  value="<%= count_b.present?  ? count_b : "" %>">
               <% end %>
             <% elsif types == Question::TYPES[:READING] %>
               <%= form_tag({:action => :save_reading}, :multipart => true ,:remote => true) do %>
                 <input type="file" name="file" class="file" style="display:none;" onchange="check_audio(this,<%= types %>, <%= params[:school_class_id] %>)">
                 <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>">
-                <input type="hidden" name="branch_id" class="branch_id" >
+                <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>">
                 <input type="hidden" name="types" class="types" value="<%= types %>">
-                <input type="hidden" name="content" class="content">
-                <input type="hidden" name="q_index" class="q_index">
-                <input type="hidden" name="b_index" class="b_index">
+                <input type="hidden" name="content" class="content" value="<%= content.present?  ? content : "" %>">
+                <input type="hidden" name="q_index" class="q_index" value="<%= count_q.present?  ? count_q : "" %>">
+                <input type="hidden" name="b_index" class="b_index"  value="<%= count_b.present?  ? count_b : "" %>">
               <% end %>
             <% end %>  
         </li>
           <li class="qt_input">
             <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>">
             <input type="hidden" name="types" class="types" value="<%= types %>">
-            <p style="display:none;" ondblclick="$(this).hide();$(this).next().show();"></p>
-            <input class="content" type="text" value="" onblur="ob_listeng_or_reading(this,<%= params[:school_class_id] %>)" >
+            <p style="display:<%= content.present? ? "block" : "none"%>;" ondblclick="$(this).hide();$(this).next().show();"><%= content.present?  ? content : "" %></p>
+            <input class="content" type="text" style="display:<%= content.present? ? "none" : "block"%>;" value="<%= content.present?  ? content : "" %>" onblur="ob_listeng_or_reading(this,<%= params[:school_class_id] %>)" >
           </li>
         </ul>
       </div>

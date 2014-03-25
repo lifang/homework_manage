@@ -1,5 +1,7 @@
 <% @questions.each do |question| %>
   <% case question.types %>
+  <% when Question::TYPES[:READING] || Question::TYPES[:LISTENING]%>
+    <%= render "edit_l_or_r_que",{:question => question} %>
   <% when Question::TYPES[:TIME_LIMIT] %>
     <div class="assignment_body_list" id="time_limit_assignment_body_list">
       <%= render :partial => "new_time_limit"  %>
@@ -167,7 +169,6 @@
   <%else%>
   <% end %>
 <% end %>
-<<<<<<< HEAD
 <div class="tag_tab" id="wp_tags_table">
   <span class="arrows">A</span>
   <div class="search">
@@ -180,7 +181,6 @@
   <input type="hidden" value=""/>
   <a href="javascript:void(0)" onclick="add_b_tag(this, <%= @school_class.id  %>)"></a>
 </div>
-=======
 
 <script>
   $(document).ready(function(){
@@ -191,5 +191,3 @@
     });
   });
 </script>
-
->>>>>>> 0039863e6e1b320bd44ba6681848a987509949bc

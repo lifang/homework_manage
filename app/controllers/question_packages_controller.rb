@@ -179,11 +179,8 @@ class QuestionPackagesController < ApplicationController
     @question_type = Question::TYPES_NAME
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
     @questions = Question.where("question_package_id=#{@question_pack.id}")
-    que = @questions.group_by {|q| q.types}
-    que = que[0].map{|q| q.id}
     get_has_time_limit(@question_pack.id)
-    @reading_and_listening_branch  = Question.get_has_reading_and_listening_branch(@questions)
-    p @reading_and_listening_branch
+    #@reading_and_listening_branch  = Question.get_has_reading_and_listening_branch(@questions)
     #引用url
     @reference_part_url = "/school_classes/#{@school_class.id}/question_packages/#{@question_pack.id}/share_questions/list_questions_by_type"
     render 'new'

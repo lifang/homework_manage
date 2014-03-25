@@ -21,7 +21,6 @@ module QuestionPackagesHelper
 
   #判断该题包下是否已有十速挑战，有的话则返回数据
   def get_has_time_limit question_package_id
-    @b_tags = get_branch_tags(cookies[:teacher_id])
     teacher = Teacher.find_by_id(cookies[:teacher_id])
     user = User.find_by_id(teacher.user_id) if teacher && teacher.user_id
     @time_limit_user_name = user.name if user

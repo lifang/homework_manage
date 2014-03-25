@@ -1,2 +1,5 @@
 var html = '<%=j(render 'questions/next_branch_lianxian')%>'
-$("#now_new_branch").append(html)
+var delete_a = $(".index_new[value='<%= @index_new %>']").parents(".questions_item")
+delete_a.attr("branch_question_index","<%= @branch_question.id %>")
+delete_a.find(".delete").attr("href","/question_packages/"+ <%=@question_package_id%> +"/questions/delete_branch_question?id=<%=@branch_question.id%>")
+$(".ab_article[question_index='<%= @question.id %>']").append(html)

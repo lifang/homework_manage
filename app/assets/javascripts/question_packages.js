@@ -36,7 +36,7 @@ function no_change(obj){
 
 
 //添加听力或朗读题
-function add_l_r_question(type, school_class_id )
+function add_l_r_question(types, school_class_id )
 {
 
     var question_package_id = $("#question_package_id").val();
@@ -48,7 +48,7 @@ function add_l_r_question(type, school_class_id )
         dataType: "script",
         url: url,
         data: {
-            type : type,
+            types : types,
             question_package_id : question_package_id,
             episode_id : episode_id,
             cell_id : cell_id
@@ -58,30 +58,134 @@ function add_l_r_question(type, school_class_id )
     });
 }
 
+
 //选择上传音频文件
 function select_audio(obj)
 {   
     $(obj).next().find("[class='file']").click();
+}
+
+//显示该单元该课下的题目
+function show_ques(types, school_class_id)
+{
+    var question_package_id = $("#question_package_id").val();
+    var cell_id = $("#cell_id").val();
+    var episode_id = $("#episode_id").val();
+    var url = "/school_classes/"+school_class_id+"/question_packages/show_questions";
+    $.ajax({
+        type: "get",
+        dataType: "script",
+        url: url,
+        data: {
+            types : types,
+            question_package_id : question_package_id,
+            episode_id : episode_id,
+            cell_id : cell_id
+        },
+        success: function(data){
+        }
+    }); 
+}
+
+//播放音频文件
+function playAudio(obj){
+    var oAudio =  $(obj).find("audio")[0];
+    if (oAudio.paused) {
+        oAudio.play();
+    }
+    else {
+        oAudio.pause();
+    }
+}
+
+//听力和朗读上传音频文件
+function check_audio(obj, types, school_class_id)
+{
+    var question_id = $(obj).parent().find("[class='question_id']").val();
+    var branch_id = $.trim($(obj).parent().find("[class='branch_id']").val());
+    var types = $(obj).parent().find("[class='types']").val();
+    var q_index = $(obj).parent().find("[class='q_index']").val();
+    var b_index = $(obj).parent().find("[class='b_index']").val();
+    var content = $.trim($(obj).parent().find("[class='content']").val());  
+  
+ 
+   if(types == 0) //听写
+    {
+
+
+        if(content != "")
+        {
+            $(obj).parent().submit();
+        }
+        else
+        {
+            tishi("小题内容不能为空！");
+            $(obj).val();
+        }
+    }
+    else if(types == 1)  // 朗读
+    {
+        if(content != "")
+        {
+            if(branch_id != "")
+            {   
+             $(obj).parent().submit();
+            } 
+        }
+        else
+        {
+            tishi("小题内容不能为空！");
+            $(obj).val();
+        }    
+
+    } 
 
 }
 
-//
+//听力和朗读的onblur事件
 function ob_listeng_or_reading(obj, school_class_id)
 {
     var question_package_id = $("#question_package_id").val();
     var cell_id = $("#cell_id").val();
     var episode_id = $("#episode_id").val();
-    var types = $(obj).parent().parent().parent().parent().parent().parent().parent().prev().find("[class='question_types']").val();
-    var value = $.trim($(obj).val());
-    if(value != "")
+    var question_id = $(obj).parent().find("[class='question_id']").val();
+    var branch_id = $.trim($(obj).parent().prev().find("[class='branch_id']").val());
+    var q_index = $(obj).parent().parent().parent().parent().parent().parent().parent().parent().index();
+    var b_index = $(obj).parent().parent().parent().parent().parent().index();
+    var types = $(obj).parent().find("[class='types']").val();
+    var content = $.trim($(obj).val());
+    if(content != "")
     {
-        $(obj).prev().text(value);
+
+        $(obj).prev().text(content);
         $(obj).hide();
         $(obj).prev().show();
-        $(obj).parent().prev().find("[class='types']").val(types);
-        $(obj).parent().prev().find("[class='content']").val(value);
+        $(obj).parent().prev().find("form").find("[class='q_index']").val(q_index);
+        $(obj).parent().prev().find("form").find("[class='b_index']").val(b_index);
+        $(obj).parent().prev().find("form").find("[class='content']").val(content);
+
         if(types == 0)  //听写
         {
+            if(branch_id != "")
+            {
+               var url =  "/school_classes/"+school_class_id+"/question_packages/save_listening";
+                $.ajax({
+                    type: "post",
+                    dataType: "script",
+                    url: url,
+                    data: {
+                        branch_id : branch_id,
+                        types : types,
+                        content : content,
+                        question_id : question_id,
+                        question_package_id : question_package_id,
+                        episode_id : episode_id,
+                        cell_id : cell_id
+                    },
+                    success: function(data){
+                    }
+                }); 
+            }
         }
         else if(types == 1) // 朗读
         {
@@ -91,13 +195,17 @@ function ob_listeng_or_reading(obj, school_class_id)
                 dataType: "script",
                 url: url,
                 data: {
+                    branch_id : branch_id, 
+                    q_index : q_index,
+                    b_index : b_index,
                     types : types,
+                    content : content,
+                    question_id : question_id,
                     question_package_id : question_package_id,
                     episode_id : episode_id,
                     cell_id : cell_id
                 },
                 success: function(data){
-                    alert(data);
                 }
             });
         }
@@ -264,8 +372,23 @@ function search_b_tags(obj, school_class_id){
             if(data.b_tags.length > 0){
                 $.each(data.b_tags, function(index, val){
                     $(obj).parents("div.tag_tab").find("ul").append("<li><input type='checkbox' value='"+val.id+"' \n\
-                onclick='add_tags_to_time_limit(this,\""+val.id+"\",\""+val.name+"\")'/><p>"+val.name+"</p></li>");
-                })
+                    /><p>"+val.name+"</p></li>");
+                });
+                $('input[type=checkbox], input[type=radio]').iCheck({
+                    checkboxClass: 'icheckbox_square-aero',
+                    radioClass: 'iradio_square-aero',
+                    increaseArea: '20%' // optional
+                });
+                var lis = $("#tags_table").find("li");
+                $.each(lis, function(){
+                    var current_input = $(this).find("input").first();
+                    var tag_id = current_input.val();
+                    var tag_name = $(this).find("p").first().text();
+                    $(current_input).on("ifChecked", function(){
+                        add_tags_to_time_limit($(this), tag_id, tag_name);
+                    })
+                });
+                 $(obj).parents("div.tag_tab").find("a").first().text("");
             }else{
                 $(obj).parents("div.tag_tab").find("ul").html("无");
                 if(tag_name!=""){
@@ -299,6 +422,20 @@ function add_b_tag(obj, school_class_id){
                     tishi("新建成功!");
                     $(obj).parents("div.tag_tab").find("ul").html("<li><input type='checkbox' value='"+data.tag_id+"' \n\
  onclick='add_tags_to_time_limit(this,\""+data.tag_id+"\",\""+data.tag_name+"\")'/><p>"+data.tag_name+"</p></li>");
+                    $('input[type=checkbox], input[type=radio]').iCheck({
+                        checkboxClass: 'icheckbox_square-aero',
+                        radioClass: 'iradio_square-aero',
+                        increaseArea: '20%' // optional
+                    });
+                    var lis = $("#tags_table").find("li");
+                    $.each(lis, function(){
+                        var current_input = $(this).find("input").first();
+                        var tag_id = current_input.val();
+                        var tag_name = $(this).find("p").first().text();
+                        $(current_input).on("ifChecked", function(){
+                            add_tags_to_time_limit($(this), tag_id, tag_name);
+                        })
+                    });
                     $(obj).text("");
                 }
             },
@@ -308,6 +445,57 @@ function add_b_tag(obj, school_class_id){
         })
     }
 }
+
+//点击跳出标签层
+function add_b_tags(type, obj){
+    var width = $("#tags_table").width();
+    var height = $(obj).height();
+    $("#tags_table").css("display", "block");
+    $("#tags_table").css({
+        'left':($(obj).offset().left-width)+'px',
+        'top':($(obj).offset().top+height)+'px'
+    });
+    if(type=="time_limit"){
+        var time_limit_div = $(obj).parents(".questions_item").attr("id");
+        var index = time_limit_div.split("_")[3];       //获取当前添加标签图标对应的题目的索引
+        $("#tags_table").find("input[type='hidden']").first().val(index);
+        var lis = $("#tags_table").find("li");
+        $.each(lis, function(){
+            var current_input = $(this).find("input").first();
+            var tag_id = current_input.val();
+            var tag_name = $(this).find("p").first().text();
+            $(current_input).on("ifChecked", function(){
+                add_tags_to_time_limit($(this), tag_id, tag_name);
+            })           
+        })
+    }else if(type=="select"){
+
+    }
+    return false;
+}
+
+//添加标签到十速挑战的题目下面
+function add_tags_to_time_limit(obj, tag_id, tag_name){
+    var index = $("#tags_table").find("input[type='hidden']").first().val();
+    if($(obj).attr("checked")=="checked"){
+        if(index==""){
+            tishi("数据错误!");
+        }else{
+            var has_tags = $("#time_limit_item_"+index+" .tag_ul ul").find("input[type='hidden']");   //验证是否已添加该标签
+            var flag = true;
+            $.each(has_tags, function(name,val){
+                if($(this).val()==tag_id){
+                    flag = false;
+                }
+            });
+            if(flag){
+                $("#time_limit_item_"+index+" .tag_ul ul").append("<li><p>"+tag_name+"</p><a href='jsvsacript:void(0)' class='x' onclick='remove_tags_from_time_limit(this)'>x</a>\n\
+      <input type='hidden' name='[time_limit]["+index+"][tags][]' value='"+tag_id+"'/></li>");
+            }
+        }
+    }
+}
+  
 function save_wanxin_branch(obj,school_class,question_pack){
     var question_id = $($(obj).parents(".ab_list_open")[0]).find(".question_id").val();
     var params = $($(obj).parents(".gapFilling_questions")[0]).find("form").serialize();
@@ -422,7 +610,6 @@ function delete_paixu_option(obj,school_class,question_package){
 }
 
 function add_paixu_tags(obj, index){
-
     common_tags(obj);
     var question_item = $(obj).parents(".questions_item")[0]
     var q_index = $($(obj).parents(".ab_article")[0]).find(".questions_item").index($(question_item));

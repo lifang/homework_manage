@@ -13,7 +13,7 @@
         <div class="qt_icon">
           <a style="cursor: pointer;display: none;" onclick="save_paixu_branch(this,<%=  @school_class.id%>,<%= @question_packages.id%>)" class='save tooltip_html wangping_save'>保存</a>
           <a style="cursor: pointer;" class="delete tooltip_html wangping_delete" onclick = 'delete_paixu_option(this,<%=  @school_class.id%>,<%= @question_packages.id%>)'>删除</a>
-          <a href="javascript:void(0)" onclick="add_b_tag(this, <%= @school_class.id  %>)" class="tag tooltip_html"></a> 
+          <a style="cursor: pointer;" style="cursor: pointer;" onclick="add_paixu_tags(this, <%= @school_class.id  %>)" class="tag tooltip_html"></a>
         </div>
         <div class="tag_ul">
           <ul>
@@ -36,7 +36,7 @@
     <div class='qt_icon'>
       <a style='cursor: pointer;' onclick='save_paixu_branch(this,<%=  @school_class.id%>,<%= @question_packages.id%>)' class='save tooltip_html wangping_save'>保存</a>
       <a style='cursor: pointer;display: none;' class='delete tooltip_html wangping_delete' onclick = 'delete_paixu_option(this,<%=  @school_class.id%>,<%= @question_packages.id%>)'>删除</a>
-      <a href="javascript:void(0)" onclick="add_b_tag(this, <%= @school_class.id  %>)" class="tag tooltip_html"></a>
+      <a style="cursor: pointer;display: none;" onclick="add_paixu_tags(this, <%= @school_class.id  %>)" class="tag tooltip_html wangping_tag"></a>
     </div>
     <div class='tag_ul'>
       <ul>

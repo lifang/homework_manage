@@ -22,14 +22,14 @@
                 <ul>
                   <li><a href="javascript:void(0)" onclick="change_true_or_false(this)" <% if bq.answer=="true" %>class="true"<% end %>>T</a></li>
                   <li class="qt_text">
-                    <p onclick="time_limit_hide_p(this)"><%= bq.content %></p>
+                    <p ondblclick="time_limit_hide_p(this)"><%= bq.content %></p>
                     <input name="[time_limit][<%= bq.id %>][content]" type="text" value="<%= bq.content %>" style="display:none;" onblur="time_limit_hide_input(this)"/></li>
                   <li><a href="javascript:void(0)" onclick="change_true_or_false(this)" <% if bq.answer=="false" %>class="true"<% end %>>F</a></li>
                   <input type="hidden" name="[time_limit][<%= bq.id %>][answer]" aid="ddd" value="<%= bq.answer=="true" ? "true" : "false" %>"/>
                 </ul>
               </div>
             </div>
-            <div class="qt_icon"><a href="javascript:void(0)" class="tag_1 tooltip_html" onclick="add_b_tags(this, <%= bq.id %>)">标签</a></div>
+            <div class="qt_icon"><a href="javascript:void(0)" class="tag_1 tooltip_html" onclick="add_b_tags('time_limit',this)">标签</a></div>
             <div class="tag_ul">
               <ul>
                 <% @time_limit_tags.each do |t| %>
@@ -53,14 +53,14 @@
                 <ul>
                   <li><a href="javascript:void(0)" onclick="change_true_or_false(this)">T</a></li>
                   <li class="qt_text">
-                    <p onclick="time_limit_hide_p(this)"></p>
+                    <p ondblclick="time_limit_hide_p(this)"></p>
                     <input name="[time_limit][<%= t %>][content]" type="text" style="display:none;" onblur="time_limit_hide_input(this)"/></li>
                   <li><a href="javascript:void(0)" onclick="change_true_or_false(this)">F</a></li>
                   <input type="hidden" name="[time_limit][<%= t %>][answer]" aid="ddd"/>
                 </ul>
               </div>
             </div>
-            <div class="qt_icon"><a href="javascript:void(0)" class="tag_1 tooltip_html" onclick="add_b_tags(this, <%= t %>)">标签</a></div>
+            <div class="qt_icon"><a href="javascript:void(0)" class="tag_1 tooltip_html" onclick="add_b_tags('time_limit',this)">标签</a></div>
             <div class="tag_ul">
               <ul>
               </ul>
@@ -72,19 +72,7 @@
   </div>
 <% end %>
 
-<!--标签层-->
-<div class="tag_tab" id="tags_table">
-  <span class="arrows">A</span>
-  <div class="search">
-    <input type="text" oninput="search_b_tags(this, <%= @school_class.id  %>)"/></div>
-  <ul>
-    <% @b_tags.each do |bt| %>
-      <li><input type="checkbox" value="<%= bt.id %>" onclick="add_tags_to_time_limit(this,'<%= bt.id %>', '<%= bt.name %>')"/><p><%= bt.name %></p></li>
-    <% end %>
-  </ul>
-  <input type="hidden" value=""/>
-  <a href="javascript:void(0)" onclick="add_b_tag(this, <%= @school_class.id  %>)"></a>
-</div>
+
 <script>
   $(function(){
     //保存小题验证
@@ -250,7 +238,8 @@
 
   //点击跳出标签层
   function add_b_tags(obj, index){
-    var width = $("#tags_table").width();
+
+    var width  = $("#tags_table").width();
     var height = $(obj).height();
     $("#tags_table").css("display", "block");
     $("#tags_table").css({
@@ -259,7 +248,8 @@
     });
     $("#tags_table").find("input[type='hidden']").first().val(index);
     return false;
-  }
+
+}
 
   //添加标签
   function add_tags_to_time_limit(obj, tag_id, tag_name){
@@ -282,6 +272,7 @@
       }
     }
   }
+  
 
   //删除标签
   function remove_tags_from_time_limit(obj){

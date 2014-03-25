@@ -28,4 +28,18 @@ class QuestionPackage < ActiveRecord::Base
     end
     all_packs_que_types
   end
+
+  def self.create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)
+    if question_pack_id.present?
+      question_pack = QuestionPackage.find_by_id(question_pack_id)
+    else
+      question_pack = QuestionPackage.create(:school_class_id => school_class_id)
+    end
+    if question_pack
+      question = question_pack.questions.create({:cell_id => cell_id, :episode_id => episode_id, :types => question_type})
+    end
+    status = question_pack && question
+    [status, question, question_pack]
+  end
+
 end

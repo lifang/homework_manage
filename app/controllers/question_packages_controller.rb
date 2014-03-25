@@ -50,7 +50,7 @@ class QuestionPackagesController < ApplicationController
 
   end 
   
- #创建朗读题小题
+  #创建朗读题小题
   def save_reading
     @q_index = params[:q_index].to_i
     @b_index = params[:b_index].to_i
@@ -73,6 +73,7 @@ class QuestionPackagesController < ApplicationController
     @question_pack = QuestionPackage.create(:school_class_id => @school_class.id)
     redirect_to "/school_classes/#{@school_class.id}/question_packages/#{@question_pack.id}/new_index"
   end
+  
   def new_index
     @b_tags = get_branch_tags(cookies[:teacher_id])
     @question_pack = QuestionPackage.find_by_id(params[:id])
@@ -80,6 +81,8 @@ class QuestionPackagesController < ApplicationController
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
     @questions = Question.where("question_package_id=#{@question_pack.id}")
     get_has_time_limit(@question_pack.id)
+    #引用url
+    @reference_part_url = "/school_classes/#{@school_class.id}/question_packages/#{@question_pack.id}/share_questions/list_questions_by_type"
     render 'new'
   end
   def setting_episodes
@@ -213,7 +216,7 @@ class QuestionPackagesController < ApplicationController
     @question_packages = QuestionPackage.find_by_id(params[:id])
     @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
   end
-#删除小题
+  #删除小题
   def delete_branch_question branch_question_id
     branch_question = BranchQuestion.find_by_id(branch_question_id)
     if branch_question && branch_question.destroy
@@ -229,7 +232,7 @@ class QuestionPackagesController < ApplicationController
     @question_type = question_type
     QuestionPackage.transaction do
       if new_or_refer == "0"
-        status = create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)
+        status, @question, @question_pack = QuestionPackage.create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)
         if status
           render :partial => "questions/new_branch"
         else
@@ -238,7 +241,7 @@ class QuestionPackagesController < ApplicationController
       else
         @share_questions = ShareQuestion.share_questions(cell_id, episode_id, question_type, "desc", 1)
         if @share_questions.present?
-          status = create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)
+          status, @question, @question_pack = QuestionPackage.create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)
           if status
             render :partial =>"questions/new_reference"
           else
@@ -466,19 +469,5 @@ class QuestionPackagesController < ApplicationController
     @cells = teaching_material.cells if teaching_material
     @episodes = Episode.where(:cell_id => @cells.map(&:id)).group_by{|e| e.cell_id} if @cells
   end
-
-  def create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)
-    if question_pack_id.present?
-      @question_pack = QuestionPackage.find_by_id(question_pack_id)
-    else
-      @question_pack = QuestionPackage.create(:school_class_id => school_class_id)
-    end
-    if @question_pack
-      @question = @question_pack.questions.create({:cell_id => cell_id, :episode_id => episode_id, :types => question_type})
-    end
-    status = @question_pack && @question
-    status
-  end
-
 
 end

@@ -23,4 +23,45 @@ class Question < ActiveRecord::Base
        and b.id is not null"
     all_questions = Question.find_by_sql sql_str
   end
+
+
+  def self.sava_select_qu check_select,select_value1,select_value2,select_value3,select_value4
+    answer = ""
+    options = select_value1 + ";||;"+ select_value2 +";||;"+ select_value3 + ";||;" + select_value4
+    if check_select
+      check_select.each do |check|
+        case check.to_i
+        when 1
+          if answer.blank?
+            answer += select_value1
+          else
+            answer += ';||;' + select_value1
+          end
+        when 2
+          if answer.blank?
+            answer += select_value2
+          else
+            answer += ';||;' + select_value2
+          end
+        when 3
+          if answer.blank?
+            answer += select_value3
+          else
+            answer += ';||;' + select_value3
+          end
+        when 4
+          if answer.blank?
+            answer += select_value4
+          else
+            answer += ';||;' + select_value4
+          end
+        else
+          p 2222
+        end
+      end
+    end
+    info = {:answer=>answer,:options=>options}
+  end
+
+
 end

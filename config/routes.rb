@@ -134,7 +134,7 @@ HomeworkManage::Application.routes.draw do
       collection do
         get :show_branch_question
         get :show_select,:question_selects_all,:new_lianxian,:delete_branch_question
-        post :save_select,:save_lianxian,:update_select
+        post :save_select,:save_lianxian,:update_select,:update_lianxian
       end
       resources :branch_questions
     end

@@ -1,9 +1,9 @@
 <% @questions.each do |question| %>
   <% case question.types %>
   <% when Question::TYPES[:TIME_LIMIT] %>
-<div class="assignment_body_list" id="time_limit_assignment_body_list">
-<%= render :partial => "new_time_limit"  %>
-</div>
+    <div class="assignment_body_list" id="time_limit_assignment_body_list">
+      <%= render :partial => "new_time_limit"  %>
+    </div>
   <% when Question::TYPES[:SELECTING] %>
     <div class="assignment_body_list" >
       <div class="ab_list_title">
@@ -19,28 +19,46 @@
       <div class="ab_list_box" style="display: none;">
         <div class="ab_article">
           <% question.branch_questions.each do |branch_question| %>
-            <div class="questions_item" branch_question_index="<%= branch_question.id %>">
-              <div class="q_topic">
-                <div class="multipleChoice">
-                  <div class="q_left"><img src="/assets/voice.jpg"/></div>
-                  <div class="q_right">
-                    <div class="q_title"><div class="qt_text"><p><%= branch_question.content %></p><input name="" type="text"/></div></div>
-                    <ul>
-                      <% branch_question.options.split(";||;").each do |bq_option| %>
-                        <li><input type="checkbox"/><div class="qt_text"><p><%= bq_option %></p><input name="" type="text"/></div></li>
-                      <% end %>
-                    </ul>
+            <div class="questions_item" branch_question_index="<%= branch_question.id %>" stypes="save_select">
+              <%= form_for :question,:url => { :action => :update_select, :controller => :questions ,:question_package_id=>@question_pack.id}, :method=>"post" ,:remote=>true do |f|%>
+                <div class="q_topic">
+                  <div class="multipleChoice">
+                    <div class="q_left"><img src="/assets/voice.jpg"/></div>
+                    <div class="q_right">
+                      <div class="q_title"><div class="qt_text">
+                          <p><%= branch_question.content %></p>
+                          <input name="select_content" type="text" value="<%= branch_question.content %>"/>
+                        </div></div>
+                      <ul>
+                        <% count=0 %>
+                        <% branch_question.options.split(";||;").each do |bq_option| %>
+                          <li><input type="checkbox" name="check_select[]" value="<%= count+=1 %>"
+                            <% if  branch_question.answer.split(";||;").include?(bq_option) %>
+                                       checked
+                                     <% end %>/>
+                            <div class="qt_text">
+                              <p><%= bq_option %></p>
+                              <input name="select_value<%= count %>" type="text" value="<%= bq_option %>"/>
+                            </div>
+                          </li>
+                        <% end %>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="qt_icon">
-                <a href="javascript:void(0)" class="save tooltip_html" onclick="onclick_submit(this)"style="display:none"></a>
-                <%= link_to '删除',{:controller => 'questions',:action =>'delete_branch_question',
-                  :question_package_id=>@question_pack.id,:id=>branch_question.id} ,
-                  :remote=>true ,:class=>'delete tooltip_html'%>
-                <%=  %>
-                <a href="#" class="tag tooltip_html">标签</a>
-              </div>
+                <div class="qt_icon">
+                  <a href="javascript:void(0)" class="save tooltip_html" onclick="onclick_submit(this)"style="display:none"></a>
+                  <%= link_to '删除',{:controller => 'questions',:action =>'delete_branch_question',
+                    :question_package_id=>@question_pack.id,:id=>branch_question.id} ,
+                    :remote=>true ,:class=>'delete tooltip_html'%>
+                  <%=  %>
+                  <a href="#" class="tag tooltip_html">标签</a>
+                </div>
+                <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_pack.id %>"/>
+                <input type="hidden" name="question_id" value="<%= question.id %>"/>
+                <input type="hidden" name="branch_question_id" value="<%= branch_question.id %>"/>
+                <input class="submit_sava" type="submit" style="display:none" value="保存"/>
+              <% end %>
               <div class="tag_ul">
                 <ul>
                   <li><p>不定冠词</p><a href="#" class="x">X</a></li>
@@ -68,23 +86,29 @@
       <div class="ab_list_box" style="display: none;">
         <div class="ab_article">
           <% question.branch_questions.each do |branch_question| %>
-            <div class="questions_item" branch_question_index="<%= branch_question.id %>">
-              <div class="q_topic">
-                <div class="ligatureQuestions">
-                  <ul>
-                    <li class="qt_text"><p><%= branch_question.options.split(";||;")[0] %></p><input name="" type="text"/></li>
-                    <li><i></i></li>
-                    <li class="qt_text"><p><%= branch_question.options.split(";||;")[1] %></p><input name="" type="text"/></li>
-                  </ul>
+            <div class="questions_item" branch_question_index="<%= branch_question.id %>" stypes="save_lianxian">
+              <%= form_for :question,:url => { :action => :update_lianxian, :controller => :questions,:question_package_id=>@question_pack.id }, :method=>"post" ,:remote=>true do |f|%>
+                <div class="q_topic">
+                  <div class="ligatureQuestions">
+                    <ul>
+                      <li class="qt_text"><p><%= branch_question.options.split(";||;")[0] %></p><input name="left_lianxian" type="text" value="<%= branch_question.options.split(";||;")[0] %>"/></li>
+                      <li><i></i></li>
+                      <li class="qt_text"><p><%= branch_question.options.split(";||;")[1] %></p><input name="right_lianxian" type="text" value="<%= branch_question.options.split(";||;")[1] %>"/></li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
-              <div class="qt_icon">
-                <a href="javascript:void(0)" class="save tooltip_html"onclic="update_branch()">保存</a>
-                <%= link_to '删除',{:controller => 'questions',:action =>'delete_branch_question',
-                  :question_package_id=>@question_pack.id,:id=>branch_question.id} ,
-                  :remote=>true ,:class=>'delete tooltip_html'%>
-                <a href="javascript:void(0)" class="tag tooltip_html">标签</a>
-              </div>
+                <div class="qt_icon">
+                  <a href="javascript:void(0)" class="save tooltip_html"onclick="onclick_submit(this)" style="display:none" >保存</a>
+                  <%= link_to '删除',{:controller => 'questions',:action =>'delete_branch_question',
+                    :question_package_id=>@question_pack.id,:id=>branch_question.id} ,
+                    :remote=>true ,:class=>'delete tooltip_html'%>
+                  <a href="javascript:void(0)" class="tag tooltip_html">标签</a>
+                </div>
+                <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_pack.id %>"/>
+                <input type="hidden" name="question_id" value="<%= question.id %>"/>
+                <input type="hidden" name="branch_question_id" value="<%= branch_question.id %>"/>
+                <input class="submit_sava" type="submit" style="display:none" value="保存"/>
+              <% end %>
               <div class="tag_ul">
                 <ul>
                   <li><p>不定冠词</p><a href="#" class="x">X</a></li>
@@ -137,7 +161,7 @@
         </ul>
       </div>
       <div class="ab_list_box" style="display: none;">
-        
+
       </div>
     </div>
   <%else%>

@@ -299,10 +299,10 @@ $(function(){
     $("body").on("click",".ab_list_title",function(){
         if($(this).parent().find(".ab_list_box").is(":hidden")){
             $(this).parent().find(".ab_list_box").show();
-            $(this).parent().addClass("ab_list_open");
+            $(this).parents("div.assignment_body_list").addClass("ab_list_open");
         }else{
             $(this).parent().find(".ab_list_box").hide();
-            $(this).parent().removeClass("ab_list_open");
+            $(this).parents("div.ab_list_open").removeClass("ab_list_open");
         }
 
     })
@@ -319,7 +319,6 @@ $(function(){
         $(this).find(".second_menu").css("display","none");
     });
 })
-
 
 //题面 双击修改
 //function ondblclick(a,b){
@@ -345,32 +344,9 @@ $(function(){
 })
 
 
-//点击作业列表展开隐藏
-$(function(){
-    $(".ab_list_title").click(function(){
-        if($(this).parent().find(".ab_list_box").is(":hidden")){
-            $(this).parent().find(".ab_list_box").show();
-            $(this).parent().addClass("ab_list_open");
-        }else{
-            $(this).parent().find(".ab_list_box").hide();
-            $(this).parent().removeClass("ab_list_open");
-        }
-
-    })
-})
 
 
-//鼠标经过题型menu
-$(function(){
-    $(".qType_menu > ul > li").mouseover(function(){
-        $(this).find("i.arrows").css("display","block");
-        $(this).find(".second_menu").css("display","block");
-    });
-    $(".qType_menu").mouseout(function(){
-        $(this).find("i.arrows").css("display","none");
-        $(this).find(".second_menu").css("display","none");
-    });
-})
+
 
 
 
@@ -538,23 +514,6 @@ $(function(){
         }
     })
 })
-
-
-//点击作业列表展开隐藏
-$(function(){
-    $(".ab_list_title").click(function(){
-        if($(this).parent().find(".ab_list_box").is(":hidden")){
-            $(this).parent().find(".ab_list_box").show();
-            $(this).parent().addClass("ab_list_open");
-        }else{
-            $(this).parent().find(".ab_list_box").hide();
-            $(this).parent().removeClass("ab_list_open");
-        }
-
-    })
-})
-
-
 
 //user_info 修改姓名邮箱
 $(function(){

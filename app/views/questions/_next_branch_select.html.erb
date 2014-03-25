@@ -1,5 +1,5 @@
-<div class="questions_item">
-  <%= form_for :question,:url => { :action => :save_select, :controller => :questions }, :method=>"post" ,remote: :true do |f|%>
+<div class="questions_item" stypes="save_select" branch_question_index="">
+  <%= form_for :question,:url => { :action => :save_select, :controller => :questions }, :method=>"post" ,:remote=>true do |f|%>
     <div class="q_topic">
       <div class="multipleChoice">
         <div class="q_left"><img src="/assets/multipleChoice.jpg"/></div>
@@ -16,11 +16,12 @@
     </div>
     <div class="qt_icon">
       <a href="javascript:void(0)" class="save tooltip_html" onclick="onclick_submit(this)"></a>
-      <a href="javascript:void(0)" class="delete tooltip_html">删除</a>
+      <a href="javascript:void(0)" class="delete tooltip_html" style="display:none" data-remote="true" >删除</a>
       <a href="javascript:void(0)" class="tag tooltip_html">标签</a>
     </div>
     <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_package_id %>"/>
     <input type="hidden" name="question_id" value="<%= @question.id %>"/>
+    <input type="hidden" name="index_new" class="index_new" value="<%= @index_new.to_i + 1 %>"/>
     <input class="submit_sava" type="submit" style="display:none" value="保存"/>
   <% end %>
   <div class="tag_ul">

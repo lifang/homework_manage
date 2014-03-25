@@ -19,7 +19,7 @@
       <div class="ab_list_box" style="display: none;">
         <div class="ab_article">
           <% question.branch_questions.each do |branch_question| %>
-            <div class="questions_item">
+            <div class="questions_item" branch_question_index="<%= branch_question.id %>">
               <div class="q_topic">
                 <div class="multipleChoice">
                   <div class="q_left"><img src="/assets/voice.jpg"/></div>
@@ -34,7 +34,11 @@
                 </div>
               </div>
               <div class="qt_icon">
-                <a href="#" class="delete tooltip_html">删除</a>
+                <a href="javascript:void(0)" class="save tooltip_html" onclick="onclick_submit(this)"style="display:none"></a>
+                <%= link_to '删除',{:controller => 'questions',:action =>'delete_branch_question',
+                  :question_package_id=>@question_pack.id,:id=>branch_question.id} ,
+                  :remote=>true ,:class=>'delete tooltip_html'%>
+                <%=  %>
                 <a href="#" class="tag tooltip_html">标签</a>
               </div>
               <div class="tag_ul">
@@ -64,7 +68,7 @@
       <div class="ab_list_box" style="display: none;">
         <div class="ab_article">
           <% question.branch_questions.each do |branch_question| %>
-            <div class="questions_item">
+            <div class="questions_item" branch_question_index="<%= branch_question.id %>">
               <div class="q_topic">
                 <div class="ligatureQuestions">
                   <ul>
@@ -75,8 +79,11 @@
                 </div>
               </div>
               <div class="qt_icon">
-                <a href="#" class="save tooltip_html">保存</a>
-                <a href="#" class="tag tooltip_html">标签</a>
+                <a href="javascript:void(0)" class="save tooltip_html"onclic="update_branch()">保存</a>
+                <%= link_to '删除',{:controller => 'questions',:action =>'delete_branch_question',
+                  :question_package_id=>@question_pack.id,:id=>branch_question.id} ,
+                  :remote=>true ,:class=>'delete tooltip_html'%>
+                <a href="javascript:void(0)" class="tag tooltip_html">标签</a>
               </div>
               <div class="tag_ul">
                 <ul>
@@ -136,3 +143,14 @@
   <%else%>
   <% end %>
 <% end %>
+
+<script>
+  $(document).ready(function(){
+    $('input[type=checkbox], input[type=radio]').iCheck({
+      checkboxClass: 'icheckbox_square-aero',
+      radioClass: 'iradio_square-aero',
+      increaseArea: '20%' // optional
+    });
+  });
+</script>
+

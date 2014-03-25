@@ -22,7 +22,7 @@
                 <ul>
                   <li><a href="javascript:void(0)" onclick="change_true_or_false(this)" <% if bq.answer=="true" %>class="true"<% end %>>T</a></li>
                   <li class="qt_text">
-                    <p onclick="time_limit_hide_p(this)"><%= bq.content %></p>
+                    <p ondblclick="time_limit_hide_p(this)"><%= bq.content %></p>
                     <input name="[time_limit][<%= bq.id %>][content]" type="text" value="<%= bq.content %>" style="display:none;" onblur="time_limit_hide_input(this)"/></li>
                   <li><a href="javascript:void(0)" onclick="change_true_or_false(this)" <% if bq.answer=="false" %>class="true"<% end %>>F</a></li>
                   <input type="hidden" name="[time_limit][<%= bq.id %>][answer]" aid="ddd" value="<%= bq.answer=="true" ? "true" : "false" %>"/>
@@ -53,7 +53,7 @@
                 <ul>
                   <li><a href="javascript:void(0)" onclick="change_true_or_false(this)">T</a></li>
                   <li class="qt_text">
-                    <p onclick="time_limit_hide_p(this)"></p>
+                    <p ondblclick="time_limit_hide_p(this)"></p>
                     <input name="[time_limit][<%= t %>][content]" type="text" style="display:none;" onblur="time_limit_hide_input(this)"/></li>
                   <li><a href="javascript:void(0)" onclick="change_true_or_false(this)">F</a></li>
                   <input type="hidden" name="[time_limit][<%= t %>][answer]" aid="ddd"/>

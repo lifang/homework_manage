@@ -62,4 +62,6 @@ class BranchQuestionsController < ApplicationController
       f.js
     end
   end
+
+
 end

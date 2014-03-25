@@ -114,6 +114,19 @@
       <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=@question_pack.id%>"/>
       <button>点击确定完成创建</button>
     </div>
+    <!--标签层-->
+    <div class="tag_tab" id="tags_table">
+      <span class="arrows">A</span>
+      <div class="search">
+        <input type="text" oninput="search_b_tags(this, <%= @school_class.id  %>)"/></div>
+      <ul>
+        <% @b_tags.each do |bt| %>
+          <li><input type="checkbox" value="<%= bt.id %>"/><p><%= bt.name %></p></li>
+        <% end %>
+      </ul>
+      <input type="hidden" value=""/>
+      <a href="javascript:void(0)" onclick="add_b_tag(this, <%= @school_class.id  %>)"></a>
+    </div>
   </div>
 </div>
 <script>
@@ -132,4 +145,11 @@
     $(".assignment_body").hide();
     $("#question_list_"+id+"").show();
   }
+  $(document).ready(function(){
+    $('input[type=checkbox], input[type=radio]').iCheck({
+      checkboxClass: 'icheckbox_square-aero',
+      radioClass: 'iradio_square-aero',
+      increaseArea: '20%' // optional
+    });
+  });
 </script>

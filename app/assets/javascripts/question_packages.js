@@ -80,44 +80,44 @@ function check_audio(obj, types, school_class_id)
     if(types == 0) //听写
     {
         var url =  "/school_classes/"+school_class_id+"/question_packages/save_listening";
-            $.ajax({
-                type: "post",
-                dataType: "script",
-                url: url,
-                data: {
-                    q_index : q_index,
-                    b_index : b_index,
-                    types : types,
-                    content : value,
-                    question_id : question_id,
-                    question_package_id : question_package_id,
-                    episode_id : episode_id,
-                    cell_id : cell_id
-                },
-                success: function(data){
-                }
-            }); 
+        $.ajax({
+            type: "post",
+            dataType: "script",
+            url: url,
+            data: {
+                q_index : q_index,
+                b_index : b_index,
+                types : types,
+                content : value,
+                question_id : question_id,
+                question_package_id : question_package_id,
+                episode_id : episode_id,
+                cell_id : cell_id
+            },
+            success: function(data){
+            }
+        });
     }
     else if(types == 1)  // 朗读
     {
-         var url =  "/school_classes/"+school_class_id+"/question_packages/save_reading";
-            $.ajax({
-                type: "post",
-                dataType: "script",
-                url: url,
-                data: {
-                    q_index : q_index,
-                    b_index : b_index,
-                    types : types,
-                    content : value,
-                    question_id : question_id,
-                    question_package_id : question_package_id,
-                    episode_id : episode_id,
-                    cell_id : cell_id
-                },
-                success: function(data){
-                }
-            });
+        var url =  "/school_classes/"+school_class_id+"/question_packages/save_reading";
+        $.ajax({
+            type: "post",
+            dataType: "script",
+            url: url,
+            data: {
+                q_index : q_index,
+                b_index : b_index,
+                types : types,
+                content : value,
+                question_id : question_id,
+                question_package_id : question_package_id,
+                episode_id : episode_id,
+                cell_id : cell_id
+            },
+            success: function(data){
+            }
+        });
     }
 }
 
@@ -312,60 +312,144 @@ function new_time_limit(school_class_id){
 }
 
 //搜索标签
-  function search_b_tags(obj, school_class_id){
+function search_b_tags(obj, school_class_id){
     var tag_name = $.trim($(obj).val());
     $.ajax({
-      type: "get",
-      url: "/school_classes/"+school_class_id+"/question_packages/search_b_tags",
-      dataType: "json",
-      data: {tag_name : tag_name},
-      success: function(data){
-          $(obj).parents("div.tag_tab").find("ul").empty();
-          if(data.b_tags.length > 0){
-              $.each(data.b_tags, function(index, val){
-                  $(obj).parents("div.tag_tab").find("ul").append("<li><input type='checkbox' value='"+val.id+"' \n\
-                onclick='add_tags_to_time_limit(this,\""+val.id+"\",\""+val.name+"\")'/><p>"+val.name+"</p></li>");
-              })
-          }else{
-               $(obj).parents("div.tag_tab").find("ul").html("无");
-               if(tag_name!=""){
-                   $(obj).parents("div.tag_tab").find("a").first().text("新建\""+tag_name+"\"");
-               }
-          }
-      },
-      error: function(data){
-          tishi("数据错误!");
-      }
+        type: "get",
+        url: "/school_classes/"+school_class_id+"/question_packages/search_b_tags",
+        dataType: "json",
+        data: {
+            tag_name : tag_name
+        },
+        success: function(data){
+            $(obj).parents("div.tag_tab").find("ul").empty();
+            if(data.b_tags.length > 0){
+                $.each(data.b_tags, function(index, val){
+                    $(obj).parents("div.tag_tab").find("ul").append("<li><input type='checkbox' value='"+val.id+"' \n\
+                    /><p>"+val.name+"</p></li>");
+                });
+                $('input[type=checkbox], input[type=radio]').iCheck({
+                    checkboxClass: 'icheckbox_square-aero',
+                    radioClass: 'iradio_square-aero',
+                    increaseArea: '20%' // optional
+                });
+                var lis = $("#tags_table").find("li");
+                $.each(lis, function(){
+                    var current_input = $(this).find("input").first();
+                    var tag_id = current_input.val();
+                    var tag_name = $(this).find("p").first().text();
+                    $(current_input).on("ifChecked", function(){
+                        add_tags_to_time_limit($(this), tag_id, tag_name);
+                    })
+                });
+                 $(obj).parents("div.tag_tab").find("a").first().text("");
+            }else{
+                $(obj).parents("div.tag_tab").find("ul").html("无");
+                if(tag_name!=""){
+                    $(obj).parents("div.tag_tab").find("a").first().text("新建\""+tag_name+"\"");
+                }
+            }
+        },
+        error: function(data){
+            tishi("数据错误!");
+        }
     })
-  }
+}
 
 //新建标签
 function add_b_tag(obj, school_class_id){
-  var tag_name = $(obj).text().split("\"")[1];
-  if(tag_name != undefined && tag_name != ""){
-      $.ajax({
-          type: "get",
-          url: "/school_classes/"+school_class_id+"/question_packages/add_b_tags",
-          dataType: "json",
-          data: {tag_name : tag_name},
-          success: function(data){
-              if(data.status==0){
-                  tishi("保存失败!");
-              }else if(data.status==2){
-                  tishi("保存失败,已有同名的标签!");
-              }else{
-                  tishi("新建成功!");
-                   $(obj).parents("div.tag_tab").find("ul").html("<li><input type='checkbox' value='"+data.tag_id+"' \n\
- onclick='add_tags_to_time_limit(this,\""+data.tag_id+"\",\""+data.tag_name+"\")'/><p>"+data.tag_name+"</p></li>");
-                  $(obj).text("");
-              }
-          },
-          erroe: function(data){
-              tishi("数据错误!");
-          }
-      })
-  }
+    var tag_name = $(obj).text().split("\"")[1];
+    if(tag_name != undefined && tag_name != ""){
+        $.ajax({
+            type: "get",
+            url: "/school_classes/"+school_class_id+"/question_packages/add_b_tags",
+            dataType: "json",
+            data: {
+                tag_name : tag_name
+            },
+            success: function(data){
+                if(data.status==0){
+                    tishi("保存失败!");
+                }else if(data.status==2){
+                    tishi("保存失败,已有同名的标签!");
+                }else{
+                    tishi("新建成功!");
+                    $(obj).parents("div.tag_tab").find("ul").html("<li><input type='checkbox' value='"+data.tag_id+"' \n\
+                        /><p>"+data.tag_name+"</p></li>");
+                    $('input[type=checkbox], input[type=radio]').iCheck({
+                        checkboxClass: 'icheckbox_square-aero',
+                        radioClass: 'iradio_square-aero',
+                        increaseArea: '20%' // optional
+                    });
+                    var lis = $("#tags_table").find("li");
+                    $.each(lis, function(){
+                        var current_input = $(this).find("input").first();
+                        var tag_id = current_input.val();
+                        var tag_name = $(this).find("p").first().text();
+                        $(current_input).on("ifChecked", function(){
+                            add_tags_to_time_limit($(this), tag_id, tag_name);
+                        })
+                    });
+                    $(obj).text("");
+                }
+            },
+            erroe: function(data){
+                tishi("数据错误!");
+            }
+        })
+    }
 }
+
+//点击跳出标签层
+function add_b_tags(type, obj){
+    var width = $("#tags_table").width();
+    var height = $(obj).height();
+    $("#tags_table").css("display", "block");
+    $("#tags_table").css({
+        'left':($(obj).offset().left-width)+'px',
+        'top':($(obj).offset().top+height)+'px'
+    });
+    if(type=="time_limit"){
+        var time_limit_div = $(obj).parents(".questions_item").attr("id");
+        var index = time_limit_div.split("_")[3];       //获取当前添加标签图标对应的题目的索引
+        $("#tags_table").find("input[type='hidden']").first().val(index);
+        var lis = $("#tags_table").find("li");
+        $.each(lis, function(){
+            var current_input = $(this).find("input").first();
+            var tag_id = current_input.val();
+            var tag_name = $(this).find("p").first().text();
+            $(current_input).on("ifChecked", function(){
+                add_tags_to_time_limit($(this), tag_id, tag_name);
+            })           
+        })
+    }else if(type=="select"){
+
+    }
+    return false;
+}
+
+//添加标签到十速挑战的题目下面
+function add_tags_to_time_limit(obj, tag_id, tag_name){
+    var index = $("#tags_table").find("input[type='hidden']").first().val();
+    if($(obj).attr("checked")=="checked"){
+        if(index==""){
+            tishi("数据错误!");
+        }else{
+            var has_tags = $("#time_limit_item_"+index+" .tag_ul ul").find("input[type='hidden']");   //验证是否已添加该标签
+            var flag = true;
+            $.each(has_tags, function(name,val){
+                if($(this).val()==tag_id){
+                    flag = false;
+                }
+            });
+            if(flag){
+                $("#time_limit_item_"+index+" .tag_ul ul").append("<li><p>"+tag_name+"</p><a href='jsvsacript:void(0)' class='x' onclick='remove_tags_from_time_limit(this)'>x</a>\n\
+      <input type='hidden' name='[time_limit]["+index+"][tags][]' value='"+tag_id+"'/></li>");
+            }
+        }
+    }
+}
+  
 function save_wanxin_branch(obj,school_class,question_pack){
     var question_id = $($(obj).parents(".ab_list_open")[0]).find(".question_id").val();
     var params = $($(obj).parents(".gapFilling_questions")[0]).find("form").serialize();
@@ -477,3 +561,6 @@ function delete_paixu_option(obj,school_class,question_package){
         });
     }
 }
+
+
+  

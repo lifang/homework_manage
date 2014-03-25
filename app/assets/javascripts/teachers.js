@@ -191,6 +191,10 @@ function onclick_submit(obj){
         $(obj).parent().find(".delete").attr("href","/question_packages/"+ question_package_id +"/questions/delete_branch_question?id=162")
         $(obj).parent().find(".delete").show()
         $(obj).parent().find(".save").hide()
+    }else if (form_class=="save_lianxian"){
+        questions_item.find("form").attr("action","/question_packages/"+ question_package_id +"/questions/update_lianxian")
+        $(obj).parent().find(".delete").show()
+        $(obj).parent().find(".save").hide()
     }else{
         questions_item.find("form").attr("action","/question_packages/"+ question_package_id +"/questions/save_select")
         $(obj).parent().find(".delete").hide()

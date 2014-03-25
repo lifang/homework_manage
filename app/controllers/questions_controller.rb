@@ -52,40 +52,9 @@ class QuestionsController < ApplicationController
     select_value2 = params[:select_value2]
     select_value3 = params[:select_value3]
     select_value4 = params[:select_value4]
-    answer = ""
-    options = select_value1 + ";||;"+ select_value2 +";||;"+ select_value3 + ";||;" + select_value4
-    if check_select
-      check_select.each do |check|
-        case check.to_i
-        when 1
-          if answer.blank?
-            answer += select_value1
-          else
-            answer += ';||;' + select_value1
-          end
-        when 2
-          if answer.blank?
-            answer += select_value2
-          else
-            answer += ';||;' + select_value2
-          end
-        when 3
-          if answer.blank?
-            answer += select_value3
-          else
-            answer += ';||;' + select_value3
-          end
-        when 4
-          if answer.blank?
-            answer += select_value4
-          else
-            answer += ';||;' + select_value4
-          end
-        else
-          p 2222
-        end
-      end
-    end
+    info =  Question.sava_select_qu check_select,select_value1,select_value2,select_value3,select_value4
+    answer = info[:answer]
+    options = info[:options]
     @branch_question = BranchQuestion.create(:content=>select_content,:types=>Question::TYPES[:SELECTING],:question_id=>@question_id,
       :options=>options,:answer=> answer)
     @question_package_id = params[:question_package_id]
@@ -94,8 +63,29 @@ class QuestionsController < ApplicationController
 
   #更新选择题
   def update_select
-
+    @index_new = params[:index_new]
+    @question_id = params[:question_id]
+    @question = Question.find_by_id @question_id
+    select_content = params[:select_content]
+    check_select = params[:check_select]
+    select_value1 = params[:select_value1]
+    select_value2 = params[:select_value2]
+    select_value3 = params[:select_value3]
+    select_value4 = params[:select_value4]
+    info =  Question.sava_select_qu check_select,select_value1,select_value2,select_value3,select_value4
+    answer = info[:answer]
+    options = info[:options]
+    branch_question_id = params[:branch_question_id]
+    branchquestion = BranchQuestion.find_by_id branch_question_id
+    if branchquestion
+      branchquestion.update_attributes(:content=>select_content,:types=>Question::TYPES[:SELECTING],:question_id=>@question_id,
+        :options=>options,:answer=> answer)
+      @status = 1
+    else
+      @status = 0
+    end
   end
+
 
   #创建连线题连线
   def new_lianxian
@@ -119,6 +109,28 @@ class QuestionsController < ApplicationController
     @branch_question = BranchQuestion.create(:content=>content_index,:types=>Question::TYPES[:LINING],:question_id=>question_id,
       :options=>options,:answer=> options)
     @question_package_id = params[:question_package_id]
+  end
+
+
+  #更新连线题
+  def update_lianxian
+    @index_new = params[:index_new]
+    content_index = params[:content_index]
+    @content_index = content_index.to_i+1
+    left_lianxian = params[:left_lianxian]
+    right_lianxian = params[:right_lianxian]
+    question_id = params[:question_id]
+    @question = Question.find_by_id question_id
+    options = left_lianxian + ';||;' + right_lianxian
+    branch_question_id = params[:branch_question_id]
+    branchquestion = BranchQuestion.find_by_id branch_question_id
+    if branchquestion
+      branchquestion.update_attributes(:content=>content_index,:types=>Question::TYPES[:LINING],:question_id=>question_id,
+        :options=>options,:answer=> options)
+      @status = 1
+    else
+      @status = 0
+    end
   end
 
   #删除小题

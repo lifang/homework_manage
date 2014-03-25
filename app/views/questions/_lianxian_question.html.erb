@@ -11,7 +11,7 @@
   </div>
   <div class="ab_list_box">
     <div class="ab_article" id="now_new_branch" question_index="<%= @question.id %>">
-      <div class="questions_item" stypes="save_select" branch_question_index="">
+      <div class="questions_item" stypes="save_lianxian" branch_question_index="">
         <%= form_for :question,:url => { :action => :save_lianxian, :controller => :questions }, :method=>"post" ,:remote=>true do |f|%>
           <div class="q_topic">
             <div class="ligatureQuestions">

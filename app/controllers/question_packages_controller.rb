@@ -558,6 +558,20 @@ class QuestionPackagesController < ApplicationController
       render :json => {:status => status, :tag_id => status==1 ? b_tag.id : 0, :tag_name => status==1 ? b_tag.name : ""}
     end
   end
+
+  def save_branch_tag
+    branch_tag_id = params[:branch_tag_id]
+    branch_question_id = params[:branch_question_id]
+    branch_tag = BranchTag.find_by_id(branch_tag_id)
+    if branch_tag && BtagsBqueRelations.create(branch_question_id:branch_question_id,
+        branch_tag_id:branch_tag_id)
+      status = 1
+    else
+      status = 2
+    end
+    render :json => {:status => status, :tag_id => status==1 ? branch_tag.id : 0, :tag_name => status==1 ? branch_tag.name : ""}
+  end
+
   private
   #获取单元以及对于的课�?
   def get_cells_and_episodes

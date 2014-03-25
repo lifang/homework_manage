@@ -101,7 +101,7 @@ HomeworkManage::Application.routes.draw do
       collection do
         get :setting_episodes, :new_time_limit,:show_wanxin, :check_time_limit,
           :new_reading_or_listening, :share_time_limit, :delete_time_limit,
-          :search_b_tags, :add_b_tags
+          :search_b_tags, :add_b_tags,:save_branch_tag
         post :create_time_limit, :save_listening, :save_reading
       end
       member do
@@ -139,7 +139,7 @@ HomeworkManage::Application.routes.draw do
       collection do
         get :show_branch_question
         get :show_select,:question_selects_all,:new_lianxian,:delete_branch_question
-        post :save_select,:save_lianxian,:update_select
+        post :save_select,:save_lianxian,:update_select,:update_lianxian
       end
       resources :branch_questions
     end

@@ -43,6 +43,7 @@
         </div>
       </div>
     </div>
+    <!--  添加引用替换div reference_replace_part -->
     <div class="reference_replace_part">
       <div class="assignment_body" id="question_list" style="display:none;" >
         <%=  render :partial => 'question_packages/questions_list' %>
@@ -55,21 +56,21 @@
               <i class="arrows"></i>
               <div class="second_menu">
                 <a href="javascript:void(0)" onclick="new_time_limit(<%= @school_class.id %>)">新建</a>
-                <a class="new_reference" href="javascript:void(0)" data-href="<%= @reference_part_url + "?types=#{Question::TYPES[:TIME_LIMIT]}" %>">引用</a>
+                <a class="new_reference" href="javascript:void(0)" data-href="<%= @reference_part_url + "&types=#{Question::TYPES[:TIME_LIMIT]}" %>">引用</a>
               </div>
             </li>
             <li><p><span class="qType_write">听写</span></p>
               <i class="arrows"></i>
               <div class="second_menu">
                 <a href="javascript:void(0)" onclick="add_l_r_question(0, <%= params[:school_class_id]  %>)">新建</a>
-                <a class="new_reference" href="javascript:void(0)" data-href="<%= @reference_part_url + "?types=#{Question::TYPES[:LISTENING]}" %>">引用</a>
+                <a class="new_reference" href="javascript:void(0)" data-href="<%= @reference_part_url + "&types=#{Question::TYPES[:LISTENING]}" %>">引用</a>
               </div>
             </li>
             <li><p><span class="qType_read" >朗读</span></p>
               <i class="arrows"></i>
               <div class="second_menu">
                 <a href="javascript:void(0)" onclick="add_l_r_question(1, <%= params[:school_class_id]  %>)">新建</a>
-                <a class="new_reference" href="javascript:void(0)" data-href="<%= @reference_part_url + "?types=#{Question::TYPES[:READING]}" %>">引用</a>
+                <a class="new_reference" href="javascript:void(0)" data-href="<%= @reference_part_url + "&types=#{Question::TYPES[:READING]}" %>">引用</a>
               </div>
             </li>
             <li><p><a href="/school_classes/<%= params[:school_class_id].to_i %>/question_packages/<%= @question_pack.id %>/questions/question_selects_all?types=3&question_package_id=<%= @question_pack.id %>" data-remote="true">
@@ -77,7 +78,7 @@
               <i class="arrows"></i>
               <div class="second_menu">
                 <%= link_to '新建',{:controller => 'questions',:action =>'show_select',:question_package_id=>@question_pack.id ,:types=>3} ,:remote=>true%>
-                <a class="new_reference" href="javascript:void(0)" data-href="<%= @reference_part_url + "?types=#{Question::TYPES[:SELECTING]}" %>">引用</a>
+                <a class="new_reference" href="javascript:void(0)" data-href="<%= @reference_part_url + "&types=#{Question::TYPES[:SELECTING]}" %>">引用</a>
               </div>
             </li>
 
@@ -85,14 +86,14 @@
               <i class="arrows"></i>
               <div class="second_menu">
                 <%= link_to '新建',{:controller => 'questions',:action =>'new_lianxian',:question_package_id=>@question_pack.id ,:types=>4} ,:remote=>true%>
-                <a class="new_reference" href="javascript:void(0)" data-href="<%= @reference_part_url + "?types=#{Question::TYPES[:LINING]}" %>">引用</a>
+                <a class="new_reference" href="javascript:void(0)" data-href="<%= @reference_part_url + "&types=#{Question::TYPES[:LINING]}" %>">引用</a>
               </div>
             </li>
             <li><p><span class="qType_sort">排序</span></p>
               <i class="arrows"></i>
               <div class="second_menu">
                 <a onclick="create_paixu(<%=  @school_class.id%>,<%=  @question_pack.id%>)">新建</a>
-                <a class="new_reference" href="javascript:void(0)" data-href="<%= @reference_part_url + "?types=#{Question::TYPES[:SORT]}" %>">引用</a>
+                <a class="new_reference" href="javascript:void(0)" data-href="<%= @reference_part_url + "&types=#{Question::TYPES[:SORT]}" %>">引用</a>
               </div>
             </li>
             <li class="last_child">
@@ -102,7 +103,7 @@
               <i class="arrows"></i>
               <div class="second_menu">
                 <a onclick="create_wanxin(<%=  @school_class.id%>,<%=  @question_pack.id%>)">新建</a>
-                <a class="new_reference" href="javascript:void(0)" data-href="<%= @reference_part_url + "?types=#{Question::TYPES[:CLOZE]}" %>">引用</a>
+                <a class="new_reference" href="javascript:void(0)" data-href="<%= @reference_part_url + "&types=#{Question::TYPES[:CLOZE]}" %>">引用</a>
               </div>
             </li>
           </ul>
@@ -131,7 +132,6 @@
     </div>
   </div>
 </div>
-
 <script>
   var gloab_index =-1;
   $(function(){
@@ -141,11 +141,7 @@
     $(".steps .td_text_p").dblclick(function(){
       $(".td_text_p").show();
     });
-    $(document).ready(function(){
-      $(".steps .td_text_p").dblclick(function(){
-        $(".td_text_p").show();
-      });
-    })
+  })
 
   function show_questions(obj,id)
   {

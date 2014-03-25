@@ -1,0 +1,64 @@
+<% from ||= "" %>
+<div class="ab_list_box" style="display: none;">
+  <div class="ab_article">
+    <div class="questions_item">
+      <div class="gapFilling_textarea">
+        <textarea name="" cols="" rows="" value="<%= question[:content] %>"></textarea>
+      </div>
+      <div class="gapFilling_box">
+        <% count = 1 %>
+        <% branch_questions.each do |bq| %>
+          <div class="gapFilling_questions">
+            <div class="gapFilling_questions_body">
+              <span class="gapFilling_numb"><%= count %></span>
+
+              <div class="gq_article">
+                <div class="gq_article_title">
+                  <div class="qt_input"><input name="" type="text"></div>
+                </div>
+                <% if bq.options.present? %>
+                  <ul>
+                    <% bq.options.to_s.split(/\;\|\|\;/).each do |option| %>
+                      <% if bq.answer.to_s.split(/\;\|\|\;/).length >1 %>
+                        <li>
+                          <div class="icheckbox_square-aero <%= bq.answer.split(/\;\|\|\;/).include?(option) ? "checked" : "" %>" style="position: relative;">
+                            <input type="checkbox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;">
+                            <ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"></ins>
+                          </div>
+                          <div class="qt_text"><p><%= option %></p></div>
+                        </li>
+                      <% else %>
+                        <li>
+                          <div class="iradio_square-aero <%= bq.answer.split(/\;\|\|\;/).include?(option) ? "checked" : "" %>" style="position: relative;">
+                            <input type="radio" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;">
+                            <ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"></ins>
+                          </div>
+                          <div class="qt_input"><p><%= option %></p></div>
+                        </li>
+                      <% end %>
+                    <% end %>
+                  </ul>
+                <% end %>
+              </div>
+            </div>
+            <% unless from == "refer" %>
+              <div class="qt_icon">
+                <a href="#" class="save tooltip_html">保存</a>
+                <a href="#" class="tag tooltip_html">标签</a>
+              </div>
+            <% end %>
+            <% if branch_tags[bq.id].present? %>
+              <div class="tag_ul">
+                <ul>
+                  <% branch_tags[bq.id].each do |tag| %>
+                    <li><p><%= tag.name %></p><a href="#" class="x">X</a></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

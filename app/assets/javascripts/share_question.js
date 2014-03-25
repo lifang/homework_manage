@@ -1,4 +1,4 @@
-//引用的时候，选择 单元id，课程id
+//引用的时候，判断是否选择 单元id，课程id
 $(function(){
     $(".questionTypes .new_reference").on("click", function(){
         var cell_id = $("#cell_id").val();
@@ -19,18 +19,17 @@ $(function(){
             $.ajax({
                 url:url,
                 type: "GET",
-                dataType: "html",
                 data:{
                     cell_id : cell_id,
                     episode_id : episode_id
                 },
                 success:function(data){
-                    if(data!="-1" && data!="-2"){
+                    if(data.status!="-1" && data.status!="-2"){
                         $(".reference_replace_part").html(data);
-                    }else if(data=="-1"){
-                        tishi("保存失败");
-                    }else if(data=="-2"){
-                        tishi("该单元下没有题目可以引用");
+                    }else if(data.status=="-1"){
+                        tishi(data.msg);
+                    }else if(data.status=="-2"){
+                        tishi(data.msg);
                     }
                 },
                 error:function(data){

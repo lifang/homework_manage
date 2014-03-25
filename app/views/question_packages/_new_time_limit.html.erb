@@ -20,11 +20,11 @@
             <div class="q_topic">
               <div class="speedQuestions">
                 <ul>
-                  <li><a href="javascript:void(0)" onclick="change_true_or_false(this)" <% if bq.answer=="true" %>class="true"<% end %>>T</a></li>
+                  <li><a href="javascript:void(0)" onclick="time_limit_change_true_or_false(this)" <% if bq.answer=="true" %>class="true"<% end %>>T</a></li>
                   <li class="qt_text">
                     <p ondblclick="time_limit_hide_p(this)"><%= bq.content %></p>
                     <input name="[time_limit][<%= bq.id %>][content]" type="text" value="<%= bq.content %>" style="display:none;" onblur="time_limit_hide_input(this)"/></li>
-                  <li><a href="javascript:void(0)" onclick="change_true_or_false(this)" <% if bq.answer=="false" %>class="true"<% end %>>F</a></li>
+                  <li><a href="javascript:void(0)" onclick="time_limit_change_true_or_false(this)" <% if bq.answer=="false" %>class="true"<% end %>>F</a></li>
                   <input type="hidden" name="[time_limit][<%= bq.id %>][answer]" aid="ddd" value="<%= bq.answer=="true" ? "true" : "false" %>"/>
                 </ul>
               </div>
@@ -51,11 +51,11 @@
             <div class="q_topic">
               <div class="speedQuestions">
                 <ul>
-                  <li><a href="javascript:void(0)" onclick="change_true_or_false(this)">T</a></li>
+                  <li><a href="javascript:void(0)" onclick="time_limit_change_true_or_false(this)">T</a></li>
                   <li class="qt_text">
                     <p ondblclick="time_limit_hide_p(this)"></p>
                     <input name="[time_limit][<%= t %>][content]" type="text" style="display:none;" onblur="time_limit_hide_input(this)"/></li>
-                  <li><a href="javascript:void(0)" onclick="change_true_or_false(this)">F</a></li>
+                  <li><a href="javascript:void(0)" onclick="time_limit_change_true_or_false(this)">F</a></li>
                   <input type="hidden" name="[time_limit][<%= t %>][answer]" aid="ddd"/>
                 </ul>
               </div>
@@ -225,7 +225,7 @@
 
 
   //选择T或者F时改变样式
-  function change_true_or_false(obj){
+  function time_limit_change_true_or_false(obj){
     var bool = $(obj).text();
     if(bool=="T"){
       $(obj).parents("ul").find("input[aid='ddd']").first().val("true");

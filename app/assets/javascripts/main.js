@@ -95,13 +95,22 @@ $(function(){
             $(".tag_tab").css('display','none');
             var checks = $(".tag_tab").find("input[type='checkbox']");
             $.each(checks,function(){
-                $(this).removeAttr("checked");
+                var tag_name = $(this).parents("li").find("p").first().text();
+                var tag_id = $(this).val();
+                $("#tags_table").find("ul").prepend("<li><input type='checkbox' value='"+tag_id+"'/><p>"+tag_name+"</p></li>");
+                $(this).remove();
+            });
+            $('input[type=checkbox], input[type=radio]').iCheck({
+                checkboxClass: 'icheckbox_square-aero',
+                radioClass: 'iradio_square-aero',
+                increaseArea: '20%' // optional
             });
             var divs = $("#tags_table").find("div.icheckbox_square-aero");
             $.each(divs, function(){
                 $(this).removeAttr("class");
                 $(this).attr("class", "icheckbox_square-aero");
-            })
+            });
+            
         }
     });
 })
@@ -220,21 +229,7 @@ function popup(t){
     });
 }
 
-//登录默认值
-function focusBlur(e){
-    $(e).focus(function(){
-        var thisVal = $(this).val();
-        if(thisVal == this.defaultValue){
-            $(this).val('');
-        }
-    })
-    $(e).blur(function(){
-        var thisVal = $(this).val();
-        if(thisVal == ''){
-            $(this).val(this.defaultValue);
-        }
-    })
-}
+
 
 $(function(){
     focusBlur('.tab_switch li input');//
@@ -405,6 +400,11 @@ $(function(){
     $(".student_table table > tbody > tr:even").addClass("tbg");
 });
 
+//table偶数行变色
+$(function(){
+    $(".assignWork_table table > tbody > tr:odd").addClass("tbg");
+    $(".book_box_table table > tbody > tr:odd").addClass("tbg");
+});
 
 
 
@@ -601,14 +601,6 @@ $(function(){
     dia(".grade_con li");
     dia(".mess_box");
 })
-
-
-//table偶数行变色
-$(function(){
-    $(".assignWork_table table > tbody > tr:odd").addClass("tbg");
-    $(".book_box_table table > tbody > tr:odd").addClass("tbg");
-});
-
 
 //创建作业 book_box_con
 $(function(){

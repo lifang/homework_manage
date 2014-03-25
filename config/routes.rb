@@ -101,7 +101,7 @@ HomeworkManage::Application.routes.draw do
       collection do
         get :setting_episodes, :new_time_limit,:show_wanxin, :check_time_limit,
           :new_reading_or_listening, :share_time_limit, :delete_time_limit,
-          :search_b_tags, :add_b_tags
+          :search_b_tags, :add_b_tags,:save_branch_tag
         post :create_time_limit, :save_listening, :save_reading
       end
       member do

@@ -248,7 +248,8 @@
 
   //点击跳出标签层
   function add_b_tags(obj, index){
-    var width = $("#tags_table").width();
+
+    var width  = $("#tags_table").width();
     var height = $(obj).height();
     $("#tags_table").css("display", "block");
     $("#tags_table").css({
@@ -257,7 +258,8 @@
     });
     $("#tags_table").find("input[type='hidden']").first().val(index);
     return false;
-  }
+
+}
 
   //添加标签
   function add_tags_to_time_limit(obj, tag_id, tag_name){

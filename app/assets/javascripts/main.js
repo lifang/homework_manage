@@ -97,7 +97,7 @@ $(function(){
         return false;
     });
     $(document).bind('click', function (e) {
-        if ( $(e.target).closest(".tag_tab").length>0 || $(e.target).closest("a.tag_1").length>0) {
+        if ( $(e.target).closest(".tag_tab").length>0 || $(e.target).closest("a.tag_1").length>0 || $(e.target).closest("a.tag").length>0) {
             $(".tag_tab").css('display','block');
         }else{
             $(".tag_tab").css('display','none');

@@ -67,8 +67,8 @@ class Question < ActiveRecord::Base
     branch_ques = {}
     if ques.present?
       ques = ques.group_by {|q| q.types} 
-      reading_que_id = ques[Question::TYPES[:READING]].present ? ques[Question::TYPES[:READING]].map { |q|  q.id} : []
-      listening_que_id = ques[Question::TYPES[:LISTENING]].present ? ques[Question::TYPES[:LISTENING]].map { |q|  q.id} : []
+      reading_que_id = ques[Question::TYPES[:READING]].present? ? ques[Question::TYPES[:READING]].map { |q|  q.id} : []
+      listening_que_id = ques[Question::TYPES[:LISTENING]].present? ? ques[Question::TYPES[:LISTENING]].map { |q|  q.id} : []
       reading_and_listening_que_id = reading_que_id + listening_que_id
       if reading_and_listening_que_id.present?
         branch_ques = BranchQuestion

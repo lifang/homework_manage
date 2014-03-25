@@ -88,14 +88,6 @@ $(function(){
 
 //作业题面 标签   鼠标点击别处隐藏tab
 $(function(){
-    $(".qt_icon a.tag").click(function(e){
-        $(".tag_tab").css('display','block');
-        $(".tag_tab").css({
-            'top':(e.pageY+30)+'px',
-            'left':(e.pageX-192)+'px'
-        });
-        return false;
-    });
     $(document).bind('click', function (e) {
         if ( $(e.target).closest(".tag_tab").length>0 || $(e.target).closest("a.tag_1").length>0 || $(e.target).closest("a.tag").length>0) {
             $(".tag_tab").css('display','block');
@@ -104,6 +96,11 @@ $(function(){
             var checks = $(".tag_tab").find("input[type='checkbox']");
             $.each(checks,function(){
                 $(this).removeAttr("checked");
+            });
+            var divs = $("#tags_table").find("div.icheckbox_square-aero");
+            $.each(divs, function(){
+                $(this).removeAttr("class");
+                $(this).attr("class", "icheckbox_square-aero");
             })
         }
     });

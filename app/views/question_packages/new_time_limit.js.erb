@@ -1,1 +1,7 @@
-$(".assignment_body_list").html("<%= j(render :partial => "new_time_limit") %>");
+var has_time_limit = $("#time_limit_assignment_body_list").length;
+if(has_time_limit > 0){
+  $("#time_limit_assignment_body_list").html("<%= j(render :partial => "new_time_limit") %>");
+}else{
+  $("#question_list").append("<div class='assignment_body_list' id='time_limit_assignment_body_list'></div>");
+  $("#time_limit_assignment_body_list").append("<%= j(render :partial => "new_time_limit") %>");
+}

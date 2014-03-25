@@ -6,7 +6,7 @@ class QuestionPackagesController < ApplicationController
   before_filter :get_school_class
   def index
     respond_to do |f|
-      #分享题目的分页
+      #分享题目的分�?
       f.js{
         @question_pack = QuestionPackage.find_by_id(params[:question_package_id])
         @question = Question.find_by_id(params[:question_id])
@@ -19,36 +19,67 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
-  #新建朗读题
-  def new_reading
+  #新建朗读题/听力题
+  def new_reading_or_listening
     teacher = Teacher.find_by_id cookies[:teacher_id].to_i
     @user = teacher.user
-    @question = Question.create(:types => params[:types].to_i,
+    @question = Question.create(:types => params[:type].to_i,
       :question_package_id => params[:que_pack_id].to_i,
       :cell_id => params[:cell_id].to_i,
       :episode_id => params[:episode_id].to_i)
+    @types = @question.types
   end
 
-  #新建听力题
-  def new_listening
-    teacher = Teacher.find_by_id cookies[:teacher_id]
-    @user = teacher.user
-    @question = Question
-    .create(:types => params[:type].to_i,
-            :question_package_id => params[:que_pack_id].to_i,
-            :cell_id => params[:cell_id].to_i,
-            :episode_id => params[:episode_id].to_i)
-  end
+  #创建听力题小题
+  def save_listening
+    @q_index = params[:q_index].to_i
+    @b_index = params[:b_index].to_i
+    @types = params[:types]
+    question_id = params[:question_id]
+    @status = false
+    @notice = "小题创建失败！"
+    content = params[:content]
+    @branch_question = BranchQuestion.create(:content => content, :question_id => question_id)
+    unless @branch_question.nil? 
+      @status = true
+      @notice = "小题创建完成！"
+    end
+    p @q_index
+    p @b_index
+    p @branch_question   
+
+  end 
+  
+ #创建朗读题小题
+  def save_reading
+    @q_index = params[:q_index].to_i
+    @b_index = params[:b_index].to_i
+    @types = params[:types]
+    question_id = params[:question_id]
+    @status = false
+    @notice = "小题创建失败！"
+    content = params[:content]
+    @branch_question = BranchQuestion.create(:content => content, :question_id => question_id)
+    unless @branch_question.nil? 
+      @status = true
+      @notice = "小题创建完成！"
+    end
+    p @q_index
+    p @b_index
+    p @branch_question      
+  end 
 
   def new
     @question_pack = QuestionPackage.create(:school_class_id => @school_class.id)
     redirect_to "/school_classes/#{@school_class.id}/question_packages/#{@question_pack.id}/new_index"
   end
   def new_index
+    @b_tags = get_branch_tags(cookies[:teacher_id])
     @question_pack = QuestionPackage.find_by_id(params[:id])
     @question_type = Question::TYPES_NAME
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
     @questions = Question.where("question_package_id=#{@question_pack.id}")
+    get_has_time_limit(@question_pack.id)
     render 'new'
   end
   def setting_episodes
@@ -68,14 +99,14 @@ class QuestionPackagesController < ApplicationController
     episode_id = params[:episode_id]
     @question_packages = QuestionPackage.find_by_id(params[:id])
     @question = Question.create(types:Question::TYPES[:CLOZE],question_package_id:@question_packages.id,episode_id:episode_id)
-    @questions = Question.where("types = ? and question_package_id = ? and episode_id = ?",
-      Question::TYPES[:CLOZE],
-      @question_packages.id,
-      episode_id)
+    @questions = []
+    @questions << @question
   end
+  
   def show_ab_list_box
     @index = params[:index]
     @question_packages = QuestionPackage.find_by_id(params[:id])
+    @question_id = params[:question_id]
     @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
     @options = @branch_questions.map{|d| d.options.split(";||;")}
     @values=[]
@@ -86,7 +117,6 @@ class QuestionPackagesController < ApplicationController
 
   def save_wanxin_content
     content = params[:content]
-
     @question = Question.find_by_id(params[:id])
     if @question.update_attribute(:content, content)
       render text:1
@@ -100,7 +130,6 @@ class QuestionPackagesController < ApplicationController
     option = params[:option]
     options = option.join(";||;")
     index =-1
-    p 111111111111,params
     params.each do |t|
       if t[0] =~ /radio_/
         index = t[1].to_i
@@ -129,10 +158,60 @@ class QuestionPackagesController < ApplicationController
     end
   end
   def delete_wanxin_branch_question
-    @index = params[:index]
     branch_question_id = params[:branch_question_id]
     delete_branch_question branch_question_id
+    @index = params[:index]
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
+    @options = @branch_questions.map{|d| d.options.split(";||;")}
+    @values=[]
+    @branch_questions.each_with_index do |bq|
+      @values << bq.options.split(";||;").index { |x| x == bq.answer }
+    end
+  end
 
+  def create_paixu
+    episode_id = params[:episode_id]
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @question = Question.create(types:Question::TYPES[:SORT],question_package_id:@question_packages.id,episode_id:episode_id)
+  end
+
+  def save_paixu_branch_question
+    branch_question_id = params[:branch_question_id]
+    content = params[:content].strip.gsub(/\s+/," ")
+    answer = content
+    if branch_question_id==""
+      if BranchQuestion.create(content:content,
+          question_id:params[:question_id],
+          answer:answer)
+        render text:1
+      else
+        render text:0
+      end
+    else
+      branch_question = BranchQuestion.find_by_id(branch_question_id)
+      if branch_question.update_attributes(content:content,
+          answer:answer
+        )
+        render text:3
+      else
+        render text:0
+      end
+    end
+  end
+  def show_the_paixu
+    @index = params[:index]
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @question_id = params[:question_id]
+    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
+  end
+
+  def delete_paixu_branch_question
+    branch_question_id = params[:branch_question_id]
+    delete_branch_question branch_question_id
+    @index = params[:index]
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
   end
 #删除小题
   def delete_branch_question branch_question_id
@@ -227,11 +306,9 @@ class QuestionPackagesController < ApplicationController
   def destroy
     question_pack = QuestionPackage.find_by_id(params[:id])
     QuestionPackage.transaction do
-
       #作业删除文件夹开始
       delete_question_package_folder(question_pack)
       #作业删除文件夹结束
-
       if question_pack.destroy
         flash[:notice] = "删除成功"
         redirect_to "/school_classes/#{school_class_id}/homeworks"
@@ -241,10 +318,10 @@ class QuestionPackagesController < ApplicationController
 
   #新建十速挑战
   def new_time_limit
-    @b_tags = get_branch_tags(cookies[:teacher_id])
-    teacher = Teacher.find_by_id(cookies[:teacher_id])
-    user = User.find_by_id(teacher.user_id) if teacher && teacher.user_id
-    @user_name = user.name if user
+    #    cell_id = params[:cell_id].to_i
+    #    episode_id = params[:episode_id].to_i
+    question_package_id = params[:question_package_id].to_i
+    get_has_time_limit(question_package_id)
     respond_to do |f|
       f.js
     end
@@ -254,6 +331,8 @@ class QuestionPackagesController < ApplicationController
   def check_time_limit
     status = 1
     q_p_id = params[:q_p_id].to_i
+    #    cell_id = params[:cell_id].to_i
+    #    episode_id = params[:episode_id].to_i
     question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT], q_p_id)
     time_limit_len = BranchQuestion.where(["question_id=?", question.id]).length if question
     if time_limit_len && time_limit_len > 0
@@ -266,21 +345,121 @@ class QuestionPackagesController < ApplicationController
   def create_time_limit
     BranchQuestion.transaction do
       time_limit = params[:time_limit]
-      q_p_id = params[:question_package_id]
-      cell_id = params[:cell_id]
-      espisode_id = params[:espisode_id]
-      question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT], q_p_id)
-      if question.nil?
-        question = Question.new(:types => Question::TYPES[:TIME_LIMIT], :cell_id => cell_id, :episode_id => espisode_id)
-        question
+      q_p_id = params[:question_package_id].to_i
+      #      cell_id = params[:cell_id].to_i
+      #      episode_id = params[:episode_id].to_i
+      time = 0
+      hour = params[:create_time_limit_hour]
+      minute = params[:create_time_limit_minute]
+      second = params[:create_time_limit_second]
+      unless hour.nil? || hour.strip=="" || hour.eql?("时") || hour.to_i==0
+        time += hour.to_i * 360
+      end
+      unless minute.nil? || minute.strip=="" || minute.eql?("分") || minute.to_i==0
+        time += minute.to_i * 60
+      end
+      unless second.nil? || second.strip=="" || second.eql?("秒") || second.to_i==0
+        time += minute.to_i
+      end
+
+      @question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT], q_p_id)
+      if @question.nil?
+        @question = Question.new(:types => Question::TYPES[:TIME_LIMIT],
+          :questions_time => time, :question_package_id => q_p_id)
+        @question.save
+      else
+        @question.update_attribute("questions_time", time)
+        has_bq = BranchQuestion.where(["question_id=?", @question.id])
+        has_bq.each do |hb|
+          BtagsBqueRelation.delete_all(["branch_question_id=?", hb.id])
+          hb.destroy
+        end if has_bq.any?
       end
       time_limit.each do |k, v|
-
+        content = v["content"]
+        answer = v["answer"]
+        tags = v["tags"].nil? ? nil : v["tags"]
+        bq = BranchQuestion.create(:content => content, :question_id => @question.id, :answer => answer)
+        if tags
+          tags.each do |t|
+            BtagsBqueRelation.create(:branch_question_id => bq.id, :branch_tag_id => t.to_i)
+          end
+        end
       end
     end
   end
+
+  #分享十速挑战
+  def share_time_limit
+    Question.transaction do
+      status = 0
+      name = params[:time_limit_name]
+      #      cell_id = params[:cell_id].to_i
+      #      episode_id = params[:episode_id].to_i
+      q_p_id = params[:q_p_id].to_i
+      question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT],q_p_id)
+      if question && question.update_attribute("name", name)
+        status = 1
+      end
+      render :json => {:status => status}
+    end
+  end
+
+  #删除十速挑战
+  def delete_time_limit
+    Question.transaction do
+      q_p_id = params[:q_p_id].to_i
+      #      cell_id = params[:cell_id].to_i
+      #      episode_id = params[:episode_id].to_i
+      status = 1
+      question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT], q_p_id)
+      begin
+        bqs = BranchQuestion.where(["question_id = ?", question.id]) if question
+        BtagsBqueRelation.delete_all(["branch_question_id in (?)", bqs.map(&:id)]) if bqs
+        bqs.each do |bq|
+          bq.destroy
+        end if bqs
+        question.destroy if question
+      rescue
+        status = 0
+      end
+      render :json => {:status => status}
+    end
+  end
+
+  #搜索标签
+  def search_b_tags
+    tag_name = params[:tag_name]
+    teacher_id = cookies[:teacher_id]
+    if tag_name == ""
+      b_tags = get_branch_tags(teacher_id)
+    else
+      name = "%#{tag_name.strip.gsub(/[%_]/){|x| '\\' + x}}%"
+      b_tags = BranchTag.where(["(name like ? and teacher_id is null) or (name like ? and teacher_id=?)", name, name, teacher_id])
+    end
+    render :json => {:b_tags => b_tags}
+  end
+
+  #添加标签
+  def add_b_tags
+    BranchTag.transaction do
+      tag_name = params[:tag_name]
+      teacher_id = cookies[:teacher_id]
+      status = 0
+      old_tag = BranchTag.find_by_name_and_teacher_id(tag_name, teacher_id)
+      if old_tag
+        status = 2    #表示已有同名的标签
+      else
+        b_tag = BranchTag.new(:name => tag_name, :teacher_id => teacher_id)
+        if b_tag.save
+          status = 1
+        end
+      end
+      render :json => {:status => status, :tag_id => status==1 ? b_tag.id : 0, :tag_name => status==1 ? b_tag.name : ""}
+    end
+  end
   private
-  #获取单元以及对于的课程
+  #获取单元以及对于的课�?
   def get_cells_and_episodes
     school_class = SchoolClass.find_by_id(school_class_id) if school_class_id
     teaching_material = school_class.teaching_material if school_class

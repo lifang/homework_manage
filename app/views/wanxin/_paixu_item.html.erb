@@ -1,0 +1,51 @@
+<div class="ab_article">
+  <%if @branch_questions%>
+    <%@branch_questions.each do |branch_question|%>
+      <div class="questions_item">
+        <input type="hidden" class="branch_question_id" value="<%=branch_question.id%>"/>
+        <div class="q_topic">
+          <form class='branch_question_form'>
+            <div class="sortQuestions">
+              <div class='qt_text'><p style="min-height: 36px;display: block;"><%=branch_question.content%></p><input name='content' type='text' value="<%=branch_question.content%>"/></div>
+            </div>
+          </form>
+        </div>
+        <div class="qt_icon">
+          <a style="cursor: pointer;display: none;" onclick="save_paixu_branch(this,<%=  @school_class.id%>,<%= @question_packages.id%>)" class='save tooltip_html wangping_save'>保存</a>
+          <a style="cursor: pointer;" class="delete tooltip_html wangping_delete" onclick = 'delete_paixu_option(this,<%=  @school_class.id%>,<%= @question_packages.id%>)'>删除</a>
+          <a href="javascript:void(0)" onclick="add_b_tag(this, <%= @school_class.id  %>)" class="tag tooltip_html"></a> 
+        </div>
+        <div class="tag_ul">
+          <ul>
+            <li><p>不定冠词</p><a href="#" class="x">X</a></li>
+          </ul>
+        </div>
+      </div>
+    <%end%>
+  <%end%>
+
+  <div class='questions_item'>
+    <input type='hidden' class='branch_question_id' value='' />
+    <div class='q_topic'>
+      <form class='branch_question_form'>
+        <div class='sortQuestions qt_input'>
+          <div class='qt_text'><p style='min-height: 36px;display: block;'></p><input name='content' type='text' value=''/></div>
+        </div>
+      </form>
+    </div>
+    <div class='qt_icon'>
+      <a style='cursor: pointer;' onclick='save_paixu_branch(this,<%=  @school_class.id%>,<%= @question_packages.id%>)' class='save tooltip_html wangping_save'>保存</a>
+      <a style='cursor: pointer;display: none;' class='delete tooltip_html wangping_delete' onclick = 'delete_paixu_option(this,<%=  @school_class.id%>,<%= @question_packages.id%>)'>删除</a>
+      <a href="javascript:void(0)" onclick="add_b_tag(this, <%= @school_class.id  %>)" class="tag tooltip_html"></a>
+    </div>
+    <div class='tag_ul'>
+      <ul>
+        <li><p>不定冠词</p><a href='#' class='x'>X</a></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+<script>
+  ondblclick(".qt_text p",".qt_text input");
+</script>

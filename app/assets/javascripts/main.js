@@ -272,6 +272,8 @@ function ondblclick(a,b){
         $(this).parents(".gapFilling_questions").find(".wangping_delete").hide();
         $(this).parents(".questions_item").find(".delete").hide()
         $(this).parents(".questions_item").find(".save").show()
+        $(this).parents(".questions_item").find(".wangping_save").show();
+        $(this).parents(".questions_item").find(".wangping_delete").hide();
         $(this).css("display","none");
         $(this).parent().find("input").css("display","block");
         $(this).parent().find("input").focus();

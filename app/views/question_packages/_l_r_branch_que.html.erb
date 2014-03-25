@@ -1,0 +1,39 @@
+<div class="questions_item">
+    <div class="q_topic q_willCompile">
+      <div class="speedQuestions">
+        <ul class="branch_question">
+          <li>
+            <a href="javascript:void(0)"  onclick="select_audio(this)" class="voice tooltip_title" title="点击上传音频"></a>
+            <% if types == Question::TYPES[:LISTENING] %>
+              <%= form_tag({:action => :save_listening}, :multipart => true ,:remote => true) do %>
+                <input type="file" name="file" class="file" onchange="check_audio(this,<%= types %>, <%= params[:school_class_id] %>)">
+                <input type="text" class="branch_iq" name="branch_iq">
+                <input type="text" name="types" class="types">
+                <input type="text" name="content" class="content">
+              <% end %>
+            <% else %>  
+              <%= form_tag({:action => :save_reading}, :multipart => true ,:remote => true) do %>
+                <input type="file" name="file" class="file" onchange="check_audio(this,<%= types %>, <%= params[:school_class_id] %>)">
+                <input type="text" class="branch_iq" name="branch_iq">
+                <input type="text" name="types" class="types">
+                <input type="text" name="content" class="content">
+              <% end %>
+            <% end %>  
+        </li>
+          <li class="qt_input">
+            <p style="display:none;" ondblclick="$(this).hide();$(this).next().show();"></p>
+            <input class="content" type="text" value="" onblur="ob_listeng_or_reading(this,<%= params[:school_class_id] %>)" >
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="qt_icon">
+      <a href="#" class="save tooltip_html">保存</a>
+      <a href="#" class="tag tooltip_html">标签</a>
+    </div>
+    <div class="tag_ul">
+      <ul>
+      </ul>
+      <input type="text" class="tags_id" value="">
+    </div>
+</div>

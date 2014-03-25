@@ -173,6 +173,8 @@ class QuestionPackagesController < ApplicationController
   
   def new_index
     @b_tags = get_branch_tags(cookies[:teacher_id])
+    teacher = Teacher.find_by_id cookies[:teacher_id]
+    @user = teacher.user
     @question_pack = QuestionPackage.find_by_id(params[:id])
     @question_type = Question::TYPES_NAME
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )

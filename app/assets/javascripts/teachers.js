@@ -182,10 +182,20 @@ function height_tab(){
 
 
 function onclick_submit(obj){
-//    $(obj).find(".submit_sava").click();
-//    $(obj).children(".submit_sava").click();
-//    $(".submit_sava").click();
     $(obj).parent().parent().find(".submit_sava").click();
+    var questions_item = $(obj).parent().parent().parent()
+    var form_class = questions_item.attr("stypes")
+    var question_package_id = questions_item.find("input[name='question_package_id']").val()
+    if (form_class=="save_select"){
+        questions_item.find("form").attr("action","/question_packages/"+ question_package_id +"/questions/update_select")
+        $(obj).parent().find(".delete").attr("href","/question_packages/"+ question_package_id +"/questions/delete_branch_question?id=162")
+        $(obj).parent().find(".delete").show()
+        $(obj).parent().find(".save").hide()
+    }else{
+        questions_item.find("form").attr("action","/question_packages/"+ question_package_id +"/questions/save_select")
+        $(obj).parent().find(".delete").hide()
+        $(obj).parent().find(".save").show()
+    }
 }
 
 

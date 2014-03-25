@@ -43,6 +43,7 @@ class QuestionsController < ApplicationController
   end
   #保存选择题
   def save_select
+    @index_new = params[:index_new]
     @question_id = params[:question_id]
     @question = Question.find_by_id @question_id
     select_content = params[:select_content]
@@ -85,10 +86,15 @@ class QuestionsController < ApplicationController
         end
       end
     end
-    branch_question = BranchQuestion.create(:content=>select_content,:types=>Question::TYPES[:SELECTING],:question_id=>@question_id,
+    @branch_question = BranchQuestion.create(:content=>select_content,:types=>Question::TYPES[:SELECTING],:question_id=>@question_id,
       :options=>options,:answer=> answer)
-    #    @question_package_id = params[:question_package_id]
+    @question_package_id = params[:question_package_id]
     #    @questions = Question.find_by_question_package_id @question_package_id
+  end
+
+  #更新选择题
+  def update_select
+
   end
 
   #创建连线题连线
@@ -102,6 +108,7 @@ class QuestionsController < ApplicationController
   end
   #  保存连线题
   def save_lianxian
+    @index_new = params[:index_new]
     content_index = params[:content_index]
     @content_index = content_index.to_i+1
     left_lianxian = params[:left_lianxian]
@@ -109,11 +116,24 @@ class QuestionsController < ApplicationController
     question_id = params[:question_id]
     @question = Question.find_by_id question_id
     options = left_lianxian + ';||;' + right_lianxian
-    branch_question = BranchQuestion.create(:content=>content_index,:types=>Question::TYPES[:LINING],:question_id=>question_id,
+    @branch_question = BranchQuestion.create(:content=>content_index,:types=>Question::TYPES[:LINING],:question_id=>question_id,
       :options=>options,:answer=> options)
+    @question_package_id = params[:question_package_id]
   end
 
-  
+  #删除小题
+  def delete_branch_question
+    @branch_question_id = params[:id]
+    branch_question = BranchQuestion.find_by_id(@branch_question_id)
+    if branch_question && branch_question.destroy
+      @status = 1
+    else
+      @status = 0
+    end
+  end
+
+
+
   #编辑大题
   def edit
     @question_pack = QuestionPackage.find_by_id(params[:question_package_id])

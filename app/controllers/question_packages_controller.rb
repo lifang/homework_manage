@@ -134,7 +134,7 @@ class QuestionPackagesController < ApplicationController
     delete_branch_question branch_question_id
 
   end
-
+#删除小题
   def delete_branch_question branch_question_id
     branch_question = BranchQuestion.find_by_id(branch_question_id)
     if branch_question && branch_question.destroy

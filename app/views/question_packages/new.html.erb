@@ -77,7 +77,7 @@
                 <span class="qType_choose">选择</span></a></p>
             <i class="arrows"></i>
             <div class="second_menu">
-              <%= link_to '新建',{:controller => 'questions',:action =>'show_select',:question_package_id=>@question_pack.id ,:types=>3}  ,remote:true%>
+              <%= link_to '新建',{:controller => 'questions',:action =>'show_select',:question_package_id=>@question_pack.id ,:types=>3} ,:remote=>true%>
               <a href="#">引用</a>
             </div>
           </li>
@@ -85,7 +85,7 @@
           <li><p><span class="qType_ligature">连线</span></p>
             <i class="arrows"></i>
             <div class="second_menu">
-              <%= link_to '新建',{:controller => 'questions',:action =>'new_lianxian',:question_package_id=>@question_pack.id ,:types=>4}  ,remote:true%>
+              <%= link_to '新建',{:controller => 'questions',:action =>'new_lianxian',:question_package_id=>@question_pack.id ,:types=>4} ,:remote=>true%>
               <a href="#">引用</a>
             </div>
           </li>

@@ -219,3 +219,74 @@ function show_branch_question(obj,question_package_id,question_id,types){
     })
 
 }
+
+//选择上传音频或者视屏
+function select_upload_choice(obj){
+    if($(obj).attr("input_t")=="voice"){
+        $(obj).parent().find("#input_select_upload").attr("input_t","voice")
+    }else if ($(obj).attr("input_t")=="photo"){
+        $(obj).parent().find("#input_select_upload").attr("input_t","photo")
+    }
+    $(obj).parent().find("#input_select_upload").click()
+//    $("#input_select_upload").click();
+}
+
+//上传资源
+function select_upload(obj){
+    var type = $(obj).attr("input_t");
+    var fil_name =  $(obj).val();
+    var img_extension = fil_name.substring(fil_name.lastIndexOf('.') + 1).toLowerCase();
+    if(type=="voice"){
+        if(img_extension == "mp3" || img_extension == "amr" || img_extension == "wav"){
+        }else{
+            tishi("音频格式不对! 仅支持mp3、amr、wav格式");
+            return false;
+        }
+    }else if (type=="photo"){
+        if(img_extension == "jpg" || img_extension == "png"){
+        }else{
+            tishi("图片格式不对! 仅支持jpg,png格式");
+            return false;
+        }
+    }
+    var question_package_id = $(obj).parents(".questions_item").find("#question_package_id").val();
+    var question_id = $(obj).parents(".questions_item").find("input[name='question_id']").val();
+    $.ajaxFileUpload(
+    {
+        type:'post',
+        url:'/question_packages/'+ question_package_id +'/questions/select_upload',            //需要链接到服务器地址
+        secureuri:false,
+        fileElementId:'input_select_upload',                  //文件选择框的id属性
+        dataType: 'text',
+        data :{
+            type : type
+        },                                               //服务器返回的格式，可以是json
+        success: function (data, status)            //相当于java中try语句块的用法
+        {
+            var data_arr = data.split(";||;")
+            tishi("上传成功！");
+            var html="<input type='text' value='"+ data_arr[1] +"' name='select_resourse' style='display:none;'>"
+            var q_left = $("#input_select_upload").parents(".q_left")
+            $(obj).parents().find(".q_topic").attr("class","q_topic q_compile")
+            if(data_arr[0]=="voice"){
+                alert($("#input_select_upload").parents(".q_topic").find("input[name='select_content']").attr("name"))
+                $("#input_select_upload").parents(".q_topic").find("input[name='select_content']").attr("disabled","true")
+                var html_title = "<input type='text' name='select_content' style='display:block;' disabled='true'>"
+                $("#input_select_upload").parents(".q_topic").find(".q_title").find(".qt_text").html(html_title)
+                q_left.html("<img src='/assets/voiceing.jpg'>")
+            }else if(data_arr[0]=="photo"){
+                alert(data_arr[0])
+                q_left.html("<img src='"+ data_arr[1] +"' style='width:86px;height:86px;'>")
+            }
+            q_left.append(html)
+            $("#input_select_upload").removeAttr("id")
+        },
+        error: function (data, status, e)            //相当于java中catch语句块的用法
+        {
+            $('#result').html('添加失败');
+        }
+    });
+}
+function upload_avatar(){
+
+}

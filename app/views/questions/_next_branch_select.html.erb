@@ -1,8 +1,16 @@
 <div class="questions_item" stypes="save_select" branch_question_index="">
   <%= form_for :question,:url => { :action => :save_select, :controller => :questions }, :method=>"post" ,:remote=>true do |f|%>
-    <div class="q_topic">
+    <div class="q_topic q_willCompile">
       <div class="multipleChoice">
-        <div class="q_left"><img src="/assets/multipleChoice.jpg"/></div>
+        <div class="q_left">
+          <ul>
+            <li>
+              <a href="javascript:void(0)" class="voice tooltip_title" input_t="voice" title="点击上传音频" onclick="select_upload_choice(this)"></a>
+              <a href="javascript:void(0)" class="photo tooltip_title" input_t="photo" title="点击上传图片" onclick="select_upload_choice(this)"></a>
+              <input type="file" id="input_select_upload" name="select_file"style="display:none" onchange="select_upload(this)"/>
+            </li>
+          </ul>
+        </div>
         <div class="q_right">
           <div class="q_title"><div class="qt_text"><p></p><input name="select_content" type="text"/></div></div>
           <ul>

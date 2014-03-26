@@ -173,12 +173,15 @@ class QuestionPackagesController < ApplicationController
   
   def new_index
     @b_tags = get_branch_tags(cookies[:teacher_id])
+    teacher = Teacher.find_by_id cookies[:teacher_id]
+    @user = teacher.user
     @question_pack = QuestionPackage.find_by_id(params[:id])
     @question_type = Question::TYPES_NAME
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
     @questions = Question.where("question_package_id=#{@question_pack.id}")
-    
     p @reading_and_listening_branch
+    get_has_time_limit(@question_pack.id)
+
     #引用url
     @reference_part_url = "/school_classes/#{@school_class.id}/question_packages/#{@question_pack.id}/share_questions/list_questions_by_type"
     render 'new'
@@ -215,6 +218,12 @@ class QuestionPackagesController < ApplicationController
     @branch_questions.each_with_index do |bq|
       @values << bq.options.split(";||;").index { |x| x == bq.answer }
     end
+
+    branch_question_ids = @branch_questions.map(&:id)
+    @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
+      joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
+      select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
+
   end
 
   def save_wanxin_content
@@ -582,7 +591,6 @@ class QuestionPackagesController < ApplicationController
     branch_question_id = params[:branch_question_id]
     branch_tag = BranchTag.find_by_id(branch_tag_id)
     btagsbquetelation = BtagsBqueRelation.find_by_branch_tag_id_and_branch_question_id(branch_tag_id,branch_question_id)
-    p 11111111111,branch_tag_id,branch_question_id,btagsbquetelation
     if branch_tag
       if btagsbquetelation.nil?
         BtagsBqueRelation.create(branch_question_id:branch_question_id,
@@ -598,6 +606,7 @@ class QuestionPackagesController < ApplicationController
   end
 
   def delete_branch_tag
+    @type = params[:type]
     @gloab_index =params[:gloab_index]
     @q_index = params[:q_index]
     @question_packages = QuestionPackage.find_by_id(params[:id])

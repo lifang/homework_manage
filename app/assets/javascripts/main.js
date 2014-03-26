@@ -93,12 +93,12 @@ $(function(){
             $(".tag_tab").css('display','block');
         }else{
             $(".tag_tab").css('display','none');
-            var checks = $(".tag_tab").find("input[type='checkbox']");
+            var checks = $("#tags_table").find("input[type='checkbox']");
             $.each(checks,function(){
                 var tag_name = $(this).parents("li").find("p").first().text();
                 var tag_id = $(this).val();
-                $("#tags_table").find("ul").prepend("<li><input type='checkbox' value='"+tag_id+"'/><p>"+tag_name+"</p></li>");
-                $(this).remove();
+                $("#tags_table").find("ul").append("<li><input type='checkbox' value='"+tag_id+"'/><p>"+tag_name+"</p></li>");
+                $(this).parents("li").remove();
             });
             $('input[type=checkbox], input[type=radio]').iCheck({
                 checkboxClass: 'icheckbox_square-aero',

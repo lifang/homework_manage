@@ -19,13 +19,18 @@
     <div class='qt_icon'>
       <a  style="cursor: pointer;display: none;" onclick="save_wanxin_branch(this,<%=  @school_class.id%>,<%= @question_packages.id%>)" class='save tooltip_html wangping_save'>保存</a>
       <a  class='delete tooltip_html wangping_delete' onclick = 'delete_wanxin_option(this,<%=  @school_class.id%>,<%= @question_packages.id%>)'>删除</a>
-      <a  style="cursor: pointer;" onclick="add_wanxin_tags(this, <%= @school_class.id  %>)" class="tag tooltip_html wangping_tag"></a>
+      <a  style="cursor: pointer;" onclick="add_wanxin_tags(this)" class="tag tooltip_html wangping_tag"></a>
     </div>
     <div class='tag_ul'>
 
       <ul>
-
-        <li><p>不定冠词</p><a href='#' class='x'>X</a></li>
+        <%@tags.each do |tag|%>
+          <%if tag.branch_question_id== branch_q.id%>
+            <li><p><%=tag.name%></p>
+              <a onclick="delete_tags(this,<%=@school_class.id%>,<%=@question_packages.id%>,<%=tag.id%>,<%=branch_q.id%>,'wanxin')" class="x">X</a>
+            </li>
+          <%end%>
+        <%end%>
 
       </ul>
 

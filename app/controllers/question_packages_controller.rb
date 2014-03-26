@@ -45,6 +45,7 @@ class QuestionPackagesController < ApplicationController
   def save_listening
     @q_index = params[:q_index].to_i
     @b_index = params[:b_index].to_i
+    tags_id = params[:tags_id]
     types = params[:types]
     file = params[:file]
     branch_id = params[:branch_id]
@@ -79,6 +80,11 @@ class QuestionPackagesController < ApplicationController
           if upload[:status] == true
             resource_url = upload[:url]
             if @branch_question.update_attributes(:resource_url=>resource_url)
+              if tags_id.present?    #保存小题时添加标签
+                tags_id.split(/\|/).each do |tag_id|
+                  @branch_question.btags_bque_relations.create(:branch_tag_id => tag_id.to_i) if tag_id.to_i > 0
+                end  
+              end  
               @status = 1
               @notice = "小题创建完成！"
             else
@@ -104,6 +110,7 @@ class QuestionPackagesController < ApplicationController
   def save_reading
     @q_index = params[:q_index].to_i
     @b_index = params[:b_index].to_i
+    tags_id = params[:tags_id]
     types = params[:types]
     file = params[:file]
     if types.present?
@@ -123,7 +130,7 @@ class QuestionPackagesController < ApplicationController
             upload = upload_file destination_dir, rename_file_name, file
             if upload[:status] == true
               resource_url = upload[:url]
-              if @branch_question.update_attributes(:resource_url=>resource_url)
+              if @branch_question.update_attributes(:resource_url=>resource_url)           
                 @status = 2
                 @notice = "文件上传成功！！"
               else
@@ -142,13 +149,9 @@ class QuestionPackagesController < ApplicationController
               else
                 @status = -1
                 @notice = "小题修改失败！" 
-              end
-            else
-                
+              end                
             end  
           end
-
-          
         end
       else
         @status = -1
@@ -156,6 +159,11 @@ class QuestionPackagesController < ApplicationController
         content = params[:content]
         @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
         unless @branch_question.nil? 
+          if tags_id.present?    #保存小题时添加标签
+            tags_id.split(/\|/).each do |tag_id|
+              @branch_question.btags_bque_relations.create(:branch_tag_id => tag_id.to_i) if tag_id.to_i > 0
+            end  
+          end 
           @status = 1
           @notice = "小题创建完成！"
         end

@@ -22,7 +22,7 @@
   }
   full_text();
 </script>
-<div class="main">
+<div class="main" id="new_question_main_div">
   <div class="assignment">
     <div class="assignment_head">
       <div class="select_box">
@@ -127,7 +127,7 @@
         <% end %>
       </ul>
       <input type="hidden" value=""/>
-      <a href="javascript:void(0)" onclick="add_b_tag(this, <%= @school_class.id  %>)"></a>
+      <a href="javascript:void(0)" onclick="add_new_b_tag(this, <%= @school_class.id  %>)"></a>
     </div>
   </div>
 </div>

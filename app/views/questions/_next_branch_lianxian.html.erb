@@ -1,4 +1,4 @@
-<div class="questions_item" stypes="save_lianxian" branch_question_index="">
+<div class="questions_item" stypes="save_lianxian" branch_question_index="" question_type="lianxian">
   <%= form_for :question,:url => { :action => :save_lianxian, :controller => :questions }, :method=>"post" ,:remote=>true do |f|%>
     <div class="q_topic">
       <div class="ligatureQuestions">
@@ -10,8 +10,8 @@
       </div>
     </div>
     <div class="qt_icon">
-      <a href="javascript:void(0)" class="save tooltip_html" onclick="onclick_submit(this)"></a>
-      <a href="javascript:void(0)" class="delete tooltip_html" style="display:none" data-remote="true" >删除</a>
+      <a href="javascript:void(0)" class="save tooltip_html save_chen" onclick="onclick_submit(this)"></a>
+      <a href="javascript:void(0)" class="delete tooltip_html delete_chen" style="display:none" data-remote="true" >删除</a>
       <a href="javascript:void(0)" class="tag tooltip_html">标签</a>
     </div>
     <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_package_id %>"/>

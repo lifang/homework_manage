@@ -26,6 +26,7 @@ div.rowElem{
 	overflow: hidden;
 	cursor:pointer;
 	color: #FFF;
+        width: 300px;
 }
 
 .jqTransformSelectWrapper  a.jqTransformSelectOpen {

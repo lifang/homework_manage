@@ -28,18 +28,26 @@
     <div class="assignment_head">
       <div class="select_box">
         <div class="rowElem">
-          <select name="select1" id="select1" onchange="address_search_episodes(this, <%= @school_class.id %>, 0)">
-            <option value="0">请选择单元</option>
-            <%@cells.each do |cell|%>
-              <option value="<%=cell.id%>">
-                <%=cell.name%>
-              </option>
+          <select name="select1" id="select1" <%=@question_exist.nil? ? "":"disabled='disabled' width='322px'" %> onchange="address_search_episodes(this, <%= @school_class.id %>, 0)">
+            <%if @question_exist.nil?%>
+              <option value="0">请选择单元</option>
+              <%@cells.each do |cell|%>
+                <option value="<%=cell.id%>" >
+                  <%=cell.name%>
+                </option>
+              <%end%>
+            <%else%>
+                <option value="<%=  @exist_cell.id%>"  >&nbsp;<%=@exist_cell.name%></option>
             <%end%>
           </select>
         </div>
         <div class="rowElem" id="select2">
-          <select name="select2" >
-            <option value="opt1">请先选择单元</option>
+          <select name="select2" <%=@question_exist.nil? ? "":"disabled='disabled' width='322px'" %>  >
+            <%if @question_exist.nil?%>
+              <option value="opt1">请先选择单元</option>
+            <%else%>
+              <option value="<%=  @exist_episode.id%>" >&nbsp;<%=  @exist_episode.name%></option>
+            <%end%>
           </select>
         </div>
       </div>
@@ -47,11 +55,11 @@
 
     <!--  添加引用替换div reference_replace_part -->
     <div class="reference_replace_part">
-      <div class="assignment_body" id="question_list" style="display:none;" >
+      <div class="assignment_body" id="question_list" style="<%=@question_exist.nil? ? "display:none;":""%>" >
         <%=  render :partial => 'question_packages/questions_list' %>
       </div>
-      
-      <div class="questionTypes" style="display:none;">
+
+      <div class="questionTypes" style="<%=@question_exist.nil? ? "display:none;":""%>">
         <div class="qType_menu clearAfter">
           <ul>
             <li class="hover"><p><span class="qType_speed">十速挑战</span></p>
@@ -111,10 +119,10 @@
           </ul>
         </div>
       </div>
-      <div class="complete_btn_box" style="display:none;">
+      <div class="complete_btn_box" style="<%=@question_exist.nil? ? "display:none;":""%>">
         <input type="hidden"  name="school_class_id" id="school_class_id" value="<%=@school_class.id%>"/>
-        <input type="hidden"  name="cell_id" id="cell_id" value=""/>
-        <input type="hidden"  name="episode_id" id="episode_id" value=""/>
+        <input type="hidden"  name="cell_id" id="cell_id" value="<%=  @exist_cell.id unless @question_exist.nil?%>"/>
+        <input type="hidden"  name="episode_id" id="episode_id" value="<%=  @exist_episode.id  unless @question_exist.nil?%>"/>
         <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=@question_pack.id%>"/>
         <button>点击确定完成创建</button>
       </div>
@@ -132,7 +140,7 @@
       <input type="hidden" value=""/>
       <a href="javascript:void(0)" onclick="add_b_tag(this, <%= @school_class.id  %>)"></a>
     </div>
-    
+
   </div>
 </div>
 <script>

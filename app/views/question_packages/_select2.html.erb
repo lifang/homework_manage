@@ -1,6 +1,3 @@
-<script src="/assets/jquery.jqtransform.js" />
-
-
 <select name="select2" onchange="no_change(this)">
   <option value="0">请选择课程</option>
   <%@episodes.each do |episode|%>
@@ -9,7 +6,8 @@
 </select>
 <script>
   $(function(){
-    $('.rowElem').jqTransform();
+    $($('.rowElem')[1]).removeClass("jqtransformdone");
+    $($('.rowElem')[1]).jqTransform();
   });
 </script>
 <script>

@@ -179,6 +179,15 @@ class QuestionPackagesController < ApplicationController
     @question_type = Question::TYPES_NAME
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
     @questions = Question.where("question_package_id=#{@question_pack.id}")
+    unless @questions[0].nil?
+      @question_exist = @questions[0]
+      @exist_episode = Episode.find_by_id(@question_exist.episode_id)
+      @cells.each do|cell|
+        if cell.id == @exist_episode.cell_id
+          @exist_cell = cell
+        end
+      end
+    end
     p @reading_and_listening_branch
     get_has_time_limit(@question_pack.id)
     #@reading_and_listening_branch  = Question.get_has_reading_and_listening_branch(@questions)

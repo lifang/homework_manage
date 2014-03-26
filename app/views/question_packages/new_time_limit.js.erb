@@ -5,3 +5,14 @@ if(has_time_limit > 0){
   $("#question_list").append("<div class='assignment_body_list' id='time_limit_assignment_body_list'></div>");
   $("#time_limit_assignment_body_list").append("<%= j(render :partial => "new_time_limit") %>");
 }
+var assignment_body_list_divs = $("#question_list").find("div.ab_list_open");
+if(assignment_body_list_divs.length>0){
+  $.each(assignment_body_list_divs,function(){
+    $(this).find("div.ab_list_box").hide();
+    $(this).removeAttr("class");
+    $(this).attr("class","assignment_body_list");
+  })
+};
+$("#time_limit_assignment_body_list").removeAttr("class");
+$("#time_limit_assignment_body_list").attr("class","assignment_body_list ab_list_open");
+$("#time_limit_assignment_body_list").find("div.ab_list_box").show();

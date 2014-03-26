@@ -1,2 +1,4 @@
 $(".assignment_body").append('<%=j(render 'wanxin/wanxin')%>');
 full_text();
+var obj = $($(".assignment_body_list")[$(".assignment_body_list").length]).find(".ab_list_title");
+show_this(obj,$("#question_package_id").val(),$("#school_class_id").val());

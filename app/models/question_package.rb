@@ -29,7 +29,7 @@ class QuestionPackage < ActiveRecord::Base
     all_packs_que_types
   end
 
-  def self.create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status)
+  def self.create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status, school_class_id = nil)
     if question_pack_id.present?
       question_pack = QuestionPackage.find_by_id(question_pack_id)
     else

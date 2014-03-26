@@ -1,8 +1,8 @@
-<div class="assignment_body_list">
+<div class="assignment_body_list ab_list_open">
   <div class="ab_list_title">
     <h1>未命名</h1>
     <p><%= Question::TYPES_NAME[types] %>/ <%= name %>
-      / <%= created_at %>/ 参考时间：
+      / <%= created_at.present? ? created_at.strftime("%Y-%m-%d") : "未保存" %>/ 参考时间：
       <% if questions_time.present? %>
         <label><%= questions_time/60 %>'<%= questions_time%60 %></label>
       <% else %>
@@ -16,9 +16,9 @@
       <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
     </ul>
   </div>
-  <div class="ab_list_box" style="display: none;">
+  <div class="ab_list_box">
     <div class="ab_article">
-      <%= render "l_r_branch_que" ,{:types => types, :question_id => question_id } %>
+      <%= render "l_r_branch_que" ,{:types => types, :question_id => question_id, :resource_url => nil, :branch_id => nil, :content => nil, :count_q => nil, :count_b => nil } %>
     </div>
   </div>
 </div>

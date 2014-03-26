@@ -1,5 +1,7 @@
-<% @questions.each do |question| %>
+<% @questions.each_with_index do |question,index| %>
   <% case question.types %>
+  <% when Question::TYPES[:READING] || Question::TYPES[:LISTENING]%>
+    <%= render "edit_l_or_r_que",{:question => question, :user => @user} %>
   <% when Question::TYPES[:TIME_LIMIT] %>
     <div class="assignment_body_list" id="time_limit_assignment_body_list">
       <%= render :partial => "new_time_limit"  %>
@@ -157,6 +159,7 @@
     </div>
   <% when Question::TYPES[:CLOZE] %>
     <div class="assignment_body_list">
+      <input type="hidden" class="the_index_of_div" value="<%=index%>" />
       <div class="ab_list_title" onclick="show_this(this,<%=question.question_package_id%>,<%=@school_class.id%>)">
         <input type="hidden" class="question_id" value="<%=question.id%>" />
         <h1><%=question.name.nil? ? "未命名":question.name %></h1>
@@ -183,6 +186,7 @@
     </div>
   <% when Question::TYPES[:SORT] %>
     <div class="assignment_body_list">
+      <input type="hidden" class="the_index_of_div" value="<%=index%>" />
       <div class="ab_list_title" onclick="show_the_paixu(this,<%=question.question_package_id%>,<%=@school_class.id%>)">
         <input type="hidden" class="question_id" value="<%==question.id%>" />
         <h1><%=question.name.nil? ? "未命名":question.name %></h1>
@@ -202,7 +206,6 @@
   <% end %>
 <% end %>
 
-
 <script>
   $(document).ready(function(){
     $('input[type=checkbox], input[type=radio]').iCheck({
@@ -212,4 +215,3 @@
     });
   });
 </script>
-

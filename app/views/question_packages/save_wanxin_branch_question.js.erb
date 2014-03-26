@@ -1,0 +1,6 @@
+<%if @text==1|| @text==2%>
+alert('保存成功！');
+$($(".assignment_body_list")[<%=@gloab_index%>]).find('.gapFilling_box').html("<%=j(render 'wanxin/gapfilling_questions')%>");
+<%else%>
+alert('保存失败！');
+<%end%>

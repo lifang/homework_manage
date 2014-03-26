@@ -87,24 +87,33 @@ $(function(){
 
 
 //作业题面 标签   鼠标点击别处隐藏tab
-$(function(){
-    $(document).bind('click', function (e) {
-        if ( $(e.target).closest(".tag_tab").length>0 || $(e.target).closest("a.tag_1").length>0 || $(e.target).closest("a.tag").length>0) {
-            $(".tag_tab").css('display','block');
-        }else{
-            $(".tag_tab").css('display','none');
-            var checks = $(".tag_tab").find("input[type='checkbox']");
-            $.each(checks,function(){
-                $(this).removeAttr("checked");
-            });
-            var divs = $("#tags_table").find("div.icheckbox_square-aero");
-            $.each(divs, function(){
-                $(this).removeAttr("class");
-                $(this).attr("class", "icheckbox_square-aero");
-            })
-        }
-    });
-})
+ $(function(){
+     $(document).bind('click', function (e) {
+         if ( $(e.target).closest(".tag_tab").length>0 || $(e.target).closest("a.tag_1").length>0 || $(e.target).closest("a.tag").length>0) {
+             $(".tag_tab").css('display','block');
+         }else{
+             $(".tag_tab").css('display','none');
+             var checks = $("#tags_table").find("input[type='checkbox']");
+             $.each(checks,function(){
+                 var tag_name = $(this).parents("li").find("p").first().text();
+                 var tag_id = $(this).val();
+                 $("#tags_table").find("ul").append("<li><input type='checkbox' value='"+tag_id+"'/><p>"+tag_name+"</p></li>");
+                 $(this).parents("li").remove();
+             });
+             $('input[type=checkbox], input[type=radio]').iCheck({
+                 checkboxClass: 'icheckbox_square-aero',
+                 radioClass: 'iradio_square-aero',
+                 increaseArea: '20%' // optional
+             });
+             var divs = $("#tags_table").find("div.icheckbox_square-aero");
+             $.each(divs, function(){
+                 $(this).removeAttr("class");
+                 $(this).attr("class", "icheckbox_square-aero");
+             });
+            
+         }
+     });
+ })
 
 //侧边留言信息页面高度 点击滑出
 $(function(){
@@ -220,21 +229,7 @@ function popup(t){
     });
 }
 
-//登录默认值
-function focusBlur(e){
-    $(e).focus(function(){
-        var thisVal = $(this).val();
-        if(thisVal == this.defaultValue){
-            $(this).val('');
-        }
-    })
-    $(e).blur(function(){
-        var thisVal = $(this).val();
-        if(thisVal == ''){
-            $(this).val(this.defaultValue);
-        }
-    })
-}
+
 
 $(function(){
     focusBlur('.tab_switch li input');//
@@ -299,10 +294,10 @@ $(function(){
     $("body").on("click",".ab_list_title",function(){
         if($(this).parent().find(".ab_list_box").is(":hidden")){
             $(this).parent().find(".ab_list_box").show();
-            $(this).parent().addClass("ab_list_open");
+            $(this).parents("div.assignment_body_list").addClass("ab_list_open");
         }else{
             $(this).parent().find(".ab_list_box").hide();
-            $(this).parent().removeClass("ab_list_open");
+            $(this).parents("div.ab_list_open").removeClass("ab_list_open");
         }
 
     })
@@ -319,7 +314,6 @@ $(function(){
         $(this).find(".second_menu").css("display","none");
     });
 })
-
 
 //题面 双击修改
 //function ondblclick(a,b){
@@ -345,32 +339,9 @@ $(function(){
 })
 
 
-//点击作业列表展开隐藏
-$(function(){
-    $(".ab_list_title").click(function(){
-        if($(this).parent().find(".ab_list_box").is(":hidden")){
-            $(this).parent().find(".ab_list_box").show();
-            $(this).parent().addClass("ab_list_open");
-        }else{
-            $(this).parent().find(".ab_list_box").hide();
-            $(this).parent().removeClass("ab_list_open");
-        }
-
-    })
-})
 
 
-//鼠标经过题型menu
-$(function(){
-    $(".qType_menu > ul > li").mouseover(function(){
-        $(this).find("i.arrows").css("display","block");
-        $(this).find(".second_menu").css("display","block");
-    });
-    $(".qType_menu").mouseout(function(){
-        $(this).find("i.arrows").css("display","none");
-        $(this).find(".second_menu").css("display","none");
-    });
-})
+
 
 
 
@@ -388,7 +359,6 @@ $(function(){
             "left":(e.pageX+x)+"px"
         }).show("fast");
     }).mouseout(function(){
-
         $(".tooltip_box").remove();
     }).mousemove(function(e){
         $(".tooltip_box").css({
@@ -429,6 +399,11 @@ $(function(){
     $(".student_table table > tbody > tr:even").addClass("tbg");
 });
 
+//table偶数行变色
+$(function(){
+    $(".assignWork_table table > tbody > tr:odd").addClass("tbg");
+    $(".book_box_table table > tbody > tr:odd").addClass("tbg");
+});
 
 
 
@@ -539,23 +514,6 @@ $(function(){
     })
 })
 
-
-//点击作业列表展开隐藏
-$(function(){
-    $(".ab_list_title").click(function(){
-        if($(this).parent().find(".ab_list_box").is(":hidden")){
-            $(this).parent().find(".ab_list_box").show();
-            $(this).parent().addClass("ab_list_open");
-        }else{
-            $(this).parent().find(".ab_list_box").hide();
-            $(this).parent().removeClass("ab_list_open");
-        }
-
-    })
-})
-
-
-
 //user_info 修改姓名邮箱
 $(function(){
     $(".user_info p").click(function(){
@@ -642,14 +600,6 @@ $(function(){
     dia(".grade_con li");
     dia(".mess_box");
 })
-
-
-//table偶数行变色
-$(function(){
-    $(".assignWork_table table > tbody > tr:odd").addClass("tbg");
-    $(".book_box_table table > tbody > tr:odd").addClass("tbg");
-});
-
 
 //创建作业 book_box_con
 $(function(){

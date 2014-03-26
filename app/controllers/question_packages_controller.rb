@@ -45,6 +45,7 @@ class QuestionPackagesController < ApplicationController
   def save_listening
     @q_index = params[:q_index].to_i
     @b_index = params[:b_index].to_i
+    tags_id = params[:tags_id]
     types = params[:types]
     file = params[:file]
     branch_id = params[:branch_id]
@@ -79,6 +80,11 @@ class QuestionPackagesController < ApplicationController
           if upload[:status] == true
             resource_url = upload[:url]
             if @branch_question.update_attributes(:resource_url=>resource_url)
+              if tags_id.present?    #保存小题时添加标签
+                tags_id.split(/\|/).each do |tag_id|
+                  @branch_question.btags_bque_relations.create(:branch_tag_id => tag_id.to_i) if tag_id.to_i > 0
+                end  
+              end  
               @status = 1
               @notice = "小题创建完成！"
             else
@@ -104,6 +110,7 @@ class QuestionPackagesController < ApplicationController
   def save_reading
     @q_index = params[:q_index].to_i
     @b_index = params[:b_index].to_i
+    tags_id = params[:tags_id]
     types = params[:types]
     file = params[:file]
     if types.present?
@@ -123,7 +130,7 @@ class QuestionPackagesController < ApplicationController
             upload = upload_file destination_dir, rename_file_name, file
             if upload[:status] == true
               resource_url = upload[:url]
-              if @branch_question.update_attributes(:resource_url=>resource_url)
+              if @branch_question.update_attributes(:resource_url=>resource_url)           
                 @status = 2
                 @notice = "文件上传成功！！"
               else
@@ -142,13 +149,9 @@ class QuestionPackagesController < ApplicationController
               else
                 @status = -1
                 @notice = "小题修改失败！" 
-              end
-            else
-                
+              end                
             end  
           end
-
-          
         end
       else
         @status = -1
@@ -156,6 +159,11 @@ class QuestionPackagesController < ApplicationController
         content = params[:content]
         @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
         unless @branch_question.nil? 
+          if tags_id.present?    #保存小题时添加标签
+            tags_id.split(/\|/).each do |tag_id|
+              @branch_question.btags_bque_relations.create(:branch_tag_id => tag_id.to_i) if tag_id.to_i > 0
+            end  
+          end 
           @status = 1
           @notice = "小题创建完成！"
         end
@@ -651,6 +659,35 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
+
+  #引用题包
+  def reference_question_package
+    question_package_id = params[:id]
+    question_pack = QuestionPackage.find_by_id(question_package_id)
+    QuestionPackage.transaction do
+      begin
+        if question_pack
+          new_question_pack = question_pack.dup  #QuestionPackage.new(:school_class_id => school_class_id, :name => question_pack.name)
+          question_pack.questions.each do |question|
+            new_question = question.dup
+            new_question.save
+            new_question_pack.questions << new_question
+            new_question_pack.school_class_id = school_class_id
+            new_question_pack.save
+            question.branch_questions.each do |bq|
+              branch_question = new_question.branch_questions.create({:content => bq.content, :options => bq.options, :answer => bq.answer})
+              new_resource_url = copy_file(media_path, new_question_pack, branch_question, bq.resource_url) if bq.resource_url.present? #引用的时候，拷贝音频
+              branch_question.update_attribute(:resource_url, new_resource_url) if new_resource_url
+            end if question && question.branch_questions
+          end if question_pack.questions
+        end
+        render :text => 0
+      rescue
+        render :text => -1
+      end
+    end
+  end
+  
   private
   #获取单元以及对于的课�?
   def get_cells_and_episodes

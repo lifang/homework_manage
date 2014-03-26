@@ -339,3 +339,43 @@ function add_tag_to_select(obj,q_index,branch_question_id,types){
     }
 
 }
+
+
+//点击新建
+function new_select_question(obj){
+    var episode_id = $("#episode_id").val();
+    var question_package_id = $("#question_package_id").val()
+    var type = 3
+    var cell_id = $("#cell_id").val();
+    $.ajax({
+        dataType:"script" ,
+        url:"/question_packages/"+question_package_id+"/questions/show_select",
+        data:{
+            episode_id : episode_id,
+            question_package_id : question_package_id,
+            type : type,
+            cell_id : cell_id
+        },
+        success:function(){
+        }
+    });
+}
+
+function new_lianxian_question(obj){
+    var episode_id = $("#episode_id").val();
+    var question_package_id = $("#question_package_id").val()
+    var type = 4
+    var cell_id = $("#cell_id").val();
+    $.ajax({
+        dataType:"script" ,
+        url:"/question_packages/"+question_package_id+"/questions/new_lianxian",
+        data:{
+            episode_id : episode_id,
+            question_package_id : question_package_id,
+            type : type,
+            cell_id : cell_id
+        },
+        success:function(){
+        }
+    });
+}

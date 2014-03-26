@@ -293,8 +293,11 @@ $(function(){
 $(function(){
     $("body").on("click",".ab_list_title",function(){
         if($(this).parent().find(".ab_list_box").is(":hidden")){
+            $("div.ab_list_box").hide();
+            $("div.ab_list_open").removeClass("ab_list_open");
             $(this).parent().find(".ab_list_box").show();
             $(this).parents("div.assignment_body_list").addClass("ab_list_open");
+            gloab_index = $(".assignment_body_list").index($(this).parent())
         }else{
             $(this).parent().find(".ab_list_box").hide();
             $(this).parents("div.ab_list_open").removeClass("ab_list_open");

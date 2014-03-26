@@ -7,11 +7,16 @@ KindEditor.plugin('commit', function(K) {
         //选项的个数，-1是因为每次多一个
         var length = $(div[gloab_index]).find(".gapFilling_questions").length-1;
         var temp = editor.text();
-        var sign_length = temp.match(/\[\[sign\]\]/g).length;
+        var sign_length=-1;
+        if(temp.indexOf("[[sign]]") > 0){
+            sign_length = temp.match(/\[\[sign\]\]/g).length;
+        }else{
+            sign_length = 0
+        }
         //alert(length+"-->"+sign_length);
         if(length != sign_length){
-           tishi("选项标记与选项个数不匹配！");
-           return false;
+            tishi("选项标记与选项个数不匹配！");
+            return false;
         }
         var text = editor.html();
         $.ajax({

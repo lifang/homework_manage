@@ -13,17 +13,4 @@
   <div class="ab_list_box" style="display: none;">
     <%=render 'wanxin/paixu_item'%>
   </div>
-  <!--标签层-->
-  <div class="tag_tab" id="wp_tags_table">
-    <span class="arrows">A</span>
-    <div class="search">
-      <input type="text" oninput="search_b_tags(this, <%= @school_class.id  %>)"/></div>
-    <ul>
-      <% @b_tags.each do |bt| %>
-        <li><input type="checkbox" value="<%= bt.id %>" onclick="add_tags_to_time_limit(this,'<%= bt.id %>', '<%= bt.name %>')"/><p><%= bt.name %></p></li>
-      <% end %>
-    </ul>
-    <input type="hidden" value=""/>
-    <a  onclick="add_b_tag(this, <%= @school_class.id  %>)"></a>
-  </div>
 </div>

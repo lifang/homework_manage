@@ -657,6 +657,35 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
+
+  #引用题包
+  def reference_question_package
+    question_package_id = params[:id]
+    question_pack = QuestionPackage.find_by_id(question_package_id)
+    QuestionPackage.transaction do
+      begin
+        if question_pack
+          new_question_pack = question_pack.dup  #QuestionPackage.new(:school_class_id => school_class_id, :name => question_pack.name)
+          question_pack.questions.each do |question|
+            new_question = question.dup
+            new_question.save
+            new_question_pack.questions << new_question
+            new_question_pack.school_class_id = school_class_id
+            new_question_pack.save
+            question.branch_questions.each do |bq|
+              branch_question = new_question.branch_questions.create({:content => bq.content, :options => bq.options, :answer => bq.answer})
+              new_resource_url = copy_file(media_path, new_question_pack, branch_question, bq.resource_url) if bq.resource_url.present? #引用的时候，拷贝音频
+              branch_question.update_attribute(:resource_url, new_resource_url) if new_resource_url
+            end if question && question.branch_questions
+          end if question_pack.questions
+        end
+        render :text => 0
+      rescue
+        render :text => -1
+      end
+    end
+  end
+  
   private
   #获取单元以及对于的课�?
   def get_cells_and_episodes

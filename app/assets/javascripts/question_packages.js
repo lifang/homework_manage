@@ -1,9 +1,4 @@
 function address_search_episodes(obj,school_class_id){
-    cell_id = $("#cell_id").val();
-    if( cell_id !=""){
-        return false;
-    }
-    if(confirm("确认选择后就不能更改了？")){
         $("#cell_id").val($(obj).val());
         $.ajax({
             type: "get",
@@ -13,10 +8,10 @@ function address_search_episodes(obj,school_class_id){
                 cell_id : $(obj).val()
             },
             success: function(data){
-                $(obj).attr("disabled","disabled");
+               
             }
         });
-    }
+    
 }
 
 function no_change(obj){
@@ -28,6 +23,7 @@ function no_change(obj){
     if(confirm("确认选择后就不能更改了？")){
         $("#episode_id").val($(obj).val());
         $(obj).attr("disabled","disabled");
+        $(obj).parents(".select_box").find("#select1").attr("disabled","disabled");
         $(".assignment_body").show();
         $(".questionTypes").show();
         $(".complete_btn_box").show();

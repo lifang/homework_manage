@@ -204,8 +204,6 @@ class QuestionPackagesController < ApplicationController
     episode_id = params[:episode_id]
     @question_packages = QuestionPackage.find_by_id(params[:id])
     @question = Question.create(types:Question::TYPES[:CLOZE],question_package_id:@question_packages.id,episode_id:episode_id)
-    @questions = []
-    @questions << @question
   end
   
   def show_ab_list_box

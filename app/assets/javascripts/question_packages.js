@@ -321,7 +321,8 @@ function create_wanxin(school_class_id,question_id){
         url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/create_wanxin",
         data:"episode_id="+episode_id,
         success:function(){
-         
+            var obj = $(".assignment_body_list").last().find(".ab_list_title");
+            $(obj).click();
         }
     });
 }
@@ -330,7 +331,11 @@ function create_paixu(school_class_id,question_id){
     $.ajax({
         dataType:"script" ,
         url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/create_paixu",
-        data:"episode_id="+episode_id
+        data:"episode_id="+episode_id,
+        success:function(){
+            var obj = $(".assignment_body_list").last().find(".ab_list_title");
+            $(obj).click();
+        }
     });
 }
 function show_wanxin(school_class_id,question_id){
@@ -680,4 +685,23 @@ function common_tags(obj){
         'left':($(obj).offset().left-width)+'px',
         'top':($(obj).offset().top+height)+'px'
     });
+}
+
+function open_time_set(obj){
+    $("#time_limit_set_time").css("top","50px");
+    $("#time_limit_set_time").css("display","inherit");
+    return false;
+}
+
+function wp_set_time(obj){
+    var flag = true;
+    var q_items = $("#time_limit_ab_article").find("div.questions_item");
+    var hour = $("#create_time_limit_hour").val();
+    var minute = $("#create_time_limit_minute").val();
+    var second = $("#create_time_limit_second").val();
+    if((hour=="" || hour=="时") && (minute=="" || minute=="分") && (second=="" || second=="秒")){
+        flag = false;
+        tishi("尚未指定时间");
+        return false;
+    };
 }

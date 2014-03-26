@@ -124,49 +124,9 @@
       </div>
     </div>
   <% when Question::TYPES[:CLOZE] %>
-    <div class="assignment_body_list">
-      <input type="hidden" class="the_index_of_div" value="<%=index%>" />
-      <div class="ab_list_title" onclick="show_this(this,<%=question.question_package_id%>,<%=@school_class.id%>)">
-        <input type="hidden" class="question_id" value="<%=question.id%>" />
-        <h1><%=question.name.nil? ? "未命名":question.name %></h1>
-        <p>完形 / <%=current_user.name%> / <%=question.created_at.strftime("%Y-%m-%d")%> / 参考时间：<%=question.questions_time.nil? ? "未定义":"#{question.questions_time}秒"  %></p>
-        <ul class="ab_func">
-          <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
-          <li><a href="#" class="save_icon tooltip_html">保存</a></li>
-          <li><a href="#" class="share_icon tooltip_html">分享</a></li>
-          <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
-        </ul>
-      </div>
-      <div class="ab_list_box" style="display: none;">
-        <div class="ab_article">
-          <div class="questions_item">
-            <div class="gapFilling_textarea">
-              <textarea id="wanxin_content" name="wanxin_content" class="wanxin_content"><%=question.content%></textarea>
-            </div>
-            <div class="gapFilling_box">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <%=render 'wanxin/wanxin',{:@question=>question}%>
   <% when Question::TYPES[:SORT] %>
-    <div class="assignment_body_list">
-      <input type="hidden" class="the_index_of_div" value="<%=index%>" />
-      <div class="ab_list_title" onclick="show_the_paixu(this,<%=question.question_package_id%>,<%=@school_class.id%>)">
-        <input type="hidden" class="question_id" value="<%==question.id%>" />
-        <h1><%=question.name.nil? ? "未命名":question.name %></h1>
-        <p>排序 / <%=current_user.name%> / <%=question.created_at.strftime("%Y-%m-%d")%> / 参考时间：<%=question.questions_time.nil? ? "未定义":"#{question.questions_time}秒"  %></p>
-        <ul class="ab_func">
-          <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
-          <li><a href="#" class="save_icon tooltip_html">保存</a></li>
-          <li><a href="#" class="share_icon tooltip_html">分享</a></li>
-          <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
-        </ul>
-      </div>
-      <div class="ab_list_box" style="display: none;">
-
-      </div>
-    </div>
+    <%=render 'wanxin/paixu',{:@question=>question}%>
   <%else%>
   <% end %>
 <% end %>

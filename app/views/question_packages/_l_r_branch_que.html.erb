@@ -17,6 +17,7 @@
                 <input type="hidden" name="content" class="content" value="<%= content.present?  ? content : "" %>">
                 <input type="hidden" name="q_index" class="q_index" value="<%= count_q.present?  ? count_q : "" %>">
                 <input type="hidden" name="b_index" class="b_index"  value="<%= count_b.present?  ? count_b : "" %>">
+                <input type="text" name="tags_id" class="tags_id" value="">
               <% end %>
             <% elsif types == Question::TYPES[:READING] %>
               <%= form_tag({:action => :save_reading}, :multipart => true ,:remote => true) do %>
@@ -27,6 +28,7 @@
                 <input type="hidden" name="content" class="content" value="<%= content.present?  ? content : "" %>">
                 <input type="hidden" name="q_index" class="q_index" value="<%= count_q.present?  ? count_q : "" %>">
                 <input type="hidden" name="b_index" class="b_index"  value="<%= count_b.present?  ? count_b : "" %>">
+                <input type="text" name="tags_id" class="tags_id" value="">
               <% end %>
             <% end %>  
         </li>
@@ -44,6 +46,5 @@
     <div class="tag_ul">
       <ul>
       </ul>
-      <input type="text" class="tags_id" value="">
     </div>
 </div>

@@ -490,10 +490,66 @@ function add_b_tags(type, obj){
         var b_index = $(obj).parent().parent().parent().index();
         $("#tags_table").find("[class='q_index']").remove();
         $("#tags_table").find("[class='b_index']").remove();
-        $("#tags_table").append('<input type="text" class="q_index" value="'+q_index+'">');
-        $("#tags_table").append('<input type="text" class="b_index" value="'+ b_index+'">');
+        var lis = $("#tags_table").find("li");
+        $.each(lis, function(){
+            var current_input = $(this).find("input").first();
+            var tag_id = current_input.val();
+            var tag_name = $(this).find("p").first().text();
+            $(current_input).on("ifChecked", function(){
+               add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name);
+            })           
+        })
     }
     return false;
+}
+
+//添加标签到听写或朗读题小题下
+function add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)
+{   
+   var tags_id = $.trim($("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val());
+   var tag_li = "<li><p>"+tag_name+"</p><a href='javascript:void(0)'' class='x' onclick='delete_reading_listening_tags(this," + q_index+","+b_index+","+tag_id+")'>X</a></li>";
+   if(tags_id != "")
+   {
+        var tags_id_arr = tags_id.split(/\|/);
+        var index = $.inArray(tag_id,tags_id_arr);
+        if(index== -1)
+        {
+            tags_id += "|"
+            tags_id += tag_id
+            $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("div.tag_ul").find("ul").append(tag_li);
+            $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tags_id);
+        }    
+    }
+   else
+   {
+        $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("div.tag_ul").find("ul").append(tag_li);
+        $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tag_id);
+   }
+}
+
+//删除听写或朗读的标签
+function delete_reading_listening_tags(obj, q_index, b_index, tag_id)
+{   
+    var branch_id =  $.trim($("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.branch_id").val());
+    var tags_id = $.trim($("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val());
+    if(branch_id == "")
+    {
+        var tags_id_arr = tags_id.split(/\|/);
+        tags_id_arr.splice($.inArray(tag_id,tags_id_arr),tags_id_arr.length);
+        tags_id = "";
+        $.each(tags_id_arr,function(n,value) {
+            
+            tags_id += value;
+            //alert(n+' '+value);
+        });
+        alert(tags_id);
+        $(obj).parent().remove();
+        $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tags_id);
+    }
+    else
+    {
+        
+    }
 }
 
 //添加标签到十速挑战的题目下面

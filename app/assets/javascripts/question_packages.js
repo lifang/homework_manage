@@ -87,6 +87,19 @@ function show_ques(types, school_class_id)
     }); 
 }
 
+//检查音频文件后缀名
+function check_audio(obj)
+{
+    file_name = $(obj).val();
+    if(file_name.match(/\..*$/) == ".mp3" || file_name.match(/\..*$/) == ".MP3")
+    {}
+    else
+    {
+        tishi("只能上传mp3格式文件！");
+        $(obj).val("");
+    }
+}
+
 //播放音频文件
 function playAudio(obj){
     var oAudio =  $(obj).find("audio")[0];
@@ -98,24 +111,30 @@ function playAudio(obj){
     }
 }
 
-//听力和朗读上传音频文件
-function check_audio(obj, types, school_class_id)
+//保存听力和朗读
+function save_listening_reading(obj, types, school_class_id)
 {
-    var question_id = $(obj).parent().find("[class='question_id']").val();
-    var branch_id = $.trim($(obj).parent().find("[class='branch_id']").val());
-    var types = $(obj).parent().find("[class='types']").val();
-    var q_index = $(obj).parent().find("[class='q_index']").val();
-    var b_index = $(obj).parent().find("[class='b_index']").val();
-    var content = $.trim($(obj).parent().find("[class='content']").val());  
+    var content = $.trim($(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("[class='content']").val());
+    var types = $.trim($(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("[class='types']").val());
+    var file = $.trim($(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("[class='file']").val());
+    // alert(content);
+    // alert(types);
+    // alert(file);
   
  
    if(types == 0) //听写
     {
-
-
         if(content != "")
         {
-            $(obj).parent().submit();
+            if(file == "")
+            {
+                tishi("听写题资源不能为空！"); 
+            }
+            else
+            {
+                $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();
+            }    
+                
         }
         else
         {
@@ -127,10 +146,7 @@ function check_audio(obj, types, school_class_id)
     {
         if(content != "")
         {
-            if(branch_id != "")
-            {   
-             $(obj).parent().submit();
-            } 
+           $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();
         }
         else
         {
@@ -143,23 +159,22 @@ function check_audio(obj, types, school_class_id)
 }
 
 //听力和朗读的onblur事件
-function ob_listeng_or_reading(obj, school_class_id)
+function update_listening_reading(obj, school_class_id)
 {
     var question_package_id = $("#question_package_id").val();
     var cell_id = $("#cell_id").val();
     var episode_id = $("#episode_id").val();
-    var question_id = $(obj).parent().find("[class='question_id']").val();
+    var question_id = $(obj).parent().prev().find("form").find("[class='question_id']").val();
     var branch_id = $.trim($(obj).parent().prev().find("[class='branch_id']").val());
     var q_index = $(obj).parent().parent().parent().parent().parent().parent().parent().parent().index();
     var b_index = $(obj).parent().parent().parent().parent().parent().index();
-    var types = $(obj).parent().find("[class='types']").val();
+    var types = $(obj).parent().prev().find("form").find("[class='types']").val();
     var content = $.trim($(obj).val());
     if(content != "")
     {
-
-        $(obj).prev().text(content);
+        $(obj).parent().find("p").text(content);
         $(obj).hide();
-        $(obj).prev().show();
+        $(obj).parent().find("p").show();
         $(obj).parent().prev().find("form").find("[class='q_index']").val(q_index);
         $(obj).parent().prev().find("form").find("[class='b_index']").val(b_index);
         $(obj).parent().prev().find("form").find("[class='content']").val(content);
@@ -189,25 +204,28 @@ function ob_listeng_or_reading(obj, school_class_id)
         }
         else if(types == 1) // 朗读
         {
-            var url =  "/school_classes/"+school_class_id+"/question_packages/save_reading";
-            $.ajax({
-                type: "post",
-                dataType: "script",
-                url: url,
-                data: {
-                    branch_id : branch_id, 
-                    q_index : q_index,
-                    b_index : b_index,
-                    types : types,
-                    content : content,
-                    question_id : question_id,
-                    question_package_id : question_package_id,
-                    episode_id : episode_id,
-                    cell_id : cell_id
-                },
-                success: function(data){
-                }
-            });
+            if(branch_id != "")
+            {
+                var url =  "/school_classes/"+school_class_id+"/question_packages/save_reading";
+                $.ajax({
+                    type: "post",
+                    dataType: "script",
+                    url: url,
+                    data: {
+                        branch_id : branch_id, 
+                        q_index : q_index,
+                        b_index : b_index,
+                        types : types,
+                        content : content,
+                        question_id : question_id,
+                        question_package_id : question_package_id,
+                        episode_id : episode_id,
+                        cell_id : cell_id
+                    },
+                    success: function(data){
+                    }
+                });
+            }
         }
     }
     else
@@ -469,8 +487,12 @@ function add_b_tags(type, obj){
             })           
         })
     }else if(type=="listening_and_reading_tags"){
-        $(obj).parent().next().find("ul")
-
+        var q_index = $(obj).parent().parent().parent().parent().parent().index();
+        var b_index = $(obj).parent().parent().parent().index();
+        $("#tags_table").find("[class='q_index']").remove();
+        $("#tags_table").find("[class='b_index']").remove();
+        $("#tags_table").append('<input type="text" class="q_index" value="'+q_index+'">');
+        $("#tags_table").append('<input type="text" class="b_index" value="'+ b_index+'">');
     }
     return false;
 }

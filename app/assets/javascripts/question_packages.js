@@ -471,7 +471,8 @@ function add_b_tags(type, obj){
                 add_tags_to_time_limit($(this), tag_id, tag_name);
             })           
         })
-    }else if(type=="select"){
+    }else if(type=="listening_and_reading_tags"){
+        $(obj).parent().next().find("ul")
 
     }
     return false;
@@ -657,7 +658,7 @@ function add_content_to_wanxin(obj,q_index,branch_question_id){
                 if(data.status == 1){
                     var old = $($( $(".assignment_body_list")[gloab_index] ).find(".gapFilling_questions")[q_index]);
                     old.find(".tag_ul ul").
-                    append("<li><p>"+data.tag_name+"</p><a onclick='delete_tags(this,"+shcool_id+","+question_pack_id+","+data.tag_id+","+branch_question_id+",\'wanxin\')' class='x'>X</a></li>");
+                    append("<li><p>"+data.tag_name+"</p><a onclick='delete_tags(this,"+shcool_id+","+question_pack_id+","+data.tag_id+","+branch_question_id+",\"wanxin\")' class='x'>X</a></li>");
                 }else if(data.status == 2){
                     alert("添加失败，重复标签！");
                 }else if(data.status == 3){

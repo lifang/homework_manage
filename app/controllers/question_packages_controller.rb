@@ -181,9 +181,9 @@ class QuestionPackagesController < ApplicationController
     @questions = Question.where("question_package_id=#{@question_pack.id}")
     p @reading_and_listening_branch
     get_has_time_limit(@question_pack.id)
-
-    #引用url
-    @reference_part_url = "/school_classes/#{@school_class.id}/question_packages/#{@question_pack.id}/share_questions/list_questions_by_type"
+    #@reading_and_listening_branch  = Question.get_has_reading_and_listening_branch(@questions)
+    #引用题目的url
+    @reference_part_url = "/school_classes/#{@school_class.id}/share_questions/list_questions_by_type?question_pack_id=#{params[:id]}"
     render 'new'
   end
   
@@ -593,7 +593,7 @@ class QuestionPackagesController < ApplicationController
     btagsbquetelation = BtagsBqueRelation.find_by_branch_tag_id_and_branch_question_id(branch_tag_id,branch_question_id)
     if branch_tag
       if btagsbquetelation.nil?
-        BtagsBqueRelation.create(branch_question_id:branch_question_id,
+        @bq = BtagsBqueRelation.create(branch_question_id:branch_question_id,
           branch_tag_id:branch_tag_id)
         status = 1
       else
@@ -602,7 +602,7 @@ class QuestionPackagesController < ApplicationController
     else
       status = 3
     end
-    render :json => {:status => status, :tag_id => status==1 ? branch_tag.id : 0, :tag_name => status==1 ? branch_tag.name : ""}
+    render :json => {:status => status, :tag_id => status==1 ? @bq.id : 0, :tag_name => status==1 ? branch_tag.name : ""}
   end
 
   def delete_branch_tag

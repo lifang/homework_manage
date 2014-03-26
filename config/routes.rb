@@ -110,19 +110,19 @@ HomeworkManage::Application.routes.draw do
           :delete_paixu_branch_question,:delete_branch_tag
       end
       resources :questions do
-        collection do
-
-        end
+         member do
+          post :share, :reference
+         end
         resources :branch_questions do
           collection do
             get 
           end
         end
       end
-      resources :share_questions do
-        collection do
-          get :list_questions_by_type
-        end
+    end
+    resources :share_questions do
+      collection do
+        get :list_questions_by_type
       end
     end
   end
@@ -132,9 +132,9 @@ HomeworkManage::Application.routes.draw do
       get :render_new_question
     end
     resources :questions do
-      member do
-        post :share, :reference
-      end
+#      member do
+#        post :share, :reference
+#      end
       collection do
         get :show_branch_question
         get :show_select,:question_selects_all,:new_lianxian,:delete_branch_question

@@ -10,8 +10,8 @@
     </ul>
   </div>
   <div class="ab_list_box">
-    <div class="ab_article" id="now_new_branch" question_index="<%= @question.id %>">
-      <div class="questions_item" stypes="save_select" branch_question_index="">
+    <div class="ab_article" id="now_new_branch" question_index="<%= @question.id %>" >
+      <div class="questions_item" stypes="save_select" branch_question_index="" question_type="select">
         <%= form_for :question,:url =>{ :action => :save_select, :controller => :questions },:method=>"post",:remote=>true do |f|%>
           <div class="q_topic q_willCompile" >
             <div class="multipleChoice">
@@ -36,9 +36,9 @@
             </div>
           </div>
           <div class="qt_icon">
-            <a href="javascript:void(0)" class="save tooltip_html" onclick="onclick_submit(this)">
+            <a href="javascript:void(0)" class="save tooltip_html save_chen" onclick="onclick_submit(this)">
             </a>
-            <a href="javascript:void(0)" class="delete tooltip_html"style="display:none" data-remote="true">删除</a>
+            <a href="javascript:void(0)" class="delete tooltip_html delete_chen"style="display:none" data-remote="true">删除</a>
             <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_selects_tags(this)" style="display:none;">标签</a>
           </div>
           <input type="hidden" name="school_class_id" class="school_class_id" value="<%= school_class_id %>"/>

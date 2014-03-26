@@ -204,8 +204,6 @@ class QuestionPackagesController < ApplicationController
     episode_id = params[:episode_id]
     @question_packages = QuestionPackage.find_by_id(params[:id])
     @question = Question.create(types:Question::TYPES[:CLOZE],question_package_id:@question_packages.id,episode_id:episode_id)
-    @questions = []
-    @questions << @question
   end
   
   def show_ab_list_box
@@ -277,6 +275,11 @@ class QuestionPackagesController < ApplicationController
     @branch_questions.each_with_index do |bq|
       @values << bq.options.split(";||;").index { |x| x == bq.answer }
     end
+    branch_question_ids = @branch_questions.map(&:id)
+    @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
+      joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
+      select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
+
   end
   
   def delete_wanxin_branch_question
@@ -299,6 +302,7 @@ class QuestionPackagesController < ApplicationController
   end
 
   def save_paixu_branch_question
+    @gloab_index = params[:gloab_index]
     branch_question_id = params[:branch_question_id]
     content = params[:content].strip.gsub(/\s+/," ")
     answer = content
@@ -306,21 +310,30 @@ class QuestionPackagesController < ApplicationController
       if BranchQuestion.create(content:content,
           question_id:params[:question_id],
           answer:answer)
-        render text:1
+        @text=1
       else
-        render text:0
+        @text=0
       end
     else
       branch_question = BranchQuestion.find_by_id(branch_question_id)
       if branch_question.update_attributes(content:content,
           answer:answer
         )
-        render text:3
+        @text=2
       else
-        render text:0
+        @text=0
       end
     end
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @question_id = params[:question_id]
+    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
+    branch_question_ids = @branch_questions.map(&:id)
+    @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
+      joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
+      select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
+
   end
+  
   def show_the_paixu
     @index = params[:index]
     @question_packages = QuestionPackage.find_by_id(params[:id])
@@ -621,6 +634,9 @@ class QuestionPackagesController < ApplicationController
       @status = 1
     else
       @ststus = 0
+    end
+    if @type=="select" || @type=="lianxian"
+      render :json => {:status=>@status}
     end
   end
 

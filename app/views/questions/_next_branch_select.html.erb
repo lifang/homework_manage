@@ -1,4 +1,4 @@
-<div class="questions_item" stypes="save_select" branch_question_index="">
+<div class="questions_item" stypes="save_select" branch_question_index="" question_type="select">
   <%= form_for :question,:url => { :action => :save_select, :controller => :questions }, :method=>"post" ,:remote=>true do |f|%>
     <div class="q_topic q_willCompile">
       <div class="multipleChoice">
@@ -23,9 +23,9 @@
       </div>
     </div>
     <div class="qt_icon">
-      <a href="javascript:void(0)" class="save tooltip_html" onclick="onclick_submit(this)"></a>
-      <a href="javascript:void(0)" class="delete tooltip_html" style="display:none" data-remote="true" >删除</a>
-      <a href="javascript:void(0)" class="tag tooltip_html">标签</a>
+      <a href="javascript:void(0)" class="save tooltip_html save_chen" onclick="onclick_submit(this)"></a>
+      <a href="javascript:void(0)" class="delete tooltip_html delete_chen" style="display:none" data-remote="true" >删除</a>
+      <a href="javascript:void(0)" class="tag tooltip_html" style="display:none" onclick="add_selects_tags(this)">标签</a>
     </div>
     <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_package_id %>"/>
     <input type="hidden" name="question_id" value="<%= @question.id %>"/>
@@ -34,9 +34,6 @@
   <% end %>
   <div class="tag_ul">
     <ul>
-      <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-      <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-      <li><p>不定冠词</p><a href="#" class="x">X</a></li>
     </ul>
   </div>
 </div>

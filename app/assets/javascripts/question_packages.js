@@ -318,15 +318,10 @@ function show_the_paixu(obj,question_packages,school_class_id){
             url:"/school_classes/"+school_class_id+"/question_packages/"+question_packages+"/show_the_paixu",
             data:"question_id="+question_id+"&index="+gloab_index
         });
-        for(var i=0;i<pp.length;i++){
-            if(pp[i]!=$(obj).parent()){
-                $(pp[i]).find(".ab_list_box").hide();
-                $(pp[i]).removeClass("ab_list_open");
-            }
-
-        }
     }
 }
+
+
 
 function create_wanxin(school_class_id,question_id){
     var episode_id = $("#episode_id").val();

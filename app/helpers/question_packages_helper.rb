@@ -1,20 +1,20 @@
 module QuestionPackagesHelper
   def load_type_class type
     case type
-      when Question::TYPES[:LISTENING] then
-          css_class =  "qType_write"
-      when Question::TYPES[:READING] then
-          css_class = "qType_read"
-      when Question::TYPES[:TIME_LIMIT] then
-          css_class = "qType_speed"
-      when Question::TYPES[:SELECTING] then
-          css_class =  "qType_choose"
-      when Question::TYPES[:LINING] then
-          css_class = "qType_ligature"
-      when Question::TYPES[:CLOZE] then
-          css_class = "qType_gap"
-      when Question::TYPES[:SORT] then
-          css_class = "qType_sort"
+    when Question::TYPES[:LISTENING] then
+      css_class =  "qType_write"
+    when Question::TYPES[:READING] then
+      css_class = "qType_read"
+    when Question::TYPES[:TIME_LIMIT] then
+      css_class = "qType_speed"
+    when Question::TYPES[:SELECTING] then
+      css_class =  "qType_choose"
+    when Question::TYPES[:LINING] then
+      css_class = "qType_ligature"
+    when Question::TYPES[:CLOZE] then
+      css_class = "qType_gap"
+    when Question::TYPES[:SORT] then
+      css_class = "qType_sort"
     end
     css_class
   end
@@ -32,5 +32,17 @@ module QuestionPackagesHelper
     @time_limit_tags = BtagsBqueRelation.find_by_sql(["select bt.name, bbr.branch_question_id bq_id, bbr.branch_tag_id bt_id from
         btags_bque_relations bbr left join branch_tags bt on bbr.branch_tag_id=bt.id
         where bbr.branch_question_id in (?)", @time_limit_branch_que.map(&:id)]) if @time_limit_branch_que
+    #        选择题
+    question_select = Question.find_by_types_and_question_package_id(Question::TYPES[:SELECTING],question_package_id)
+    @time_select_branch_que = BranchQuestion.where(["question_id=?", question_select.id]) if question_select
+    @time_select_tags = BtagsBqueRelation.find_by_sql(["select bt.name, bbr.branch_question_id bq_id, bbr.branch_tag_id bt_id from
+        btags_bque_relations bbr left join branch_tags bt on bbr.branch_tag_id=bt.id
+        where bbr.branch_question_id in (?)", @time_select_branch_que.map(&:id)]) if @time_select_branch_que
+    #连线题
+    question_lianxian = Question.find_by_types_and_question_package_id(Question::TYPES[:LINING],question_package_id)
+    @time_lianxian_branch_que = BranchQuestion.where(["question_id=?", question_lianxian.id]) if question_lianxian
+    @time_lianxian_tags = BtagsBqueRelation.find_by_sql(["select bt.name, bbr.branch_question_id bq_id, bbr.branch_tag_id bt_id from
+        btags_bque_relations bbr left join branch_tags bt on bbr.branch_tag_id=bt.id
+        where bbr.branch_question_id in (?)", @time_lianxian_branch_que.map(&:id)]) if @time_lianxian_branch_que
   end
 end

@@ -57,8 +57,8 @@ class QuestionsController < ApplicationController
   end
   #  显示选择
   def show_select
-    cell_id = params[:select1]
-    episode_id = params[:select2]
+    cell_id = params[:cell_id]
+    episode_id = params[:episode_id]
     types = params[:types]
     @question_package_id = params[:question_package_id]
     @questions = Question.where("question_package_id=#{@question_package_id}").where("types=#{types}")
@@ -127,8 +127,8 @@ class QuestionsController < ApplicationController
 
   #创建连线题连线
   def new_lianxian
-    cell_id = params[:select1]
-    episode_id = params[:select2]
+    cell_id = params[:cell_id]
+    episode_id = params[:episode_id]
     types = params[:types]
     @question_package_id = params[:question_package_id]
     @questions = Question.where("question_package_id=#{@question_package_id}").where("types=#{types}")

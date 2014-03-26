@@ -86,34 +86,34 @@ $(function(){
 })
 
 
-// //作业题面 标签   鼠标点击别处隐藏tab
-// $(function(){
-//     $(document).bind('click', function (e) {
-//         if ( $(e.target).closest(".tag_tab").length>0 || $(e.target).closest("a.tag_1").length>0 || $(e.target).closest("a.tag").length>0) {
-//             $(".tag_tab").css('display','block');
-//         }else{
-//             $(".tag_tab").css('display','none');
-//             var checks = $("#tags_table").find("input[type='checkbox']");
-//             $.each(checks,function(){
-//                 var tag_name = $(this).parents("li").find("p").first().text();
-//                 var tag_id = $(this).val();
-//                 $("#tags_table").find("ul").append("<li><input type='checkbox' value='"+tag_id+"'/><p>"+tag_name+"</p></li>");
-//                 $(this).parents("li").remove();
-//             });
-//             $('input[type=checkbox], input[type=radio]').iCheck({
-//                 checkboxClass: 'icheckbox_square-aero',
-//                 radioClass: 'iradio_square-aero',
-//                 increaseArea: '20%' // optional
-//             });
-//             var divs = $("#tags_table").find("div.icheckbox_square-aero");
-//             $.each(divs, function(){
-//                 $(this).removeAttr("class");
-//                 $(this).attr("class", "icheckbox_square-aero");
-//             });
+//作业题面 标签   鼠标点击别处隐藏tab
+ $(function(){
+     $("#new_question_main_div").bind('click', function (e) {
+         if ( $(e.target).closest(".tag_tab").length>0 || $(e.target).closest("a.tag_1").length>0 || $(e.target).closest("a.tag").length>0) {
+             $(".tag_tab").css('display','block');
+         }else{
+             $(".tag_tab").css('display','none');
+             var checks = $("#tags_table").find("input[type='checkbox']");
+             $.each(checks,function(){
+                 var tag_name = $(this).parents("li").find("p").first().text();
+                 var tag_id = $(this).val();
+                 $("#tags_table").find("ul").append("<li><input type='checkbox' value='"+tag_id+"'/><p>"+tag_name+"</p></li>");
+                 $(this).parents("li").remove();
+             });
+             $('input[type=checkbox], input[type=radio]').iCheck({
+                 checkboxClass: 'icheckbox_square-aero',
+                 radioClass: 'iradio_square-aero',
+                 increaseArea: '20%' // optional
+             });
+             var divs = $("#tags_table").find("div.icheckbox_square-aero");
+             $.each(divs, function(){
+                 $(this).removeAttr("class");
+                 $(this).attr("class", "icheckbox_square-aero");
+             });
             
-//         }
-//     });
-// })
+         }
+     });
+ })
 
 //侧边留言信息页面高度 点击滑出
 $(function(){
@@ -359,7 +359,6 @@ $(function(){
             "left":(e.pageX+x)+"px"
         }).show("fast");
     }).mouseout(function(){
-
         $(".tooltip_box").remove();
     }).mousemove(function(e){
         $(".tooltip_box").css({

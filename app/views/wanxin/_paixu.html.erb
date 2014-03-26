@@ -1,8 +1,8 @@
 <div class="assignment_body_list" >
-  <div class="ab_list_title" onclick="show_the_paixu(this,<%=@question.question_package_id%>,<%=@school_class.id%>)" >
-    <input type="hidden" class="questions_id" value="<%=@question.id%>" />
-    <h1>未命名</h1>
-    <p>排序 / 李芳 / 2014-02-12 / 参考时间：15秒</p>
+  <div class="ab_list_title" onclick="show_the_paixu(this,<%=  @question.question_package_id%>,<%=@school_class.id%>)" >
+    <input type="hidden" class="question_id" value="<%=@question.id%>" />
+    <h1><%=@question.name.nil? ? "未命名":@question.name %></h1>
+    <p>排序 / <%=current_user.name%> / <%=  @question.created_at.strftime("%Y-%m-%d")%> / 参考时间：<%=  @question.questions_time.nil? ? "未定义":"#{@question.questions_time}"  %></p>
     <ul class="ab_func">
       <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
       <li><a href="#" class="save_icon tooltip_html">保存</a></li>
@@ -11,19 +11,8 @@
     </ul>
   </div>
   <div class="ab_list_box" style="display: none;">
+    <%if controller.action_name == "create_paixu"%>
     <%=render 'wanxin/paixu_item'%>
-  </div>
-  <!--标签层-->
-  <div class="tag_tab" id="wp_tags_table">
-    <span class="arrows">A</span>
-    <div class="search">
-      <input type="text" oninput="search_b_tags(this, <%= @school_class.id  %>)"/></div>
-    <ul>
-      <% @b_tags.each do |bt| %>
-        <li><input type="checkbox" value="<%= bt.id %>" onclick="add_tags_to_time_limit(this,'<%= bt.id %>', '<%= bt.name %>')"/><p><%= bt.name %></p></li>
-      <% end %>
-    </ul>
-    <input type="hidden" value=""/>
-    <a  onclick="add_b_tag(this, <%= @school_class.id  %>)"></a>
+    <%end%>
   </div>
 </div>

@@ -1,0 +1,4 @@
+<%if @status==1%>
+$($( $(".assignment_body_list")[<%=@gloab_index%>] ).find(".tag_ul")[<%=@q_index%>]).
+html("<%=j(render 'wanxin/paixu_question_item')%>") ;
+<%end%>

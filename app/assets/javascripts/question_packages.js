@@ -692,9 +692,20 @@ function delete_tags(obj,shcool_id,question_pack_id,tag_id,branch_question_id,ty
             url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
             data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type
         });
+    }else if(type=='select'){
+        var question_item = $(obj).parents(".gapFilling_questions")[0]
+        var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".gapFilling_questions").index($(question_item));
+        alert(gloab_index+"==>"+q_index);
+        var type = 'wanxin'
+        $.ajax({
+            dataType:'script',
+            url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
+            data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type
+        });
     }
    
 }
+
 function add_wanxin_tags(obj, index){
 
     common_tags(obj);

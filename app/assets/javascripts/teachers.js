@@ -189,11 +189,13 @@ function onclick_submit(obj){
     if (form_class=="save_select"){
         questions_item.find("form").attr("action","/question_packages/"+ question_package_id +"/questions/update_select")
         $(obj).parent().find(".delete").attr("href","/question_packages/"+ question_package_id +"/questions/delete_branch_question?id=162")
-        $(obj).parent().find(".delete").show()
-        $(obj).parent().find(".save").hide()
+        $(obj).parent().find(".delete").show();
+        $(obj).parent().find(".tag").show();
+        $(obj).parent().find(".save").hide();
     }else if (form_class=="save_lianxian"){
         questions_item.find("form").attr("action","/question_packages/"+ question_package_id +"/questions/update_lianxian")
         $(obj).parent().find(".delete").show()
+        $(obj).parent().find(".tag").show();
         $(obj).parent().find(".save").hide()
     }else{
         questions_item.find("form").attr("action","/question_packages/"+ question_package_id +"/questions/save_select")
@@ -287,6 +289,71 @@ function select_upload(obj){
         }
     });
 }
-function upload_avatar(){
 
+//选择tag
+function add_selects_tags(obj){
+    common_tags(obj);
+    var branch_question_id = $(obj).parents(".questions_item").attr("branch_question_index");
+    var question_item = $(obj).parents(".questions_item")[0]
+    var q_index = $($(obj).parents(".ab_article")[0]).find(".questions_item").index($(question_item));
+    var lis = $("#tags_table").find("li");
+    $.each(lis, function(){
+        var current_input = $(this).find("input").first();
+        // current_input.attr("onclick","add_content_to_paixu(this,"+q_index+","+ branch_question_id+")")
+        $(current_input).on("ifChecked", function(){
+            add_tag_to_select($(this),q_index,branch_question_id)
+        //            add_content_to_paixu($(this), q_index, branch_question_id);
+        })
+    })
+}
+
+function add_tag_to_select(obj,q_index,branch_question_id){
+    if($(obj).attr("checked")=="checked"){
+        var shcool_id = $("#school_class_id").val();
+        alert(shcool_id)
+        var question_pack_id = $("#question_package_id").val();
+        var value = $(obj).val();
+        alert("/school_classes/"+shcool_id+"/question_packages/save_branch_tag")
+        $.ajax({
+            url:"/school_classes/"+shcool_id+"/question_packages/save_branch_tag",
+            dataType:"json",
+            data:"branch_question_id="+branch_question_id+"&branch_tag_id="+value,
+            success:function(data){
+                if(data.status == 1){
+                    var old = $($( $(".assignment_body_list")[gloab_index] ).find(".questions_item")[q_index]);
+                    old.find(".tag_ul ul").
+                    append("<li><p>"+data.tag_name+"</p><a onclick='delete_tags(this,"+shcool_id+","+question_pack_id+","+data.tag_id+","+branch_question_id+",select)' class='x'>X</a></li>");
+                html="<class='aaa'>"
+                }else if(data.status == 2){
+                    alert("添加失败，重复标签！");
+                }else if(data.status == 3){
+                    alert("添加失败，无此标签！");
+                }
+            }
+        })
+    }
+
+}
+function add_content_to_paixu(obj,q_index,branch_question_id){
+    if($(obj).attr("checked")=="checked"){
+        var shcool_id = $("#school_class_id").val();
+        var question_pack_id = $("#question_package_id").val();
+        var value = $(obj).val();
+        $.ajax({
+            url:"/school_classes/"+$(".school_class_id").val()+"/question_packages/save_branch_tag",
+            dataType:"json",
+            data:"branch_question_id="+branch_question_id+"&branch_tag_id="+value,
+            success:function(data){
+                if(data.status == 1){
+                    var old = $($( $(".assignment_body_list")[gloab_index] ).find(".questions_item")[q_index]);
+                    old.find(".tag_ul ul").
+                    append("<li><p>"+data.tag_name+"</p><a onclick='delete_tags(this,"+shcool_id+","+question_pack_id+","+data.tag_id+","+branch_question_id+",\'paixu\')' class='x'>X</a></li>");
+                }else if(data.status == 2){
+                    alert("添加失败，重复标签！");
+                }else if(data.status == 3){
+                    alert("添加失败，无此标签！");
+                }
+            }
+        })
+    }
 }

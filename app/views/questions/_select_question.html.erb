@@ -39,18 +39,16 @@
             <a href="javascript:void(0)" class="save tooltip_html" onclick="onclick_submit(this)">
             </a>
             <a href="javascript:void(0)" class="delete tooltip_html"style="display:none" data-remote="true">删除</a>
-            <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_b_tags('select', this)">标签</a>
+            <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_selects_tags(this)" style="display:none;">标签</a>
           </div>
+          <input type="hidden" name="school_class_id" class="school_class_id" value="<%= school_class_id %>"/>
           <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_package_id %>"/>
           <input type="hidden" name="question_id" value="<%= @question.id %>"/>
           <input type="hidden" name="index_new" class="index_new" value="0"/>
           <input class="submit_sava" type="submit" style="display:none" value="保存"/>
         <% end %>
-        <div class="tag_ul">
+        <div class='tag_ul'>
           <ul>
-            <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-            <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-            <li><p>不定冠词</p><a href="#" class="x">X</a></li>
           </ul>
         </div>
       </div>

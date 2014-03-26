@@ -23,12 +23,46 @@
               <%= form_for :question,:url => { :action => :update_select, :controller => :questions ,:question_package_id=>@question_pack.id}, :method=>"post" ,:remote=>true do |f|%>
                 <div class="q_topic">
                   <div class="multipleChoice">
-                    <div class="q_left"><img src="/assets/voice.jpg"/></div>
+                    <div class="q_left">
+                      <% if branch_question.content  %>
+                        <% if  branch_question.content.include?("</file>") && branch_question.content.include?("<file>") %>
+                          <% sourse = branch_question.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0]
+                          format = sourse.split(".")[1]%>
+                          <% if format=="jpg" || format=="png" %>
+                            <img src="<%= sourse %>" style="width:86px;height: 86px"/>
+                          <%end%>
+                          <% if format=="mp3" || format=="amr" || format=="wav" %>
+                            <img src="/assets/voiceing.jpg"/>
+                          <% end %>
+                          <input type='text' value='<%= sourse %>' name='select_resourse' style='display:none;'/>
+                        <% end %>
+                      <% end %>
+                    </div>
                     <div class="q_right">
                       <div class="q_title"><div class="qt_text">
-                          <p><%= branch_question.content %></p>
-                          <input name="select_content" type="text" value="<%= branch_question.content %>"/>
-                        </div></div>
+                          <% if branch_question.content  %>
+                            <% p branch_question.content %>
+                            <% p branch_question.content.include?("</file>") %>
+                            <% if  branch_question.content.include?("</file>") && branch_question.content.include?("<file>") %>
+                              <% sourse = branch_question.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0]
+                              format = sourse.split(".")[1]%>
+                              <% if format=="jpg" || format=="png" %>
+                                <p><%= branch_question.content.split("</file>")[1] %></p>
+                                <input name="select_content" type="text" value="<%= branch_question.content.split("</file>")[1] %>"/>
+                              <%end%>
+                              <% if format=="mp3" || format=="amr" || format=="wav" %>
+                                <input type='text' name='select_content' style='display:block;' disabled='true'/>
+                              <% end %>
+                            <% else %>
+                              <p><%= branch_question.content %></p>
+                              <input name="select_content" type="text" value="<%= branch_question.content %>"/>
+                            <% end %>
+                          <% else %>
+                            <p><%= branch_question.content %></p>
+                            <input name="select_content" type="text" value="<%= branch_question.content %>"/>
+                          <% end %>
+                        </div>
+                      </div>
                       <ul>
                         <% count=0 %>
                         <% branch_question.options.split(";||;").each do |bq_option| %>

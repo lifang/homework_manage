@@ -1,4 +1,6 @@
 #encoding: utf-8
+require 'fileutils'
+require "mini_magick"
 class QuestionsController < ApplicationController
   before_filter :sign?, :get_unread_messes
 
@@ -16,7 +18,24 @@ class QuestionsController < ApplicationController
   end
 
   def select_upload
-    
+    question_package_id = params[:question_package_id]
+    type = params[:type]
+    file_upload =  params[:select_file]
+    filename = file_upload.original_filename
+    fileext = File.basename(filename).split(".")[1]
+    resourse_url = "#{Rails.root}/public#{media_path % question_package_id}"
+    FileUtils.mkdir_p "#{File.expand_path(resourse_url)}" if !(File.exist?("#{resourse_url}"))
+    time_path = Time.now.strftime("%Y%m%dT%H%M%S")+"."+fileext
+    url = resourse_url+time_path
+    File.open(url, "wb")  {|f| f.write(file_upload.read) }
+    #    img = MiniMagick::Image.read(file_upload)
+    #    img.write "#{url}"
+    url_img ="#{media_path % question_package_id}#{time_path}"
+    if type=="voice"
+      render :text => "voice;||;#{url_img}"
+    else
+      render :text => "photo;||;#{url_img}"
+    end
   end
 
 
@@ -47,10 +66,17 @@ class QuestionsController < ApplicationController
   end
   #保存选择题
   def save_select
+    select_resourse = params[:select_resourse].nil? ? "" : params[:select_resourse]
+    if select_resourse.present?
+      resourse = "<file>" + select_resourse  + "</file>"
+    else
+      resourse = select_resourse
+    end
+    content_select = params[:select_content].nil? ? "" : params[:select_content]
+    select_content = resourse + content_select
     @index_new = params[:index_new]
     @question_id = params[:question_id]
     @question = Question.find_by_id @question_id
-    select_content = params[:select_content]
     check_select = params[:check_select]
     select_value1 = params[:select_value1]
     select_value2 = params[:select_value2]
@@ -67,6 +93,14 @@ class QuestionsController < ApplicationController
 
   #更新选择题
   def update_select
+    select_resourse = params[:select_resourse].nil? ? "" : params[:select_resourse]
+    if select_resourse.present?
+      resourse = "<file>" + select_resourse  + "</file>"
+    else
+      resourse = select_resourse
+    end
+    content_select = params[:select_content].nil? ? "" : params[:select_content]
+    select_content = resourse + content_select
     @index_new = params[:index_new]
     @question_id = params[:question_id]
     @question = Question.find_by_id @question_id

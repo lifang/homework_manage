@@ -18,9 +18,9 @@
               <div class="q_left">
                 <ul>
                   <li>
-                    <a href="javascript:void(0)" class="voice tooltip_title" title="点击上传音频" onclick="select_upload(this)"></a>
-                    <a href="javascript:void(0)" class="photo tooltip_title" title="点击上传图片" onclick="select_upload(this)"></a>
-                    <input type="file" id="input_select_upload" name="select_file"style="display:none"/>
+                    <a href="javascript:void(0)" class="voice tooltip_title" input_t="voice" title="点击上传音频" onclick="select_upload_choice(this)"></a>
+                    <a href="javascript:void(0)" class="photo tooltip_title" input_t="photo" title="点击上传图片" onclick="select_upload_choice(this)"></a>
+                    <input type="file" id="input_select_upload" name="select_file"style="display:none" onchange="select_upload(this)"/>
                   </li>
                 </ul>
               </div>

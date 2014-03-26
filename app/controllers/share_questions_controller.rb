@@ -20,14 +20,10 @@ class ShareQuestionsController < ApplicationController
     on bbr.branch_tag_id = bt.id left join branch_questions bq on bq.id = bbr.branch_question_id where bbr.branch_question_id in (?)",
         branch_question_ids]).group_by{|bt| bt.branch_question_id}
     if @share_questions.present?
-      #status, @question, @question_pack = QuestionPackage.create_new_question_pack_and_ques(question_pack_id,cell_id,episode_id,question_type, status, school_class_id)
-      #      if status
       render :partial =>"questions/new_reference"
-      #      else
-      #        render :json =>{:msg => "保存失败", :status => "-1" } #保存失败
-      #      end
     else
       render :json =>{:msg => "该单元下的 <b>#{type_name}题</b> 没有题目可以引用", :status => "-2" }  #"该单元下没有题目可以引用"
     end
   end
+
 end

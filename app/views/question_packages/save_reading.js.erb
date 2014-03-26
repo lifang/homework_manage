@@ -1,4 +1,6 @@
 <% if @status == 1 %>
+$("div.assignment_body_list:eq("+<%= @q_index %>+")").find("div.questions_item:eq("+ <%= @b_index %> +")").find("div.qt_icon").find("a:eq(0)").remove();
+$("div.assignment_body_list:eq("+<%= @q_index %>+")").find("div.questions_item:eq("+ <%= @b_index %> +")").find("div.qt_icon").prepend('<a href="/question_packages/<%= params[:school_class_id] %>/questions/delete_branch_question?id=<%= @branch_question.id %>" class="delete tooltip_html" style="" data-remote="true">删除</a>');
 $("div.assignment_body_list:eq("+<%= @q_index %>+")").find("div.questions_item:eq("+ <%= @b_index %> +")").find("[class='branch_id']").val(<%= @branch_question.id %>);
 $("div.assignment_body_list:eq("+<%= @q_index %>+")").find("[class='ab_article']").append("<%=j(render 'l_r_branch_que', {:types=> @types, :question_id => @question_id, :resource_url=> nil, :branch_id => nil, :content =>nil, :count_q=> nil , :count_b => nil} )%>");
 <% elsif  @status == 2 %>

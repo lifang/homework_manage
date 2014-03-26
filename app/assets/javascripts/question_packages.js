@@ -142,7 +142,7 @@ function save_listening_reading(obj, types, school_class_id)
     {
         if(content != "")
         {
-            $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();
+           $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();
         }
         else
         {
@@ -676,39 +676,7 @@ function delete_tags(obj,shcool_id,question_pack_id,tag_id,branch_question_id,ty
             url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
             data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type
         });
-    }else if(type=='select'){
-        var question_item = $(obj).parents(".gapFilling_questions")[0]
-        var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".gapFilling_questions").index($(question_item));
-        alert(gloab_index+"==>"+q_index);
-        $.ajax({
-            dataType:'json',
-            url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
-            data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type,
-            success:function(data){
-                if(data.status == 1){
-                    $(obj).parent().remove()
-                }else{
-                    tishi("删除失败！")
-                }
-            }
-        });
-    }else if(type="lianxian"){
-        var question_item = $(obj).parents(".gapFilling_questions")[0]
-        var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".gapFilling_questions").index($(question_item));
-        alert(gloab_index+"==>"+q_index);
-        $.ajax({
-            dataType:'json',
-            url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
-            data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type,
-            success:function(data){
-                if(data.status == 1){
-                    $(obj).parent().remove()
-                }else{
-                    tishi("删除失败！")
-                }
-            }
-        });
-    }
+    }   
 }
 
 function add_wanxin_tags(obj, index){
@@ -740,7 +708,7 @@ function common_tags(obj){
 function open_time_set(obj){
     $("#time_limit_set_time").css("top","50px");
     $("#time_limit_set_time").css("display","inherit");
-    return false;
+    stopPropagation(arguments[1]);
 }
 
 function wp_set_time(obj){
@@ -754,4 +722,13 @@ function wp_set_time(obj){
         tishi("尚未指定时间");
         return false;
     };
+}
+//阻止冒泡
+function stopPropagation(e) {
+    e = e || window.event;
+    if(e.stopPropagation) { //W3C阻止冒泡方法
+        e.stopPropagation();
+    } else {
+        e.cancelBubble = true; //IE阻止冒泡方法
+    }
 }

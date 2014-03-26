@@ -181,10 +181,12 @@ class QuestionPackagesController < ApplicationController
     @questions = Question.where("question_package_id=#{@question_pack.id}")
     unless @questions[0].nil?
       @question_exist = @questions[0]
-      @exist_episode = Episode.find_by_id(@question_exist.episode_id)
-      @cells.each do|cell|
-        if cell.id == @exist_episode.cell_id
-          @exist_cell = cell
+      unless @question_exist.episode_id.nil?
+        @exist_episode = Episode.find_by_id(@question_exist.episode_id)
+        @cells.each do|cell|
+          if cell.id == @exist_episode.cell_id
+            @exist_cell = cell
+          end
         end
       end
     end

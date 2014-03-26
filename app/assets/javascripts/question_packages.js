@@ -602,7 +602,7 @@ function add_content_to_paixu(obj,q_index,branch_question_id){
                 if(data.status == 1){
                     var old = $($( $(".assignment_body_list")[gloab_index] ).find(".questions_item")[q_index]);
                     old.find(".tag_ul ul").
-                    append("<li><p>"+data.tag_name+"</p><a onclick='delete_tags(this,"+shcool_id+","+question_pack_id+","+data.tag_id+","+branch_question_id+",\'paixu\')' class='x'>X</a></li>");
+                    append("<li><p>"+data.tag_name+"</p><a onclick='delete_tags(this,"+shcool_id+","+question_pack_id+","+data.tag_id+","+branch_question_id+",\"paixu\")' class='x'>X</a></li>");
                 }else if(data.status == 2){
                     tishi("添加失败，重复标签！");
                 }else if(data.status == 3){

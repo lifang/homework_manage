@@ -9,7 +9,7 @@
   <% when Question::TYPES[:SELECTING] %>
     <%= render "questions/list_select" ,{:question=>question}  %>
   <% when Question::TYPES[:LINING] %>
-    <%= render "questions/list_lianxian",{:question=>question}  %>
+    <%= render "questions/list_lianxian",{:question=>question,:branch_question => @branch_questions[question.id] , :branch_tags => @branch_tags[question.id]}  %>
   <% when Question::TYPES[:CLOZE] %>
     <%=render 'wanxin/wanxin',{:@question=>question}%>
   <% when Question::TYPES[:SORT] %>

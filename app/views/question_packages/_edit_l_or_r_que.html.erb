@@ -2,18 +2,21 @@
   <div class="ab_list_title">
     <h1><%= question.name.present? ? question.name : "未命名" %></h1>
     <p><%= Question::TYPES_NAME[question.types] %>/ <%= user.name %>
-      / <%= question.created_at.present? ? question.created_at.strftime("%Y-%m-%d") : "未保存" %>/ 参考时间：
-      <% if question.questions_time.present? %>
-        <label><%= question.questions_time/60 %>'<%= question.questions_time%60 %></label>
-      <% else %>
-        <label>未设置</label>
-      <% end %>
+      / <%= question.created_at.present? ? question.created_at.strftime("%Y-%m-%d") : "未保存" %>/ 
+      <span name=cankaoshijian>参考时间：
+        <% if question.questions_time.present? %>
+          <%= question.questions_time/60 %>'<%= question.questions_time%60 %>
+        <% else %>
+          未设置
+        <% end %>
+      </span>
     </p>
+    <input type="hidden" name="question_id" class="question_id" value="<%= question.id %>">
     <ul class="ab_func">
-      <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
-      <li><a href="#" class="save_icon tooltip_html">保存</a></li>
-      <li><a href="#" class="share_icon tooltip_html">分享</a></li>
-      <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
+      <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
+      <!-- <li><a href="javascript:void(0)" class="save_icon tooltip_html">保存</a></li> -->
+      <li><a href="javascript:void(0)" class="share_icon tooltip_html">分享</a></li>
+      <li><a href="javascript:void(0)" class="delete_icon tooltip_html">删除</a></li>
     </ul>
   </div>
   <div class="ab_list_box" style="display:none;">

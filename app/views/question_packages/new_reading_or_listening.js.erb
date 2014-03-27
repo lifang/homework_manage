@@ -3,6 +3,6 @@ $("#question_list").find("div.assignment_body_list").each(function(){
 	$(this).find("div.ab_list_box").hide();
 });
 if($("div.assignment_body_list").length > 0)
-	$("#question_list").find("div.assignment_body_list").last().after('<%= j(render "question_packages/listening_or_reading_que", {:types =>  @question.types, :question_id => @question.id, :name => @user.name, :created_at => @question.created_at, :questions_time => @question.questions_time, :resource_url => nil }) %>');
+	$("#question_list").find("div.assignment_body_list").last().after('<%= j(render "question_packages/listening_or_reading_que", {:types =>  @question.types, :question_id => @question.id, :user => @user, :created_at => @question.created_at, :question => @question, :questions_time => @question.questions_time, :resource_url => nil }) %>');
 else
-	$("#question_list").prepend('<%= j(render "question_packages/listening_or_reading_que", {:types =>  @question.types, :question_id => @question.id, :name => @user.name, :created_at => @question.created_at, :questions_time => @question.questions_time, :resource_url => nil }) %>');	
+	$("#question_list").prepend('<%= j(render "question_packages/listening_or_reading_que", {:types =>  @question.types, :question_id => @question.id, :user => @user, :created_at => @question.created_at, :question => @question, :questions_time => @question.questions_time, :resource_url => nil }) %>');	

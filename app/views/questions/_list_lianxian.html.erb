@@ -38,14 +38,14 @@
           <% end %>
           <div class="tag_ul">
             <ul>
-              <% branch_tags.each do |t| %>
-                <% if t.bq_id == branch_question.id %>
+              <% if  branch_tags.present? %>
+                <% branch_tags[branch_question.id].each do |t| %>
                   <li>
                     <p><%= t.name %></p>
-                    <a href="javascript:void(0)" class="x" onclick="remove_tags_from_time_limit(this)">x</a>
+                    <a href="javascript:void(0)" class="x" onclick='delete_tags(this,<%= school_class_id %>,<%= @question_pack.id %>,<%=t.id  %>,<%= branch_question.id %>,"lianxian")'>x</a>
                   </li>
                 <% end %>
-              <% end if branch_tags %>
+              <% end  %>
             </ul>
           </div>
         </div>

@@ -12,7 +12,7 @@
   </div>
   <div class="ab_list_box" style="display: none;">
     <div class="ab_article">
-      <% question.branch_questions.each do |branch_question| %>
+      <% branch_question.each do |branch_question| %>
         <div class="questions_item" branch_question_index="<%= branch_question.id %>" stypes="save_select" question_type="select">
           <%= form_for :question,:url => { :action => :update_select, :controller => :questions ,:question_package_id=>@question_pack.id}, :method=>"post" ,:remote=>true do |f|%>
             <div class="q_topic">
@@ -87,14 +87,14 @@
           <% end %>
           <div class="tag_ul">
             <ul>
-              <% @time_select_tags.each do |t| %>
-                <% if t.bq_id == branch_question.id %>
+              <% if  branch_tags.present? %>
+                <% branch_tags[branch_question.id].each do |t| %>
                   <li>
                     <p><%= t.name %></p>
-                    <a href="javascript:void(0)" class="x" onclick="remove_tags_from_time_limit(this)">x</a>
+                    <a href="javascript:void(0)" class="x" onclick='delete_tags(this,<%= school_class_id %>,<%= @question_pack.id %>,<%=t.id  %>,<%= branch_question.id %>,"lianxian")'>x</a>
                   </li>
                 <% end %>
-              <% end if @time_select_tags %>
+              <% end  %>
             </ul>
           </div>
         </div>

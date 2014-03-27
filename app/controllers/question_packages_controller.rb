@@ -230,29 +230,10 @@ class QuestionPackagesController < ApplicationController
     unless @questions[0].nil?
       @question_exist = @questions[0]
       unless @question_exist.episode_id.nil?
-<<<<<<< HEAD
-# <<<<<<< HEAD
-#         @exist_episode = Episode.find_by_id(@question_exist.episode_id)
-#         @cells.each do|cell|
-#           if cell.id == @exist_episode.cell_id
-#             @exist_cell = cell
-#           end
-#         end
-#       end
-#     end
-#     p @reading_and_listening_branch
-#     #@reading_and_listening_branch  = Question.get_has_reading_and_listening_branch(@questions)
-# =======
-=======
->>>>>>> 4f3a13a19fc361031f3ba02a08e351b32a227392
         @exist_episode = Episode.find_by_id(@question_exist.episode_id) unless @question_exist.episode_id.nil?
         @exist_cell = Cell.find_by_id(@exist_episode.cell_id) unless @exist_episode.cell_id.nil?
       end
     end
-<<<<<<< HEAD
-# >>>>>>> 4a6c52e2e810453dbe4744ea809430c09d3b6b85
-=======
->>>>>>> 4f3a13a19fc361031f3ba02a08e351b32a227392
     #引用题目的url
     @reference_part_url = "/school_classes/#{@school_class.id}/share_questions/list_questions_by_type?question_pack_id=#{params[:id]}"
     render 'new'

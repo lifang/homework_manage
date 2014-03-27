@@ -1,3 +1,5 @@
+<%@wanxin_index =0%>
+
 <% @questions.each_with_index do |question,index| %>
   <% case question.types %>
   <% when Question::TYPES[:READING] %>
@@ -14,9 +16,20 @@
   <% when Question::TYPES[:LINING] %>
     <%= render "questions/list_lianxian",{:question=>question,:branch_question => @branch_questions[question.id] , :branch_tags => @branch_tags[question.id]}  %>
   <% when Question::TYPES[:CLOZE] %>
-    <%=render 'wanxin/wanxin',{:@question=>question}%>
+    <%p 11222221,@branch_questions%>
+    <%=render 'wanxin/wanxin',{:@question=>question,
+      :@wanxin_index=>@wanxin_index,
+      :branch_questions => (@branch_questions[question.id] if @branch_questions),
+      :branch_tags => (@branch_tags[question.id] unless @branch_tags.nil? ),
+      :@school_class=>@school_class,
+      :@question_packages=>@question_pack}%>
+    <%@wanxin_index+=1%>
   <% when Question::TYPES[:SORT] %>
-    <%=render 'wanxin/paixu',{:@question=>question}%>
+    <%=render 'wanxin/paixu',{:@question=>question,
+      :branch_questions => (@branch_questions[question.id] if @branch_questions),
+      :branch_tags => (@branch_tags[question.id] unless @branch_tags.nil? ),
+      :@school_class=>@school_class,
+      :@question_packages=>@question_pack}%>
   <%else%>
   <% end %>
 <% end %>

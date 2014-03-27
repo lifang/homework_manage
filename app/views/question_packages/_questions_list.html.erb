@@ -1,3 +1,4 @@
+<%wanxin_index =0%>
 <% @questions.each_with_index do |question,index| %>
   <% case question.types %>
   <% when Question::TYPES[:READING] || Question::TYPES[:LISTENING]%>
@@ -11,7 +12,7 @@
   <% when Question::TYPES[:LINING] %>
     <%= render "questions/list_lianxian",{:question=>question}  %>
   <% when Question::TYPES[:CLOZE] %>
-    <%=render 'wanxin/wanxin',{:@question=>question}%>
+    <%=render 'wanxin/wanxin',{:@question=>question,:wanxin_index=>wanxin_index}%><%wanxin_index+=1%>
   <% when Question::TYPES[:SORT] %>
     <%=render 'wanxin/paixu',{:@question=>question}%>
   <%else%>

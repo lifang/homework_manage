@@ -59,7 +59,7 @@ class QuestionPackagesController < ApplicationController
           @status = -1
           @notice = "该小题不存在，修改失败！"
         else
-          if @branch_question.update_attributes(:content => params[:content])
+          if @branch_question.update_attributes(:content => params[:content]) 
             @status = 0
             @notice = "小题修改成功！"  
           else
@@ -201,6 +201,7 @@ class QuestionPackagesController < ApplicationController
     end
 
     p @reading_and_listening_branch
+
     #@reading_and_listening_branch  = Question.get_has_reading_and_listening_branch(@questions)
     #引用题目的url
     @reference_part_url = "/school_classes/#{@school_class.id}/share_questions/list_questions_by_type?question_pack_id=#{params[:id]}"
@@ -485,22 +486,24 @@ class QuestionPackagesController < ApplicationController
   end
 
   #设置十速挑战的时间
-  def time_limit_set_question_time
+  def set_question_time
     Question.transaction do
       status = 1
       time_int = []
+      type = ""
       begin
-        time_limit_question = Question.find_by_id(params[:question_id])
+        question = Question.find_by_id(params[:question_id])
         hour = params[:hour]
         minute = params[:minute]
         second = params[:second]
         time = trans_time_to_int(hour=="时" ? nil : hour, minute=="分" ? nil : minute, second=="秒" ? nil : second)
-        time_limit_question.update_attribute("questions_time", time)
+        question.update_attribute("questions_time", time)
         time_int = trans_int_to_time(time)
+        type = question.types==Question::TYPES[:TIME_LIMIT] ? "time_limit" : "other"
       rescue
         status = 0
       end
-      render :json => {:status => status, :time_int => time_int}
+      render :json => {:status => status, :time_int => time_int, :type => type}
     end
   end
   #新建十速挑战
@@ -652,13 +655,16 @@ class QuestionPackagesController < ApplicationController
       joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
       select("btags_bque_relations.id,bt.name,bt.created_at,bt.updated_at")
     branch_tag = BtagsBqueRelation.find_by_id(params[:tag_id])
+    if @type == "reading_or_listening"
+      branch_tag = BtagsBqueRelation.find_by_branch_tag_id_and_branch_question_id(params[:tag_id], branch_question_id)
+    end
     if branch_tag
       branch_tag.destroy
       @status = 1
     else
       @ststus = 0
     end
-    if @type=="select" || @type=="lianxian"
+    if @type=="select" || @type=="lianxian" || @type == "reading_or_listening"
       render :json => {:status=>@status}
     end
   end
@@ -722,4 +728,13 @@ class QuestionPackagesController < ApplicationController
     @episodes = Episode.where(:cell_id => @cells.map(&:id)).group_by{|e| e.cell_id} if @cells
   end
 
+  def get_count_of_wanxin question_package
+    count =-1
+    question_package.each do |question|
+        if question.types == Question::TYPES[:CLOZE]
+          count +=1
+        end
+    end
+    count
+  end
 end

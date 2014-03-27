@@ -1,5 +1,14 @@
-var html = '<%=j(render 'questions/next_branch_select')%>'
-var delete_a = $(".index_new[value='<%= @index_new %>']").parents(".questions_item")
-delete_a.attr("branch_question_index","<%= @branch_question.id %>")
-delete_a.find(".delete").attr("href","/question_packages/"+ <%=@question_package_id%> +"/questions/delete_branch_question?id=<%=@branch_question.id%>")
-$(".ab_article[question_index='<%= @question.id %>']").append(html)
+<% if @branch_question %>
+  tishi("保存成功！");
+  var html = '<%=j(render 'questions/next_branch_select')%>'
+  var delete_a = $(".index_new[value='<%= @index_new %>']").parents(".questions_item")
+  <% if @resourse.nil? %>
+    delete_a.find(".q_topic").attr("class","q_topic q_compile");
+    delete_a.find(".q_left a").removeAttr("onclick");
+  <% end %>
+  delete_a.attr("branch_question_index","<%= @branch_question.id %>")
+  delete_a.find(".delete").attr("href","/question_packages/"+ <%=@question_package_id%> +"/questions/delete_branch_question?id=<%=@branch_question.id%>")
+  $(".ab_article[question_index='<%= @question.id %>']").append(html)
+<% else %>
+  tishi("保存失败！");
+<% end %>

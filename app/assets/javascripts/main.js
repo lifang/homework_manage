@@ -18,6 +18,12 @@ $(function(){
 
 //统计-正确率-题型
 $(function(){
+    $("#close_flash").click(function() {
+        $("#flash_field").hide();
+        $(".tab_alert").hide();
+    });
+    $("#flash_field").fadeOut(4000);
+    
     $(".item_content li a").click(function(e){
         $(".s_tab").css('display','block');
         $(".s_tab").css({

@@ -59,7 +59,7 @@ class QuestionPackagesController < ApplicationController
           @status = -1
           @notice = "该小题不存在，修改失败！"
         else
-          if @branch_question.update_attributes(:content => params[:content])
+          if @branch_question.update_attributes(:content => params[:content]) 
             @status = 0
             @notice = "小题修改成功！"  
           else
@@ -646,13 +646,16 @@ class QuestionPackagesController < ApplicationController
       joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
       select("btags_bque_relations.id,bt.name,bt.created_at,bt.updated_at")
     branch_tag = BtagsBqueRelation.find_by_id(params[:tag_id])
+    if @type == "reading_or_listening"
+      branch_tag = BtagsBqueRelation.find_by_branch_tag_id_and_branch_question_id(params[:tag_id], branch_question_id)
+    end
     if branch_tag
       branch_tag.destroy
       @status = 1
     else
       @ststus = 0
     end
-    if @type=="select" || @type=="lianxian"
+    if @type=="select" || @type=="lianxian" || @type == "reading_or_listening"
       render :json => {:status=>@status}
     end
   end
@@ -686,6 +689,27 @@ class QuestionPackagesController < ApplicationController
     end
   end
   
+  def check_before_complete_create_package
+    msg =""
+    questionpackage = QuestionPackage.find_by_id(params[:id])
+    questionpackage.questions.each_with_index do |question,index|
+      branch_question = BranchQuestion.find_by_id(question.id)
+      p 1111111111111111,branch_question,branch_question.nil?,msg
+      if branch_question.nil?
+        msg += "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}没有小题<br/>"
+      end
+    end
+    if msg != ""
+      
+      flash[:success]=msg
+      redirect_to new_index_school_class_question_package_path(@school_class,params[:id])
+    else
+      msg = "保存成功！"
+      flash[:error] = msg
+      redirect_to "/school_classes/#{@school_class.id}/homeworks"
+    end
+  end
+
   private
   #获取单元以及对于的课�?
   def get_cells_and_episodes

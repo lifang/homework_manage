@@ -188,10 +188,11 @@ class QuestionPackagesController < ApplicationController
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
     @questions = Question.where(["question_package_id=?", @question_pack.id])
     #{qid => [branch_question,branch_question,branch_question], qid =>...}
-    @branch_questions = BranchQuestion.where(["question_id in (?)", @questions.map(&:id)])
+    branch_questions = BranchQuestion.where(["question_id in (?)", @questions.map(&:id)])
+    @branch_questions = branch_questions.group_by{|bq|bq.question_id}
     branch_tags = BtagsBqueRelation.find_by_sql(["select bt.name, bbr.branch_question_id, bbr.branch_tag_id,bq.question_id  from
         btags_bque_relations bbr left join branch_tags bt on bbr.branch_tag_id=bt.id left join branch_questions bq
-        on bq.id = bbr.branch_question_id where bbr.branch_question_id in (?)", @branch_questions.map(&:id)])
+        on bq.id = bbr.branch_question_id where bbr.branch_question_id in (?)", branch_questions.map(&:id)])
     h_branch_tags = branch_tags.group_by{|t|t.question_id} #{bqid => [tag,tag,tag],bqid => [tag,tag,tag]}
     hash = {}
     h_branch_tags.each do |k, v|

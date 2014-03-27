@@ -187,17 +187,20 @@ class QuestionPackagesController < ApplicationController
     @question_type = Question::TYPES_NAME
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
     @questions = Question.where("question_package_id=#{@question_pack.id}")
-    unless @questions[0].nil?
-      @question_exist = @questions[0]
-      @exist_episode = Episode.find_by_id(@question_exist.episode_id)
-      @cells.each do|cell|
-        if cell.id == @exist_episode.cell_id
-          @exist_cell = cell
-        end
-      end
-    end
-    p @reading_and_listening_branch
     get_has_time_limit(@question_pack.id)
+#    unless @questions[0].nil?
+#      @question_exist = @questions[0]
+#      unless @question_exist.episode_id.nil?
+#        @exist_episode = Episode.find_by_id(@question_exist.episode_id)
+#        @cells.each do|cell|
+#          if cell.id == @exist_episode.cell_id
+#            @exist_cell = cell
+#          end
+#        end
+#      end
+#    end
+
+    p @reading_and_listening_branch
     #@reading_and_listening_branch  = Question.get_has_reading_and_listening_branch(@questions)
     #引用题目的url
     @reference_part_url = "/school_classes/#{@school_class.id}/share_questions/list_questions_by_type?question_pack_id=#{params[:id]}"
@@ -473,6 +476,25 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
+  #设置十速挑战的时间
+  def time_limit_set_question_time
+    Question.transaction do
+      status = 1
+      time_int = []
+      begin
+        time_limit_question = Question.find_by_id(params[:question_id])
+        hour = params[:hour]
+        minute = params[:minute]
+        second = params[:second]
+        time = trans_time_to_int(hour=="时" ? nil : hour, minute=="分" ? nil : minute, second=="秒" ? nil : second)
+        time_limit_question.update_attribute("questions_time", time)
+        time_int = trans_int_to_time(time)
+      rescue
+        status = 0
+      end
+      render :json => {:status => status, :time_int => time_int}
+    end
+  end
   #新建十速挑战
   def new_time_limit
     #    cell_id = params[:cell_id].to_i
@@ -484,16 +506,14 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
-  #检查该题包下是否已经有十速挑战
-  def check_time_limit
-    status = 1
-    q_p_id = params[:q_p_id].to_i
-    #    cell_id = params[:cell_id].to_i
-    #    episode_id = params[:episode_id].to_i
-    question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT], q_p_id)
+  #检查该题包下是否已经有小题
+  def check_question_has_branch
+    status = 0
+    que_id = params[:question_id].to_i
+    question = Question.find_by_id(que_id)
     time_limit_len = BranchQuestion.where(["question_id=?", question.id]).length if question
     if time_limit_len && time_limit_len > 0
-      status = 0
+      status = 1
     end
     render :json => {:status => status}
   end
@@ -502,31 +522,13 @@ class QuestionPackagesController < ApplicationController
   def create_time_limit
     BranchQuestion.transaction do
       time_limit = params[:time_limit]
-      q_p_id = params[:question_package_id].to_i
-      #      cell_id = params[:cell_id].to_i
-      #      episode_id = params[:episode_id].to_i
-      time = 0
-      hour = params[:create_time_limit_hour]
-      minute = params[:create_time_limit_minute]
-      second = params[:create_time_limit_second]
-      unless hour.nil? || hour.strip=="" || hour.eql?("时") || hour.to_i==0
-        time += hour.to_i * 360
-      end
-      unless minute.nil? || minute.strip=="" || minute.eql?("分") || minute.to_i==0
-        time += minute.to_i * 60
-      end
-      unless second.nil? || second.strip=="" || second.eql?("秒") || second.to_i==0
-        time += minute.to_i
-      end
-
-      @question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT], q_p_id)
-      if @question.nil?
-        @question = Question.new(:types => Question::TYPES[:TIME_LIMIT],
-          :questions_time => time, :question_package_id => q_p_id)
-        @question.save
+      q_id = params[:question_id].to_i
+      question = Question.find_by_id(q_id)
+      @status = 1
+      if question.nil?
+        @status = 0
       else
-        @question.update_attribute("questions_time", time)
-        has_bq = BranchQuestion.where(["question_id=?", @question.id])
+        has_bq = BranchQuestion.where(["question_id=?", question.id])
         has_bq.each do |hb|
           BtagsBqueRelation.delete_all(["branch_question_id=?", hb.id])
           hb.destroy
@@ -536,7 +538,7 @@ class QuestionPackagesController < ApplicationController
         content = v["content"]
         answer = v["answer"]
         tags = v["tags"].nil? ? nil : v["tags"]
-        bq = BranchQuestion.create(:content => content, :question_id => @question.id, :answer => answer)
+        bq = BranchQuestion.create(:content => content, :question_id => question.id, :answer => answer)
         if tags
           tags.each do |t|
             BtagsBqueRelation.create(:branch_question_id => bq.id, :branch_tag_id => t.to_i)
@@ -546,15 +548,13 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
-  #分享十速挑战
-  def share_time_limit
+  #分享question
+  def share_question
     Question.transaction do
       status = 0
-      name = params[:time_limit_name]
-      #      cell_id = params[:cell_id].to_i
-      #      episode_id = params[:episode_id].to_i
-      q_p_id = params[:q_p_id].to_i
-      question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT],q_p_id)
+      name = params[:que_name]
+      que_id = params[:que_id].to_i
+      question = Question.find_by_id(que_id)
       if question && question.update_attribute("name", name)
         status = 1
       end
@@ -563,14 +563,12 @@ class QuestionPackagesController < ApplicationController
   end
 
   #删除十速挑战
-  def delete_time_limit
+  def delete_question
     Question.transaction do
-      q_p_id = params[:q_p_id].to_i
-      #      cell_id = params[:cell_id].to_i
-      #      episode_id = params[:episode_id].to_i
+      question_id = params[:question_id].to_i
       status = 1
-      question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT], q_p_id)
       begin
+        question = Question.find_by_id(question_id)
         bqs = BranchQuestion.where(["question_id = ?", question.id]) if question
         BtagsBqueRelation.delete_all(["branch_question_id in (?)", bqs.map(&:id)]) if bqs
         bqs.each do |bq|

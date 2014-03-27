@@ -98,10 +98,10 @@ HomeworkManage::Application.routes.draw do
 
     resources :question_packages do
       collection do
-        get :setting_episodes, :new_time_limit,:show_wanxin, :check_time_limit,
-          :new_reading_or_listening, :share_time_limit, :delete_time_limit,
-          :search_b_tags, :add_b_tags,:save_branch_tag
-        post :create_time_limit, :save_listening, :save_reading
+        get :setting_episodes, :new_time_limit,:show_wanxin, :check_question_has_branch,
+          :new_reading_or_listening, :share_question, :delete_question,
+          :search_b_tags, :add_b_tags,:save_branch_tag, :time_limit_set_question_time
+        post :create_time_limit, :save_listening, :save_reading, :set_question_time
       end
       member do
         get :new_index,:show_wanxin,:create_wanxin,:create_paixu,

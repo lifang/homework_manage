@@ -181,6 +181,7 @@ class QuestionsController < ApplicationController
     else
       @status = 0
     end
+    @status
   end
 
 

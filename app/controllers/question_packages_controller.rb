@@ -776,6 +776,7 @@ class QuestionPackagesController < ApplicationController
     flag = true
     msg =""
     questionpackage = QuestionPackage.find_by_id(params[:id])
+
     questions = questionpackage.questions
     if questions.any?
       branch_questions = Question.find_by_sql(["select q.id question_id, q.types from questions q
@@ -792,6 +793,7 @@ class QuestionPackagesController < ApplicationController
           flag = false
         end
         msg +="<br/>"
+
       end
     else
       msg = "当前作业包中没有任何题目，请您创建题目。"

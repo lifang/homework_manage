@@ -624,7 +624,6 @@ $(function(){
                         $("#set_name_div").find("button").removeAttr("onclick");
                         $("#set_name_div").find("button").attr("onclick", "set_question_name_valid('"+que_id+"','"+school_class_id+"')");
                     }else{
-                        alert("222");
                         $.ajax({
                             type: "get",
                             url: "/school_classes/"+school_class_id+"/question_packages/share_question",

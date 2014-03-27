@@ -185,6 +185,8 @@ function onclick_submit(obj){
     var questions_item = $(obj).parents(".questions_item")
     var question_type = questions_item.attr("question_type")
     if(question_type=="select"){
+        var select_resourse = questions_item.find("input[name='select_resourse']");
+        var select_content = questions_item.find("input[name='select_content']").val();
         var check_select = questions_item.find("input[name='check_select[]']:checked").length;
         var select_value1 = questions_item.find("input[name='select_value1']").val();
         var select_value2 = questions_item.find("input[name='select_value2']").val();
@@ -207,6 +209,9 @@ function onclick_submit(obj){
             return false;
         }else if(flag){
             tishi("不可出现重复选项！");
+            return false;
+        }else if(select_resourse.length<=0 && select_content==""){
+            tishi("题目不能为空！")
             return false;
         }
     }else if (question_type=="lianxian"){
@@ -307,7 +312,19 @@ function select_upload(obj){
                 //                var html_title = "<input type='text' name='select_content' style='display:block;' disabled='true'>"
                 var html_title = "<p></p><input type='text' name='select_content' style='display:none;background: #F0F0F0;' disabled='true'>"
                 $("#input_select_upload").parents(".q_topic").find(".q_title").find(".qt_text").html(html_title)
-                q_left.html("<img src='/assets/voiceing.jpg'>")
+                var  html_audiao = "<a href='javascript:void(0)' onclick='playAudio(this)' id='audio_only'> \n\
+                                        <img src='/assets/voiceing.jpg'>\n\
+                                        </img></a>"
+                q_left.html(html_audiao)
+                var audio = document.createElement("audio");
+                audio.preload = true;
+                audio.controls = true;
+                audio.style.display='none'
+                var source= document.createElement("source");
+                source.type= "audio/ogg";
+                source.src = data_arr[1]
+                audio.appendChild(source);
+                $("#audio_only").append(audio)
             }else if(data_arr[0]=="photo"){
                 alert(data_arr[0])
                 q_left.html("<img src='"+ data_arr[1] +"' style='width:86px;height:86px;'>")

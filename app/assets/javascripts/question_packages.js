@@ -86,13 +86,28 @@ function show_ques(types, school_class_id)
 //检查音频文件后缀名
 function check_audio(obj)
 {
-    file_name = $(obj).val();
-    if(file_name.match(/\..*$/) == ".mp3" || file_name.match(/\..*$/) == ".MP3")
-    {}
-    else
+    var branch_id = $(obj).parent().parent().parent().parent().parent().find("input.branch_id").val();
+    var types = $(obj).parent().find("input.types").val();
+    if(types == 0)
     {
-        tishi("只能上传mp3格式文件！");
-        $(obj).val("");
+        var file_name = $(obj).val();
+        if(file_name.match(/\..*$/) == ".mp3" || file_name.match(/\..*$/) == ".MP3")
+        {}
+        else
+        {
+            tishi("只能上传mp3格式文件！");
+            $(obj).val("");
+        }
+    }
+    else if(types == 1)
+    {
+        if(branch_id == "")
+         {  
+         }   
+         else
+         {
+            $(obj).parent().submit();  
+         }
     }
 }
 
@@ -598,6 +613,33 @@ function add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)
    }
 }
 
+function delete_reading_listening_branch(obj)
+{
+    var school_class_id = $("#school_class_id").val();
+    var branch_id = $(obj).parent().parent().find("input.branch_id").val();
+    if(confirm("确认删除小题吗？")==true)
+    {           $.ajax({
+                type: "POST",
+                url: "/school_classes/"+school_class_id+"/question_packages/delete_branch",
+                dataType: "json",
+                data: {
+                    branch_question_id : branch_id
+                },
+                success: function(data){
+                    if(data.status==1){
+                        tishi("删除成功!");
+                         $(obj).parent().parent().remove();
+                    }else{
+                        tishi("删除失败!");sss
+                    }
+                },
+                error: function(data){
+                    tishi("数据错误!");
+                }
+            })
+    }
+
+}
 //删除听写或朗读的标签
 function delete_reading_listening_tags(obj, q_index, b_index, tag_id)
 {   

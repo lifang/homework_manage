@@ -87,7 +87,6 @@ function show_ques(types, school_class_id)
 function check_audio(obj)
 {
     var file_name = $(obj).val();
-    alert($(obj).parent().parent().parent().parent().parent().find("input.branch_id").val());
     var branch_id = $(obj).parent().parent().parent().parent().parent().find("input.branch_id").val();
     var types = $(obj).parent().find("input.types").val();
     if(types == 0)

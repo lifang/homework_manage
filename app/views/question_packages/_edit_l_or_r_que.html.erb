@@ -5,7 +5,7 @@
       / <%= question.created_at.present? ? question.created_at.strftime("%Y-%m-%d") : "未保存" %>/ 
       <span name=cankaoshijian>参考时间：
         <% if question.questions_time.present? %>
-          <%= question.questions_time/60 %>'<%= question.questions_time%60 %>
+          <%= question.questions_time/3600 %>时<%= question.questions_time%3600/60 %>分<%= question.questions_time%3600%60 %>秒
         <% else %>
           未设置
         <% end %>
@@ -21,12 +21,13 @@
   </div>
   <div class="ab_list_box" style="display:none;">
     <div class="ab_article">
-      <% if @reading_and_listening_branch && @reading_and_listening_branch[question.id].present? %>
+      <% if @branch_questions && @branch_questions[question.id].present? %>
         <% count_b = 0 %>
-        <% @reading_and_listening_branch[question.id].each do |branch| %>
+        <% @branch_questions[question.id].each do |branch| %>
         <%= render "l_r_branch_que" ,{:types => question.types, :question_id => question.id, :resource_url => branch.resource_url, :branch_id => branch.id, :content => branch.content, :count_q => nil, :count_b => count_b } %>
         <% count_b += 1 %>
         <% end %>
+        <%= render "l_r_branch_que" ,{:types => question.types, :question_id => question.id, :resource_url => nil, :branch_id => nil, :content => nil, :count_q => nil, :count_b => nil } %>
       <% else %>   
         <%= render "l_r_branch_que" ,{:types => question.types, :question_id => question.id, :resource_url => nil, :branch_id => nil, :content => nil, :count_q => nil, :count_b => nil } %>
       <% end %>

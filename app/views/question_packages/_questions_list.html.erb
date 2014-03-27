@@ -1,6 +1,8 @@
 <% @questions.each_with_index do |question,index| %>
   <% case question.types %>
-  <% when Question::TYPES[:READING] || Question::TYPES[:LISTENING]%>
+  <% when Question::TYPES[:READING] %>
+    <%= render "edit_l_or_r_que",{:question => question, :user => @user} %>
+  <% when Question::TYPES[:LISTENING]%>  
     <%= render "edit_l_or_r_que",{:question => question, :user => @user} %>
   <% when Question::TYPES[:TIME_LIMIT] %>
     <div class="assignment_body_list" id="time_limit_assignment_body_list">

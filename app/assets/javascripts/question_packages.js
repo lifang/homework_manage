@@ -142,7 +142,7 @@ function save_listening_reading(obj, types, school_class_id)
     {
         if(content != "")
         {
-           $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();
+            $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();
         }
         else
         {
@@ -577,13 +577,10 @@ function add_tags_to_time_limit(obj, tag_id, tag_name){
 
 $(function(){
     //点击跳出设定时间弹出层
-    $("#question_list").on("click", ".clock_icon", function(){
-        var type = $(this).parents(".ab_list_title").find("input[name='question_type']").first().val();
+    $("#question_list").on("click", ".clock_icon", function(){        
         var que_id = $(this).parents(".ab_list_title").find("input[name='question_id']").first().val();
         var win_width = $(window).width();
         var win_height = $(window).height();
-        //var doc_width = $(document).width();
-
         var layer_height = $("#set_time_div").height();
         var layer_width = $("#set_time_div").width();
 
@@ -594,7 +591,7 @@ $(function(){
         $(".mask").css("height",doc_height);
         $(".mask").css("display","block");
         $("#set_time_div").find("button").first().removeAttr("onclick");
-        $("#set_time_div").find("button").first().attr("onclick", "new_question_set_time_valid('"+type+"','"+que_id+"',this)");
+        $("#set_time_div").find("button").first().attr("onclick", "new_question_set_time_valid('"+que_id+"',this)");
         return false;
     });
 
@@ -687,7 +684,7 @@ $(function(){
 })
 
 //设定时间验证
-function new_question_set_time_valid(type, question_id, obj){
+function new_question_set_time_valid(question_id, obj){
     var hour = $.trim($("#new_question_hour").val());
     var minute = $.trim($("#new_question_minute").val());
     var second = $.trim($("#new_question_second").val());
@@ -701,11 +698,7 @@ function new_question_set_time_valid(type, question_id, obj){
         flag = false;
     };
     if(flag){
-        if(type=="time_limit"){
-            add_time_to_time_limit(hour, minute, second, question_id);
-        }else if(type=="select"){
-        //其他类型
-        };
+        add_time_to_question(hour, minute, second, question_id);
         $(obj).parents(".tab500").hide();
         $(".mask").hide();
     }
@@ -747,7 +740,7 @@ function set_question_name_valid(question_id, school_class_id){
     }
 }
 //将时间添加到十速挑战的大题里面
-function add_time_to_time_limit(hour, minute, second, question_id){
+function add_time_to_question(hour, minute, second, question_id){
     var school_class_id = $("#school_class_id").val();
     if(question_id==undefined || question_id=="0"){
         tishi("数据错误!");
@@ -755,7 +748,7 @@ function add_time_to_time_limit(hour, minute, second, question_id){
     }else{
         $.ajax({
             type: "get",
-            url: "/school_classes/"+school_class_id+"/question_packages/time_limit_set_question_time",
+            url: "/school_classes/"+school_class_id+"/question_packages/set_question_time",
             dataType: "json",
             data: {
                 hour :　hour,
@@ -766,9 +759,11 @@ function add_time_to_time_limit(hour, minute, second, question_id){
             success: function(data){
                 if(data.status==1){
                     tishi("设置成功!");
-                    $("#create_time_limit_hour").val(data.time_int[0]);
-                    $("#create_time_limit_minute").val(data.time_int[1]);
-                    $("#create_time_limit_second").val(data.time_int[2]);
+                    if(data.type=="time_limit"){
+                        $("#create_time_limit_hour").val(data.time_int[0]);
+                        $("#create_time_limit_minute").val(data.time_int[1]);
+                        $("#create_time_limit_second").val(data.time_int[2]);
+                    }
                     var str = "参考时间：";
                     if(data.time_int[0] > 0){
                         str += data.time_int[0] + "时";
@@ -779,7 +774,12 @@ function add_time_to_time_limit(hour, minute, second, question_id){
                     if(data.time_int[2] > 0){
                         str += data.time_int[2] + "秒";
                     };
-                    $("#shisucankaoshijian").text(str);
+                    var q_ids = $("#question_list").find("input[name='question_id']");
+                    $.each(q_ids, function(){
+                        if($(this).val()==question_id){
+                            $(this).parents(".ab_list_title").find("span[name='cankaoshijian']").first().text(str);
+                        }
+                    });
                 }else{
                     tishi("设置失败!");
                 }

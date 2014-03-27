@@ -477,22 +477,24 @@ class QuestionPackagesController < ApplicationController
   end
 
   #设置十速挑战的时间
-  def time_limit_set_question_time
+  def set_question_time
     Question.transaction do
       status = 1
       time_int = []
+      type = ""
       begin
-        time_limit_question = Question.find_by_id(params[:question_id])
+        question = Question.find_by_id(params[:question_id])
         hour = params[:hour]
         minute = params[:minute]
         second = params[:second]
         time = trans_time_to_int(hour=="时" ? nil : hour, minute=="分" ? nil : minute, second=="秒" ? nil : second)
-        time_limit_question.update_attribute("questions_time", time)
+        question.update_attribute("questions_time", time)
         time_int = trans_int_to_time(time)
+        type = question.types==Question::TYPES[:TIME_LIMIT] ? "time_limit" : "other"
       rescue
         status = 0
       end
-      render :json => {:status => status, :time_int => time_int}
+      render :json => {:status => status, :time_int => time_int, :type => type}
     end
   end
   #新建十速挑战

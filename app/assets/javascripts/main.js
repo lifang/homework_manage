@@ -190,7 +190,6 @@ $(function(){
     tabFunc(".switchoverClass a",".tab");
     tabFunc("a.student_btn_a",".tab");
     tabFunc("a.time_icon",".tab");
-    tabFunc("#time_limit_clock_icon","#time_limit_set_time");
 
 })
 

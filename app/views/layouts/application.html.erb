@@ -16,6 +16,14 @@
     <%= csrf_meta_tags %>
   </head>
   <body >
+    <% flash.each do |name, msg| %>
+      <div id="flash_field" style="width:100%;position: fixed; z-index: 4;">
+        <div style="font-size:20px;margin: 200px auto;width: 300px;background: #ffffff;padding: 20px;">
+          <span class="close1" id="close_flash" style="float:right;" ></span>
+          <div class="alert_h"><%=raw msg%></div>
+        </div>
+      </div>
+    <% end %>
     <div class="tab_Prompt" id="tab_Prompt">
       <a href="javascript:void(0)" class="x"></a>
       <p></p>

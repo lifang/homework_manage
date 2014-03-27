@@ -312,7 +312,19 @@ function select_upload(obj){
                 //                var html_title = "<input type='text' name='select_content' style='display:block;' disabled='true'>"
                 var html_title = "<p></p><input type='text' name='select_content' style='display:none;background: #F0F0F0;' disabled='true'>"
                 $("#input_select_upload").parents(".q_topic").find(".q_title").find(".qt_text").html(html_title)
-                q_left.html("<img src='/assets/voiceing.jpg'>")
+                var  html_audiao = "<a href='javascript:void(0)' onclick='playAudio(this)' id='audio_only'> \n\
+                                        <img src='/assets/voiceing.jpg'>\n\
+                                        </img></a>"
+                q_left.html(html_audiao)
+                var audio = document.createElement("audio");
+                audio.preload = true;
+                audio.controls = true;
+                audio.style.display='none'
+                var source= document.createElement("source");
+                source.type= "audio/ogg";
+                source.src = data_arr[1]
+                audio.appendChild(source);
+                $("#audio_only").append(audio)
             }else if(data_arr[0]=="photo"){
                 alert(data_arr[0])
                 q_left.html("<img src='"+ data_arr[1] +"' style='width:86px;height:86px;'>")

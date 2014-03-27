@@ -41,12 +41,13 @@ class QuestionPackagesController < ApplicationController
     @types = @question.types
   end
 
+  #删除听力或朗读小题
   def delete_branch
     branch_question_id = params[:branch_question_id]
     branch_question = BranchQuestion.find_by_id branch_question_id
     status = 0
     if branch_question
-      branch_question.btags_bque_relations.delete_all()
+      BtagsBqueRelation.delete_all("branch_question_id = #{branch_question_id}")
       resource_url = "#{Rails.root}/public#{branch_question.resource_url}"
       File.delete resource_url if File.exist? resource_url
       branch_question.destroy
@@ -128,67 +129,72 @@ class QuestionPackagesController < ApplicationController
     types = params[:types]
     file = params[:file]
     if types.present?
-      @types = types.to_i
-      @question = Question.find_by_id params[:question_id].to_i
-      @question_id = @question.id
-      branch_id = params[:branch_id]
-      if branch_id.present?
-        @branch_question = BranchQuestion.find_by_id branch_id
-        if @branch_question.nil?
-          @status = -1
-          @notice = "该小题不存在，修改失败！"
-        else
-          if !file.nil?
-            destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
-            rename_file_name = "media_#{@branch_question.id}"
-            upload = upload_file destination_dir, rename_file_name, file
-            if upload[:status] == true
-              resource_url = upload[:url]
-              if @branch_question.update_attributes(:resource_url=>resource_url)           
-                @status = 2
-                @notice = "文件上传成功！！"
-              else
-                @status = -1
-                @notice = "文件上传失败！"    
-              end  
-            else
+        @types = types.to_i
+        @question = Question.find_by_id params[:question_id].to_i
+        @question_id = @question.id
+        branch_id = params[:branch_id]
+        if branch_id.present?
+            @branch_question = BranchQuestion.find_by_id branch_id
+            if @branch_question.nil?
               @status = -1
-              @notice = "小题创建失败！"
-            end
-          else
-            if params[:content].present?
-              if @branch_question.update_attributes(:content => params[:content] )
-                @status = 0
-                @notice = "小题修改成功！"  
+              @notice = "该小题不存在，修改失败！"
+            else
+              if !file.nil?
+                destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
+                rename_file_name = "media_#{@branch_question.id}"
+                upload = upload_file destination_dir, rename_file_name, file
+                if upload[:status] == true
+                  resource_url = upload[:url]
+                  if @branch_question.update_attributes(:resource_url => resource_url)           
+                    @status = 2
+                    @notice = "文件上传成功！！"
+                  else
+                    @status = -1
+                    @notice = "文件上传失败！"    
+                  end  
+                else
+                  @status = -1
+                  @notice = "小题创建失败！"
+                end
               else
-                @status = -1
-                @notice = "小题修改失败！" 
-              end                
+
+                if params[:content].present?
+                  if @branch_question.update_attributes(:content => params[:content] )
+                    @status = 0
+                    @notice = "小题修改成功！"  
+                  else
+                    @status = -1
+                    @notice = "小题修改失败！" 
+                  end                
+                end  
+              end
+            end
+        else
+            @status = -1
+            @notice = "小题创建失败！"
+            content = params[:content]
+            @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
+            if @branch_question
+              destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
+              rename_file_name = "media_#{@branch_question.id}"
+              if file
+                upload = upload_file destination_dir, rename_file_name, file
+                if upload[:status] == true
+                  resource_url = upload[:url]
+                  @branch_question.update_attributes(:resource_url=> resource_url)
+                end
+              end  
+              unless @branch_question.nil?
+                if tags_id.present?    #保存小题时添加标签
+                  tags_id.split(/\|/).each do |tag_id|
+                    @branch_question.btags_bque_relations.create(:branch_tag_id => tag_id.to_i) if tag_id.to_i > 0
+                  end  
+                end 
+                @status = 1
+                @notice = "小题创建完成！"
+              end
             end  
-          end
-        end
-      else
-        @status = -1
-        @notice = "小题创建失败！"
-        content = params[:content]
-        @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
-        destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
-        rename_file_name = "media_#{@branch_question.id}"
-        upload = upload_file destination_dir, rename_file_name, file
-        if upload[:status] == true
-          resource_url = upload[:url]
-          @branch_question.update_attributes(:resource_url=> resource_url)
-        end
-        unless @branch_question.nil? 
-          if tags_id.present?    #保存小题时添加标签
-            tags_id.split(/\|/).each do |tag_id|
-              @branch_question.btags_bque_relations.create(:branch_tag_id => tag_id.to_i) if tag_id.to_i > 0
-            end  
-          end 
-          @status = 1
-          @notice = "小题创建完成！"
-        end
-      end  
+        end  
     else
       @status = -1
       @notice = "该小题不存在数据错误，题型不能为空！" 
@@ -224,6 +230,7 @@ class QuestionPackagesController < ApplicationController
     unless @questions[0].nil?
       @question_exist = @questions[0]
       unless @question_exist.episode_id.nil?
+<<<<<<< HEAD
         @exist_episode = Episode.find_by_id(@question_exist.episode_id)
         @cells.each do|cell|
           if cell.id == @exist_episode.cell_id
@@ -234,6 +241,12 @@ class QuestionPackagesController < ApplicationController
     end
     p @reading_and_listening_branch
     #@reading_and_listening_branch  = Question.get_has_reading_and_listening_branch(@questions)
+=======
+        @exist_episode = Episode.find_by_id(@question_exist.episode_id) unless @question_exist.episode_id.nil?
+        @exist_cell = Cell.find_by_id(@exist_episode.cell_id) unless @exist_episode.cell_id.nil?
+      end
+    end
+>>>>>>> 4a6c52e2e810453dbe4744ea809430c09d3b6b85
     #引用题目的url
     @reference_part_url = "/school_classes/#{@school_class.id}/share_questions/list_questions_by_type?question_pack_id=#{params[:id]}"
     render 'new'
@@ -549,15 +562,29 @@ class QuestionPackagesController < ApplicationController
   end
   #新建十速挑战
   def new_time_limit
-    #    cell_id = params[:cell_id].to_i
-    #    episode_id = params[:episode_id].to_i
-    question_package_id = params[:question_package_id].to_i
-    get_has_time_limit(question_package_id)
-    respond_to do |f|
-      f.js
+    Question.transaction do
+      cell_id = params[:cell_id].to_i
+      episode_id = params[:episode_id].to_i
+      question_package_id = params[:question_package_id].to_i
+      @question = Question.find_by_question_package_id_and_cell_id_and_episode_id_and_types(question_package_id,
+        cell_id, episode_id, Question::TYPES[:TIME_LIMIT])
+      teacher = Teacher.find_by_id cookies[:teacher_id]
+      @user = teacher.user
+      if @question
+        @branch_question = BranchQuestion.where(["question_id = ?", @question.id])
+        branch_tags = BtagsBqueRelation.find_by_sql(["select bt.name, bbr.branch_question_id, bbr.branch_tag_id
+        from btags_bque_relations bbr left join branch_tags bt on bbr.branch_tag_id=bt.id
+        where bbr.branch_question_id in (?)", @branch_question.map(&:id)])
+        @branch_tags = branch_tags.group_by{|t|t.branch_question_id}
+      else
+        @question = Question.create({:question_package_id => question_package_id, :cell_id => cell_id,
+            :types => Question::TYPES[:TIME_LIMIT], :episode_id => episode_id})
+      end
+      respond_to do |f|
+        f.js
+      end
     end
   end
-
   #检查该题包下是否已经有小题
   def check_question_has_branch
     status = 0
@@ -607,8 +634,27 @@ class QuestionPackagesController < ApplicationController
       name = params[:que_name]
       que_id = params[:que_id].to_i
       question = Question.find_by_id(que_id)
-      if question && question.update_attribute("name", name)
-        status = 1
+      question_pack = question.question_package
+      unless question.if_shared
+        branch_questions = question.branch_questions
+        if branch_questions.present?
+          share_question = ShareQuestion.create({:user_id => current_user.id, :name => question.name, :types => question.types,
+              :cell_id => question.cell_id, :episode_id => question.episode_id, :questions_time => question.questions_time,
+              :full_text => question.full_text})
+          if share_question
+            question.branch_questions.each do |bq|
+              new_resource_url = copy_file(share_media_path, question_pack, bq, bq.resource_url) if bq.resource_url.present? #分享的时候，拷贝音频
+              share_question.share_branch_questions.create({:content => bq.content, :resource_url => new_resource_url,
+                  :options => bq.options, :answer => bq.answer})
+            end
+          end
+          question.update_attributes(:if_shared => true, :name => name)
+          status = 0 #分享成功
+        else
+          status = 2 #大题下面无小题，提示
+        end
+      else
+        status = 1 #已经分享过
       end
       render :json => {:status => status}
     end
@@ -742,14 +788,27 @@ class QuestionPackagesController < ApplicationController
   def check_before_complete_create_package
     msg =""
     questionpackage = QuestionPackage.find_by_id(params[:id])
+<<<<<<< HEAD
     questionpackage.questions.each_with_index do |question,index|
       branch_question = BranchQuestion.find_by_id(question.id)
       if branch_question.nil?
         msg += "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}没有小题<br/>"
+=======
+    questions = questionpackage.questions
+    if questions.any?
+      branch_questions = Question.find_by_sql(["select q.id question_id, q.types, count(bq.id) bq_count from questions q 
+        inner join branch_questions bq on bq.question_id = q.id where q.question_package_id = ?", 
+          params[:id].to_i]).group_by{|i|i.question_id}
+      questions.each_with_index do |question,index|        
+        if branch_questions[question.id].nil? 
+          msg += "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}没有小题 <br/>"
+        end
+>>>>>>> 4a6c52e2e810453dbe4744ea809430c09d3b6b85
       end
+    else
+      msg = "当前作业包中没有任何题目，请您创建题目。"
     end
     if msg != ""
-      
       flash[:success]=msg
       redirect_to new_index_school_class_question_package_path(@school_class,params[:id])
     else

@@ -2,7 +2,9 @@
 
 <% @questions.each_with_index do |question,index| %>
   <% case question.types %>
-  <% when Question::TYPES[:READING] || Question::TYPES[:LISTENING]%>
+  <% when Question::TYPES[:READING] %>
+    <%= render "edit_l_or_r_que",{:question => question, :user => @user} %>
+  <% when Question::TYPES[:LISTENING]%>  
     <%= render "edit_l_or_r_que",{:question => question, :user => @user} %>
   <% when Question::TYPES[:TIME_LIMIT] %>
     <div class="assignment_body_list" id="time_limit_assignment_body_list">
@@ -10,9 +12,9 @@
         :user => @user, :branch_tags => @branch_tags[question.id], :school_class => @school_class}  %>
     </div>
   <% when Question::TYPES[:SELECTING] %>
-    <%= render "questions/list_select" ,{:question=>question}  %>
+    <%= render "questions/list_select" ,{:question=>question,:branch_question => @branch_questions[question.id] , :branch_tags => @branch_tags[question.id]}  %>
   <% when Question::TYPES[:LINING] %>
-    <%= render "questions/list_lianxian",{:question=>question}  %>
+    <%= render "questions/list_lianxian",{:question=>question,:branch_question => @branch_questions[question.id] , :branch_tags => @branch_tags[question.id]}  %>
   <% when Question::TYPES[:CLOZE] %>
     <%p 11222221,@branch_questions%>
     <%=render 'wanxin/wanxin',{:@question=>question,

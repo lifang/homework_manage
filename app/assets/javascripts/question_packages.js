@@ -86,11 +86,11 @@ function show_ques(types, school_class_id)
 //检查音频文件后缀名
 function check_audio(obj)
 {
+    var file_name = $(obj).val();
     var branch_id = $(obj).parent().parent().parent().parent().parent().find("input.branch_id").val();
     var types = $(obj).parent().find("input.types").val();
     if(types == 0)
     {
-        var file_name = $(obj).val();
         if(file_name.match(/\..*$/) == ".mp3" || file_name.match(/\..*$/) == ".MP3")
         {}
         else
@@ -101,13 +101,23 @@ function check_audio(obj)
     }
     else if(types == 1)
     {
-        if(branch_id == "")
-         {  
-         }   
-         else
-         {
-            $(obj).parent().submit();  
-         }
+        var file_name = $(obj).val();
+        if(file_name.match(/\..*$/) == ".mp3" || file_name.match(/\..*$/) == ".MP3")
+        {
+            if(branch_id == "")
+            {  
+
+            }   
+            else
+            {
+               $(obj).parent().submit();
+            }
+        }
+        else
+        {
+            tishi("只能上传mp3格式文件！");
+            $(obj).val("");
+        }
     }
 }
 
@@ -529,14 +539,15 @@ function add_b_tags(type, obj){
 //添加标签到听写或朗读题小题下
 function add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)
 {   
-    var tags_id = $.trim($("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val());
-    var branch_id = $.trim($("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.branch_id").val());
-    var question_pack_id = $("#question_pack_id").val();
-    var school_class_id = $("#school_class_id").val();
-    var url = "/school_classes/" + school_class_id + "/question_packages/save_branch_tag";
-    var tag_li = "<li><p>"+tag_name+"</p><a href='javascript:void(0)'' class='x' onclick='delete_reading_listening_tags(this," + q_index+","+b_index+","+tag_id+")'>X</a></li>";
-    if(branch_id == "")
-    {
+
+   var tags_id = $.trim($("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val());
+   var branch_id = $.trim($("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.branch_id").val());
+   var question_pack_id = $("#question_pack_id").val();
+   var school_class_id = $("#school_class_id").val();
+   var url = "/school_classes/" + school_class_id + "/question_packages/save_branch_tag";
+   var tag_li = "<li><p>"+tag_name+"</p><a href='javascript:void(0)'' class='x' onclick='delete_reading_listening_tags(this,"+tag_id+")'>X</a></li>";
+   if(branch_id == "")
+   {
         if(tags_id == "")
         {
             $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("div.tag_ul").find("ul").append(tag_li);
@@ -651,8 +662,10 @@ function delete_reading_listening_branch(obj)
 
 }
 //删除听写或朗读的标签
-function delete_reading_listening_tags(obj, q_index, b_index, tag_id)
+function delete_reading_listening_tags(obj, tag_id)
 {   
+    var q_index = $(obj).parent().parent().parent().parent().parent().parent().parent().index();
+    var b_index = $(obj).parent().parent().parent().parent().index();
     var branch_id = $.trim($("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.branch_id").val());
     var tags_id = $.trim($("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val());
     var school_class_id = $("#school_class_id").val();
@@ -742,56 +755,39 @@ $(function(){
         var que_id = $(this).parents(".ab_list_title").find("input[name='question_id']").first().val();
         var que_name = $(this).parents(".ab_list_title").find("h1").first().text();
         var school_class_id = $("#school_class_id").val();
-        $.ajax({
-            type: "get",
-            url: "/school_classes/"+school_class_id+"/question_packages/check_question_has_branch",
-            dataType: "json",
-            data: {
-                question_id : que_id
-            },
-            success: function(data){
-                if(data.status==0){
-                    tishi("该大题下未保存任何小题,请先创建小题并保存!");
-                    return false;
-                }else{
-                    if(que_name==undefined || que_name=="" || que_name=="未命名"){
-                        var doc_height = $(document).height();
-                        $(".mask").css("height",doc_height);
-                        $("#set_name_div").show();
-                        $(".mask").show();
-                        $("#set_name_div").find("button").removeAttr("onclick");
-                        $("#set_name_div").find("button").attr("onclick", "set_question_name_valid('"+que_id+"','"+school_class_id+"')");
-                    }else{
-                        $.ajax({
-                            type: "get",
-                            url: "/school_classes/"+school_class_id+"/question_packages/share_question",
-                            dataType: "json",
-                            data: {
-                                que_id : que_id,
-                                que_name : que_name
-                            },
-                            success: function(data){
-                                if(data.status==1){
-                                    tishi("分享成功!");
-                                    $(this).parents(".ab_list_title").find("h1").first().text(que_name);
-                                }else{
-                                    tishi("分享失败!");
-                                }
-                            },
-                            error: function(data){
-                                tishi("数据错误!");
-                            }
-                        })
+        if(que_name==undefined || que_name=="" || que_name=="未命名"){
+            var doc_height = $(document).height();
+            $(".mask").css("height",doc_height);
+            $("#set_name_div").show();
+            $(".mask").show();
+            $("#set_name_div").find("button").removeAttr("onclick");
+            $("#set_name_div").find("button").attr("onclick", "set_question_name_valid('"+que_id+"','"+school_class_id+"')");
+        }else{
+            $.ajax({
+                type: "get",
+                url: "/school_classes/"+school_class_id+"/question_packages/share_question",
+                dataType: "json",
+                data: {
+                    que_id : que_id,
+                    que_name : que_name
+                },
+                success: function(data){
+                    if(data.status == 0){
+                        tishi("分享成功!");
+                        $(this).parents(".ab_list_title").find("h1").first().text(que_name);
+                    }else if(data.status == 1){
+                        tishi("此题已经分享过");
+                    }else if(data.status == 2){
+                        tishi("该大题下未保存任何小题,请先创建小题！");
                     }
+                },
+                error: function(data){
+                    tishi("数据错误!");
                 }
-            },
-            error: function(data){
-                tishi("数据错误!");
-            }
-        });
-
-        return false;
-    });
+            })
+        }
+    return false;
+});
 
     //点击删除该大题
     $("#question_list").on("click", ".delete_icon", function(){
@@ -860,7 +856,7 @@ function set_question_name_valid(question_id, school_class_id){
                 que_name : name
             },
             success: function(data){
-                if(data.status==1){
+                if(data.status==0){
                     tishi("分享成功!");
                     $("#set_name_div").hide();
                     $(".mask").hide();
@@ -870,8 +866,10 @@ function set_question_name_valid(question_id, school_class_id){
                             $(this).parents(".ab_list_title").find("h1").first().text(name);
                         }
                     });
-                }else{
-                    tishi("分享失败!");
+                }else if(data.status == 1){
+                    tishi("此题已经分享过");
+                }else if(data.status == 2){
+                    tishi("该大题下未保存任何小题,请先创建小题！");
                 }
             },
             error: function(data){

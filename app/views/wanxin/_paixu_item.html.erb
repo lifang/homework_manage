@@ -1,6 +1,6 @@
 <div class="ab_article">
-  <%if @branch_questions%>
-    <%@branch_questions.each_with_index do |branch_question,index|%>
+  <%if @branch_ques%>
+    <%@branch_ques.each_with_index do |branch_question,index|%>
       <div class="questions_item">
         <input type="hidden" class="branch_question_id" value="<%=branch_question.id%>"/>
         <div class="q_topic">
@@ -17,11 +17,21 @@
         </div>
         <div class="tag_ul">
           <ul>
-            <%@tags.each do |tag|%>
-              <%if tag.branch_question_id==branch_question.id%>
-                <li><p><%=tag.name%></p>
-                <a onclick="delete_tags(this,<%=@school_class.id%>,<%=@question_packages.id%>,<%=tag.id%>,<%=branch_question.id%>,'paixu')" class="x">X</a>
-                </li>
+            <%unless controller.action_name=='new_index'%>
+              <%@tags.each do |tag|%>
+                <%if tag.branch_question_id==branch_question.id%>
+                  <li><p><%=tag.name%></p>
+                    <a onclick="delete_tags(this,<%=@school_class.id%>,<%=@question_packages.id%>,<%=tag.id%>,<%=branch_question.id%>,'paixu')" class="x">X</a>
+                  </li>
+                <%end%>
+              <%end%>
+            <%else%>
+              <%unless !@tags_p||@tags_p[branch_question.id].nil?%>
+                <%@tags_p[branch_question.id].each do |tag|%>
+                  <li><p><%=tag.name%></p>
+                    <a onclick="delete_tags(this,<%=@school_class.id%>,<%=@question_packages.id%>,<%=tag.id%>,<%=branch_question.id%>,'paixu')" class="x">X</a>
+                  </li>
+                <%end%>
               <%end%>
             <%end%>
           </ul>

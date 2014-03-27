@@ -14,8 +14,8 @@ class ShareQuestionsController < ApplicationController
     type_name = Question::TYPES_NAME[@question_type]
     @question_pack = QuestionPackage.find_by_id @question_pack_id
     if @question_pack
-      if @question_type == "2" && @question_pack.questions.time_limit.present?
-        render :json =>{:msg => "一个作业只能有一道十速挑战题", :status => "-2" }  #"一个作业只有一道十速挑战题"
+      if @question_type == 2 && @question_pack.questions.time_limit.present?
+        render :json =>{:msg => "一个作业包中只能有一道十速挑战题", :status => "-2" }  #"一个作业只有一道十速挑战题"
       else
         @share_questions = ShareQuestion.share_questions(@cell_id, @episode_id, @question_type, "desc", 1)
         share_branch_questions = ShareBranchQuestion.where(:share_question_id => @share_questions.map(&:id))

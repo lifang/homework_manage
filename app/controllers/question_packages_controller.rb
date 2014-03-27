@@ -47,7 +47,7 @@ class QuestionPackagesController < ApplicationController
     branch_question = BranchQuestion.find_by_id branch_question_id
     status = 0
     if branch_question
-      branch_question.btags_bque_relations.delete_all()
+      BtagsBqueRelation.delete_all("branch_question_id = #{branch_question_id}")
       resource_url = "#{Rails.root}/public#{branch_question.resource_url}"
       File.delete resource_url if File.exist? resource_url
       branch_question.destroy
@@ -129,67 +129,72 @@ class QuestionPackagesController < ApplicationController
     types = params[:types]
     file = params[:file]
     if types.present?
-      @types = types.to_i
-      @question = Question.find_by_id params[:question_id].to_i
-      @question_id = @question.id
-      branch_id = params[:branch_id]
-      if branch_id.present?
-        @branch_question = BranchQuestion.find_by_id branch_id
-        if @branch_question.nil?
-          @status = -1
-          @notice = "该小题不存在，修改失败！"
-        else
-          if !file.nil?
-            destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
-            rename_file_name = "media_#{@branch_question.id}"
-            upload = upload_file destination_dir, rename_file_name, file
-            if upload[:status] == true
-              resource_url = upload[:url]
-              if @branch_question.update_attributes(:resource_url=>resource_url)           
-                @status = 2
-                @notice = "文件上传成功！！"
-              else
-                @status = -1
-                @notice = "文件上传失败！"    
-              end  
-            else
+        @types = types.to_i
+        @question = Question.find_by_id params[:question_id].to_i
+        @question_id = @question.id
+        branch_id = params[:branch_id]
+        if branch_id.present?
+            @branch_question = BranchQuestion.find_by_id branch_id
+            if @branch_question.nil?
               @status = -1
-              @notice = "小题创建失败！"
-            end
-          else
-            if params[:content].present?
-              if @branch_question.update_attributes(:content => params[:content] )
-                @status = 0
-                @notice = "小题修改成功！"  
+              @notice = "该小题不存在，修改失败！"
+            else
+              if !file.nil?
+                destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
+                rename_file_name = "media_#{@branch_question.id}"
+                upload = upload_file destination_dir, rename_file_name, file
+                if upload[:status] == true
+                  resource_url = upload[:url]
+                  if @branch_question.update_attributes(:resource_url => resource_url)           
+                    @status = 2
+                    @notice = "文件上传成功！！"
+                  else
+                    @status = -1
+                    @notice = "文件上传失败！"    
+                  end  
+                else
+                  @status = -1
+                  @notice = "小题创建失败！"
+                end
               else
-                @status = -1
-                @notice = "小题修改失败！" 
-              end                
+
+                if params[:content].present?
+                  if @branch_question.update_attributes(:content => params[:content] )
+                    @status = 0
+                    @notice = "小题修改成功！"  
+                  else
+                    @status = -1
+                    @notice = "小题修改失败！" 
+                  end                
+                end  
+              end
+            end
+        else
+            @status = -1
+            @notice = "小题创建失败！"
+            content = params[:content]
+            @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
+            if @branch_question
+              destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
+              rename_file_name = "media_#{@branch_question.id}"
+              if file
+                upload = upload_file destination_dir, rename_file_name, file
+                if upload[:status] == true
+                  resource_url = upload[:url]
+                  @branch_question.update_attributes(:resource_url=> resource_url)
+                end
+              end  
+              unless @branch_question.nil?
+                if tags_id.present?    #保存小题时添加标签
+                  tags_id.split(/\|/).each do |tag_id|
+                    @branch_question.btags_bque_relations.create(:branch_tag_id => tag_id.to_i) if tag_id.to_i > 0
+                  end  
+                end 
+                @status = 1
+                @notice = "小题创建完成！"
+              end
             end  
-          end
-        end
-      else
-        @status = -1
-        @notice = "小题创建失败！"
-        content = params[:content]
-        @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
-        destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
-        rename_file_name = "media_#{@branch_question.id}"
-        upload = upload_file destination_dir, rename_file_name, file
-        if upload[:status] == true
-          resource_url = upload[:url]
-          @branch_question.update_attributes(:resource_url=> resource_url)
-        end
-        unless @branch_question.nil? 
-          if tags_id.present?    #保存小题时添加标签
-            tags_id.split(/\|/).each do |tag_id|
-              @branch_question.btags_bque_relations.create(:branch_tag_id => tag_id.to_i) if tag_id.to_i > 0
-            end  
-          end 
-          @status = 1
-          @notice = "小题创建完成！"
-        end
-      end  
+        end  
     else
       @status = -1
       @notice = "该小题不存在数据错误，题型不能为空！" 
@@ -222,19 +227,13 @@ class QuestionPackagesController < ApplicationController
       hash[k] = second_tags
     end
     @branch_tags = hash
-    #    unless @questions[0].nil?
-    #      @question_exist = @questions[0]
-    #      unless @question_exist.episode_id.nil?
-    #        @exist_episode = Episode.find_by_id(@question_exist.episode_id)
-    #        @cells.each do|cell|
-    #          if cell.id == @exist_episode.cell_id
-    #            @exist_cell = cell
-    #          end
-    #        end
-    #      end
-    #    end
-    p @reading_and_listening_branch
-    #@reading_and_listening_branch  = Question.get_has_reading_and_listening_branch(@questions)
+    unless @questions[0].nil?
+      @question_exist = @questions[0]
+      unless @question_exist.episode_id.nil?
+        @exist_episode = Episode.find_by_id(@question_exist.episode_id) unless @question_exist.episode_id.nil?
+        @exist_cell = Cell.find_by_id(@exist_episode.cell_id) unless @exist_episode.cell_id.nil?
+      end
+    end
     #引用题目的url
     @reference_part_url = "/school_classes/#{@school_class.id}/share_questions/list_questions_by_type?question_pack_id=#{params[:id]}"
     render 'new'
@@ -254,9 +253,14 @@ class QuestionPackagesController < ApplicationController
       episode_id)
   end
   def create_wanxin
+    cell_id = params[:cell_id]
     episode_id = params[:episode_id]
     @question_packages = QuestionPackage.find_by_id(params[:id])
-    @question = Question.create(types:Question::TYPES[:CLOZE],question_package_id:@question_packages.id,episode_id:episode_id)
+    @wanxin_index = get_count_of_wanxin @question_packages.questions
+    @question = Question.create(types:Question::TYPES[:CLOZE],
+      question_package_id:@question_packages.id,
+      episode_id:episode_id,
+      cell_id:cell_id)
   end
   
   def show_ab_list_box
@@ -322,13 +326,13 @@ class QuestionPackagesController < ApplicationController
     end
     @question_packages = QuestionPackage.find_by_id(params[:id])
     @question_id = params[:question_id]
-    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
-    @options = @branch_questions.map{|d| d.options.split(";||;")}
+    @branch_ques = BranchQuestion.where("question_id = ?",params[:question_id])
+    @options = @branch_ques.map{|d| d.options.split(";||;")}
     @values=[]
-    @branch_questions.each_with_index do |bq|
+    @branch_ques.each_with_index do |bq|
       @values << bq.options.split(";||;").index { |x| x == bq.answer }
     end
-    branch_question_ids = @branch_questions.map(&:id)
+    branch_question_ids = @branch_ques.map(&:id)
     @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
       joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
       select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
@@ -339,18 +343,27 @@ class QuestionPackagesController < ApplicationController
     delete_branch_question branch_question_id
     @index = params[:index]
     @question_packages = QuestionPackage.find_by_id(params[:id])
-    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
-    @options = @branch_questions.map{|d| d.options.split(";||;")}
+    @branch_ques = BranchQuestion.where("question_id = ?",params[:question_id])
+    @options = @branch_ques.map{|d| d.options.split(";||;")}
     @values=[]
-    @branch_questions.each_with_index do |bq|
+    @branch_ques.each_with_index do |bq|
       @values << bq.options.split(";||;").index { |x| x == bq.answer }
     end
+    branch_question_ids = @branch_ques.map(&:id)
+    @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
+      joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
+      select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
+
   end
 
   def create_paixu
+    cell_id = params[:cell_id]
     episode_id = params[:episode_id]
     @question_packages = QuestionPackage.find_by_id(params[:id])
-    @question = Question.create(types:Question::TYPES[:SORT],question_package_id:@question_packages.id,episode_id:episode_id)
+    @question = Question.create(types:Question::TYPES[:SORT],
+      question_package_id:@question_packages.id,
+      episode_id:episode_id,
+      cell_id:cell_id)
   end
 
   def save_paixu_branch_question
@@ -378,8 +391,8 @@ class QuestionPackagesController < ApplicationController
     end
     @question_packages = QuestionPackage.find_by_id(params[:id])
     @question_id = params[:question_id]
-    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
-    branch_question_ids = @branch_questions.map(&:id)
+    @branch_ques = BranchQuestion.where("question_id = ?",params[:question_id])
+    branch_question_ids = @branch_ques.map(&:id)
     @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
       joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
       select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
@@ -403,7 +416,12 @@ class QuestionPackagesController < ApplicationController
     delete_branch_question branch_question_id
     @index = params[:index]
     @question_packages = QuestionPackage.find_by_id(params[:id])
-    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
+    @branch_ques = BranchQuestion.where("question_id = ?",params[:question_id])
+    branch_question_ids = @branch_ques.map(&:id)
+    @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
+      joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
+      select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
+
   end
   #删除小题
   def delete_branch_question branch_question_id
@@ -757,15 +775,33 @@ class QuestionPackagesController < ApplicationController
   def check_before_complete_create_package
     msg =""
     questionpackage = QuestionPackage.find_by_id(params[:id])
-    questionpackage.questions.each_with_index do |question,index|
-      branch_question = BranchQuestion.find_by_id(question.id)
-      p 1111111111111111,branch_question,branch_question.nil?,msg
-      if branch_question.nil?
-        msg += "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}没有小题<br/>"
+<<<<<<< HEAD
+# <<<<<<< HEAD
+#     questionpackage.questions.each_with_index do |question,index|
+#       branch_question = BranchQuestion.find_by_id(question.id)
+#       if branch_question.nil?
+#         msg += "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}没有小题<br/>"
+# =======
+=======
+>>>>>>> 4f3a13a19fc361031f3ba02a08e351b32a227392
+    questions = questionpackage.questions
+    if questions.any?
+      branch_questions = Question.find_by_sql(["select q.id question_id, q.types, count(bq.id) bq_count from questions q 
+        inner join branch_questions bq on bq.question_id = q.id where q.question_package_id = ?", 
+          params[:id].to_i]).group_by{|i|i.question_id}
+      questions.each_with_index do |question,index|        
+        if branch_questions[question.id].nil? 
+          msg += "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}没有小题 <br/>"
+        end
+<<<<<<< HEAD
+# >>>>>>> 4a6c52e2e810453dbe4744ea809430c09d3b6b85
+=======
+>>>>>>> 4f3a13a19fc361031f3ba02a08e351b32a227392
       end
+    else
+      msg = "当前作业包中没有任何题目，请您创建题目。"
     end
     if msg != ""
-      
       flash[:success]=msg
       redirect_to new_index_school_class_question_package_path(@school_class,params[:id])
     else
@@ -784,4 +820,13 @@ class QuestionPackagesController < ApplicationController
     @episodes = Episode.where(:cell_id => @cells.map(&:id)).group_by{|e| e.cell_id} if @cells
   end
 
+  def get_count_of_wanxin question_package
+    count =0
+    question_package.each do |question|
+      if question.types == Question::TYPES[:CLOZE]
+        count +=1
+      end
+    end
+    count
+  end
 end

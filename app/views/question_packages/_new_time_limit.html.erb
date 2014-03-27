@@ -1,8 +1,8 @@
-<%= form_tag "/school_classes/#{@school_class.id}/question_packages/create_time_limit", :method => :post, :id => "create_time_limit_form", :remote => true do %>
+<%= form_tag "/school_classes/#{school_class.id}/question_packages/create_time_limit", :method => :post, :id => "create_time_limit_form", :remote => true do %>
   <div class="ab_list_title" id="time_limt_ab_list_title">
     <h1 id="time_limit_name"><%= @time_limit_que_name.nil? ? "未命名" : @time_limit_que_name %></h1>
-    <p>十速挑战/ <%= @time_limit_user_name %>/ <%= @time_limit_que_time.nil? ? Time.now.strftime("%Y-%m-%d") : @time_limit_que_time %>
-      / <span name="cankaoshijian">参考时间：<% if @tlqqt.nil? %>未指定<% else %><%= @tlqqt[0]==0 ? "" : "#{@tlqqt[0]}时" %><%= @tlqqt[1]==0 ? "" : "#{@tlqqt[1]}分" %><%= @tlqqt[2]==0 ? "" : "#{@tlqqt[2]}秒" %><% end %></span></p>
+    <p>十速挑战/ <%= user.name %>/ <%= question.created_at.nil? ? Time.now.strftime("%Y-%m-%d") : question.created_at.strftime("%Y-%m-%d") %>
+      / <span name="cankaoshijian">参考时间：<% if question.questions_time.nil? %>未指定<% else %><%= @tlqqt[0]==0 ? "" : "#{@tlqqt[0]}时" %><%= @tlqqt[1]==0 ? "" : "#{@tlqqt[1]}分" %><%= @tlqqt[2]==0 ? "" : "#{@tlqqt[2]}秒" %><% end %></span></p>
     <input type="hidden"  name="question_id" class="question_id" value="<%= @time_limit_que_id.nil? ? "0" : @time_limit_que_id %>"/>
     <input type="hidden" id="create_time_limit_hour" value="<%= @tlqqt.nil? || @tlqqt[0]==0 ? "" : @tlqqt[0] %>"/>
     <input type="hidden" id="create_time_limit_minute" value="<%= @tlqqt.nil? || @tlqqt[1]==0 ? "" : @tlqqt[1] %>"/>

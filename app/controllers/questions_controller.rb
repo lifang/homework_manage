@@ -66,6 +66,7 @@ class QuestionsController < ApplicationController
   end
   #保存选择题
   def save_select
+    @resourse = params[:select_resourse]
     select_resourse = params[:select_resourse].nil? ? "" : params[:select_resourse]
     if select_resourse.present?
       resourse = "<file>" + select_resourse  + "</file>"

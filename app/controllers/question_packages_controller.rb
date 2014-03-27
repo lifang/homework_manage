@@ -45,6 +45,7 @@ class QuestionPackagesController < ApplicationController
   def save_listening
     @q_index = params[:q_index].to_i
     @b_index = params[:b_index].to_i
+    tags_id = params[:tags_id]
     types = params[:types]
     file = params[:file]
     branch_id = params[:branch_id]
@@ -79,6 +80,11 @@ class QuestionPackagesController < ApplicationController
           if upload[:status] == true
             resource_url = upload[:url]
             if @branch_question.update_attributes(:resource_url=>resource_url)
+              if tags_id.present?    #保存小题时添加标签
+                tags_id.split(/\|/).each do |tag_id|
+                  @branch_question.btags_bque_relations.create(:branch_tag_id => tag_id.to_i) if tag_id.to_i > 0
+                end  
+              end  
               @status = 1
               @notice = "小题创建完成！"
             else
@@ -104,6 +110,7 @@ class QuestionPackagesController < ApplicationController
   def save_reading
     @q_index = params[:q_index].to_i
     @b_index = params[:b_index].to_i
+    tags_id = params[:tags_id]
     types = params[:types]
     file = params[:file]
     if types.present?
@@ -123,7 +130,7 @@ class QuestionPackagesController < ApplicationController
             upload = upload_file destination_dir, rename_file_name, file
             if upload[:status] == true
               resource_url = upload[:url]
-              if @branch_question.update_attributes(:resource_url=>resource_url)
+              if @branch_question.update_attributes(:resource_url=>resource_url)           
                 @status = 2
                 @notice = "文件上传成功！！"
               else
@@ -142,13 +149,9 @@ class QuestionPackagesController < ApplicationController
               else
                 @status = -1
                 @notice = "小题修改失败！" 
-              end
-            else
-                
+              end                
             end  
           end
-
-          
         end
       else
         @status = -1
@@ -156,6 +159,11 @@ class QuestionPackagesController < ApplicationController
         content = params[:content]
         @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
         unless @branch_question.nil? 
+          if tags_id.present?    #保存小题时添加标签
+            tags_id.split(/\|/).each do |tag_id|
+              @branch_question.btags_bque_relations.create(:branch_tag_id => tag_id.to_i) if tag_id.to_i > 0
+            end  
+          end 
           @status = 1
           @notice = "小题创建完成！"
         end
@@ -180,11 +188,22 @@ class QuestionPackagesController < ApplicationController
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
     @questions = Question.where("question_package_id=#{@question_pack.id}")
     new_get_has_time_limit(@question_pack.id)
+#    unless @questions[0].nil?
+#      @question_exist = @questions[0]
+#      @exist_episode = Episode.find_by_id(@question_exist.episode_id)
+#      @cells.each do|cell|
+#        if cell.id == @exist_episode.cell_id
+#          @exist_cell = cell
+#        end
+#      end
+#    end
+    p @reading_and_listening_branch
     #@reading_and_listening_branch  = Question.get_has_reading_and_listening_branch(@questions)
-    #引用url
-    @reference_part_url = "/school_classes/#{@school_class.id}/question_packages/#{@question_pack.id}/share_questions/list_questions_by_type"
+    #引用题目的url
+    @reference_part_url = "/school_classes/#{@school_class.id}/share_questions/list_questions_by_type?question_pack_id=#{params[:id]}"
     render 'new'
   end
+  
   def setting_episodes
     @cells = Cell.find_by_id(params[:cell_id])
     @episodes = @cells.episodes
@@ -202,8 +221,6 @@ class QuestionPackagesController < ApplicationController
     episode_id = params[:episode_id]
     @question_packages = QuestionPackage.find_by_id(params[:id])
     @question = Question.create(types:Question::TYPES[:CLOZE],question_package_id:@question_packages.id,episode_id:episode_id)
-    @questions = []
-    @questions << @question
   end
   
   def show_ab_list_box
@@ -216,6 +233,12 @@ class QuestionPackagesController < ApplicationController
     @branch_questions.each_with_index do |bq|
       @values << bq.options.split(";||;").index { |x| x == bq.answer }
     end
+
+    branch_question_ids = @branch_questions.map(&:id)
+    @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
+      joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
+      select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
+
   end
 
   def save_wanxin_content
@@ -229,6 +252,8 @@ class QuestionPackagesController < ApplicationController
   end
 
   def save_wanxin_branch_question
+    
+    @gloab_index = params[:gloab_index]
     branch_question_id = params[:branch_question_id]
     option = params[:option]
     options = option.join(";||;")
@@ -244,9 +269,9 @@ class QuestionPackagesController < ApplicationController
           question_id:params[:question_id],
           options:options,
           answer:answer)
-        render text:1
+        @text=1
       else
-        render text:0
+        @text=0
       end
     else
       branch_question = BranchQuestion.find_by_id(branch_question_id)
@@ -254,12 +279,26 @@ class QuestionPackagesController < ApplicationController
           options:options,
           answer:answer
         )
-        render text:1
+        @text=2
       else
-        render text:0
+        @text=0
       end
     end
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @question_id = params[:question_id]
+    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
+    @options = @branch_questions.map{|d| d.options.split(";||;")}
+    @values=[]
+    @branch_questions.each_with_index do |bq|
+      @values << bq.options.split(";||;").index { |x| x == bq.answer }
+    end
+    branch_question_ids = @branch_questions.map(&:id)
+    @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
+      joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
+      select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
+
   end
+  
   def delete_wanxin_branch_question
     branch_question_id = params[:branch_question_id]
     delete_branch_question branch_question_id
@@ -280,6 +319,7 @@ class QuestionPackagesController < ApplicationController
   end
 
   def save_paixu_branch_question
+    @gloab_index = params[:gloab_index]
     branch_question_id = params[:branch_question_id]
     content = params[:content].strip.gsub(/\s+/," ")
     answer = content
@@ -287,26 +327,40 @@ class QuestionPackagesController < ApplicationController
       if BranchQuestion.create(content:content,
           question_id:params[:question_id],
           answer:answer)
-        render text:1
+        @text=1
       else
-        render text:0
+        @text=0
       end
     else
       branch_question = BranchQuestion.find_by_id(branch_question_id)
       if branch_question.update_attributes(content:content,
           answer:answer
         )
-        render text:3
+        @text=2
       else
-        render text:0
+        @text=0
       end
     end
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @question_id = params[:question_id]
+    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
+    branch_question_ids = @branch_questions.map(&:id)
+    @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
+      joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
+      select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
+
   end
+  
   def show_the_paixu
     @index = params[:index]
     @question_packages = QuestionPackage.find_by_id(params[:id])
     @question_id = params[:question_id]
     @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
+    branch_question_ids = @branch_questions.map(&:id)
+    @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
+      joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
+      select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
+
   end
 
   def delete_paixu_branch_question
@@ -423,6 +477,7 @@ class QuestionPackagesController < ApplicationController
   def time_limit_set_question_time
     Question.transaction do
       status = 1
+      time_int = []
       begin
         time_limit_question = Question.find_by_id(params[:question_id])
         hour = params[:hour]
@@ -430,10 +485,11 @@ class QuestionPackagesController < ApplicationController
         second = params[:second]
         time = trans_time_to_int(hour=="时" ? nil : hour, minute=="分" ? nil : minute, second=="秒" ? nil : second)
         time_limit_question.update_attribute("questions_time", time)
+        time_int = trans_int_to_time(time)
       rescue
         status = 0
       end
-      render :json => {:status => status}
+      render :json => {:status => status, :time_int => time_int}
     end
   end
   #新建十速挑战
@@ -559,13 +615,41 @@ class QuestionPackagesController < ApplicationController
     branch_tag_id = params[:branch_tag_id]
     branch_question_id = params[:branch_question_id]
     branch_tag = BranchTag.find_by_id(branch_tag_id)
-    if branch_tag && BtagsBqueRelations.create(branch_question_id:branch_question_id,
-        branch_tag_id:branch_tag_id)
-      status = 1
+    btagsbquetelation = BtagsBqueRelation.find_by_branch_tag_id_and_branch_question_id(branch_tag_id,branch_question_id)
+    if branch_tag
+      if btagsbquetelation.nil?
+        @bq = BtagsBqueRelation.create(branch_question_id:branch_question_id,
+          branch_tag_id:branch_tag_id)
+        status = 1
+      else
+        status = 2
+      end
     else
-      status = 2
+      status = 3
     end
-    render :json => {:status => status, :tag_id => status==1 ? branch_tag.id : 0, :tag_name => status==1 ? branch_tag.name : ""}
+    render :json => {:status => status, :tag_id => status==1 ? @bq.id : 0, :tag_name => status==1 ? branch_tag.name : ""}
+  end
+
+  def delete_branch_tag
+    @type = params[:type]
+    @gloab_index =params[:gloab_index]
+    @q_index = params[:q_index]
+    @question_packages = QuestionPackage.find_by_id(params[:id])
+    branch_question_id = params[:branch_question_id]
+    @branch_question = BranchQuestion.find_by_id branch_question_id
+    @tags = BtagsBqueRelation.where("branch_question_id = ?",branch_question_id).
+      joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
+      select("btags_bque_relations.id,bt.name,bt.created_at,bt.updated_at")
+    branch_tag = BtagsBqueRelation.find_by_id(params[:tag_id])
+    if branch_tag
+      branch_tag.destroy
+      @status = 1
+    else
+      @ststus = 0
+    end
+    if @type=="select" || @type=="lianxian"
+      render :json => {:status=>@status}
+    end
   end
 
   private

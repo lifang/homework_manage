@@ -189,11 +189,13 @@ function onclick_submit(obj){
     if (form_class=="save_select"){
         questions_item.find("form").attr("action","/question_packages/"+ question_package_id +"/questions/update_select")
         $(obj).parent().find(".delete").attr("href","/question_packages/"+ question_package_id +"/questions/delete_branch_question?id=162")
-        $(obj).parent().find(".delete").show()
-        $(obj).parent().find(".save").hide()
+        $(obj).parent().find(".delete").show();
+        $(obj).parent().find(".tag").show();
+        $(obj).parent().find(".save").hide();
     }else if (form_class=="save_lianxian"){
         questions_item.find("form").attr("action","/question_packages/"+ question_package_id +"/questions/update_lianxian")
         $(obj).parent().find(".delete").show()
+        $(obj).parent().find(".tag").show();
         $(obj).parent().find(".save").hide()
     }else{
         questions_item.find("form").attr("action","/question_packages/"+ question_package_id +"/questions/save_select")
@@ -218,4 +220,162 @@ function show_branch_question(obj,question_package_id,question_id,types){
         }
     })
 
+}
+
+//选择上传音频或者视屏
+function select_upload_choice(obj){
+    if($(obj).attr("input_t")=="voice"){
+        $(obj).parent().find("#input_select_upload").attr("input_t","voice")
+    }else if ($(obj).attr("input_t")=="photo"){
+        $(obj).parent().find("#input_select_upload").attr("input_t","photo")
+    }
+    $(obj).parent().find("#input_select_upload").click()
+//    $("#input_select_upload").click();
+}
+
+//上传资源
+function select_upload(obj){
+    var type = $(obj).attr("input_t");
+    var fil_name =  $(obj).val();
+    var img_extension = fil_name.substring(fil_name.lastIndexOf('.') + 1).toLowerCase();
+    if(type=="voice"){
+        if(img_extension == "mp3" || img_extension == "amr" || img_extension == "wav"){
+        }else{
+            tishi("音频格式不对! 仅支持mp3、amr、wav格式");
+            return false;
+        }
+    }else if (type=="photo"){
+        if(img_extension == "jpg" || img_extension == "png"){
+        }else{
+            tishi("图片格式不对! 仅支持jpg,png格式");
+            return false;
+        }
+    }
+    var question_package_id = $(obj).parents(".questions_item").find("#question_package_id").val();
+    var question_id = $(obj).parents(".questions_item").find("input[name='question_id']").val();
+    $.ajaxFileUpload(
+    {
+        type:'post',
+        url:'/question_packages/'+ question_package_id +'/questions/select_upload',            //需要链接到服务器地址
+        secureuri:false,
+        fileElementId:'input_select_upload',                  //文件选择框的id属性
+        dataType: 'text',
+        data :{
+            type : type
+        },                                               //服务器返回的格式，可以是json
+        success: function (data, status)            //相当于java中try语句块的用法
+        {
+            var data_arr = data.split(";||;")
+            tishi("上传成功！");
+            var html="<input type='text' value='"+ data_arr[1] +"' name='select_resourse' style='display:none;'>"
+            var q_left = $("#input_select_upload").parents(".q_left")
+            $(obj).parents().find(".q_topic").attr("class","q_topic q_compile")
+            if(data_arr[0]=="voice"){
+                alert($("#input_select_upload").parents(".q_topic").find("input[name='select_content']").attr("name"))
+                $("#input_select_upload").parents(".q_topic").find("input[name='select_content']").attr("disabled","true")
+                var html_title = "<input type='text' name='select_content' style='display:block;' disabled='true'>"
+                $("#input_select_upload").parents(".q_topic").find(".q_title").find(".qt_text").html(html_title)
+                q_left.html("<img src='/assets/voiceing.jpg'>")
+            }else if(data_arr[0]=="photo"){
+                alert(data_arr[0])
+                q_left.html("<img src='"+ data_arr[1] +"' style='width:86px;height:86px;'>")
+            }
+            q_left.append(html)
+            $("#input_select_upload").removeAttr("id")
+        },
+        error: function (data, status, e)            //相当于java中catch语句块的用法
+        {
+            $('#result').html('添加失败');
+        }
+    });
+}
+
+//选择tag
+function add_selects_tags(obj){
+    common_tags(obj);
+    var branch_question_id = $(obj).parents(".questions_item").attr("branch_question_index");
+    var question_item = $(obj).parents(".questions_item")[0]
+    var q_index = $($(obj).parents(".ab_article")[0]).find(".questions_item").index($(question_item));
+    var lis = $("#tags_table").find("li");
+    var types = $(obj).parents(".questions_item").attr("question_type")
+    $.each(lis, function(){
+        var current_input = $(this).find("input").first();
+        // current_input.attr("onclick","add_content_to_paixu(this,"+q_index+","+ branch_question_id+")")
+        $(current_input).on("ifChecked", function(){
+            add_tag_to_select($(this),q_index,branch_question_id,types)
+        //            add_content_to_paixu($(this), q_index, branch_question_id);
+        })
+    })
+}
+
+function add_tag_to_select(obj,q_index,branch_question_id,types){
+    if($(obj).attr("checked")=="checked"){
+        var shcool_id = $("#school_class_id").val();
+        alert(shcool_id)
+        var question_pack_id = $("#question_package_id").val();
+        var value = $(obj).val();
+        $.ajax({
+            url:"/school_classes/"+shcool_id+"/question_packages/save_branch_tag",
+            dataType:"json",
+            data:"branch_question_id="+branch_question_id+"&branch_tag_id="+value,
+            success:function(data){
+                if(data.status == 1){
+                    var old = $($( $(".assignment_body_list")[gloab_index] ).find(".questions_item")[q_index]);
+                    if(types=="select"){
+                        old.find(".tag_ul ul").
+                        append("<li><p>"+data.tag_name+"</p><a onclick='delete_tags(this,"+shcool_id+","+question_pack_id+","+data.tag_id+","+branch_question_id+",\"select\")' class='x'>X</a></li>");
+                    }else if(types=="lianxian"){
+                        old.find(".tag_ul ul").
+                        append("<li><p>"+data.tag_name+"</p><a onclick='delete_tags(this,"+shcool_id+","+question_pack_id+","+data.tag_id+","+branch_question_id+",\"lianxian\")' class='x'>X</a></li>");
+                    }
+                    html="<class='aaa'>"
+                }else if(data.status == 2){
+                    alert("添加失败，重复标签！");
+                }else if(data.status == 3){
+                    alert("添加失败，无此标签！");
+                }
+            }
+        })
+    }
+
+}
+
+
+//点击新建
+function new_select_question(obj){
+    var episode_id = $("#episode_id").val();
+    var question_package_id = $("#question_package_id").val()
+    var type = 3
+    var cell_id = $("#cell_id").val();
+    $.ajax({
+        dataType:"script" ,
+        url:"/question_packages/"+question_package_id+"/questions/show_select",
+        data:{
+            episode_id : episode_id,
+            question_package_id : question_package_id,
+            type : type,
+            cell_id : cell_id
+        },
+        success:function(){
+        }
+    });
+}
+
+function new_lianxian_question(obj){
+    var episode_id = $("#episode_id").val();
+    var question_package_id = $("#question_package_id").val()
+    var type = 4
+    var cell_id = $("#cell_id").val();
+    $.ajax({
+        dataType:"script" ,
+        url:"/question_packages/"+question_package_id+"/questions/new_lianxian",
+        data:{
+            episode_id : episode_id,
+            question_package_id : question_package_id,
+            type : type,
+            cell_id : cell_id
+        },
+        success:function(){
+        }
+    });
 }

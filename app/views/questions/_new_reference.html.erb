@@ -1,41 +1,20 @@
 <div class="assignment_body">
   <div class="ass_panel"><a href="#" class="back">返回</a></div>
 
-  <div class="assignment_body_list">
-    <div class="ab_list_title">
-      <h1>What's that?</h1>
-      <p>十速挑战 / 李芳 / 2014-02-12 / 参考时间：15秒</p>
-      <div class="ab_func">
-        <a href="#" class="quote_btn_a"><span>引用</span></a>
-        <p>被引用12次</p>
-      </div>
-    </div>
-    
-    <div class="ab_list_box" style="display: none;">
-      <div class="ab_article">
-        <div class="questions_item">
-          <div class="q_topic">
-            <div class="speedQuestions">
-              <ul>
-                <li><a href="#" class="true">T</a></li>
-                <li class="qt_text"><p>apple前面是用冠词an？</p><input name="" type="text"/></li>
-                <li><a href="#" class="false">F</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="qt_icon" style="display: none;"><a href="#" class="tag tooltip_html">标签</a></div>
-          <div class="tag_ul">
-            <ul>
-              <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-              <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-              <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-            </ul>
-          </div>
+  <% @share_questions.each do |sq| %>
+    <div class="assignment_body_list">
+      <div class="ab_list_title">
+        <h1><%= sq.name %></h1>
+        <p><%= Question::TYPES_NAME[sq.types] %> / <%= sq.user_name %> / <%= sq.created_at.strftime("%Y-%m-%d") %> / 参考时间：<%= sq.questions_time || 0 %>秒</p>
+        <div class="ab_func">
+          <%=link_to  reference_school_class_question_package_question_path(@school_class_id, @question_pack_id, sq.id) + "?cell_id=#{@cell_id}&episode_id=#{@episode_id}&question_type=#{@question_type}", :class =>"quote_btn_a", :method => "post", :remote => true, 'data-type' => "script" do %>
+            <span>引用</span>
+          <% end %>
+          <p>被引用<%= sq.referenced_count || 0 %>次</p>
         </div>
-
       </div>
+      <%= render  "/branch_questions/#{Question::TYPES_TITLE[sq.types]}_list", {:branch_questions => @share_branch_questions[sq.id], :branch_tags => @branch_tags, :question => sq,  :from => "refer"} %>
     </div>
-  </div>
-  <%= render "/question_packages/share_questions" %>
+  <% end %>
 </div>
 

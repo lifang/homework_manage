@@ -1,14 +1,13 @@
 HomeworkManage::Application.routes.draw do
 
 
-
   resources :microposts do
     get :create_reply
     member do
       get :reply_page_change,:delete_micropost,:delete_micropost_reply,:delete_micropost,:add_reply_page,:particate_reply_show
     end
   end
-
+ 
   post "/share_questions/view"
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -108,22 +107,22 @@ HomeworkManage::Application.routes.draw do
         get :new_index,:show_wanxin,:create_wanxin,:create_paixu,
           :show_ab_list_box,:save_wanxin_content,:save_wanxin_branch_question,
           :save_paixu_branch_question,:delete_wanxin_branch_question,:show_the_paixu,
-          :delete_paixu_branch_question
+          :delete_paixu_branch_question,:delete_branch_tag
       end
       resources :questions do
-        collection do
-
-        end
+         member do
+          post :share, :reference
+         end
         resources :branch_questions do
           collection do
             get 
           end
         end
       end
-      resources :share_questions do
-        collection do
-          get :list_questions_by_type
-        end
+    end
+    resources :share_questions do
+      collection do
+        get :list_questions_by_type
       end
     end
   end
@@ -133,13 +132,13 @@ HomeworkManage::Application.routes.draw do
       get :render_new_question
     end
     resources :questions do
-      member do
-        post :share, :reference
-      end
+#      member do
+#        post :share, :reference
+#      end
       collection do
         get :show_branch_question
         get :show_select,:question_selects_all,:new_lianxian,:delete_branch_question
-        post :save_select,:save_lianxian,:update_select,:update_lianxian
+        post :save_select,:save_lianxian,:update_select,:update_lianxian,:select_upload
       end
       resources :branch_questions
     end

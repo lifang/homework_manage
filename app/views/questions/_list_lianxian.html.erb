@@ -1,0 +1,59 @@
+<div class="assignment_body_list" >
+  <div class="ab_list_title">
+    <input type="hidden" name="question_id" class="question_id" value="<%=question.id%>" />
+    <input type="hidden" name="question_type"   value="lianxian" />
+    <h1>未命名</h1>
+    <p>选择 / 李芳 / 2014-02-12 / 参考时间：15秒</p>
+    <ul class="ab_func">
+      <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
+      <li><a href="#" class="save_icon tooltip_html">保存</a></li>
+      <li><a href="#" class="share_icon tooltip_html">分享</a></li>
+      <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
+    </ul>
+  </div>
+  <div class="ab_list_box" style="display: none;">
+    <div class="ab_article">
+      <% question.branch_questions.each do |branch_question| %>
+        <div class="questions_item" branch_question_index="<%= branch_question.id %>" stypes="save_lianxian" question_type="lianxian">
+          <%= form_for :question,:url => { :action => :update_lianxian, :controller => :questions,:question_package_id=>@question_pack.id }, :method=>"post" ,:remote=>true do |f|%>
+            <div class="q_topic">
+              <div class="ligatureQuestions">
+                <ul>
+                  <li class="qt_text"><p><%= branch_question.options.split(";||;")[0] %></p><input name="left_lianxian" type="text" value="<%= branch_question.options.split(";||;")[0] %>"/></li>
+                  <li><i></i></li>
+                  <li class="qt_text"><p><%= branch_question.options.split(";||;")[1] %></p><input name="right_lianxian" type="text" value="<%= branch_question.options.split(";||;")[1] %>"/></li>
+                </ul>
+              </div>
+            </div>
+            <div class="qt_icon">
+              <a href="javascript:void(0)" class="save tooltip_html save_chen"onclick="onclick_submit(this)" style="display:none" >保存</a>
+              <%= link_to '删除',{:controller => 'questions',:action =>'delete_branch_question',
+                :question_package_id=>@question_pack.id,:id=>branch_question.id} ,
+                :remote=>true ,:class=>'delete tooltip_html delete_chen'%>
+              <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_selects_tags(this)">标签</a>
+            </div>
+            <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_pack.id %>"/>
+            <input type="hidden" name="question_id" value="<%= question.id %>"/>
+            <input type="hidden" name="branch_question_id" value="<%= branch_question.id %>"/>
+            <input class="submit_sava" type="submit" style="display:none" value="保存"/>
+          <% end %>
+          <div class="tag_ul">
+            <ul>
+              <% p @time_lianxian_tags %>
+              <% @time_lianxian_tags.each do |t| %>
+              <% p  t.bq_id %>
+              <% p branch_question.id %>
+                <% if t.bq_id == branch_question.id %>
+                  <li>
+                    <p><%= t.name %></p>
+                    <a href="javascript:void(0)" class="x" onclick="remove_tags_from_time_limit(this)">x</a>
+                  </li>
+                <% end %>
+              <% end if @time_lianxian_tags %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

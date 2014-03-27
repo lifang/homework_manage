@@ -261,8 +261,8 @@ function ondblclick(a,b){
     $("body").on('dblclick',a,function(){
         $(this).parents(".gapFilling_questions").find(".wangping_save").show();
         $(this).parents(".gapFilling_questions").find(".wangping_delete").hide();
-        $(this).parents(".questions_item").find(".delete").hide()
-        $(this).parents(".questions_item").find(".save").show()
+        $(this).parents(".questions_item").find(".delete_chen").hide()
+        $(this).parents(".questions_item").find(".save_chen").show()
         $(this).parents(".questions_item").find(".wangping_save").show();
         $(this).parents(".questions_item").find(".wangping_delete").hide();
         $(this).css("display","none");
@@ -292,8 +292,11 @@ $(function(){
 $(function(){
     $("body").on("click",".ab_list_title",function(){
         if($(this).parent().find(".ab_list_box").is(":hidden")){
+            $("div.ab_list_box").hide();
+            $("div.ab_list_open").removeClass("ab_list_open");
             $(this).parent().find(".ab_list_box").show();
             $(this).parents("div.assignment_body_list").addClass("ab_list_open");
+            gloab_index = $(".assignment_body_list").index($(this).parent())
         }else{
             $(this).parent().find(".ab_list_box").hide();
             $(this).parents("div.ab_list_open").removeClass("ab_list_open");
@@ -358,7 +361,6 @@ $(function(){
             "left":(e.pageX+x)+"px"
         }).show("fast");
     }).mouseout(function(){
-
         $(".tooltip_box").remove();
     }).mousemove(function(e){
         $(".tooltip_box").css({

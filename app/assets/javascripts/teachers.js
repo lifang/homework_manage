@@ -190,11 +190,23 @@ function onclick_submit(obj){
         var select_value2 = questions_item.find("input[name='select_value2']").val();
         var select_value3 = questions_item.find("input[name='select_value3']").val();
         var select_value4 = questions_item.find("input[name='select_value4']").val();
+        var select_arr = [select_value1,select_value2,select_value3,select_value4]
+        var flag = false;
+        for(var i=0;i<select_arr.length;i++){
+            for(var j=i+1;j<select_arr.length;j++){
+                if(select_arr[i]==select_arr[j]){
+                    flag=true;
+                }
+            }
+        }
         if (select_value4==""|| select_value3=="" || select_value2=="" || select_value1==""){
             tishi("选项不能为空！");
             return false;
         }else if(check_select<=0){
             tishi("请选择至少一个正确答案！");
+            return false;
+        }else if(flag){
+            tishi("不可出现重复选项！");
             return false;
         }
     }else if (question_type=="lianxian"){
@@ -210,7 +222,6 @@ function onclick_submit(obj){
     var question_package_id = questions_item.find("input[name='question_package_id']").val()
     if (form_class=="save_select"){
         questions_item.find("form").attr("action","/question_packages/"+ question_package_id +"/questions/update_select")
-        $(obj).parent().find(".delete").attr("href","/question_packages/"+ question_package_id +"/questions/delete_branch_question?id=162")
         $(obj).parent().find(".delete").show();
         $(obj).parent().find(".tag").show();
         $(obj).parent().find(".save").hide();
@@ -220,9 +231,7 @@ function onclick_submit(obj){
         $(obj).parent().find(".tag").show();
         $(obj).parent().find(".save").hide()
     }else{
-        questions_item.find("form").attr("action","/question_packages/"+ question_package_id +"/questions/save_select")
-        $(obj).parent().find(".delete").hide()
-        $(obj).parent().find(".save").show()
+
     }
 }
 

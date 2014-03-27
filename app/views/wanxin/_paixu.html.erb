@@ -3,7 +3,11 @@
     <input type="hidden" name="question_id" class="question_id" value="<%=@question.id%>" />
     <input type="hidden" name="question_type"   value="sort" />
     <h1><%=@question.name.nil? ? "未命名":@question.name %></h1>
-    <p>排序 / <%=current_user.name%> / <%=  @question.created_at.strftime("%Y-%m-%d")%> / <span name=cankaoshijian>参考时间：<%=  @question.questions_time.nil? ? "未定义":"#{@question.questions_time}"  %></span></p>
+    <p>排序 / <%=current_user.name%> / <%=  @question.created_at.strftime("%Y-%m-%d")%> / <span name=cankaoshijian>参考时间：
+        <% que_time = trans_int_to_time(@question.questions_time.to_i) %>
+        <% if @question.questions_time.nil? %>未指定<% else %>
+          <%= que_time[0]==0 ? "" : "#{que_time[0]}时" %><%= que_time[1]==0 ? "" : "#{que_time[1]}分" %><%= que_time[2]==0 ? "" : "#{que_time[2]}秒" %><% end %>
+      </span></p>
     <ul class="ab_func">
       <li><a href="javascript:void(0);" class="clock_icon tooltip_html">设定时间</a></li>
       <li><a href="javascript:void(0);" class="share_icon tooltip_html">分享</a></li>

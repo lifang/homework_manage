@@ -41,6 +41,7 @@ class QuestionPackagesController < ApplicationController
     @types = @question.types
   end
 
+  #删除听力或朗读小题
   def delete_branch
     branch_question_id = params[:branch_question_id]
     branch_question = BranchQuestion.find_by_id branch_question_id

@@ -180,6 +180,7 @@ class QuestionsController < ApplicationController
     else
       @status = 0
     end
+    @status
   end
 
 
@@ -252,47 +253,31 @@ class QuestionsController < ApplicationController
     end
   end
 
-  #引用题目
+  #引用大题题目
   def reference
     @question_pack = QuestionPackage.find_by_id(params[:question_package_id])
-    cell_id, episode_id, question_type = params[:cell_id], params[:episode_id], params[:question_type]
-    #    @questions = @question_pack.questions
-    @question = @question_pack.questions.create({:cell_id => cell_id, :episode_id => episode_id,:types => question_type })
-    #    @branch_questions = @question.branch_questions
     share_question = ShareQuestion.find_by_id(params[:id])
+     @question = @question_pack.questions.create({:cell_id => share_question.cell_id, :episode_id => share_question.episode_id,
+             :types => share_question.types, :name => share_question.name, :questions_time => share_question.questions_time,
+             :full_text => share_question.full_text })
     share_branch_questions = share_question.share_branch_questions
     Question.transaction do
       begin
         share_question.update_attribute(:referenced_count, share_question.referenced_count.to_i + 1)
         share_branch_questions.each do |sbq|
-          branch_question = @question.branch_questions.create({:content => sbq.content})
+          branch_question = @question.branch_questions.create({:content => sbq.content, :options => sbq.options, :answer => sbq.answer})
           new_resource_url = copy_file(media_path, @question_pack, branch_question, sbq.resource_url) if sbq.resource_url.present? #引用的时候，拷贝音频
           branch_question.update_attribute(:resource_url, new_resource_url) if new_resource_url
           if branch_question == @question.branch_questions.first
             @question.update_attribute(:name, branch_question.content.length > 38 ? branch_question.content[0..35] + "..." : branch_question.content)
           end
         end
-        flash[:notice] = "引用成功"
+        @status = 0
+        @redirect_url = new_index_school_class_question_package_path(params[:school_class_id], params[:question_package_id])
       rescue Exception => e
-        flash[:notice] = "出错了"
+        @status = 1
       end
     end
   end
 
-  private
-
-  #分享或者引用的时候，拷贝音频
-  def copy_file(media_path_url, question_pack, branch_question, source_resource_url)
-    full_media_path = "/public" + media_path_url % question_pack.id
-    question_pack_folder = Rails.root.to_s + full_media_path
-    original_resource_url = Rails.root.to_s + "/public" + source_resource_url
-    FileUtils.mkdir_p(question_pack_folder) unless Dir.exists?(question_pack_folder)
-    file_extension = File.extname(original_resource_url)
-    filename = "media_%d" % branch_question.id + file_extension
-    if File.exists?(original_resource_url)
-      FileUtils.cp original_resource_url, (question_pack_folder + filename)
-      new_audio_path = media_path_url % question_pack.id + filename
-    end
-    new_audio_path
-  end
 end

@@ -43,12 +43,12 @@ module QuestionPackagesHelper
     @time_limit_user_name = user.name if user
     question = Question.find_by_types_and_question_package_id(Question::TYPES[:TIME_LIMIT],
       question_package_id)
-    if question.nil?
-      question = Question.create(:types => Question::TYPES[:TIME_LIMIT], :question_package_id => question_package_id)
+    if request.url.include?("new_time_limit") && question.nil?
+        question = Question.create(:types => Question::TYPES[:TIME_LIMIT], :question_package_id => question_package_id)
     end
     @time_limit_que_id = question.id if question
     @tlqqt = trans_int_to_time(question.questions_time.to_i) if question && !question.questions_time.nil?
-    @time_limit_que_name = question.name if question.name
+    @time_limit_que_name = question.name if question && question.name
     @time_limit_que_time = question.created_at.strftime("%Y-%m-%d") if question && question.created_at
     @time_limit_branch_que = BranchQuestion.where(["question_id=?", question.id]) if question
     @time_limit_tags = BtagsBqueRelation.find_by_sql(["select bt.name, bbr.branch_question_id bq_id, bbr.branch_tag_id bt_id from

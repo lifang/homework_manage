@@ -87,7 +87,7 @@
           <% end %>
           <div class="tag_ul">
             <ul>
-              <% if  branch_tags.present? %>
+              <% if  branch_tags.present? && branch_tags[branch_question.id].present? %>
                 <% branch_tags[branch_question.id].each do |t| %>
                   <li>
                     <p><%= t.name %></p>

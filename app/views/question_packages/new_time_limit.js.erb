@@ -1,10 +1,10 @@
 var has_time_limit = $("#time_limit_assignment_body_list").length;
 if(has_time_limit > 0){
-  $("#time_limit_assignment_body_list").html("<%= j(render "new_time_limit",{:question => @question, :branch_question => @branch_questions,
+  $("#time_limit_assignment_body_list").html("<%= j(render "new_time_limit",{:question => @question, :branch_question => @branch_question,
       :user => @user, :branch_tags => @branch_tags, :school_class => @school_class}) %>");
 }else{
   $("#question_list").append("<div class='assignment_body_list' id='time_limit_assignment_body_list'></div>");
-  $("#time_limit_assignment_body_list").append("<%= j(render "new_time_limit", {:question => @question, :branch_question => @branch_questions,
+  $("#time_limit_assignment_body_list").append("<%= j(render "new_time_limit", {:question => @question, :branch_question => @branch_question,
       :user => @user, :branch_tags => @branch_tags, :school_class => @school_class}) %>");
 }
 var assignment_body_list_divs = $("#question_list").find("div.ab_list_open");

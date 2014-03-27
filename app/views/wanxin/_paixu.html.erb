@@ -1,19 +1,25 @@
 <div class="assignment_body_list" >
-  <div class="ab_list_title" onclick="show_the_paixu(this,<%=  @question.question_package_id%>,<%=@school_class.id%>)" >
+  <div class="ab_list_title"  >
     <input type="hidden" name="question_id" class="question_id" value="<%=@question.id%>" />
     <input type="hidden" name="question_type"   value="sort" />
     <h1><%=@question.name.nil? ? "未命名":@question.name %></h1>
-    <p>排序 / <%=current_user.name%> / <%=  @question.created_at.strftime("%Y-%m-%d")%> / 参考时间：<%=  @question.questions_time.nil? ? "未定义":"#{@question.questions_time}"  %></p>
+    <p>排序 / <%=current_user.name%> / <%=  @question.created_at.strftime("%Y-%m-%d")%> / <span name=cankaoshijian>参考时间：
+        <% que_time = trans_int_to_time(@question.questions_time.to_i) %>
+        <% if @question.questions_time.nil? %>未指定<% else %>
+          <%= que_time[0]==0 ? "" : "#{que_time[0]}时" %><%= que_time[1]==0 ? "" : "#{que_time[1]}分" %><%= que_time[2]==0 ? "" : "#{que_time[2]}秒" %><% end %>
+      </span></p>
     <ul class="ab_func">
-      <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
-      <li><a href="#" class="save_icon tooltip_html">保存</a></li>
-      <li><a href="#" class="share_icon tooltip_html">分享</a></li>
-      <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
+      <li><a href="javascript:void(0);" class="clock_icon tooltip_html">设定时间</a></li>
+      <li><a href="javascript:void(0);" class="share_icon tooltip_html">分享</a></li>
+      <li><a href="javascript:void(0);" class="delete_icon tooltip_html">删除</a></li>
     </ul>
   </div>
   <div class="ab_list_box" style="display: none;">
-    <%if controller.action_name == "create_paixu"%>
-    <%=render 'wanxin/paixu_item'%>
-    <%end%>
+    <%=render 'wanxin/paixu_item',{
+      :@branch_ques => branch_questions,
+      :@tags_p=>branch_tags,
+      :@school_class=>@school_class,
+      :@question_packages=>@question_packages
+    }%>
   </div>
 </div>

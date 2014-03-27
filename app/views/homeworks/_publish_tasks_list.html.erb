@@ -18,7 +18,9 @@
             <% if p.publish_question_package_id.nil?  %>
                 <tr>
                   <td><%= p.created_at.to_s[0,19] %></td>
-                  <td><%= p.name %></td>
+                  <td>
+                    <%= @all_pack_types_name[p.question_package_id].present? ?  @all_pack_types_name[p.question_package_id][0][:type_name] : "暂无题目" %>
+                  </td>
                   <td><a href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>" class="preview_icon tooltip_html">预览</a></td>
                   <td><a href="javascript:void(0);" data-href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>/reference_question_package" class="quote_icon tooltip_html ques_pack_reference">引用</a></td>
                   <td><%= link_to "删除", "/school_classes/#{school_class_id}/question_packages/#{p.question_package_id}", :method => :delete, :confirm => "确定删除？",:class => "delete_icon tooltip_html" %></td>

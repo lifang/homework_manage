@@ -117,6 +117,7 @@ function check_audio(obj)
         {
             tishi("只能上传mp3格式文件！");
             $(obj).val("");
+
         }
     }
 }
@@ -314,18 +315,20 @@ function show_this(obj,question_packages,school_class_id){
                 gloab_index =i;
             }
         }
-        $.ajax({
-            dataType:"script" ,
-            url:"/school_classes/"+school_class_id+"/question_packages/"+question_packages+"/show_ab_list_box",
-            data:"question_id="+question_id+"&index="+gloab_index
-        });
-        for(var i=0;i<pp.length;i++){
-            if(pp[i]!=$(obj).parent()){
-                $(pp[i]).find(".ab_list_box").hide();
-                $(pp[i]).removeClass("ab_list_open");
+        var flag = false;
+        if($(obj).parents(".assignment_body_list").find(".gapFilling_box")){
+            if($.trim($(obj).parents(".assignment_body_list").find(".gapFilling_box").html())==""){
+                flag=true;
             }
-            
         }
+        if(flag){
+            $.ajax({
+                dataType:"script" ,
+                url:"/school_classes/"+school_class_id+"/question_packages/"+question_packages+"/show_ab_list_box",
+                data:"question_id="+question_id+"&index="+gloab_index
+            });
+        }
+        
     }
 }
 function show_the_paixu(obj,question_packages,school_class_id){
@@ -338,11 +341,17 @@ function show_the_paixu(obj,question_packages,school_class_id){
                 gloab_index =i;
             }
         }
-        $.ajax({
-            dataType:"script" ,
-            url:"/school_classes/"+school_class_id+"/question_packages/"+question_packages+"/show_the_paixu",
-            data:"question_id="+question_id+"&index="+gloab_index
-        });
+        var flag = false;
+        if($.trim($(obj).parents(".assignment_body_list").find(".ab_list_box").html())==""){
+            flag =true
+        }
+        if(flag){
+            $.ajax({
+                dataType:"script" ,
+                url:"/school_classes/"+school_class_id+"/question_packages/"+question_packages+"/show_the_paixu",
+                data:"question_id="+question_id+"&index="+gloab_index
+            });
+        }
     }
 }
 
@@ -350,10 +359,11 @@ function show_the_paixu(obj,question_packages,school_class_id){
 
 function create_wanxin(school_class_id,question_id){
     var episode_id = $("#episode_id").val();
+    var cell_id = $("#cell_id").val();
     $.ajax({
         dataType:"script" ,
         url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/create_wanxin",
-        data:"episode_id="+episode_id,
+        data:"episode_id="+episode_id+"&cell_id="+cell_id,
         success:function(){
             var obj = $(".assignment_body_list").last().find(".ab_list_title");
             $(obj).click();
@@ -362,10 +372,11 @@ function create_wanxin(school_class_id,question_id){
 }
 function create_paixu(school_class_id,question_id){
     var episode_id = $("#episode_id").val();
+    var cell_id = $("#cell_id").val();
     $.ajax({
         dataType:"script" ,
         url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/create_paixu",
-        data:"episode_id="+episode_id,
+        data:"episode_id="+episode_id+"&cell_id="+cell_id,
         success:function(){
             var obj = $(".assignment_body_list").last().find(".ab_list_title");
             $(obj).click();
@@ -384,19 +395,36 @@ function show_wanxin(school_class_id,question_id){
 
 //新建十速挑战
 function new_time_limit(school_class_id){
-    var cell_id = $("#cell_id").val();
-    var episode_id = $("#episode_id").val();
-    var question_package_id = $("#question_package_id").val();
-    $.ajax({
-        type: "get",
-        url: "/school_classes/"+school_class_id+"/question_packages/new_time_limit",
-        dataType: "script",
-        data: {
-            cell_id : cell_id,
-            episode_id : episode_id,
-            question_package_id : question_package_id
-        }
-    })
+    var time_limit_que_id = $("#time_limit_assignment_body_list").find("input[name='question_id']").first().val();
+    if(time_limit_que_id==undefined || time_limit_que_id=="" || time_limit_que_id=="0"){
+        var cell_id = $("#cell_id").val();
+        var episode_id = $("#episode_id").val();
+        var question_package_id = $("#question_package_id").val();
+
+        $.ajax({
+            type: "get",
+            url: "/school_classes/"+school_class_id+"/question_packages/new_time_limit",
+            dataType: "script",
+            data: {
+                cell_id : cell_id,
+                episode_id : episode_id,
+                question_package_id : question_package_id
+            }
+        })
+    }else{
+        tishi("每个大题下面最多只能有一个十速挑战!");
+        var assignment_body_list_divs = $("#question_list").find("div.ab_list_open");
+        if(assignment_body_list_divs.length>0){
+            $.each(assignment_body_list_divs,function(){
+                $(this).find("div.ab_list_box").hide();
+                $(this).removeAttr("class");
+                $(this).attr("class","assignment_body_list");
+            })
+        };
+        $("#time_limit_assignment_body_list").removeAttr("class");
+        $("#time_limit_assignment_body_list").attr("class","assignment_body_list ab_list_open");
+        $("#time_limit_assignment_body_list").find("div.ab_list_box").show();
+    }
 }
 
 //搜索标签
@@ -548,10 +576,10 @@ function add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)
             var index = $.inArray(tag_id,tags_id_arr);
             if(index== -1)
             {
-                    tags_id += "|";
-                    tags_id += tag_id;
-                    $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("div.tag_ul").find("ul").append(tag_li);
-                    $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tags_id);
+                tags_id += "|";
+                tags_id += tag_id;
+                $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("div.tag_ul").find("ul").append(tag_li);
+                $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tags_id);
             }
             else
             {
@@ -559,31 +587,31 @@ function add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)
             }
         }    
     }
-   else
-   {
+    else
+    {
         if(tags_id == "")
         {
             
             $.ajax({
-                    type: "get",
-                    dataType: "json",
-                    url: url,
-                    data: {
-                        branch_question_id : branch_id,
-                        branch_tag_id : tag_id
-                    },
-                    success: function(data){
-                        if(data.status == 1){
-                                var old = $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")");
-                                old.find(".tag_ul ul").append(tag_li);
-                                $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tag_id);
-                            }else if(data.status == 2){
-                                tishi("添加失败，重复标签！");
-                            }else if(data.status == 3){
-                                tishi("添加失败，无此标签！");
-                            }
+                type: "get",
+                dataType: "json",
+                url: url,
+                data: {
+                    branch_question_id : branch_id,
+                    branch_tag_id : tag_id
+                },
+                success: function(data){
+                    if(data.status == 1){
+                        var old = $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")");
+                        old.find(".tag_ul ul").append(tag_li);
+                        $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tag_id);
+                    }else if(data.status == 2){
+                        tishi("添加失败，重复标签！");
+                    }else if(data.status == 3){
+                        tishi("添加失败，无此标签！");
                     }
-                });
+                }
+            });
         }
         else
         {
@@ -592,7 +620,7 @@ function add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)
             if(index== -1)
             {
                 
-                    $.ajax({
+                $.ajax({
                     type: "get",
                     dataType: "json",
                     url: url,
@@ -602,16 +630,16 @@ function add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)
                     },
                     success: function(data){
                         if(data.status == 1){
-                                tags_id +=  "|"
-                                tags_id += tag_id
-                                var old = $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")");
-                                old.find(".tag_ul ul").append(tag_li);
-                                $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tags_id);
-                            }else if(data.status == 2){
-                                tishi("添加失败，重复标签！");
-                            }else if(data.status == 3){
-                                tishi("添加失败，无此标签！");
-                            }
+                            tags_id +=  "|"
+                            tags_id += tag_id
+                            var old = $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")");
+                            old.find(".tag_ul ul").append(tag_li);
+                            $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tags_id);
+                        }else if(data.status == 2){
+                            tishi("添加失败，重复标签！");
+                        }else if(data.status == 3){
+                            tishi("添加失败，无此标签！");
+                        }
                     }
                 });
             }
@@ -620,7 +648,7 @@ function add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)
                 tishi("标签已存在");
             }
         }       
-   }
+    }
 }
 
 function delete_reading_listening_branch(obj)
@@ -628,25 +656,27 @@ function delete_reading_listening_branch(obj)
     var school_class_id = $("#school_class_id").val();
     var branch_id = $(obj).parent().parent().find("input.branch_id").val();
     if(confirm("确认删除小题吗？")==true)
-    {           $.ajax({
-                type: "POST",
-                url: "/school_classes/"+school_class_id+"/question_packages/delete_branch",
-                dataType: "json",
-                data: {
-                    branch_question_id : branch_id
-                },
-                success: function(data){
-                    if(data.status==1){
-                        tishi("删除成功!");
-                         $(obj).parent().parent().remove();
-                    }else{
-                        tishi("删除失败!");sss
-                    }
-                },
-                error: function(data){
-                    tishi("数据错误!");
+    {
+        $.ajax({
+            type: "POST",
+            url: "/school_classes/"+school_class_id+"/question_packages/delete_branch",
+            dataType: "json",
+            data: {
+                branch_question_id : branch_id
+            },
+            success: function(data){
+                if(data.status==1){
+                    tishi("删除成功!");
+                    $(obj).parent().parent().remove();
+                }else{
+                    tishi("删除失败!");
+                    sss
                 }
-            })
+            },
+            error: function(data){
+                tishi("数据错误!");
+            }
+        })
     }
 
 }
@@ -727,7 +757,6 @@ $(function(){
         var win_height = $(window).height();
         var layer_height = $("#set_time_div").height();
         var layer_width = $("#set_time_div").width();
-
         $("#set_time_div").css('display','block');
         $("#set_time_div").css('top',(win_height-layer_height)/2);
         $("#set_time_div").css('left',(win_width-layer_width)/2);
@@ -776,8 +805,8 @@ $(function(){
                 }
             })
         }
-    return false;
-});
+        return false;
+    });
 
     //点击删除该大题
     $("#question_list").on("click", ".delete_icon", function(){
@@ -1160,4 +1189,45 @@ function stopPropagation(e) {
     } else {
         e.cancelBubble = true; //IE阻止冒泡方法
     }
+}
+
+
+function wanxin_save_btn(obj){
+    var wanxin_index = $(obj).parents(".ab_list_title").find(".wanxin_index").val();
+    var editor = KindEditor.instances[wanxin_index];
+    var div = $(".assignment_body").children(".assignment_body_list");
+    var question_id = $(div[gloab_index]).find(".question_id").val();
+    var school_class_id = $("#school_class_id").val();
+    //选项的个数，-1是因为每次多一个
+    var length = $(div[gloab_index]).find(".gapFilling_questions").length-1;
+    var temp = editor.text();
+    if($.trim(temp)==""){
+        tishi("完形填空内容不能为空！");
+        return false;
+    }
+    var sign_length=-1;
+    if(temp.indexOf("[[sign]]") >=0){
+        sign_length = temp.match(/\[\[sign\]\]/g).length;
+    }else{
+        sign_length = 0
+    }
+    //alert(KindEditor.instances.length+"..."+temp+"-->"+length+"-->"+sign_length);
+    if(length != sign_length){
+        tishi("选项标记与选项个数不匹配！");
+        stopPropagation(arguments[1]);
+        return false;
+    }
+    var text = editor.html();
+    $.ajax({
+        dataType:"text" ,
+        url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/save_wanxin_content",
+        data:"content="+text,
+        success:function(data){
+            if(data==1)
+                tishi("保存成功！");
+            else
+                tishi("保存失败！");
+        }
+    });
+    stopPropagation(arguments[1]);
 }

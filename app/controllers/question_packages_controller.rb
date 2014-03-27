@@ -222,17 +222,13 @@ class QuestionPackagesController < ApplicationController
       hash[k] = second_tags
     end
     @branch_tags = hash
-    #    unless @questions[0].nil?
-    #      @question_exist = @questions[0]
-    #      unless @question_exist.episode_id.nil?
-    #        @exist_episode = Episode.find_by_id(@question_exist.episode_id)
-    #        @cells.each do|cell|
-    #          if cell.id == @exist_episode.cell_id
-    #            @exist_cell = cell
-    #          end
-    #        end
-    #      end
-    #    end
+    unless @questions[0].nil?
+      @question_exist = @questions[0]
+      unless @question_exist.episode_id.nil?
+        @exist_episode = Episode.find_by_id(@question_exist.episode_id) unless @question_exist.episode_id.nil?
+        @exist_cell = Cell.find_by_id(@exist_episode.cell_id) unless @exist_episode.cell_id.nil?
+      end
+    end
     #引用题目的url
     @reference_part_url = "/school_classes/#{@school_class.id}/share_questions/list_questions_by_type?question_pack_id=#{params[:id]}"
     render 'new'

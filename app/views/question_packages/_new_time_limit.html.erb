@@ -1,12 +1,14 @@
 <%= form_tag "/school_classes/#{school_class.id}/question_packages/create_time_limit", :method => :post, :id => "create_time_limit_form", :remote => true do %>
+  <% que_time = trans_int_to_time(question.questions_time.to_i) %>
   <div class="ab_list_title" id="time_limt_ab_list_title">
-    <h1 id="time_limit_name"><%= @time_limit_que_name.nil? ? "未命名" : @time_limit_que_name %></h1>
+    <h1 id="time_limit_name"><%= question.name.nil? ? "未命名" : question.name %></h1>
     <p>十速挑战/ <%= user.name %>/ <%= question.created_at.nil? ? Time.now.strftime("%Y-%m-%d") : question.created_at.strftime("%Y-%m-%d") %>
-      / <span name="cankaoshijian">参考时间：<% if question.questions_time.nil? %>未指定<% else %><%= @tlqqt[0]==0 ? "" : "#{@tlqqt[0]}时" %><%= @tlqqt[1]==0 ? "" : "#{@tlqqt[1]}分" %><%= @tlqqt[2]==0 ? "" : "#{@tlqqt[2]}秒" %><% end %></span></p>
-    <input type="hidden"  name="question_id" class="question_id" value="<%= @time_limit_que_id.nil? ? "0" : @time_limit_que_id %>"/>
-    <input type="hidden" id="create_time_limit_hour" value="<%= @tlqqt.nil? || @tlqqt[0]==0 ? "" : @tlqqt[0] %>"/>
-    <input type="hidden" id="create_time_limit_minute" value="<%= @tlqqt.nil? || @tlqqt[1]==0 ? "" : @tlqqt[1] %>"/>
-    <input type="hidden" id="create_time_limit_second" value="<%= @tlqqt.nil? || @tlqqt[2]==0 ? "" : @tlqqt[2] %>"/>
+      / <span name="cankaoshijian">参考时间：<% if question.questions_time.nil? %>未指定<% else %>
+      <%= que_time[0]==0 ? "" : "#{que_time[0]}时" %><%= que_time[1]==0 ? "" : "#{que_time[1]}分" %><%= que_time[2]==0 ? "" : "#{que_time[2]}秒" %><% end %></span></p>
+    <input type="hidden"  name="question_id" class="question_id" value="<%= question.nil? ? "0" : question.id %>"/>
+    <input type="hidden" id="create_time_limit_hour" value="<%= que_time.nil? || que_time[0]==0 ? "" : que_time[0] %>"/>
+    <input type="hidden" id="create_time_limit_minute" value="<%= que_time.nil? || que_time[1]==0 ? "" : que_time[1] %>"/>
+    <input type="hidden" id="create_time_limit_second" value="<%= que_time.nil? || que_time[2]==0 ? "" : que_time[2] %>"/>
     <input type="hidden" name="question_type" value="time_limit"/>
     <ul class="ab_func">
       <li><a href="javascript:void(0)" class="clock_icon tooltip_html">指定时间</a></li>
@@ -17,8 +19,8 @@
   </div>
   <div class="ab_list_box" style="display: none;">
     <div class="ab_article" id="time_limit_ab_article">
-      <% if @time_limit_branch_que && @time_limit_branch_que.length == 10 %>
-        <% @time_limit_branch_que.each do |bq| %>
+      <% if branch_question && branch_question.length == 10 %>
+        <% branch_question.each do |bq| %>
           <div class="questions_item" id="time_limit_item_<%= bq.id %>">
             <div class="q_topic">
               <div class="speedQuestions">
@@ -35,15 +37,15 @@
             <div class="qt_icon"><a href="javascript:void(0)" class="tag_1 tooltip_html" onclick="add_b_tags('time_limit',this)">标签</a></div>
             <div class="tag_ul">
               <ul>
-                <% @time_limit_tags.each do |t| %>
-                  <% if t.bq_id == bq.id %>
+                <% branch_tags[bq.id].each do |t| %>
+                  <% if t.branch_question_id == bq.id %>
                     <li>
                       <p><%= t.name %></p>
                       <a href="javascript:void(0)" class="x" onclick="remove_tags_from_time_limit(this)">x</a>
-                      <input type="hidden" name="[time_limit][<%= bq.id %>][tags][]" value="<%= t.bt_id %>"/>
+                      <input type="hidden" name="[time_limit][<%= bq.id %>][tags][]" value="<%= t.branch_tag_id %>"/>
                     </li>
                   <% end %>
-                <% end if @time_limit_tags %>
+                <% end if branch_tags && branch_tags[bq.id] %>
               </ul>
             </div>
           </div>
@@ -105,7 +107,7 @@
         }
       });
       if(flag){
-        var school_class_id = <%= @school_class.id %>;
+        var school_class_id = <%= school_class.id %>;
         var q_id = $(this).parents(".ab_list_title").find("input[name='question_id']").first().val();
         if(q_id==undefined || q_id=="" || q_id=="0"){
           tishi("数据错误!");

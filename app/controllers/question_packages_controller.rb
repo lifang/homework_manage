@@ -177,8 +177,8 @@ class QuestionPackagesController < ApplicationController
         rename_file_name = "media_#{@branch_question.id}"
         upload = upload_file destination_dir, rename_file_name, file
         if upload[:status] == true
-            resource_url = upload[:url]
-            @branch_question.update_attributes(:resource_url=> resource_url)
+          resource_url = upload[:url]
+          @branch_question.update_attributes(:resource_url=> resource_url)
         end
         unless @branch_question.nil? 
           if tags_id.present?    #保存小题时添加标签
@@ -529,15 +529,29 @@ class QuestionPackagesController < ApplicationController
   end
   #新建十速挑战
   def new_time_limit
-    #    cell_id = params[:cell_id].to_i
-    #    episode_id = params[:episode_id].to_i
-    question_package_id = params[:question_package_id].to_i
-    get_has_time_limit(question_package_id)
-    respond_to do |f|
-      f.js
+    Question.transaction do
+      cell_id = params[:cell_id].to_i
+      episode_id = params[:episode_id].to_i
+      question_package_id = params[:question_package_id].to_i
+      @question = Question.find_by_question_package_id_and_cell_id_and_episode_id_and_types(question_package_id,
+        cell_id, episode_id, Question::TYPES[:TIME_LIMIT])
+      teacher = Teacher.find_by_id cookies[:teacher_id]
+      @user = teacher.user
+      if @question
+        @branch_question = BranchQuestion.where(["question_id = ?", @question.id])
+        branch_tags = BtagsBqueRelation.find_by_sql(["select bt.name, bbr.branch_question_id, bbr.branch_tag_id
+        from btags_bque_relations bbr left join branch_tags bt on bbr.branch_tag_id=bt.id
+        where bbr.branch_question_id in (?)", @branch_question.map(&:id)])
+        @branch_tags = branch_tags.group_by{|t|t.branch_question_id}
+      else
+        @question = Question.create({:question_package_id => question_package_id, :cell_id => cell_id,
+            :types => Question::TYPES[:TIME_LIMIT], :episode_id => episode_id})
+      end
+      respond_to do |f|
+        f.js
+      end
     end
   end
-
   #检查该题包下是否已经有小题
   def check_question_has_branch
     status = 0
@@ -587,8 +601,27 @@ class QuestionPackagesController < ApplicationController
       name = params[:que_name]
       que_id = params[:que_id].to_i
       question = Question.find_by_id(que_id)
-      if question && question.update_attribute("name", name)
-        status = 1
+      question_pack = question.question_package
+      unless question.if_shared
+        branch_questions = question.branch_questions
+        if branch_questions.present?
+          share_question = ShareQuestion.create({:user_id => current_user.id, :name => question.name, :types => question.types,
+              :cell_id => question.cell_id, :episode_id => question.episode_id, :questions_time => question.questions_time,
+              :full_text => question.full_text})
+          if share_question
+            question.branch_questions.each do |bq|
+              new_resource_url = copy_file(share_media_path, question_pack, bq, bq.resource_url) if bq.resource_url.present? #分享的时候，拷贝音频
+              share_question.share_branch_questions.create({:content => bq.content, :resource_url => new_resource_url,
+                  :options => bq.options, :answer => bq.answer})
+            end
+          end
+          question.update_attributes(:if_shared => true, :name => name)
+          status = 0 #分享成功
+        else
+          status = 2 #大题下面无小题，提示
+        end
+      else
+        status = 1 #已经分享过
       end
       render :json => {:status => status}
     end

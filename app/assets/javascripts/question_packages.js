@@ -735,56 +735,39 @@ $(function(){
         var que_id = $(this).parents(".ab_list_title").find("input[name='question_id']").first().val();
         var que_name = $(this).parents(".ab_list_title").find("h1").first().text();
         var school_class_id = $("#school_class_id").val();
-        $.ajax({
-            type: "get",
-            url: "/school_classes/"+school_class_id+"/question_packages/check_question_has_branch",
-            dataType: "json",
-            data: {
-                question_id : que_id
-            },
-            success: function(data){
-                if(data.status==0){
-                    tishi("该大题下未保存任何小题,请先创建小题并保存!");
-                    return false;
-                }else{
-                    if(que_name==undefined || que_name=="" || que_name=="未命名"){
-                        var doc_height = $(document).height();
-                        $(".mask").css("height",doc_height);
-                        $("#set_name_div").show();
-                        $(".mask").show();
-                        $("#set_name_div").find("button").removeAttr("onclick");
-                        $("#set_name_div").find("button").attr("onclick", "set_question_name_valid('"+que_id+"','"+school_class_id+"')");
-                    }else{
-                        $.ajax({
-                            type: "get",
-                            url: "/school_classes/"+school_class_id+"/question_packages/share_question",
-                            dataType: "json",
-                            data: {
-                                que_id : que_id,
-                                que_name : que_name
-                            },
-                            success: function(data){
-                                if(data.status==1){
-                                    tishi("分享成功!");
-                                    $(this).parents(".ab_list_title").find("h1").first().text(que_name);
-                                }else{
-                                    tishi("分享失败!");
-                                }
-                            },
-                            error: function(data){
-                                tishi("数据错误!");
-                            }
-                        })
+        if(que_name==undefined || que_name=="" || que_name=="未命名"){
+            var doc_height = $(document).height();
+            $(".mask").css("height",doc_height);
+            $("#set_name_div").show();
+            $(".mask").show();
+            $("#set_name_div").find("button").removeAttr("onclick");
+            $("#set_name_div").find("button").attr("onclick", "set_question_name_valid('"+que_id+"','"+school_class_id+"')");
+        }else{
+            $.ajax({
+                type: "get",
+                url: "/school_classes/"+school_class_id+"/question_packages/share_question",
+                dataType: "json",
+                data: {
+                    que_id : que_id,
+                    que_name : que_name
+                },
+                success: function(data){
+                    if(data.status == 0){
+                        tishi("分享成功!");
+                        $(this).parents(".ab_list_title").find("h1").first().text(que_name);
+                    }else if(data.status == 1){
+                        tishi("此题已经分享过");
+                    }else if(data.status == 2){
+                        tishi("该大题下未保存任何小题,请先创建小题！");
                     }
+                },
+                error: function(data){
+                    tishi("数据错误!");
                 }
-            },
-            error: function(data){
-                tishi("数据错误!");
-            }
-        });
-
-        return false;
-    });
+            })
+        }
+    return false;
+});
 
     //点击删除该大题
     $("#question_list").on("click", ".delete_icon", function(){
@@ -853,7 +836,7 @@ function set_question_name_valid(question_id, school_class_id){
                 que_name : name
             },
             success: function(data){
-                if(data.status==1){
+                if(data.status==0){
                     tishi("分享成功!");
                     $("#set_name_div").hide();
                     $(".mask").hide();
@@ -863,8 +846,10 @@ function set_question_name_valid(question_id, school_class_id){
                             $(this).parents(".ab_list_title").find("h1").first().text(name);
                         }
                     });
-                }else{
-                    tishi("分享失败!");
+                }else if(data.status == 1){
+                    tishi("此题已经分享过");
+                }else if(data.status == 2){
+                    tishi("该大题下未保存任何小题,请先创建小题！");
                 }
             },
             error: function(data){

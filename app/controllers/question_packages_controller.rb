@@ -188,17 +188,17 @@ class QuestionPackagesController < ApplicationController
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
     @questions = Question.where("question_package_id=#{@question_pack.id}")
     get_has_time_limit(@question_pack.id)
-#    unless @questions[0].nil?
-#      @question_exist = @questions[0]
-#      unless @question_exist.episode_id.nil?
-#        @exist_episode = Episode.find_by_id(@question_exist.episode_id)
-#        @cells.each do|cell|
-#          if cell.id == @exist_episode.cell_id
-#            @exist_cell = cell
-#          end
-#        end
-#      end
-#    end
+    unless @questions[0].nil?
+      @question_exist = @questions[0]
+      unless @question_exist.episode_id.nil?
+        @exist_episode = Episode.find_by_id(@question_exist.episode_id)
+        @cells.each do|cell|
+          if cell.id == @exist_episode.cell_id
+            @exist_cell = cell
+          end
+        end
+      end
+    end
 
     p @reading_and_listening_branch
     #@reading_and_listening_branch  = Question.get_has_reading_and_listening_branch(@questions)
@@ -221,9 +221,13 @@ class QuestionPackagesController < ApplicationController
       episode_id)
   end
   def create_wanxin
+    cell_id = params[:cell_id]
     episode_id = params[:episode_id]
     @question_packages = QuestionPackage.find_by_id(params[:id])
-    @question = Question.create(types:Question::TYPES[:CLOZE],question_package_id:@question_packages.id,episode_id:episode_id)
+    @question = Question.create(types:Question::TYPES[:CLOZE],
+      question_package_id:@question_packages.id,
+      episode_id:episode_id,
+      cell_id:cell_id)
   end
   
   def show_ab_list_box
@@ -316,9 +320,13 @@ class QuestionPackagesController < ApplicationController
   end
 
   def create_paixu
+    cell_id = params[:cell_id]
     episode_id = params[:episode_id]
     @question_packages = QuestionPackage.find_by_id(params[:id])
-    @question = Question.create(types:Question::TYPES[:SORT],question_package_id:@question_packages.id,episode_id:episode_id)
+    @question = Question.create(types:Question::TYPES[:SORT],
+      question_package_id:@question_packages.id,
+      episode_id:episode_id,
+      cell_id:cell_id)
   end
 
   def save_paixu_branch_question

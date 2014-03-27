@@ -3,17 +3,17 @@
     <input type="hidden" name="question_id" class="question_id" value="<%=@question.id%>" />
     <input type="hidden" name="question_type"   value="sort" />
     <h1><%=@question.name.nil? ? "未命名":@question.name %></h1>
-    <p>排序 / <%=current_user.name%> / <%=  @question.created_at.strftime("%Y-%m-%d")%> / 参考时间：<%=  @question.questions_time.nil? ? "未定义":"#{@question.questions_time}"  %></p>
+    <p>排序 / <%=current_user.name%> / <%=  @question.created_at.strftime("%Y-%m-%d")%> / <span name=cankaoshijian>参考时间：<%=  @question.questions_time.nil? ? "未定义":"#{@question.questions_time}"  %></span></p>
     <ul class="ab_func">
-      <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
-      <li><a href="#" class="save_icon tooltip_html">保存</a></li>
-      <li><a href="#" class="share_icon tooltip_html">分享</a></li>
-      <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
+      <li><a href="javascript:void(0);" class="clock_icon tooltip_html">设定时间</a></li>
+      <li><a href="javascript:void(0);" class="save_icon tooltip_html">保存</a></li>
+      <li><a href="javascript:void(0);" class="share_icon tooltip_html">分享</a></li>
+      <li><a href="javascript:void(0);" class="delete_icon tooltip_html">删除</a></li>
     </ul>
   </div>
   <div class="ab_list_box" style="display: none;">
     <%if controller.action_name == "create_paixu"%>
-    <%=render 'wanxin/paixu_item'%>
+      <%=render 'wanxin/paixu_item'%>
     <%end%>
   </div>
 </div>

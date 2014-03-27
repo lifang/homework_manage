@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140314074002) do
+ActiveRecord::Schema.define(:version => 20140325022220) do
 
   create_table "app_versions", :force => true do |t|
     t.float "c_version"
@@ -300,8 +300,10 @@ ActiveRecord::Schema.define(:version => 20140314074002) do
     t.integer  "types"
     t.integer  "share_question_id"
     t.string   "resource_url"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.string   "options",           :limit => 1000
+    t.string   "answer"
   end
 
   add_index "share_branch_questions", ["share_question_id"], :name => "index_share_branch_questions_on_share_question_id"
@@ -310,11 +312,14 @@ ActiveRecord::Schema.define(:version => 20140314074002) do
     t.string   "name"
     t.integer  "types"
     t.integer  "question_package_type_id"
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
     t.integer  "user_id"
     t.integer  "cell_id"
     t.integer  "episode_id"
+    t.integer  "referenced_count",         :default => 0
+    t.integer  "questions_time"
+    t.text     "full_text"
   end
 
   add_index "share_questions", ["question_package_type_id"], :name => "index_share_questions_on_question_package_type_id"

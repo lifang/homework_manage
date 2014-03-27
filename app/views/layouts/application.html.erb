@@ -16,6 +16,14 @@
     <%= csrf_meta_tags %>
   </head>
   <body >
+    <% flash.each do |name, msg| %>
+      <div id="flash_field" style="width:100%;position: fixed; z-index: 4;">
+        <div style="font-size:20px;margin: 200px auto;width: 300px;background: #ffffff;padding: 20px;">
+          <span class="close1" id="close_flash" style="float:right;" ></span>
+          <div class="alert_h"><%=raw msg%></div>
+        </div>
+      </div>
+    <% end %>
     <div class="tab_Prompt" id="tab_Prompt">
       <a href="javascript:void(0)" class="x"></a>
       <p></p>
@@ -49,13 +57,13 @@
     </div>
     <div class="tab tab840" id="popup_page"></div>
 
-    <!--设定十速挑战时间弹出层-->
-    <div class="tab tab500" id="time_limit_set_time">
-      <%= render :partial => "question_packages/new_time_limit_set_time" %>
+    <!--设定question的时间弹出层-->
+    <div class="tab tab500" id="set_time_div">
+      <%= render :partial => "question_packages/set_time" %>
     </div>
-    <!--设定十速挑战名称弹出层-->
-    <div class="tab tab500" id="new_time_limit_set_name">
-      <%= render :partial => "question_packages/new_time_limit_set_name" %>
+    <!--设定question的名称弹出层-->
+    <div class="tab tab500" id="set_name_div">
+      <%= render :partial => "question_packages/set_name" %>
     </div>
   </body>
   <script language="javascript">

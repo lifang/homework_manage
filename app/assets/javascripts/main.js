@@ -18,6 +18,12 @@ $(function(){
 
 //统计-正确率-题型
 $(function(){
+    $("#close_flash").click(function() {
+        $("#flash_field").hide();
+        $(".tab_alert").hide();
+    });
+    $("#flash_field").fadeOut(4000);
+    
     $(".item_content li a").click(function(e){
         $(".s_tab").css('display','block');
         $(".s_tab").css({
@@ -184,7 +190,6 @@ $(function(){
     tabFunc(".switchoverClass a",".tab");
     tabFunc("a.student_btn_a",".tab");
     tabFunc("a.time_icon",".tab");
-    tabFunc("#time_limit_clock_icon","#time_limit_set_time");
 
 })
 
@@ -264,8 +269,8 @@ function ondblclick(a,b){
         $(this).parents(".gapFilling_questions").find(".wangping_delete").hide();
         $(this).parents(".questions_item").find(".delete_chen").hide()
         $(this).parents(".questions_item").find(".save_chen").show()
-        $(this).parents(".questions_item").find(".wangping_save").show();
-        $(this).parents(".questions_item").find(".wangping_delete").hide();
+        $(this).parents(".questions_item").find(".wangping_save1").show();
+        $(this).parents(".questions_item").find(".wangping_delete1").hide();
         $(this).css("display","none");
         $(this).parent().find("input").css("display","block");
         $(this).parent().find("input").focus();
@@ -293,8 +298,11 @@ $(function(){
 $(function(){
     $("body").on("click",".ab_list_title",function(){
         if($(this).parent().find(".ab_list_box").is(":hidden")){
+            $("div.ab_list_box").hide();
+            $("div.ab_list_open").removeClass("ab_list_open");
             $(this).parent().find(".ab_list_box").show();
             $(this).parents("div.assignment_body_list").addClass("ab_list_open");
+            gloab_index = $(".assignment_body_list").index($(this).parent())
         }else{
             $(this).parent().find(".ab_list_box").hide();
             $(this).parents("div.ab_list_open").removeClass("ab_list_open");

@@ -39,4 +39,25 @@ $(function(){
         }
     });
 
+    $(".ques_pack_reference").on("click", function(){
+        var url = $(this).attr("data-href");
+        $("#fugai").show();
+        $("#fugai1").show();
+        $.ajax({
+            url : url,
+            type:'post',
+            dataType : 'text',
+            success: function(data){
+                if(data == -1){
+                    tishi("引用失败！");
+                }else{
+                    tishi("引用成功！")
+                    window.location.replace(window.location.href)
+                }
+                $("#fugai").hide();
+                $("#fugai1").hide();
+            }
+        })
+    });
+
 })

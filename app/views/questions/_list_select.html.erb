@@ -1,0 +1,104 @@
+<div class="assignment_body_list" >
+  <div class="ab_list_title">
+    <input type="hidden" name="question_id" class="question_id" value="<%=question.id%>" />
+    <input type="hidden" name="question_type"   value="select" />
+    <h1>未命名</h1>
+    <p>选择 / 李芳 / 2014-02-12 / 参考时间：15秒</p>
+    <ul class="ab_func">
+      <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
+      <li><a href="#" class="save_icon tooltip_html">保存</a></li>
+      <li><a href="#" class="share_icon tooltip_html">分享</a></li>
+      <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
+    </ul>
+  </div>
+  <div class="ab_list_box" style="display: none;">
+    <div class="ab_article">
+      <% question.branch_questions.each do |branch_question| %>
+        <div class="questions_item" branch_question_index="<%= branch_question.id %>" stypes="save_select" question_type="select">
+          <%= form_for :question,:url => { :action => :update_select, :controller => :questions ,:question_package_id=>@question_pack.id}, :method=>"post" ,:remote=>true do |f|%>
+            <div class="q_topic">
+              <div class="multipleChoice">
+                <div class="q_left">
+                  <% if branch_question.content  %>
+                    <% if  branch_question.content.include?("</file>") && branch_question.content.include?("<file>") %>
+                      <% sourse = branch_question.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0]
+                      format = sourse.split(".")[1]%>
+                      <% if format=="jpg" || format=="png" %>
+                        <img src="<%= sourse %>" style="width:86px;height: 86px"/>
+                      <%end%>
+                      <% if format=="mp3" || format=="amr" || format=="wav" %>
+                        <img src="/assets/voiceing.jpg"/>
+                      <% end %>
+                      <input type='text' value='<%= sourse %>' name='select_resourse' style='display:none;'/>
+                    <% end %>
+                  <% end %>
+                </div>
+                <div class="q_right">
+                  <div class="q_title"><div class="qt_text">
+                      <% if branch_question.content  %>
+                        <% if  branch_question.content.include?("</file>") && branch_question.content.include?("<file>") %>
+                          <% sourse = branch_question.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0]
+                          format = sourse.split(".")[1]%>
+                          <% if format=="jpg" || format=="png" %>
+                            <p><%= branch_question.content.split("</file>")[1] %></p>
+                            <input name="select_content" type="text" value="<%= branch_question.content.split("</file>")[1] %>"/>
+                          <%end%>
+                          <% if format=="mp3" || format=="amr" || format=="wav" %>
+                            <input type='text' name='select_content' style='display:block;' disabled='true'/>
+                          <% end %>
+                        <% else %>
+                          <p><%= branch_question.content %></p>
+                          <input name="select_content" type="text" value="<%= branch_question.content %>"/>
+                        <% end %>
+                      <% else %>
+                        <p><%= branch_question.content %></p>
+                        <input name="select_content" type="text" value="<%= branch_question.content %>"/>
+                      <% end %>
+                    </div>
+                  </div>
+                  <ul>
+                    <% count=0 %>
+                    <% branch_question.options.split(";||;").each do |bq_option| %>
+                      <li><input type="checkbox" name="check_select[]" value="<%= count+=1 %>"
+                        <% if  branch_question.answer.split(";||;").include?(bq_option) %>
+                                   checked
+                                 <% end %>/>
+                        <div class="qt_text">
+                          <p><%= bq_option %></p>
+                          <input name="select_value<%= count %>" type="text" value="<%= bq_option %>"/>
+                        </div>
+                      </li>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="qt_icon">
+              <a href="javascript:void(0)" class="save tooltip_html save_chen" onclick="onclick_submit(this)"style="display:none"></a>
+              <%= link_to '删除',{:controller => 'questions',:action =>'delete_branch_question',
+                :question_package_id=>@question_pack.id,:id=>branch_question.id} ,
+                :remote=>true ,:class=>'delete tooltip_html delete_chen'%>
+              <a href="#" class="tag tooltip_html" onclick="add_selects_tags(this)">标签</a>
+            </div>
+            <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_pack.id %>"/>
+            <input type="hidden" name="question_id" value="<%= question.id %>"/>
+            <input type="hidden" name="branch_question_id" value="<%= branch_question.id %>"/>
+            <input class="submit_sava" type="submit" style="display:none" value="保存"/>
+          <% end %>
+          <div class="tag_ul">
+            <ul>
+              <% @time_select_tags.each do |t| %>
+                <% if t.bq_id == branch_question.id %>
+                  <li>
+                    <p><%= t.name %></p>
+                    <a href="javascript:void(0)" class="x" onclick="remove_tags_from_time_limit(this)">x</a>
+                  </li>
+                <% end %>
+              <% end if @time_select_tags %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

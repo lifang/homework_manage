@@ -182,8 +182,30 @@ function height_tab(){
 
 
 function onclick_submit(obj){
+    var questions_item = $(obj).parents(".questions_item")
+    var question_type = questions_item.attr("question_type")
+    if(question_type=="select"){
+        var check_select = questions_item.find("input[name='check_select[]']:checked").length;
+        var select_value1 = questions_item.find("input[name='select_value1']").val();
+        var select_value2 = questions_item.find("input[name='select_value2']").val();
+        var select_value3 = questions_item.find("input[name='select_value3']").val();
+        var select_value4 = questions_item.find("input[name='select_value4']").val();
+        if (select_value4==""|| select_value3=="" || select_value2=="" || select_value1==""){
+            tishi("选项不能为空！");
+            return false;
+        }else if(check_select<=0){
+            tishi("请选择至少一个正确答案！");
+            return false;
+        }
+    }else if (question_type=="lianxian"){
+        var left_lianxian = questions_item.find("input[name='left_lianxian']").val()
+        var right_lianxian = questions_item.find("input[name='right_lianxian']").val()
+        if(left_lianxian==""|| right_lianxian==""){
+            tishi("连线内容不能为空！");
+            return false;
+        }
+    }
     $(obj).parent().parent().find(".submit_sava").click();
-    var questions_item = $(obj).parent().parent().parent()
     var form_class = questions_item.attr("stypes")
     var question_package_id = questions_item.find("input[name='question_package_id']").val()
     if (form_class=="save_select"){
@@ -338,4 +360,44 @@ function add_tag_to_select(obj,q_index,branch_question_id,types){
         })
     }
 
+}
+
+
+//点击新建
+function new_select_question(obj){
+    var episode_id = $("#episode_id").val();
+    var question_package_id = $("#question_package_id").val()
+    var type = 3
+    var cell_id = $("#cell_id").val();
+    $.ajax({
+        dataType:"script" ,
+        url:"/question_packages/"+question_package_id+"/questions/show_select",
+        data:{
+            episode_id : episode_id,
+            question_package_id : question_package_id,
+            type : type,
+            cell_id : cell_id
+        },
+        success:function(){
+        }
+    });
+}
+
+function new_lianxian_question(obj){
+    var episode_id = $("#episode_id").val();
+    var question_package_id = $("#question_package_id").val()
+    var type = 4
+    var cell_id = $("#cell_id").val();
+    $.ajax({
+        dataType:"script" ,
+        url:"/question_packages/"+question_package_id+"/questions/new_lianxian",
+        data:{
+            episode_id : episode_id,
+            question_package_id : question_package_id,
+            type : type,
+            cell_id : cell_id
+        },
+        success:function(){
+        }
+    });
 }

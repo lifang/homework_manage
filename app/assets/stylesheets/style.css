@@ -5,6 +5,15 @@ body {
     font-size: 14px;
     color: #333;
 }
+.close1 {
+    background: url(/assets/close.png) no-repeat;
+    cursor: pointer;
+    display: block;
+    height: 17px;
+    width: 17px;
+    text-indent: -999px;
+    overflow: hidden;
+}
 img { border: none;}
 li { list-style: none;}
 a { text-decoration: none; color: #333;}

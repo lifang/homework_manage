@@ -185,6 +185,8 @@ function onclick_submit(obj){
     var questions_item = $(obj).parents(".questions_item")
     var question_type = questions_item.attr("question_type")
     if(question_type=="select"){
+        var select_resourse = questions_item.find("input[name='select_resourse']");
+        var select_content = questions_item.find("input[name='select_content']").val();
         var check_select = questions_item.find("input[name='check_select[]']:checked").length;
         var select_value1 = questions_item.find("input[name='select_value1']").val();
         var select_value2 = questions_item.find("input[name='select_value2']").val();
@@ -207,6 +209,9 @@ function onclick_submit(obj){
             return false;
         }else if(flag){
             tishi("不可出现重复选项！");
+            return false;
+        }else if(select_resourse.length<=0 && select_content==""){
+            tishi("题目不能为空！")
             return false;
         }
     }else if (question_type=="lianxian"){

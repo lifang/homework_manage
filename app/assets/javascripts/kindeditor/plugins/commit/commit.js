@@ -7,6 +7,10 @@ KindEditor.plugin('commit', function(K) {
         //选项的个数，-1是因为每次多一个
         var length = $(div[gloab_index]).find(".gapFilling_questions").length-1;
         var temp = editor.text();
+        if($.trim(temp)==""){
+        tishi("完形填空内容不能为空！");
+        return false;
+    }
         var sign_length=-1;
         if(temp.indexOf("[[sign]]") >= 0){
             sign_length = temp.match(/\[\[sign\]\]/g).length;

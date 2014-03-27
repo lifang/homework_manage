@@ -232,7 +232,7 @@ function onclick_submit(obj){
         $(obj).parent().find(".save").hide()
     }else{
 
-    }
+}
 }
 
 
@@ -304,7 +304,8 @@ function select_upload(obj){
             if(data_arr[0]=="voice"){
                 alert($("#input_select_upload").parents(".q_topic").find("input[name='select_content']").attr("name"))
                 $("#input_select_upload").parents(".q_topic").find("input[name='select_content']").attr("disabled","true")
-                var html_title = "<input type='text' name='select_content' style='display:block;' disabled='true'>"
+                //                var html_title = "<input type='text' name='select_content' style='display:block;' disabled='true'>"
+                var html_title = "<p class='voice_p_unclick'></p><input type='text' name='select_content' style='display:none;' disabled='true'>"
                 $("#input_select_upload").parents(".q_topic").find(".q_title").find(".qt_text").html(html_title)
                 q_left.html("<img src='/assets/voiceing.jpg'>")
             }else if(data_arr[0]=="photo"){

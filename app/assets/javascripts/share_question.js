@@ -1,5 +1,6 @@
 //引用的时候，判断是否选择 单元id，课程id
 $(function(){
+    // 题型引用，列出分享的题目
     $(".questionTypes .new_reference").on("click", function(){
         var cell_id = $("#cell_id").val();
         var episode_id = $("#episode_id").val();
@@ -38,7 +39,7 @@ $(function(){
             })
         }
     });
-
+// 点击引用，引用某一大题
     $(".ques_pack_reference").on("click", function(){
         var url = $(this).attr("data-href");
         $("#fugai").show();

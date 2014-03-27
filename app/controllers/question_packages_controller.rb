@@ -41,6 +41,7 @@ class QuestionPackagesController < ApplicationController
     @types = @question.types
   end
 
+  #删除听力或朗读小题
   def delete_branch
     branch_question_id = params[:branch_question_id]
     branch_question = BranchQuestion.find_by_id branch_question_id
@@ -602,8 +603,27 @@ class QuestionPackagesController < ApplicationController
       name = params[:que_name]
       que_id = params[:que_id].to_i
       question = Question.find_by_id(que_id)
-      if question && question.update_attribute("name", name)
-        status = 1
+      question_pack = question.question_package
+      unless question.if_shared
+        branch_questions = question.branch_questions
+        if branch_questions.present?
+          share_question = ShareQuestion.create({:user_id => current_user.id, :name => question.name, :types => question.types,
+              :cell_id => question.cell_id, :episode_id => question.episode_id, :questions_time => question.questions_time,
+              :full_text => question.full_text})
+          if share_question
+            question.branch_questions.each do |bq|
+              new_resource_url = copy_file(share_media_path, question_pack, bq, bq.resource_url) if bq.resource_url.present? #分享的时候，拷贝音频
+              share_question.share_branch_questions.create({:content => bq.content, :resource_url => new_resource_url,
+                  :options => bq.options, :answer => bq.answer})
+            end
+          end
+          question.update_attributes(:if_shared => true, :name => name)
+          status = 0 #分享成功
+        else
+          status = 2 #大题下面无小题，提示
+        end
+      else
+        status = 1 #已经分享过
       end
       render :json => {:status => status}
     end

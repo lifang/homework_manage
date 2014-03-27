@@ -12,7 +12,7 @@
   </div>
   <div class="ab_list_box" style="display: none;">
     <div class="ab_article">
-      <% question.branch_questions.each do |branch_question| %>
+      <% branch_question.each do |branch_question| %>
         <div class="questions_item" branch_question_index="<%= branch_question.id %>" stypes="save_lianxian" question_type="lianxian">
           <%= form_for :question,:url => { :action => :update_lianxian, :controller => :questions,:question_package_id=>@question_pack.id }, :method=>"post" ,:remote=>true do |f|%>
             <div class="q_topic">
@@ -38,17 +38,14 @@
           <% end %>
           <div class="tag_ul">
             <ul>
-              <% p @time_lianxian_tags %>
-              <% @time_lianxian_tags.each do |t| %>
-              <% p  t.bq_id %>
-              <% p branch_question.id %>
+              <% branch_tags.each do |t| %>
                 <% if t.bq_id == branch_question.id %>
                   <li>
                     <p><%= t.name %></p>
                     <a href="javascript:void(0)" class="x" onclick="remove_tags_from_time_limit(this)">x</a>
                   </li>
                 <% end %>
-              <% end if @time_lianxian_tags %>
+              <% end if branch_tags %>
             </ul>
           </div>
         </div>

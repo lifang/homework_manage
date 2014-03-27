@@ -47,7 +47,7 @@ class QuestionPackagesController < ApplicationController
     branch_question = BranchQuestion.find_by_id branch_question_id
     status = 0
     if branch_question
-      branch_question.btags_bque_relations.delete_all()
+      BtagsBqueRelation.delete_all("branch_question_id = #{branch_question_id}")
       resource_url = "#{Rails.root}/public#{branch_question.resource_url}"
       File.delete resource_url if File.exist? resource_url
       branch_question.destroy
@@ -233,8 +233,6 @@ class QuestionPackagesController < ApplicationController
     #        end
     #      end
     #    end
-    p @reading_and_listening_branch
-    #@reading_and_listening_branch  = Question.get_has_reading_and_listening_branch(@questions)
     #引用题目的url
     @reference_part_url = "/school_classes/#{@school_class.id}/share_questions/list_questions_by_type?question_pack_id=#{params[:id]}"
     render 'new'

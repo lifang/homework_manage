@@ -524,7 +524,7 @@ function add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)
    var question_pack_id = $("#question_pack_id").val();
    var school_class_id = $("#school_class_id").val();
    var url = "/school_classes/" + school_class_id + "/question_packages/save_branch_tag";
-   var tag_li = "<li><p>"+tag_name+"</p><a href='javascript:void(0)'' class='x' onclick='delete_reading_listening_tags(this," + q_index+","+b_index+","+tag_id+")'>X</a></li>";
+   var tag_li = "<li><p>"+tag_name+"</p><a href='javascript:void(0)'' class='x' onclick='delete_reading_listening_tags(this,"+tag_id+")'>X</a></li>";
    if(branch_id == "")
    {
         if(tags_id == "")
@@ -641,8 +641,10 @@ function delete_reading_listening_branch(obj)
 
 }
 //删除听写或朗读的标签
-function delete_reading_listening_tags(obj, q_index, b_index, tag_id)
+function delete_reading_listening_tags(obj, tag_id)
 {   
+    var q_index = $(obj).parent().parent().parent().parent().parent().parent().parent().index();
+    var b_index = $(obj).parent().parent().parent().parent().index();
     var branch_id = $.trim($("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.branch_id").val());
     var tags_id = $.trim($("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val());
     var school_class_id = $("#school_class_id").val();

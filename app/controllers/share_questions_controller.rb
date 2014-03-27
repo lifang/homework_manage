@@ -12,18 +12,26 @@ class ShareQuestionsController < ApplicationController
   def list_questions_by_type
     @school_class_id, @question_type, @cell_id, @episode_id, @question_pack_id = params[:school_class_id], params[:types].to_i,params[:cell_id], params[:episode_id], params[:question_pack_id]
     type_name = Question::TYPES_NAME[@question_type]
-    @share_questions = ShareQuestion.share_questions(@cell_id, @episode_id, @question_type, "desc", 1)
-    share_branch_questions = ShareBranchQuestion.where(:share_question_id => @share_questions.map(&:id))
-    @share_branch_questions = share_branch_questions.group_by{|sbq| sbq.share_question_id}
-    branch_question_ids = share_branch_questions.map(&:id)
-    @branch_tags = BranchTag.find_by_sql(["select bt.*, bbr.branch_question_id from branch_tags bt left join btags_bque_relations bbr
+    @question_pack = QuestionPackage.find_by_id @question_pack_id
+    if @question_pack
+      if @question_type == "2" && @question_pack.questions.time_limit.present?
+        render :json =>{:msg => "一个作业只能有一道十速挑战题", :status => "-2" }  #"一个作业只有一道十速挑战题"
+      else
+        @share_questions = ShareQuestion.share_questions(@cell_id, @episode_id, @question_type, "desc", 1)
+        share_branch_questions = ShareBranchQuestion.where(:share_question_id => @share_questions.map(&:id))
+        @share_branch_questions = share_branch_questions.group_by{|sbq| sbq.share_question_id}
+        branch_question_ids = share_branch_questions.map(&:id)
+        @branch_tags = BranchTag.find_by_sql(["select bt.*, bbr.branch_question_id from branch_tags bt left join btags_bque_relations bbr
     on bbr.branch_tag_id = bt.id left join branch_questions bq on bq.id = bbr.branch_question_id where bbr.branch_question_id in (?)",
-        branch_question_ids]).group_by{|bt| bt.branch_question_id}
-    if @share_questions.present?
-      render :partial =>"questions/new_reference"
-    else
-      render :json =>{:msg => "该单元下的 <b>#{type_name}题</b> 没有题目可以引用", :status => "-2" }  #"该单元下没有题目可以引用"
+            branch_question_ids]).group_by{|bt| bt.branch_question_id}
+        if @share_questions.present?
+          render :partial =>"questions/new_reference"
+        else
+          render :json =>{:msg => "该单元下的 <b>#{type_name}题</b> 没有题目可以引用", :status => "-2" }  #"该单元下没有题目可以引用"
+        end
+      end
     end
+    
   end
 
 end

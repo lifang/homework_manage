@@ -47,6 +47,8 @@
   def copy_file(media_path_url, question_pack, branch_question, source_resource_url)
     full_media_path = "/public" + media_path_url % question_pack.id
     question_pack_folder = Rails.root.to_s + full_media_path
+    p 1111111111111
+    p question_pack_folder
     original_resource_url = Rails.root.to_s + "/public" + source_resource_url
     FileUtils.mkdir_p(question_pack_folder) unless Dir.exists?(question_pack_folder)
     file_extension = File.extname(original_resource_url)

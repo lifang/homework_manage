@@ -478,6 +478,9 @@ class QuestionPackagesController < ApplicationController
   #预览作业
   def show
     @question_pack = QuestionPackage.find_by_id(params[:id])
+    @pub_que_pack = PublishQuestionPackage.find_by_question_package_id @question_pack
+    redirect_to "/school_classes/#{params[:school_class_id]}/homeworks" if @question_pack.nil? 
+    # redirect_to "/school_classes/#{params[:school_class_id]}/question_packages/#{@question_pack.id}/new_index" if @pub_que_pack.nil?
     teacher = Teacher.find_by_id cookies[:teacher_id]
     @user = User.find_by_id teacher.user_id.to_i
     @origin_questions = nil
@@ -793,7 +796,6 @@ class QuestionPackagesController < ApplicationController
           flag = false
         end
         msg +="<br/>"
-
       end
     else
       msg = "当前作业包中没有任何题目，请您创建题目。"

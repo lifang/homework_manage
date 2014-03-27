@@ -41,6 +41,20 @@ class QuestionPackagesController < ApplicationController
     @types = @question.types
   end
 
+  def delete_branch
+    branch_question_id = params[:branch_question_id]
+    branch_question = BranchQuestion.find_by_id branch_question_id
+    status = 0
+    if branch_question
+      branch_question.btags_bque_relations.delete_all()
+      resource_url = "#{Rails.root}/public#{branch_question.resource_url}"
+      File.delete resource_url if File.exist? resource_url
+      branch_question.destroy
+      status = 1
+    end 
+    render :json => {:status=> status}
+  end  
+
   #创建听力题小题
   def save_listening
     @q_index = params[:q_index].to_i
@@ -158,6 +172,13 @@ class QuestionPackagesController < ApplicationController
         @notice = "小题创建失败！"
         content = params[:content]
         @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
+        destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
+        rename_file_name = "media_#{@branch_question.id}"
+        upload = upload_file destination_dir, rename_file_name, file
+        if upload[:status] == true
+            resource_url = upload[:url]
+            @branch_question.update_attributes(:resource_url=> resource_url)
+        end
         unless @branch_question.nil? 
           if tags_id.present?    #保存小题时添加标签
             tags_id.split(/\|/).each do |tag_id|

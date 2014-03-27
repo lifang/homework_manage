@@ -1,5 +1,5 @@
 <div class="assignment_body_list" >
-  <div class="ab_list_title" onclick="show_the_paixu(this,<%=  @question.question_package_id%>,<%=@school_class.id%>)" >
+  <div class="ab_list_title"  >
     <input type="hidden" name="question_id" class="question_id" value="<%=@question.id%>" />
     <input type="hidden" name="question_type"   value="sort" />
     <h1><%=@question.name.nil? ? "未命名":@question.name %></h1>
@@ -11,8 +11,11 @@
     </ul>
   </div>
   <div class="ab_list_box" style="display: none;">
-    <%if controller.action_name == "create_paixu"%>
-      <%=render 'wanxin/paixu_item'%>
-    <%end%>
+    <%=render 'wanxin/paixu_item',{
+      :@branch_ques => branch_questions,
+      :@tags_p=>branch_tags,
+      :@school_class=>@school_class,
+      :@question_packages=>@question_packages
+    }%>
   </div>
 </div>

@@ -176,8 +176,8 @@ class QuestionPackagesController < ApplicationController
         rename_file_name = "media_#{@branch_question.id}"
         upload = upload_file destination_dir, rename_file_name, file
         if upload[:status] == true
-            resource_url = upload[:url]
-            @branch_question.update_attributes(:resource_url=> resource_url)
+          resource_url = upload[:url]
+          @branch_question.update_attributes(:resource_url=> resource_url)
         end
         unless @branch_question.nil? 
           if tags_id.present?    #保存小题时添加标签
@@ -221,17 +221,17 @@ class QuestionPackagesController < ApplicationController
       hash[k] = second_tags
     end
     @branch_tags = hash
-    #    unless @questions[0].nil?
-    #      @question_exist = @questions[0]
-    #      unless @question_exist.episode_id.nil?
-    #        @exist_episode = Episode.find_by_id(@question_exist.episode_id)
-    #        @cells.each do|cell|
-    #          if cell.id == @exist_episode.cell_id
-    #            @exist_cell = cell
-    #          end
-    #        end
-    #      end
-    #    end
+    unless @questions[0].nil?
+      @question_exist = @questions[0]
+      unless @question_exist.episode_id.nil?
+        @exist_episode = Episode.find_by_id(@question_exist.episode_id)
+        @cells.each do|cell|
+          if cell.id == @exist_episode.cell_id
+            @exist_cell = cell
+          end
+        end
+      end
+    end
     p @reading_and_listening_branch
     #@reading_and_listening_branch  = Question.get_has_reading_and_listening_branch(@questions)
     #引用题目的url
@@ -256,6 +256,7 @@ class QuestionPackagesController < ApplicationController
     cell_id = params[:cell_id]
     episode_id = params[:episode_id]
     @question_packages = QuestionPackage.find_by_id(params[:id])
+    @wanxin_index = get_count_of_wanxin @question_packages.questions
     @question = Question.create(types:Question::TYPES[:CLOZE],
       question_package_id:@question_packages.id,
       episode_id:episode_id,
@@ -325,13 +326,13 @@ class QuestionPackagesController < ApplicationController
     end
     @question_packages = QuestionPackage.find_by_id(params[:id])
     @question_id = params[:question_id]
-    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
-    @options = @branch_questions.map{|d| d.options.split(";||;")}
+    @branch_ques = BranchQuestion.where("question_id = ?",params[:question_id])
+    @options = @branch_ques.map{|d| d.options.split(";||;")}
     @values=[]
-    @branch_questions.each_with_index do |bq|
+    @branch_ques.each_with_index do |bq|
       @values << bq.options.split(";||;").index { |x| x == bq.answer }
     end
-    branch_question_ids = @branch_questions.map(&:id)
+    branch_question_ids = @branch_ques.map(&:id)
     @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
       joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
       select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
@@ -342,12 +343,17 @@ class QuestionPackagesController < ApplicationController
     delete_branch_question branch_question_id
     @index = params[:index]
     @question_packages = QuestionPackage.find_by_id(params[:id])
-    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
-    @options = @branch_questions.map{|d| d.options.split(";||;")}
+    @branch_ques = BranchQuestion.where("question_id = ?",params[:question_id])
+    @options = @branch_ques.map{|d| d.options.split(";||;")}
     @values=[]
-    @branch_questions.each_with_index do |bq|
+    @branch_ques.each_with_index do |bq|
       @values << bq.options.split(";||;").index { |x| x == bq.answer }
     end
+    branch_question_ids = @branch_ques.map(&:id)
+    @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
+      joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
+      select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
+
   end
 
   def create_paixu
@@ -385,8 +391,8 @@ class QuestionPackagesController < ApplicationController
     end
     @question_packages = QuestionPackage.find_by_id(params[:id])
     @question_id = params[:question_id]
-    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
-    branch_question_ids = @branch_questions.map(&:id)
+    @branch_ques = BranchQuestion.where("question_id = ?",params[:question_id])
+    branch_question_ids = @branch_ques.map(&:id)
     @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
       joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
       select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
@@ -410,7 +416,12 @@ class QuestionPackagesController < ApplicationController
     delete_branch_question branch_question_id
     @index = params[:index]
     @question_packages = QuestionPackage.find_by_id(params[:id])
-    @branch_questions = BranchQuestion.where("question_id = ?",params[:question_id])
+    @branch_ques = BranchQuestion.where("question_id = ?",params[:question_id])
+    branch_question_ids = @branch_ques.map(&:id)
+    @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
+      joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
+      select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
+
   end
   #删除小题
   def delete_branch_question branch_question_id
@@ -733,7 +744,6 @@ class QuestionPackagesController < ApplicationController
     questionpackage = QuestionPackage.find_by_id(params[:id])
     questionpackage.questions.each_with_index do |question,index|
       branch_question = BranchQuestion.find_by_id(question.id)
-      p 1111111111111111,branch_question,branch_question.nil?,msg
       if branch_question.nil?
         msg += "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}没有小题<br/>"
       end
@@ -759,11 +769,11 @@ class QuestionPackagesController < ApplicationController
   end
 
   def get_count_of_wanxin question_package
-    count =-1
+    count =0
     question_package.each do |question|
-        if question.types == Question::TYPES[:CLOZE]
-          count +=1
-        end
+      if question.types == Question::TYPES[:CLOZE]
+        count +=1
+      end
     end
     count
   end

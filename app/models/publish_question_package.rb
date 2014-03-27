@@ -93,10 +93,10 @@ class PublishQuestionPackage < ActiveRecord::Base
                                          :branch_question_id => branch_id)
               end
             end
-          end
-          if prop["branch_id"] && prop["branch_id"].length != 0
-            user_prop_relation.update_attributes(:user_prop_num =>
+            if prop["branch_id"] && prop["branch_id"].length != 0
+              user_prop_relation.update_attributes(:user_prop_num =>
                                                      (user_prop_relation.user_prop_num-prop["branch_id"].length).to_i)
+            end
           end
         end
       end

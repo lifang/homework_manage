@@ -684,6 +684,27 @@ class QuestionPackagesController < ApplicationController
     end
   end
   
+  def check_before_complete_create_package
+    msg =""
+    questionpackage = QuestionPackage.find_by_id(params[:id])
+    questionpackage.questions.each_with_index do |question,index|
+      branch_question = BranchQuestion.find_by_id(question.id)
+      p 1111111111111111,branch_question,branch_question.nil?,msg
+      if branch_question.nil?
+        msg += "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}没有小题<br/>"
+      end
+    end
+    if msg != ""
+      
+      flash[:success]=msg
+      redirect_to new_index_school_class_question_package_path(@school_class,params[:id])
+    else
+      msg = "保存成功！"
+      flash[:error] = msg
+      redirect_to "/school_classes/#{@school_class.id}/homeworks"
+    end
+  end
+
   private
   #获取单元以及对于的课�?
   def get_cells_and_episodes

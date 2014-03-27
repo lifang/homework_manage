@@ -829,7 +829,7 @@ function set_question_name_valid(question_id, school_class_id){
         })
     }
 }
-//将时间添加到十速挑战的大题里面
+//将时间添加到question里面
 function add_time_to_question(hour, minute, second, question_id){
     var school_class_id = $("#school_class_id").val();
     if(question_id==undefined || question_id=="0"){

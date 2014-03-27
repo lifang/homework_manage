@@ -412,7 +412,7 @@ function new_time_limit(school_class_id){
             }
         })
     }else{
-        tishi("每个大题的每一课下最多只能有一个十速挑战!");
+        tishi("每个大题下面最多只能有一个十速挑战!");
         var assignment_body_list_divs = $("#question_list").find("div.ab_list_open");
         if(assignment_body_list_divs.length>0){
             $.each(assignment_body_list_divs,function(){

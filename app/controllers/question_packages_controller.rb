@@ -773,23 +773,31 @@ class QuestionPackagesController < ApplicationController
   end
   
   def check_before_complete_create_package
+    flag = true
     msg =""
     questionpackage = QuestionPackage.find_by_id(params[:id])
 
     questions = questionpackage.questions
     if questions.any?
-      branch_questions = Question.find_by_sql(["select q.id question_id, q.types, count(bq.id) bq_count from questions q 
+      branch_questions = Question.find_by_sql(["select q.id question_id, q.types from questions q
         inner join branch_questions bq on bq.question_id = q.id where q.question_package_id = ?", 
           params[:id].to_i]).group_by{|i|i.question_id}
-      questions.each_with_index do |question,index|        
+      questions.each_with_index do |question,index|
+        msg += "第#{index+1}题"
         if branch_questions[question.id].nil? 
-          msg += "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}没有小题 <br/>"
+          msg += "，#{Question::TYPES_NAME[question.types]}#{question.name}没有小题 "
+          flag = false
         end
+        if question.questions_time.nil?
+          msg +=",没有参考时间"
+          flag = false
+        end
+        msg +="<br/>"
       end
     else
       msg = "当前作业包中没有任何题目，请您创建题目。"
     end
-    if msg != ""
+    if !flag
       flash[:success]=msg
       redirect_to new_index_school_class_question_package_path(@school_class,params[:id])
     else

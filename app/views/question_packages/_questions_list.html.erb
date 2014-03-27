@@ -1,10 +1,10 @@
 <% @questions.each_with_index do |question,index| %>
   <% case question.types %>
   <% when Question::TYPES[:READING] || Question::TYPES[:LISTENING]%>
-    <%= render "edit_l_or_r_que",{:question => question, :branth_question =>@h_branch_questions[question.id], :tags => @tags[question.id],  :user => @user} %>
+    <%= render "edit_l_or_r_que",{:question => question, :user => @user} %>
   <% when Question::TYPES[:TIME_LIMIT] %>
     <div class="assignment_body_list" id="time_limit_assignment_body_list">
-      <%= render :partial => "new_time_limit"  %>
+      <%= render :partial => "new_time_limit", {}  %>
     </div>
   <% when Question::TYPES[:SELECTING] %>
     <%= render "questions/list_select" ,{:question=>question}  %>

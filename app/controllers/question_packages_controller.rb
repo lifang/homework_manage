@@ -312,7 +312,6 @@ class QuestionPackagesController < ApplicationController
     @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
       joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
       select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
-
   end
   
   def delete_wanxin_branch_question

@@ -86,11 +86,11 @@ function show_ques(types, school_class_id)
 //检查音频文件后缀名
 function check_audio(obj)
 {
+    var file_name = $(obj).val();
     var branch_id = $(obj).parent().parent().parent().parent().parent().find("input.branch_id").val();
     var types = $(obj).parent().find("input.types").val();
     if(types == 0)
     {
-        var file_name = $(obj).val();
         if(file_name.match(/\..*$/) == ".mp3" || file_name.match(/\..*$/) == ".MP3")
         {}
         else
@@ -101,13 +101,23 @@ function check_audio(obj)
     }
     else if(types == 1)
     {
-        if(branch_id == "")
-         {  
-         }   
-         else
-         {
-            $(obj).parent().submit();  
-         }
+        var file_name = $(obj).val();
+        if(file_name.match(/\..*$/) == ".mp3" || file_name.match(/\..*$/) == ".MP3")
+        {
+            if(branch_id == "")
+            {  
+
+            }   
+            else
+            {
+               $(obj).parent().submit();
+            }
+        }
+        else
+        {
+            tishi("只能上传mp3格式文件！");
+            $(obj).val("");
+        }
     }
 }
 

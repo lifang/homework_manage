@@ -129,67 +129,71 @@ class QuestionPackagesController < ApplicationController
     types = params[:types]
     file = params[:file]
     if types.present?
-      @types = types.to_i
-      @question = Question.find_by_id params[:question_id].to_i
-      @question_id = @question.id
-      branch_id = params[:branch_id]
-      if branch_id.present?
-        @branch_question = BranchQuestion.find_by_id branch_id
-        if @branch_question.nil?
-          @status = -1
-          @notice = "该小题不存在，修改失败！"
-        else
-          if !file.nil?
-            destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
-            rename_file_name = "media_#{@branch_question.id}"
-            upload = upload_file destination_dir, rename_file_name, file
-            if upload[:status] == true
-              resource_url = upload[:url]
-              if @branch_question.update_attributes(:resource_url=>resource_url)           
-                @status = 2
-                @notice = "文件上传成功！！"
-              else
-                @status = -1
-                @notice = "文件上传失败！"    
-              end  
-            else
+        @types = types.to_i
+        @question = Question.find_by_id params[:question_id].to_i
+        @question_id = @question.id
+        branch_id = params[:branch_id]
+        if branch_id.present?
+            @branch_question = BranchQuestion.find_by_id branch_id
+            if @branch_question.nil?
               @status = -1
-              @notice = "小题创建失败！"
-            end
-          else
-            if params[:content].present?
-              if @branch_question.update_attributes(:content => params[:content] )
-                @status = 0
-                @notice = "小题修改成功！"  
+              @notice = "该小题不存在，修改失败！"
+            else
+              if !file.nil?
+                destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
+                rename_file_name = "media_#{@branch_question.id}"
+                upload = upload_file destination_dir, rename_file_name, file
+                if upload[:status] == true
+                  resource_url = upload[:url]
+                  if @branch_question.update_attributes(:resource_url => resource_url)           
+                    @status = 2
+                    @notice = "文件上传成功！！"
+                  else
+                    @status = -1
+                    @notice = "文件上传失败！"    
+                  end  
+                else
+                  @status = -1
+                  @notice = "小题创建失败！"
+                end
               else
-                @status = -1
-                @notice = "小题修改失败！" 
-              end                
+                if params[:content].present?
+                  if @branch_question.update_attributes(:content => params[:content] )
+                    @status = 0
+                    @notice = "小题修改成功！"  
+                  else
+                    @status = -1
+                    @notice = "小题修改失败！" 
+                  end                
+                end  
+              end
+            end
+        else
+            @status = -1
+            @notice = "小题创建失败！"
+            content = params[:content]
+            @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
+            if @branch_question
+              destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
+              rename_file_name = "media_#{@branch_question.id}"
+              if file
+                upload = upload_file destination_dir, rename_file_name, file
+                if upload[:status] == true
+                  resource_url = upload[:url]
+                  @branch_question.update_attributes(:resource_url=> resource_url)
+                end
+              end  
+              unless @branch_question.nil?
+                if tags_id.present?    #保存小题时添加标签
+                  tags_id.split(/\|/).each do |tag_id|
+                    @branch_question.btags_bque_relations.create(:branch_tag_id => tag_id.to_i) if tag_id.to_i > 0
+                  end  
+                end 
+                @status = 1
+                @notice = "小题创建完成！"
+              end
             end  
-          end
-        end
-      else
-        @status = -1
-        @notice = "小题创建失败！"
-        content = params[:content]
-        @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
-        destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
-        rename_file_name = "media_#{@branch_question.id}"
-        upload = upload_file destination_dir, rename_file_name, file
-        if upload[:status] == true
-          resource_url = upload[:url]
-          @branch_question.update_attributes(:resource_url=> resource_url)
-        end
-        unless @branch_question.nil? 
-          if tags_id.present?    #保存小题时添加标签
-            tags_id.split(/\|/).each do |tag_id|
-              @branch_question.btags_bque_relations.create(:branch_tag_id => tag_id.to_i) if tag_id.to_i > 0
-            end  
-          end 
-          @status = 1
-          @notice = "小题创建完成！"
-        end
-      end  
+        end  
     else
       @status = -1
       @notice = "该小题不存在数据错误，题型不能为空！" 

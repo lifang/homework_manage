@@ -839,7 +839,7 @@ function set_question_name_valid(question_id, school_class_id){
         })
     }
 }
-//将时间添加到十速挑战的大题里面
+//将时间添加到question里面
 function add_time_to_question(hour, minute, second, question_id){
     var school_class_id = $("#school_class_id").val();
     if(question_id==undefined || question_id=="0"){
@@ -1044,7 +1044,39 @@ function delete_tags(obj,shcool_id,question_pack_id,tag_id,branch_question_id,ty
             url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
             data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type
         });
-    }   
+    }else if(type=='select'){
+        var question_item = $(obj).parents(".gapFilling_questions")[0]
+        var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".gapFilling_questions").index($(question_item));
+        alert(gloab_index+"==>"+q_index);
+        $.ajax({
+            dataType:'json',
+            url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
+            data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type,
+            success:function(data){
+                if(data.status == 1){
+                    $(obj).parent().remove()
+                }else{
+                    tishi("删除失败！")
+                }
+            }
+        });
+    }else if(type="lianxian"){
+        var question_item = $(obj).parents(".gapFilling_questions")[0]
+        var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".gapFilling_questions").index($(question_item));
+        alert(gloab_index+"==>"+q_index);
+        $.ajax({
+            dataType:'json',
+            url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
+            data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type,
+            success:function(data){
+                if(data.status == 1){
+                    $(obj).parent().remove()
+                }else{
+                    tishi("删除失败！")
+                }
+            }
+        });
+    }
 }
 
 function add_wanxin_tags(obj, index){

@@ -8,7 +8,9 @@ class StudentsController < ApplicationController
 from school_classes sc where sc.id=?"
     @schoolclass = SchoolClass.find_by_sql([sql_schoolclass,school_class_id,school_class_id]).first
     ungrouped = SchoolClassStudentRalastion.where(["school_class_id = ? and tag_id is null", @school_class.id])
-    cookies[:student_has_ungrouped] = {:value => true} if cookies[:student_has_ungrouped].nil? && ungrouped.any?
+    unless ungrouped.blank? || (!cookies[:student_has_ungrouped].nil? && cookies[:student_has_ungrouped]=="false")
+    cookies[:student_has_ungrouped] = {:value => "true"}
+    end
     @tags = Tag.where("school_class_id=#{school_class_id}")
     student_situations = Student.list_student school_class_id
     @student_situations = student_situations.paginate(:page=> params[:page] ||= 1,:per_page=>Student::PER_PAGE )
@@ -82,7 +84,7 @@ from school_classes sc where sc.id=?"
     if cookies[:student_has_ungrouped].nil?
       status = 0
     else
-      cookies[:student_has_ungrouped] = false
+      cookies[:student_has_ungrouped] = "false"
     end
     render :json => {:status => status}
   end

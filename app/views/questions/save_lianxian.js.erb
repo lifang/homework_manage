@@ -1,5 +1,11 @@
-var html = '<%=j(render 'questions/next_branch_lianxian')%>'
-var delete_a = $(".index_new[value='<%= @index_new %>']").parents(".questions_item")
-delete_a.attr("branch_question_index","<%= @branch_question.id %>")
-delete_a.find(".delete").attr("href","/question_packages/"+ <%=@question_package_id%> +"/questions/delete_branch_question?id=<%=@branch_question.id%>")
-$(".ab_article[question_index='<%= @question.id %>']").append(html)
+<% if @branch_question %>
+  tishi("保存成功！");
+  var html = '<%=j(render 'questions/next_branch_lianxian')%>'
+  var delete_a = $(".index_new[value='<%= @index_new %>']").parents(".questions_item")
+  delete_a.attr("branch_question_index","<%= @branch_question.id %>")
+  delete_a.find("input[name='branch_question_id']").val('<%= @branch_question.id %>')
+  delete_a.find(".delete").attr("href","/question_packages/"+ <%=@question_package_id%> +"/questions/delete_branch_question?id=<%=@branch_question.id%>")
+  $(".ab_article[question_index='<%= @question.id %>']").append(html)
+<% else %>
+  tishi("保存失败！");
+<%  end %>

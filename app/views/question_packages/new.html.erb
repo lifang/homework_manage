@@ -1,29 +1,4 @@
-<script charset="utf-8" src="/assets/kindeditor/kindeditor.js"></script>
-<script charset="utf-8" src="/assets/kindeditor/lang/zh_CN.js"></script>
-<script>
-  function full_text(id){
-    KindEditor.ready(function(K) {
-      window.editor = K.create('#wanxin_'+id, {
-        id : "wanxin_"+id,
-        width : '420px',
-        height : '600px',
-        minWidth : '370px',
-        items : ['source',
-          'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-          'removeformat', '|',
-          'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-          '|','mark','commit'],
-        afterCreate : function() {
-          this.sync();
-        },
-        afterBlur: function(){
-          this.sync();
-        }//同步KindEditor的值到textarea文本框
-      });
-    });
-  }
 
-</script>
 <div class="main" id="new_question_main_div">
   <div class="assignment">
     <div class="assignment_head">

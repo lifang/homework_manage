@@ -1251,3 +1251,28 @@ function wanxin_save_btn(obj){
     });
     stopPropagation(arguments[1]);
 }
+
+
+
+  function full_text(id){
+    KindEditor.ready(function(K) {
+      window.editor = K.create('#wanxin_'+id, {
+        id : "wanxin_"+id,
+        width : '420px',
+        height : '600px',
+        minWidth : '370px',
+        items : ['source',
+          'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+          'removeformat', '|',
+          'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+          '|','mark','commit'],
+        afterCreate : function() {
+          this.sync();
+        },
+        afterBlur: function(){
+          this.sync();
+        }//同步KindEditor的值到textarea文本框
+      });
+    });
+  }
+

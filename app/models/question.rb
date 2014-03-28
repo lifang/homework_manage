@@ -17,8 +17,8 @@ class Question < ActiveRecord::Base
   #查询一个题包下的所有题目
   def self.get_all_questions question_package
     all_questions = []
-    sql_str = "SELECT q.id, q.types, q.created_at, b.id branch_question_id,
-       b.content, b.resource_url FROM questions q left join branch_questions b
+    sql_str = "SELECT q.id, q.types, q.created_at,q.questions_time,q.full_text, b.id branch_question_id,
+       b.content, b.resource_url, b.options, b.answer FROM questions q left join branch_questions b
        on q.id = b.question_id where q.question_package_id =#{question_package.id}
        and b.id is not null"
     all_questions = Question.find_by_sql sql_str

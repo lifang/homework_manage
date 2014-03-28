@@ -28,13 +28,14 @@ function show_publish_task_panel(question_package_id)
 function check_time(obj)
 {
     end_time = $.trim($("#end_time").val());
-    if(end_time != "")
+    if(end_time != "" && end_time!="截止时间")
     {
         $("#fugai").show();
         $("#fugai1").find("h2").text("题包发布中，请耐心等待...");
         $("#fugai1").show();
         $(obj).parents("#publish_task_panel").find("form").submit();
     }
-    else
+    else{
         tishi("时间不能为空！");
+    }
 }

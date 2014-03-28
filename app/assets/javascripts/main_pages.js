@@ -9,8 +9,8 @@ function check_send_microposts(value){
         tishi("内容不能为空");
         return false;
     }
-    else if(content.length>=250){
-        tishi("长度不能超过250");
+    else if(content.length>=60){
+        tishi("长度不能超过60");
         return false;
     }
     else
@@ -29,6 +29,10 @@ function main_reply(value,index){
     var textarea=$.trim($(value).parent().parent().find("textarea").val());
     if(textarea==""){
         tishi("不能为空！");
+        return false;
+    }
+    if(textarea.length>60){
+        tishi("字数不能大于60！");
         return false;
     }
     else
@@ -57,7 +61,7 @@ function main_reply(value,index){
 
 }
 
-function show_reply_again(value,name){
+function show_reply_again(value,name,event){
     var input=$(value).parent().find("input");
     var answer=$(value).parents(".answer_area").find(".ask_area");
     var target_input =$(answer[1]).find("input");
@@ -82,6 +86,10 @@ function show_reply_again(value,name){
 <button onclick="main_reply(this,'+ index +')">提交</button>\n\
 <button type="button" onclick="cancle_this_window(this)">取消</button></div>'
     $(".create_main_microposts").html(html);
+    $(".tab_mess").css({
+            "top":($(value).offset().top+20)+"px",
+            "left":($(value).offset().left+0)+"px"
+        })
     $(".tab_mess").show(100);
     
   
@@ -196,6 +204,10 @@ function  show_reply(value,micropost_id){
     }else{
         $(answer_area).hide();
     }
+    $(".tab_mess").css({
+            "top":($(value).offset().top+20)+"px",
+            "left":($(value).offset().left+0)+"px"
+        })
     $.ajax({
         async:true,
         type : 'get',

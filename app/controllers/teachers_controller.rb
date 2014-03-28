@@ -5,6 +5,7 @@ require "mini_magick"
 include MethodLibsHelper
 class TeachersController < ApplicationController
   before_filter :sign?, :get_unread_messes
+  before_filter :get_school_class
   #教师创建班级
   def create_class
     name = params[:class_name]
@@ -84,17 +85,16 @@ class TeachersController < ApplicationController
   # 更新头像
   def update_avatar
     avatar_url = current_user.avatar_url
+    x_p =params[:x]
+    y_p =params[:y]
+    width = params[:w]
+    height = params[:h]
+    new_width = 0
+    new_height = 0
     file_path = "#{Rails.root}/public/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}.jpg"
     img  = MiniMagick::Image.open(file_path)
     Teacher::SCREENSHOT_SIZE.each do |size|
       resize = size>img["width"] ? img["width"] :size
-      new_file = file_path.split(".")[0]+"_"+resize.to_s+"."+ file_path.split(".").reverse[0]
-      if img["width"]>img["height"]
-        img.run_command("convert #{file_path} -resize 298x298 #{new_file}")
-      else
-        resize = 298/(img["width"].to_f/img["height"])
-        img.run_command("convert #{file_path} -resize #{resize}x#{resize} #{new_file}")
-      end
       if avatar_url.eql?(Teacher::TEAVHER_URL)
         file_paths = "#{Rails.root}/public/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}_1.jpg"
         avatar_url = "/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}_1.jpg"
@@ -106,8 +106,18 @@ class TeachersController < ApplicationController
         file_paths = "#{Rails.root}/public/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}_#{index_a}.jpg"
         avatar_url = "/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}_#{index_a}.jpg"
       end
-      imgs  = MiniMagick::Image.open(new_file)
-      imgs.run_command("convert #{new_file} -crop #{params[:w].to_i}x#{params[:h].to_i}+#{params[:x].to_i}+#{params[:y].to_i} #{file_paths}")
+      if size<img["width"]
+        w=(params[:w].to_i)
+        h=(params[:h].to_i)
+        x=(params[:x].to_i)
+        y=(params[:y].to_i)
+        img.run_command("convert #{file_path} -crop #{w}x#{h}+#{x}+#{y} #{file_paths}")
+      else
+        img.run_command("convert #{file_path} -crop #{size}x#{size}+#{0}+#{0} #{file_paths}")
+      end
+      # new_file = file_path.split(".")[0]+"_"+resize.to_s+"."+ file_path.split(".").reverse[0]
+      #imgs  = MiniMagick::Image.open(new_file)
+      #imgs.run_command("convert #{new_file} -crop #{w}x#{h}+#{x}+#{y} #{file_paths}")
     end
     if current_user.update_attributes(:avatar_url => avatar_url)
       flash[:notice] = "操作成功!"

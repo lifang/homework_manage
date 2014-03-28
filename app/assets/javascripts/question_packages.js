@@ -528,6 +528,15 @@ function add_new_b_tag(obj, school_class_id){
                                 var q_index = $(this).parents(".tag_tab").find("input[name='q_index']").first().val();
                                 var b_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
                                 add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)   
+                            }else if(tag_bq_type!="" && tag_bq_type=="wanxin"){
+                                var q_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                                var branch_question_id = $(this).parents(".tag_tab").find("input[name='branch_question_id']").first().val();
+                                add_content_to_wanxin($(this), q_index, branch_question_id);
+                            }
+                            else if(tag_bq_type!="" && tag_bq_type=="paixu"){
+                                var q_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                                var branch_question_id = $(this).parents(".tag_tab").find("input[name='branch_question_id']").first().val();
+                                add_content_to_paixu($(this), q_index, branch_question_id);
                             }
                         })
                     });

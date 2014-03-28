@@ -480,7 +480,7 @@ class QuestionPackagesController < ApplicationController
     @question_pack = QuestionPackage.find_by_id(params[:id])
     @pub_que_pack = PublishQuestionPackage.find_by_question_package_id @question_pack
     redirect_to "/school_classes/#{params[:school_class_id]}/homeworks" if @question_pack.nil? 
-    # redirect_to "/school_classes/#{params[:school_class_id]}/question_packages/#{@question_pack.id}/new_index" if @pub_que_pack.nil?
+    redirect_to "/school_classes/#{params[:school_class_id]}/question_packages/#{@question_pack.id}/new_index" if @pub_que_pack.nil?
     teacher = Teacher.find_by_id cookies[:teacher_id]
     @user = User.find_by_id teacher.user_id.to_i
     @origin_questions = nil

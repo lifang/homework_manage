@@ -72,7 +72,7 @@ $(function(){
 <textarea name="microposts[content]" cols="" rows="" placeholder="字数限制60字"></textarea></div>\n\
                 <div class="tab_mess_btn">\n\
 <button type="submit" class="">提交</button>\n\
-<button type="button" class="form_cancel">取消</button></div></form>'
+<button type="button" class="form_cancel" onclick="cancle_this_window(this)">取消</button></div></form>'
         $(".create_main_microposts").html(html)
         $(".tab_mess").find(".h1_content").html("提问")
         $(".tab_mess").css('display','block');

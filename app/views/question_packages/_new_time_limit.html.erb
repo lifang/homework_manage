@@ -100,6 +100,10 @@
           flag = false;
           tishi("您有尚未填写的题目!");
           return false;
+        }else if(get_str_len(txt)==false){
+          flag = false;
+          tishi("每道题最多支持250个字符!");
+          return false;
         }else if(t_f_len<=0){
           flag = false;
           tishi("您有题目未选择标准答案!");

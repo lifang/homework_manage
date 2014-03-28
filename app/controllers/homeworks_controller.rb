@@ -19,6 +19,7 @@ class HomeworksController < ApplicationController
     @un_delete_task = tasks[:un_delete]
     @all_pack_types_name = tasks[:all_pack_types_name]
     @school_tags = @school_class.tags  #班级分组， 用于发布作业的时候选择分组
+     p @school_tags
   end
 
   #删除题包
@@ -122,5 +123,9 @@ class HomeworksController < ApplicationController
       notice = "结束时间不能小于当前时间！"
     end
     @info = {:status => status, :notice => notice}
+    respond_to do |f|
+      f.json{ render :json => @info}
+      f.js{}
+    end
   end
 end

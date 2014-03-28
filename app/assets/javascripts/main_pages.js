@@ -204,6 +204,10 @@ function  show_reply(value,micropost_id){
     }else{
         $(answer_area).hide();
     }
+    $(".tab_mess").css({
+            "top":($(value).offset().top+20)+"px",
+            "left":($(value).offset().left+0)+"px"
+        })
     $.ajax({
         async:true,
         type : 'get',

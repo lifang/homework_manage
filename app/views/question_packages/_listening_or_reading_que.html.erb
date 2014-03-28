@@ -1,15 +1,11 @@
 <div class="assignment_body_list ab_list_open">
   <div class="ab_list_title">
+    <% que_time = trans_int_to_time(question.questions_time.to_i) %>
     <h1>未命名</h1>
     <p><%= Question::TYPES_NAME[question.types] %>/ <%= user.name %>
       / <%= question.created_at.present? ? question.created_at.strftime("%Y-%m-%d") : "未保存" %>/ 
-      <span name=cankaoshijian>参考时间：
-        <% if question.questions_time.present? %>
-          <%= question.questions_time/3600 %>时<%= question.questions_time%3600/60 %>分<%= question.questions_time%3600%60 %>秒
-        <% else %>
-          未设置
-        <% end %>
-      </span>
+      <span name="cankaoshijian">参考时间：<% if question.questions_time.nil? %>未设置<% else %>
+          <%= que_time[0]==0 ? "" : "#{que_time[0]}时" %><%= que_time[1]==0 ? "" : "#{que_time[1]}分" %><%= que_time[2]==0 ? "" : "#{que_time[2]}秒" %><% end %></span>
     </p>
     <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>">
     <ul class="ab_func">

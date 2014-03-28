@@ -133,12 +133,12 @@ function shwo_tags(){   //点击班级分组跳出弹出层
 }
 
 function create_class_valid(obj){   //创建班级分组验证
-    var tag_name = $(obj).parent("form").find("input[name='name_tag']").first().val();
+    var tag_name = $(obj).parents("form").find("input[name='name_tag']").first().val();
     if(tag_name==undefined || tag_name==""){
         tishi("组名不能为空!");
     }else{
         $(obj).removeAttr("onclick");
-        $(obj).parent("form").submit();
+        $(obj).parents("form").submit();
     }
 }
 function show_switch_class(){   //切换班级

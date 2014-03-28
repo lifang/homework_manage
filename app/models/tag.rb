@@ -1,5 +1,6 @@
 class Tag < ActiveRecord::Base
   attr_protected :authentications
+  belongs_to :school_class
 
   #获取我的相关tag的id集合
   def self.get_my_tag_ids school_class_id, student_id

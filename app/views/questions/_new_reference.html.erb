@@ -13,7 +13,7 @@
           <p>被引用<%= sq.referenced_count || 0 %>次</p>
         </div>
       </div>
-      <%= render  "/branch_questions/#{Question::TYPES_TITLE[sq.types]}_list", {:branch_questions => @share_branch_questions[sq.id], :branch_tags => @branch_tags, :question => sq,  :from => "refer"} %>
+      <%= render  "/branch_questions/#{Question::TYPES_TITLE[sq.types]}_list", {:branch_questions => @share_branch_questions[sq.id], :branch_tags => @branch_tags, :question => sq} %>
     </div>
   <% end %>
 </div>

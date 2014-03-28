@@ -1,34 +1,39 @@
-<% from ||="" %>
 <div class="ab_list_box" style="display: none;">
     <div class="ab_article">
-      <% branch_questions.each do |bq| %>
-          <div class="questions_item">
-            <div class="q_topic">
-              <div class="speedQuestions">
-                <ul>
-                  <% if bq.resource_url.present? %>
-                    <li><a href="<%= bq.resource_url  %>" class="voice tooltip_title" title="音频"></a></li>
-                  <% end %>
-                  <li class="show_text"><p><%= bq.content  %></p><input name="" type="text"/></li>
-                </ul>
-              </div>
-            </div>
-            <% unless from == "refer" %>
-            <div class="qt_icon">
-              <a href="#" class="delete tooltip_html">删除</a>
-              <a href="#" class="tag tooltip_html">标签</a>
-            </div>
-            <% end %>
-            <% if branch_tags[bq.id].present? %>
-                <div class="tag_ul">
+      <% if branch_questions.present? %>
+        <% branch_questions.each do |bq| %>
+            <div class="questions_item">
+              <div class="q_topic">
+                <div class="speedQuestions">
                   <ul>
-                    <% branch_tags[bq.id].each do |tag| %>
-                        <li><p><%= tag.name %></p><a href="#" class="x">X</a></li>
+                    <% if bq.resource_url.present? %>
+                      <li><%= render "voice_tmp", {:resource_url => bq.resource_url} %></li>
                     <% end %>
+                    <li class="show_text"><p><%= bq.content  %></p></li>
                   </ul>
                 </div>
-            <% end %>
-          </div>
+              </div>
+              <% if branch_tags[bq.id].present? %>
+                  <div class="tag_ul">
+                    <ul>
+                      <% branch_tags[bq.id].each do |tag| %>
+                          <li><p><%= tag.name %></p></li>
+                      <% end %>
+                    </ul>
+                  </div>
+              <% end %>
+            </div>
+        <% end %>
+      <% else %>  
+        <div class="b_table">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+              <tr style="height:100px">
+                <td align="center">该大题下暂无小题</td>
+              </tr>
+             </tbody> 
+          </table>
+        </div>
       <% end %>
     </div>
   </div>

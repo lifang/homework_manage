@@ -17,9 +17,11 @@
         $("." + $(this).attr("name")).show();
       }
     });
+  <% if flash[:notice]  %>
+      tishi('<%=  flash[:notice] %>');
+  <% end %>
   })
 </script>
-
 <div class="bg1"></div>
 <div class="bg2"></div>
 <div class="center">

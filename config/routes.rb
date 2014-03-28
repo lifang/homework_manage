@@ -82,7 +82,7 @@ HomeworkManage::Application.routes.draw do
       member do
       end
       collection do
-        get :index,:delete_student,:tag_student_list,:add_student_tag,:edit_class
+        get :index,:delete_student,:tag_student_list,:add_student_tag,:edit_class, :close_student_ungrouped_mess
         post :update_class
       end
     end
@@ -105,10 +105,14 @@ HomeworkManage::Application.routes.draw do
       end
       member do
         get :new_index,:show_wanxin,:create_wanxin,:create_paixu,
-          :show_ab_list_box,:save_wanxin_content,:save_wanxin_branch_question,
-          :save_paixu_branch_question,:delete_wanxin_branch_question,:show_the_paixu,
+          :show_ab_list_box,
+          :delete_wanxin_branch_question,:show_the_paixu,
           :delete_paixu_branch_question,:delete_branch_tag
-        post :reference_question_package,:check_before_complete_create_package
+        post :reference_question_package,
+          :check_before_complete_create_package,
+          :save_wanxin_content,
+          :save_paixu_branch_question,
+          :save_wanxin_branch_question
       end
       resources :questions do
          member do

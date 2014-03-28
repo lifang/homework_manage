@@ -187,8 +187,6 @@ function tabFunc(c,t){
 }
 $(function(){
     tabFunc(".td_seeQuestion",".tab");
-    tabFunc(".switchoverClass a",".tab");
-    tabFunc("a.student_btn_a",".tab");
     // tabFunc("a.time_icon",".tab");
 
 })
@@ -942,4 +940,24 @@ function load(complete_rate, correct_rate){
         var ctx02 = document.getElementById("cv02").getContext("2d");
         var myDoughnut02 = new Chart(ctx02).Doughnut(cv02Data);
     }
+}
+
+function get_str_len(str){      //验证字符串长度是否小于等于250
+    var length = str.length;
+    var a = 0;
+    var flag = true;
+    for(var i=0;i<length;i++){
+        var charCode = str.charCodeAt(i);
+        if(charCode>=0 && charCode<=128){
+            a += 0.5;
+        }else{
+            a += 1;
+        }
+    };
+    if(a <= 250){
+        flag = true;
+    }else{
+        flag = false;
+    };
+    return flag;
 }

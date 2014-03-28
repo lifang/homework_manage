@@ -233,3 +233,7 @@ function delete_student_relation(school_class_id, student_id)
             }
         });
 }
+
+function cancle_this_window(obj){
+    $(obj).hide();
+}

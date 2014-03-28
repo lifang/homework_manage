@@ -1,7 +1,9 @@
 $(".assignment_body").append('<%=j(render 'wanxin/wanxin')%>');
-var obj = $(".wanxin_content").last();
-KindEditor.ready(function(K) {
-      window.editor = K.create($(obj), {
+
+
+    KindEditor.ready(function(K) {
+      window.editor = K.create('#wanxin_'+<%=@question.id%>, {
+        id : "wanxin_"+id,
         width : '420px',
         height : '600px',
         minWidth : '370px',
@@ -18,3 +20,5 @@ KindEditor.ready(function(K) {
         }//同步KindEditor的值到textarea文本框
       });
     });
+
+alert(<%=@question.id%>);

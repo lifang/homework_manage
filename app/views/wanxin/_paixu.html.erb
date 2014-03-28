@@ -16,8 +16,8 @@
   </div>
   <div class="ab_list_box" style="display: none;">
     <%=render 'wanxin/paixu_item',{
-      :@branch_ques => branch_questions,
-      :@tags_p=>branch_tags,
+      :@branch_ques =>( controller.action_name!='create_paixu' ? branch_questions : @branch_questions  ),
+      :@tags_p=>( controller.action_name!='create_paixu' ? branch_tags : @tags ),
       :@school_class=>@school_class,
       :@question_packages=>@question_packages
     }%>

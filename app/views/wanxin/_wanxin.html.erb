@@ -1,3 +1,5 @@
+<script charset="utf-8" src="/assets/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="/assets/kindeditor/lang/zh_CN.js"></script>
 <div class="assignment_body_list">
   <div class="ab_list_title" >
     <input type="hidden" name="question_id" class= "question_id" value="<%=@question.id%>" />
@@ -20,7 +22,8 @@
     <div class="ab_article">
       <div class="questions_item">
         <div class="gapFilling_textarea">
-          <textarea id="wanxin_content" name="wanxin_content" class="wanxin_content"><%=@question.content%></textarea>
+          <textarea id="wanxin_<%=@question.id%>" name="wanxin_content" class="wanxin_content"><%=@question.content%></textarea>
+
         </div>
         <div class="gapFilling_box">
           <%if controller.action_name=='new_index'%>
@@ -37,3 +40,6 @@
     </div>
   </div>
 </div>
+<script>
+  full_text(<%=@question.id%>);
+</script>

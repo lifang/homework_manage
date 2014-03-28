@@ -110,7 +110,7 @@ function check_audio(obj)
             }   
             else
             {
-               $(obj).parent().submit();
+                $(obj).parent().submit();
             }
         }
         else
@@ -430,6 +430,7 @@ function new_time_limit(school_class_id){
 //搜索标签
 function search_b_tags(obj, school_class_id){
     var tag_name = $.trim($(obj).val());
+    var tag_bq_type = $(obj).parents(".tag_tab").find("input[name='tag_bq_type']").first().val();
     $.ajax({
         type: "get",
         url: "/school_classes/"+school_class_id+"/question_packages/search_b_tags",
@@ -455,7 +456,14 @@ function search_b_tags(obj, school_class_id){
                     var tag_id = current_input.val();
                     var tag_name = $(this).find("p").first().text();
                     $(current_input).on("ifChecked", function(){
-                        add_tags_to_time_limit($(this), tag_id, tag_name);
+                        if(tag_bq_type!="" && tag_bq_type=="time_limit"){
+                            add_tags_to_time_limit($(this), tag_id, tag_name);
+                        }
+                        else if(tag_bq_type!="" && tag_bq_type=="listening_and_reading_tags"){
+                            var q_index = $(this).parents(".tag_tab").find("input[name='q_index']").first().val();
+                            var b_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                            add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)   
+                        }
                     })
                 });
                 $(obj).parents("div.tag_tab").find("a").first().text("");
@@ -474,7 +482,8 @@ function search_b_tags(obj, school_class_id){
 
 //新建标签
 function add_new_b_tag(obj, school_class_id){
-    var tag_name = $(obj).text().split("\"")[1];
+    var tag_name = $(obj).text().split("\"")[1];        //获取标签名称
+    var tag_bq_type = $(obj).parents(".tag_tab").find("input[name='tag_bq_type']").first().val();
     if(tag_name != undefined && tag_name != ""){
         $.ajax({
             type: "get",
@@ -503,7 +512,14 @@ function add_new_b_tag(obj, school_class_id){
                         var tag_id = current_input.val();
                         var tag_name = $(this).find("p").first().text();
                         $(current_input).on("ifChecked", function(){
-                            add_tags_to_time_limit($(this), tag_id, tag_name);
+                            if(tag_bq_type!="" && tag_bq_type=="time_limit"){
+                                add_tags_to_time_limit($(this), tag_id, tag_name);
+                            }
+                            else if(tag_bq_type!="" && tag_bq_type=="listening_and_reading_tags"){
+                                var q_index = $(this).parents(".tag_tab").find("input[name='q_index']").first().val();
+                                var b_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                                add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)   
+                            }
                         })
                     });
                     $(obj).text("");
@@ -525,10 +541,12 @@ function add_b_tags(type, obj){
         'left':($(obj).offset().left-width)+'px',
         'top':($(obj).offset().top+height)+'px'
     });
+    $("#tags_table").find("input[name='tag_bq_id']").first().val("");   //将小题的索引添加到标签层
+    $("#tags_table").find("input[name='tag_bq_type']").first().val(type);   //将大题的类型添加到标签层(如十速挑战)
     if(type=="time_limit"){
         var time_limit_div = $(obj).parents(".questions_item").attr("id");
         var index = time_limit_div.split("_")[3];       //获取当前添加标签图标对应的题目的索引
-        $("#tags_table").find("input[type='hidden']").first().val(index);
+        $("#tags_table").find("input[name='tag_bq_id']").first().val(index);   //将小题的索引添加到标签层       
         var lis = $("#tags_table").find("li");
         $.each(lis, function(){
             var current_input = $(this).find("input").first();
@@ -541,6 +559,8 @@ function add_b_tags(type, obj){
     }else if(type=="listening_and_reading_tags"){
         var q_index = $(obj).parent().parent().parent().parent().parent().index();
         var b_index = $(obj).parents(".questions_item").index();
+        $("#tags_table").find("input[name='q_index']").first().val(q_index);
+        $("#tags_table").find("input[name='b_index']").first().val(b_index);
         var lis = $("#tags_table").find("li");
         $.each(lis, function(){
             var current_input = $(this).find("input").first();
@@ -728,7 +748,7 @@ function delete_reading_listening_tags(obj, tag_id)
 
 //添加标签到十速挑战的题目下面
 function add_tags_to_time_limit(obj, tag_id, tag_name){
-    var index = $("#tags_table").find("input[type='hidden']").first().val();
+    var index = $("#tags_table").find("input[name='tag_bq_id']").first().val();
     if($(obj).attr("checked")=="checked"){
         if(index==""){
             tishi("数据错误!");
@@ -741,7 +761,7 @@ function add_tags_to_time_limit(obj, tag_id, tag_name){
                 }
             });
             if(flag){
-                $("#time_limit_item_"+index+" .tag_ul ul").append("<li><p>"+tag_name+"</p><a href='jsvsacript:void(0)' class='x' onclick='remove_tags_from_time_limit(this)'>x</a>\n\
+                $("#time_limit_item_"+index+" .tag_ul ul").append("<li><p>"+tag_name+"</p><a href='javascript:void(0)' class='x' onclick='remove_tags_from_time_limit(this)'>x</a>\n\
       <input type='hidden' name='[time_limit]["+index+"][tags][]' value='"+tag_id+"'/></li>");
             }
         }
@@ -826,6 +846,11 @@ $(function(){
                     if(data.status==1){
                         tishi("删除成功!");
                         del_a.parents(".assignment_body_list").remove();
+                        this_index = $(".assignment_body_list").index($(this).parent());
+                        if(gloab_index>this_index)
+                        {
+                            gloab_index--
+                        }
                     }else{
                         tishi("删除失败!");
                     }
@@ -954,9 +979,16 @@ function save_wanxin_branch(obj,school_class,question_pack){
     var params = $($(obj).parents(".gapFilling_questions")[0]).find("form").serialize();
     var branch_question = $($(obj).parents(".gapFilling_questions")[0]).find(".branch_question_form");
     var texts = branch_question.find("input[type=text]");
+    var arr =[]
     for(var i=0;i<texts.length;i++){
+        if ($.inArray($.trim($(texts[i]).val()), arr)>=0) {
+            tishi("标签内容不能重复");
+            return false;
+        } else {
+            arr[arr.length] = $.trim($(texts[i]).val());
+        }
         if($.trim($(texts[i]).val())==""){
-            tishi("存在选项为空！");
+            tishi("完形填空选项不能为空！");
             return false;
         }
     }
@@ -1193,16 +1225,23 @@ function stopPropagation(e) {
 
 
 function wanxin_save_btn(obj){
-    var wanxin_index = $(obj).parents(".ab_list_title").find(".wanxin_index").val();
-    var editor = KindEditor.instances[wanxin_index];
+    var wanxin_id = $(obj).parents(".assignment_body_list").find(".ab_list_box").find(".wanxin_content").attr("id");
+    var editor = KindEditor.instances;
+    for(var i=0;i<editor.length;i++){
+        if(editor[i].id == wanxin_id)
+            editor=editor[i]
+    }
+    // alert(wanxin_id+"="+editor.id);
+
     var div = $(".assignment_body").children(".assignment_body_list");
-    var question_id = $(div[gloab_index]).find(".question_id").val();
+    var question_id = $("#"+editor.id).parents(".assignment_body_list").find(".question_id").val();
     var school_class_id = $("#school_class_id").val();
     //选项的个数，-1是因为每次多一个
-    var length = $(div[gloab_index]).find(".gapFilling_questions").length-1;
+    var length = $("#"+editor.id).parents(".assignment_body_list").find(".gapFilling_questions").length-1;
     var temp = editor.text();
     if($.trim(temp)==""){
         tishi("完形填空内容不能为空！");
+        stopPropagation(arguments[1]);
         return false;
     }
     var sign_length=-1;
@@ -1211,7 +1250,7 @@ function wanxin_save_btn(obj){
     }else{
         sign_length = 0
     }
-    //alert(KindEditor.instances.length+"..."+temp+"-->"+length+"-->"+sign_length);
+    // alert(KindEditor.instances.length+"..."+temp+"-->"+length+"-->"+sign_length);
     if(length != sign_length){
         tishi("选项标记与选项个数不匹配！");
         stopPropagation(arguments[1]);
@@ -1231,3 +1270,28 @@ function wanxin_save_btn(obj){
     });
     stopPropagation(arguments[1]);
 }
+
+
+
+  function full_text(id){
+    KindEditor.ready(function(K) {
+      window.editor = K.create('#wanxin_'+id, {
+        id : "wanxin_"+id,
+        width : '420px',
+        height : '600px',
+        minWidth : '370px',
+        items : ['source',
+          'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+          'removeformat', '|',
+          'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+          '|','mark','commit'],
+        afterCreate : function() {
+          this.sync();
+        },
+        afterBlur: function(){
+          this.sync();
+        }//同步KindEditor的值到textarea文本框
+      });
+    });
+  }
+

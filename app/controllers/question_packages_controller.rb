@@ -290,11 +290,9 @@ class QuestionPackagesController < ApplicationController
   end
   def save_wanxin_content
     content = params[:content].gsub("(**)","&#").gsub("(*:*)",";").html_safe;
-    p 222222,content
     content = unencode content
-    p content
     @question = Question.find_by_id(params[:id])
-    if @question.update_attribute(:content, content)
+    if @question.update_attribute(:full_text, content)
       render text:1
     else
       render text:0

@@ -463,6 +463,15 @@ function search_b_tags(obj, school_class_id){
                             var q_index = $(this).parents(".tag_tab").find("input[name='q_index']").first().val();
                             var b_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
                             add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)   
+                        } else if(tag_bq_type!="" && tag_bq_type=="wanxin"){
+                            var q_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                            var branch_question_id = $(this).parents(".tag_tab").find("input[name='branch_question_id']").first().val();
+                            add_content_to_wanxin($(this), q_index, branch_question_id);
+                        }
+                        else if(tag_bq_type!="" && tag_bq_type=="paixu"){
+                            var q_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                            var branch_question_id = $(this).parents(".tag_tab").find("input[name='branch_question_id']").first().val();
+                            add_content_to_paixu($(this), q_index, branch_question_id);
                         }
                     })
                 });
@@ -578,14 +587,14 @@ function add_b_tags(type, obj){
 //添加标签到听写或朗读题小题下
 function add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)
 {   
-   var tags_id = $.trim($("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val());
-   var branch_id = $.trim($("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.branch_id").val());
-   var question_pack_id = $("#question_pack_id").val();
-   var school_class_id = $("#school_class_id").val();
-   var url = "/school_classes/" + school_class_id + "/question_packages/save_branch_tag";
-   var tag_li = "<li><p>"+tag_name+"</p><a href='javascript:void(0)'' class='x' onclick='delete_reading_listening_tags(this,"+tag_id+")'>X</a></li>";
-   if(branch_id == "")
-   {
+    var tags_id = $.trim($("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val());
+    var branch_id = $.trim($("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("input.branch_id").val());
+    var question_pack_id = $("#question_pack_id").val();
+    var school_class_id = $("#school_class_id").val();
+    var url = "/school_classes/" + school_class_id + "/question_packages/save_branch_tag";
+    var tag_li = "<li><p>"+tag_name+"</p><a href='javascript:void(0)'' class='x' onclick='delete_reading_listening_tags(this,"+tag_id+")'>X</a></li>";
+    if(branch_id == "")
+    {
         if(tags_id == "")
         {
             $("div.assignment_body_list:eq("+ q_index +")").find("div.questions_item:eq("+ b_index +")").find("div.tag_ul").find("ul").append(tag_li);
@@ -1057,6 +1066,10 @@ function add_paixu_tags(obj){
     var question_item = $(obj).parents(".questions_item")[0]
     var q_index = $($(obj).parents(".ab_article")[0]).find(".questions_item").index($(question_item));
     var lis = $("#tags_table").find("li");
+    $("#tags_table").find("input[name='q_index']").first().val(gloab_index);
+    $("#tags_table").find("input[name='b_index']").first().val(q_index);
+    $("#tags_table").find("input[name='tag_bq_type']").first().val("paixu");
+    $("#tags_table").find("input[name='branch_question_id']").first().val(branch_question_id);
     $.each(lis, function(){
         var current_input = $(this).find("input").first();
         // current_input.attr("onclick","add_content_to_paixu(this,"+q_index+","+ branch_question_id+")")
@@ -1176,7 +1189,10 @@ function add_wanxin_tags(obj, index){
     var branch_question_id = $(obj).parents(".gapFilling_questions").find(".branch_question_id").val();
     var question_item = $(obj).parents(".gapFilling_questions")[0]
     var q_index = $($(obj).parents(".gapFilling_box")[0]).find(".gapFilling_questions").index($(question_item));
-    
+    $("#tags_table").find("input[name='q_index']").first().val(gloab_index);
+    $("#tags_table").find("input[name='b_index']").first().val(q_index);
+    $("#tags_table").find("input[name='tag_bq_type']").first().val("wanxin");
+    $("#tags_table").find("input[name='branch_question_id']").first().val(branch_question_id);
     var lis = $("#tags_table").find("li");
     $.each(lis, function(){
         var current_input = $(this).find("input").first();
@@ -1259,7 +1275,9 @@ function wanxin_save_btn(obj){
         return false;
     }
     var text = editor.html();
-    text = text.replace(/[>&<'";]/g, function(x) { return "(**)" + x.charCodeAt(0) + "(*:*)"; });
+    text = text.replace(/[>&<'";]/g, function(x) {
+        return "(**)" + x.charCodeAt(0) + "(*:*)";
+    });
     alert(text);
     $.ajax({
         dataType:"text" ,
@@ -1277,25 +1295,25 @@ function wanxin_save_btn(obj){
 
 
 
-  function full_text(id){
+function full_text(id){
     KindEditor.ready(function(K) {
-      window.editor = K.create('#wanxin_'+id, {
-        id : "wanxin_"+id,
-        width : '420px',
-        height : '600px',
-        minWidth : '370px',
-        items : ['source',
-          'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-          'removeformat', '|',
-          'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-          '|','mark','commit'],
-        afterCreate : function() {
-          this.sync();
-        },
-        afterBlur: function(){
-          this.sync();
-        }//同步KindEditor的值到textarea文本框
-      });
+        window.editor = K.create('#wanxin_'+id, {
+            id : "wanxin_"+id,
+            width : '420px',
+            height : '600px',
+            minWidth : '370px',
+            items : ['source',
+            'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+            'removeformat', '|',
+            'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+            '|','mark','commit'],
+            afterCreate : function() {
+                this.sync();
+            },
+            afterBlur: function(){
+                this.sync();
+            }//同步KindEditor的值到textarea文本框
+        });
     });
-  }
+}
 

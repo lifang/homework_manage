@@ -1,9 +1,10 @@
 <script charset="utf-8" src="/assets/kindeditor/kindeditor.js"></script>
 <script charset="utf-8" src="/assets/kindeditor/lang/zh_CN.js"></script>
 <script>
-  function full_text(){
+  function full_text(id){
     KindEditor.ready(function(K) {
-      window.editor = K.create('.wanxin_content', {
+      window.editor = K.create('#wanxin_'+id, {
+        id : "wanxin_"+id,
         width : '420px',
         height : '600px',
         minWidth : '370px',
@@ -21,7 +22,7 @@
       });
     });
   }
-  full_text();
+
 </script>
 <div class="main" id="new_question_main_div">
   <div class="assignment">

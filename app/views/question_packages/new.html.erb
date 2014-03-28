@@ -139,7 +139,8 @@
           <li><input type="checkbox" value="<%= bt.id %>"/><p><%= bt.name %></p></li>
         <% end %>
       </ul>
-      <input type="hidden" value=""/>
+      <input type="hidden" name="tag_bq_id" value=""/>
+      <input type="hidden" name="tag_bq_type" value=""/>
       <a href="javascript:void(0)" onclick="add_new_b_tag(this, <%= @school_class.id  %>)"></a>
     </div>
 

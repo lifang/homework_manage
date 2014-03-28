@@ -38,25 +38,26 @@
       </div>
     </div>
   </div>
+  <script>
+    //full_text(<%#=@question.id%>);
+
+    var editor = KindEditor.create("#wanxin_"+<%=@question.id%>, {
+      id : "wanxin_"+<%=@question.id%>,
+      width : '420px',
+      height : '600px',
+      minWidth : '370px',
+      items : ['source',
+        'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+        'removeformat', '|',
+        'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+        '|','mark','commit'],
+      afterCreate : function() {
+        this.sync();
+      },
+      afterBlur: function(){
+        this.sync();
+      }//同步KindEditor的值到textarea文本框
+    });
+  </script>
+
 </div>
-<script>
-  //full_text(<%#=@question.id%>);
- 
-      var editor = KindEditor.create("#wanxin_"+<%=@question.id%>, {
-        id : "wanxin_"+<%=@question.id%>,
-        width : '420px',
-        height : '600px',
-        minWidth : '370px',
-        items : ['source',
-          'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-          'removeformat', '|',
-          'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-          '|','mark','commit'],
-        afterCreate : function() {
-          this.sync();
-        },
-        afterBlur: function(){
-          this.sync();
-        }//同步KindEditor的值到textarea文本框
-      });
-</script>

@@ -529,10 +529,11 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
   #压缩和推送
   def compress_and_push file_dirs_url,question_package_id,school_class_id,content,publish_question_package
     zip_url = "#{Rails.root}/public/#{file_dirs_url}/resourse.zip"
+    File.delete zip_url if File.exists?(zip_url)
     resourse_url = "#{Rails.root}/public#{media_path % question_package_id}"
     question_packages_url = "#{Rails.root}/public#{publish_question_package.question_packages_url}"
     resourse_zip_url = "/#{file_dirs_url}/resourse.zip"
-    Archive::Zip.archive("#{zip_url}","#{resourse_url}/.")
+    Archive::Zip.archive("#{zip_url}","#{resourse_url}/.") if Dir.exists?(resourse_url)
     if File.exist?(question_packages_url)
       Archive::Zip.archive("#{zip_url}","#{question_packages_url}")
       publish_question_package.update_attributes(:question_packages_url => resourse_zip_url)

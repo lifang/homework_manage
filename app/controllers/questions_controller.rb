@@ -179,7 +179,13 @@ class QuestionsController < ApplicationController
   def delete_branch_question
     @branch_question_id = params[:id]
     branch_question = BranchQuestion.find_by_id(@branch_question_id)
+    
+    if branch_question && branch_question.content &&  branch_question.content.include?("<file>")&& branch_question.content.include?("</file>")
+      sourse = branch_question.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0]
+      sourse_all = "#{Rails.root}/public#{sourse}"
+    end
     if branch_question && branch_question.destroy
+      File.delete "#{sourse_all}" if File.exist?("#{sourse_all}")
       @status = 1
     else
       @status = 0
@@ -261,9 +267,9 @@ class QuestionsController < ApplicationController
   def reference
     @question_pack = QuestionPackage.find_by_id(params[:question_package_id])
     share_question = ShareQuestion.find_by_id(params[:id])
-     @question = @question_pack.questions.create({:cell_id => share_question.cell_id, :episode_id => share_question.episode_id,
-             :types => share_question.types, :name => share_question.name, :questions_time => share_question.questions_time,
-             :full_text => share_question.full_text })
+    @question = @question_pack.questions.create({:cell_id => share_question.cell_id, :episode_id => share_question.episode_id,
+        :types => share_question.types, :name => share_question.name, :questions_time => share_question.questions_time,
+        :full_text => share_question.full_text })
     share_branch_questions = share_question.share_branch_questions
     Question.transaction do
       begin

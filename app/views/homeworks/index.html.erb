@@ -8,21 +8,33 @@
     </div>
   </div>
 </div>
-<div id="publish_task_panel" style="display: none; z-index: 10;"  class="tab">
+
+<div id="publish_task_panel" class="tab tab500" style="display: none; z-index: 10;">
   <%= form_tag("/school_classes/#{@school_class.id}/homeworks/publish_question_package", :method =>"post", :remote => true) do %>
     <span class="close">关闭</span>
-    <div class="tab_con">
-      <h1>请设置时间</h1>
-      <div class="tab_ul">
+    <div class="tab_head">选择小组</div>
+    <div class="tab_body clearAfter">
+      <div class="tab_warning">选择适合本套作业题的小组和时间</div>
+      <div class="tab_switch">
         <ul>
-          <li><input id="end_time" name="end_time"  readonly="readonly"  type="text" class="tab_time_input" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',autoPickDate:true})"/></li>
-          <li><input id="question_package_id_value" name="question_package_id" type="text" style="display: none;" class="tab_time_input"/></li>
-          <li><input name="school_class_id" type="text" value="<%= @school_class.id %>" style="display: none;" class="tab_time_input"/></li>
+          <li><a href="javascript:void(0)" onclick="setChosen(this)" data-value="0">全班</a><span class="tooltip_html">当前</span></li>
+          <% @school_tags.each do |school_tag| %>
+            <li>
+              <a href="javascript:void(0)" onclick="setChosen(this)" data-value="<%= school_tag.id %>"><%= school_tag.name %></a>
+            </li>
+          <% end %>
+          <li>
+            <input id="end_time" name="end_time"  readonly="readonly"  type="text" value="截止时间" class="tab_time_input" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',autoPickDate:true})"/>
+          </li>
+          <input class="hidden_selected_tag_id" type="hidden" name="tag_id" value="0"/>
+          <input id="question_package_id_value" name="question_package_id" type="hidden"/>
+          <input id="hidden_page_value" name="page" type="hidden"/>
         </ul>
+        <div class="tab_switch_btn">
+          <a href="javascript:void(0)" onclick="check_time(this)" >确定</a>
+        </div>
       </div>
     </div>
-    <div class="tab_btn"><button id="publish_task" class="green_btn" type="button" onclick="check_time(this)" >确认</button></div>
-    <button id="submit_publish_task" style="display: none;" class="green_btn" type="submit">提交</button>
   <% end %>
 </div>
 
@@ -37,25 +49,15 @@
      background:#fff;">
 
 </div>
-<div id="fugai" style="display: none;
-     width: 100%;
-     height: 100%;
-     z-index: 98;
-     position: fixed;
-     top: 0;
-     opacity: 0.3;
-     filter: alpha(opacity=30);
-     background:#fff;">
-</div>
 <div id="fugai1" style="width: 100%;
+     right: 20px;
      height: 100%;
      z-index: 99;
      top: 0;
      display: none;
      position: fixed;">
   <div style="display:block;margin: 100px auto;text-align: center;height:80px;">
-    <h2 >正在引用题包，可能需要几分钟的时间，请您耐心等待</h2>
+    <h2 ></h2>
     <img src="/assets/loader.gif" style=" width:80px;height:80px; "/>
   </div>
 </div>
-

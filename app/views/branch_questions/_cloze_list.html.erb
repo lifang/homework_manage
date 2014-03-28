@@ -1,11 +1,11 @@
-<% from ||= "" %>
 <div class="ab_list_box" style="display: none;">
   <div class="ab_article">
     <div class="questions_item">
-      <div class="gapFilling_textarea">
-        <textarea name="" cols="" rows="" value="<%= question[:content] %>"></textarea>
+      <div class="gapFilling_textarea" style="width:50%;">
+          <%= question[:content].present? ? question[:content].html_safe : "" %>
       </div>
       <div class="gapFilling_box">
+      <% if branch_questions.present? %>  
         <% count = 1 %>
         <% branch_questions.each do |bq| %>
           <div class="gapFilling_questions">
@@ -14,7 +14,7 @@
 
               <div class="gq_article">
                 <div class="gq_article_title">
-                  <div class="qt_input"><input name="" type="text"></div>
+                  <div class="qt_input"><p><%= bq.content %></p></div>
                 </div>
                 <% if bq.options.present? %>
                   <ul>
@@ -25,7 +25,7 @@
                             <input type="checkbox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;">
                             <ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"></ins>
                           </div>
-                          <div class="qt_text"><p><%= option %></p></div>
+                          <div class="show_text"><p><%= option %></p></div>
                         </li>
                       <% else %>
                         <li>
@@ -41,23 +41,29 @@
                 <% end %>
               </div>
             </div>
-            <% unless from == "refer" %>
-              <div class="qt_icon">
-                <a href="#" class="save tooltip_html">保存</a>
-                <a href="#" class="tag tooltip_html">标签</a>
-              </div>
-            <% end %>
             <% if branch_tags[bq.id].present? %>
               <div class="tag_ul">
                 <ul>
                   <% branch_tags[bq.id].each do |tag| %>
-                    <li><p><%= tag.name %></p><a href="#" class="x">X</a></li>
+                    <li><p><%= tag.name %></p></li>
                   <% end %>
                 </ul>
               </div>
             <% end %>
           </div>
+          <% count += 1 %>
         <% end %>
+      <% else %>  
+        <div class="b_table">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+              <tr style="height:100px; background: #f6f6f6;" >
+                <td align="center">该大题下暂无小题</td>
+              </tr>
+             </tbody> 
+          </table>
+        </div>
+      <% end %>  
       </div>
     </div>
   </div>

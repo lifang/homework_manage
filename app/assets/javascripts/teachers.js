@@ -50,7 +50,7 @@ function check_nonempty(){
     }
 }
 function cancle_main(){
-    $(".tab_user").hide(100);
+    window.location.href="/welcome/logout";
 }
 function create_new_tag(){
     $(".tag_list").hide();
@@ -165,6 +165,7 @@ function close_student_ungrouped_mess(school_class_id, obj){    //关闭页面�
     })
 }
 function delete_student_tag(obj,school_class_id,student_id){
+    var page_value = getQueryString("page");
     var html = ""
     var path = "/school_classes/"+ school_class_id +"/tags/choice_tags"
     $.ajax({
@@ -175,22 +176,29 @@ function delete_student_tag(obj,school_class_id,student_id){
             student_id : student_id
         },
         success:function(data){
+            var flag = false;
             for(var i=0;i<data.tag.length;i++){
                 if(data.tag[i].id!= data.schoolclassstudentralastion.tag_id){
+                    flag = true;
                     var name = data.tag[i].name
                     var id = data.tag[i].id
                     html +="<li><form action='"+ path +"' method='post' >\n\
                                <input type='submit' value='"+ name +"' class='tab_head' style='color: #F3F8F7;'>\n\
                                <input type='text' name='tag_id' value="+ id +" style='display:none' >\n\
                                 <input type='text' name='student_id' value="+ student_id +" style='display:none'>\n\
+                                <input type='text' name='page' value='"+ page_value +"' style='display:none'/>\n\
                                 </form>  </li> ";
                 }
             }
-            var html_ul = "<a href='javascript:void(0);' class='close'>close</a>\n\
+            if(flag){
+                var html_ul = "<a href='javascript:void(0);' class='close'>close</a>\n\
 <div class='tab_body clearAfter'><div class='tab_warning'>根据本班学员的个人情况进行分组</div><div class='tab_switch'>\n\
-<ul>"+ html +"</ul></div></div>"
-            $(".regrouping").html(html_ul);
-            $(".regrouping").show()
+<ul style='border:0'>"+ html +"</ul></div></div>"
+                $(".regrouping").html(html_ul);
+                $(".regrouping").show();
+            }else{
+                tishi("当前班级没有更多的组！")
+            }
         }
     })
 }
@@ -337,7 +345,7 @@ function select_upload(obj){
             tishi("上传成功！");
             var html="<input type='text' value='"+ data_arr[1] +"' name='select_resourse' style='display:none;'>"
             var q_left = $("#input_select_upload").parents(".q_left")
-//            $(obj).parents().find(".q_topic").attr("class","q_topic q_compile")
+            //            $(obj).parents().find(".q_topic").attr("class","q_topic q_compile")
             if(data_arr[0]=="voice"){
                 $("#input_select_upload").parents(".q_topic").find("input[name='select_content']").attr("disabled","true")
                 //                var html_title = "<input type='text' name='select_content' style='display:block;' disabled='true'>"

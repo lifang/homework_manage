@@ -1,7 +1,9 @@
 <% if @info[:status] == true %>
-tishi('<%= @info[:notice]  %>');
-setTimeout('location.href ="/school_classes/<%= params[:school_class_id].to_i %>/homeworks"',1000);
+  tishi('<%= @info[:notice]  %>');
+  setTimeout('location.href ="/school_classes/<%= params[:school_class_id].to_i %>/homeworks?page=<%= @page %>"',1000);
 <% else %>
-$("#publish_task").removeAttr("disabled");
-tishi('<%= @info[:notice] %>');
+  $("#fugai").hide();
+  $("#fugai1").find("h2").text("");
+  $("#fugai1").hide();
+  tishi('<%= @info[:notice] %>');
 <% end %>

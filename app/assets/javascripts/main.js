@@ -684,25 +684,6 @@ function delete_packages(publish_question_package_id,school_class_id)
         })
     }
 }
-//显示发布任务栏
-function show_publish_task_panel(question_package_id)
-{
-    $("#question_package_id_value").val(question_package_id);
-    show_windows("publish_task_panel");
-}
-
-//发布任务时验证时间
-function check_time(obj)
-{
-    end_time = $.trim($("#end_time").val());
-    if(end_time != "")
-    {
-        $(obj).attr("disabled","disabled");
-        $("#submit_publish_task").click();
-    }
-    else
-        tishi("时间不能为空！");
-}
 
 //注册时验证
 function check_regist_info()

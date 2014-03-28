@@ -50,6 +50,15 @@ class WelcomeController < ApplicationController
     @info = {:status => status, :notice => notice, :last_visit_class => last_visit_class}
   end
 
+  #注销
+  def logout
+    cookies[:teacher_id]=nil
+    cookies[:user_id]=nil
+    cookies.delete(:teacher_id)
+    cookies.delete(:user_id)
+    cookies.delete(:student_has_ungrouped) if cookies[:student_has_ungrouped]
+    redirect_to "/"
+  end
   #教师注册
   def regist
     email = params[:email].to_s
@@ -84,7 +93,7 @@ class WelcomeController < ApplicationController
         if !teacher.nil? && !user.nil?
           if teacher.update_attributes(:password => password, :user_id => user.id)
             status = true
-            flash[:notice] = "注册完成！"
+            flash[:notice] = "注册完成,请登陆!"
           else
             teacher.destroy
             user.destroy

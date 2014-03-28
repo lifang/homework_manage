@@ -1000,22 +1000,7 @@ class Api::StudentsController < ApplicationController
     render :json => {:status => status,:notice => notice}
   end
 
-  #  点击显示标签列表
-  def card_tags_list
-    school_class_id = params[:school_class_id]
-    student_id = params[:student_id]
-    cardbag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
-    if cardbag
-      cardtags = CardTag.select(["id,name,date_format(created_at,'%Y-%m-%d %H:%S') as creat "]).where("card_bag_id= ?",cardbag.id)
-      status = "success"
-      notice = "获取标签成功"
-    else
-      status = "error"
-      notice = "获取标签失败"
-      cardtags=[]
-    end
-    render :json => {:status=> status,:notice => notice, :cardtag=>cardtags}
-  end
+
   #  新建标签并且加入知识卡片
   def create_card_tag
     knowledge_card_id = params[:knowledge_card_id]

@@ -7,6 +7,7 @@ class SchoolClass < ActiveRecord::Base
   belongs_to :teaching_material
   has_many :task_messages, :dependent => :destroy
   has_many :microposts, :dependent => :destroy
+  has_many :tags
   has_many :school_class_student_ralastions, :dependent => :destroy
   has_many :students, :through =>  :school_class_student_ralastions
   validates_uniqueness_of :verification_code

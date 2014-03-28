@@ -67,6 +67,7 @@ from school_classes sc where sc.id=?"
     name = params[:class_name]
     teaching_material_id = params[:teaching_material_id]
     period_of_validity = params[:period_of_validity].to_s + " 23:59:59"
+    p 111111111111111111,teaching_material_id
     if @school_class.update_attributes(:name=>name,:period_of_validity=>period_of_validity,:teaching_material_id=>teaching_material_id)
       flash[:success] = '更新成功！'
       redirect_to school_class_students_path(@school_class)

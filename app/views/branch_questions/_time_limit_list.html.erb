@@ -6,20 +6,18 @@
         <div class="q_topic">
           <div class="speedQuestions">
             <ul>
-              <li><a href="#" class="<%= bq[:answer] == "true" ? "true" : "false"  %>">T</a></li>
-              <li class="qt_text"><p><%= bq.content  %></p><input name="" type="text"/></li>
-              <li><a href="#" class="<%= bq[:answer] == "true" ? "false" : "true"  %>">F</a></li>
+              <li><a href="javascript:void(0)" class="<%= bq[:answer] == "true" ? "true" : "false"  %>">T</a></li>
+              <li class="show_text"><p><%= bq.content  %></p></li>
+              <li><a href="javascript:void(0)" class="<%= bq[:answer] == "true" ? "false" : "true"  %>">F</a></li>
             </ul>
           </div>
         </div>
-        <% unless from == "refer" %>
-          <div class="qt_icon"><a href="#" class="tag tooltip_html">标签</a></div>
-        <% end %>
+        
         <% if branch_tags[bq.id].present? %>
           <div class="tag_ul">
             <ul>
               <% branch_tags[bq.id].each do |tag| %>
-                <li><p><%= tag.name %></p><a href="#" class="x">X</a></li>
+                <li><p><%= tag.name %></p></li>
               <% end %>
             </ul>
           </div>

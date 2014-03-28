@@ -26,23 +26,20 @@ class Teacher < ActiveRecord::Base
     end
     que_packs_id = publish_question_packages.map(&:question_package_id)
     que_pack_types = QuestionPackage.get_all_packs_que_types school_class_id,que_packs_id
-    qp_ids = que_pack_types.map(&:id) 
-    qp_ids = qp_ids.uniq if qp_ids.present?
     que_pack_types = que_pack_types.group_by { |qp| qp.id }
     all_pack_types_name = []
-    qp_ids.each do |id|
+    que_pack_types.each do |id,val|
       type_name = ""
-      if que_pack_types[id].present? 
-        count = 0
-        que_pack_types[id].each do |e|  
-          type_name += "、" if count > 0 
-          type_name += Question::TYPES_NAME[e[:types]]
-          count += 1
-        end  
-      end
+      count = 0
+      val.map  do |e| 
+        type_name += "、" if count > 0 
+        type_name += Question::TYPES_NAME[e.types]
+        count += 1
+      end  
       type_name = "暂无题目" if  type_name.gsub(" ","").size <= 0
       all_pack_types_name << {:id => id.to_i, :type_name => type_name}
     end
+    p all_pack_types_name
     all_pack_types_name = all_pack_types_name.group_by {|e| e[:id]}
     student_answer_records = StudentAnswerRecord.where("school_class_id = ? and publish_question_package_id in (?)",school_class_id,pub_package_id)
     student_answer_records.map!(&:publish_question_package_id).uniq!

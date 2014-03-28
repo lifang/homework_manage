@@ -459,6 +459,11 @@ function search_b_tags(obj, school_class_id){
                         if(tag_bq_type!="" && tag_bq_type=="time_limit"){
                             add_tags_to_time_limit($(this), tag_id, tag_name);
                         }
+                        else if(tag_bq_type!="" && tag_bq_type=="listening_and_reading_tags"){
+                            var q_index = $(this).parents(".tag_tab").find("input[name='q_index']").first().val();
+                            var b_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                            add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)   
+                        }
                     })
                 });
                 $(obj).parents("div.tag_tab").find("a").first().text("");
@@ -510,6 +515,11 @@ function add_new_b_tag(obj, school_class_id){
                             if(tag_bq_type!="" && tag_bq_type=="time_limit"){
                                 add_tags_to_time_limit($(this), tag_id, tag_name);
                             }
+                            else if(tag_bq_type!="" && tag_bq_type=="listening_and_reading_tags"){
+                                var q_index = $(this).parents(".tag_tab").find("input[name='q_index']").first().val();
+                                var b_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                                add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)   
+                            }
                         })
                     });
                     $(obj).text("");
@@ -549,6 +559,8 @@ function add_b_tags(type, obj){
     }else if(type=="listening_and_reading_tags"){
         var q_index = $(obj).parent().parent().parent().parent().parent().index();
         var b_index = $(obj).parents(".questions_item").index();
+        $("#tags_table").find("input[name='q_index']").first().val(q_index);
+        $("#tags_table").find("input[name='b_index']").first().val(b_index);
         var lis = $("#tags_table").find("li");
         $.each(lis, function(){
             var current_input = $(this).find("input").first();

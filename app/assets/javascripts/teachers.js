@@ -50,7 +50,7 @@ function check_nonempty(){
     }
 }
 function cancle_main(){
-    $(".tab_user").hide(100);
+    window.location.href="/welcome/logout";
 }
 function create_new_tag(){
     $(".tag_list").hide();

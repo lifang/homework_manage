@@ -2,7 +2,7 @@
   <div class="userInfo">
     <ul>
       <li class="switchoverClass"><a href="javascript:void(0);" class="tooltip_html" onclick="show_switch_class()">切换班级</a></li>
-      <li class="userName"><%= @user.name %></li>
+      <li class="userName" style="cursor:pointer;"><%= @user.name %></li>
       <!--<li><a href="/school_classes/<%= params[:school_class_id].to_i %>/teachers/teacher_setting" class=<%= is_hover("teachers") %>><span class="nav04">设置</span></a></li>-->
       <!--<li class="out"><a href="/welcome/teacher_exit"><span class="nav05">退出</span></a></li>-->
       <li class="email"><a href="javascript:void(0)" class=<%= is_hover("messages") %>><%= @unread_messes.length %></a></li>

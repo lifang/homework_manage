@@ -50,6 +50,15 @@ class WelcomeController < ApplicationController
     @info = {:status => status, :notice => notice, :last_visit_class => last_visit_class}
   end
 
+  #注销
+  def logout
+    cookies[:teacher_id]=nil
+    cookies[:user_id]=nil
+    cookies.delete(:teacher_id)
+    cookies.delete(:user_id)
+    cookies.delete(:student_has_ungrouped) if cookies[:student_has_ungrouped]
+    redirect_to "/"
+  end
   #教师注册
   def regist
     email = params[:email].to_s

@@ -280,9 +280,19 @@ class QuestionPackagesController < ApplicationController
       select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
 
   end
-
+  def unencode content
+    arr = ['&#60;','&#34;','&#59;','&#62;','&#38;','&#39;']
+    arr_encode = ['<','"',';','>','&','\'']
+    6.times do |i|
+      content = content.gsub(arr[i],arr_encode[i]);
+    end
+    content
+  end
   def save_wanxin_content
-    content = params[:content]
+    content = params[:content].gsub("(**)","&#").gsub("(*:*)",";").html_safe;
+    p 222222,content
+    content = unencode content
+    p content
     @question = Question.find_by_id(params[:id])
     if @question.update_attribute(:content, content)
       render text:1

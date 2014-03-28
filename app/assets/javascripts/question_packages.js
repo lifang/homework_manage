@@ -551,6 +551,7 @@ function add_b_tags(type, obj){
             })           
         })
     }
+
     return false;
 }
 
@@ -1156,6 +1157,7 @@ function add_wanxin_tags(obj, index){
     var branch_question_id = $(obj).parents(".gapFilling_questions").find(".branch_question_id").val();
     var question_item = $(obj).parents(".gapFilling_questions")[0]
     var q_index = $($(obj).parents(".gapFilling_box")[0]).find(".gapFilling_questions").index($(question_item));
+    
     var lis = $("#tags_table").find("li");
     $.each(lis, function(){
         var current_input = $(this).find("input").first();
@@ -1238,6 +1240,8 @@ function wanxin_save_btn(obj){
         return false;
     }
     var text = editor.html();
+    text = text.replace(/[>&<'";]/g, function(x) { return "(**)" + x.charCodeAt(0) + "(*:*)"; });
+    alert(text);
     $.ajax({
         dataType:"text" ,
         url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/save_wanxin_content",

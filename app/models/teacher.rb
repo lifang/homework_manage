@@ -41,8 +41,9 @@ class Teacher < ActiveRecord::Base
       type_name = "暂无题目" if  type_name.gsub(" ","").size <= 0
       all_pack_types_name << {:id => id.to_i, :type_name => type_name}
     end
-    p all_pack_types_name
+   
     all_pack_types_name = all_pack_types_name.group_by {|e| e[:id]}
+     p all_pack_types_name
     student_answer_records = StudentAnswerRecord.where("school_class_id = ? and publish_question_package_id in (?)",school_class_id,pub_package_id)
     student_answer_records.map!(&:publish_question_package_id).uniq!
     info = {:publish_question_packages => publish_question_packages, :un_delete => student_answer_records, :all_pack_types_name => all_pack_types_name}

@@ -154,7 +154,7 @@ function delete_student_tag(obj,school_class_id,student_id){
                     var name = data.tag[i].name
                     var id = data.tag[i].id
                     html +="<li><form action='"+ path +"' method='post' >\n\
-                               <input type='submit' value='"+ name +"' class='tab_head'>\n\
+                               <input type='submit' value='"+ name +"' class='tab_head' style='color: #F3F8F7;'>\n\
                                <input type='text' name='tag_id' value="+ id +" style='display:none' >\n\
                                 <input type='text' name='student_id' value="+ student_id +" style='display:none'>\n\
                                 </form>  </li> ";

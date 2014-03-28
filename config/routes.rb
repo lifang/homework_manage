@@ -82,7 +82,7 @@ HomeworkManage::Application.routes.draw do
       member do
       end
       collection do
-        get :index,:delete_student,:tag_student_list,:add_student_tag,:edit_class
+        get :index,:delete_student,:tag_student_list,:add_student_tag,:edit_class, :close_student_ungrouped_mess
         post :update_class
       end
     end

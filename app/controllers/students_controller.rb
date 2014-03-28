@@ -4,11 +4,11 @@ class StudentsController < ApplicationController
   before_filter :sign?, :get_unread_messes
   before_filter :get_school_class
   def index
-
     sql_schoolclass = "SELECT *,(select COUNT(*) from school_class_student_ralastions scsr WHERE scsr.school_class_id = ?) count
 from school_classes sc where sc.id=?"
     @schoolclass = SchoolClass.find_by_sql([sql_schoolclass,school_class_id,school_class_id]).first
-    @ungrouped = SchoolClassStudentRalastion.where("tag_id is null")
+    ungrouped = SchoolClassStudentRalastion.where("tag_id is null")
+    cookies[:student_has_ungrouped] = {:value => true} if cookies[:student_has_ungrouped].nil? && ungrouped.any?
     @tags = Tag.where("school_class_id=#{school_class_id}")
     student_situations = Student.list_student school_class_id
     @student_situations = student_situations.paginate(:page=> params[:page] ||= 1,:per_page=>Student::PER_PAGE )
@@ -75,5 +75,15 @@ from school_classes sc where sc.id=?"
       flash[:error] = '更新失败！'
       redirect_to school_class_students_path(@school_class)
     end
+  end
+
+  def close_student_ungrouped_mess  #关闭未分组学员信息提示
+    status = 1
+    if cookies[:student_has_ungrouped].nil?
+      status = 0
+    else
+      cookies[:student_has_ungrouped] = false
+    end
+    render :json => {:status => status}
   end
 end

@@ -127,17 +127,44 @@ function cancel_upload(){
 }
 
 
-function shwo_tags(){
+function shwo_tags(){   //点击班级分组跳出弹出层
     //    height_tab()
     $(".mask").show()
     $(".tag_list").show();
 }
-function show_switch_class(){
+
+function create_class_valid(obj){   //创建班级分组验证
+    var tag_name = $(obj).parent("form").find("input[name='name_tag']").first().val();
+    if(tag_name==undefined || tag_name==""){
+        tishi("组名不能为空!");
+    }else{
+        $(obj).removeAttr("onclick");
+        $(obj).parent("form").submit();
+    }
+}
+function show_switch_class(){   //切换班级
     //    height_tab()
-    $(".mask").show()
+    $(".mask").show();
+    $(".tab").hide();
     $("#school_class_list").show();
 }
-
+function close_student_ungrouped_mess(school_class_id, obj){    //关闭页面上学员未分组的提示
+    $.ajax({
+        type: "get",
+        url: "/school_classes/"+school_class_id+"/students/close_student_ungrouped_mess",
+        dataType: "json",
+        success: function(data){
+            if(data.status==1){
+                $(obj).parent().remove();
+            }else{
+                tishi("操作失败!");
+            }
+        },
+        error: function(data){
+            tishi("操作失败!");
+        }
+    })
+}
 function delete_student_tag(obj,school_class_id,student_id){
     var html = ""
     var path = "/school_classes/"+ school_class_id +"/tags/choice_tags"

@@ -80,8 +80,7 @@ function update_password(school_class_id){
                 tishi(message);
                 $(".update_password").css("display","none");
                 setTimeout('',2000)
-                window.location.href="/school_classes/" + school_class_id + "/teachers/teacher_setting";
-
+                location.reload();
             }else{
                 message = data.notice;
                 tishi(message);

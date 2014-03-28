@@ -5,7 +5,7 @@
       / <%= question.created_at.present? ? question.created_at.strftime("%Y-%m-%d") : "未保存" %>/ 
       <span name=cankaoshijian>参考时间：
         <% if question.questions_time.present? %>
-          <%= question.questions_time/60 %>'<%= question.questions_time%60 %>
+          <%= question.questions_time/3600 %>时<%= question.questions_time%3600/60 %>分<%= question.questions_time%3600%60 %>秒
         <% else %>
           未设置
         <% end %>

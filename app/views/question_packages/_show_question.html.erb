@@ -1,24 +1,20 @@
-<% count = 0 %>
-<% @question_type.each do |type| %>
-    <div class="assignment_body" id="question_list_<%= type  %>" style="display: <%= count > 0 ? 'none' : 'block' %>">
-    <% @questions[type].each do |question| %>
-        <% case question[:types].to_i %>
-            <% when Question::TYPES[:TIME_LIMIT] then%>
-                <%= render "question_packages/que_time_limit", {:question => question}  %>
-            <% when Question::TYPES[:LISTENING] then %>
-                <%= render "question_packages/que_listening", {:question => question} %>
-            <% when Question::TYPES[:READING] then%>
-                <%= render "question_packages/que_reading", {:question => question}  %>
-            <% when Question::TYPES[:SELECTING] then%>
-                <%= render "question_packages/que_selecting", {:question => question}  %>
-            <% when Question::TYPES[:LINING] then%>
-                <%= render "question_packages/que_lining", {:question => question}  %>
-            <% when Question::TYPES[:CLOZE] then%>
-                <%= render "question_packages/que_cloze", {:question => question}  %>
-            <% when Question::TYPES[:SORT] then%>
-                <%= render "question_packages/que_sort", {:question => question}  %>
-        <% end %>
+<div class="assignment_body">
+<% @questions.each do |question| %>
+    <% case question[:types] %>
+        <% when Question::TYPES[:TIME_LIMIT] then%>
+            <%= render "question_packages/que_time_limit", {:question => question}  %>
+        <% when Question::TYPES[:LISTENING] then %>
+            <%= render "question_packages/que_listening", {:question => question} %>
+        <% when Question::TYPES[:READING] then%>
+            <%= render "question_packages/que_reading", {:question => question}  %>
+        <% when Question::TYPES[:SELECTING] then%>
+            <%= render "question_packages/que_selecting", {:question => question}  %>
+        <% when Question::TYPES[:LINING] then%>
+            <%= render "question_packages/que_lining", {:question => question}  %>
+        <% when Question::TYPES[:CLOZE] then%>
+            <%= render "question_packages/que_cloze", {:question => question}  %>
+        <% when Question::TYPES[:SORT] then%>
+            <%= render "question_packages/que_sort", {:question => question}  %>
     <% end %>
-    </div>
-    <% count += 1 %>
 <% end %>
+</div>

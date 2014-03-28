@@ -89,7 +89,8 @@ class QuestionPackagesController < ApplicationController
         
         if !file.nil?
           @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
-          destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
+          destination_dir = "#{media_path % @question.question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
+          p destination_dir
           rename_file_name = "media_#{@branch_question.id}"
           upload = upload_file destination_dir, rename_file_name, file
           if upload[:status] == true
@@ -140,7 +141,8 @@ class QuestionPackagesController < ApplicationController
               @notice = "该小题不存在，修改失败！"
             else
               if !file.nil?
-                destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
+                destination_dir = "#{media_path % @question.question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
+                p destination_dir
                 rename_file_name = "media_#{@branch_question.id}"
                 upload = upload_file destination_dir, rename_file_name, file
                 if upload[:status] == true
@@ -175,7 +177,8 @@ class QuestionPackagesController < ApplicationController
             content = params[:content]
             @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
             if @branch_question
-              destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
+              destination_dir = "#{media_path % @question.question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
+              p destination_dir
               rename_file_name =  "media_#{@branch_question.id}"
               if file
                 upload = upload_file destination_dir, rename_file_name, file
@@ -488,16 +491,12 @@ class QuestionPackagesController < ApplicationController
     @question_pack = QuestionPackage.find_by_id(params[:id])
     @pub_que_pack = PublishQuestionPackage.find_by_question_package_id @question_pack
     redirect_to "/school_classes/#{params[:school_class_id]}/homeworks" if @question_pack.nil? 
-    redirect_to "/school_classes/#{params[:school_class_id]}/question_packages/#{@question_pack.id}/new_index" if @pub_que_pack.nil?
+    # redirect_to "/school_classes/#{params[:school_class_id]}/question_packages/#{@question_pack.id}/new_index" if @pub_que_pack.nil?
     teacher = Teacher.find_by_id cookies[:teacher_id]
     @user = User.find_by_id teacher.user_id.to_i
-    @origin_questions = nil
-    question_type = QuestionPackage.get_one_package_questions @question_pack.id
-    @question_type = question_type.map(&:types).uniq.sort if question_type.present? || []
-    p @question_type
     ques = []
     question = Question
-    .select("id, types, name, full_text, content, questions_time, created_at")
+    .select("id, types, name, full_text, content, questions_time, created_at, cell_id, episode_id")
     .where(["questions.question_package_id = ?", @question_pack.id])
     question_id = question.map{|q| q.id }.uniq
     branch_questions = BranchQuestion
@@ -515,12 +514,16 @@ class QuestionPackagesController < ApplicationController
         branch_ques = branch_questions[q.id]
       end
       ques << {:id => q.id, :name => q.name, :types => q.types, :full_text => q.full_text,
-        :questions_time => q.questions_time, :created_at => q.created_at,
-        :content => q.content, :branch_questions => branch_ques}
+        :questions_time => q.questions_time, :created_at => q.created_at, :cell_id => q.cell_id, 
+        :episode_id => q.episode_id, :content => q.content, :branch_questions => branch_ques}
     end
-    @questions = ques.group_by {|q| q[:types]}
+    @cell = Cell.find_by_id ques[0][:cell_id] if ques && ques.present? && ques[0].present?
+    @episode = @cell.episodes.where("id = #{ques[0][:episode_id]}") if @cell && @cell.present?
+    @episode = @episode[0] if @episode && @episode.present?
+    @questions = ques
     p @questions
-    #p @branch_tags
+    @cell = "未设置" unless @cell.present?
+    @episode = "未设置" unless @episode.present?
   end
 
   #删除作业

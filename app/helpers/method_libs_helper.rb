@@ -184,14 +184,15 @@ module MethodLibsHelper
   end
 
   def create_dirs dirs_url
-    url = ""
-    root_path = "#{Rails.root}/public"
-    dirs = dirs_url.split("/")
-    dirs.each_with_index  do |e,i|
-      url +=  "/"
-      url += "#{e}"
-      Dir.mkdir root_path + url if !Dir.exist? root_path + url
-    end
+    #    url = ""
+    dir_dull_path = "#{Rails.root}/public/" + dirs_url
+    FileUtils.mkdir_p(dir_dull_path) unless Dir.exists?(dir_dull_path)
+    #    dirs = dirs_url.split("/")
+    #    dirs.each_with_index  do |e,i|
+    #      url +=  "/"
+    #      url += "#{e}"
+    #      Dir.mkdir root_path + url if !Dir.exist? root_path + url
+    #    end
   end
 
   #生成题目包的xml
@@ -205,15 +206,18 @@ module MethodLibsHelper
     questions = ""
     doc = REXML::Document.new
     root_node = doc.add_element('questions')
-    root_node.add_element('listening')
-    root_node.add_element('reading')
+    
+    Question::TYPE_NAME_ARR.each{|type_name| root_node.add_element(type_name)}
+    #    root_node.add_element('listening')
+    #    root_node.add_element('reading')
     all_questions.each do |e|
       #question_types 0:listening  1:reading
-      if e[:types] == Question::TYPES[:LISTENING]
-        questions = doc.root.get_elements("listening")
-      elsif e[:types] == Question::TYPES[:READING]
-        questions = doc.root.get_elements("reading")
-      end
+      #      if e[:types] == Question::TYPES[:LISTENING]
+      #        questions = doc.root.get_elements("listening")
+      #      elsif e[:types] == Question::TYPES[:READING]
+      #        questions = doc.root.get_elements("reading")
+      #      end
+      questions = doc.root.get_elements(Question::TYPES_TITLE[e[:types]]) #得到某个题型下面的节点
       if questions[0].has_elements?
         count_question = 0
         questions[0].each do |question|
@@ -232,14 +236,14 @@ module MethodLibsHelper
                 branch_question = question.elements["branch_questions"].add_element("branch_question")
                 branch_que_id = branch_question.add_element("id")
                 branch_content = branch_question.add_element("content")
+                branch_question_options = branch_question.add_element("options")
+                branch_question_answer = branch_question.add_element("answer")
                 branch_question_resource_url = branch_question.add_element("resource_url")
                 branch_que_id.add_text("#{e[:branch_question_id]}")
                 branch_content.add_text("#{e[:content]}")
-                if !e[:resource_url].nil? && e[:resource_url].size != 0
-                  branch_question_resource_url.add_text("#{e[:resource_url]}")
-                else
-                  branch_question_resource_url.add_text(" ")
-                end
+                branch_question_resource_url.add_text("#{e[:resource_url].present? ? e[:resource_url].split("/")[-1] : ''}")
+                branch_question_options.add_text("#{e[:options].present? ? e[:options] : ''}")
+                branch_question_answer.add_text("#{e[:answer].present? ? e[:answer]: ''}")
               end
             end
           end
@@ -256,6 +260,7 @@ module MethodLibsHelper
     #写文件
     xml_str = ""
     doc.write(xml_str)
+    #File.open(Rails.root.to_s + "/public/1.xml", "wb"){|f| f.write xml_str}
     questions_json = questions_xml_to_json xml_str
     questions_json = questions_json.to_json
     if File.open(file_url,"w+") do |f|
@@ -271,19 +276,26 @@ module MethodLibsHelper
   #生成题目包的xml时追加一个大题节点
   def add_one_question_node question_node, question_params_obj
     que_id = question_node.add_element("id")
+    que_use_time = question_node.add_element("questions_time")
+    que_full_text = question_node.add_element("full_text")  #完型填空用到
+  
     branch_questions = question_node.add_element("branch_questions")
     branch_question = branch_questions.add_element("branch_question")
     branch_que_id = branch_question.add_element("id")
     branch_content = branch_question.add_element("content")
     branch_question_resource_url = branch_question.add_element("resource_url")
+    branch_question_options = branch_question.add_element("options")
+    branch_question_answer = branch_question.add_element("answer")
+    
     que_id.add_text("#{question_params_obj[:id]}")
+    que_use_time.add_text("#{question_params_obj[:questions_time].present? ? question_params_obj[:questions_time] : ''}")
+    que_full_text.add_text("#{question_params_obj[:full_text].present? ? question_params_obj[:full_text] : ''}")
+    
     branch_que_id.add_text("#{question_params_obj[:branch_question_id]}")
     branch_content.add_text("#{question_params_obj[:content]}")
-    if !question_params_obj[:resource_url].nil? && question_params_obj[:resource_url].size != 0
-      branch_question_resource_url.add_text("#{question_params_obj[:resource_url]}")
-    else
-      branch_question_resource_url.add_text(" ")
-    end
+    branch_question_resource_url.add_text("#{question_params_obj[:resource_url].present? ? question_params_obj[:resource_url].split('/')[-1] : ''}")
+    branch_question_options.add_text("#{question_params_obj[:options].present? ? question_params_obj[:options] : ''}")
+    branch_question_answer.add_text("#{question_params_obj[:answer].present? ? question_params_obj[:answer]: ''}")
   end
 
   #将生成的题目包xml转换为json
@@ -294,8 +306,13 @@ module MethodLibsHelper
     rescue
       questions_collections = nil
     end
-    lisentings = []
-    readings = []
+    #    lisentings = []
+    #    readings = []
+
+    tmp_questions_collections = {}
+    Question::TYPE_NAME_ARR.map{|arr1| tmp_questions_collections[arr1] = {}}
+    
+    #    Question::TYPE_NAME_ARR.each do |question_type|
     if student_answers_xml["questions"].present?
       questions = student_answers_xml["questions"]
       questions.each do |key,value|
@@ -308,22 +325,23 @@ module MethodLibsHelper
             ques << tmp
             #重组哈希,去掉question键和branch_question键
           end
+          tmp_questions_collections[key][:specified_time] = ques.inject(0){|sum, q| sum+= q["questions_time"].to_i; sum}
+          tmp_questions_collections[key][:questions] ||= []
           ques.each do |q|
-            branch_questions = []
             if q["branch_questions"]["branch_question"].class == Hash
+              branch_questions = []
               branch_questions << q["branch_questions"]["branch_question"]
             else
-              q["branch_questions"]["branch_question"].each do |e|
-                branch_questions << e
-              end
+              branch_questions = q["branch_questions"]["branch_question"]
             end
-            lisentings << {"id" => q["id"], "branch_questions" => branch_questions}  if key == "listening"
-            readings << {"id" => q["id"], "branch_questions" => branch_questions}  if key == "reading"
+            tmp_questions_collections[key][:questions] << {"id" => q["id"], "full_text" => q['full_text'], "branch_questions" => branch_questions}
+            #              lisentings << {"id" => q["id"], "branch_questions" => branch_questions}  if key == "listening"
+            #              readings << {"id" => q["id"], "branch_questions" => branch_questions}  if key == "reading"
           end
         end
       end
       #if lisentings.length > 0 && readings.length > 0
-      questions_collections = {"listening"=> lisentings,"reading" => readings}
+      questions_collections = tmp_questions_collections
       #elsif lisentings.length > 0 && readings.length == 0
       #  questions_collections = {"listening"=> lisentings}
       #elsif lisentings.length == 0 && readings.length > 0
@@ -334,6 +352,7 @@ module MethodLibsHelper
     end
     questions_collections
   end
+  
   def narrow_picture file_path,rename_file_name,filename,destination_dir
     avatar_url = nil
     img = MiniMagick::Image.open file_path,"rb"
@@ -432,50 +451,52 @@ q.id = bq.question_id where kc.card_bag_id = ?"
         sql += mistake_types_sql
         knowledge_cards = KnowledgesCard.find_by_sql([sql,card_bag_id,mistake_types])
       end
-      branch_id = []
-      knowledge = knowledge_cards.group_by{ |knowledge_card| knowledge_card.types }
-      knowledge.each do |types,knowledge_card|
-        if types==Question::TYPES[:LINING] || types==Question::TYPES[:CLOZE]
-          knowledge_card.map(&:question_id).each do |arr_br_id|
-            branch_id << arr_br_id
-          end
-        end
-      end
-      branch_questions = BranchQuestion.where("question_id in (?)",branch_id).select("content,answer,question_id")
-      branch_questions_arr = branch_questions.group_by{|branch_question|branch_question.question_id}
-   
-      knowledge_cards.each do |knowledg|
-        branch_questions_arr.each do |question_id,branch_question|
-          if knowledg.question_id == question_id
-            knowledg.answer = branch_question
-          end
-        end
-      end
-
-      cardtag = CardTag.where("card_bag_id = #{card_bag_id}")
-      cardtag_kcard_relation = CardTagKnowledgesCardRelation.where("card_tag_id in (?)" ,cardtag.map(&:id)).
-        group_by{|cardtag_kcard| cardtag_kcard.knowledges_card_id}
-      knowledges_cards = []
-      knowledge_cards.each do |knowledges_card|
-        know =  knowledges_card.attributes
-        know['card_tags_id']=[]
-        cardtag_kcard_relation.each do |knowledges_card_id,cardtag_kcard|
-          if knowledges_card.id.eql?(knowledges_card_id)
-            know['card_tags_id'] = cardtag_kcard.map(&:card_tag_id)
-          end
-        end
-        knowledges_cards << know
-      end
-      #      knowledge_cards.each do |knowledges_card|
-      #        knowledges_card_id = knowledges_card.id
-      #        cardTagknowledgescardrelation = CardTagKnowledgesCardRelation.find_by_sql("SELECT ctkcr.card_tag_id from card_tag_knowledges_card_relations ctkcr where knowledges_card_id = #{knowledges_card_id}")
-      #        cardTagknowledgescardrelation = cardTagknowledgescardrelation.map(&:card_tag_id)
-      #        knowledges_card.card_tags_id = cardTagknowledgescardrelation
-      #      end
-      status = "success"
-      notice = "获取成功！！"
+      knowledge_content = process_knowledges knowledge_cards,card_bag_id
+      status = knowledge_content[:status]
+      notice = knowledge_content[:notice]
+      knowledges_cards = knowledge_content[:knowledges_cards]
+      cardtag = knowledge_content[:cardtag]
     end
     info = {:status => status,:notice => notice,:knowledges_card => knowledges_cards,:tags => cardtag }
+  end
+
+  #处理knowledge_card 数据
+  def process_knowledges knowledge_cards,card_bag_id
+    branch_id = []
+    knowledge = knowledge_cards.group_by{ |knowledge_card| knowledge_card.types }
+    knowledge.each do |types,knowledge_card|
+      if types==Question::TYPES[:LINING] || types==Question::TYPES[:CLOZE]
+        knowledge_card.map(&:question_id).each do |arr_br_id|
+          branch_id << arr_br_id
+        end
+      end
+    end
+    branch_questions = BranchQuestion.where("question_id in (?)",branch_id).select("content,answer,question_id")
+    branch_questions_arr = branch_questions.group_by{|branch_question|branch_question.question_id}
+    knowledge_cards.each do |knowledg|
+      branch_questions_arr.each do |question_id,branch_question|
+        if knowledg.question_id == question_id
+          knowledg.answer = branch_question
+        end
+      end
+    end
+    cardtag = CardTag.where("card_bag_id = #{card_bag_id}")
+    cardtag_kcard_relation = CardTagKnowledgesCardRelation.where("card_tag_id in (?)" ,cardtag.map(&:id)).
+      group_by{|cardtag_kcard| cardtag_kcard.knowledges_card_id}
+    knowledges_cards = []
+    knowledge_cards.each do |knowledges_card|
+      know =  knowledges_card.attributes
+      know['card_tags_id']=[]
+      cardtag_kcard_relation.each do |knowledges_card_id,cardtag_kcard|
+        if knowledges_card.id.eql?(knowledges_card_id)
+          know['card_tags_id'] = cardtag_kcard.map(&:card_tag_id)
+        end
+      end
+      knowledges_cards << know
+    end
+    status = "success"
+    notice = "获取成功！！"
+    knowledge_content = {:status=>status,:notice=>notice,:knowledges_cards=>knowledges_cards,:cardtag=>cardtag}
   end
 
   #  通过错题类型或者标签名称查询
@@ -489,43 +510,14 @@ q.id = bq.question_id where kc.card_bag_id = ?"
 INNER JOIN card_tags ct on ct.id = ctkcr.card_tag_id
 INNER JOIN branch_questions bq on kc.branch_question_id = bq.id
 inner join questions q on  q.id = bq.question_id
-WHERE kc.card_bag_id =? and ct.`name` LIKE ? or kc.your_answer LIKE ? "
+WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
       knowledgescard = KnowledgesCard.find_by_sql([sql,cardbag_id,name,name])
-      branch_id = []
-      knowledge = knowledgescard.group_by{ |knowledge_card| knowledge_card.types }
-      knowledge.each do |types,knowledge_card|
-        if types==Question::TYPES[:LINING] || types==Question::TYPES[:CLOZE]
-          knowledge_card.map(&:question_id).each do |arr_br_id|
-            branch_id << arr_br_id
-          end
-        end
-      end
-      branch_questions = BranchQuestion.where("question_id in (?)",branch_id)
-      branch_questions_arr = branch_questions.group_by{|branch_question|branch_question.question_id}
 
-      knowledgescard.each do |knowledg|
-        branch_questions_arr.each do |question_id,branch_question|
-          if knowledg.question_id == question_id
-            knowledg.answer = branch_question.map(&:answer)
-          end
-        end
-      end
-      cardtag = CardTag.where("card_bag_id = #{cardbag_id}")
-      cardtag_kcard_relation = CardTagKnowledgesCardRelation.where("card_tag_id in (?)" ,cardtag.map(&:id)).
-        group_by{|cardtag_kcard| cardtag_kcard.knowledges_card_id}
-      knowledges_cards = []
-      knowledgescard.each do |knowledges_card|
-        know =  knowledges_card.attributes
-        know['card_tags_id']=[]
-        cardtag_kcard_relation.each do |knowledges_card_id,cardtag_kcard|
-          if knowledges_card.id.eql?(knowledges_card_id)
-            know['card_tags_id'] = cardtag_kcard.map(&:card_tag_id)
-          end
-        end
-        knowledges_cards << know
-      end
-      status = "success"
-      notice = "获取成功"
+      knowledge_content = process_knowledges knowledgescard,cardbag_id
+      status = knowledge_content[:status]
+      notice = knowledge_content[:notice]
+      knowledges_cards = knowledge_content[:knowledges_cards]
+      cardtag = knowledge_content[:cardtag]
     else
       status = "error"
       notice = "卡包不存在"

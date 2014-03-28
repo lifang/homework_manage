@@ -54,7 +54,6 @@ class TagsController < ApplicationController
   #  重新分组
   def choice_tags
     page = params[:page]
-     p page
     tag_id = params[:tag_id]
     student_id = params[:student_id]
     schoolclassstudentralastion = SchoolClassStudentRalastion.find_by_student_id_and_school_class_id student_id,school_class_id

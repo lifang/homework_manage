@@ -194,9 +194,9 @@ function delete_student_tag(obj,school_class_id,student_id){
             if(flag){
                 var html_ul = "<a href='javascript:void(0);' class='close'>close</a>\n\
 <div class='tab_body clearAfter'><div class='tab_warning'>根据本班学员的个人情况进行分组</div><div class='tab_switch'>\n\
-<ul>"+ html +"</ul></div></div>"
+<ul style='border:0'>"+ html +"</ul></div></div>"
                 $(".regrouping").html(html_ul);
-                $(".regrouping").show()
+                $(".regrouping").show();
             }else{
                 tishi("当前班级没有更多的组！")
             }

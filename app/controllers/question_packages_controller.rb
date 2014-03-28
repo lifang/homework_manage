@@ -176,7 +176,7 @@ class QuestionPackagesController < ApplicationController
             @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
             if @branch_question
               destination_dir = "question_packages/#{Time.now.strftime("%Y-%m")}/questions_package_#{@question.question_package_id}"
-              rename_file_name = "media_#{@branch_question.id}"
+              rename_file_name =  "media_#{@branch_question.id}"
               if file
                 upload = upload_file destination_dir, rename_file_name, file
                 if upload[:status] == true

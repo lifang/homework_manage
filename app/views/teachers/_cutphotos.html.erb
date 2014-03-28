@@ -6,19 +6,21 @@
   </div>
 
   <div style="display: none">
-    <input type="text" id="x" name="x" value="111"/>
-    <input type="text" id="y" name="y" value="1111"/>
-    <input type="text" id="w" name="w" value="111"/>
-    <input type="text" id="h" name="h" value="111"/>
+    <input type="hidden" id="img_x" name="x" value="" />
+    <input type="hidden" id="img_y" name="y" value="" />
+    <input type="hidden" id="img_w" name="w" value=""/>
+    <input type="hidden" id="img_h" name="h" value=""/>
   </div>
 <% end %>
 
 <script language="Javascript">
   <!--
   jQuery(function($){
+
     // Create variables (in this scope) to hold the API and image size
     var jcrop_api, boundx, boundy;
     $('#cropbox').Jcrop({
+      onChange: updateCoords,
       setSelect: [0,0,176,176],
       boxWidth:298,
       minSize:[176,176],
@@ -30,7 +32,7 @@
       aspectRatio:1,
       allowMove:true,
       addClass: 'jcrop-handle',
-      onChange: updateCoords,
+      
       onSelect: updateCoords
     },
     function(){
@@ -38,10 +40,11 @@
     });
     function updateCoords(c)
     {
-      $('#x').val(c.x);
-      $('#y').val(c.y);
-      $('#w').val(c.w);
-      $('#h').val(c.h);
+      
+      $('#img_x').val(c.x);
+      $('#img_y').val(c.y);
+      $('#img_w').val(c.w);
+      $('#img_h').val(c.h);
     };
     function checkCoords()
     {

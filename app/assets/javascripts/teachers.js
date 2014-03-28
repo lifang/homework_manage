@@ -187,6 +187,7 @@ function onclick_submit(obj){
     if(question_type=="select"){
         var select_resourse = questions_item.find("input[name='select_resourse']");
         var select_content = questions_item.find("input[name='select_content']").val();
+        var title_length = select_resourse.val() + select_content
         var check_select = questions_item.find("input[name='check_select[]']:checked").length;
         var select_value1 = questions_item.find("input[name='select_value1']").val();
         var select_value2 = questions_item.find("input[name='select_value2']").val();
@@ -213,6 +214,9 @@ function onclick_submit(obj){
         }else if(select_resourse.length<=0 && select_content==""){
             tishi("题目不能为空！")
             return false;
+        }
+        else if(title_length.length>250){
+            tishi("题目长度超过250！");
         }
     }else if (question_type=="lianxian"){
         var left_lianxian = questions_item.find("input[name='left_lianxian']").val()

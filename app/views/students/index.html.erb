@@ -3,15 +3,17 @@
   <div class="tab_head">班级分组</div>
   <div class="tab_con">
     <div class="tab_switch">
-      <ul style="text-align :center; border: 0;">
-        <%= form_for :tags,:url => {:controller => 'tags',:action => 'create'},remote: :TRUE do |f| %>
+      <%= form_for :tags,:url => {:controller => 'tags',:action => 'create'},remote: :TRUE do |f| %>
+        <ul style="text-align :center; border: 0;">
           <li class="p_input">
             <p></p>
             <input name="name_tag" type="text" style="display: none;" placeholder="组名" />
-          </li>
-          <input type="button"  class="button_submit" value="创建" onclick="create_class_valid(this)"/>
-        <% end %>
-      </ul>
+          </li>         
+        </ul>
+        <div class="tab_switch_btn">
+          <a href="javascript:void(0)" onclick="create_class_valid(this)">创建</a>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

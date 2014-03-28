@@ -65,6 +65,7 @@ module ApplicationHelper
   def sign?
     unless request.xhr?
       if cookies[:user_id].nil?  || cookies[:teacher_id].nil?
+        flash[:notice] = "请先登陆!"
         redirect_to  "/"
       #else
       #  unless params[:school_class_id].nil?

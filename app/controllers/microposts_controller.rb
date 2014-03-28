@@ -13,7 +13,7 @@ class MicropostsController < ApplicationController
     micropost.user_id = current_teacher.user_id
     micropost.user_types = Micropost::USER_TYPES[:TEACHER]
     micropost.school_class_id = current_teacher.last_visit_class_id
-#    micropost.reply_microposts_count = 0
+    #    micropost.reply_microposts_count = 0
     if micropost.save
       flash[:success]='发表成功！'
       redirect_to school_class_main_pages_path(@school_class)
@@ -26,7 +26,7 @@ class MicropostsController < ApplicationController
   def create_reply
     @class_index =-1
     @class_index = params[:class_index] unless params[:class_index].nil?
-
+    @micropost_follow_arr = FollowMicropost.where("user_id = ?",current_user.id).map(&:micropost_id)||[]
     reply = ReplyMicropost.new
     reply.content = params[:textarea]
     reply.micropost_id = params[:micropost_id]
@@ -43,7 +43,7 @@ class MicropostsController < ApplicationController
     end
   end
   def delete_micropost
-
+    @micropost_follow_arr = FollowMicropost.where("user_id = ?",current_user.id).map(&:micropost_id)||[]
     reply = Micropost.find_by_id(params[:id])
     if reply&&reply.destroy
       get_microposts

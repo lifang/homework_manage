@@ -8,7 +8,7 @@ class MainPagesController < ApplicationController
     @condition =  params[:condtions].nil? || params[:condtions].strip=="" ? nil : params[:condtions].strip
     @scclass = SchoolClass.find(@school_class.id)
     @classmates = SchoolClass::get_classmates(@scclass)
-    @micropost_follow_arr = FollowMicropost.where("user_id = ?",current_user.id).map(&:micropost_id)
+    @micropost_follow_arr = FollowMicropost.where("user_id = ?",current_user.id).map(&:micropost_id)||[]
     page = @init_mid.nil? || @init_mid.to_i == 0 ? params[:page] : 1
     array = Micropost::get_microposts @scclass,page,@condition,current_user.id
     microposts =array[:details_microposts]
@@ -96,32 +96,42 @@ class MainPagesController < ApplicationController
     @condition =  params[:condtions].nil? || params[:condtions].strip=="" ? nil : params[:condtions].strip
     micropost_id = params[:micropost_id].to_i
     followmicropost = FollowMicropost.find_by_user_id_and_micropost_id(current_user.id,micropost_id)
-    if followmicropost.nil?
-      Micropost.transaction do
-        micropost = Micropost.find_by_id micropost_id
-        follow_micropost_count = micropost.follow_microposts_count.to_i + 1
-        followmicropost = FollowMicropost.new(:user_id => current_user.id, :micropost_id => micropost_id)
-        micropost.update_attributes(:follow_microposts_count => follow_micropost_count)
-      end
-      if followmicropost.save
-        @status = 'success'
-        @notice = '关注添加成功'
+    micropost = Micropost.find_by_id micropost_id
+    unless micropost.user_id == current_user.id
+      if followmicropost.nil?
+        Micropost.transaction do
+          micropost = Micropost.find_by_id micropost_id
+          follow_micropost_count = micropost.follow_microposts_count.to_i + 1
+          followmicropost = FollowMicropost.new(:user_id => current_user.id, :micropost_id => micropost_id)
+          micropost.update_attributes(:follow_microposts_count => follow_micropost_count)
+        
+        end
+      
+        if followmicropost.save
+          @status = 'success'
+          @notice = '关注添加成功'
+        else
+          @status = 'error'
+          @notice = '关注失败！'
+        end
+      
       else
-        @status = 'error'
-        @notice = '关注失败！'
+        Micropost.transaction do
+          micropost = Micropost.find_by_id micropost_id
+          if micropost.follow_microposts_count.to_i<0
+            micropost.follow_microposts_count = 0
+          end
+          follow_micropost_count = micropost.follow_microposts_count.to_i - 1
+          followmicropost.destroy
+          micropost.update_attributes(:follow_microposts_count => follow_micropost_count)
+        end
+        @status = 'success'
+        @notice = '关注已取消！！'
+
       end
     else
-      Micropost.transaction do
-        micropost = Micropost.find_by_id micropost_id
-        if micropost.follow_microposts_count.to_i<0
-          micropost.follow_microposts_count = 0
-        end
-        follow_micropost_count = micropost.follow_microposts_count.to_i - 1
-        followmicropost.destroy
-        micropost.update_attributes(:follow_microposts_count => follow_micropost_count)
-      end
-      @status = 'success'
-      @notice = '关注已取消！！'
+      @status = 'error'
+      @notice = '您不能关注自己的帖子！'
     end
   end
 end

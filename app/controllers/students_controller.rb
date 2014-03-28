@@ -7,7 +7,7 @@ class StudentsController < ApplicationController
     sql_schoolclass = "SELECT *,(select COUNT(*) from school_class_student_ralastions scsr WHERE scsr.school_class_id = ?) count
 from school_classes sc where sc.id=?"
     @schoolclass = SchoolClass.find_by_sql([sql_schoolclass,school_class_id,school_class_id]).first
-    ungrouped = SchoolClassStudentRalastion.where("tag_id is null")
+    ungrouped = SchoolClassStudentRalastion.where(["school_class_id = ? and tag_id is null", @school_class.id])
     cookies[:student_has_ungrouped] = {:value => true} if cookies[:student_has_ungrouped].nil? && ungrouped.any?
     @tags = Tag.where("school_class_id=#{school_class_id}")
     student_situations = Student.list_student school_class_id
@@ -67,6 +67,7 @@ from school_classes sc where sc.id=?"
     name = params[:class_name]
     teaching_material_id = params[:teaching_material_id]
     period_of_validity = params[:period_of_validity].to_s + " 23:59:59"
+    p 111111111111111111,teaching_material_id
     if @school_class.update_attributes(:name=>name,:period_of_validity=>period_of_validity,:teaching_material_id=>teaching_material_id)
       flash[:success] = '更新成功！'
       redirect_to school_class_students_path(@school_class)

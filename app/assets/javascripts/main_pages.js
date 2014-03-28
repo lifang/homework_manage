@@ -48,6 +48,8 @@ function main_reply(value,index){
             data  :"textarea=" + textarea + "&micropost_id=" + micropost_id+"&class_index="+class_index+"&page="+page
             + "&micropost_user_id=" + micropost_user_id+ "&micropost_user_type=" + micropost_user_type+ "&teacher_id=" + teacher_id+"&conditions="+$("#condtions").val(),
             success:function(data){
+                $(".tab_mess").hide();
+                $(value).removeAttr("disabled");
                 tishi("回复成功！");
             }
         });
@@ -68,7 +70,7 @@ function show_reply_again(value,name){
     $(answer[1]).find("textarea").attr("placeholder","给"+name+"回复：");
     height_adjusting();
     $(answer[1]).find("textarea").attr("id",id);
-    location.href="#"+id;
+    //location.href="#"+id;
     $(".tab_mess").find(".h1_content").html("回复")
     var html='<div class="ask_area" >\n\
                <input type="hidden" value="'+$(input[0]).val()+'" />\n\
@@ -78,9 +80,11 @@ function show_reply_again(value,name){
                 <div class="textarea_box"><textarea cols="" rows=""></textarea></div>\n\
                 <div class="tab_mess_btn">  \n\
 <button onclick="main_reply(this,'+ index +')">提交</button>\n\
-<button >取消</button></div>'
-    $(".create_main_microposts").html(html)
-
+<button type="button" onclick="cancle_this_window(this)">取消</button></div>'
+    $(".create_main_microposts").html(html);
+    $(".tab_mess").show(100);
+    
+  
 }
 
 
@@ -179,15 +183,14 @@ function delete_micropots(id){
 
             }
         });
-//location.href="/microposts/"+id+"/delete_micropost_reply?id="+id+"&page="+page;
 }
 
 function  show_reply(value,micropost_id){
     var answer_area = $(value).parent().parent().find(".answer_area");
     var index = get_index(value);
-    var types = $(value).attr('val')
+    var types = $(value).attr('val');
     if(answer_area.css("display")=="none"){
-        if (types== '0'){
+        if (types == '0'){
             $(answer_area).show();
         }
     }else{
@@ -235,5 +238,5 @@ function delete_student_relation(school_class_id, student_id)
 }
 
 function cancle_this_window(obj){
-    $(obj).hide();
+    $($(obj).parents(".tab_mess")[0]).hide(10);
 }

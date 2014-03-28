@@ -747,6 +747,7 @@ function tishi(message){
     jQuery('#tab_Prompt').fadeTo("slow",1);
     $("#tab_Prompt .x").click(function(){
         $("#tab_Prompt").css('display','none');
+        stopPropagation(arguments[1]);
     })
     setTimeout(function(){
         jQuery('#tab_Prompt').fadeTo("slow",0);
@@ -754,6 +755,7 @@ function tishi(message){
     setTimeout(function(){
         $("#tab_Prompt").css('display','none');
     }, 3000);
+    
 }
 
 function msg(message){

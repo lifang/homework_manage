@@ -281,9 +281,9 @@ class QuestionPackagesController < ApplicationController
 
   end
   def unencode content
-    arr = ['&#60;','&#34;','&#59;','&#62;','&#38;','&#39;']
-    arr_encode = ['<','"',';','>','&','\'']
-    6.times do |i|
+    arr = ['&#60;','&#34;','&#59;','&#62;','&#38;','&#39;','&#35;']
+    arr_encode = ['<','"',';','>','&','\'','#']
+    7.times do |i|
       content = content.gsub(arr[i],arr_encode[i]);
     end
     content

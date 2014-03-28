@@ -997,6 +997,10 @@ function save_wanxin_branch(obj,school_class,question_pack){
         } else {
             arr[arr.length] = $.trim($(texts[i]).val());
         }
+        if($.trim($(texts[i]).val()).length>250){
+            tishi("完形填空选项字符长度不能大于250！");
+            return false;
+        }
         if($.trim($(texts[i]).val())==""){
             tishi("完形填空选项不能为空！");
             return false;
@@ -1009,6 +1013,7 @@ function save_wanxin_branch(obj,school_class,question_pack){
     }
     var branch_question_id = $($(obj).parents(".gapFilling_questions")[0]).find(".branch_question_id").val();
     $.ajax({
+        type:'post',
         dataType:"script" ,
         url:"/school_classes/"+school_class+"/question_packages/"+question_pack+"/save_wanxin_branch_question",
         data:"question_id="+question_id+"&branch_question_id="+branch_question_id+"&gloab_index="+gloab_index+"&"+params    
@@ -1024,8 +1029,13 @@ function save_paixu_branch(obj,school_class,question_pack){
         tishi("内容不能为空！");
         return false;
     }
+    if($.trim(content).length >250 ){
+        tishi("内容长度不能大于250！");
+        return false;
+    }
     var branch_question_id = $($(obj).parents(".questions_item")[0]).find(".branch_question_id").val();
     $.ajax({
+        type:'post',
         dataType:"script" ,
         url:"/school_classes/"+school_class+"/question_packages/"+question_pack+"/save_paixu_branch_question",
         data:"question_id="+question_id+"&branch_question_id="+branch_question_id+"&gloab_index="+gloab_index+"&"+params,
@@ -1275,11 +1285,11 @@ function wanxin_save_btn(obj){
         return false;
     }
     var text = editor.html();
-    text = text.replace(/[>&<'";]/g, function(x) {
+    text = text.replace(/[>&<'";#]/g, function(x) {
         return "(**)" + x.charCodeAt(0) + "(*:*)";
     });
-    alert(text);
     $.ajax({
+        type:'post',
         dataType:"text" ,
         url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/save_wanxin_content",
         data:"content="+text,

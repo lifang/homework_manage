@@ -56,7 +56,7 @@ $(function(){
             var count_finish_line = 0;
             $("div.book_box_table").find("table").find("tbody").find("tr").each(function(){
                 count_line += 1;
-//                alert("line:"+count_line);
+                //                alert("line:"+count_line);
                 if($(this).attr("class"))
                 {
                     if($(this).find("td").eq(1).find("form").length>0)
@@ -73,8 +73,8 @@ $(function(){
                 else{}
 
             });
-//            alert(count_line);
-//            alert(count_finish_line);
+            //            alert(count_line);
+            //            alert(count_finish_line);
             if(count_line != 1)
             {
                 var question_type = $("#question_types").val();
@@ -97,7 +97,7 @@ $(function(){
                     })
                 }
                 else{
-                      tishi("有"+ (count_line-count_finish_line-1) +"题未编辑完成或未上传音频,请完成编辑！");
+                    tishi("有"+ (count_line-count_finish_line-1) +"题未编辑完成或未上传音频,请完成编辑！");
                 }
             }
             else
@@ -160,11 +160,11 @@ function GoForthStep(question_pack_id, school_class_id){
             if(data!="-1" && data!="-2"){
                 $(".book_box .steps").html(data);
                 if (question_type == 0) {
-                	$("#new_xj_red").show();
-                	$("#new_xj_write").hide();
+                    $("#new_xj_red").show();
+                    $("#new_xj_write").hide();
                 } else {
-                	$("#new_xj_red").hide();
-                	$("#new_xj_write").show();
+                    $("#new_xj_red").hide();
+                    $("#new_xj_write").show();
                 }
                 $(".book_box_table table > tbody > tr:odd").addClass("tbg");
                 height_adjusting();
@@ -197,11 +197,11 @@ function checkText(obj, path){
         //        tishi("内容不能为空");
         $(obj).val("");
     }
-//    else if(value.match(/[^A-Za-z'0-9!,?:."' ]/g)!=null)
-//    {
-//        tishi("输入有错，有效范围:英文字母、逗号、叹号、单引号、双引号、问号、冒号及数字");
-//        $(obj).val("");
-//    }
+    //    else if(value.match(/[^A-Za-z'0-9!,?:."' ]/g)!=null)
+    //    {
+    //        tishi("输入有错，有效范围:英文字母、逗号、叹号、单引号、双引号、问号、冒号及数字");
+    //        $(obj).val("");
+    //    }
     else{
         if($("#question_types").length > 0 )
         {
@@ -327,12 +327,12 @@ function hideInput(obj, ques_type){
         $(obj).val(content);
         $(obj).parent().find("p").css("display","inline-block");
     }
-//    else if(content.match(/[^A-Za-z'0-9!,?:."' ]/g)!=null){
-//        tishi("输入有错，有效范围:英文字母、逗号、叹号、单引号、双引号、问号、冒号及数字");
-//        $(obj).val(old_content);
-//        $(obj).hide();
-//        $(obj).parent().find("p").css("display","inline-block");
-//    }
+    //    else if(content.match(/[^A-Za-z'0-9!,?:."' ]/g)!=null){
+    //        tishi("输入有错，有效范围:英文字母、逗号、叹号、单引号、双引号、问号、冒号及数字");
+    //        $(obj).val(old_content);
+    //        $(obj).hide();
+    //        $(obj).parent().find("p").css("display","inline-block");
+    //    }
     else{
         $(obj).val(content);
         $(obj).css("display","none");
@@ -343,20 +343,22 @@ function hideInput(obj, ques_type){
             $(obj).parents("td").next().find("form").submit();
         }else{
             if(ques_type == 1){
-              var url = $(obj).parents("td").next().find("form").attr("action");
-              var branch_id = $(obj).parents("td").next().find("form").find("input[name='branch_id']").val();
-              $.ajax({
-                  url: url + "/" + branch_id,
-                  type: "PUT",
-                  dataType: "script",
-                  data: {"branch[content]" : content},
-                  success:function(data){
-                      //tishi(data.message == 1 ? "保存成功" : "保存失败")
-                  },
-                  error:function(data){
-                     tishi("请求出错了");
-                  }
-              })
+                var url = $(obj).parents("td").next().find("form").attr("action");
+                var branch_id = $(obj).parents("td").next().find("form").find("input[name='branch_id']").val();
+                $.ajax({
+                    url: url + "/" + branch_id,
+                    type: "PUT",
+                    dataType: "script",
+                    data: {
+                        "branch[content]" : content
+                    },
+                    success:function(data){
+                    //tishi(data.message == 1 ? "保存成功" : "保存失败")
+                    },
+                    error:function(data){
+                        tishi("请求出错了");
+                    }
+                })
             }
         }
     }
@@ -364,13 +366,15 @@ function hideInput(obj, ques_type){
 
 //播放音频文件
 function playAudio(obj){
-    var oAudio =  $(obj).find("audio")[0];
-    if (oAudio.paused) {
-        oAudio.play();
-    }
-    else {
-        oAudio.pause();
-    }
+    alert(11111)
+
+//    var oAudio =  $(obj).find("audio")[0];
+//    if (oAudio.paused) {
+//        oAudio.play();
+//    }
+//    else {
+//        oAudio.pause();
+//    }
 }
 
 
@@ -454,10 +458,10 @@ function showThirdStep(){
 
 //第二步，第三步hover效果
 function addClassHover(obj){
-  $(obj).addClass("hover");
+    $(obj).addClass("hover");
 }
 
 function removeClassHover(obj){
-  $(obj).removeClass("hover")
+    $(obj).removeClass("hover")
 }
 //第二步，第三步hover效果

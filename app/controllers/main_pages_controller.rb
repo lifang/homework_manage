@@ -8,6 +8,7 @@ class MainPagesController < ApplicationController
     @condition =  params[:condtions].nil? || params[:condtions].strip=="" ? nil : params[:condtions].strip
     @scclass = SchoolClass.find(@school_class.id)
     @classmates = SchoolClass::get_classmates(@scclass)
+    @micropost_follow_arr = FollowMicropost.where("user_id = ?",current_user.id).map(&:micropost_id)
     page = @init_mid.nil? || @init_mid.to_i == 0 ? params[:page] : 1
     array = Micropost::get_microposts @scclass,page,@condition,current_user.id
     microposts =array[:details_microposts]

@@ -5,8 +5,8 @@
     <input type="hidden" name="question_type"   value="lianxian" />
     <h1><%=question.name.nil? ? "未命名":question.name %></h1>
     <p>连线 / <%=current_user.name%> / <%=question.created_at.strftime("%Y-%m-%d")%> /
-    <span name="cankaoshijian">参考时间：<% if question.questions_time.nil? %>未指定<% else %>
-      <%= que_time[0]==0 ? "" : "#{que_time[0]}时" %><%= que_time[1]==0 ? "" : "#{que_time[1]}分" %><%= que_time[2]==0 ? "" : "#{que_time[2]}秒" %><% end %></span></p>
+      <span name="cankaoshijian">参考时间：<% if question.questions_time.nil? %>未设置<% else %>
+          <%= que_time[0]==0 ? "" : "#{que_time[0]}时" %><%= que_time[1]==0 ? "" : "#{que_time[1]}分" %><%= que_time[2]==0 ? "" : "#{que_time[2]}秒" %><% end %></span></p>
     <ul class="ab_func">
       <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
       <li><a href="#" class="share_icon tooltip_html">分享</a></li>
@@ -14,7 +14,8 @@
     </ul>
   </div>
   <div class="ab_list_box" style="display: none;">
-    <div class="ab_article">
+    <div class="ab_article" question_index="<%= question.id %>">
+
       <% branch_question.each do |branch_question| %>
         <div class="questions_item" branch_question_index="<%= branch_question.id %>" stypes="save_lianxian" question_type="lianxian">
           <%= form_for :question,:url => { :action => :update_lianxian, :controller => :questions,:question_package_id=>@question_pack.id }, :method=>"post" ,:remote=>true do |f|%>
@@ -52,7 +53,8 @@
             </ul>
           </div>
         </div>
-      <% end if branch_question.present? %>
+      <% end  if branch_question.present?  %>
+      <%= render "questions/next_branch_lianxian",{:@question=>question,:@index_new=> branch_question.nil? ? 0 : branch_question.count } %>
     </div>
   </div>
 </div>

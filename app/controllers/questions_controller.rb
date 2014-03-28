@@ -89,6 +89,7 @@ class QuestionsController < ApplicationController
     @branch_question = BranchQuestion.create(:content=>select_content,:types=>Question::TYPES[:SELECTING],:question_id=>@question_id,
       :options=>options,:answer=> answer)
     @question_package_id = params[:question_package_id]
+    @question_pack = QuestionPackage.find_by_id @question_package_id
     #    @questions = Question.find_by_question_package_id @question_package_id
   end
 
@@ -115,6 +116,7 @@ class QuestionsController < ApplicationController
     answer = info[:answer]
     options = info[:options]
     branch_question_id = params[:branch_question_id]
+    p branch_question_id
     branchquestion = BranchQuestion.find_by_id branch_question_id
     if branchquestion
       branchquestion.update_attributes(:content=>select_content,:types=>Question::TYPES[:SELECTING],:question_id=>@question_id,
@@ -148,6 +150,7 @@ class QuestionsController < ApplicationController
     @branch_question = BranchQuestion.create(:content=>content_index,:types=>Question::TYPES[:LINING],:question_id=>question_id,
       :options=>options,:answer=> options)
     @question_package_id = params[:question_package_id]
+    @question_pack = QuestionPackage.find_by_id @question_package_id
   end
 
 

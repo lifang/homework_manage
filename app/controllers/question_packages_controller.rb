@@ -280,11 +280,19 @@ class QuestionPackagesController < ApplicationController
       select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
 
   end
-
+  def unencode content
+    arr = ['&#60;','&#34;','&#59;','&#62;','&#38;','&#39;','&#35;']
+    arr_encode = ['<','"',';','>','&','\'','#']
+    7.times do |i|
+      content = content.gsub(arr[i],arr_encode[i]);
+    end
+    content
+  end
   def save_wanxin_content
-    content = params[:content]
+    content = params[:content].gsub("(**)","&#").gsub("(*:*)",";").html_safe;
+    content = unencode content
     @question = Question.find_by_id(params[:id])
-    if @question.update_attribute(:content, content)
+    if @question.update_attribute(:full_text, content)
       render text:1
     else
       render text:0
@@ -786,9 +794,9 @@ class QuestionPackagesController < ApplicationController
         inner join branch_questions bq on bq.question_id = q.id where q.question_package_id = ?", 
           params[:id].to_i]).group_by{|i|i.question_id}
       questions.each_with_index do |question,index|
-        msg += "第#{index+1}题"
+        msg += "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}"
         if branch_questions[question.id].nil? 
-          msg += "，#{Question::TYPES_NAME[question.types]}#{question.name}没有小题 "
+          msg += "没有小题 "
           flag = false
         end
         if question.questions_time.nil?

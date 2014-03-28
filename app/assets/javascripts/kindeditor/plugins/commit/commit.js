@@ -9,10 +9,10 @@ KindEditor.plugin('commit', function(K) {
         var length =  $("#"+editor.id).parents(".assignment_body_list").find(".gapFilling_questions").length-1;
         var temp = editor.text();
         if($.trim(temp)==""){
-        tishi("完形填空内容不能为空！");
-        stopPropagation(arguments[1]);
-        return false;
-    }
+            tishi("完形填空内容不能为空！");
+            stopPropagation(arguments[1]);
+            return false;
+        }
         var sign_length=-1;
         if(temp.indexOf("[[sign]]") >= 0){
             sign_length = temp.match(/\[\[sign\]\]/g).length;
@@ -25,7 +25,11 @@ KindEditor.plugin('commit', function(K) {
             return false;
         }
         var text = editor.html();
+        text = text.replace(/[>&<'";#]/g, function(x) {
+            return "(**)" + x.charCodeAt(0) + "(*:*)";
+        });
         $.ajax({
+            type:'post',
             dataType:"text" ,
             url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/save_wanxin_content",
             data:"content="+text,

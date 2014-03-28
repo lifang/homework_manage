@@ -181,7 +181,7 @@ function delete_student_tag(obj,school_class_id,student_id){
                     var name = data.tag[i].name
                     var id = data.tag[i].id
                     html +="<li><form action='"+ path +"' method='post' >\n\
-                               <input type='submit' value='"+ name +"' class='tab_head'>\n\
+                               <input type='submit' value='"+ name +"' class='tab_head' style='color: #F3F8F7;'>\n\
                                <input type='text' name='tag_id' value="+ id +" style='display:none' >\n\
                                 <input type='text' name='student_id' value="+ student_id +" style='display:none'>\n\
                                 </form>  </li> ";
@@ -287,6 +287,8 @@ function show_branch_question(obj,question_package_id,question_id,types){
 
 //选择上传音频或者视屏
 function select_upload_choice(obj){
+    $("input[name='select_file']").removeAttr("id")
+    $(obj).parent().find("input[name='select_file']").attr("id","input_select_upload")
     if($(obj).attr("input_t")=="voice"){
         $(obj).parent().find("#input_select_upload").attr("input_t","voice")
     }else if ($(obj).attr("input_t")=="photo"){
@@ -332,9 +334,8 @@ function select_upload(obj){
             tishi("上传成功！");
             var html="<input type='text' value='"+ data_arr[1] +"' name='select_resourse' style='display:none;'>"
             var q_left = $("#input_select_upload").parents(".q_left")
-            $(obj).parents().find(".q_topic").attr("class","q_topic q_compile")
+//            $(obj).parents().find(".q_topic").attr("class","q_topic q_compile")
             if(data_arr[0]=="voice"){
-                alert($("#input_select_upload").parents(".q_topic").find("input[name='select_content']").attr("name"))
                 $("#input_select_upload").parents(".q_topic").find("input[name='select_content']").attr("disabled","true")
                 //                var html_title = "<input type='text' name='select_content' style='display:block;' disabled='true'>"
                 var html_title = "<p></p><input type='text' name='select_content' style='display:none;background: #F0F0F0;' disabled='true'>"
@@ -353,7 +354,6 @@ function select_upload(obj){
                 audio.appendChild(source);
                 $("#audio_only").append(audio)
             }else if(data_arr[0]=="photo"){
-                alert(data_arr[0])
                 q_left.html("<img src='"+ data_arr[1] +"' style='width:86px;height:86px;'>")
             }
             q_left.append(html)
@@ -387,7 +387,6 @@ function add_selects_tags(obj){
 function add_tag_to_select(obj,q_index,branch_question_id,types){
     if($(obj).attr("checked")=="checked"){
         var shcool_id = $("#school_class_id").val();
-        alert(shcool_id)
         var question_pack_id = $("#question_package_id").val();
         var value = $(obj).val();
         $.ajax({
@@ -419,6 +418,7 @@ function add_tag_to_select(obj,q_index,branch_question_id,types){
 
 //点击新建
 function new_select_question(obj){
+    $("div.ab_list_box").hide();
     var episode_id = $("#episode_id").val();
     var question_package_id = $("#question_package_id").val()
     var type = 3
@@ -438,6 +438,7 @@ function new_select_question(obj){
 }
 
 function new_lianxian_question(obj){
+    $("div.ab_list_box").hide();
     var episode_id = $("#episode_id").val();
     var question_package_id = $("#question_package_id").val()
     var type = 4

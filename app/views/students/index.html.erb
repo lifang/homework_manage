@@ -35,11 +35,13 @@
       </ul>
       <a href="javascript:void(0);" class="student_btn_a" onclick="shwo_tags()">班级分组</a>
     </div>
-    <% if cookies[:student_has_ungrouped]=="true" %>
+    <% if @ungrouped.any? %>
+    <% if cookies[:student_has_ungrouped] == "true" %>
       <div class="message">
         <p>注：本班有学员未分组，为保证学员能够顺利做作业，请将未分组学员进行分组。</p>
         <a href="javascript:void(0)" class="close" onclick="close_student_ungrouped_mess(<%= @school_class.id %>,this)">close</a>
       </div>
+    <% end %>
     <% end %>
     <div class="student_body">
       <%= render :partial => 'student_body'  %>

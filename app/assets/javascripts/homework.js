@@ -30,32 +30,38 @@ function check_time(obj)
     end_time = $.trim($("#end_time").val());
     if(end_time != "" && end_time!="截止时间")
     {
-        var form_url = $("#publish_task_panel").find("form").attr("action");
-        var end_time = $("#end_time").val();
-        var question_package_id = $("#question_package_id_value").val();
-        $.ajax({
-            url : form_url,
-            type:'post',
-            dataType : 'json',
-            data:{
-                end_time:end_time,
-                question_package_id:question_package_id
-            },
-            success: function(data){
-                if(!data.status){
-                    tishi(data.notice);
-                }else{
-                    $("#fugai").show();
-                    $("#fugai1").find("h2").text("题包发布中，请耐心等待...");
-                    $("#fugai1").show();
-                    $(obj).parents("#publish_task_panel").find("form").submit();
-                }
-            },
-            error: function(){
-                tishi("数据错误")
-            }
-        });
-       
+//        var form_url = $("#publish_task_panel").find("form").attr("action");
+//        var end_time = $("#end_time").val();
+//        var question_package_id = $("#question_package_id_value").val();
+
+//        $.ajax({
+//            url : form_url,
+//            type:'post',
+//            dataType : 'json',
+//            data:{
+//                end_time:end_time,
+//                question_package_id:question_package_id
+//            },
+//            success: function(data){
+//                if(!data.status){
+//                    tishi(data.notice);
+//                }else{
+//                    $("#fugai").show();
+//                    $("#fugai1").find("h2").text("题包发布中，请耐心等待...");
+//                    $("#fugai1").show();
+//                    window.location.replace(window.location.href)
+//                    //$(obj).parents("#publish_task_panel").find("form").submit();
+//                }
+//            },
+//            error: function(){
+//                tishi("数据错误")
+//            }
+//        });
+        $(obj).attr("disabled",true);
+        $("#fugai").show();
+        $("#fugai1").find("h2").text("题包发布中，请耐心等待...");
+        $("#fugai1").show();
+        $(obj).parents("#publish_task_panel").find("form").submit();
     }
     else{
         tishi("时间不能为空！");

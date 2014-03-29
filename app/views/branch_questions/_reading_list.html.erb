@@ -7,7 +7,7 @@
             <div class="speedQuestions">
               <ul>
                 <% if bq.resource_url.present? %>
-                      <li><%= render "voice_tmp", {:resource_url => bq.resource_url} %></li>
+                      <li><%= render "/question_packages/voice_tmp", {:resource_url => bq.resource_url} %></li>
                 <% end %>
                 <li class="show_text"><p><%= bq.content  %></p></li>
               </ul>

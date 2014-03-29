@@ -199,19 +199,7 @@ class PublishQuestionPackage < ActiveRecord::Base
     end
   end
   
-  def update_archivements time,average_ratio,student,school_class,use_time,question
-    if time > 0
-      if average_ratio >= CORRECT_RATE_SIX && average_ratio <= CORRECT_RATE_TEN && use_time < question.time
-        ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:QUICKLY]
-        if time > TIME_TOW_HOUR
-          ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:EARLY]
-        end
-      end
-      if average_ratio == CORRECT_RATE_TEN
-        ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:ACCURATE]
-      end
-    end
-  end
+  
 
   def self.get_homework_statistics date, school_class
     all_tags = nil
@@ -416,6 +404,21 @@ class PublishQuestionPackage < ActiveRecord::Base
       end
     end
     {:question_types => question_types, :questions => questions, :use_times => use_times, :type_average_correct_rate=>type_average_correct_rate}
+  end
+
+  private
+  def update_archivements time,average_ratio,student,school_class,use_time,question
+    if time > 0
+      if average_ratio >= CORRECT_RATE_SIX && average_ratio <= CORRECT_RATE_TEN && use_time < question.time
+        ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:QUICKLY]
+        if time > TIME_TOW_HOUR
+          ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:EARLY]
+        end
+      end
+      if average_ratio == CORRECT_RATE_TEN
+        ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:ACCURATE]
+      end
+    end
   end
 end
 

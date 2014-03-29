@@ -9,6 +9,7 @@ gem 'mysql2' , '0.3.10'
 gem "xml_to_json", "~> 0.0.2"
 gem "builder", "~> 3.0.0"
 gem "nokogiri", "~> 1.6.1"
+gem 'apns'
 
 # Gems used only for assets and not required
 # in production environments by default.

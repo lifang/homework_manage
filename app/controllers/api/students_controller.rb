@@ -685,6 +685,7 @@ class Api::StudentsController < ApplicationController
       end
       answer_json = ""
       anwser_file_url = "#{Rails.root}/public#{student_answer_record.answer_file_url}"
+
       File.open(anwser_file_url) do |file|
         file.each do |line|
           answer_json += line.to_s
@@ -699,7 +700,7 @@ class Api::StudentsController < ApplicationController
       notice = "作业状态更新失败,请重新操作!"
       status = "error"
     end
-    render :json => {:status => status, :notice => notice}
+    render :json => {:status => status, :notice => notice,:updated_time =>student_answer_record.updated_at}
   end
 
   #获取子消息

@@ -383,6 +383,11 @@ function add_selects_tags(obj){
     var branch_question_id = $(obj).parents(".questions_item").attr("branch_question_index");
     var question_item = $(obj).parents(".questions_item")[0]
     var q_index = $($(obj).parents(".ab_article")[0]).find(".questions_item").index($(question_item));
+    var question_name = $(obj).parents(".questions_item").attr("question_type")
+    $("#tags_table").find("input[name='q_index']").first().val(gloab_index);
+    $("#tags_table").find("input[name='b_index']").first().val(q_index);
+    $("#tags_table").find("input[name='tag_bq_type']").first().val(question_name);
+    $("#tags_table").find("input[name='branch_question_id']").first().val(branch_question_id);
     var lis = $("#tags_table").find("li");
     var types = $(obj).parents(".questions_item").attr("question_type")
     $.each(lis, function(){

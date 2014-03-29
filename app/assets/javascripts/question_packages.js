@@ -138,11 +138,7 @@ function save_listening_reading(obj, types, school_class_id)
 {
     var content = $.trim($(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("[class='content']").val());
     var types = $.trim($(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("[class='types']").val());
-    var file = $.trim($(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("[class='file']").val());
-    // alert(content);
-    // alert(types);
-    // alert(file);
-  
+    var file = $.trim($(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("[class='file']").val());  
  
     if(types == 0) //听写
     {
@@ -188,7 +184,6 @@ function update_listening_reading(obj, school_class_id)
     var episode_id = $("#episode_id").val();
     var question_id = $(obj).parent().prev().find("form").find("[class='question_id']").val();
     var branch_id = $.trim($(obj).parent().prev().find("[class='branch_id']").val());
-    var q_index = $(obj).parent().parent().parent().parent().parent().parent().parent().parent().index();
     var b_index = $(obj).parent().parent().parent().parent().parent().index();
     var types = $(obj).parent().prev().find("form").find("[class='types']").val();
     var content = $.trim($(obj).val());
@@ -197,7 +192,7 @@ function update_listening_reading(obj, school_class_id)
         $(obj).parent().find("p").text(content);
         $(obj).hide();
         $(obj).parent().find("p").show();
-        $(obj).parent().prev().find("form").find("[class='q_index']").val(q_index);
+        $(obj).parent().parents().find("form").find("[class='question_id']").val(question_id);
         $(obj).parent().prev().find("form").find("[class='b_index']").val(b_index);
         $(obj).parent().prev().find("form").find("[class='content']").val(content);
 
@@ -234,8 +229,7 @@ function update_listening_reading(obj, school_class_id)
                     dataType: "script",
                     url: url,
                     data: {
-                        branch_id : branch_id, 
-                        q_index : q_index,
+                        branch_id : branch_id,
                         b_index : b_index,
                         types : types,
                         content : content,
@@ -472,6 +466,10 @@ function search_b_tags(obj, school_class_id){
                             var q_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
                             var branch_question_id = $(this).parents(".tag_tab").find("input[name='branch_question_id']").first().val();
                             add_content_to_paixu($(this), q_index, branch_question_id);
+                        }else if(tag_bq_type!="" && tag_bq_type=="lianxian" || tag_bq_type=="select"&& tag_bq_type!=""){
+                            var q_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                            var branch_question_id = $(this).parents(".tag_tab").find("input[name='branch_question_id']").first().val();
+                            add_tag_to_select($(this), q_index, branch_question_id,tag_bq_type);
                         }
                     })
                 });
@@ -528,6 +526,19 @@ function add_new_b_tag(obj, school_class_id){
                                 var q_index = $(this).parents(".tag_tab").find("input[name='q_index']").first().val();
                                 var b_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
                                 add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)   
+                            }else if(tag_bq_type!="" && tag_bq_type=="wanxin"){
+                                var q_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                                var branch_question_id = $(this).parents(".tag_tab").find("input[name='branch_question_id']").first().val();
+                                add_content_to_wanxin($(this), q_index, branch_question_id);
+                            }
+                            else if(tag_bq_type!="" && tag_bq_type=="paixu"){
+                                var q_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                                var branch_question_id = $(this).parents(".tag_tab").find("input[name='branch_question_id']").first().val();
+                                add_content_to_paixu($(this), q_index, branch_question_id);
+                            }else if(tag_bq_type!="" && tag_bq_type=="lianxian" || tag_bq_type=="select"&& tag_bq_type!=""){
+                                var q_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                                var branch_question_id = $(this).parents(".tag_tab").find("input[name='branch_question_id']").first().val();
+                                add_tag_to_select($(this), q_index, branch_question_id,tag_bq_type);
                             }
                         })
                     });

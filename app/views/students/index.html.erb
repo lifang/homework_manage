@@ -8,7 +8,7 @@
           <li class="p_input">
             <p></p>
             <input name="name_tag" type="text" style="display: none;" placeholder="组名" />
-          </li>         
+          </li>
         </ul>
         <div class="tab_switch_btn">
           <a href="javascript:void(0)" onclick="create_class_valid(this)">创建</a>
@@ -31,26 +31,26 @@
           <li><span>班级名称：</span><%= @schoolclass.name %></li>
           <li><span>验证码：</span><%= @schoolclass.verification_code %></li>
           <li><span>结业时间：</span><%= @schoolclass.period_of_validity.strftime("%F") %></li>
-          <li><span>班级人数：</span><%= @schoolclass.count %></li>
+          <li><span>班级人数：</span><%= @schoolclass.school_class_student_ralastions.length %></li>
           <li><span>班级分组：</span> <% if @tags %><%= @tags.map(&:name).join(",") %><% end %></li>
         <% end %>
       </ul>
       <a href="javascript:void(0);" class="student_btn_a" onclick="shwo_tags()">班级分组</a>
     </div>
     <% if @ungrouped.any? %>
-    <% if cookies[:student_has_ungrouped] == "true" %>
-      <div class="message">
-        <p>注：本班有学员未分组，为保证学员能够顺利做作业，请将未分组学员进行分组。</p>
-        <a href="javascript:void(0)" class="close" onclick="close_student_ungrouped_mess(<%= @school_class.id %>,this)">close</a>
-      </div>
-    <% end %>
+      <% if cookies[:student_has_ungrouped] == "true" %>
+        <div class="message">
+          <p>注：本班有学员未分组，为保证学员能够顺利做作业，请将未分组学员进行分组。</p>
+          <a href="javascript:void(0)" class="close" onclick="close_student_ungrouped_mess(<%= @school_class.id %>,this)">close</a>
+        </div>
+      <% end %>
     <% end %>
     <div class="student_body">
       <%= render :partial => 'student_body'  %>
     </div>
   </div>
 </div>
-<%= will_paginate @student_situations,remote:true,:previous_label=>'上一页',:next_label=>'下一页' %>
+<%= will_paginate @pagenate_student_school_class,remote:true,:previous_label=>'上一页',:next_label=>'下一页' %>
 
 
 <div id = "edit_class_area" style="position:absolute;top: 65px;width: 960px;overflow: auto;">

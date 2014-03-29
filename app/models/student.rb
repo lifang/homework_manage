@@ -4,6 +4,8 @@ class Student < ActiveRecord::Base
   attr_protected :authentications
   STATUS = {:YES => 0, :NO => 1}
   STATUS_NAME = {0 => "正常", 1 => "失效"}
+  PUSH_TYPE_NAME = {0 => "系统消息", 1 => "问答回复", 2 => "发布作业"}
+  PUSH_TYPE = {:sys_message => 0, :q_and_a => 1, :publish_question => 2}
   PER_PAGE = 2
   has_many :school_class_student_ralastions
   has_many :school_classes, :through => :school_class_student_ralastions

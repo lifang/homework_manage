@@ -17,8 +17,6 @@ class Teacher < ActiveRecord::Base
     sql_str = "select q.id question_package_id, q.name, p.id publish_question_package_id,
       q.created_at, p.status status, p.end_time from question_packages q left join publish_question_packages p
       on q.id = p.question_package_id where q.school_class_id = #{school_class_id} order by q.created_at desc"
-    p 111111
-    p page
     publish_question_packages = QuestionPackage.find_by_sql(sql_str).paginate(:page => page, :per_page => PublishQuestionPackage::PER_PAGE)
     pub_package_id = []
     publish_question_packages.each do |e|

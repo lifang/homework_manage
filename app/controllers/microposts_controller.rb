@@ -38,8 +38,8 @@ class MicropostsController < ApplicationController
       get_microposts
       #得到某个帖子的回复和帖子
       get_posts_and_replis
-      Message.add_messages(reply.micropost_id, reply.reciver_id, reply.reciver_types,
-        reply.sender_id, reply.sender_types,reply.content, current_teacher.last_visit_class_id,reply.id)
+      # 老师回复问答帖子
+      Message.add_messages(reply, current_teacher.last_visit_class_id)
     end
   end
   def delete_micropost

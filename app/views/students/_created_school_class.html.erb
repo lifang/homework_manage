@@ -18,7 +18,7 @@
       </li>
       <li><input name="class_name" type="text" placeholder="班级名称"/></li>
       <li>
-        <input name="period_of_validity" type="text" placeholder="请选择时间" id="started_at" value=""class="Wdate" readonly onclick="WdatePicker({dateFmt:'yyyy-MM-dd',autoPickDate:true,minDate:'%y-%M-%d'})"/>
+        <input name="period_of_validity" type="text" placeholder="请选择时间" id="started_at" value=""class="Wdate" readonly onclick="WdatePicker({dateFmt:'yyyy-MM-dd',autoPickDate:true,minDate:'%y-%M-%d',onpicked:function(dp){}})"/>
       </li>
     </ul>
     <div class="tab_switch_btn"><a href="javascript:void(0);" onclick="create_school_class(<%= @schoolclass.id %>)" >确定</a></div>

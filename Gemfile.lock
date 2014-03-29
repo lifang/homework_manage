@@ -28,6 +28,7 @@ GEM
     activesupport (3.2.1)
       i18n (~> 0.6)
       multi_json (~> 1.0)
+    apns (1.0.0)
     archive-zip (0.6.0)
       io-like (>= 0.3.0)
     arel (3.0.3)
@@ -123,6 +124,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  apns
   archive-zip (= 0.6.0)
   builder (~> 3.0.0)
   capistrano (~> 2.15.4)

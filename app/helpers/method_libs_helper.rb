@@ -388,10 +388,16 @@ module MethodLibsHelper
     map.store("platform", Micropost::JPUSH[:PLATFORM])
     data =  (Net::HTTP.post_form(URI.parse(Micropost::JPUSH[:URI]), map)).body
   end
+
+
   
-  def send_push_msg content, alias_name, teachers_id, reciver_id
+  def push_after_reply_post content, teachers_id, reciver_id, school_class_id, student, reciver_types
     unless teachers_id.include?(reciver_id.to_i)
-      jpush_parameter content, alias_name
+      if reciver_types == 0 && !student.nil?  #?  TODO reciver_types == 0 老师还是学生
+        extras_hash = {:type => Student::PUSH_TYPE[:q_and_a]}
+        school_class = SchoolClass.find_by_id school_class_id
+        android_and_ios_push(school_class,content,extras_hash)
+      end
     end
   end
   
@@ -527,7 +533,7 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
 
 
   #压缩和推送
-  def compress_and_push file_dirs_url,question_package_id,school_class_id,content,publish_question_package
+  def compress_and_push file_dirs_url,question_package_id,school_class,content,publish_question_package
     zip_url = "#{Rails.root}/public/#{file_dirs_url}/resourse.zip"
     File.delete zip_url if File.exists?(zip_url)
     resourse_url = "#{Rails.root}/public#{media_path % question_package_id}"
@@ -538,11 +544,36 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
       Archive::Zip.archive("#{zip_url}","#{question_packages_url}")
       publish_question_package.update_attributes(:question_packages_url => resourse_zip_url)
     end
-    sql = "SELECT s.alias_name FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
-WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = ?"
-    student = Student.find_by_sql([sql,school_class_id])
-    alias_name = student.map(&:alias_name).join(",")
-    extras_hash = {:type => 2}
-    jpush_parameter content, alias_name,extras_hash
+    #    sql = "SELECT s.alias_name FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
+    #WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = ?#"
+    #    student = Student.find_by_sql([sql,school_class_id])
+    extras_hash = {:type => Student::PUSH_TYPE[:publish_question]}
+    android_and_ios_push(school_class,content,extras_hash)
+   
   end
+
+  def android_and_ios_push(school_class,content,extras_hash=nil)
+    #安卓推送
+    android_student_qq_uid = school_class.students.where("token is null").select("qq_uid").map(&:qq_uid)
+    qq_uids = android_student_qq_uid.join(",")
+    jpush_parameter content, qq_uids,extras_hash
+
+    #ios 推送
+    ipad_student_tokens = school_class.students.where("token is not null").select("token").map(&:token)
+    ipad_push(content, ipad_student_tokens)
+  end
+
+
+  def ipad_push(content, ipad_student_tokens)
+    APNS.host = 'gateway.sandbox.push.apple.com'
+    APNS.pem  = File.join(Rails.root, 'config', 'CMR_Development.pem')
+    APNS.port = 2195
+    token = ipad_student_tokens
+    notification_arr = []
+    ipad_student_tokens.each do |token|
+      notification_arr << APNS::Notification.new(token, :alert => content, :badge => 1, :sound => 'default') if token.present?
+    end
+    APNS.send_notifications(notification_arr)
+  end
+
 end

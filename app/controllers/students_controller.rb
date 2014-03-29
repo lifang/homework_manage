@@ -4,14 +4,13 @@ class StudentsController < ApplicationController
   before_filter :sign?, :get_unread_messes
   before_filter :get_school_class
   def index
-    sql_schoolclass = "SELECT *,(select COUNT(*) from school_class_student_ralastions scsr WHERE scsr.school_class_id = ?) count
-from school_classes sc where sc.id=?"
-    @schoolclass = SchoolClass.find_by_sql([sql_schoolclass,school_class_id,school_class_id]).first
+    @schoolclass = SchoolClass.find_by_id school_class_id
     @ungrouped = SchoolClassStudentRalastion.where(["school_class_id = ? and tag_id is null", @school_class.id])
     cookies[:student_has_ungrouped] = {:value => "true"} if cookies[:student_has_ungrouped].nil?
     @tags = Tag.where("school_class_id=#{school_class_id}")
-    student_situations = Student.list_student school_class_id
-    @student_situations = student_situations.paginate(:page=> params[:page] ||= 1,:per_page=>Student::PER_PAGE )
+    student_situations = Student.list_student(params[:page] ||= 1, school_class_id)
+    @student_situations = student_situations[:student_situations]
+    @pagenate_student_school_class = student_situations[:student_school_class]
     @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
     @teachingmaterial = TeachingMaterial.all
   end

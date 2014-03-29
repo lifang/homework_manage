@@ -15,8 +15,8 @@
       </div>
   <% end %>
   <div class="sh_date">
-    <input id="today_date" type="hidden"  value="<%= @today_date %>">
-    <input id="current_date" type="hidden" value="<%= @current_date %>" >
+    <input id="today_date" type="hidden"  value="<%= @today_date %>"/>
+    <input id="current_date" type="hidden" value="<%= @current_date %>" />
     <span class="prev" onclick="checkout_date(this,'<%= params[:school_class_id] %>')" >prev</span>
     <p>
       <% if @current_task.nil? %>
@@ -32,8 +32,8 @@
     <span class="next" onclick="checkout_date(this,'<%= params[:school_class_id] %>')" >next</span>
   </div>
   <div class="sh_dateIcon">
-    <input id="datepick_er"  type="hidden"  readonly>
-    <a href="javascript:void(0)" class="tooltip_html" onclick="WdatePicker({el:'datepick_er',dateFmt:'yyyy-MM-dd',onpicked:pickedFunc})" >选择日期</a>
+    <input id="datepick_er"  type="hidden" onchange="show_date_status($(this).val(),'<%= params[:school_class_id] %>');"  readonly/>
+    <a href="javascript:void(0)" id="ssss" class="tooltip_html" onclick="WdatePicker({el:'datepick_er',dateFmt:'yyyy-MM-dd',onpicked:pickedFunc})" >选择日期</a>
   </div>
 </div>
 <div class="statistics_body">

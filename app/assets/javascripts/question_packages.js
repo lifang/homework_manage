@@ -696,7 +696,7 @@ function delete_reading_listening_branch(obj)
 {
     var school_class_id = $("#school_class_id").val();
     var branch_id = $(obj).parents("div.questions_item").find("input.branch_id").first().val();
-    alert(branch_id);
+   
     if(confirm("确认删除小题吗？")==true)
     {
         $.ajax({

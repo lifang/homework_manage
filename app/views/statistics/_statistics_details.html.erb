@@ -2,15 +2,9 @@
   <% if !@all_tags.nil? && @all_tags.length != 0  %>
       <div class="sh_choose">
         <% @all_tags.each do |tag| %>
-            <% if tag[:tag_name]  == @all_tags[0][:tag_name]%>
-                <a href="javascript:void(0);" onclick="show_tag(this,'<%= params[:school_class_id] %>','<%= tag[:created_at].strftime("%Y-%m-%d") %>','<%= tag[:tag_id] %>','<%= tag[:pub_id] %>')" class="hover">
-                  <%= tag[:tag_name] %>
-                </a>
-            <% else %>
-                <a href="javascript:void(0);" onclick="show_tag(this,'<%= params[:school_class_id] %>','<%= tag[:created_at].strftime("%Y-%m-%d") %>','<%= tag[:tag_id] %>','<%= tag[:pub_id] %>')" >
-                  <%= tag[:tag_name] %>
-                </a>
-            <% end %>
+            <a href="javascript:void(0);" onclick="show_tag(this,'<%= params[:school_class_id] %>','<%= tag[:tag_id] %>')" >
+              <%= tag[:tag_name] %>
+            </a>
         <% end %>
       </div>
   <% end %>

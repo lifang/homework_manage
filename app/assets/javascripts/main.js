@@ -218,11 +218,13 @@ function popup(t){
     var layer_height = $(t).height();
     var layer_width = $(t).width();
 
-    var top = 0;
-    var left = 0;
+    var left = (win_width-layer_width)/2;
+    var top = (win_height-layer_height)/2;
+    alert(left);
+    alert(top);
     $(".mask").css("height",doc_height);
-    $(t).css('top',top);
-    $(t).css('left',left);
+    $(t).css('margin-top',top);
+    $(t).css('margin-left',left);
     $(".mask").css("display","block");
     $(t).css('display','block');
 
@@ -891,8 +893,16 @@ function del_all_unread_msg(user_id, school_class_id){
 function load(complete_rate, correct_rate){
     if($("#cv02").length > 0)
     {
-        var cv1 = [100-complete_rate, complete_rate]
-        var cv2 = [100-correct_rate, correct_rate]
+        if(complete_rate == 0)
+        {
+            complete_rate = 0.1;
+        }
+        if(correct_rate == 0)
+        {
+            correct_rate = 0.1;
+        }
+        var cv1 = [100-complete_rate, complete_rate];
+        var cv2 = [100-correct_rate, correct_rate];
         var cv01Data = [
         {
             value : cv1[0],

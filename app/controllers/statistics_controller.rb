@@ -10,6 +10,7 @@ class StatisticsController < ApplicationController
     @today_date = Time.now.strftime("%Y-%m-%d")
     info = PublishQuestionPackage.get_homework_statistics @today_date, school_class
     @all_tags = info[:all_tags]
+    p @all_tags
     @current_task = info[:current_task]
     @current_date =  @current_task.nil? ? @today_date : @current_task.created_at.strftime("%Y-%m-%d")
     @question_types = info[:question_types]
@@ -57,7 +58,9 @@ class StatisticsController < ApplicationController
       tag_id, school_class_id)
     @question_types = info[:question_types]
     @questions = info[:questions]
+    p "questions#{@questions}"
     use_times = info[:use_times]
+    p "@type_average_correct_rate#{@type_average_correct_rate}"
     @type_average_correct_rate = info[:type_average_correct_rate]
     use_times = use_times.group_by {|q| q[:types]} if use_times.present?
     tmp = []
@@ -71,6 +74,7 @@ class StatisticsController < ApplicationController
       use_times = (eval times.join('+'))/times.length if times.present?
       tmp << {:types => k, :use_time => use_times, :correct_rate => correct_rt}
     end
+    p "@use_times#{@use_times}"
     @use_times = tmp.group_by{|q| q[:types]}
   end
 

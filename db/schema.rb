@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140325022220) do
+ActiveRecord::Schema.define(:version => 20140329014808) do
 
   create_table "app_versions", :force => true do |t|
     t.float "c_version"
@@ -353,7 +353,7 @@ ActiveRecord::Schema.define(:version => 20140325022220) do
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.integer  "user_id"
-    t.string   "alias_name"
+    t.string   "token"
   end
 
   add_index "students", ["user_id"], :name => "index_students_on_user_id"

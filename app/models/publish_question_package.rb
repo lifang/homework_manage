@@ -208,39 +208,44 @@ class PublishQuestionPackage < ActiveRecord::Base
     details = nil
     average_correct_rate = nil
     average_complete_rate = nil
-
-    today_tasks = PublishQuestionPackage.joins('left join tags t on publish_question_packages.tag_id = t.id')
+    today_tasks = PublishQuestionPackage
+    .joins('left join tags t on publish_question_packages.tag_id = t.id')
     .select("publish_question_packages.id, publish_question_packages.tag_id,
               publish_question_packages.created_at,
               publish_question_packages.question_package_id, t.name")
     .where("publish_question_packages.created_at >= '#{date} 00:00:00'
              and publish_question_packages.created_at <= '#{date} 23:59:59'")
     .order("publish_question_packages.created_at desc")
-    today_tasks.sort_by! { |t| t.name.to_s }
-    if today_tasks.length > 0
-      tags_id = today_tasks.map(&:tag_id)
-      today_tasks = today_tasks.group_by { |t| t.tag_id }
-      tags = Tag.where("id in (?)", tags_id)
-      tags.sort_by! { |t| t.name }
+    p today_tasks
+    if today_tasks && today_tasks.length > 0
+      current_task = today_tasks.first
+      all_tags_id = []
+      all_tags_id = today_tasks.map {|t| t.tag_id.nil? ? 0 : t.tag_id }
+      tags = Tag.where("id in (?)", all_tags_id).group_by{|t| t.id }
       all_tags = []
-      tags.each do |e|
-        all_tags << {:tag_name => e.name, :tag_id => e.id, :pub_id => today_tasks[e.id][0].id,
-          :created_at => today_tasks[e.id][0].created_at}
-      end
-      all_tags << {:tag_name => "全班", :tag_id => 0, :pub_id => today_tasks[0][0].id,
-        :created_at => today_tasks[0][0].created_at} if tags_id.include?(0)
-      all_tags.sort_by!{|t|t[:tag_name]}
-      if today_tasks.length > 0
-        if all_tags.length > 0
-          current_task = today_tasks[all_tags[0][:tag_id].to_i][0]
-          p current_task
-          first_tag_id = all_tags[0][:tag_id].to_i
-          info = PublishQuestionPackage.get_record_details current_task, first_tag_id, school_class.id
-          question_types = info[:question_types]
-          details = info[:details]
-          average_correct_rate = info[:average_correct_rate]
-          average_complete_rate = info[:average_complete_rate]
+      all_tags = tags.map {|t| {:tag_id => t.id, :tag_name => t.name } } if tags.present?
+
+      
+      all_tags_id.each do |tag_id|
+        if tag_id == 0
+          all_tags << {:tag_id => tag_id, :tag_name => "全部" }
+        else
+          all_tags << {:tag_id => tags[tag_id][0].id, :tag_name => tags[tag_id][0].name }
         end
+      end
+
+      if all_tags_id.length > 0
+        info = PublishQuestionPackage.get_record_details current_task, school_class.id
+        question_types = info[:question_types]
+        details = info[:details]
+        average_complete_rate = info[:average_correct_rate]
+        average_complete_rate = info[:average_complete_rate]
+        p average_complete_rate
+        p average_complete_rate
+      end
+      all_tags = []
+      all_tags_id.each do |e|
+        
       end
     end
     {:all_tags => all_tags, :current_task => current_task, :question_types => question_types,
@@ -249,7 +254,7 @@ class PublishQuestionPackage < ActiveRecord::Base
   end
 
   #获取一个任务的答题信息
-  def self.get_record_details current_task, tag_id, school_class_id
+  def self.get_record_details current_task, school_class_id
     question_types = []
     details = []
     average_correct_rate = nil
@@ -258,9 +263,9 @@ class PublishQuestionPackage < ActiveRecord::Base
     question_types = QuestionPackage.get_one_package_questions current_task.question_package_id
     question_types = question_types.map!(&:types).uniq!
     question_types.sort! unless question_types.nil?
-    if tag_id.present?
+    if current_task.tag_id.present?
       students_id = SchoolClassStudentRalastion.where(["school_class_id = ? and tag_id = ?",
-          school_class_id, tag_id]).map(&:student_id)
+          school_class_id, current_task.tag_id]).map(&:student_id)
     else
       students_id = SchoolClassStudentRalastion.where(["school_class_id = ?", school_class_id]).map(&:student_id)
     end
@@ -332,6 +337,7 @@ class PublishQuestionPackage < ActiveRecord::Base
       student_answer_records.map! do |sar|
         answer_records = {}
         answer_json = ""
+
         if File.exist? base_url+sar.answer_file_url
           File.open(base_url+sar.answer_file_url) do |file|
             file.each do |line|

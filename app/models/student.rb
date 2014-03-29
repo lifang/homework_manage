@@ -19,19 +19,19 @@ class Student < ActiveRecord::Base
 LEFT JOIN school_class_student_ralastions scsr on s.id = scsr.student_id LEFT JOIN tags t on scsr.tag_id = t.id  where
  scsr.school_class_id=?"
     student_school_class = Student.paginate_by_sql([sql_student,school_class_id],:per_page => 2, :page => page)
-#    正确率
+    #    正确率
     recorddetail = RecordDetail.joins("inner join student_answer_records sar on record_details.student_answer_record_id = sar.id").
       select("sar.student_id,record_details.id,  avg(record_details.correct_rate) correct_rate ").
       where("record_details.is_complete= #{RecordDetail::IS_COMPLETE[:FINISH]}").
       where("sar.student_id in (?)",student_school_class.map(&:id)).group("sar.student_id")
-#未交作业次数
+    #未交作业次数
     sql_public_count = "SELECT count(*) count FROM publish_question_packages WHERE school_class_id = ?"
     sql_comp_count = "SELECT student_id,count(*) count FROM student_answer_records WHERE status=#{StudentAnswerRecord::STATUS[:FINISH]}
                       and school_class_id = ? GROUP BY student_id"
     count_public = PublishQuestionPackage.find_by_sql([sql_public_count,school_class_id]).first
     count_public_num = count_public.present? ? count_public.count : 0
     count_complishs = StudentAnswerRecord.find_by_sql([sql_comp_count,school_class_id])
-#成就
+    #成就
     archivementsrecord = ArchivementsRecord.where("school_class_id = #{school_class_id}").group_by{|archivement| archivement[:student_id]}
     student_situations = []
     student_school_class.each do |student|
@@ -47,11 +47,13 @@ LEFT JOIN school_class_student_ralastions scsr on s.id = scsr.student_id LEFT JO
           student_situation[:correct_rate] = record.correct_rate
         end
       end
+      student_situation[:correct_rate] = student_situation[:correct_rate].nil? ? 0 : student_situation[:correct_rate]
       count_complishs.each do |count_complish|
         if count_complish.student_id.eql?(student.id)
           student_situation[:unfinished] = count_public_num - count_complish.count
         end
       end
+      student_situation[:unfinished] = student_situation[:unfinished].nil? ? count_public_num : student_situation[:unfinished]
       archivementsrecord.each do |student_id,archivement|
         if student.id.eql?(student_id)
           archivement.each  do |a|

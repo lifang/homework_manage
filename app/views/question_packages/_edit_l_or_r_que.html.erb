@@ -1,4 +1,4 @@
-<div class="assignment_body_list">
+<div class="assignment_body_list" id="question_<%= question.id %>">
   <div class="ab_list_title">
     <% que_time = trans_int_to_time(question.questions_time.to_i) %>
     <h1><%= question.name.present? ? question.name : "未命名" %></h1>

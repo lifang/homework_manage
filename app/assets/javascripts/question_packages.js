@@ -472,6 +472,10 @@ function search_b_tags(obj, school_class_id){
                             var q_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
                             var branch_question_id = $(this).parents(".tag_tab").find("input[name='branch_question_id']").first().val();
                             add_content_to_paixu($(this), q_index, branch_question_id);
+                        }else if(tag_bq_type!="" && tag_bq_type=="lianxian" || tag_bq_type=="select"&& tag_bq_type!=""){
+                            var q_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                            var branch_question_id = $(this).parents(".tag_tab").find("input[name='branch_question_id']").first().val();
+                            add_tag_to_select($(this), q_index, branch_question_id,tag_bq_type);
                         }
                     })
                 });
@@ -537,6 +541,10 @@ function add_new_b_tag(obj, school_class_id){
                                 var q_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
                                 var branch_question_id = $(this).parents(".tag_tab").find("input[name='branch_question_id']").first().val();
                                 add_content_to_paixu($(this), q_index, branch_question_id);
+                            }else if(tag_bq_type!="" && tag_bq_type=="lianxian" || tag_bq_type=="select"&& tag_bq_type!=""){
+                                var q_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                                var branch_question_id = $(this).parents(".tag_tab").find("input[name='branch_question_id']").first().val();
+                                add_tag_to_select($(this), q_index, branch_question_id,tag_bq_type);
                             }
                         })
                     });

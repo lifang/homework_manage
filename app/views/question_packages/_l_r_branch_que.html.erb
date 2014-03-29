@@ -1,5 +1,5 @@
 <div class="questions_item">
-  <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>">
+  <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>"/>
     <div class="q_topic q_willCompile">
       <div class="speedQuestions">
         <ul class="branch_question">
@@ -11,29 +11,29 @@
             <% end %>
             <% if types == Question::TYPES[:LISTENING] %>
               <%= form_tag({:action => :save_listening}, :multipart => true ,:remote => true) do %>
-                <input type="file" name="file" class="file" style="display:none;" onchange="check_audio(this)">
-                <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>">
-                <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>">
-                <input type="hidden" name="types" class="types" value="<%= types %>">
-                <input type="hidden" name="content" class="content" value="<%= content.present?  ? content : "" %>">
-                <input type="hidden" name="b_index" class="b_index"  value="<%= count_b.present?  ? count_b : "" %>">
-                <input type="hidden" name="tags_id" class="tags_id" value="<%=  @branch_tags && @branch_tags[question_id].present? && @branch_tags[question_id][branch_id].present? ? "#{@branch_tags[question_id][branch_id].map(&:branch_tag_id)}".gsub('','').gsub(/\[|\]/,'').gsub(/\,/,'|') : "" %>">
+                <input type="file" name="file" class="file" style="display:none;" onchange="check_audio(this)"/>
+                <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>"/>
+                <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>"/>
+                <input type="hidden" name="types" class="types" value="<%= types %>"/>
+                <input type="hidden" name="content" class="content" value="<%= content.present?  ? content : "" %>"/>
+                <input type="hidden" name="b_index" class="b_index"  value="<%= count_b.present?  ? count_b : "" %>"/>
+                <input type="hidden" name="tags_id" class="tags_id" value="<%=  @branch_tags && @branch_tags[question_id].present? && @branch_tags[question_id][branch_id].present? ? "#{@branch_tags[question_id][branch_id].map(&:branch_tag_id)}".gsub('','').gsub(/\[|\]/,'').gsub(/\,/,'|') : "" %>"/>
               <% end %>
             <% elsif types == Question::TYPES[:READING] %>
               <%= form_tag({:action => :save_reading}, :multipart => true ,:remote => true) do %>
-                <input type="file" name="file" class="file" style="display:none;" onchange="check_audio(this)">
-                <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>">
-                <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>">
-                <input type="hidden" name="types" class="types" value="<%= types %>">
-                <input type="hidden" name="content" class="content" value="<%= content.present?  ? content : "" %>">
-                <input type="hidden" name="b_index" class="b_index"  value="<%= count_b.present?  ? count_b : "" %>">
-                <input type="hidden" name="tags_id" class="tags_id" value="<%=  @branch_tags && @branch_tags[question_id].present? && @branch_tags[question_id][branch_id].present? ? "#{@branch_tags[question_id][branch_id].map(&:branch_tag_id)}".gsub('','').gsub(/\[|\]/,'').gsub(/\,/,'|') : "" %>">
+                <input type="file" name="file" class="file" style="display:none;" onchange="check_audio(this)"/>
+                <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>"/>
+                <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>"/>
+                <input type="hidden" name="types" class="types" value="<%= types %>"/>
+                <input type="hidden" name="content" class="content" value="<%= content.present?  ? content : "" %>"/>
+                <input type="hidden" name="b_index" class="b_index"  value="<%= count_b.present?  ? count_b : "" %>"/>
+                <input type="hidden" name="tags_id" class="tags_id" value="<%=  @branch_tags && @branch_tags[question_id].present? && @branch_tags[question_id][branch_id].present? ? "#{@branch_tags[question_id][branch_id].map(&:branch_tag_id)}".gsub('','').gsub(/\[|\]/,'').gsub(/\,/,'|') : "" %>"/>
               <% end %>
             <% end %>  
         </li>
           <li class="qt_text">
             <p><%= content.present?  ? content : "" %></p>
-            <input class="content" type="text" value="<%= content.present?  ? content : "" %>" onblur="update_listening_reading(this,<%= params[:school_class_id] %>)" >
+            <input class="content" type="text" value="<%= content.present?  ? content : "" %>" onblur="update_listening_reading(this,<%= params[:school_class_id] %>)" style="display:none;" />
           </li>
         </ul>
       </div>

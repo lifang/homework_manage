@@ -49,7 +49,7 @@ class QuestionPackagesController < ApplicationController
     if branch_question
       BtagsBqueRelation.delete_all("branch_question_id = #{branch_question_id}")
       resource_url = "#{Rails.root}/public#{branch_question.resource_url}"
-      File.delete resource_url if File.exist? resource_url
+      File.delete resource_url if branch_question.resource_url.present? && File.exist?(resource_url)
       branch_question.destroy
       status = 1
     end 

@@ -123,5 +123,9 @@ class HomeworksController < ApplicationController
       notice = "结束时间不能小于当前时间！"
     end
     @info = {:status => status, :notice => notice}
+    respond_to do |f|
+      f.json{ render :json => @info}
+      f.js{}
+    end
   end
 end

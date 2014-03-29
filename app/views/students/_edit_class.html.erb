@@ -16,7 +16,7 @@
               <li>
                 <div class="select_box">
                   <div class="rowElem">
-                    <select id="teaching_material_id" name="teaching_material_id">
+                    <select id="teaching_material_id" style="width: 240px" name="teaching_material_id">
                       <option value="0" selected="selected">请选择</option>
                       <% @teachering_materials.each do |m| %>
                         <option value="<%= m.id %>" <%= "selected" if m.id == @school_class.teaching_material_id %> ><%= m.name %></option>

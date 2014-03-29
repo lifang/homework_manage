@@ -116,7 +116,7 @@ class PublishQuestionPackage < ActiveRecord::Base
         card_bag = CardBag.create(:student_id => student.id, :school_class_id => school_class.id)
       end
       #获取某一提包的所有小题（5line）
-      the_branch_questions_by_card_bag_id = KnowCard.where("card_bag_id = ?" , card_bag.id )
+      the_branch_questions_by_card_bag_id = KnowledgesCard.where("card_bag_id = ?" , card_bag.id )
       the_branch_question_ids = []
       if the_branch_questions_by_card_bag_id.present?
         the_branch_question_ids = the_branch_questions_by_card_bag_id.map(&:branch_question_id)
@@ -152,9 +152,7 @@ class PublishQuestionPackage < ActiveRecord::Base
               end
             end
           end
-          #题包中的小题数（2line）
-          card_bag_count =  KnowCard.where("card_bag_id = ?" , card_bag.id ).count
-          card_bag.update_attribute(:know_cards_count,card_bag_count)
+          
           
           average_ratio = score/ratios_count <= 0 ? 0 : score/ratios_count
           record_details = RecordDetail
@@ -178,6 +176,7 @@ class PublishQuestionPackage < ActiveRecord::Base
             time = ((DateTime.parse(publish_question_package.end_time
                   .strftime("%Y-%m-%d %H:%M:%S")) - DateTime.parse(update_time)) *24 * 60).to_i
             if record_details.nil?
+              p 11111
               record_details = RecordDetail.create(:question_types => types,
                 :student_answer_record_id => student_answer_record.id,
                 :score => score, :is_complete => status, :used_time => use_time,
@@ -192,6 +191,9 @@ class PublishQuestionPackage < ActiveRecord::Base
               end
             end
           end
+          #题包中的小题数（2line）
+          #card_bag_count =  KnowledgesCard.where("card_bag_id = ?" , card_bag.id ).count
+          #card_bag.update_attribute(:knowledges_cards_count,card_bag_count)
         else
           break
         end
@@ -412,7 +414,6 @@ class PublishQuestionPackage < ActiveRecord::Base
     {:question_types => question_types, :questions => questions, :use_times => use_times, :type_average_correct_rate=>type_average_correct_rate}
   end
 
-  private
   def update_archivements time,average_ratio,student,school_class,use_time,question
     if time > 0
       if average_ratio >= CORRECT_RATE_SIX && average_ratio <= CORRECT_RATE_TEN && use_time < question.time

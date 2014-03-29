@@ -1,3 +1,4 @@
+#encoding: utf-8
 class KnowledgesCard < ActiveRecord::Base
   attr_protected :authentications
   belongs_to :card_bag, :counter_cache => true

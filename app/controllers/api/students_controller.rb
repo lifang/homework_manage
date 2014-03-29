@@ -698,7 +698,7 @@ class Api::StudentsController < ApplicationController
       notice = "作业状态更新失败,请重新操作!"
       status = "error"
     end
-    render :json => {:status => status, :notice => notice,:updated_time =>student_answer_record.updated_at}
+    render :json => {:status => status, :notice => notice,:updated_time =>student_answer_record.updated_at.strftime("%Y-%m-%d %H:%M:%S")}
   end
 
   #获取子消息

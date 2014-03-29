@@ -7,15 +7,19 @@ class ArchivementsRecord < ActiveRecord::Base
   def self.update_archivements student, school_class, archivement_types
     archivement =  ArchivementsRecord
     .find_by_student_id_and_school_class_id_and_archivement_types(student.id,
-                                                                  school_class.id, archivement_types)
+      school_class.id, archivement_types)
     if archivement.nil?
       archivement = ArchivementsRecord.create(:student_id => student.id,
-                                              :school_class_id => school_class.id,
-                                              :archivement_types => archivement_types,
-                                              :archivement_score => 10)
+        :school_class_id => school_class.id,
+        :archivement_types => archivement_types,
+        :archivement_score => 10)
     else
       archivement.update_attributes(:archivement_score =>
-                                        (archivement.archivement_score+10))
+          (archivement.archivement_score+10))
     end
+    
+    content = "恭喜您获得成就“#{TYPES_NAME[archivement_types]}”"
+    extras_hash = {:type => Student::PUSH_TYPE[:sys_message]}
+    android_and_ios_push(school_class,content,extras_hash)
   end
 end

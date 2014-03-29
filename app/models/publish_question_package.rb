@@ -9,6 +9,9 @@ class PublishQuestionPackage < ActiveRecord::Base
   STATUS_NAME = {0 => "新任务", 1 => "完成", 2 => '过期'}
   PER_PAGE = 10
   IS_CALC = {:WAIT => 0, :DEADL => 1}
+  TIME_TOW_HOUR = 120
+  CORRECT_RATE_SIX = 60
+  CORRECT_RATE_TEN = 100
 
   #获取当日或历史任务
   def self.get_tasks school_class_id, student_id, order_name=nil, date=nil, today_newer_id=nil
@@ -37,8 +40,8 @@ class PublishQuestionPackage < ActiveRecord::Base
     pub_ids = pub_tasks.present? ? pub_tasks.map(&:id) : []
     que_pack_ids = pub_tasks.present? ? pub_tasks.map(&:que_pack_id) : []
     s_a_rs = StudentAnswerRecord
-      .select("publish_question_package_id id, answer_file_url")
-      .where(["publish_question_package_id in (?) and student_id = ?", pub_ids, student_id])
+    .select("publish_question_package_id id, answer_file_url")
+    .where(["publish_question_package_id in (?) and student_id = ?", pub_ids, student_id])
     s_a_rs = s_a_rs.group_by {|s| s.id}
     s_a_r_status = StudentAnswerRecord.get_student_answer_status school_class_id, student_id, pub_ids
     s_a_r_status = s_a_r_status.group_by { |sar| sar.pub_id }
@@ -60,8 +63,8 @@ class PublishQuestionPackage < ActiveRecord::Base
           answer_url = s_a_rs[task.id][0][:answer_file_url]
         end
         tasks << {:id => task.id, :name => task.name, :start_time => task.start_time,
-                  :question_types => question_types, :finish_types => finish_types, :answer_url => answer_url,
-                  :end_time => task.end_time, :question_packages_url => task.question_packages_url
+          :question_types => question_types, :finish_types => finish_types, :answer_url => answer_url,
+          :end_time => task.end_time, :question_packages_url => task.question_packages_url
         }
       end
     end
@@ -90,13 +93,13 @@ class PublishQuestionPackage < ActiveRecord::Base
             prop["branch_id"].each do |branch_id|
               if user_prop_relation
                 r = RecordUseProp.create(:user_prop_relation_id => user_prop_relation.id,
-                                         :branch_question_id => branch_id)
+                  :branch_question_id => branch_id)
               end
             end
             if prop["branch_id"] && prop["branch_id"].length != 0
               if user_prop_relation
                 user_prop_relation.update_attributes(:user_prop_num =>
-                                                     (user_prop_relation.user_prop_num-prop["branch_id"].length).to_i)
+                    (user_prop_relation.user_prop_num-prop["branch_id"].length).to_i)
               end  
             end
           end
@@ -107,27 +110,32 @@ class PublishQuestionPackage < ActiveRecord::Base
       sql_str = "select q.types, sum(questions_time) time from questions q
           where question_package_id = #{publish_question_package.question_package.id} group by types"
       quetsions_time = Question.find_by_sql(sql_str)
+      card_bag = CardBag.find_by_student_id_and_school_class_id(student.id,
+        school_class.id)
+      if card_bag.nil?
+        card_bag = CardBag.create(:student_id => student.id, :school_class_id => school_class.id)
+      end
+      #获取某一提包的所有小题（5line）
+      the_branch_questions_by_card_bag_id = KnowCard.where("card_bag_id = ?" , card_bag.id )
+      the_branch_question_ids = []
+      if the_branch_questions_by_card_bag_id.present?
+        the_branch_question_ids = the_branch_questions_by_card_bag_id.map(&:branch_question_id)
+      end
+      
       quetsions_time.each do |question|
         answer_details = answer_json[Question::TYPES_TITLE[question.types.to_i]]
         if answer_details.present?
-          p answer_details
-          types = Question::RECORD_TYPES[Question::TYPES_TITLE[question.types.to_i]]
+          types = question.types.to_i
           status = answer_details["status"].to_i
           update_time = answer_details["update_time"]
           use_time = answer_details["use_time"]
           score = 0
-          if [2, 3, 4, 5, 6].include? types
+          if [Question::TYPES[:TIME_LIMIT], Question::TYPES[:SELECTING], Question::TYPES[:LINING], Question::TYPES[:CLOZE], Question::TYPES[:SORT]].include? types
             knowledges_cards_types = KnowledgesCard::MISTAKE_TYPES[:SELEST] #选错
-          elsif types == 0
+          elsif types == Question::TYPES[:LISTENING]
             knowledges_cards_types = KnowledgesCard::MISTAKE_TYPES[:WRITE] #拼错
-          elsif types == 1
+          elsif types == Question::TYPES[:READING]
             knowledges_cards_types = KnowledgesCard::MISTAKE_TYPES[:READ] #读错
-          end
-          card_bag = CardBag.find_by_student_id_and_school_class_id(student.id,
-                                                                    school_class.id)
-
-          if card_bag.nil?
-            card_bag = CardBag.create(:student_id => student.id, :school_class_id => school_class.id)
           end
           ratios_count = 0
           answer_details["questions"].each do |question|
@@ -135,47 +143,72 @@ class PublishQuestionPackage < ActiveRecord::Base
             ratios.each do |ratio|
               score += ratio[1]
               ratios_count += 1
-              if ratio[1] < 100 && ratio[2].gsub(" ", "").size != 0 #插入知识卡片
-                card_bag.knowledges_cards.create(:mistake_types => knowledges_cards_types,
-                                                 :branch_question_id => ratio[0], :your_answer => ratio[2])
+              if ratio[1] < CORRECT_RATE_TEN && ratio[2].gsub(" ", "").size != 0 #插入知识卡片
+                unless the_branch_question_ids.include?(ratio[0])  #判断是否有该题
+                  card_bag.knowledges_cards.create(:mistake_types => knowledges_cards_types,
+                    :branch_question_id => ratio[0],
+                    :your_answer => ratio[2])
+                end
               end
             end
           end
+          #题包中的小题数（2line）
+          card_bag_count =  KnowCard.where("card_bag_id = ?" , card_bag.id ).count
+          card_bag.update_attribute(:know_cards_count,card_bag_count)
+          
           average_ratio = score/ratios_count <= 0 ? 0 : score/ratios_count
-
           record_details = RecordDetail
           .find_by_question_types_and_student_answer_record_id(types,
-                                                               student_answer_record.id)
-          if record_details.nil?
-            record_details = RecordDetail.create(:question_types => types,
-                                                 :student_answer_record_id => student_answer_record.id,
-                                                 :score => score, :is_complete => status, :used_time => use_time,
-                                                 :correct_rate => average_ratio, :specified_time => question.time)
-          else
-            record_details.update_attributes(:score => score, :is_complete => status,
-                                             :specified_time => question.time, :used_time => use_time,
-                                             :correct_rate => average_ratio)
-          end
+            student_answer_record.id)
+
+
+          #          if record_details.nil?
+          #            record_details = RecordDetail.create(:question_types => types,
+          #              :student_answer_record_id => student_answer_record.id,
+          #              :score => score, :is_complete => status, :used_time => use_time,
+          #              :correct_rate => average_ratio, :specified_time => question.time)
+          #          else
+          #            record_details.update_attributes(:score => score, :is_complete => status,
+          #              :specified_time => question.time, :used_time => use_time,
+          #              :correct_rate => average_ratio)
+          #          end
 
           #计算成就
-          if status = answer_details["status"].to_i == 1
+          if status = answer_details["status"].to_i ==  PublishQuestionPackage::STATUS[:FINISH]
             time = ((DateTime.parse(publish_question_package.end_time
-                                    .strftime("%Y-%m-%d %H:%M:%S")) - DateTime.parse(update_time)) *24 * 60).to_i
-            if time > 0
-              if average_ratio >= 60 && average_ratio <= 100
-                ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:QUICKLY]
-                if time > 120
-                  ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:EARLY]
-                end
-              end
-              if average_ratio == 100
-                ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:ACCURATE]
+                  .strftime("%Y-%m-%d %H:%M:%S")) - DateTime.parse(update_time)) *24 * 60).to_i
+            if record_details.nil?
+              record_details = RecordDetail.create(:question_types => types,
+                :student_answer_record_id => student_answer_record.id,
+                :score => score, :is_complete => status, :used_time => use_time,
+                :correct_rate => average_ratio, :specified_time => question.time)
+              update_archivements time,average_ratio,student,school_class,use_time,question
+            else
+              unless record_details.is_complete == RecordDetail::IS_COMPLETE[:FINISH]
+                record_details.update_attributes(:score => score, :is_complete => status,
+                  :specified_time => question.time, :used_time => use_time,
+                  :correct_rate => average_ratio)
+                update_archivements time,average_ratio,student,school_class,use_time,question
               end
             end
           end
         else
           break
         end
+      end
+    end
+  end
+  
+  def update_archivements time,average_ratio,student,school_class,use_time,question
+    if time > 0
+      if average_ratio >= CORRECT_RATE_SIX && average_ratio <= CORRECT_RATE_TEN && use_time < question.time
+        ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:QUICKLY]
+        if time > TIME_TOW_HOUR
+          ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:EARLY]
+        end
+      end
+      if average_ratio == CORRECT_RATE_TEN
+        ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:ACCURATE]
       end
     end
   end
@@ -204,10 +237,10 @@ class PublishQuestionPackage < ActiveRecord::Base
       all_tags = []
       tags.each do |e|
         all_tags << {:tag_name => e.name, :tag_id => e.id, :pub_id => today_tasks[e.id][0].id,
-                      :created_at => today_tasks[e.id][0].created_at}
+          :created_at => today_tasks[e.id][0].created_at}
       end
       all_tags << {:tag_name => "全班", :tag_id => 0, :pub_id => today_tasks[0][0].id,
-                  :created_at => today_tasks[0][0].created_at} if tags_id.include?(0)
+        :created_at => today_tasks[0][0].created_at} if tags_id.include?(0)
       all_tags.sort_by!{|t|t[:tag_name]}
       if today_tasks.length > 0
         if all_tags.length > 0
@@ -223,8 +256,8 @@ class PublishQuestionPackage < ActiveRecord::Base
       end
     end
     {:all_tags => all_tags, :current_task => current_task, :question_types => question_types,
-     :details => details, :average_correct_rate => average_correct_rate,
-     :average_complete_rate => average_complete_rate}
+      :details => details, :average_correct_rate => average_correct_rate,
+      :average_complete_rate => average_complete_rate}
   end
 
   #获取一个任务的答题信息
@@ -239,11 +272,10 @@ class PublishQuestionPackage < ActiveRecord::Base
     question_types.sort! unless question_types.nil?
     if tag_id.present?
       students_id = SchoolClassStudentRalastion.where(["school_class_id = ? and tag_id = ?",
-                                                       school_class_id, tag_id]).map(&:student_id)
+          school_class_id, tag_id]).map(&:student_id)
     else
       students_id = SchoolClassStudentRalastion.where(["school_class_id = ?", school_class_id]).map(&:student_id)
     end
-    p students_id
     student_answer_records = StudentAnswerRecord.joins("left join students s on
             student_answer_records.student_id = s.id")
     .joins("left join users u on s.user_id = u.id")
@@ -255,29 +287,29 @@ class PublishQuestionPackage < ActiveRecord::Base
     record_details = RecordDetail
     .select("question_types, used_time, is_complete, student_answer_record_id, correct_rate")
     .where("student_answer_record_id in (?) and is_complete = ?", student_answer_records_id,
-           RecordDetail::STATUS[:FINISH])
+      RecordDetail::STATUS[:FINISH])
     answer_details = record_details.map { |r| {:id => r.student_answer_record_id,
-                                               :types => r.question_types, :used_time => r.used_time, :correct_rate => r.correct_rate
-    } }.group_by { |r| r[:id] }
+        :types => r.question_types, :used_time => r.used_time, :correct_rate => r.correct_rate
+      } }.group_by { |r| r[:id] }
     details = []
     student_answer_records.each do |s|
       answers = nil
       answers = answer_details[s.id].group_by { |a| a[:types] } if !answer_details[s.id].nil?
       details << {:id => s.id, :pub_id => s.publish_question_package_id,
-                  :average_correct_rate => s.average_correct_rate,
-                  :average_complete_rate => s.average_complete_rate,
-                  :student_id => s.student_id, :name => s.name, :avatar_url => s.avatar_url,
-                  :answer_details => answers}
+        :average_correct_rate => s.average_correct_rate,
+        :average_complete_rate => s.average_complete_rate,
+        :student_id => s.student_id, :name => s.name, :avatar_url => s.avatar_url,
+        :answer_details => answers}
     end
     average_correct_rate = student_answer_records.length == 0 ? 0 :
-        (student_answer_records.sum { |s| s.average_correct_rate }/
-            student_answer_records.length)
+      (student_answer_records.sum { |s| s.average_correct_rate }/
+        student_answer_records.length)
     average_complete_rate = student_answer_records.length == 0 ? 0 :
-        (student_answer_records.sum { |s| s.average_complete_rate }/
-            student_answer_records.length)
+      (student_answer_records.sum { |s| s.average_complete_rate }/
+        student_answer_records.length)
     {:question_types => question_types, :details => details,
-     :average_correct_rate => average_correct_rate,
-     :average_complete_rate => average_complete_rate}
+      :average_correct_rate => average_correct_rate,
+      :average_complete_rate => average_complete_rate}
   end
 
   #按题型获取统计
@@ -287,7 +319,7 @@ class PublishQuestionPackage < ActiveRecord::Base
     sql = "school_class_id = ?"
     question_types = QuestionPackage.get_one_package_questions publish_question_package.question_package_id
     questions = question_types.map{|q| {:id => q.id, :types => q.types,
-            :created_at => q.created_at.strftime("%Y-%m-%d %H:%M:%S") } }.uniq
+        :created_at => q.created_at.strftime("%Y-%m-%d %H:%M:%S") } }.uniq
     question_types.map!(&:types).uniq!
     question_types.sort! unless question_types.nil?
     params_sql = [sql, school_class_id]
@@ -325,7 +357,7 @@ class PublishQuestionPackage < ActiveRecord::Base
           {:question_types => nil, :question_details => nil}
         end
         {:sar_id => sar.id, :student_id => sar.student_id,
-         :answers => answer_records, :types => sar.types}
+          :answers => answer_records, :types => sar.types}
       end
       student_answer_records.map!{|s| {:student_id =>s[:student_id],  :answers => s[:answers]} }.uniq!
       questions = questions.group_by {|q| q[:types]}
@@ -338,13 +370,13 @@ class PublishQuestionPackage < ActiveRecord::Base
             #p Question::TYPE_NAME_ARR[types.to_i]
             if sar.present?
               if sar[:answers][Question::TYPE_NAME_ARR[types.to_i]].present? &&
-                      sar[:answers][Question::TYPE_NAME_ARR[types.to_i]]["status"] ==
-                      "#{RecordDetail::IS_COMPLETE[:FINISH]}"
+                  sar[:answers][Question::TYPE_NAME_ARR[types.to_i]]["status"] ==
+                  "#{RecordDetail::IS_COMPLETE[:FINISH]}"
                 use_t = sar[:answers][Question::TYPE_NAME_ARR[types.to_i]]["use_time"].to_i
                 use_times  << {:use_time => use_t, :types => types, :student_id => sar[:student_id]}
                 if sar[:answers][Question::TYPE_NAME_ARR[types.to_i]]["questions"].present?
                   answers = sar[:answers][Question::TYPE_NAME_ARR[types.to_i]]["questions"]
-                        .group_by{|q| q["id"]}
+                  .group_by{|q| q["id"]}
                   ques_id = questions[types.to_i].map{|q| q[:id]}
                   if ques_id.present?
                     ques_id.each do |que_id|

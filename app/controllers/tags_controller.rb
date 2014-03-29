@@ -22,8 +22,10 @@ class TagsController < ApplicationController
       @notice = "删除成功"
     end
     @tags = Tag.where("school_class_id=#{school_class_id}")
-    student_situations = Student.list_student school_class_id
-    @student_situations = student_situations.paginate(:page=> params[:page] ||= 1,:per_page=>Student::PER_PAGE )
+    student_situations = Student.list_student(params[:page] ||= 1, school_class_id)
+    @student_situations = student_situations[:student_situations]
+    @pagenate_student_school_class = student_situations[:student_school_class]
+#    @student_situations = student_situations.paginate(:page=> params[:page] ||= 1,:per_page=>Student::PER_PAGE )
   end
   
   def create

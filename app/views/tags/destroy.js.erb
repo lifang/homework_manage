@@ -2,6 +2,7 @@
   $(".tag_list").html("<%= j(render :partial => "tag_list") %>")
   $(".student_body").html("<%= j(render :partial => '/students/student_body') %>")
   tishi("<%= @notice %>")
+  window.location.reload();
 <% else %>
   tishi("<%= @notice %>")
 <% end %>

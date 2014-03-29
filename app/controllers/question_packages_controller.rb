@@ -639,7 +639,7 @@ class QuestionPackagesController < ApplicationController
       unless question.if_shared
         branch_questions = question.branch_questions
         if branch_questions.present?
-          share_question = ShareQuestion.create({:user_id => current_user.id, :name => question.name, :types => question.types,
+          share_question = ShareQuestion.create({:user_id => current_user.id, :name => name, :types => question.types,
               :cell_id => question.cell_id, :episode_id => question.episode_id, :questions_time => question.questions_time,
               :full_text => question.full_text})
           if share_question

@@ -157,7 +157,8 @@ class PublishQuestionPackage < ActiveRecord::Base
                 end
               end
             end
-            average_ratio = score/ratios_count <= 0 ? 0 : score/ratios_count
+            average_ratio=0
+            average_ratio = score/ratios_count <= 0 ? 0 : score/ratios_count if ratios_count!=0
             #计算成就
             if status = answer_details["status"].to_i ==  PublishQuestionPackage::STATUS[:FINISH]
               time = ((DateTime.parse(publish_question_package.end_time
@@ -178,8 +179,10 @@ class PublishQuestionPackage < ActiveRecord::Base
               end
             end
           end
-          correct_rate_sum << record_details.correct_rate
-          complete_rate_sum << record_details.is_complete
+          unless record_details.nil?
+            correct_rate_sum << record_details.correct_rate
+            complete_rate_sum << record_details.is_complete
+          end
         else
           break
         end

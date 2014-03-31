@@ -393,7 +393,7 @@ module MethodLibsHelper
   
   def push_after_reply_post content, teachers_id, reciver_id, school_class_id, student, reciver_types
     unless teachers_id.include?(reciver_id.to_i)
-      if reciver_types == 0 && !student.nil?  #?  TODO reciver_types == 0 老师还是学生
+      if reciver_types == Micropost::USER_TYPES[:STUDENT] && !student.nil?  #?  TODO reciver_types == 1 学生
         extras_hash = {:type => Student::PUSH_TYPE[:q_and_a]}
         school_class = SchoolClass.find_by_id school_class_id
         android_and_ios_push(school_class,content,extras_hash)
@@ -560,18 +560,18 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
 
     #ios 推送
     ipad_student_tokens = school_class.students.where("token is not null").select("token").map(&:token)
-    ipad_push(content, ipad_student_tokens)
+    ipad_push(content, ipad_student_tokens, extras_hash)
   end
 
 
-  def ipad_push(content, ipad_student_tokens)
+  def ipad_push(content, ipad_student_tokens, extras_hash)
     APNS.host = 'gateway.sandbox.push.apple.com'
-    APNS.pem  = File.join(Rails.root, 'config', 'CMR_Development.pem')
+    APNS.pem  = File.join(Rails.root, 'config', 'cjzyb_dev.pem')
     APNS.port = 2195
     token = ipad_student_tokens
     notification_arr = []
     ipad_student_tokens.each do |token|
-      notification_arr << APNS::Notification.new(token, :alert => content, :badge => 1, :sound => 'default') if token.present?
+      notification_arr << APNS::Notification.new(token, :alert => content, :badge => 1, :sound => "#{extras_hash[:type]}") if token.present?  #把提醒类型值【0,1,2】放在sound里面
     end
     APNS.send_notifications(notification_arr)
   end

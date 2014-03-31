@@ -41,7 +41,7 @@ class Api::StudentsController < ApplicationController
               users s on rm.sender_id = s.id left join users u on rm.reciver_id = u.id
               where  rm.id=?",replymicropost.id])
       micropost.update_attributes(:reply_microposts_count => (micropost.reply_microposts_count + 1))
-      Message.add_messages(replymicropost, school_class_id)
+      Message.add_messages(replymicropost, school_class_id)  #pc端显示回复的message
       render :json => {:status => 'success', :notice => '消息回复成功',:replymicropost => replymicropost_return}
     else
       render :json => {:status => 'error', :notice => '消息回复失败',:replymicropost=>[] }

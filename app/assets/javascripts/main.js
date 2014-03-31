@@ -379,7 +379,7 @@ $(function(){
     var y = 20;
     $(".tooltip_title").mouseover(function(e){
         this.myTitle=this.title;
-        this.title="";
+//        this.title="";
         var tooltip = "<div class='tooltip_box'><div class='tooltip_next'>"+this.myTitle+"</div></div>";
 
         $("body").append(tooltip);

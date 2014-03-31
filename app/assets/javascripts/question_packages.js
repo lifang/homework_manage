@@ -1004,7 +1004,7 @@ function save_wanxin_branch(obj,school_class,question_pack){
     var arr =[]
     for(var i=0;i<texts.length;i++){
         if ($.inArray($.trim($(texts[i]).val()), arr)>=0) {
-            tishi("标签内容不能重复");
+            tishi("完形填空选项内容不能重复");
             return false;
         } else {
             arr[arr.length] = $.trim($(texts[i]).val());
@@ -1023,6 +1023,7 @@ function save_wanxin_branch(obj,school_class,question_pack){
         tishi("请给出正确答案！");
         return false;
     }
+    $(obj).attr("disabled","disabled");
     var branch_question_id = $($(obj).parents(".gapFilling_questions")[0]).find(".branch_question_id").val();
     $.ajax({
         type:'post',
@@ -1033,6 +1034,8 @@ function save_wanxin_branch(obj,school_class,question_pack){
 }
 
 function save_paixu_branch(obj,school_class,question_pack){
+    
+    ;
     var question_id = $($(obj).parents(".ab_list_open")[0]).find(".question_id").val();
     var params = $($(obj).parents(".questions_item")[0]).find("form").serialize();
     var branch_question = $($(obj).parents(".questions_item")[0]).find(".branch_question_form");
@@ -1046,6 +1049,7 @@ function save_paixu_branch(obj,school_class,question_pack){
         return false;
     }
     var branch_question_id = $($(obj).parents(".questions_item")[0]).find(".branch_question_id").val();
+    $(obj).attr("disabled","disabled");
     $.ajax({
         type:'post',
         dataType:"script" ,

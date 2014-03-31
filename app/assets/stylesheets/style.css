@@ -869,18 +869,19 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     font-size: 16px;
     width: 664px;
 }
-
-.speedQuestions .qt_text p, .speedQuestions .qt_text input, .speedQuestions .qt_input input {
+.speedQuestions .qt_text p{
+ min-height:36px; 
+}
+.speedQuestions .qt_text input, .speedQuestions .qt_input input {
     line-height: 36px;
     min-height:36px; 
-    background: #f0f0f0;
+    background: #ffffff;
     margin: 0 10px;
     padding: 0 10px;
     font-size: 16px;
     width: 664px;
 }
-
-//add by charles 
+/*add by charles */
 .speedQuestions .show_text p, .speedQuestions .show_text input, .speedQuestions .show_text input {
     line-height: 36px;
     min-height:36px; 
@@ -890,7 +891,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     font-size: 16px;
     width: 664px;
 }
-//add by charles 
+/*add by charles */
 .speedQuestions li.qt_text input { display: none; border: none; background: #FFF; height: 36px;}
 .speedQuestions li.qt_input input {border: none; background: #FFF; color: #999; height: 36px;}
 

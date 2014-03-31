@@ -326,6 +326,7 @@ class PublishQuestionPackage < ActiveRecord::Base
     sql = "school_class_id = ?"
     question_types = QuestionPackage.get_one_package_questions publish_question_package.question_package_id
     questions = question_types.map{|q| {:id => q.id, :types => q.types } }.uniq
+    p question_types
     question_types.map!(&:types).uniq!
     question_types.sort! unless question_types.nil?
     params_sql = [sql, school_class_id]
@@ -405,7 +406,7 @@ class PublishQuestionPackage < ActiveRecord::Base
         end
       end
     end
-    use_times = use_times.uniq
+    use_times = use_times.uniq if use_times.present?
     all_answers_group_types = all_answers.group_by{|q| q[:types]}
 
     all_answers_group_question_id = all_answers.group_by{|q| q[:question_id]}

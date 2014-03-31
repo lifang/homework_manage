@@ -189,7 +189,7 @@ function update_listening_reading(obj, school_class_id)
     var content = $.trim($(obj).val());
     if(content != "")
     {
-        $(obj).parent().find("p").text(content);
+        $(obj).parent().find("p").first.text(content);
         $(obj).hide();
         $(obj).parent().find("p").show();
         $(obj).parents(".assignment_body_list").find("form").find("[class='question_id']").val(question_id);

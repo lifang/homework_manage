@@ -202,8 +202,14 @@ class StatisticsController < ApplicationController
       .select("bt.name")
       .where("bbr.id is not null and bt.id is not null and branch_questions.question_id = ?", question_id)
       @tags = tags.to_json
-      @all_tags = tags
+      if tags.any?
+        @all_tags = tags.map(&:name).inject(""){|s,n| s += "<p>"+n+"</p>";s} if tags.any?
+        p @all_tags
+      else
+        @all_tags = "<p>暂无标签</p>"
+      end  
       @status = true
+
       @notice = "标签加载完成！"
     end
   end

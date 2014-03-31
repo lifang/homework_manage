@@ -1023,7 +1023,7 @@ function save_wanxin_branch(obj,school_class,question_pack){
         tishi("请给出正确答案！");
         return false;
     }
-    $(obj).attr("disabled","disabled");
+    $(obj).removeAttr("onclick");
     var branch_question_id = $($(obj).parents(".gapFilling_questions")[0]).find(".branch_question_id").val();
     $.ajax({
         type:'post',
@@ -1049,7 +1049,7 @@ function save_paixu_branch(obj,school_class,question_pack){
         return false;
     }
     var branch_question_id = $($(obj).parents(".questions_item")[0]).find(".branch_question_id").val();
-    $(obj).attr("disabled","disabled");
+    $(obj).removeAttr("onclick");
     $.ajax({
         type:'post',
         dataType:"script" ,

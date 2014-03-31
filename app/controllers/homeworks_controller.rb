@@ -19,7 +19,7 @@ class HomeworksController < ApplicationController
     @un_delete_task = tasks[:un_delete]
     @all_pack_types_name = tasks[:all_pack_types_name]
     @school_tags = @school_class.tags  #班级分组， 用于发布作业的时候选择分组
-     p @school_tags
+    p @school_tags
   end
 
   #删除题包
@@ -109,6 +109,9 @@ class HomeworksController < ApplicationController
                 :question_packages_url => question_packages_url,
                 :tag_id => params[:tag_id])
               if publish_question_package
+                wanxin_ids = Question.where("question_package_id = ? and types = ?",question_package_id,Question::TYPES[:CLOZE])
+                wanxin_ids = wanxin_ids.map(&:id) unless wanxin_ids.blank?
+                deal_wanxin wanxin_ids
                 status = true
                 notice = "发布成功！"
                 @publish_question_packages = Teacher.get_publish_question_packages @school_class.id, page
@@ -134,4 +137,18 @@ class HomeworksController < ApplicationController
       f.js{}
     end
   end
+private
+  def deal_wanxin wanxin_ids
+    b_qs = BranchQuestion.where("question_id in (?)",wanxin_ids);
+    unless b_qs.blank?
+      branch_questions_by_questions =b_qs.group_by{|b| b.question_id}
+      branch_questions_by_questions.each do |question_id,branch_questions|
+        branch_questions.each_with_index do |branch_question,index|
+          branch_question.update_attribute(:content,index+1)
+        end
+      end
+    end
+    
+  end
+
 end

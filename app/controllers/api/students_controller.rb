@@ -693,6 +693,8 @@ class Api::StudentsController < ApplicationController
       answer_records = ActiveSupport::JSON.decode(answer_json)
       PublishQuestionPackage.update_scores_and_achirvements(answer_records, student,
         school_class, publish_question_package, student_answer_record)
+      
+
       notice = "作业状态更新完成!"
       status = "success"
     else

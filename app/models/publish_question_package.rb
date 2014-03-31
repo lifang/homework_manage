@@ -73,7 +73,6 @@ class PublishQuestionPackage < ActiveRecord::Base
 
   #更新得分和成就
   def self.update_scores_and_achirvements answer_json, student, school_class, publish_question_package, student_answer_record
-    p 111111111111111111
     #p answer_json
     if publish_question_package.id == answer_json["pub_id"].to_i
       #更新任务的完成状态
@@ -115,6 +114,7 @@ class PublishQuestionPackage < ActiveRecord::Base
       if card_bag.nil?
         card_bag = CardBag.create(:student_id => student.id, :school_class_id => school_class.id)
       end
+      correct_rate_sum = [],complete_rate_sum = []
       quetsions_time.each do |question|
         answer_details = answer_json[Question::TYPES_TITLE[question.types.to_i]]
         if answer_details.present?
@@ -141,7 +141,6 @@ class PublishQuestionPackage < ActiveRecord::Base
             if the_branch_questions_by_card_bag_id.present?
               the_branch_question_ids = the_branch_questions_by_card_bag_id.map(&:branch_question_id)
             end
-            
             ratios_count = 0
             answer_details["questions"].each do |question|
               ratios = question["branch_questions"].map { |e| [e["id"].to_i, e["ratio"].to_i, e["answer"].to_s] }
@@ -158,19 +157,7 @@ class PublishQuestionPackage < ActiveRecord::Base
               end
             end
             average_ratio = score/ratios_count <= 0 ? 0 : score/ratios_count
-            #          if record_details.nil?
-            #            record_details = RecordDetail.create(:question_types => types,
-            #              :student_answer_record_id => student_answer_record.id,
-            #              :score => score, :is_complete => status, :used_time => use_time,
-            #              :correct_rate => average_ratio, :specified_time => question.time)
-            #          else
-            #            record_details.update_attributes(:score => score, :is_complete => status,
-            #              :specified_time => question.time, :used_time => use_time,
-            #              :correct_rate => average_ratio)
-            #          end
-
             #计算成就
-      
             if status = answer_details["status"].to_i ==  PublishQuestionPackage::STATUS[:FINISH]
               time = ((DateTime.parse(publish_question_package.end_time
                     .strftime("%Y-%m-%d %H:%M:%S")) - DateTime.parse(update_time)) *24 * 60).to_i
@@ -190,15 +177,21 @@ class PublishQuestionPackage < ActiveRecord::Base
               end
             end
           end
-          #题包中的小题数（2line）
-          #card_bag_count =  KnowledgesCard.where("card_bag_id = ?" , card_bag.id ).count
-          #card_bag.update_attribute(:knowledges_cards_count,card_bag_count)
         else
           break
         end
+        correct_rate_sum << answer_details.correct_rate
+        complete_rate_sum << answer_details.is_complete
       end
-      
-
+      #计算平均正确率和平均完成率
+      temp_sum = 0
+      correct_rate_sum.each{|x| temp_sum+=x}
+      average_correct_rate =  temp_sum/correct_rate_sum.length
+      temp_sum=0
+      complete_rate_sum.each{|x| temp_sum+=x if x==RecordDetail::IS_COMPLETE[:FINISH]}
+      average_complete_rate =  temp_sum*100/complete_rate_sum.length
+      student_answer_record.update_attributes(:average_correct_rate=>average_correct_rate,
+        :average_complete_rate=> average_complete_rate )
     end
   end
 

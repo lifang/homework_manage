@@ -5,9 +5,9 @@
     <h1><%=@question.name.nil? ? "未命名":@question.name %></h1>
     <p>选择 / <%=current_user.name%> / <%=@question.created_at.strftime("%Y-%m-%d")%> /<span name=cankaoshijian> 参考时间：<%=  @question.questions_time.nil? ? "未设置":"#{@question.questions_time}"  %></span></p>
     <ul class="ab_func">
-      <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
-      <li><a href="#" class="share_icon tooltip_html">分享</a></li>
-      <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
+      <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
+      <li><a href="javascript:void(0)" class="share_icon tooltip_html">分享</a></li>
+      <li><a href="javascript:void(0)" class="delete_icon tooltip_html">删除</a></li>
     </ul>
   </div>
   <div class="ab_list_box">
@@ -37,8 +37,7 @@
             </div>
           </div>
           <div class="qt_icon">
-            <a href="javascript:void(0)" class="save tooltip_html save_chen" onclick="onclick_submit(this)">
-            </a>
+            <a href="javascript:void(0)" class="save tooltip_html save_chen" onclick="onclick_submit(this)">保存</a>
             <a href="javascript:void(0)" class="delete tooltip_html delete_chen"style="display:none" data-remote="true">删除</a>
             <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_selects_tags(this)" style="display:none;">标签</a>
           </div>

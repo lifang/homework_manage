@@ -25,14 +25,15 @@ LEFT JOIN school_class_student_ralastions scsr on s.id = scsr.student_id LEFT JO
     recorddetail = RecordDetail.joins("inner join student_answer_records sar on record_details.student_answer_record_id = sar.id").
       select("sar.student_id,record_details.id,  avg(record_details.correct_rate) correct_rate ").
       where("record_details.is_complete= #{RecordDetail::IS_COMPLETE[:FINISH]}").
-      where("sar.student_id in (?)",student_school_class.map(&:id)).where("sar.school_class_id=#{school_class_id}").group("sar.student_id")
+      where("sar.student_id in (?)",student_school_class.map(&:id)).where("sar.school_class_id=#{school_class_id}").group("sar.student_id").
+      group_by{|record| record.student_id}
     #未交作业次数
-    sql_public_count = "SELECT count(*) count FROM publish_question_packages WHERE school_class_id = ?"
-    sql_comp_count = "SELECT student_id,count(*) count FROM student_answer_records WHERE status=#{StudentAnswerRecord::STATUS[:FINISH]}
+    sql_public_count = "SELECT count(*) count_all FROM publish_question_packages WHERE school_class_id = ?"
+    sql_comp_count = "SELECT student_id,count(*) count_pack FROM student_answer_records WHERE status=#{StudentAnswerRecord::STATUS[:FINISH]}
                       and school_class_id = ? GROUP BY student_id"
     count_public = PublishQuestionPackage.find_by_sql([sql_public_count,school_class_id]).first
-    count_public_num = count_public.present? ? count_public.count : 0
-    count_complishs = StudentAnswerRecord.find_by_sql([sql_comp_count,school_class_id])
+    count_public_num = count_public.present? ? count_public.count_all : 0
+    count_complishs = StudentAnswerRecord.find_by_sql([sql_comp_count,school_class_id]).group_by{|count_complish| count_complish.student_id}
     #成就
     archivementsrecord = ArchivementsRecord.where("school_class_id = #{school_class_id}").group_by{|archivement| archivement[:student_id]}
     student_situations = []
@@ -44,33 +45,21 @@ LEFT JOIN school_class_student_ralastions scsr on s.id = scsr.student_id LEFT JO
       student_situation[:avatar_url] = student.avatar_url
       student_situation[:created_at] = student.created_at
       student_situation[:tag_name] = student.tag_name
-      recorddetail.each do |record|
-        if student.id.eql?(record.student_id)
-          student_situation[:correct_rate] = record.correct_rate
-        end
-      end
-      student_situation[:correct_rate] = student_situation[:correct_rate].nil? ? 0 : student_situation[:correct_rate]
-      count_complishs.each do |count_complish|
-        if count_complish.student_id.eql?(student.id)
-          student_situation[:unfinished] = count_public_num - count_complish.count
-        end
-      end
-      student_situation[:unfinished] = student_situation[:unfinished].nil? ? count_public_num : student_situation[:unfinished]
-      archivementsrecord.each do |student_id,archivement|
-        if student.id.eql?(student_id)
-          archivement.each  do |a|
-            case a.archivement_types
-            when ArchivementsRecord::TYPES[:PEFECT]
-              student_situation[:archive_pefect] = a
-            when ArchivementsRecord::TYPES[:ACCURATE]
-              student_situation[:archive_accuraie] = a
-            when ArchivementsRecord::TYPES[:QUICKLY]
-              student_situation[:archive_quickly] = a
-            when ArchivementsRecord::TYPES[:EARLY]
-              student_situation[:archive_early] = a
-            else
-              p 2222
-            end
+      student_situation[:correct_rate] =  recorddetail[student.id].nil? ? 0 : recorddetail[student.id][0].correct_rate
+      student_situation[:unfinished] = count_complishs[student.id].nil? ? count_public_num : count_public_num - count_complishs[student.id][0].count_pack
+      if archivementsrecord[student.id].present?
+        archivementsrecord[student.id].each  do |a|
+          case a.archivement_types
+          when ArchivementsRecord::TYPES[:PEFECT]
+            student_situation[:archive_pefect] = a
+          when ArchivementsRecord::TYPES[:ACCURATE]
+            student_situation[:archive_accuraie] = a
+          when ArchivementsRecord::TYPES[:QUICKLY]
+            student_situation[:archive_quickly] = a
+          when ArchivementsRecord::TYPES[:EARLY]
+            student_situation[:archive_early] = a
+          else
+            p 2222
           end
         end
       end

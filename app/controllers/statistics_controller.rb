@@ -63,22 +63,22 @@ class StatisticsController < ApplicationController
       tag_id, school_class_id)
     @question_types = info[:question_types]
     @questions = info[:questions]
-    p "questions#{@questions}"
     use_times = info[:use_times]
-    p "@type_average_correct_rate#{@type_average_correct_rate}"
     @type_average_correct_rate = info[:type_average_correct_rate]
     use_times = use_times.group_by {|q| q[:types]} if use_times.present?
     tmp = []
-    use_times.each do |k,e|
-      use_times = 0
-      times = e.map{|q| q[:use_time]}
-      correct_rt = @questions[k].map do |q|
-        q[:average_correct_rate] if q[:average_correct_rate].present? && q[:average_correct_rate] >= 0
+    if use_times.present?
+      use_times.each do |k,e|
+        use_times = 0
+        times = e.map{|q| q[:use_time]}
+        correct_rt = @questions[k].map do |q|
+          q[:average_correct_rate] if q[:average_correct_rate].present? && q[:average_correct_rate] >= 0
+        end
+        correct_rt = (eval correct_rt.join('+'))/correct_rt.length if correct_rt.present?
+        use_times = (eval times.join('+'))/times.length if times.present?
+        tmp << {:types => k, :use_time => use_times, :correct_rate => correct_rt}
       end
-      correct_rt = (eval correct_rt.join('+'))/correct_rt.length if correct_rt.present?
-      use_times = (eval times.join('+'))/times.length if times.present?
-      tmp << {:types => k, :use_time => use_times, :correct_rate => correct_rt}
-    end
+    end  
     @use_times = tmp.group_by{|q| q[:types]}
   end
 

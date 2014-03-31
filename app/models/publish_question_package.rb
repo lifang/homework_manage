@@ -114,7 +114,8 @@ class PublishQuestionPackage < ActiveRecord::Base
       if card_bag.nil?
         card_bag = CardBag.create(:student_id => student.id, :school_class_id => school_class.id)
       end
-      correct_rate_sum = [],complete_rate_sum = []
+      correct_rate_sum = []
+      complete_rate_sum = []
       quetsions_time.each do |question|
         answer_details = answer_json[Question::TYPES_TITLE[question.types.to_i]]
         if answer_details.present?
@@ -122,7 +123,7 @@ class PublishQuestionPackage < ActiveRecord::Base
           record_details = RecordDetail
           .find_by_question_types_and_student_answer_record_id(types,
             student_answer_record.id)
-          if record_details.nil? || record_details.is_complete == RecordDetail::IS_COMPLETE[:FINISH]
+          if record_details.nil? || record_details.is_complete != RecordDetail::IS_COMPLETE[:FINISH]
             status = answer_details["status"].to_i
             update_time = answer_details["update_time"]
             use_time = answer_details["use_time"]
@@ -167,31 +168,32 @@ class PublishQuestionPackage < ActiveRecord::Base
                   :score => score, :is_complete => status, :used_time => use_time,
                   :correct_rate => average_ratio, :specified_time => question.time)
                 update_archivements time,average_ratio,student,school_class,use_time,question
-              else
-                unless record_details.is_complete == RecordDetail::IS_COMPLETE[:FINISH]
-                  record_details.update_attributes(:score => score, :is_complete => status,
-                    :specified_time => question.time, :used_time => use_time,
-                    :correct_rate => average_ratio)
-                  update_archivements time,average_ratio,student,school_class,use_time,question
-                end
+                #              else
+                #                unless record_details.is_complete == RecordDetail::IS_COMPLETE[:FINISH]
+                #                  record_details.update_attributes(:score => score, :is_complete => status,
+                #                    :specified_time => question.time, :used_time => use_time,
+                #                    :correct_rate => average_ratio)
+                #                  update_archivements time,average_ratio,student,school_class,use_time,question
+                #                end
               end
             end
           end
+          correct_rate_sum << record_details.correct_rate
+          complete_rate_sum << record_details.is_complete
         else
           break
         end
-        correct_rate_sum << answer_details.correct_rate
-        complete_rate_sum << answer_details.is_complete
+        
       end
       #计算平均正确率和平均完成率
       temp_sum = 0
       correct_rate_sum.each{|x| temp_sum+=x}
-      average_correct_rate =  temp_sum/correct_rate_sum.length
+      average_correct_rate =  temp_sum/correct_rate_sum.length if correct_rate_sum.length != 0
       temp_sum=0
       complete_rate_sum.each{|x| temp_sum+=x if x==RecordDetail::IS_COMPLETE[:FINISH]}
-      average_complete_rate =  temp_sum*100/complete_rate_sum.length
-      student_answer_record.update_attributes(:average_correct_rate=>average_correct_rate,
-        :average_complete_rate=> average_complete_rate )
+      average_complete_rate =  temp_sum*100/complete_rate_sum.length if correct_rate_sum.length != 0
+      student_answer_record.update_attributes(:average_correct_rate=>average_correct_rate||0,
+        :average_complete_rate=> average_complete_rate||0 )
     end
   end
 

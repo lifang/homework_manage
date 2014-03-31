@@ -186,7 +186,6 @@ class StatisticsController < ApplicationController
       end
       @origin_questions = {:types => question[0].types, :questions => ques}
     end
-    p @origin_questions
   end
 
   #显示标签

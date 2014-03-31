@@ -272,7 +272,7 @@ function ondblclick(a,b){
         $(this).css("display","none");
         $(this).parent().find("input").css("display","block");
         $(this).parent().find("input").focus();
-        $(this).parent().find("input").val($(this).html());
+        $(this).parent().find("input").val($(this).text());
     })
     //    $(a).dblclick(function(){
     //
@@ -280,7 +280,7 @@ function ondblclick(a,b){
     $("body").on("blur",b,function(){
         $(this).css("display","none");
         $(this).parent().find("p").css("display","block");
-        $(this).parent().find("p").html($(this).val());
+        $(this).parent().find("p").text($(this).val());
         $(this).attr("value",$(this).val());
     })
 //    $(b).blur(function(){

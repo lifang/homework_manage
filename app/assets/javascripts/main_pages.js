@@ -9,7 +9,7 @@ function check_send_microposts(value){
         tishi("内容不能为空");
         return false;
     }
-    else if(content.length>=60){
+    else if(content.length>60){
         tishi("长度不能超过60");
         return false;
     }

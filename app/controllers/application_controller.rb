@@ -1,4 +1,4 @@
-    class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::Base
   protect_from_forgery
   include ApplicationHelper
   include TeachersHelper
@@ -35,10 +35,10 @@
   def get_teacher_infos
    
     if current_teacher
-    @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
-    @schoolclass = SchoolClass.find(current_teacher.last_visit_class_id) if current_teacher.last_visit_class_id
-    @user = User.find(current_teacher.user_id)
-    @teachingmaterial = TeachingMaterial.all
+      @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
+      @schoolclass = SchoolClass.find(current_teacher.last_visit_class_id) if current_teacher.last_visit_class_id
+      @user = User.find(current_teacher.user_id)
+      @teachingmaterial = TeachingMaterial.all
     end
   end
 

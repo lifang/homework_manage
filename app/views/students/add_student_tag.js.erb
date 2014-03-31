@@ -1,4 +1,5 @@
 <% if @status %>
+  no_tag += 1;
   $(".student_tag_list").html("<%= j(render :partial => 'student_tag_list' ) %>")
   $(".student_tag_list").show();
   tishi("<%= @notice  %>");

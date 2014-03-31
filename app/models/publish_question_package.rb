@@ -134,6 +134,14 @@ class PublishQuestionPackage < ActiveRecord::Base
             elsif types == Question::TYPES[:READING]
               knowledges_cards_types = KnowledgesCard::MISTAKE_TYPES[:READ] #读错
             end
+            
+            #获取某一提包的所有小题（5line）
+            the_branch_questions_by_card_bag_id = KnowledgesCard.where("card_bag_id = ?" , card_bag.id )
+            the_branch_question_ids = []
+            if the_branch_questions_by_card_bag_id.present?
+              the_branch_question_ids = the_branch_questions_by_card_bag_id.map(&:branch_question_id)
+            end
+            
             ratios_count = 0
             answer_details["questions"].each do |question|
               ratios = question["branch_questions"].map { |e| [e["id"].to_i, e["ratio"].to_i, e["answer"].to_s] }
@@ -189,12 +197,7 @@ class PublishQuestionPackage < ActiveRecord::Base
           break
         end
       end
-      #获取某一提包的所有小题（5line）
-      #      the_branch_questions_by_card_bag_id = KnowledgesCard.where("card_bag_id = ?" , card_bag.id )
-      #      the_branch_question_ids = []
-      #      if the_branch_questions_by_card_bag_id.present?
-      #        the_branch_question_ids = the_branch_questions_by_card_bag_id.map(&:branch_question_id)
-      #      end
+      
 
     end
   end

@@ -139,7 +139,10 @@
 
   //删除标签
   function remove_tags_from_time_limit(obj){
-    $(obj).parent("li").remove();
+    var con = confirm("确定删除此标签?");
+    if(con){
+      $(obj).parent("li").remove();
+    }
   }
 
   

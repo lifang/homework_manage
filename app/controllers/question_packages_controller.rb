@@ -685,13 +685,18 @@ class QuestionPackagesController < ApplicationController
   def search_b_tags
     tag_name = params[:tag_name]
     teacher_id = cookies[:teacher_id]
+    show_create_tag = 0
     if tag_name == ""
       b_tags = get_branch_tags(teacher_id)
     else
       name = "%#{tag_name.strip.gsub(/[%_]/){|x| '\\' + x}}%"
       b_tags = BranchTag.where(["(name like ? and teacher_id is null) or (name like ? and teacher_id=?)", name, name, teacher_id])
+      tag = BranchTag.find_by_name(tag_name)
+      if b_tags.blank? || tag.nil?
+        show_create_tag = 1
+      end
     end
-    render :json => {:b_tags => b_tags}
+    render :json => {:b_tags => b_tags, :show_create_tag => show_create_tag}
   end
 
   #添加标签

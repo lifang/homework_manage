@@ -247,11 +247,9 @@ function popup(t){
 
     var left = (win_width-layer_width)/2;
     var top = (win_height-layer_height)/2;
-    alert(left);
-    alert(top);
     $(".mask").css("height",doc_height);
-    $(t).css('margin-top',top);
-    $(t).css('margin-left',left);
+    $(t).css('top',top);
+    $(t).css('left',left);
     $(".mask").css("display","block");
     $(t).css('display','block');
 
@@ -301,7 +299,7 @@ function ondblclick(a,b){
         $(this).css("display","none");
         $(this).parent().find("input").css("display","block");
         $(this).parent().find("input").focus();
-        $(this).parent().find("input").val($(this).html());
+        $(this).parent().find("input").val($(this).text());
     })
     //    $(a).dblclick(function(){
     //
@@ -309,7 +307,7 @@ function ondblclick(a,b){
     $("body").on("blur",b,function(){
         $(this).css("display","none");
         $(this).parent().find("p").css("display","block");
-        $(this).parent().find("p").html($(this).val());
+        $(this).parent().find("p").text($(this).val());
         $(this).attr("value",$(this).val());
     })
 //    $(b).blur(function(){
@@ -334,7 +332,6 @@ $(function(){
             $(this).parent().find(".ab_list_box").hide();
             $(this).parents("div.ab_list_open").removeClass("ab_list_open");
         }
-
     })
 })
 
@@ -408,7 +405,7 @@ $(function(){
     var y = 20;
     $(".tooltip_title").mouseover(function(e){
         this.myTitle=this.title;
-        this.title="";
+//        this.title="";
         var tooltip = "<div class='tooltip_box'><div class='tooltip_next'>"+this.myTitle+"</div></div>";
 
         $("body").append(tooltip);
@@ -446,34 +443,6 @@ $(function(){
 
 
 ///------------------------------------------------
-
-
-
-// JavaScript Document
-//tab
-//popup
-function popup(t){
-    var win_width = $(window).width();
-    var win_height = $(window).height();
-    var doc_width = $(document).width();
-    var doc_height = $(document).height();
-
-    var layer_height = $(t).height();
-    var layer_width = $(t).width();
-
-    var top = 0;
-    var left = 0;
-    $(".mask").css("height",doc_height);
-    $(t).css('top',top);
-    $(t).css('left',left);
-    $(".mask").css("display","block");
-    $(t).css('display','block');
-
-    $(".close").click(function(){
-        $(this).parents(t).css("display","none");
-        $(".mask").css("display","none");
-    });
-}
 
 //显示窗口
 function show_windows(div_id)
@@ -922,12 +891,21 @@ function load(complete_rate, correct_rate){
     {
         if(complete_rate == 0)
         {
-            complete_rate = 0.1;
+            complete_rate = 0.001;
         }
+        else if(complete_rate == 100)
+        {
+            complete_rate = 99.99;
+        }    
+
         if(correct_rate == 0)
         {
-            correct_rate = 0.1;
+            correct_rate = 0.001;
         }
+        else if(correct_rate == 100)
+        {
+            correct_rate = 99.99;
+        }  
         var cv1 = [100-complete_rate, complete_rate];
         var cv2 = [100-correct_rate, correct_rate];
         var cv01Data = [

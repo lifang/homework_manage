@@ -330,9 +330,25 @@ module MethodLibsHelper
           ques.each do |q|
             if q["branch_questions"]["branch_question"].class == Hash
               branch_questions = []
+              if key == "lining"  #连线题特殊处理
+                one_lining_branch_que_options = q["branch_questions"]["branch_question"]["options"].split(";||;").join("<=>");
+                q["branch_questions"]["branch_question"]["content"] = one_lining_branch_que_options
+              end
               branch_questions << q["branch_questions"]["branch_question"]
             else
-              branch_questions = q["branch_questions"]["branch_question"]
+              if key == "lining"   #连线题特殊处理
+                branch_questions = []
+                lining_content = []
+                q["branch_questions"]["branch_question"].each do |bq_hash|
+                  lining_content << bq_hash["options"].split(";||;").join("<=>");
+                end
+                lining_content = lining_content.join(";||;")
+                branch_question = q["branch_questions"]["branch_question"][0].dup
+                branch_question["content"] = lining_content
+                branch_questions << branch_question
+              else
+                branch_questions = q["branch_questions"]["branch_question"]
+              end
             end
             tmp_questions_collections[key][:questions] << {"id" => q["id"], "full_text" => q['full_text'], "branch_questions" => branch_questions}
             #              lisentings << {"id" => q["id"], "branch_questions" => branch_questions}  if key == "listening"
@@ -393,7 +409,7 @@ module MethodLibsHelper
   
   def push_after_reply_post content, teachers_id, reciver_id, school_class_id, student, reciver_types
     unless teachers_id.include?(reciver_id.to_i)
-      if reciver_types == 0 && !student.nil?  #?  TODO reciver_types == 0 老师还是学生
+      if reciver_types == Micropost::USER_TYPES[:STUDENT] && !student.nil?  #?  TODO reciver_types == 1 学生
         extras_hash = {:type => Student::PUSH_TYPE[:q_and_a]}
         school_class = SchoolClass.find_by_id school_class_id
         android_and_ios_push(school_class,content,extras_hash)
@@ -560,18 +576,18 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
 
     #ios 推送
     ipad_student_tokens = school_class.students.where("token is not null").select("token").map(&:token)
-    ipad_push(content, ipad_student_tokens)
+    ipad_push(content, ipad_student_tokens, extras_hash)
   end
 
 
-  def ipad_push(content, ipad_student_tokens)
+  def ipad_push(content, ipad_student_tokens, extras_hash)
     APNS.host = 'gateway.sandbox.push.apple.com'
-    APNS.pem  = File.join(Rails.root, 'config', 'CMR_Development.pem')
+    APNS.pem  = File.join(Rails.root, 'config', 'cjzyb_dev.pem')
     APNS.port = 2195
     token = ipad_student_tokens
     notification_arr = []
     ipad_student_tokens.each do |token|
-      notification_arr << APNS::Notification.new(token, :alert => content, :badge => 1, :sound => 'default') if token.present?
+      notification_arr << APNS::Notification.new(token, :alert => content, :badge => 1, :sound => "#{extras_hash[:type]}") if token.present?  #把提醒类型值【0,1,2】放在sound里面
     end
     APNS.send_notifications(notification_arr)
   end

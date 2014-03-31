@@ -26,8 +26,8 @@
             <% count=1 %>
             <% @questions[quetion_type].each do |que| %>
             <li class="<%= correct_rate_color que[:average_correct_rate] %>"><span><%= count %></span><a href="javascript:void(0);" class="tooltip_title" title="点击查看" onclick="show_tags('<%= que[:id] %>','<%= params[:school_class_id] %>')">标签</a>
-              <p title="点击查看原题" onclick="show_que('<%= que[:id] %>','<%= params[:school_class_id] %>')">
-              <% if que[:average_correct_rate] >= 0%>
+              <p title="点击查看原题" onclick="show_que('<%= que[:id] %>','<%= params[:school_class_id] %>')" style="cursor:pointer;">
+              <% if que[:average_correct_rate] && que[:average_correct_rate] >= 0%>
                 <%= que[:average_correct_rate] %>%
               <% else %>
                 暂无数据
@@ -45,26 +45,23 @@
   <% end %>
 
 <div class="s_tab">
-<a href="javascript:void(0);" class="close">close</a>
-<div class="tab_head">标签</div>
-<p class="tab_text">
-  元音O的用法元音O的用法元音O的用法元音O的用法元音O的用法元音O的用法元音O的用法
-</p>
-<input type="hidden" id="tag_display_control" value="0"/>
+  <a href="javascript:void(0);" class="close">close</a>
+  <div class="tab_head">标签</div>
+  <div id="tag_area"></div>
+  
 </div>
 
 <script>
     //统计-正确率-题型
     $(document).ready(function(){
         $(".item_content li a").click(function(e){
-            if($("#tag_display_control").val() == 1)
-            {
+            
                 $(".s_tab").css('display','block');
                 $(".s_tab").css({
                     'top':(e.pageY)+'px',
                     'left':(e.pageX)+'px'
                 });
-            }
+
         });
     })
     $(".s_tab .close").click(function(){

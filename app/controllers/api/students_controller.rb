@@ -41,7 +41,7 @@ class Api::StudentsController < ApplicationController
               users s on rm.sender_id = s.id left join users u on rm.reciver_id = u.id
               where  rm.id=?",replymicropost.id])
       micropost.update_attributes(:reply_microposts_count => (micropost.reply_microposts_count + 1))
-      Message.add_messages(replymicropost, school_class_id)
+      Message.add_messages(replymicropost, school_class_id)  #pc端显示回复的message
       render :json => {:status => 'success', :notice => '消息回复成功',:replymicropost => replymicropost_return}
     else
       render :json => {:status => 'error', :notice => '消息回复失败',:replymicropost=>[] }
@@ -156,13 +156,14 @@ class Api::StudentsController < ApplicationController
       end
     end
     render :json => {:status => status, :notice => notice, :microposts => microposts,
-      :pages_count => pages_count}
+      :pages_count => pages_count, :page => page}
   end
 
   #qq登陆
   def login
     qq_uid = params[:open_id]
     student = Student.find_by_qq_uid qq_uid
+    student.update_attribute(:token, params[:token]) if params[:token]
     if student.nil?
       render :json => {:status => "error", :notice => "账号不存在，请先注册！"}
     else
@@ -692,6 +693,8 @@ class Api::StudentsController < ApplicationController
       answer_records = ActiveSupport::JSON.decode(answer_json)
       PublishQuestionPackage.update_scores_and_achirvements(answer_records, student,
         school_class, publish_question_package, student_answer_record)
+      
+
       notice = "作业状态更新完成!"
       status = "success"
     else

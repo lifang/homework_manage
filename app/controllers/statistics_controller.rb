@@ -10,13 +10,16 @@ class StatisticsController < ApplicationController
     @today_date = Time.now.strftime("%Y-%m-%d")
     info = PublishQuestionPackage.get_homework_statistics @today_date, school_class
     @all_tags = info[:all_tags]
-    p @all_tags
     @current_task = info[:current_task]
     @current_date =  @current_task.nil? ? @today_date : @current_task.created_at.strftime("%Y-%m-%d")
+    @students = info[:students]
     @question_types = info[:question_types]
-    @details = info[:details]
-    @average_correct_rate = info[:average_correct_rate].present? ? info[:average_correct_rate].nil? : 0
-    @average_complete_rate = info[:average_complete_rate].present? ? info[:average_complete_rate] : 0
+    @student_answer_records = info[:student_answer_records]
+    @average_correct_rate = info[:average_correct_rate]
+    @average_complete_rate = info[:average_complete_rate]
+    @record_details = info[:record_details]
+    p @all_tags
+    p @question_types
   end
 
   #切换日期
@@ -29,23 +32,25 @@ class StatisticsController < ApplicationController
     @all_tags = info[:all_tags]
     @current_task = info[:current_task]
     @current_date = date
+    @students = info[:students]
     @question_types = info[:question_types]
-    @details = info[:details]
+    @student_answer_records = info[:student_answer_records]
     @average_correct_rate = info[:average_correct_rate]
     @average_complete_rate = info[:average_complete_rate]
+    @record_details = info[:record_details]
   end
 
   #根据标签显示完成率及正确率统计
   def show_tag_task
-    date = params[:date]
     pub_id = params[:pub_id].to_i
-    tag_id = params[:tag_id]
     @current_task = PublishQuestionPackage.find_by_id pub_id
-    info = PublishQuestionPackage.get_record_details(@current_task,tag_id, @current_task.school_class_id)
+    info = PublishQuestionPackage.get_record_details(@current_task, @current_task.school_class_id)
     @question_types = info[:question_types]
-    @details = info[:details]
+    @student_answer_records = info[:student_answer_records]
+    @students = info[:students]
     @average_complete_rate = info[:average_complete_rate]
     @average_correct_rate = info[:average_correct_rate]
+    @record_details = info[:record_details]
   end
 
   #获取该任务下题型统计信息
@@ -58,23 +63,22 @@ class StatisticsController < ApplicationController
       tag_id, school_class_id)
     @question_types = info[:question_types]
     @questions = info[:questions]
-    p "questions#{@questions}"
     use_times = info[:use_times]
-    p "@type_average_correct_rate#{@type_average_correct_rate}"
     @type_average_correct_rate = info[:type_average_correct_rate]
     use_times = use_times.group_by {|q| q[:types]} if use_times.present?
     tmp = []
-    use_times.each do |k,e|
-      use_times = 0
-      times = e.map{|q| q[:use_time]}
-      correct_rt = @questions[k].map do |q|
-        q[:average_correct_rate] if q[:average_correct_rate].present? && q[:average_correct_rate] >= 0
+    if use_times.present?
+      use_times.each do |k,e|
+        use_times = 0
+        times = e.map{|q| q[:use_time]}
+        correct_rt = @questions[k].map do |q|
+          q[:average_correct_rate] if q[:average_correct_rate].present? && q[:average_correct_rate] >= 0
+        end
+        correct_rt = (eval correct_rt.join('+'))/correct_rt.length if correct_rt.present?
+        use_times = (eval times.join('+'))/times.length if times.present?
+        tmp << {:types => k, :use_time => use_times, :correct_rate => correct_rt}
       end
-      correct_rt = (eval correct_rt.join('+'))/correct_rt.length if correct_rt.present?
-      use_times = (eval times.join('+'))/times.length if times.present?
-      tmp << {:types => k, :use_time => use_times, :correct_rate => correct_rt}
-    end
-    p "@use_times#{@use_times}"
+    end  
     @use_times = tmp.group_by{|q| q[:types]}
   end
 
@@ -182,7 +186,6 @@ class StatisticsController < ApplicationController
       end
       @origin_questions = {:types => question[0].types, :questions => ques}
     end
-    p @origin_questions
   end
 
   #显示标签
@@ -198,7 +201,14 @@ class StatisticsController < ApplicationController
       .select("bt.name")
       .where("bbr.id is not null and bt.id is not null and branch_questions.question_id = ?", question_id)
       @tags = tags.to_json
+      if tags.any?
+        @all_tags = tags.map(&:name).inject(""){|s,n| s += "<p>"+n+"</p>";s} if tags.any?
+        p @all_tags
+      else
+        @all_tags = "<p>暂无标签</p>"
+      end  
       @status = true
+
       @notice = "标签加载完成！"
     end
   end

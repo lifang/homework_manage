@@ -1,6 +1,7 @@
+
 <% if @status == true %>
-    $(".tab_text").text('<%= @tags %>');
-    $("#tag_display_control").val(1);
+	$("#tag_area").empty();
+    $("#tag_area").append('<%= @all_tags.html_safe if @all_tags %>');
 <% else %>
     msg('<%= @notice  %>');
 <% end %>

@@ -21,23 +21,27 @@ class QuestionsController < ApplicationController
     question_package_id = params[:question_package_id]
     type = params[:type]
     file_upload =  params[:select_file]
-    filename = file_upload.original_filename
-    fileext = File.basename(filename).split(".")[1]
-    resourse_url = "#{Rails.root}/public#{media_path % question_package_id}"
-    FileUtils.mkdir_p "#{File.expand_path(resourse_url)}" if !(File.exist?("#{resourse_url}"))
-    time_path = Time.now.strftime("%Y%m%dT%H%M%S")+"."+fileext
-    url = resourse_url+time_path
-    File.open(url, "wb")  {|f| f.write(file_upload.read) }
-    #    img = MiniMagick::Image.read(file_upload)
-    #    img.write "#{url}"
-    url_img ="#{media_path % question_package_id}#{time_path}"
-    if type=="voice"
-      render :text => "voice;||;#{url_img}"
+    if file_upload.size > 1048576
+      text = "imgbig"
     else
-      render :text => "photo;||;#{url_img}"
+      filename = file_upload.original_filename
+      fileext = File.basename(filename).split(".")[1]
+      resourse_url = "#{Rails.root}/public#{media_path % question_package_id}"
+      FileUtils.mkdir_p "#{File.expand_path(resourse_url)}" if !(File.exist?("#{resourse_url}"))
+      time_path = Time.now.strftime("%Y%m%dT%H%M%S")+"."+fileext
+      url = resourse_url+time_path
+      File.open(url, "wb")  {|f| f.write(file_upload.read) }
+      #    img = MiniMagick::Image.read(file_upload)
+      #    img.write "#{url}"
+      url_img ="#{media_path % question_package_id}#{time_path}"
+      if type=="voice"
+        text = "voice;||;#{url_img}"
+      else
+        text = "photo;||;#{url_img}"
+      end
     end
+    render :text => text
   end
-
 
   #显示当前题包下的题目
   def question_selects_all
@@ -278,6 +282,9 @@ class QuestionsController < ApplicationController
           branch_question = @question.branch_questions.create({:content => sbq.content, :options => sbq.options, :answer => sbq.answer})
           new_resource_url = copy_file(media_path, @question_pack, branch_question, sbq.resource_url) if sbq.resource_url.present? #引用的时候，拷贝音频
           branch_question.update_attribute(:resource_url, new_resource_url) if new_resource_url
+          sbq.branch_tags.each do |bt|
+            branch_question.branch_tags << bt
+          end
         end
         @status = 0
         @redirect_url = new_index_school_class_question_package_path(params[:school_class_id], params[:question_package_id])

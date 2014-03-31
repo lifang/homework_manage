@@ -1,6 +1,5 @@
 <% if @status %>
 tishi("删除成功");
-alert($(".questions_item[branch_question_index='<%= @branch_question_id %>']").attr("branch_question_index"))
 $(".questions_item[branch_question_index='<%= @branch_question_id %>']").remove();
 <% else %>
 tishi("删除失败");

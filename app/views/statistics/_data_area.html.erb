@@ -41,28 +41,42 @@
         </tr>
         </thead>
         <tbody>
-        <% if @details.nil?%>
+        <% if @students.nil?%>
             <tr><td colspan="3" style="width: auto; text-align: center;">暂无数据</td></tr>
         <% else %>
-            <% @details.each do |student|  %>
+            <% @students.each do |student|  %>
                 <tr>
-                  <td width="200"><div class="td_user"><img src="<%= student[:avatar_url] %>"><%= student[:name] %></div></td>
+                  <td width="200"><div class="td_user"><img src="<%= student.avatar_url %>"><%= student.name %></div></td>
                   <% if !@question_types.nil? %>
-                  <% @question_types.each do |type| %>
-                      <% if student[:answer_details].nil? %>
-                          <td><em>-</em></td>
-                      <% else %>
-                          <% if student[:answer_details][type.to_i].nil? %>
+                      <% @question_types.each do |type| %>
+                          <% if @record_details.nil? %>
                               <td><em>-</em></td>
                           <% else %>
-                              <td><img src="/assets/d.png"><em><%= student[:answer_details][type.to_i][0][:used_time] %></M></em></td>
+                            <% if @student_answer_records[student.id].present? %>
+                              <% sar = @student_answer_records[student.id].first  %>
+                              <% if sar.present? %>
+                                <% if @record_details[sar.id].present? %>                                  
+                                      <% if @record_details[sar.id][type].present? %>
+                                        <% if @record_details[sar.id][type.to_i].first.is_complete == 1 %>
+                                            <td><img src="/assets/d.png"><em><%= @record_details[sar.id][type.to_i].first.used_time %></M></em></td>
+                                        <% else %>   
+                                            <td><em>-</em></td> 
+                                        <% end %>
+                                      <% else %>   
+                                            <td><em>-</em></td>   
+                                      <% end %>  
+                                    </div>                              
+                                <% end %>
+                              <% else %>
+                                  <td><em>-</em></td>
+                              <% end %>
+                            <% end %>  
                           <% end %>
                       <% end %>
-                  <% end %>
                   <% else %>
-                      <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td>暂无数据</td>
                   <% end %>
-                  <td><%= student[:average_complete_rate] %>%</td>
+                  <td><%= @student_answer_records[student.id].present? && @student_answer_records[student.id].first.average_complete_rate >= 0 ? "#{@student_answer_records[student.id].first.average_complete_rate}%" : "-" %></td>
                 </tr>
             <% end %>
         <% end %>
@@ -83,39 +97,45 @@
         </tr>
         </thead>
         <tbody>
-        <% if @details.nil? || (!@details.nil? && @details.length == 0) %>
+        <% if @students.nil? || (!@students.nil? && @students.length == 0) %>
             <tr><td colspan="3" style="width: auto; text-align: center;">暂无数据</td></tr>
         <% else %>
-            <% @details.each do |student|  %>
+            <% @students.each do |student|  %>
                 <tr>
-                  <td width="200"><div class="td_user"><img src="<%= student[:avatar_url] %>"><%= student[:name] %></div></td>
+                  <td width="200"><div class="td_user"><img src="<%= student.avatar_url %>"><%= student.name %></div></td>
                   <% if !@question_types.nil? %>
                       <% @question_types.each do |type| %>
-                          <% if student[:answer_details].nil? %>
+                          <% if @record_details.nil? %>
                               <td><em>-</em></td>
                           <% else %>
-                              <% if student[:answer_details][type.to_i].nil? %>
-                                  <td><em>-</em></td>
+                            <% if @student_answer_records[student.id].present? %>
+                              <% sar = @student_answer_records[student.id].first  %>
+                              <% if sar.present? %>
+                                <% if @record_details[sar.id].present? %>
+                                      <% if @record_details[sar.id][type].present? %>                                        
+                                        <% if @record_details[sar.id][type.to_i].first.correct_rate < 100 %>
+                                           <td><div class="td_ratio"> <a href="javascript:void(0);" class="td_seeQuestion tooltip_html" onclick="shou_incorrect_que('<%= type.to_i %>','<%= sar.id %>', '<%= params[:school_class_id] %>')">点击查看</a></div><em>
+                                           <%= @record_details[sar.id][type].present? ? "#{@record_details[sar.id][type.to_i].first.used_time}%" :  "" %></M></em></td>
+                                        <% else %>
+                                            <td><em>-</em></td> 
+                                        <% end %>
+                                      <% else %>
+                                        <td><em>-</em></td>   
+                                      <% end %>  
+                                    
+                                <% else %>
+                                  <td><em>-</em></td>  
+                                <% end %>
                               <% else %>
-                                  <td>
-                                    <div class="td_ratio">
-                                      <%= student[:answer_details][type.to_i][0][:correct_rate] %>%
-                                      <% if student[:answer_details][type.to_i][0][:correct_rate] < 100 %>
-                                          <a href="javascript:void(0);" class="td_seeQuestion tooltip_html" onclick="shou_incorrect_que('<%= type.to_i %>','<%= student[:answer_details][type.to_i][0][:id] %>', '<%= params[:school_class_id] %>')">点击查看</a>
-                                      <% end %>
-                                    </div>
-                                    <em>
-                                      <%= student[:answer_details][type.to_i][0][:used_time] %>
-                                      </M>
-                                    </em>
-                                  </td>
+                                  <td><em>-</em></td>
                               <% end %>
+                            <% end %> 
                           <% end %>
                       <% end %>
                   <% else %>
                       <td>暂无数据</td>
                   <% end %>
-                  <td><%= student[:average_correct_rate] %>%</td>
+                  <td><%= @student_answer_records[student.id].present? && @student_answer_records[student.id].first.average_correct_rate >= 0 ? "#{@student_answer_records[student.id].first.average_correct_rate}%" : "-" %></td>
                 </tr>
             <% end %>
         <% end %>

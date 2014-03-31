@@ -25,16 +25,14 @@ Date.prototype.format = function(format){
 }
 
 //点击某个标签时
-function show_tag(obj,school_class_id, date, tag_id, pub_id)
+function show_tag(obj,school_class_id, pub_id)
 {
     $.ajax({
         url: "/school_classes/"+ school_class_id +"/statistics/show_tag_task",
         type: "POST",
         dataType: "script",
         data:{
-            date:date,
             school_class_id:school_class_id,
-            tag_id:tag_id,
             pub_id:pub_id
         },
         success:function(data){

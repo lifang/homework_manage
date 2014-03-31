@@ -8,17 +8,29 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 # id, name, nickname, avatar_url, alias_name, qq_uid, status, last_visit_class_id, register_status, created_at, updated_at
 
-TeachingMaterial.create(:id => 1,:name => "牛津英语")
-TeachingMaterial.create(:id => 2,:name => "新目标英语")
-TeachingMaterial.create(:id => 3,:name => "新概念英语")
+# TeachingMaterial.create(:id => 1,:name => "牛津英语")
+# TeachingMaterial.create(:id => 2,:name => "新目标英语")
+# TeachingMaterial.create(:id => 3,:name => "新概念英语")
 
-TeachingMaterial.transaction do
-  TeachingMaterial.find_each do |tm|
-    10.times.each do |i|
-      cell = tm.cells.create(:name => "第#{i+1}单元")
-      10.times do |j|
-        cell.episodes.create(:name => "第#{j+1}课")
-      end
-    end
-  end
-end
+# TeachingMaterial.transaction do
+#   TeachingMaterial.find_each do |tm|
+#     10.times.each do |i|
+#       cell = tm.cells.create(:name => "第#{i+1}单元")
+#       10.times do |j|
+#         cell.episodes.create(:name => "第#{j+1}课")
+#       end
+#     end
+#   end
+# end
+
+
+# (1..4).each do |id|
+# 	Student.create(:nickname => "Student#{id}", :status => Student::STATUS[:YES], :user_id => id)
+# 	User.create(:name => "name#{id}")
+# 	SchoolClassStudentRalastion.create(:student_id => id, :school_class_id =>1)
+# end
+
+
+StudentAnswerRecord.create(:student_id => 1, :school_class_id => 1, :publish_question_package_id => 1, :average_correct_rate => 0,
+			:average_complete_rate =>0)
+

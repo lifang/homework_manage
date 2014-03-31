@@ -136,7 +136,8 @@ function create_class_valid(obj){   //创建班级分组验证
     var tag_name = $(obj).parents("form").find("input[name='name_tag']").first().val();
     if(tag_name==undefined || tag_name==""){
         tishi("组名不能为空!");
-    }else{
+    }
+    else{
         $(obj).removeAttr("onclick");
         $(obj).parents("form").submit();
     }
@@ -314,6 +315,20 @@ function select_upload(obj){
     var type = $(obj).attr("input_t");
     var fil_name =  $(obj).val();
     var img_extension = fil_name.substring(fil_name.lastIndexOf('.') + 1).toLowerCase();
+
+    var input_s = $(obj);
+    //    var ie = +[1,];
+    var isIE = document.all && window.external
+    if(isIE){
+    }
+    else{
+        var file_size = input_s[0].files[0].size;
+        if(file_size>1048576){
+            tishi("文件不可大于1M");
+            return false;
+        }
+    }
+
     if(type=="voice"){
         if(img_extension == "mp3" || img_extension == "amr" || img_extension == "wav"){
         }else{
@@ -341,34 +356,38 @@ function select_upload(obj){
         },                                               //服务器返回的格式，可以是json
         success: function (data, status)            //相当于java中try语句块的用法
         {
-            var data_arr = data.split(";||;")
-            tishi("上传成功！");
-            var html="<input type='text' value='"+ data_arr[1] +"' name='select_resourse' style='display:none;'>"
-            var q_left = $("#input_select_upload").parents(".q_left")
-            //            $(obj).parents().find(".q_topic").attr("class","q_topic q_compile")
-            if(data_arr[0]=="voice"){
-                $("#input_select_upload").parents(".q_topic").find("input[name='select_content']").attr("disabled","true")
-                //                var html_title = "<input type='text' name='select_content' style='display:block;' disabled='true'>"
-                var html_title = "<p></p><input type='text' name='select_content' style='display:none;background: #F0F0F0;' disabled='true'>"
-                $("#input_select_upload").parents(".q_topic").find(".q_title").find(".qt_text").html(html_title)
-                var  html_audiao = "<a href='javascript:void(0)' onclick='playAudio(this)' id='audio_only'> \n\
+            if(data=="imgbig"){
+                tishi("文件不可大于1M");
+            }else{
+                var data_arr = data.split(";||;")
+                tishi("上传成功！");
+                var html="<input type='text' value='"+ data_arr[1] +"' name='select_resourse' style='display:none;'>"
+                var q_left = $("#input_select_upload").parents(".q_left")
+                //            $(obj).parents().find(".q_topic").attr("class","q_topic q_compile")
+                if(data_arr[0]=="voice"){
+                    $("#input_select_upload").parents(".q_topic").find("input[name='select_content']").attr("disabled","true")
+                    //                var html_title = "<input type='text' name='select_content' style='display:block;' disabled='true'>"
+                    var html_title = "<p></p><input type='text' name='select_content' style='display:none;background: #F0F0F0;' disabled='true'>"
+                    $("#input_select_upload").parents(".q_topic").find(".q_title").find(".qt_text").html(html_title)
+                    var  html_audiao = "<a href='javascript:void(0)' onclick='playAudio(this)' id='audio_only'> \n\
                                         <img src='/assets/voiceing.jpg'>\n\
                                         </img></a>"
-                q_left.html(html_audiao)
-                var audio = document.createElement("audio");
-                audio.preload = true;
-                audio.controls = true;
-                audio.style.display='none'
-                var source= document.createElement("source");
-                source.type= "audio/ogg";
-                source.src = data_arr[1]
-                audio.appendChild(source);
-                $("#audio_only").append(audio)
-            }else if(data_arr[0]=="photo"){
-                q_left.html("<img src='"+ data_arr[1] +"' style='width:86px;height:86px;'>")
+                    q_left.html(html_audiao)
+                    var audio = document.createElement("audio");
+                    audio.preload = true;
+                    audio.controls = true;
+                    audio.style.display='none'
+                    var source= document.createElement("source");
+                    source.type= "audio/ogg";
+                    source.src = data_arr[1]
+                    audio.appendChild(source);
+                    $("#audio_only").append(audio)
+                }else if(data_arr[0]=="photo"){
+                    q_left.html("<img src='"+ data_arr[1] +"' style='width:86px;height:86px;'>")
+                }
+                q_left.append(html)
+                $("#input_select_upload").removeAttr("id")
             }
-            q_left.append(html)
-            $("#input_select_upload").removeAttr("id")
         },
         error: function (data, status, e)            //相当于java中catch语句块的用法
         {
@@ -471,4 +490,10 @@ function new_lianxian_question(obj){
         success:function(){
         }
     });
+}
+// 如果变量大于0 说明分组有变化，则需要跳转，否则不跳转
+function whether_skip(){
+    if(no_tag>0){
+        window.location.reload()
+    }
 }

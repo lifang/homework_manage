@@ -8,9 +8,9 @@
       <span name="cankaoshijian">参考时间：<% if question.questions_time.nil? %>未设置<% else %>
           <%= que_time[0]==0 ? "" : "#{que_time[0]}时" %><%= que_time[1]==0 ? "" : "#{que_time[1]}分" %><%= que_time[2]==0 ? "" : "#{que_time[2]}秒" %><% end %></span></p>
     <ul class="ab_func">
-      <li><a href="#" class="clock_icon tooltip_html">设定时间</a></li>
-      <li><a href="#" class="share_icon tooltip_html">分享</a></li>
-      <li><a href="#" class="delete_icon tooltip_html">删除</a></li>
+      <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
+      <li><a href="javascript:void(0)" class="share_icon tooltip_html">分享</a></li>
+      <li><a href="javascript:void(0)" class="delete_icon tooltip_html">删除</a></li>
     </ul>
   </div>
   <div class="ab_list_box" style="display: none;">
@@ -84,10 +84,10 @@
               </div>
             </div>
             <div class="qt_icon">
-              <a href="javascript:void(0)" class="save tooltip_html save_chen" onclick="onclick_submit(this)"style="display:none"></a>
+              <a href="javascript:void(0)" class="save tooltip_html save_chen" onclick="onclick_submit(this)"style="display:none">保存</a>
               <%= link_to '删除',{:controller => 'questions',:action =>'delete_branch_question',
                 :question_package_id=>@question_pack.id,:id=>branch_question.id} ,
-                :remote=>true ,:class=>'delete tooltip_html delete_chen'%>
+                :remote=>true ,:class=>'delete tooltip_html delete_chen',confirm:'确认删除?'%>
               <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_selects_tags(this)">标签</a>
             </div>
             <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_pack.id %>"/>

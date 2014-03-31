@@ -10,13 +10,16 @@ class StatisticsController < ApplicationController
     @today_date = Time.now.strftime("%Y-%m-%d")
     info = PublishQuestionPackage.get_homework_statistics @today_date, school_class
     @all_tags = info[:all_tags]
-    p @all_tags
     @current_task = info[:current_task]
     @current_date =  @current_task.nil? ? @today_date : @current_task.created_at.strftime("%Y-%m-%d")
+    @students = info[:students]
     @question_types = info[:question_types]
-    @details = info[:details]
-    @average_correct_rate = info[:average_correct_rate].present? ? info[:average_correct_rate].nil? : 0
-    @average_complete_rate = info[:average_complete_rate].present? ? info[:average_complete_rate] : 0
+    @student_answer_records = info[:student_answer_records]
+    @average_correct_rate = info[:average_correct_rate]
+    @average_complete_rate = info[:average_complete_rate]
+    @record_details = info[:record_details]
+    p @all_tags
+    p @question_types
   end
 
   #切换日期
@@ -29,21 +32,22 @@ class StatisticsController < ApplicationController
     @all_tags = info[:all_tags]
     @current_task = info[:current_task]
     @current_date = date
+    @students = info[:students]
     @question_types = info[:question_types]
-    @details = info[:details]
+    @student_answer_records = info[:student_answer_records]
     @average_correct_rate = info[:average_correct_rate]
     @average_complete_rate = info[:average_complete_rate]
+    @record_details = info[:record_details]
   end
 
   #根据标签显示完成率及正确率统计
   def show_tag_task
-    date = params[:date]
     pub_id = params[:pub_id].to_i
-    tag_id = params[:tag_id]
     @current_task = PublishQuestionPackage.find_by_id pub_id
-    info = PublishQuestionPackage.get_record_details(@current_task,tag_id, @current_task.school_class_id)
+    info = PublishQuestionPackage.get_record_details(@current_task, @current_task.school_class_id)
     @question_types = info[:question_types]
-    @details = info[:details]
+    @student_answer_records = info[:student_answer_records]
+    @students = info[:students]
     @average_complete_rate = info[:average_complete_rate]
     @average_correct_rate = info[:average_correct_rate]
   end

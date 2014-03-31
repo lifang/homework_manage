@@ -14,7 +14,6 @@ unless @branch_ques.nil?
         <span class='gapFilling_numb'><%=index+1%></span>
         <div class='gq_article'>
           <form class="branch_question_form">
-            <div class='gq_article_title'><div class='qt_text'><p><%=branch_q.content.strip%></p><input name='title' type='text' value="<%=branch_q.content.strip%>"/></div></div>
             <ul>
               <li><input type='radio' name='radio_<%=index%>' value="0" <%=@values[index] == 0 ? "checked":""%>/><div class='qt_text'><p><%=@options[index][0].strip%></p><input name='option[]' type='text' value="<%=@options[index][0].strip%>" /></div></li>
               <li><input type='radio' name='radio_<%=index%>' value="1" <%=@values[index] == 1 ? "checked":""%>/><div class='qt_text'><p><%=@options[index][1].strip%></p><input name='option[]' type='text' value="<%=@options[index][1].strip%>"/></div></li>
@@ -63,7 +62,6 @@ end%>
     <span class='gapFilling_numb'><%=index+1%></span>
     <div class='gq_article'>
       <form class="branch_question_form">
-        <div class='gq_article_title'><div class='qt_text'><p></p><input name='title' type='text' value=""/></div></div>
         <ul>
           <li><input type='radio' name='radio_<%=index%>' value="0" <%=@values[index] == 0 ? "checked":""%>/><div class='qt_text'><p></p><input name='option[]' type='text' value="" /></div></li>
           <li><input type='radio' name='radio_<%=index%>' value="1" <%=@values[index] == 1 ? "checked":""%>/><div class='qt_text'><p></p><input name='option[]' type='text' value=""/></div></li>

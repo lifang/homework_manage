@@ -313,8 +313,7 @@ class QuestionPackagesController < ApplicationController
     end
     answer = option[index]
     if branch_question_id==""
-      if BranchQuestion.create(content:params[:title],
-          question_id:params[:question_id],
+      if BranchQuestion.create(question_id:params[:question_id],
           options:options,
           answer:answer)
         @text=1
@@ -323,8 +322,7 @@ class QuestionPackagesController < ApplicationController
       end
     else
       branch_question = BranchQuestion.find_by_id(branch_question_id)
-      if branch_question.update_attributes(content:params[:title],
-          options:options,
+      if branch_question.update_attributes(options:options,
           answer:answer
         )
         @text=2

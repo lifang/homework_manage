@@ -50,6 +50,7 @@ class StatisticsController < ApplicationController
     @students = info[:students]
     @average_complete_rate = info[:average_complete_rate]
     @average_correct_rate = info[:average_correct_rate]
+    @record_details = info[:record_details]
   end
 
   #获取该任务下题型统计信息
@@ -78,7 +79,6 @@ class StatisticsController < ApplicationController
       use_times = (eval times.join('+'))/times.length if times.present?
       tmp << {:types => k, :use_time => use_times, :correct_rate => correct_rt}
     end
-    p "@use_times#{@use_times}"
     @use_times = tmp.group_by{|q| q[:types]}
   end
 

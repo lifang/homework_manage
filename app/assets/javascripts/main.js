@@ -865,20 +865,20 @@ function load(complete_rate, correct_rate){
     {
         if(complete_rate == 0)
         {
-            complete_rate = 0.1;
+            complete_rate = 0.001;
         }
         else if(complete_rate == 100)
         {
-            complete_rate = 99.1;
+            complete_rate = 99.99;
         }    
 
         if(correct_rate == 0)
         {
-            correct_rate = 0.1;
+            correct_rate = 0.001;
         }
         else if(correct_rate == 100)
         {
-            correct_rate = 99.1;
+            correct_rate = 99.99;
         }  
         var cv1 = [100-complete_rate, complete_rate];
         var cv2 = [100-correct_rate, correct_rate];

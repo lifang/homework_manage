@@ -227,31 +227,38 @@ class PublishQuestionPackage < ActiveRecord::Base
     .joins('left join tags t on publish_question_packages.tag_id = t.id')
     .select("publish_question_packages.id, publish_question_packages.tag_id,
               publish_question_packages.created_at,
-              publish_question_packages.question_package_id, t.name")
+              publish_question_packages.question_package_id, t.name tag_name")
     .where("publish_question_packages.created_at >= '#{date} 00:00:00'
              and publish_question_packages.created_at <= '#{date} 23:59:59'")
     .order("publish_question_packages.created_at desc")
     today_tasks = today_tasks.group_by {|t| t.tag_id } if today_tasks && today_tasks.present?
     
-    all_tag_id = []
-    tasks = []
-    today_tasks.each do |tag_id, task|
-      all_tag_id << tag_id
-      tasks << task.first
-    end  
-    if tasks && tasks.length > 0
-      task = tasks.first
-      tags = Tag.where("id in (?)", all_tag_id)
-      tags = tags.group_by {|t| t.id } if tags
-      all_tags = []
-      tasks.each do |task|
-        if task.tag_id == 0
-          all_tags << {:pub_id => task.id, :tag_name => "全班"}
-        else  
-          all_tags << {:pub_id => task.id, :tag_name => tags[task.tag_id].first.name}
-        end  
-      end  
+    #all_tag_id = []
+    #tasks = []
+     
+    if today_tasks.any?
+      # task = tasks.first
+      # tags = Tag.where("id in (?)", all_tag_id)
+      # tags = tags.group_by {|t| t.id } if tags
+      # all_tags = []
+      # tasks.each do |task|
+        # if task.tag_id == 0
+          # all_tags << {:pub_id => task.id, :tag_name => "全班"}
+        # else  
+          # all_tags << {:pub_id => task.id, :tag_name => tags[task.tag_id].first.name}
+        # end  
+      # end  
       if task.present?
+        task = nil
+    today_tasks.each do |tag_id, t|
+      # all_tag_id << tag_id
+       task = t.first
+      if tag_id == 0
+          all_tags << {:pub_id => t.first.id, :tag_name => "全班"}
+        else  
+          all_tags << {:pub_id => t.first.id, :tag_name => t.first.tag_name}
+        end
+    end 
         info = PublishQuestionPackage.get_record_details task, school_class.id
         question_types = info[:question_types]
         students = info[:students]

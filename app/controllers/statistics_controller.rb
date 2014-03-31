@@ -193,7 +193,6 @@ class StatisticsController < ApplicationController
   def show_all_tags
     question_id = params[:question_id].to_i
     @tags = nil
-    @all_tags = []
     @status = false
     @notice = "获取失败！"
     if question_id

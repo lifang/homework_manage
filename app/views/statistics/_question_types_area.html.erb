@@ -57,14 +57,13 @@
     //统计-正确率-题型
     $(document).ready(function(){
         $(".item_content li a").click(function(e){
-            if($("#tag_display_control").val() == 1)
-            {
+            
                 $(".s_tab").css('display','block');
                 $(".s_tab").css({
                     'top':(e.pageY)+'px',
                     'left':(e.pageX)+'px'
                 });
-            }
+
         });
     })
     $(".s_tab .close").click(function(){

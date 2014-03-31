@@ -357,7 +357,7 @@ function select_upload(obj){
         success: function (data, status)            //相当于java中try语句块的用法
         {
             if(data=="imgbig"){
-
+                tishi("文件不可大于1M");
             }else{
                 var data_arr = data.split(";||;")
                 tishi("上传成功！");

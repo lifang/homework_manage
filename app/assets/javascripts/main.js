@@ -102,6 +102,7 @@ $(function(){
             var checks = $("#tags_table").find("input[type='checkbox']");
             var school_class_id = $("#school_class_id").val();
             $("#tags_table").find("input[type='text']").first().val("");
+            $("#tags_table").find("a").last().text("");
             $.ajax({
                 type: "get",
                 url: "/school_classes/"+school_class_id+"/question_packages/search_b_tags",
@@ -121,7 +122,7 @@ $(function(){
                             radioClass: 'iradio_square-aero',
                             increaseArea: '20%' // optional
                         });
-                    }
+                    };
                 },
                 error: function(data){
                     tishi("数据错误!");
@@ -405,7 +406,7 @@ $(function(){
     var y = 20;
     $(".tooltip_title").mouseover(function(e){
         this.myTitle=this.title;
-//        this.title="";
+        //        this.title="";
         var tooltip = "<div class='tooltip_box'><div class='tooltip_next'>"+this.myTitle+"</div></div>";
 
         $("body").append(tooltip);

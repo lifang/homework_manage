@@ -220,11 +220,9 @@ function popup(t){
 
     var left = (win_width-layer_width)/2;
     var top = (win_height-layer_height)/2;
-    alert(left);
-    alert(top);
     $(".mask").css("height",doc_height);
-    $(t).css('margin-top',top);
-    $(t).css('margin-left',left);
+    $(t).css('top',top);
+    $(t).css('left',left);
     $(".mask").css("display","block");
     $(t).css('display','block');
 
@@ -419,34 +417,6 @@ $(function(){
 
 
 ///------------------------------------------------
-
-
-
-// JavaScript Document
-//tab
-//popup
-function popup(t){
-    var win_width = $(window).width();
-    var win_height = $(window).height();
-    var doc_width = $(document).width();
-    var doc_height = $(document).height();
-
-    var layer_height = $(t).height();
-    var layer_width = $(t).width();
-
-    var top = 0;
-    var left = 0;
-    $(".mask").css("height",doc_height);
-    $(t).css('top',top);
-    $(t).css('left',left);
-    $(".mask").css("display","block");
-    $(t).css('display','block');
-
-    $(".close").click(function(){
-        $(this).parents(t).css("display","none");
-        $(".mask").css("display","none");
-    });
-}
 
 //显示窗口
 function show_windows(div_id)

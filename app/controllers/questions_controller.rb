@@ -282,6 +282,9 @@ class QuestionsController < ApplicationController
           branch_question = @question.branch_questions.create({:content => sbq.content, :options => sbq.options, :answer => sbq.answer})
           new_resource_url = copy_file(media_path, @question_pack, branch_question, sbq.resource_url) if sbq.resource_url.present? #引用的时候，拷贝音频
           branch_question.update_attribute(:resource_url, new_resource_url) if new_resource_url
+          sbq.branch_tags.each do |bt|
+            branch_question.branch_tags << bt
+          end
         end
         @status = 0
         @redirect_url = new_index_school_class_question_package_path(params[:school_class_id], params[:question_package_id])

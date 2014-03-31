@@ -236,7 +236,7 @@ class PublishQuestionPackage < ActiveRecord::Base
     #all_tag_id = []
     #tasks = []
      
-    if today_tasks.any?
+    # if today_tasks.any?
       # task = tasks.first
       # tags = Tag.where("id in (?)", all_tag_id)
       # tags = tags.group_by {|t| t.id } if tags
@@ -248,17 +248,18 @@ class PublishQuestionPackage < ActiveRecord::Base
           # all_tags << {:pub_id => task.id, :tag_name => tags[task.tag_id].first.name}
         # end  
       # end  
-      if task.present?
+      all_tags = []
+      if today_tasks.any?
         task = nil
-    today_tasks.each do |tag_id, t|
+        today_tasks.each do |tag_id, t|
       # all_tag_id << tag_id
-       task = t.first
-      if tag_id == 0
+        task = t.first
+        if tag_id == 0
           all_tags << {:pub_id => t.first.id, :tag_name => "全班"}
         else  
           all_tags << {:pub_id => t.first.id, :tag_name => t.first.tag_name}
         end
-    end 
+      end 
         info = PublishQuestionPackage.get_record_details task, school_class.id
         question_types = info[:question_types]
         students = info[:students]
@@ -267,7 +268,7 @@ class PublishQuestionPackage < ActiveRecord::Base
         p student_answer_records
         average_correct_rate = info[:average_correct_rate]
         average_complete_rate = info[:average_complete_rate]
-      end
+      # end
     end
 
     {:all_tags => all_tags, :current_task => task, :question_types => question_types, :students => students,
@@ -333,6 +334,7 @@ class PublishQuestionPackage < ActiveRecord::Base
     sql = "school_class_id = ?"
     question_types = QuestionPackage.get_one_package_questions publish_question_package.question_package_id
     questions = question_types.map{|q| {:id => q.id, :types => q.types } }.uniq
+    p question_types
     question_types.map!(&:types).uniq!
     question_types.sort! unless question_types.nil?
     params_sql = [sql, school_class_id]
@@ -412,24 +414,30 @@ class PublishQuestionPackage < ActiveRecord::Base
         end
       end
     end
-    use_times = use_times.uniq
-    all_answers_group_types = all_answers.group_by{|q| q[:types]}
+    use_times = use_times.uniq if use_times.present?
+    all_answers_group_types = all_answers.group_by{|q| q[:types]} if all_answers.present?
 
-    all_answers_group_question_id = all_answers.group_by{|q| q[:question_id]}
+    all_answers_group_question_id = all_answers.group_by{|q| q[:question_id]} if all_answers.present?
     type_average_correct_rate = []
     question_types.each do |type|
       average_correct_rate = 0
-      types_correct_rates = all_answers_group_types[type.to_i].map{|a| a[:correct_rate]} if all_answers_group_types[type.to_i].present?
+      types_correct_rates = all_answers_group_types[type.to_i].map{|a| a[:correct_rate]} if all_answers_group_types && all_answers_group_types[type.to_i].present?
       average_correct_rate = (eval types_correct_rates.join('+'))/types_correct_rates.length if types_correct_rates.present?
       type_average_correct_rate << {:average_correct_rate => average_correct_rate, :types =>type}
     end
+    p question_types
     question_types.each do |type|
-      questions[type].each do |question|
-        question[:average_correct_rate] = -1
-        current_ques = all_answers_group_question_id[question[:id]].map{|q| q[:correct_rate]} if all_answers_group_question_id[question[:id]].present?
-        question[:average_correct_rate] = (eval current_ques.join('+'))/current_ques.length if current_ques.present?
+      if questions && questions[type].present?
+  
+        # questions[type].each do |question|
+          p questions[type]
+          questions[type][:average_correct_rate] = -1
+          current_ques = all_answers_group_question_id[questions[type][:id]].map{|q| q[:correct_rate]} if all_answers_group_question_id && all_answers_group_question_id[questions[type][:id]].present?
+          questions[type][:average_correct_rate] = (eval current_ques.join('+'))/current_ques.length if current_ques.present?
+        # end
       end
     end
+    p questions = questions.group_by{|q| q[:types]}
     {:question_types => question_types, :questions => questions, :use_times => use_times, :type_average_correct_rate=>type_average_correct_rate}
   end
   

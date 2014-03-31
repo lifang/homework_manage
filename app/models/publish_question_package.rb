@@ -275,11 +275,9 @@ class PublishQuestionPackage < ActiveRecord::Base
     record_details = nil
     average_correct_rate = 0
     average_complete_rate = 0
-    
     question_types = QuestionPackage.get_one_package_questions task.question_package_id
     question_types.map!(&:types)
     question_types.sort! if question_types.present?
-    p "question_types#{question_types}"
     if task.tag_id == 0
       students_id = SchoolClassStudentRalastion.where(["school_class_id = ?",
           school_class_id]).map(&:student_id)
@@ -295,7 +293,6 @@ class PublishQuestionPackage < ActiveRecord::Base
                   student_answer_records.average_correct_rate, student_answer_records.average_complete_rate,
                   student_answer_records.student_id")
               .where("publish_question_package_id = ? and student_id in (?)", task.id, students_id)
-
     average_value = StudentAnswerRecord
               .select("ifnull(avg(average_correct_rate),0) average_correct_rate, 
                       ifnull(avg(average_complete_rate),0) average_complete_rate")
@@ -310,80 +307,25 @@ class PublishQuestionPackage < ActiveRecord::Base
       student_answer_records_id = student_answer_records.map(&:id)
       record_details = RecordDetail.where(["student_answer_record_id in (?)",student_answer_records_id]) 
       record_details = record_details.group_by {|rd| rd.student_answer_record_id} if record_details && record_details.present?
-      
-    
       record_details.each do |student_answer_record_id, record_detail|
         rd_group_types = record_detail.group_by { |rd| rd.question_types } 
         record_details[student_answer_record_id] = rd_group_types
       end    
     end
-    p record_details
     student_answer_records = student_answer_records.group_by {|s| s.student_id } if student_answer_records.present?
     {:question_types => question_types, :students => students,:student_answer_records => student_answer_records,
       :record_details => record_details, :average_correct_rate => average_correct_rate, 
       :average_complete_rate => average_complete_rate}
   end
 
-  # #获取一个任务的答题信息
-  # def self.get_record_details task, school_class_id
-  #   question_types = []
-  #   details = []
-  #   average_correct_rate = nil
-  #   average_complete_rate = nil
-
-  #   question_types = QuestionPackage.get_one_package_questions task.question_package_id
-  #   question_types = question_types.map!(&:types).uniq!
-  #   question_types.sort! unless question_types.nil?
-  #   if task.tag_id.present?
-  #     students_id = SchoolClassStudentRalastion.where(["school_class_id = ? and tag_id = ?",
-  #         school_class_id, task.tag_id]).map(&:student_id)
-  #   else
-  #     students_id = SchoolClassStudentRalastion.where(["school_class_id = ?", school_class_id]).map(&:student_id)
-  #   end
-  #   student_answer_records = StudentAnswerRecord.joins("left join students s on
-  #           student_answer_records.student_id = s.id")
-  #   .joins("left join users u on s.user_id = u.id")
-  #   .select("student_answer_records.id, student_answer_records.publish_question_package_id,
-  #             student_answer_records.average_correct_rate, student_answer_records.average_complete_rate,
-  #             student_answer_records.student_id, u.name, u.avatar_url")
-  #   .where("publish_question_package_id = ? and student_id in (?)", task.id, students_id)
-  #   student_answer_records_id = student_answer_records.map(&:id)
-  #   record_details = RecordDetail
-  #   .select("question_types, used_time, is_complete, student_answer_record_id, correct_rate")
-  #   .where("student_answer_record_id in (?) and is_complete = ?", student_answer_records_id,
-  #     RecordDetail::STATUS[:FINISH])
-  #   answer_details = record_details.map { |r| {:id => r.student_answer_record_id,
-  #       :types => r.question_types, :used_time => r.used_time, :correct_rate => r.correct_rate
-  #     } }.group_by { |r| r[:id] }
-  #   details = []
-  #   student_answer_records.each do |s|
-  #     answers = nil
-  #     answers = answer_details[s.id].group_by { |a| a[:types] } if !answer_details[s.id].nil?
-  #     details << {:id => s.id, :pub_id => s.publish_question_package_id,
-  #       :average_correct_rate => s.average_correct_rate,
-  #       :average_complete_rate => s.average_complete_rate,
-  #       :student_id => s.student_id, :name => s.name, :avatar_url => s.avatar_url,
-  #       :answer_details => answers}
-  #   end
-  #   average_correct_rate = student_answer_records.length == 0 ? 0 :
-  #     (student_answer_records.sum { |s| s.average_correct_rate }/
-  #       student_answer_records.length)
-  #   average_complete_rate = student_answer_records.length == 0 ? 0 :
-  #     (student_answer_records.sum { |s| s.average_complete_rate }/
-  #       student_answer_records.length)
-  #   {:question_types => question_types, :details => details,
-  #     :average_correct_rate => average_correct_rate,
-  #     :average_complete_rate => average_complete_rate}
-  # end
-
+ 
   #按题型获取统计
   def self.get_quetion_types_statistics publish_question_package, tag_id, school_class_id
     question_types = []
     question_details = []
     sql = "school_class_id = ?"
     question_types = QuestionPackage.get_one_package_questions publish_question_package.question_package_id
-    questions = question_types.map{|q| {:id => q.id, :types => q.types,
-        :created_at => q.created_at.strftime("%Y-%m-%d %H:%M:%S") } }.uniq
+    questions = question_types.map{|q| {:id => q.id, :types => q.types } }.uniq
     question_types.map!(&:types).uniq!
     question_types.sort! unless question_types.nil?
     params_sql = [sql, school_class_id]
@@ -410,7 +352,7 @@ class PublishQuestionPackage < ActiveRecord::Base
         answer_json = ""
 
         file_url = "#{base_url}#{sar.answer_file_url}"
-        if File.exist? file_url
+        if sar.answer_file_url.present? && File.exist?(file_url)
           File.open(file_url) do |file|
             file.each do |line|
               answer_json += line.to_s

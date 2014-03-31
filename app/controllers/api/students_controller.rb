@@ -156,7 +156,7 @@ class Api::StudentsController < ApplicationController
       end
     end
     render :json => {:status => status, :notice => notice, :microposts => microposts,
-      :pages_count => pages_count}
+      :pages_count => pages_count, :page => page}
   end
 
   #qq登陆

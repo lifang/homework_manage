@@ -236,7 +236,7 @@ class PublishQuestionPackage < ActiveRecord::Base
     #all_tag_id = []
     #tasks = []
      
-    if today_tasks.any?
+    # if today_tasks.any?
       # task = tasks.first
       # tags = Tag.where("id in (?)", all_tag_id)
       # tags = tags.group_by {|t| t.id } if tags
@@ -248,17 +248,18 @@ class PublishQuestionPackage < ActiveRecord::Base
           # all_tags << {:pub_id => task.id, :tag_name => tags[task.tag_id].first.name}
         # end  
       # end  
-      if task.present?
+      all_tags = []
+      if today_tasks.any?
         task = nil
-    today_tasks.each do |tag_id, t|
+        today_tasks.each do |tag_id, t|
       # all_tag_id << tag_id
-       task = t.first
-      if tag_id == 0
+        task = t.first
+        if tag_id == 0
           all_tags << {:pub_id => t.first.id, :tag_name => "全班"}
         else  
           all_tags << {:pub_id => t.first.id, :tag_name => t.first.tag_name}
         end
-    end 
+      end 
         info = PublishQuestionPackage.get_record_details task, school_class.id
         question_types = info[:question_types]
         students = info[:students]
@@ -267,7 +268,7 @@ class PublishQuestionPackage < ActiveRecord::Base
         p student_answer_records
         average_correct_rate = info[:average_correct_rate]
         average_complete_rate = info[:average_complete_rate]
-      end
+      # end
     end
 
     {:all_tags => all_tags, :current_task => task, :question_types => question_types, :students => students,

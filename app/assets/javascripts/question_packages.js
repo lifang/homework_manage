@@ -1179,57 +1179,61 @@ function add_content_to_wanxin(obj,q_index,branch_question_id){
 
 
 function delete_tags(obj,shcool_id,question_pack_id,tag_id,branch_question_id,type){
-    if(type == 'paixu'){
-        var question_item = $(obj).parents(".questions_item")[0]
-        var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".questions_item").index($(question_item));
-        var type = 'paixu'
-        $.ajax({
-            dataType:'script',
-            url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
-            data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type
-        });
+    if(confirm("确认选择后就不能更改了？")){
+
+
+        if(type == 'paixu'){
+            var question_item = $(obj).parents(".questions_item")[0]
+            var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".questions_item").index($(question_item));
+            var type = 'paixu'
+            $.ajax({
+                dataType:'script',
+                url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
+                data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type
+            });
     
-    }else if(type=='wanxin'){
-        var question_item = $(obj).parents(".gapFilling_questions")[0]
-        var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".gapFilling_questions").index($(question_item));
-        var type = 'wanxin'
-        $.ajax({
-            dataType:'script',
-            url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
-            data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type
-        });
-    }else if(type=='select'){
-        var question_item = $(obj).parents(".gapFilling_questions")[0]
-        var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".gapFilling_questions").index($(question_item));
-        alert(gloab_index+"==>"+q_index);
-        $.ajax({
-            dataType:'json',
-            url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
-            data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type,
-            success:function(data){
-                if(data.status == 1){
-                    $(obj).parent().remove()
-                }else{
-                    tishi("删除失败！")
+        }else if(type=='wanxin'){
+            var question_item = $(obj).parents(".gapFilling_questions")[0]
+            var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".gapFilling_questions").index($(question_item));
+            var type = 'wanxin'
+            $.ajax({
+                dataType:'script',
+                url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
+                data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type
+            });
+        }else if(type=='select'){
+            var question_item = $(obj).parents(".gapFilling_questions")[0]
+            var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".gapFilling_questions").index($(question_item));
+            alert(gloab_index+"==>"+q_index);
+            $.ajax({
+                dataType:'json',
+                url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
+                data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type,
+                success:function(data){
+                    if(data.status == 1){
+                        $(obj).parent().remove()
+                    }else{
+                        tishi("删除失败！")
+                    }
                 }
-            }
-        });
-    }else if(type="lianxian"){
-        var question_item = $(obj).parents(".gapFilling_questions")[0]
-        var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".gapFilling_questions").index($(question_item));
-        alert(gloab_index+"==>"+q_index);
-        $.ajax({
-            dataType:'json',
-            url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
-            data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type,
-            success:function(data){
-                if(data.status == 1){
-                    $(obj).parent().remove()
-                }else{
-                    tishi("删除失败！")
+            });
+        }else if(type="lianxian"){
+            var question_item = $(obj).parents(".gapFilling_questions")[0]
+            var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".gapFilling_questions").index($(question_item));
+            alert(gloab_index+"==>"+q_index);
+            $.ajax({
+                dataType:'json',
+                url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
+                data:"gloab_index="+gloab_index+"&q_index="+q_index+"&tag_id="+tag_id+"&branch_question_id="+branch_question_id+"&type="+type,
+                success:function(data){
+                    if(data.status == 1){
+                        $(obj).parent().remove()
+                    }else{
+                        tishi("删除失败！")
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }
 

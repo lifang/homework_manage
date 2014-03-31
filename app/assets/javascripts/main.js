@@ -305,7 +305,6 @@ $(function(){
             $(this).parent().find(".ab_list_box").hide();
             $(this).parents("div.ab_list_open").removeClass("ab_list_open");
         }
-
     })
 })
 

@@ -330,9 +330,25 @@ module MethodLibsHelper
           ques.each do |q|
             if q["branch_questions"]["branch_question"].class == Hash
               branch_questions = []
+              if key == "lining"  #连线题特殊处理
+                one_lining_branch_que_options = q["branch_questions"]["branch_question"]["options"].split(";||;").join("<=>");
+                q["branch_questions"]["branch_question"]["content"] = one_lining_branch_que_options
+              end
               branch_questions << q["branch_questions"]["branch_question"]
             else
-              branch_questions = q["branch_questions"]["branch_question"]
+              if key == "lining"   #连线题特殊处理
+                branch_questions = []
+                lining_content = []
+                q["branch_questions"]["branch_question"].each do |bq_hash|
+                  lining_content << bq_hash["options"].split(";||;").join("<=>");
+                end
+                lining_content = lining_content.join(";||;")
+                branch_question = q["branch_questions"]["branch_question"][0].dup
+                branch_question["content"] = lining_content
+                branch_questions << branch_question
+              else
+                branch_questions = q["branch_questions"]["branch_question"]
+              end
             end
             tmp_questions_collections[key][:questions] << {"id" => q["id"], "full_text" => q['full_text'], "branch_questions" => branch_questions}
             #              lisentings << {"id" => q["id"], "branch_questions" => branch_questions}  if key == "listening"

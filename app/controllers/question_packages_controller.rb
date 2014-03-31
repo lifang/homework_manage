@@ -133,7 +133,7 @@ class QuestionPackagesController < ApplicationController
     tags_id = params[:tags_id]
     types = params[:types]
     file = params[:file]
-    if file.size > 1048576
+    if file && file.size > 1048576
       @status = -1
       @notice = "文件不能超过1M！" 
     else

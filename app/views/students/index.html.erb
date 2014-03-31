@@ -31,7 +31,7 @@
           <li><span>班级名称：</span><%= @schoolclass.name %></li>
           <li><span>验证码：</span><%= @schoolclass.verification_code %></li>
           <li><span>结业时间：</span><%= @schoolclass.period_of_validity.strftime("%F") %></li>
-          <li><span>班级人数：</span><%= @schoolclass.school_class_student_ralastions.length %></li>
+          <li><span>班级人数：</span><%= @schoolclass.school_class_student_ralastions.count %></li>
           <li><span>班级分组：</span> <% if @tags %><%= @tags.map(&:name).join(",") %><% end %></li>
         <% end %>
       </ul>

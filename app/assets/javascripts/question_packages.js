@@ -192,7 +192,7 @@ function update_listening_reading(obj, school_class_id)
         $(obj).parent().find("p").text(content);
         $(obj).hide();
         $(obj).parent().find("p").show();
-        $(obj).parent().parents().find("form").find("[class='question_id']").val(question_id);
+        $(obj).parent().parents(".assignment_body_list").find("form").find("[class='question_id']").val(question_id);
         $(obj).parent().prev().find("form").find("[class='b_index']").val(b_index);
         $(obj).parent().prev().find("form").find("[class='content']").val(content);
 

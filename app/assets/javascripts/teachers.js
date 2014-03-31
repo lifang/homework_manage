@@ -472,3 +472,9 @@ function new_lianxian_question(obj){
         }
     });
 }
+// 如果变量大于0 说明分组有变化，则需要跳转，否则不跳转
+function whether_skip(){
+    if(no_tag>0){
+        window.location.reload()
+    }
+}

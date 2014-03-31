@@ -86,36 +86,43 @@ class HomeworksController < ApplicationController
           if all_questions.length == 0
             notice = "该题包下的题目或小题为空！"
           else
-            write_file =  write_question_xml all_questions,file_dirs_url, file_full_name
-            if write_file[:status] == true
-              question_packages_url = "/#{file_dirs_url}/#{file_full_name}"
+            tmp_q_length = all_questions.map(&:questions_time).compact.length
+            if tmp_q_length != all_questions.length
+              notice = "该题包下有题目未设置时间,请设置完成再发布！"
             else
-              question_packages_url = nil
-            end
-#            group_questions = all_questions.group_by {|e| e.types}
-#            listening_count = group_questions[0].nil? ? 0 : group_questions[0].length
-#            reading_count = group_questions[1].nil? ? 0 : group_questions[1].length
-            publish_question_package = PublishQuestionPackage.create(:school_class_id => @school_class.id,
-              :question_package_id => question_package.id,
-              :start_time => time_now, :end_time => end_time,
-              :status => PublishQuestionPackage::STATUS[:NEW],
-#              :listening_count => listening_count,
-#              :reading_count => reading_count,
-              :question_packages_url => question_packages_url,
-              :tag_id => params[:tag_id])
-            if publish_question_package
-              status = true
-              notice = "发布成功！"
-              @publish_question_packages = Teacher.get_publish_question_packages @school_class.id, page
-              content = "教师：#{teacher.user.name}于#{publish_question_package.created_at.strftime("%Y-%m-%d %H:%M:%S")}发布了一个任务
+
+              write_file =  write_question_xml all_questions,file_dirs_url, file_full_name
+              if write_file[:status] == true
+                question_packages_url = "/#{file_dirs_url}/#{file_full_name}"
+              else
+                question_packages_url = nil
+              end
+              #            group_questions = all_questions.group_by {|e| e.types}
+              #            listening_count = group_questions[0].nil? ? 0 : group_questions[0].length
+              #            reading_count = group_questions[1].nil? ? 0 : group_questions[1].length
+              publish_question_package = PublishQuestionPackage.create(:school_class_id => @school_class.id,
+                :question_package_id => question_package.id,
+                :start_time => time_now, :end_time => end_time,
+                :status => PublishQuestionPackage::STATUS[:NEW],
+                #              :listening_count => listening_count,
+                #              :reading_count => reading_count,
+                :question_packages_url => question_packages_url,
+                :tag_id => params[:tag_id])
+              if publish_question_package
+                status = true
+                notice = "发布成功！"
+                @publish_question_packages = Teacher.get_publish_question_packages @school_class.id, page
+                content = "教师：#{teacher.user.name}于#{publish_question_package.created_at.strftime("%Y-%m-%d %H:%M:%S")}发布了一个任务
                       '#{publish_question_package.question_package.name}',
                       任务截止时间：#{publish_question_package.end_time}"
-              @school_class.task_messages.create(:content => content,
-                :period_of_validity => publish_question_package.end_time,
-                :status => TaskMessage::STATUS[:YES],
-                :publish_question_package_id => publish_question_package.id)
-              compress_and_push file_dirs_url,question_package_id,@school_class,content,publish_question_package
+                @school_class.task_messages.create(:content => content,
+                  :period_of_validity => publish_question_package.end_time,
+                  :status => TaskMessage::STATUS[:YES],
+                  :publish_question_package_id => publish_question_package.id)
+                compress_and_push file_dirs_url,question_package_id,@school_class,content,publish_question_package
+              end
             end
+
           end
         end
       end

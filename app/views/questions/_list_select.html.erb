@@ -87,7 +87,7 @@
               <a href="javascript:void(0)" class="save tooltip_html save_chen" onclick="onclick_submit(this)"style="display:none">保存</a>
               <%= link_to '删除',{:controller => 'questions',:action =>'delete_branch_question',
                 :question_package_id=>@question_pack.id,:id=>branch_question.id} ,
-                :remote=>true ,:class=>'delete tooltip_html delete_chen'%>
+                :remote=>true ,:class=>'delete tooltip_html delete_chen',confirm:'确认删除?'%>
               <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_selects_tags(this)">标签</a>
             </div>
             <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_pack.id %>"/>

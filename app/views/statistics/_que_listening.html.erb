@@ -1,19 +1,28 @@
 <% count = 1 %>
 <% question[:branch_questions].each do |bq| %>
-<fieldset>
-  <legend><%= count %></count></legend>
-  <div class='q_topic'>
-    <div class='speedQuestions'>
-      <ul>
-        <li>
-          <a href='#' class='voice tooltip_title' title='音频'></a>
-        </li>
-        <li>
-          <p><%= bq[:content] %></p>
-        </li>
-      </ul>
+  <fieldset>
+    <legend><%= count %></count></legend>
+    <div class='q_topic'>
+      <div class='speedQuestions'>
+        <ul>
+          <% if bq[:resource_url].present? %>
+            <li>
+              <a href="javascript:void(0)" class="voice tooltip_title" onclick="playAudio(this)" title="音频">
+                <audio controls="controls" class="bq_audio" style="display:none;">
+                  <source src="<%= bq[:resource_url] %>" type="audio/mpeg" />
+                  Your browser does not support the audio element.
+                </audio>
+              </a>
+            </li>
+          <% else %>
+            <li></li>
+          <% end %>
+          <li>
+            <p><%= bq[:content] %></p>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
-</fieldset>
-<% count += 1 %>
+  </fieldset>
+  <% count += 1 %>
 <% end %>

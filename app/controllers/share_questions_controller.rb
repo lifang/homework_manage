@@ -31,7 +31,6 @@ class ShareQuestionsController < ApplicationController
         end
       end
     end
-    
   end
 
 end

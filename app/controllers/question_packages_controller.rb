@@ -291,7 +291,7 @@ class QuestionPackagesController < ApplicationController
   def save_wanxin_content
     content = params[:content].gsub("(**)","&#").gsub("(*:*)",";").html_safe;
     content = unencode content
-    content..gsub("&nbsp;"," ")
+    content.gsub("&nbsp;"," ")
     @question = Question.find_by_id(params[:id])
     if @question.update_attribute(:full_text, content)
       render text:1
@@ -644,8 +644,12 @@ class QuestionPackagesController < ApplicationController
           if share_question
             question.branch_questions.each do |bq|
               new_resource_url = copy_file(share_media_path, question_pack, bq, bq.resource_url) if bq.resource_url.present? #分享的时候，拷贝音频
-              share_question.share_branch_questions.create({:content => bq.content, :resource_url => new_resource_url,
+              sbq = share_question.share_branch_questions.new({:content => bq.content, :resource_url => new_resource_url,
                   :options => bq.options, :answer => bq.answer})
+              bq.branch_tags.each do |bt|
+                sbq.branch_tags << bt
+              end
+              sbq.save
             end
           end
           question.update_attributes(:if_shared => true, :name => name)
@@ -775,6 +779,9 @@ class QuestionPackagesController < ApplicationController
               branch_question = new_question.branch_questions.create({:content => bq.content, :options => bq.options, :answer => bq.answer})
               new_resource_url = copy_file(media_path, new_question_pack, branch_question, bq.resource_url) if bq.resource_url.present? #引用的时候，拷贝音频
               branch_question.update_attribute(:resource_url, new_resource_url) if new_resource_url
+              bq.branch_tags.each do |bt|
+                branch_question.branch_tags << bt
+              end
             end if question && question.branch_questions
           end if question_pack.questions
         end

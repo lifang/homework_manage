@@ -4,7 +4,9 @@
   <% question[:branch_questions].each do |bq| %>
       <div class='q_topic'>
         <div class="sortQuestions qt_input">
-          <div class="qt_input"><input name="" type="text" value="<%= bq[:content] %>"></div>
+          <div class="qt_input">
+            <p><%= bq[:content] %></p>
+          </div>
         </div>
       </div>
       <% count += 1 %>

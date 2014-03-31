@@ -6,13 +6,13 @@
         <div class='speedQuestions'>
           <ul>
             <li>
-              <a href='#' class="<%= bq[:answer]== "true" ? "true" : "false" %>">T</a>
+              <a href="javascript:void(0)" class="<%= bq[:answer]== "true" ? "true" : "false" %>">T</a>
             </li>
             <li>
                <p><%= bq[:content] %></p>
             </li>
             <li>
-              <a href='#' class='<%= bq[:answer]== "true" ? "false" : "true" %>'>F</a>
+              <a href="javascript:void(0)" class='<%= bq[:answer]== "true" ? "false" : "true" %>'>F</a>
             </li>
           </ul>
         </div>

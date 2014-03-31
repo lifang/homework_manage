@@ -193,6 +193,7 @@ class StatisticsController < ApplicationController
   def show_all_tags
     question_id = params[:question_id].to_i
     @tags = nil
+    @all_tags = []
     @status = false
     @notice = "获取失败！"
     if question_id
@@ -202,6 +203,7 @@ class StatisticsController < ApplicationController
       .select("bt.name")
       .where("bbr.id is not null and bt.id is not null and branch_questions.question_id = ?", question_id)
       @tags = tags.to_json
+      @all_tags = tags
       @status = true
       @notice = "标签加载完成！"
     end

@@ -229,7 +229,8 @@ class PublishQuestionPackage < ActiveRecord::Base
               publish_question_packages.created_at,
               publish_question_packages.question_package_id, t.name tag_name")
     .where("publish_question_packages.created_at >= '#{date} 00:00:00'
-             and publish_question_packages.created_at <= '#{date} 23:59:59'")
+             and publish_question_packages.created_at <= '#{date} 23:59:59'
+          and publish_question_packages.school_class_id = #{school_class.id}")
     .order("publish_question_packages.created_at desc")
     today_tasks = today_tasks.group_by {|t| t.tag_id } if today_tasks && today_tasks.present?
     
@@ -438,6 +439,7 @@ class PublishQuestionPackage < ActiveRecord::Base
       end
     end
     p questions = questions.group_by{|q| q[:types]}
+    
     {:question_types => question_types, :questions => questions, :use_times => use_times, :type_average_correct_rate=>type_average_correct_rate}
   end
   

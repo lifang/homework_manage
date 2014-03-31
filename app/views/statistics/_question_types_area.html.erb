@@ -26,8 +26,8 @@
             <% count=1 %>
             <% @questions[quetion_type].each do |que| %>
             <li class="<%= correct_rate_color que[:average_correct_rate] %>"><span><%= count %></span><a href="javascript:void(0);" class="tooltip_title" title="点击查看" onclick="show_tags('<%= que[:id] %>','<%= params[:school_class_id] %>')">标签</a>
-              <p title="点击查看原题" onclick="show_que('<%= que[:id] %>','<%= params[:school_class_id] %>')">
-              <% if que[:average_correct_rate] >= 0%>
+              <p title="点击查看原题" onclick="show_que('<%= que[:id] %>','<%= params[:school_class_id] %>')" style="cursor:pointer;">
+              <% if que[:average_correct_rate] && que[:average_correct_rate] >= 0%>
                 <%= que[:average_correct_rate] %>%
               <% else %>
                 暂无数据

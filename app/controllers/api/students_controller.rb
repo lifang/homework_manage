@@ -163,6 +163,7 @@ class Api::StudentsController < ApplicationController
   def login
     qq_uid = params[:open_id]
     student = Student.find_by_qq_uid qq_uid
+    student.update_attribute(:token, params[:token]) if params[:token]
     if student.nil?
       render :json => {:status => "error", :notice => "账号不存在，请先注册！"}
     else

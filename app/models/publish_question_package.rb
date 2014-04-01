@@ -212,7 +212,6 @@ class PublishQuestionPackage < ActiveRecord::Base
       end
       if average_ratio == CORRECT_RATE_TEN
         ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:ACCURATE]
-        add_prop_get_archivement student.id,Prop::TYPES[:Show_corret_answer],school_class
       end
     end
   end

@@ -125,7 +125,7 @@ $(function(){
                     };
                 },
                 error: function(data){
-                    tishi("数据错误!");
+                     tishi("数据错误!");
                 }
             })
             //取消监听

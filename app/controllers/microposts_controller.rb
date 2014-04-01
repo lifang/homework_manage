@@ -37,7 +37,7 @@ class MicropostsController < ApplicationController
     if reply.save
       get_microposts
       #得到某个帖子的回复和帖子
-      get_posts_and_replis
+      get_posts_and_replis params[:micropost_id]
       # 老师回复问答帖子
       Message.add_messages(reply, current_teacher.last_visit_class_id)
     end

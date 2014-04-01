@@ -440,7 +440,7 @@ function add_tag_to_select(obj,q_index,branch_question_id,types){
                     }
                     html="<class='aaa'>"
                 }else if(data.status == 2){
-                    tishi("添加失败，重复标签！");
+                    tishi("已添加该标签！");
                 }else if(data.status == 3){
                     tishi("添加失败，无此标签！");
                 }

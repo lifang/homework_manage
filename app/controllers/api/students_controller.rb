@@ -471,6 +471,11 @@ class Api::StudentsController < ApplicationController
           where("school_class_id = #{school_class.id} and student_id = #{student.id}")
         if c_s_relation && c_s_relation.length == 0
           student.school_class_student_ralastions.create(:school_class_id => school_class.id)
+          props = Prop.all
+          props.each do |prop|
+            student.user_prop_relations.create(:prop_id => prop.id, :user_prop_num => Prop::DefaultPropNumber,
+                                               :school_class_id => school_class.id)
+          end
         end
         class_id = school_class.id
         class_name = school_class.name
@@ -748,6 +753,11 @@ class Api::StudentsController < ApplicationController
           if school_class_student_relations.nil?
             school_class_student_relations = student.school_class_student_ralastions.
               create(:school_class_id => school_class.id)
+            props = Prop.all
+            props.each do |prop|
+              student.user_prop_relations.create(:prop_id => prop.id, :user_prop_num => Prop::DefaultPropNumber,
+                                                 :school_class_id => school_class.id)
+            end
           end
           class_id = school_class.id
           class_name = school_class.name

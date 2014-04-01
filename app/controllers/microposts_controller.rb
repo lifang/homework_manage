@@ -96,11 +96,12 @@ class MicropostsController < ApplicationController
     @types = params[:types].to_i
     get_posts_and_replis
   end
+
+
   def get_posts_and_replis
     @micropost = Micropost.find_by_id(params[:micropost_id])
     @repiles = (ReplyMicropost::get_microposts @micropost.id,1)[:reply_microposts]
     @repile_page = (ReplyMicropost::get_microposts @micropost.id,1)[:pages_count]
     @page = (ReplyMicropost::get_microposts @micropost.id,1)[:page]
   end
-
 end

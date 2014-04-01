@@ -128,6 +128,7 @@ $(function(){
                     tishi("数据错误!");
                 }
             })
+            //取消监听
             $.each(checks,function(){
                 var tag_name = $(this).parents("li").find("p").first().text();
                 var tag_id = $(this).val();

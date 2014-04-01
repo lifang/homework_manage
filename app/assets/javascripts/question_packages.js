@@ -450,13 +450,13 @@ function search_b_tags(obj, school_class_id){
             tag_name : tag_name
         },
         success: function(data){
-            $(obj).parents("div.tag_tab").find("ul").empty();
+            $(obj).parents("div.tag_tab").find("ul").empty();   //清空并取消监听
             if(data.b_tags.length > 0){
                 $.each(data.b_tags, function(index, val){
                     $(obj).parents("div.tag_tab").find("ul").append("<li><input type='checkbox' value='"+val.id+"' \n\
                     /><p>"+val.name+"</p></li>");
                 });
-                $('input[type=checkbox], input[type=radio]').iCheck({
+                $('input[type=checkbox], input[type=radio]').iCheck({   //添加监听
                     checkboxClass: 'icheckbox_square-aero',
                     radioClass: 'iradio_square-aero',
                     increaseArea: '20%' // optional
@@ -528,8 +528,10 @@ function add_new_b_tag(obj, school_class_id){
                 }else{
                     tishi("新建成功!");
                     $(obj).parents("div.tag_tab").find("ul").find("span").remove();
+                    //将新建的标签添加到标签跳出层
                     $(obj).parents("div.tag_tab").find("ul").append("<li><input type='checkbox' value='"+data.tag_id+"' \n\
  onclick='add_tags_to_time_limit(this,\""+data.tag_id+"\",\""+data.tag_name+"\")'/><p>"+data.tag_name+"</p></li>");
+                    
                     $('input[type=checkbox], input[type=radio]').iCheck({
                         checkboxClass: 'icheckbox_square-aero',
                         radioClass: 'iradio_square-aero',
@@ -754,7 +756,6 @@ function delete_reading_listening_branch(obj)
                     $(obj).parents("div.questions_item").remove();
                 }else{
                     tishi("删除失败!");
-                    sss
                 }
             },
             error: function(data){

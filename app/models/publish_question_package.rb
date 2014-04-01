@@ -205,7 +205,6 @@ class PublishQuestionPackage < ActiveRecord::Base
     if time > 0
       if average_ratio >= CORRECT_RATE_SIX && average_ratio <= CORRECT_RATE_TEN && use_time < question.time
         ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:QUICKLY]
-        
         if time > TIME_TOW_HOUR
           ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:EARLY]
         end

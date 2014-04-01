@@ -590,6 +590,7 @@ function add_b_tags(type, obj){
         radioClass: 'iradio_square-aero',
         increaseArea: '20%' // optional
     });
+    //如果有选中的勾，则去掉
     var divs = $("#tags_table").find("div.icheckbox_square-aero");
     $.each(divs, function(){
         $(this).removeAttr("class");
@@ -665,7 +666,7 @@ function add_tags_to_listening_reading(question_id, b_index, tag_id, tag_name)
             }
             else
             {
-                tishi("标签已存在");    
+                tishi("已添加该标签!");
             }
         }    
     }
@@ -688,7 +689,7 @@ function add_tags_to_listening_reading(question_id, b_index, tag_id, tag_name)
                         old.find(".tag_ul ul").append(tag_li);
                         $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tag_id);
                     }else if(data.status == 2){
-                        tishi("添加失败，重复标签！");
+                        tishi("已添加该标签!");
                     }else if(data.status == 3){
                         tishi("添加失败，无此标签！");
                     }
@@ -718,7 +719,7 @@ function add_tags_to_listening_reading(question_id, b_index, tag_id, tag_name)
                             old.find(".tag_ul ul").append(tag_li);
                             $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tags_id);
                         }else if(data.status == 2){
-                            tishi("添加失败，重复标签！");
+                            tishi("已添加该标签!");
                         }else if(data.status == 3){
                             tishi("添加失败，无此标签！");
                         }
@@ -727,7 +728,7 @@ function add_tags_to_listening_reading(question_id, b_index, tag_id, tag_name)
             }
             else
             {
-                tishi("标签已存在");
+                tishi("已添加该标签!");
             }
         }       
     }
@@ -833,6 +834,8 @@ function add_tags_to_time_limit(obj, tag_id, tag_name){
             if(flag){
                 $("#time_limit_item_"+index+" .tag_ul ul").append("<li><p>"+tag_name+"</p><a href='javascript:void(0)' class='x' onclick='remove_tags_from_time_limit(this)'>x</a>\n\
       <input type='hidden' name='[time_limit]["+index+"][tags][]' value='"+tag_id+"'/></li>");
+            }else{
+                tishi("已添加该标签!");
             }
         }
     }

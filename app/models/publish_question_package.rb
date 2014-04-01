@@ -16,7 +16,7 @@ class PublishQuestionPackage < ActiveRecord::Base
   #获取当日或历史任务
   def self.get_tasks school_class_id, student_id, order_name=nil, date=nil, today_newer_id=nil
     my_tag_ids = Tag.get_my_tag_ids school_class_id, student_id
-    my_tag_ids.delete(nil)
+    p my_tag_ids
     tags = "#{my_tag_ids}".gsub(/\[/, "(").gsub(/\]/, ")") if my_tag_ids && my_tag_ids.length != 0
     tasks_sql = "select p.id, q.name,p.question_package_id que_pack_id,p.start_time,p.end_time,
             p.question_packages_url FROM publish_question_packages p left join question_packages q
@@ -31,7 +31,11 @@ class PublishQuestionPackage < ActiveRecord::Base
       tasks_sql += " and p.start_time >= '#{date} 00:00:00'
         and p.start_time <= '#{date} 23:59:59'"
     end
-    tasks_sql += " and (p.tag_id is null or p.tag_id in #{tags})" if my_tag_ids && my_tag_ids.length != 0
+    if my_tag_ids.present?
+      tasks_sql += " and (p.tag_id = 0 or p.tag_id in #{tags})" 
+    else
+      tasks_sql += " and p.tag_id = 0"
+    end
     tasks_sql += " and p.id != #{today_newer_id}" if !today_newer_id.nil?
     tasks_sql += " order by p.start_time desc"
     tasks_sql += " limit 1" if !order_name.nil? && order_name == "first"
@@ -247,44 +251,28 @@ class PublishQuestionPackage < ActiveRecord::Base
              and publish_question_packages.created_at <= '#{date} 23:59:59'
           and publish_question_packages.school_class_id = #{school_class.id}")
     .order("publish_question_packages.created_at desc")
-    today_tasks = today_tasks.group_by {|t| t.tag_id } if today_tasks && today_tasks.present?
-    
-    #all_tag_id = []
-    #tasks = []
-     
-    # if today_tasks.any?
-      # task = tasks.first
-      # tags = Tag.where("id in (?)", all_tag_id)
-      # tags = tags.group_by {|t| t.id } if tags
-      # all_tags = []
-      # tasks.each do |task|
-        # if task.tag_id == 0
-          # all_tags << {:pub_id => task.id, :tag_name => "全班"}
-        # else  
-          # all_tags << {:pub_id => task.id, :tag_name => tags[task.tag_id].first.name}
-        # end  
-      # end  
+    today_tasks = today_tasks.group_by {|t| t.tag_id } if today_tasks && today_tasks.present? 
       all_tags = []
       if today_tasks.any?
         task = nil
         today_tasks.each do |tag_id, t|
-      # all_tag_id << tag_id
+  
         task = t.first
-        if tag_id == 0
-          all_tags << {:pub_id => t.first.id, :tag_name => "全班"}
-        else  
-          all_tags << {:pub_id => t.first.id, :tag_name => t.first.tag_name}
-        end
-      end 
+          if tag_id == 0
+            all_tags << {:pub_id => t.first.id, :tag_name => "全班"}
+          else  
+            all_tags << {:pub_id => t.first.id, :tag_name => t.first.tag_name}
+          end
+        end 
         info = PublishQuestionPackage.get_record_details task, school_class.id
         question_types = info[:question_types]
+        p question_types
         students = info[:students]
         record_details = info[:record_details]
         student_answer_records = info[:student_answer_records]
         average_correct_rate = info[:average_correct_rate]
         average_complete_rate = info[:average_complete_rate]
-      # end
-    end
+      end
 
     {:all_tags => all_tags, :current_task => task, :question_types => question_types, :students => students,
      :average_correct_rate => average_correct_rate, :student_answer_records => student_answer_records, 
@@ -298,9 +286,9 @@ class PublishQuestionPackage < ActiveRecord::Base
     record_details = nil
     average_correct_rate = 0
     average_complete_rate = 0
-    question_types = QuestionPackage.get_one_package_questions task.question_package_id
-    question_types.map!(&:types)
-    question_types.sort! if question_types.present?
+    que_types = QuestionPackage.get_one_package_questions task.question_package_id
+    que_types = que_types.map(&:types).uniq.sort if que_types.present?
+  
     if task.tag_id == 0
       students_id = SchoolClassStudentRalastion.where(["school_class_id = ?",
           school_class_id]).map(&:student_id)
@@ -335,129 +323,89 @@ class PublishQuestionPackage < ActiveRecord::Base
         record_details[student_answer_record_id] = rd_group_types
       end    
     end
+      p que_types
     student_answer_records = student_answer_records.group_by {|s| s.student_id } if student_answer_records.present?
-    {:question_types => question_types, :students => students,:student_answer_records => student_answer_records,
+    {:question_types => que_types, :students => students,:student_answer_records => student_answer_records,
       :record_details => record_details, :average_correct_rate => average_correct_rate, 
       :average_complete_rate => average_complete_rate}
   end
-
- 
-  #按题型获取统计
-  def self.get_quetion_types_statistics publish_question_package, tag_id, school_class_id
+  
+   #按题型获取统计
+  def self.get_quetion_types_statistics publish_question_package, school_class_id
+    # question_types
+    # students_id
+    # student_answer_records
+    # record_details
+    questions = []
     question_types = []
-    question_details = []
-    sql = "school_class_id = ?"
-    question_types = QuestionPackage.get_one_package_questions publish_question_package.question_package_id
-    questions = question_types.map{|q| {:id => q.id, :types => q.types } }.uniq
+    use_times = []
+    questions_answers = []
+    questions = QuestionPackage.get_one_package_questions publish_question_package.question_package_id
+    question_types = questions.map(&:types).uniq.sort if questions.present?
     p question_types
-    question_types.map!(&:types).uniq!
-    question_types.sort! unless question_types.nil?
-    params_sql = [sql, school_class_id]
-    if tag_id.present?
-      params_sql[0] += "and tag_id = ?"
-      params_sql << tag_id.to_i
-    end
-    students_id = SchoolClassStudentRalastion.where(params_sql).select("student_id")
-    students_id.map!(&:student_id).sort!
-    if students_id && students_id.length > 0
-      sql_str ="student_answer_records.publish_question_package_id = ? and
-                student_answer_records.student_id in (?)
-                and rd.id is not null and rd.is_complete = #{RecordDetail::IS_COMPLETE[:FINISH]}"
-      student_answer_records = StudentAnswerRecord
-      .joins("left join record_details rd on
-                student_answer_records.id = rd.student_answer_record_id")
-      .select("student_answer_records.id, student_answer_records.student_id,
-                student_answer_records.answer_file_url, rd.question_types types")
-      .where([sql_str, publish_question_package.id, students_id])
-      #answer_urls = student_answer_records.map{|sar| }.uniq
-      base_url = "#{Rails.root}/public"
-      student_answer_records.map! do |sar|
-        answer_records = {}
-        answer_json = ""
-
-        file_url = "#{base_url}#{sar.answer_file_url}"
-        if sar.answer_file_url.present? && File.exist?(file_url)
-          File.open(file_url) do |file|
-            file.each do |line|
-              answer_json += line.to_s
-            end
-          end
-        end
-        begin
-          answer_records = ActiveSupport::JSON.decode(answer_json)
-        rescue
-          {:question_types => nil, :question_details => nil}
-        end
-        {:sar_id => sar.id, :student_id => sar.student_id,
-          :answers => answer_records, :types => sar.types}
-      end
-      student_answer_records.map!{|s| {:student_id =>s[:student_id],  :answers => s[:answers]} }.uniq!
-      questions = questions.group_by {|q| q[:types]}
-      all_answers = []
-      use_times = []
-      if student_answer_records.present?
-        student_answer_records.each do |sar|
-          student_id = sar[:student_id]
-          question_types.each do |types|
-            #p Question::TYPE_NAME_ARR[types.to_i]
-            if sar.present?
-              if sar[:answers][Question::TYPE_NAME_ARR[types.to_i]].present? &&
-                  sar[:answers][Question::TYPE_NAME_ARR[types.to_i]]["status"] ==
-                  "#{RecordDetail::IS_COMPLETE[:FINISH]}"
-                use_t = sar[:answers][Question::TYPE_NAME_ARR[types.to_i]]["use_time"].to_i
-                use_times  << {:use_time => use_t, :types => types, :student_id => sar[:student_id]}
-                if sar[:answers][Question::TYPE_NAME_ARR[types.to_i]]["questions"].present?
-                  answers = sar[:answers][Question::TYPE_NAME_ARR[types.to_i]]["questions"]
-                  .group_by{|q| q["id"]}
-                  ques_id = questions[types.to_i].map{|q| q[:id]}
-                  if ques_id.present?
-                    ques_id.each do |que_id|
-                      if answers["#{que_id}"].present?
-                        correct_rate = -1
-                        if answers["#{que_id}"][0]["branch_questions"].present?
-                          correct_rate = calculate_every_question_correct_rate answers["#{que_id}"][0]["branch_questions"], types.to_i
-                        end
-                        all_answers << {:correct_rate => correct_rate,:question_id => que_id,
-                          :students_id => sar[:student_id], :types => types.to_i}
-                      end
-                    end
+    questions = questions.group_by{ |q| q.types } if questions.present?
+    if publish_question_package.tag_id == 0
+      students = SchoolClassStudentRalastion.where(["school_class_id = ?",school_class_id])
+                                            .select("student_id").uniq
+    else
+      students = SchoolClassStudentRalastion.where(["school_class_id = ? and tag_id in (?)",
+                                                  school_class_id,  publish_question_package.tag_id])   
+                                            .select("student_id").uniq
+    end  
+    if students.any?
+      students_id = students.map(&:student_id)
+      student_answer_records = StudentAnswerRecord.select("id, student_id, answer_file_url")
+              .where(["publish_question_package_id = ? and student_id in (?) and school_class_id = ?",
+                         publish_question_package.id, students_id, school_class_id]).uniq
+      if student_answer_records.any?
+          answer_status_collection = []
+          base_url = "#{Rails.root}/public"
+          questions_answers = []
+          used_times = []
+          student_answer_records.each do |sar|
+            answer_url = "#{base_url}#{sar.answer_file_url}"
+            if File.exist? answer_url
+              answer_json = ""
+              File.open(answer_url) do |file|
+                  file.each do |line|
+                    answer_json += line.to_s
                   end
+              end
+              answer_records = ""
+              begin
+                answer_records = ActiveSupport::JSON.decode(answer_json)
+              rescue
+                {:question_types => [], :questions => [], :used_times => [], :questions_answers => []}
+              end
+                           
+              if answer_records.present?
+                question_types.each do |types|
+                  if answer_records[Question::TYPE_NAME_ARR[types.to_i]].present?
+                    if answer_records[Question::TYPE_NAME_ARR[types.to_i]]["questions"].present? && answer_records[Question::TYPE_NAME_ARR[types.to_i]]["use_time"].present?
+                      used_times << {:types => types, :use_time => answer_records[Question::TYPE_NAME_ARR[types.to_i]]["use_time"].to_i }
+                      answer_records[Question::TYPE_NAME_ARR[types.to_i]]["questions"].each do |question|
+                        if question.present? && question["id"].present? && question["branch_questions"].present?
+                          correct_rate_arr = question["branch_questions"].map{ |bq| bq["ratio"].to_i }
+                          if correct_rate_arr.any?
+                            correct_rate = eval(correct_rate_arr.join('+'))/correct_rate_arr.length
+                            questions_answers << {:question_id => question["id"].to_i, :types => types, 
+                                                  :correct_rate => correct_rate}
+                          end  
+                        end 
+                      end  
+                    end
+                  end     
                 end
               end
-            end
+            end  
           end
-        end
-      end
+      end     
     end
-    use_times = use_times.uniq if use_times.present?
-    all_answers_group_types = all_answers.group_by{|q| q[:types]} if all_answers.present?
-
-    all_answers_group_question_id = all_answers.group_by{|q| q[:question_id]} if all_answers.present?
-    type_average_correct_rate = []
-    question_types.each do |type|
-      average_correct_rate = 0
-      types_correct_rates = all_answers_group_types[type.to_i].map{|a| a[:correct_rate]} if all_answers_group_types && all_answers_group_types[type.to_i].present?
-      average_correct_rate = (eval types_correct_rates.join('+'))/types_correct_rates.length if types_correct_rates.present?
-      type_average_correct_rate << {:average_correct_rate => average_correct_rate, :types =>type}
-    end
-    p question_types
-    question_types.each do |type|
-      if questions && questions[type].present?
-  
-        # questions[type].each do |question|
-          p questions[type]
-          questions[type][:average_correct_rate] = -1
-          current_ques = all_answers_group_question_id[questions[type][:id]].map{|q| q[:correct_rate]} if all_answers_group_question_id && all_answers_group_question_id[questions[type][:id]].present?
-          questions[type][:average_correct_rate] = (eval current_ques.join('+'))/current_ques.length if current_ques.present?
-        # end
-      end
-    end
-    p questions = questions.group_by{|q| q[:types]}
-    
-    {:question_types => question_types, :questions => questions, :use_times => use_times, :type_average_correct_rate=>type_average_correct_rate}
+    p used_times
+    {:question_types => question_types, :questions => questions, :used_times => used_times,
+       :questions_answers => questions_answers}
   end
-  
-  
 end
+
 
 

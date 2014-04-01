@@ -1131,9 +1131,10 @@ class Api::StudentsController < ApplicationController
     record_details = nil
     if !pub_id.nil? && !question_types.nil?
       record_details = StudentAnswerRecord
+      .joins("left join students s on student_answer_records.student_id = s.id")
       .joins("left join record_details rd on student_answer_records.id =
             rd.student_answer_record_id")
-      .joins("left join users u on student_answer_records.student_id = u.id")
+      .joins("left join users u on s.user_id = u.id")
       .select("student_answer_records.student_id, u.name, u.avatar_url, rd.score")
       .where(["publish_question_package_id = ? and rd.question_types = ?", pub_id.to_i, question_types.to_i])
       .order("rd.score desc, rd.updated_at asc, rd.created_at asc").offset(0).limit(10)

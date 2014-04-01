@@ -8,8 +8,8 @@ module StatisticsHelper
       when Question::TYPES[:TIME_LIMIT]; then return "q_speed"
       when Question::TYPES[:SELECTING]; then return "q_choose"
       when Question::TYPES[:LINING]; then return "q_ligature"
-      when Question::TYPES[:CLOZE]; then return "q_speed"
-      when Question::TYPES[:SORT]; then return "q_speed"
+      when Question::TYPES[:CLOZE]; then return "q_gap"
+      when Question::TYPES[:SORT]; then return "q_sort"
     end
   end
 

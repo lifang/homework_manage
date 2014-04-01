@@ -1008,7 +1008,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     padding: 0 5px 0 30px;
     background: url(/assets/search.png) no-repeat 5px center #FFFFFF;
 }
-.tag_tab ul { margin: 10px 0;}
+.tag_tab ul { margin: 10px 0;display: block; height: 170px; overflow: auto;}
 .tag_tab li { overflow: hidden; padding: 5px;}
 .tag_tab li p { line-height: 22px; margin-left: 30px; overflow: hidden; color: #FFF;}
 .tag_tab a { color: #FFF; text-decoration: underline;}

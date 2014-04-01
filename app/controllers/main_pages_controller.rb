@@ -33,8 +33,9 @@ class MainPagesController < ApplicationController
         @micropost = Micropost.find_by_id(@init_mid.to_i) if @microposts.any?
         @repiles = (ReplyMicropost::get_microposts @micropost.id,1)[:reply_microposts] if @micropost
       end
-      p @repiles
-      
+
+      @repile_page = (ReplyMicropost::get_microposts @micropost.id,1)[:pages_count]
+      @page = (ReplyMicropost::get_microposts @micropost.id,1)[:page]
     end
   end
 

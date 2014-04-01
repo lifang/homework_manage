@@ -28,7 +28,7 @@ class MainPagesController < ApplicationController
         @repiles = (ReplyMicropost::get_microposts @micropost.id,1)[:reply_microposts] if @micropost
       else
         @microposts = Micropost.paginate_by_sql(["select m.id micropost_id, m.user_id, m.user_types, m.content, m.created_at,
-                m.reply_microposts_count, u.name, u.avatar_url  from microposts m
+                m.reply_microposts_count, m.follow_microposts_count, u.name, u.avatar_url  from microposts m
                 inner join users u on u.id = m.user_id where m.id=?", @init_mid.to_i], :per_page => Micropost::PER_PAGE, :page => 1)
         @micropost = Micropost.find_by_id(@init_mid.to_i) if @microposts.any?
         @repiles = (ReplyMicropost::get_microposts @micropost.id,1)[:reply_microposts] if @micropost

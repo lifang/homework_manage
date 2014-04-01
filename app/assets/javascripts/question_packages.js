@@ -97,7 +97,7 @@ function check_audio(obj)
         var file_size = input_s[0].files[0].size;
         if(file_size>1048576){
             $(obj).val("");
-            tishi("图片不可大于1M");
+            tishi("文件不能大于1M!");
             return false;
         }
     }

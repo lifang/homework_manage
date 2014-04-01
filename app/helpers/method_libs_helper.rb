@@ -389,8 +389,9 @@ module MethodLibsHelper
   def jpush_parameter messages,receivervalue,extras_hash=nil
     input ="#{Micropost::JPUSH[:SENDNO]}" + "#{Micropost::JPUSH[:RECEIVERTYPE]}" + receivervalue + Micropost::JPUSH[:MASTERSECRET]
     code = Digest::MD5.hexdigest(input)
-    msg_content =  "{\"n_title\":\"1111222\",\"n_content\":#{messages},\"n_extras\":{\"class_id\":\"2\"} }"
-    content = {"n_content" => "#{messages}","n_title"=> "2iidid"}
+    #msg_content =  "{\"n_title\":\"1111222\",\"n_content\":#{messages},\"n_extras\":{\"class_id\":\"2\"} }"  Jpush消息格式
+    content = {"n_content" => "#{messages}","n_title"=> "超级作业本"}
+#    content = {"n_content" => "#{messages}","n_title"=> "2iidid"}
     content["n_extras"]=extras_hash if !extras_hash.nil? && extras_hash.class == Hash
     msg_content = content.to_json()
     map = Hash.new
@@ -572,7 +573,8 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
     #安卓推送
     android_student_qq_uid = school_class.students.where("token is null").select("qq_uid").map(&:qq_uid)
     qq_uids = android_student_qq_uid.join(",")
-    jpush_parameter content, qq_uids,extras_hash
+    extras_hash.merge!({:class_id => school_class.id })
+    jpush_parameter content, qq_uids, extras_hash
 
     #ios 推送
     ipad_student_tokens = school_class.students.where("token is not null").select("token").map(&:token)
@@ -587,9 +589,9 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
     token = ipad_student_tokens
     notification_arr = []
     ipad_student_tokens.each do |token|
-      notification_arr << APNS::Notification.new(token, :alert => content, :badge => 1, :sound => "#{extras_hash[:type]}") if token.present?  #把提醒类型值【0,1,2】放在sound里面
+      notification_arr << APNS::Notification.new(token, :alert => content, :badge => 1, :sound => "default", :other => extras_hash) if token.present?  #把提醒类型值【0,1,2】放在sound里面
     end
-    APNS.send_notifications(notification_arr)
+    APNS.send_notifications(notification_arr) if notification_arr.present?
   end
 
 end

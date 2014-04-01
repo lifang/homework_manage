@@ -118,24 +118,25 @@ $(function(){
                     /><p>"+val.name+"</p></li>");
                         });
                     };
+                    //取消监听
+                    $.each(checks,function(){
+                        var tag_name = $(this).parents("li").find("p").first().text();
+                        var tag_id = $(this).val();
+                        $("#tags_table").find("ul").append("<li><input type='checkbox' value='"+tag_id+"'/><p>"+tag_name+"</p></li>");
+                        $(this).parents("li").remove();
+                    });
                 },
                 error: function(data){
                      //tishi("数据错误!");
                 }
             })
-            //取消监听
-            $.each(checks,function(){
-                var tag_name = $(this).parents("li").find("p").first().text();
-                var tag_id = $(this).val();
-                $("#tags_table").find("ul").append("<li><input type='checkbox' value='"+tag_id+"'/><p>"+tag_name+"</p></li>");
-                $(this).parents("li").remove();
-            });
+
             //如果有选中的勾，则去掉
-            var divs = $("#tags_table").find("div.icheckbox_square-aero");
-            $.each(divs, function(){
-                $(this).removeAttr("class");
-                $(this).attr("class", "icheckbox_square-aero");
-            });
+//            var divs = $("#tags_table").find("div.icheckbox_square-aero");
+//            $.each(divs, function(){
+//                $(this).removeAttr("class");
+//                $(this).attr("class", "icheckbox_square-aero");
+//            });
             
         }
     });
@@ -207,9 +208,9 @@ function tabFunc(c,t){
 }
 $(function(){
     // tabFunc(".td_seeQuestion",".tab");
-// tabFunc("a.time_icon",".tab");
+    // tabFunc("a.time_icon",".tab");
 
-})
+    })
 
 //页面弹出层高度
 $(function(){

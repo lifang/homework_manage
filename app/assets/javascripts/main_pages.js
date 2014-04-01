@@ -90,7 +90,7 @@ function show_reply_again(value,name,event){
             "top":($(value).offset().top+20)+"px",
             "left":($(value).offset().left+0)+"px"
         })
-    $(".tab_mess").show(100);
+    //$(".tab_mess").show(100);
     
   
 }

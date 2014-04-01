@@ -30,7 +30,7 @@ class ArchivementsRecord < ActiveRecord::Base
     
     content = "恭喜您获得成就“#{TYPES_NAME[archivement_types]}”"
     extras_hash = {:type => Student::PUSH_TYPE[:sys_message]}
-    SysMessages.create(school_class_id:school_class.id,
+    SysMessage.create(school_class_id:school_class.id,
       student_id:student.id,
       content:content,
       status:0)

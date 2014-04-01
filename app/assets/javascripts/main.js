@@ -99,7 +99,6 @@ $(function(){
             $(".tag_tab").css('display','block');
         }else{
             $(".tag_tab").css('display','none');
-            var checks = $("#tags_table").find("input[type='checkbox']");
             var school_class_id = $("#school_class_id").val();
             $("#tags_table").find("input[type='text']").first().val("");
             $("#tags_table").find("a").last().text("");
@@ -117,14 +116,8 @@ $(function(){
                             $("#tags_table").find("ul").first().append("<li><input type='checkbox' value='"+val.id+"' \n\
                     /><p>"+val.name+"</p></li>");
                         });
+
                     };
-                    //取消监听
-                    $.each(checks,function(){
-                        var tag_name = $(this).parents("li").find("p").first().text();
-                        var tag_id = $(this).val();
-                        $("#tags_table").find("ul").append("<li><input type='checkbox' value='"+tag_id+"'/><p>"+tag_name+"</p></li>");
-                        $(this).parents("li").remove();
-                    });
                 },
                 error: function(data){
                     tishi("数据错误!");

@@ -194,7 +194,7 @@ class PublishQuestionPackage < ActiveRecord::Base
       average_correct_rate =  temp_sum/correct_rate_sum.length if correct_rate_sum.length != 0
       temp_sum=0
       complete_rate_sum.each{|x| temp_sum+=x if x==RecordDetail::IS_COMPLETE[:FINISH]}
-      average_complete_rate =  temp_sum*100/complete_rate_sum.length if correct_rate_sum.length != 0
+      average_complete_rate =  temp_sum*100/quetsions_time.length if quetsions_time.length != 0
       student_answer_record.update_attributes(:average_correct_rate=>average_correct_rate||0,
         :average_complete_rate=> average_complete_rate||0 )
     end

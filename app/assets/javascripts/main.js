@@ -100,6 +100,35 @@ $(function(){
         }else{
             $(".tag_tab").css('display','none');
             var checks = $("#tags_table").find("input[type='checkbox']");
+            var school_class_id = $("#school_class_id").val();
+            $("#tags_table").find("input[type='text']").first().val("");
+            $("#tags_table").find("a").last().text("");
+            $.ajax({
+                type: "get",
+                url: "/school_classes/"+school_class_id+"/question_packages/search_b_tags",
+                dataType: "json",
+                data: {
+                    tag_name : ""
+                },
+                success: function(data){
+                    $("#tags_table").find("ul").first().empty();
+                    if(data.b_tags.length > 0){
+                        $.each(data.b_tags, function(index, val){
+                            $("#tags_table").find("ul").first().append("<li><input type='checkbox' value='"+val.id+"' \n\
+                    /><p>"+val.name+"</p></li>");
+                        });
+                        $('input[type=checkbox], input[type=radio]').iCheck({
+                            checkboxClass: 'icheckbox_square-aero',
+                            radioClass: 'iradio_square-aero',
+                            increaseArea: '20%' // optional
+                        });
+                    };
+                },
+                error: function(data){
+                    tishi("数据错误!");
+                }
+            })
+            //取消监听
             $.each(checks,function(){
                 var tag_name = $(this).parents("li").find("p").first().text();
                 var tag_id = $(this).val();
@@ -187,7 +216,7 @@ function tabFunc(c,t){
 }
 $(function(){
     tabFunc(".td_seeQuestion",".tab");
-    // tabFunc("a.time_icon",".tab");
+// tabFunc("a.time_icon",".tab");
 
 })
 
@@ -378,7 +407,7 @@ $(function(){
     var y = 20;
     $(".tooltip_title").mouseover(function(e){
         this.myTitle=this.title;
-//        this.title="";
+        //        this.title="";
         var tooltip = "<div class='tooltip_box'><div class='tooltip_next'>"+this.myTitle+"</div></div>";
 
         $("body").append(tooltip);

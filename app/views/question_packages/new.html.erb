@@ -133,6 +133,7 @@
     $(".steps .td_text_p").dblclick(function(){
       $(".td_text_p").show();
     });
+    
   })
 
   function show_questions(obj,id)
@@ -140,11 +141,4 @@
     $(".assignment_body").hide();
     $("#question_list_"+id+"").show();
   }
-  $(document).ready(function(){
-    $('input[type=checkbox], input[type=radio]').iCheck({
-      checkboxClass: 'icheckbox_square-aero',
-      radioClass: 'iradio_square-aero',
-      increaseArea: '20%' // optional
-    });
-  });
 </script>

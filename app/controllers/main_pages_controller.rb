@@ -24,6 +24,7 @@ class MainPagesController < ApplicationController
       if flag
         @microposts = microposts
         @micropost = Micropost.find_by_id(@init_mid.to_i) if @microposts.any?
+
         @repiles = (ReplyMicropost::get_microposts @micropost.id,1)[:reply_microposts] if @micropost
       else
         @microposts = Micropost.paginate_by_sql(["select m.id micropost_id, m.user_id, m.user_types, m.content, m.created_at,
@@ -32,6 +33,9 @@ class MainPagesController < ApplicationController
         @micropost = Micropost.find_by_id(@init_mid.to_i) if @microposts.any?
         @repiles = (ReplyMicropost::get_microposts @micropost.id,1)[:reply_microposts] if @micropost
       end
+
+      @repile_page = (ReplyMicropost::get_microposts @micropost.id,1)[:pages_count]
+      @page = (ReplyMicropost::get_microposts @micropost.id,1)[:page]
     end
   end
 

@@ -52,6 +52,7 @@
                           <% if @record_details.nil? %>
                               <td><em>-</em></td>
                           <% else %>
+                            <% if @student_answer_records[student.id].present? %>
                               <% sar = @student_answer_records[student.id].first  %>
                               <% if sar.present? %>
                                 <% if @record_details[sar.id].present? %>                                  
@@ -69,6 +70,7 @@
                               <% else %>
                                   <td><em>-</em></td>
                               <% end %>
+                            <% end %>  
                           <% end %>
                       <% end %>
                   <% else %>
@@ -106,6 +108,7 @@
                           <% if @record_details.nil? %>
                               <td><em>-</em></td>
                           <% else %>
+                            <% if @student_answer_records[student.id].present? %>
                               <% sar = @student_answer_records[student.id].first  %>
                               <% if sar.present? %>
                                 <% if @record_details[sar.id].present? %>
@@ -126,6 +129,7 @@
                               <% else %>
                                   <td><em>-</em></td>
                               <% end %>
+                            <% end %> 
                           <% end %>
                       <% end %>
                   <% else %>

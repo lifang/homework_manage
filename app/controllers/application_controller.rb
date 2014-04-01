@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   include ApplicationHelper
   include TeachersHelper
-  include ApplicationHelper
+  include MicropostsHelper
   before_filter :get_teacher_infos
 
   def save_into_folder(question_package, branch_question, file)

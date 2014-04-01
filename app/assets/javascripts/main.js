@@ -117,11 +117,6 @@ $(function(){
                             $("#tags_table").find("ul").first().append("<li><input type='checkbox' value='"+val.id+"' \n\
                     /><p>"+val.name+"</p></li>");
                         });
-                        $('input[type=checkbox], input[type=radio]').iCheck({
-                            checkboxClass: 'icheckbox_square-aero',
-                            radioClass: 'iradio_square-aero',
-                            increaseArea: '20%' // optional
-                        });
                     };
                 },
                 error: function(data){
@@ -135,11 +130,7 @@ $(function(){
                 $("#tags_table").find("ul").append("<li><input type='checkbox' value='"+tag_id+"'/><p>"+tag_name+"</p></li>");
                 $(this).parents("li").remove();
             });
-            $('input[type=checkbox], input[type=radio]').iCheck({
-                checkboxClass: 'icheckbox_square-aero',
-                radioClass: 'iradio_square-aero',
-                increaseArea: '20%' // optional
-            });
+            //如果有选中的勾，则去掉
             var divs = $("#tags_table").find("div.icheckbox_square-aero");
             $.each(divs, function(){
                 $(this).removeAttr("class");
@@ -215,7 +206,7 @@ function tabFunc(c,t){
     });
 }
 $(function(){
-    tabFunc(".td_seeQuestion",".tab");
+    // tabFunc(".td_seeQuestion",".tab");
 // tabFunc("a.time_icon",".tab");
 
 })

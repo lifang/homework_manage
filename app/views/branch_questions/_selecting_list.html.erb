@@ -5,7 +5,7 @@
         <div class="questions_item">
           <div class="q_topic">
             <div class="multipleChoice">
-              <% if  bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0].present? %>
+              <% if bq.content && bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0].present? %>
              
                 <% case  File.extname(bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0]) %>
                   <% when ".jpg"  then %>

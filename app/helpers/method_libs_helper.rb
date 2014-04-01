@@ -571,7 +571,7 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
 
   def android_and_ios_push(school_class,content,extras_hash=nil, tag_id=nil)
     #安卓推送
-    if tag_id.present? and tag_id != 0  #未分组，默认为0
+    if tag_id.present? and tag_id == 0  #未分组，默认为0
       android_student_qq_uid = school_class.students.where("token is null ").select("qq_uid").map(&:qq_uid)
     else
       android_student_qq_uid = school_class.students.where("token is null and school_class_student_ralastions.tag_id = #{tag_id}").select("qq_uid").map(&:qq_uid)

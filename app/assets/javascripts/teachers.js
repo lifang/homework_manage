@@ -468,6 +468,9 @@ function new_select_question(obj){
             cell_id : cell_id
         },
         success:function(){
+            $("div.ab_list_box").hide();
+            var obj = $(".assignment_body_list").last().find(".ab_list_box");
+            $(obj).show();
         }
     });
 }
@@ -488,6 +491,9 @@ function new_lianxian_question(obj){
             cell_id : cell_id
         },
         success:function(){
+            $("div.ab_list_box").hide();
+            var objs = $(".assignment_body_list").last().find(".ab_list_box");
+            $(objs).show();
         }
     });
 }

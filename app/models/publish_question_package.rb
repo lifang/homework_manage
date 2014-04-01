@@ -12,7 +12,9 @@ class PublishQuestionPackage < ActiveRecord::Base
   TIME_TOW_HOUR = 120
   CORRECT_RATE_SIX = 60
   CORRECT_RATE_TEN = 100
-
+  scope :not_calculated, lambda {|school_class_id|
+    where("'#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}' >= end_time and school_class_id = #{school_class_id} and is_calc = #{PublishQuestionPackage::IS_CALC[:WAIT]}")
+   }
   #获取当日或历史任务
   def self.get_tasks school_class_id, student_id, order_name=nil, date=nil, today_newer_id=nil
     my_tag_ids = Tag.get_my_tag_ids school_class_id, student_id

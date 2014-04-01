@@ -1229,7 +1229,6 @@ function delete_tags(obj,shcool_id,question_pack_id,tag_id,branch_question_id,ty
         }else if(type=='select'){
             var question_item = $(obj).parents(".gapFilling_questions")[0]
             var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".gapFilling_questions").index($(question_item));
-            alert(gloab_index+"==>"+q_index);
             $.ajax({
                 dataType:'json',
                 url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",
@@ -1245,7 +1244,6 @@ function delete_tags(obj,shcool_id,question_pack_id,tag_id,branch_question_id,ty
         }else if(type="lianxian"){
             var question_item = $(obj).parents(".gapFilling_questions")[0]
             var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".gapFilling_questions").index($(question_item));
-            alert(gloab_index+"==>"+q_index);
             $.ajax({
                 dataType:'json',
                 url:"/school_classes/"+shcool_id+"/question_packages/"+question_pack_id+"/delete_branch_tag",

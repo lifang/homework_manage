@@ -14,7 +14,7 @@ function created_new_class(){
 }
 function create_school_class(school_class_id){
     var teaching_material_id = $("select[name='teaching_material_id']").val();
-    var class_name = $("input[name='class_name']").val();
+    var class_name = $.trim($("input[name='class_name']").val());
     var period_of_validity = $("input[name='period_of_validity']").val();
     var message;
     if (class_name==""){
@@ -133,7 +133,7 @@ function shwo_tags(){   //点击班级分组跳出弹出层
 }
 
 function create_class_valid(obj){   //创建班级分组验证
-    var tag_name = $(obj).parents("form").find("input[name='name_tag']").first().val();
+    var tag_name = $.trim($(obj).parents("form").find("input[name='name_tag']").first().val());
     if(tag_name==undefined || tag_name==""){
         tishi("组名不能为空!");
     }

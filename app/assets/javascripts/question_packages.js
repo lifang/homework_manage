@@ -1156,8 +1156,6 @@ function add_content_to_wanxin(obj,q_index,branch_question_id){
 
 function delete_tags(obj,shcool_id,question_pack_id,tag_id,branch_question_id,type){
     if(confirm("确认选择后就不能更改了？")){
-
-
         if(type == 'paixu'){
             var question_item = $(obj).parents(".questions_item")[0]
             var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".questions_item").index($(question_item));

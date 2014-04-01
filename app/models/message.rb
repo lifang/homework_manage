@@ -31,7 +31,7 @@ class Message < ActiveRecord::Base
         Message.create(:user_id => reciver_id, :content => m2_content, :micropost_id => micropost_id,
           :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id,:reply_micropost_id => reply_micropost_id)
         student = Student.find_by_user_id reciver_id.to_i
-        push_after_reply_post m_content, teachers_id, reciver_id, school_class_id, student, reciver_types
+        push_after_reply_post push_content, teachers_id, reciver_id, school_class_id, student, reciver_types
         #send_push_msg m_content, student.alias_name, teachers_id, reciver_id  if reciver_types == 0 && !student.nil?
       end
       if follow_microposts.any?

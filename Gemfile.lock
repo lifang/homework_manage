@@ -124,7 +124,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  apns
+  apns (~> 1.0.0)
   archive-zip (= 0.6.0)
   builder (~> 3.0.0)
   capistrano (~> 2.15.4)

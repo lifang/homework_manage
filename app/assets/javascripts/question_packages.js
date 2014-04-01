@@ -1175,9 +1175,9 @@ function add_content_to_paixu(obj,q_index,branch_question_id){
                     old.find(".tag_ul ul").
                     append("<li><p>"+data.tag_name+"</p><a onclick='delete_tags(this,"+shcool_id+","+question_pack_id+","+data.tag_id+","+branch_question_id+",\"paixu\")' class='x'>X</a></li>");
                 }else if(data.status == 2){
-                    tishi("添加失败，重复标签！");
+                    tishi("已添加该标签！");
                 }else if(data.status == 3){
-                    tishi("添加失败，无此标签！");
+                    tishi("已添加该标签！");
                 }
             }
         })
@@ -1199,9 +1199,9 @@ function add_content_to_wanxin(obj,q_index,branch_question_id){
                     old.find(".tag_ul ul").
                     append("<li><p>"+data.tag_name+"</p><a onclick='delete_tags(this,"+shcool_id+","+question_pack_id+","+data.tag_id+","+branch_question_id+",\"wanxin\")' class='x'>X</a></li>");
                 }else if(data.status == 2){
-                    tishi("添加失败，重复标签！");
+                    tishi("已添加该标签！");
                 }else if(data.status == 3){
-                    tishi("添加失败，无此标签！");
+                    tishi("已添加该标签！");
                 }
             }
         })
@@ -1210,7 +1210,8 @@ function add_content_to_wanxin(obj,q_index,branch_question_id){
 
 
 function delete_tags(obj,shcool_id,question_pack_id,tag_id,branch_question_id,type){
-    if(confirm("确认选择后就不能更改了？")){
+
+    if(confirm("确定删除此标签?")){
         if(type == 'paixu'){
             var question_item = $(obj).parents(".questions_item")[0]
             var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".questions_item").index($(question_item));

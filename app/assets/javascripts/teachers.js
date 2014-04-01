@@ -440,7 +440,7 @@ function add_tag_to_select(obj,q_index,branch_question_id,types){
                     }
                     html="<class='aaa'>"
                 }else if(data.status == 2){
-                    tishi("添加失败，重复标签！");
+                    tishi("已添加该标签！");
                 }else if(data.status == 3){
                     tishi("添加失败，无此标签！");
                 }
@@ -468,6 +468,9 @@ function new_select_question(obj){
             cell_id : cell_id
         },
         success:function(){
+            $("div.ab_list_box").hide();
+            var obj = $(".assignment_body_list").last().find(".ab_list_box");
+            $(obj).show();
         }
     });
 }
@@ -488,6 +491,9 @@ function new_lianxian_question(obj){
             cell_id : cell_id
         },
         success:function(){
+            $("div.ab_list_box").hide();
+            var objs = $(".assignment_body_list").last().find(".ab_list_box");
+            $(objs).show();
         }
     });
 }

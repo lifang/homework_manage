@@ -13,6 +13,16 @@ class ArchivementsRecord < ActiveRecord::Base
         :school_class_id => school_class.id,
         :archivement_types => archivement_types,
         :archivement_score => 10)
+      unless archivement.archivement_score.nil?
+        if archivement.archivement_score%100 == 0
+          if archivement.archivement_types==ArchivementsRecord::TYPES[:QUICKLY]
+            add_prop_get_archivement student.id,Prop::TYPES[:Reduce_time],school_class
+          end
+          if archivement.archivement_types==ArchivementsRecord::TYPES[:ACCURATE]
+            add_prop_get_archivement student.id,Prop::TYPES[:Show_corret_answer],school_class
+          end
+        end
+      end
     else
       archivement.update_attributes(:archivement_score =>
           (archivement.archivement_score+10))
@@ -20,10 +30,26 @@ class ArchivementsRecord < ActiveRecord::Base
     
     content = "恭喜您获得成就“#{TYPES_NAME[archivement_types]}”"
     extras_hash = {:type => Student::PUSH_TYPE[:sys_message]}
-    SysMessages.create(school_class_id:school_class.id,
-                       student_id:student.id,
-                       content:content,
-                       status:0)
+    SysMessage.create(school_class_id:school_class.id,
+      student_id:student.id,
+      content:content,
+      status:0)
     android_and_ios_push(school_class,content,extras_hash)
   end
+  
+  #获得成就时加道具
+  def self.add_prop_get_archivement student_id,prop_types,school_class
+    student_prop = UserPropRelation.
+      find_by_student_id_and_prop_id_and_school_class_id(student_id,prop_types,school_class.id)
+    if student_prop
+      student_prop.update_attribute(:user_prop_num,student_prop.user_prop_num+2);
+    else
+      UserPropRelation.create(student_id:student_id,
+        user_prop_num:2,
+        school_class_id:school_class.id,
+        prop_id:prop_types)
+    end
+
+  end
+
 end

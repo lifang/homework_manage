@@ -118,6 +118,9 @@ $(function(){
                     /><p>"+val.name+"</p></li>");
                         });
                     };
+                },
+                error: function(data){
+                     tishi("数据错误!");
                 }
             })
             //取消监听

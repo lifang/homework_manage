@@ -205,16 +205,31 @@ class PublishQuestionPackage < ActiveRecord::Base
     if time > 0
       if average_ratio >= CORRECT_RATE_SIX && average_ratio <= CORRECT_RATE_TEN && use_time < question.time
         ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:QUICKLY]
+        add_prop_get_archivement student.id,Prop::TYPES[:Reduce_time],school_class
         if time > TIME_TOW_HOUR
           ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:EARLY]
         end
       end
       if average_ratio == CORRECT_RATE_TEN
         ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:ACCURATE]
+        add_prop_get_archivement student.id,Prop::TYPES[:Show_corret_answer],school_class
       end
     end
   end
-  
+  #获得成就时加道具
+  def self.add_prop_get_archivement student_id,prop_types,school_class
+    student_prop = UserPropRelation.
+      find_by_student_id_and_prop_id_and_school_class_id(student_id,prop_types,school_class.id)
+    if student_prop
+      student_prop.update_attribute(:user_prop_num,student_prop.user_prop_num+2);
+    else
+      UserPropRelation.create(student_id:student_id,
+        user_prop_num:2,
+        school_class_id:school_class.id,
+        prop_id:prop_types)
+    end
+
+  end
 
   def self.get_homework_statistics date, school_class
     all_tags = nil
@@ -266,7 +281,6 @@ class PublishQuestionPackage < ActiveRecord::Base
         students = info[:students]
         record_details = info[:record_details]
         student_answer_records = info[:student_answer_records]
-        p student_answer_records
         average_correct_rate = info[:average_correct_rate]
         average_complete_rate = info[:average_complete_rate]
       # end

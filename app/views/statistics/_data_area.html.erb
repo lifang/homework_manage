@@ -113,11 +113,13 @@
                               <% if sar.present? %>
                                 <% if @record_details[sar.id].present? %>
                                       <% if @record_details[sar.id][type].present? %>                                        
-                                        <% if @record_details[sar.id][type.to_i].first.correct_rate < 100 %>
-                                           <td><div class="td_ratio"> <a href="javascript:void(0);" class="td_seeQuestion tooltip_html" onclick="shou_incorrect_que('<%= type.to_i %>','<%= sar.id %>', '<%= params[:school_class_id] %>')">点击查看</a></div><em>
-                                           <%= @record_details[sar.id][type].present? ? "#{@record_details[sar.id][type.to_i].first.used_time}%" :  "" %></M></em></td>
+                                        <% if @record_details[sar.id][type.to_i].first.correct_rate >= 0 && @record_details[sar.id][type.to_i].first.correct_rate <= 100%>
+                                           <td><div class="td_ratio"> <a href="javascript:void(0);" class="td_seeQuestion tooltip_html" onclick="shou_incorrect_que('<%= type.to_i %>','<%= sar.id %>', '<%= params[:school_class_id] %>')">点击查看</a>
+                                            <%= (@record_details[sar.id][type.to_i].first.correct_rate >= 0 && @record_details[sar.id][type.to_i].first.correct_rate <= 100) ? "#{@record_details[sar.id][type.to_i].first.correct_rate}%" : "-" %> 
+                                           </div><em>
+                                           <%= @record_details[sar.id][type].present? ? "#{@record_details[sar.id][type.to_i].first.used_time}" :  "" %></em></td>
                                         <% else %>
-                                            <td><em>-</em></td> 
+                                            <td><em>-</em></td>
                                         <% end %>
                                       <% else %>
                                         <td><em>-</em></td>   

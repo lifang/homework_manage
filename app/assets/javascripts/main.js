@@ -215,7 +215,7 @@ function tabFunc(c,t){
     });
 }
 $(function(){
-    tabFunc(".td_seeQuestion",".tab");
+    // tabFunc(".td_seeQuestion",".tab");
 // tabFunc("a.time_icon",".tab");
 
 })

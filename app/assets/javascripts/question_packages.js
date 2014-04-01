@@ -490,9 +490,13 @@ function search_b_tags(obj, school_class_id){
                         }
                     })
                 });
-                $(obj).parents("div.tag_tab").find("a").first().text("");
+                if(data.show_create_tag==0){
+                    $(obj).parents("div.tag_tab").find("a").first().text("");
+                }else{
+                    $(obj).parents("div.tag_tab").find("a").first().text("新建\""+tag_name+"\"");
+                }
             }else{
-                $(obj).parents("div.tag_tab").find("ul").html("无");
+                $(obj).parents("div.tag_tab").find("ul").html("<span>无</span>");
                 if(tag_name!=""){
                     $(obj).parents("div.tag_tab").find("a").first().text("新建\""+tag_name+"\"");
                 }
@@ -523,7 +527,8 @@ function add_new_b_tag(obj, school_class_id){
                     tishi("保存失败,已有同名的标签!");
                 }else{
                     tishi("新建成功!");
-                    $(obj).parents("div.tag_tab").find("ul").html("<li><input type='checkbox' value='"+data.tag_id+"' \n\
+                    $(obj).parents("div.tag_tab").find("ul").find("span").remove();
+                    $(obj).parents("div.tag_tab").find("ul").append("<li><input type='checkbox' value='"+data.tag_id+"' \n\
  onclick='add_tags_to_time_limit(this,\""+data.tag_id+"\",\""+data.tag_name+"\")'/><p>"+data.tag_name+"</p></li>");
                     $('input[type=checkbox], input[type=radio]').iCheck({
                         checkboxClass: 'icheckbox_square-aero',

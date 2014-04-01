@@ -1136,6 +1136,9 @@ function delete_paixu_option(obj,school_class,question_package){
 
 function add_paixu_tags(obj){
     common_tags(obj);
+   
+
+
     var branch_question_id = $(obj).parents(".questions_item").find(".branch_question_id").val();
     var question_item = $(obj).parents(".questions_item")[0]
     var q_index = $($(obj).parents(".ab_article")[0]).find(".questions_item").index($(question_item));
@@ -1280,6 +1283,25 @@ function add_wanxin_tags(obj, index){
 }
  
 function common_tags(obj){
+    //先取消监听
+    var checks = $("#tags_table").find("input[type='checkbox']");
+    $.each(checks,function(){
+        var tag_name = $(this).parents("li").find("p").first().text();
+        var tag_id = $(this).val();
+        $("#tags_table").find("ul").append("<li><input type='checkbox' value='"+tag_id+"'/><p>"+tag_name+"</p></li>");
+        $(this).parents("li").remove();
+    });
+    //再添加监听
+    $('input[type=checkbox], input[type=radio]').iCheck({
+        checkboxClass: 'icheckbox_square-aero',
+        radioClass: 'iradio_square-aero',
+        increaseArea: '20%' // optional
+    });
+    var divs = $("#tags_table").find("div.icheckbox_square-aero");
+    $.each(divs, function(){
+        $(this).removeAttr("class");
+        $(this).attr("class", "icheckbox_square-aero");
+    });
     var width = $("#tags_table").width();
     var height = $(obj).height();
     $("#tags_table").css("display", "block");

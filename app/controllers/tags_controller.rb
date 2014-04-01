@@ -36,7 +36,7 @@ class TagsController < ApplicationController
       @notice = "标签已存在"
     else
       @status = 1
-      @notice = "标签创建成功"
+      @notice = "分组创建成功"
       Tag.create(:name => name,:school_class_id => school_class_id)
     end
     @tags = Tag.where("school_class_id=#{school_class_id}")

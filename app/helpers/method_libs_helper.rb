@@ -565,13 +565,17 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
     #WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = ?#"
     #    student = Student.find_by_sql([sql,school_class_id])
     extras_hash = {:type => Student::PUSH_TYPE[:publish_question]}
-    android_and_ios_push(school_class,content,extras_hash)
+    android_and_ios_push(school_class,content,extras_hash, publish_question_package.tag_id) #传tag参数，为了给对应分组的学生发送推送
    
   end
 
-  def android_and_ios_push(school_class,content,extras_hash=nil)
+  def android_and_ios_push(school_class,content,extras_hash=nil, tag_id=nil)
     #安卓推送
-    android_student_qq_uid = school_class.students.where("token is null").select("qq_uid").map(&:qq_uid)
+    if tag_id.present? and tag_id != 0  #未分组，默认为0
+      android_student_qq_uid = school_class.students.where("token is null ").select("qq_uid").map(&:qq_uid)
+    else
+      android_student_qq_uid = school_class.students.where("token is null and school_class_student_ralastions.tag_id = #{tag_id}").select("qq_uid").map(&:qq_uid)
+    end
     qq_uids = android_student_qq_uid.join(",")
     extras_hash.merge!({:class_id => school_class.id })
     jpush_parameter content, qq_uids, extras_hash

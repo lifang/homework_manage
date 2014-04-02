@@ -1,9 +1,10 @@
-<% count = 1 %>
+
 <% question[:branch_questions].each do |bq| %>
   <%  next if @wrong_ids && !@wrong_ids.include?(bq[:id])%>
   <div class='q_topic'>
     <% bq.content.split(";||;").each_with_index do |br_content,index| %>
       <div class="ligatureQuestions">
+        <!--%@wring_answer[bq[:id]]#这个是对应的错误答案%-->
         <ul>
           <li><p><%= br_content.split("<=>")[0] %></p></li>
           <li><i></i></li>

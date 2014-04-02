@@ -101,6 +101,7 @@ class StatisticsController < ApplicationController
             .joins("left join questions q on branch_questions.question_id = q.id")
             .select("distinct q.id")
             .where(["branch_questions.id in (?) and q.id is not null",wrong_ids])
+            p ques_id
             if ques_id.present?
               questions_id = ques_id.map(&:id)
               questions = Question
@@ -111,9 +112,11 @@ class StatisticsController < ApplicationController
               .select("content, resource_url, options, answer, question_id")
               .where(["question_id in (?)", questions_id])
               .group_by {|b| b.question_id}
-              #p questions
-              #p branch_questions
+              # p questions
+              # p branch_questions
               if questions.present?
+                p questions.present?
+
                 ques = []
                 questions.each do |q|
                   branch_ques = []
@@ -124,18 +127,17 @@ class StatisticsController < ApplicationController
                     :content => q.content, :branch_questions => branch_ques}
                 end
                 @origin_questions = {:types => types, :questions => ques}
-                p @origin_questions
                 @status = true
                 @notice = "答题记录读取完成"
                 @notice += ",未找到相关大题" if questions.length == 0
                 @notice += "！"
               else
                 @status = false
-                @notice = "没有找到相关题目！"
+                @notice = "未找到相关题目！"
               end
             else
-              @status = true
-              @notice = "答题记录读取完成,未找到相关大题！"
+              @status = false
+              @notice = "未找到相关题目！"
             end
           else
             @notice = "该学生#{Question::TYPES_NAME[types]}题没有答错的题目！"

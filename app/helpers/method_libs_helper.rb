@@ -389,8 +389,9 @@ module MethodLibsHelper
   def jpush_parameter messages,receivervalue,extras_hash=nil
     input ="#{Micropost::JPUSH[:SENDNO]}" + "#{Micropost::JPUSH[:RECEIVERTYPE]}" + receivervalue + Micropost::JPUSH[:MASTERSECRET]
     code = Digest::MD5.hexdigest(input)
-    msg_content =  "{\"n_title\":\"1111222\",\"n_content\":#{messages},\"n_extras\":{\"class_id\":\"2\"} }"
-    content = {"n_content" => "#{messages}","n_title"=> "2iidid"}
+    #msg_content =  "{\"n_title\":\"1111222\",\"n_content\":#{messages},\"n_extras\":{\"class_id\":\"2\"} }"  Jpush消息格式
+    content = {"n_content" => "#{messages}","n_title"=> "超级作业本"}
+#    content = {"n_content" => "#{messages}","n_title"=> "2iidid"}
     content["n_extras"]=extras_hash if !extras_hash.nil? && extras_hash.class == Hash
     msg_content = content.to_json()
     map = Hash.new
@@ -564,15 +565,20 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
     #WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = ?#"
     #    student = Student.find_by_sql([sql,school_class_id])
     extras_hash = {:type => Student::PUSH_TYPE[:publish_question]}
-    android_and_ios_push(school_class,content,extras_hash)
+    android_and_ios_push(school_class,content,extras_hash, publish_question_package.tag_id) #传tag参数，为了给对应分组的学生发送推送
    
   end
 
-  def android_and_ios_push(school_class,content,extras_hash=nil)
+  def android_and_ios_push(school_class,content,extras_hash=nil, tag_id=nil)
     #安卓推送
-    android_student_qq_uid = school_class.students.where("token is null").select("qq_uid").map(&:qq_uid)
+    if tag_id.present? and tag_id == 0  #未分组，默认为0
+      android_student_qq_uid = school_class.students.where("token is null ").select("qq_uid").map(&:qq_uid)
+    else
+      android_student_qq_uid = school_class.students.where("token is null and school_class_student_ralastions.tag_id = #{tag_id}").select("qq_uid").map(&:qq_uid)
+    end
     qq_uids = android_student_qq_uid.join(",")
-    jpush_parameter content, qq_uids,extras_hash
+    extras_hash.merge!({:class_id => school_class.id })
+    jpush_parameter content, qq_uids, extras_hash
 
     #ios 推送
     ipad_student_tokens = school_class.students.where("token is not null").select("token").map(&:token)
@@ -587,9 +593,9 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
     token = ipad_student_tokens
     notification_arr = []
     ipad_student_tokens.each do |token|
-      notification_arr << APNS::Notification.new(token, :alert => content, :badge => 1, :sound => "#{extras_hash[:type]}") if token.present?  #把提醒类型值【0,1,2】放在sound里面
+      notification_arr << APNS::Notification.new(token, :alert => content, :badge => 1, :sound => "default", :other => extras_hash) if token.present?  #把提醒类型值【0,1,2】放在sound里面
     end
-    APNS.send_notifications(notification_arr)
+    APNS.send_notifications(notification_arr) if notification_arr.present?
   end
 
 end

@@ -1,11 +1,13 @@
 <% question[:branch_questions].each do |bq| %>
-      <div class='q_topic'>
-        <div class='ligatureQuestions'>
-          <ul>
-            <li class='qt_input'><p><%= bq[:options].to_s.split(/\;\|\|\;/)[0] %></p></li>
-            <li><i></i></li>
-            <li class='qt_input'><p><%= bq[:options].to_s.split(/\;\|\|\;/)[1] %></p></li>
-          </ul>
-        </div>
+  <div class='q_topic'>
+    <% bq.content.split(";||;").each_with_index do |br_content,index| %>
+      <div class="ligatureQuestions">
+        <ul>
+          <li><p><%= br_content.split("<=>")[0] %></p></li>
+          <li><i></i></li>
+          <li><p><%= br_content.split("<=>")[1] %></p></li>
+        </ul>
       </div>
+    <% end if bq.content && bq.content.split(";||;") %>
+  </div>
 <% end %>

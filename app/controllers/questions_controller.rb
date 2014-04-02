@@ -146,13 +146,17 @@ class QuestionsController < ApplicationController
     @index_new = params[:index_new]
     content_index = params[:content_index]
     @content_index = content_index.to_i+1
-    left_lianxian = params[:left_lianxian]
-    right_lianxian = params[:right_lianxian]
+    left_lianxian1 = params[:left_lianxian1]
+    right_lianxian1 = params[:right_lianxian1]
+    left_lianxian2 = params[:left_lianxian2]
+    right_lianxian2 = params[:right_lianxian2]
+    left_lianxian3 = params[:left_lianxian3]
+    right_lianxian3 = params[:right_lianxian3]
+    content = left_lianxian1 + "<=>" + right_lianxian1 + ";||;" + left_lianxian2 + "<=>"+ right_lianxian2 + ";||;" + left_lianxian3 + "<=>" + right_lianxian3
     question_id = params[:question_id]
     @question = Question.find_by_id question_id
-    options = left_lianxian + ';||;' + right_lianxian
-    @branch_question = BranchQuestion.create(:content=>content_index,:types=>Question::TYPES[:LINING],:question_id=>question_id,
-      :options=>options,:answer=> options)
+    #    options = left_lianxian + ';||;' + right_lianxian
+    @branch_question = BranchQuestion.create(:content=>content,:types=>Question::TYPES[:LINING],:question_id=>question_id)
     @question_package_id = params[:question_package_id]
     @question_pack = QuestionPackage.find_by_id @question_package_id
   end
@@ -163,16 +167,20 @@ class QuestionsController < ApplicationController
     @index_new = params[:index_new]
     content_index = params[:content_index]
     @content_index = content_index.to_i+1
-    left_lianxian = params[:left_lianxian]
-    right_lianxian = params[:right_lianxian]
+    left_lianxian1 = params[:left_lianxian1]
+    right_lianxian1 = params[:right_lianxian1]
+    left_lianxian2 = params[:left_lianxian2]
+    right_lianxian2 = params[:right_lianxian2]
+    left_lianxian3 = params[:left_lianxian3]
+    right_lianxian3 = params[:right_lianxian3]
+    content = left_lianxian1 + "<=>" + right_lianxian1 + ";||;" + left_lianxian2 + "<=>"+ right_lianxian2 + ";||;" + left_lianxian3 + "<=>" + right_lianxian3
     question_id = params[:question_id]
     @question = Question.find_by_id question_id
-    options = left_lianxian + ';||;' + right_lianxian
+#    options = left_lianxian + ';||;' + right_lianxian
     branch_question_id = params[:branch_question_id]
     branchquestion = BranchQuestion.find_by_id branch_question_id
     if branchquestion
-      branchquestion.update_attributes(:content=>content_index,:types=>Question::TYPES[:LINING],:question_id=>question_id,
-        :options=>options,:answer=> options)
+      branchquestion.update_attributes(:content=>content,:types=>Question::TYPES[:LINING],:question_id=>question_id)
       @status = 1
     else
       @status = 0

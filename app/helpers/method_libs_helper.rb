@@ -330,25 +330,25 @@ module MethodLibsHelper
           ques.each do |q|
             if q["branch_questions"]["branch_question"].class == Hash
               branch_questions = []
-              if key == "lining"  #连线题特殊处理
-                one_lining_branch_que_options = q["branch_questions"]["branch_question"]["options"].split(";||;").join("<=>");
-                q["branch_questions"]["branch_question"]["content"] = one_lining_branch_que_options
-              end
+#              if key == "lining"  #连线题特殊处理
+#                one_lining_branch_que_options = q["branch_questions"]["branch_question"]["options"].split(";||;").join("<=>");
+#                q["branch_questions"]["branch_question"]["content"] = one_lining_branch_que_options
+#              end
               branch_questions << q["branch_questions"]["branch_question"]
             else
-              if key == "lining"   #连线题特殊处理
-                branch_questions = []
-                lining_content = []
-                q["branch_questions"]["branch_question"].each do |bq_hash|
-                  lining_content << bq_hash["options"].split(";||;").join("<=>");
-                end
-                lining_content = lining_content.join(";||;")
-                branch_question = q["branch_questions"]["branch_question"][0].dup
-                branch_question["content"] = lining_content
-                branch_questions << branch_question
-              else
+#              if key == "lining"   #连线题特殊处理
+#                branch_questions = []
+#                lining_content = []
+#                q["branch_questions"]["branch_question"].each do |bq_hash|
+#                  lining_content << bq_hash["options"].split(";||;").join("<=>");
+#                end
+#                lining_content = lining_content.join(";||;")
+#                branch_question = q["branch_questions"]["branch_question"][0].dup
+#                branch_question["content"] = lining_content
+#                branch_questions << branch_question
+#              else
                 branch_questions = q["branch_questions"]["branch_question"]
-              end
+#              end
             end
             tmp_questions_collections[key][:questions] << {"id" => q["id"], "full_text" => q['full_text'], "branch_questions" => branch_questions}
             #              lisentings << {"id" => q["id"], "branch_questions" => branch_questions}  if key == "listening"
@@ -492,7 +492,7 @@ q.id = bq.question_id where kc.card_bag_id = ?"
     branch_id = []
     knowledge = knowledge_cards.group_by{ |knowledge_card| knowledge_card.types }
     knowledge.each do |types,knowledge_card|
-      if types==Question::TYPES[:LINING] || types==Question::TYPES[:CLOZE]
+      if  types==Question::TYPES[:CLOZE]
         knowledge_card.map(&:question_id).each do |arr_br_id|
           branch_id << arr_br_id
         end

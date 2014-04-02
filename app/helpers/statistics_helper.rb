@@ -45,7 +45,7 @@ module StatisticsHelper
   #根据学生的答题记录返回学生答错的小题id
   def read_answer_hash answer_hash, types
     wrongs_branch_id = []
-    p types
+    # p types
     if answer_hash.present?
       if answer_hash[Question::TYPE_NAME_ARR[types.to_i]].present? &&
               answer_hash[Question::TYPE_NAME_ARR[types.to_i]]["questions"].present?
@@ -63,7 +63,7 @@ module StatisticsHelper
         end
       end
     end
-    p wrongs_branch_id
+    # p wrongs_branch_id
     wrongs_branch_id
   end
 end

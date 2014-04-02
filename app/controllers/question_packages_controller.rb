@@ -138,72 +138,72 @@ class QuestionPackagesController < ApplicationController
       @notice = "文件不能超过1M！" 
     else
       if types.present?
-          @types = types.to_i
-          @question = Question.find_by_id params[:question_id].to_i
-          @question_id = @question.id
-          branch_id = params[:branch_id]
-          if branch_id.present?
-              @branch_question = BranchQuestion.find_by_id branch_id
-              if @branch_question.nil?
-                @status = -1
-                @notice = "该小题不存在，修改失败！"
-              else
-                if !file.nil?
-                  destination_dir = "#{media_path % @question.question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
-                  rename_file_name = "media_#{@branch_question.id}"
-                  upload = upload_file destination_dir, rename_file_name, file
-                  if upload[:status] == true
-                    resource_url = upload[:url]
-                    if @branch_question.update_attributes(:resource_url => resource_url)           
-                      @status = 2
-                      @notice = "文件上传成功！！"
-                    else
-                      @status = -1
-                      @notice = "文件上传失败！"    
-                    end  
-                  else
-                    @status = -1
-                    @notice = "小题创建失败！"
-                  end
+        @types = types.to_i
+        @question = Question.find_by_id params[:question_id].to_i
+        @question_id = @question.id
+        branch_id = params[:branch_id]
+        if branch_id.present?
+          @branch_question = BranchQuestion.find_by_id branch_id
+          if @branch_question.nil?
+            @status = -1
+            @notice = "该小题不存在，修改失败！"
+          else
+            if !file.nil?
+              destination_dir = "#{media_path % @question.question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
+              rename_file_name = "media_#{@branch_question.id}"
+              upload = upload_file destination_dir, rename_file_name, file
+              if upload[:status] == true
+                resource_url = upload[:url]
+                if @branch_question.update_attributes(:resource_url => resource_url)
+                  @status = 2
+                  @notice = "文件上传成功！！"
                 else
+                  @status = -1
+                  @notice = "文件上传失败！"
+                end
+              else
+                @status = -1
+                @notice = "小题创建失败！"
+              end
+            else
 
-                  if params[:content].present?
-                    if @branch_question.update_attributes(:content => params[:content] )
-                      @status = 0
-                      @notice = "小题修改成功！"  
-                    else
-                      @status = -1
-                      @notice = "小题修改失败！" 
-                    end                
-                  end  
+              if params[:content].present?
+                if @branch_question.update_attributes(:content => params[:content] )
+                  @status = 0
+                  @notice = "小题修改成功！"
+                else
+                  @status = -1
+                  @notice = "小题修改失败！"
                 end
               end
-          else
-              @status = -1
-              @notice = "小题创建失败！"
-              content = params[:content]
-              @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
-              if @branch_question
-                destination_dir = "#{media_path % @question.question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
-                rename_file_name =  "media_#{@branch_question.id}"
-                if file
-                  upload = upload_file destination_dir, rename_file_name, file
-                  if upload[:status] == true
-                    resource_url = upload[:url]
-                    @branch_question.update_attributes(:resource_url=> resource_url)
-                  end
-                end  
-                unless @branch_question.nil?
-                  if tags_id.present?    #保存小题时添加标签
-                    tags_id.split(/\|/).each do |tag_id|
-                      @branch_question.btags_bque_relations.create(:branch_tag_id => tag_id.to_i) if tag_id.to_i > 0
-                    end  
-                  end 
-                  @status = 1
-                  @notice = "小题创建完成！"
+            end
+          end
+        else
+          @status = -1
+          @notice = "小题创建失败！"
+          content = params[:content]
+          @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
+          if @branch_question
+            destination_dir = "#{media_path % @question.question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
+            rename_file_name =  "media_#{@branch_question.id}"
+            if file
+              upload = upload_file destination_dir, rename_file_name, file
+              if upload[:status] == true
+                resource_url = upload[:url]
+                @branch_question.update_attributes(:resource_url=> resource_url)
+              end
+            end
+            unless @branch_question.nil?
+              if tags_id.present?    #保存小题时添加标签
+                tags_id.split(/\|/).each do |tag_id|
+                  @branch_question.btags_bque_relations.create(:branch_tag_id => tag_id.to_i) if tag_id.to_i > 0
                 end
-              end  
-          end  
+              end
+              @status = 1
+              @notice = "小题创建完成！"
+            end
+          end
+        end
       else
         @status = -1
         @notice = "该小题不存在数据错误，题型不能为空！" 
@@ -301,7 +301,7 @@ class QuestionPackagesController < ApplicationController
   def save_wanxin_content
     content = params[:content].gsub("(**)","&#").gsub("(*:*)",";").html_safe;
     content = unencode content
-    content.gsub("&nbsp;"," ")
+    content = content.gsub("&nbsp;"," ")
     @question = Question.find_by_id(params[:id])
     if @question.update_attribute(:full_text, content)
       render text:1
@@ -326,7 +326,8 @@ class QuestionPackagesController < ApplicationController
     if branch_question_id==""
       if BranchQuestion.create(question_id:params[:question_id],
           options:options,
-          answer:answer)
+          answer:answer,
+          types:Question::TYPES[:CLOZE])
         @text=1
       else
         @text=0
@@ -391,7 +392,8 @@ class QuestionPackagesController < ApplicationController
     if branch_question_id==""
       if BranchQuestion.create(content:content,
           question_id:params[:question_id],
-          answer:answer)
+          answer:answer,
+          types:Question::TYPES[:SORT])
         @text=1
       else
         @text=0
@@ -627,7 +629,8 @@ class QuestionPackagesController < ApplicationController
         content = v["content"]
         answer = v["answer"]
         tags = v["tags"].nil? ? nil : v["tags"]
-        bq = BranchQuestion.create(:content => content, :question_id => question.id, :answer => answer, :options => "true;||;false")
+        bq = BranchQuestion.create(:content => content, :question_id => question.id, 
+          :answer => answer, :options => "true;||;false", :types => Question::TYPES[:TIME_LIMIT])
         if tags
           tags.each do |t|
             BtagsBqueRelation.create(:branch_question_id => bq.id, :branch_tag_id => t.to_i)
@@ -655,7 +658,7 @@ class QuestionPackagesController < ApplicationController
             question.branch_questions.each do |bq|
               new_resource_url = copy_file(share_media_path, question_pack, bq, bq.resource_url) if bq.resource_url.present? #分享的时候，拷贝音频
               sbq = share_question.share_branch_questions.new({:content => bq.content, :resource_url => new_resource_url,
-                  :options => bq.options, :answer => bq.answer})
+                  :options => bq.options, :answer => bq.answer, :types => bq.types})
               bq.branch_tags.each do |bt|
                 sbq.branch_tags << bt
               end
@@ -791,7 +794,7 @@ class QuestionPackagesController < ApplicationController
             new_question_pack.school_class_id = school_class_id
             new_question_pack.save
             question.branch_questions.each do |bq|
-              branch_question = new_question.branch_questions.create({:content => bq.content, :options => bq.options, :answer => bq.answer})
+              branch_question = new_question.branch_questions.create({:content => bq.content, :options => bq.options, :answer => bq.answer, :types => bq.types})
               new_resource_url = copy_file(media_path, new_question_pack, branch_question, bq.resource_url) if bq.resource_url.present? #引用的时候，拷贝音频
               branch_question.update_attribute(:resource_url, new_resource_url) if new_resource_url
               bq.branch_tags.each do |bt|

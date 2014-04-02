@@ -992,26 +992,6 @@ class Api::StudentsController < ApplicationController
     end
     render :json => {:status => status,:notice => notice}
   end
-  #做作业前判断卡包是否已满
-  def card_is_full
-    school_class_id = params[:school_class_id]
-    student_id = params[:student_id]
-    card_bag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
-    if card_bag.present?
-      if card_bag.knowledges_cards_count < CardBag::CARDS_COUNT
-        status = "success"
-        notice = "卡槽暂有容量!"
-      else
-        status = "error"
-        notice = "卡槽容量已满!"
-      end
-    else
-      status = "error"
-      notice = "卡包不存在"
-    end
-    render :json => {:status => status,:notice => notice}
-  end
-
 
   #  新建标签并且加入知识卡片
   def create_card_tag

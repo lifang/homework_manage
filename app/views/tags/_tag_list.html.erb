@@ -9,7 +9,7 @@
           <li>
             <pre><%= tag.name %></pre>
             <a href="/school_classes/<%= params[:school_class_id].to_i %>/students/tag_student_list?tag_id=<%= tag.id %>" data-remote="true" data_type="script" class="group_icon tooltip_html">分组</a>
-            <%= link_to '删除班级',"/school_classes/#{params[:school_class_id].to_i}/tags/#{tag.id}", :method => :delete, :confirm => "确定删除？",remote: :true, 'data_type' => "script" ,:class=>'delete_icon tooltip_html'%>
+            <%= link_to '删除分组',"/school_classes/#{params[:school_class_id].to_i}/tags/#{tag.id}", :method => :delete, :confirm => "确定删除？",remote: :true, 'data_type' => "script" ,:class=>'delete_icon tooltip_html'%>
           </li>
         <% end %>
       </ul>

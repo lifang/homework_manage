@@ -450,13 +450,13 @@ function search_b_tags(obj, school_class_id){
             tag_name : tag_name
         },
         success: function(data){
-            $(obj).parents("div.tag_tab").find("ul").empty();
+            $(obj).parents("div.tag_tab").find("ul").empty();   //清空并取消监听
             if(data.b_tags.length > 0){
                 $.each(data.b_tags, function(index, val){
                     $(obj).parents("div.tag_tab").find("ul").append("<li><input type='checkbox' value='"+val.id+"' \n\
                     /><p>"+val.name+"</p></li>");
                 });
-                $('input[type=checkbox], input[type=radio]').iCheck({
+                $('input[type=checkbox], input[type=radio]').iCheck({   //添加监听
                     checkboxClass: 'icheckbox_square-aero',
                     radioClass: 'iradio_square-aero',
                     increaseArea: '20%' // optional
@@ -528,8 +528,10 @@ function add_new_b_tag(obj, school_class_id){
                 }else{
                     tishi("新建成功!");
                     $(obj).parents("div.tag_tab").find("ul").find("span").remove();
+                    //将新建的标签添加到标签跳出层
                     $(obj).parents("div.tag_tab").find("ul").append("<li><input type='checkbox' value='"+data.tag_id+"' \n\
  onclick='add_tags_to_time_limit(this,\""+data.tag_id+"\",\""+data.tag_name+"\")'/><p>"+data.tag_name+"</p></li>");
+                    
                     $('input[type=checkbox], input[type=radio]').iCheck({
                         checkboxClass: 'icheckbox_square-aero',
                         radioClass: 'iradio_square-aero',
@@ -590,6 +592,7 @@ function add_b_tags(type, obj){
         radioClass: 'iradio_square-aero',
         increaseArea: '20%' // optional
     });
+    //如果有选中的勾，则去掉
     var divs = $("#tags_table").find("div.icheckbox_square-aero");
     $.each(divs, function(){
         $(this).removeAttr("class");
@@ -665,7 +668,7 @@ function add_tags_to_listening_reading(question_id, b_index, tag_id, tag_name)
             }
             else
             {
-                tishi("标签已存在");    
+                tishi("已添加该标签!");
             }
         }    
     }
@@ -688,7 +691,7 @@ function add_tags_to_listening_reading(question_id, b_index, tag_id, tag_name)
                         old.find(".tag_ul ul").append(tag_li);
                         $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tag_id);
                     }else if(data.status == 2){
-                        tishi("添加失败，重复标签！");
+                        tishi("已添加该标签!");
                     }else if(data.status == 3){
                         tishi("添加失败，无此标签！");
                     }
@@ -718,7 +721,7 @@ function add_tags_to_listening_reading(question_id, b_index, tag_id, tag_name)
                             old.find(".tag_ul ul").append(tag_li);
                             $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tags_id);
                         }else if(data.status == 2){
-                            tishi("添加失败，重复标签！");
+                            tishi("已添加该标签!");
                         }else if(data.status == 3){
                             tishi("添加失败，无此标签！");
                         }
@@ -727,7 +730,7 @@ function add_tags_to_listening_reading(question_id, b_index, tag_id, tag_name)
             }
             else
             {
-                tishi("标签已存在");
+                tishi("已添加该标签!");
             }
         }       
     }
@@ -753,7 +756,6 @@ function delete_reading_listening_branch(obj)
                     $(obj).parents("div.questions_item").remove();
                 }else{
                     tishi("删除失败!");
-                    sss
                 }
             },
             error: function(data){
@@ -833,6 +835,8 @@ function add_tags_to_time_limit(obj, tag_id, tag_name){
             if(flag){
                 $("#time_limit_item_"+index+" .tag_ul ul").append("<li><p>"+tag_name+"</p><a href='javascript:void(0)' class='x' onclick='remove_tags_from_time_limit(this)'>x</a>\n\
       <input type='hidden' name='[time_limit]["+index+"][tags][]' value='"+tag_id+"'/></li>");
+            }else{
+                tishi("已添加该标签!");
             }
         }
     }
@@ -1171,9 +1175,9 @@ function add_content_to_paixu(obj,q_index,branch_question_id){
                     old.find(".tag_ul ul").
                     append("<li><p>"+data.tag_name+"</p><a onclick='delete_tags(this,"+shcool_id+","+question_pack_id+","+data.tag_id+","+branch_question_id+",\"paixu\")' class='x'>X</a></li>");
                 }else if(data.status == 2){
-                    tishi("添加失败，重复标签！");
+                    tishi("已添加该标签！");
                 }else if(data.status == 3){
-                    tishi("添加失败，无此标签！");
+                    tishi("已添加该标签！");
                 }
             }
         })
@@ -1195,9 +1199,9 @@ function add_content_to_wanxin(obj,q_index,branch_question_id){
                     old.find(".tag_ul ul").
                     append("<li><p>"+data.tag_name+"</p><a onclick='delete_tags(this,"+shcool_id+","+question_pack_id+","+data.tag_id+","+branch_question_id+",\"wanxin\")' class='x'>X</a></li>");
                 }else if(data.status == 2){
-                    tishi("添加失败，重复标签！");
+                    tishi("已添加该标签！");
                 }else if(data.status == 3){
-                    tishi("添加失败，无此标签！");
+                    tishi("已添加该标签！");
                 }
             }
         })
@@ -1206,7 +1210,8 @@ function add_content_to_wanxin(obj,q_index,branch_question_id){
 
 
 function delete_tags(obj,shcool_id,question_pack_id,tag_id,branch_question_id,type){
-    if(confirm("确认选择后就不能更改了？")){
+
+    if(confirm("确定删除此标签?")){
         if(type == 'paixu'){
             var question_item = $(obj).parents(".questions_item")[0]
             var q_index =   $($(obj).parents(".ab_list_box")[0]).find(".questions_item").index($(question_item));

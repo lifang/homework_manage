@@ -7,14 +7,14 @@
       <h2><%= Question::TYPES_NAME[type]  %></h2>
       <p>平均正确率：
         <% if @types_rate.present? %>
-            <%= @types_rate[type].present? ? "#{(eval(@types_rate[type].join('+'))/@types_rate[type].length)}%" : "暂无数据" %>
+            <%= @types_rate[type].present? ? "#{(eval(@types_rate[type].join("+"))/@types_rate[type].length)}%" : "暂无数据" %>
         <% else %>
             暂无数据
         <% end %>
       </p>
       <p>平均用时：
         <% if @used_times.present? %>
-            <%= @used_times[type].present? ? "#{eval(@used_times[type].join('+'))/@used_times[type].length}秒" : "暂无数据" %>
+            <%= @used_times[type].present? ? "#{eval(@used_times[type].join("+"))/@used_times[type].length}秒" : "暂无数据" %>
         <% else %>
             暂无数据
         <% end %>

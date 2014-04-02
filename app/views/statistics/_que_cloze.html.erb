@@ -1,6 +1,3 @@
-<% count = 1 %>
-    <fieldset>
-      <legend><%= count %></count></legend>
       <div class='ab_article'>
         <div class='questions_item'>
           <div class='gapFilling_textarea'>
@@ -15,7 +12,7 @@
 
                     <div class='gq_article'>
                       <div class='gq_article_title'>
-                        <div class='qt_text'><p><%= bq[:content]%></p><input name='' type='text'/></div>
+                        <div class='show_text'><p><%= bq[:content]%></p></div>
                       </div>
                       <ul>
                         <% bq[:options].split(/\;\|\|\;/).each do |option| %>
@@ -41,7 +38,7 @@
                     </div>
                   </div>
                 </div>
-                <% count += 1 %>
+
             <% end %>
           </div>
         </div>

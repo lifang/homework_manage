@@ -5,7 +5,7 @@
       <div class="askAnswer_area_con question_area_con">
         <a  href="javascript:void(0);" class="x" onclick="delete_micropots(<%=micropost.micropost_id%>)">删除</a>
         <div class="askAnswer_area_text">
-          <a onclick="show_reply(this,<%=micropost.micropost_id%>)" val="0" class="answer_a"><%=micropost.content%></a>
+          <a onclick="show_reply(this,<%=micropost.micropost_id%>);stopPropagation(arguments[0]);" val="0" class="answer_a"><%=micropost.content%></a>
         </div>
         <div class="askAnswer_area_func">
           <span><%=micropost.name%></span><span><%=micropost.created_at.to_s[0..19]%></span>

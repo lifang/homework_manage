@@ -50,17 +50,19 @@ module StatisticsHelper
       if answer_hash[Question::TYPE_NAME_ARR[types.to_i]].present? &&
               answer_hash[Question::TYPE_NAME_ARR[types.to_i]]["questions"].present?
         questions = answer_hash[Question::TYPE_NAME_ARR[types.to_i]]["questions"]
-        p questions
+        @wring_answer ={}
         questions.each do |question|
           if question["branch_questions"].present?
             branch_questions = question["branch_questions"]
             branch_questions.each do |bq|
               if (bq["ratio"].to_i >= 0 && bq["ratio"].to_i < 100) && bq["id"].to_i > 0
                 wrongs_branch_id << bq["id"].to_i
+                @wring_answer[bq["id"].to_i]= bq['answer']
               end
             end
           end
         end
+        p 113123,@wring_answer
       end
     end
     # p wrongs_branch_id

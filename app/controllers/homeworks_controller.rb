@@ -103,10 +103,9 @@ class HomeworksController < ApplicationController
                 :question_package_id => question_package.id,
                 :start_time => time_now, :end_time => end_time,
                 :status => PublishQuestionPackage::STATUS[:NEW],
-                #              :listening_count => listening_count,
-                #              :reading_count => reading_count,
                 :question_packages_url => question_packages_url,
                 :tag_id => params[:tag_id])
+              question_package.update_attribute(:name, Time.now.strftime("%Y-%m-%d"))
               if publish_question_package
                 wanxin_ids = Question.where("question_package_id = ? and types = ?",question_package_id,Question::TYPES[:CLOZE])
                 wanxin_ids = wanxin_ids.map(&:id) unless wanxin_ids.blank?

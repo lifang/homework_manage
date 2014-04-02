@@ -815,7 +815,7 @@ class QuestionPackagesController < ApplicationController
               end
 
               new_resource_url = copy_file(media_path, new_question_pack, branch_question, bq.resource_url) if bq.resource_url.present? #引用的时候，拷贝音频
-              branch_question.update_attributes(:resource_url => new_resource_url, :content => new_content) if new_resource_url
+              branch_question.update_attributes(:resource_url => new_resource_url, :content => new_content)
               bq.branch_tags.each do |bt|
                 branch_question.branch_tags << bt
               end

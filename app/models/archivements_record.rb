@@ -33,7 +33,8 @@ class ArchivementsRecord < ActiveRecord::Base
       student_id:student.id,
       content:content,
       status:0)
-    extras_hash = {:type => Student::PUSH_TYPE[:sys_message], :class_id => school_class.id}
+    # 推送
+    extras_hash = {:type => Student::PUSH_TYPE[:sys_message], :class_id => school_class.id, :class_name => school_class.name}
     token = student.token
     if token
       ipad_push(content, [token], extras_hash)

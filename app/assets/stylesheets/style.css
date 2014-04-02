@@ -775,7 +775,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 
 .questions_item { overflow: hidden; margin: 10px 0;}
 .q_topic { background: #e5e8e7; padding: 10px 20px; float: left; width: 776px;}
-
+.tab_questions .q_topic { margin-bottom:10px; border-bottom: 1px #fff solid;}
 /*完成*/
 .q_compile li a.true { background: #29bd7f;}
 .q_compile li a.voice { background: url(/assets/icon07.png) no-repeat 0 -185px;}
@@ -870,7 +870,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     width: 664px;
 }
 .speedQuestions .qt_text p{
- min-height:36px; 
+    min-height:36px;
 }
 .speedQuestions .qt_text input, .speedQuestions .qt_input input {
     line-height: 36px;

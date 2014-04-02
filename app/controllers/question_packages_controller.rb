@@ -821,16 +821,21 @@ class QuestionPackagesController < ApplicationController
         inner join branch_questions bq on bq.question_id = q.id where q.question_package_id = ?", 
           params[:id].to_i]).group_by{|i|i.question_id}
       questions.each_with_index do |question,index|
-        msg += "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}"
+        msg1 = ""
+        msg2 = ""
         if branch_questions[question.id].nil? 
-          msg += "没有小题 "
+          msg2 += "没有小题 "
+          msg1 = "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}"
           flag = false
         end
         if question.questions_time.nil?
-          msg +=",没有参考时间"
+          msg2 +=",没有参考时间"
+          msg1 ||= "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}" if msg1==""
           flag = false
         end
-        msg +="<br/>"
+        if msg1!=""||msg2!=""
+          msg += msg1+msg2+"<br/>"
+        end
       end
     else
       msg = "当前作业包中没有任何题目，请您创建题目。"

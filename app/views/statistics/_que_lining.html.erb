@@ -1,11 +1,16 @@
+<% count = 1 %>
 <% question[:branch_questions].each do |bq| %>
-      <div class='q_topic'>
-        <div class='ligatureQuestions'>
-          <ul>
-            <li class='qt_input'><p><%= bq[:options].to_s.split(/\;\|\|\;/)[0] %></p></li>
-            <li><i></i></li>
-            <li class='qt_input'><p><%= bq[:options].to_s.split(/\;\|\|\;/)[1] %></p></li>
-          </ul>
-        </div>
+  <%  next if @wrong_ids && !@wrong_ids.include?(bq[:id])%>
+    <div class='q_topic'>
+      <div class='ligatureQuestions'>
+        <%@wring_answer[bq[:id]]#这个是对应的错误答案%>
+        <ul>
+          <li class='qt_input'><p><%= bq[:options].to_s.split(/\;\|\|\;/)[0] %></p></li>
+          <li><i></i></li>
+          <li class='qt_input'><p><%= bq[:options].to_s.split(/\;\|\|\;/)[1] %></p></li>
+        </ul>
       </div>
+    </div>
+  
+  <% count += 1 %>
 <% end %>

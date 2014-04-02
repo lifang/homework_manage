@@ -1,4 +1,6 @@
 <% question[:branch_questions].each do |bq| %>
+  <%  next if @wrong_ids && !@wrong_ids.include?(bq[:id])%>
+    <%@wring_answer[bq[:id]]#这个是对应的错误答案%>
       <div class='q_topic'>
         <div class='multipleChoice'>
           <% if bq.content && bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0].present? %>
@@ -62,10 +64,11 @@
                             <li><div class="iradio_square-aero <%= bq.answer.split(/\;\|\|\;/).include?(option) ? "checked" : "" %>" style="position: relative;"><input type="radio" name="iCheck" checked="" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"></ins></div><p><%= option %></p></li>
                         <% end %>
                     <% end %>
-                  </ul>
-              <% end %>
-            </ul>
-          </div>
+              </ul>
+            <% end %>
+          </ul>
         </div>
       </div>
+    </div>
+
 <% end %>

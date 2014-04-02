@@ -65,7 +65,6 @@ class StatisticsController < ApplicationController
     @used_times = info[:used_times]
     @questions_answers = info[:questions_answers]
     @types_rate = info[:types_rate]
-    p @types_rate
   end
 
   #正确率列表——显示某一类型（学生做错的题目）原题
@@ -107,7 +106,7 @@ class StatisticsController < ApplicationController
                     questions.content")
               .where(["questions.id in (?)", questions_id])
               branch_questions = BranchQuestion
-              .select("content, resource_url, options, answer, question_id")
+              .select("id,content, resource_url, options, answer, question_id")
               .where(["question_id in (?)", questions_id])
               .group_by {|b| b.question_id}
               # p questions
@@ -123,7 +122,7 @@ class StatisticsController < ApplicationController
                     :content => q.content, :branch_questions => branch_ques}
                 end
                 @origin_questions = {:types => types, :questions => ques}
-                p ques
+                @wrong_ids = wrong_ids
                 @status = true
                 @notice = "答题记录读取完成"
                 @notice += ",未找到相关大题" if questions.length == 0

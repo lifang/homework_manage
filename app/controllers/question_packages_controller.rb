@@ -661,7 +661,7 @@ class QuestionPackagesController < ApplicationController
               new_resource_url = copy_file(share_media_path, question_pack, bq, bq.resource_url) if bq.resource_url.present? #分享的时候，拷贝音频
               new_content =  bq.content
               #选择题的话，内容里面有资源，复制资源
-              if bq.types == Question::TYPES[:SELECTING] && bq.content.present?
+              if bq.types == Question::TYPES[:SELECTING] && bq.content.present? && bq.content.include?("<file>")
                 content = bq.content.split("</file>")[1]
                 content_file = bq.content.split("</file>")[0].split("<file>")[1]
                 new_content_file = copy_file(share_media_path, question_pack, bq, content_file) if content_file.present?
@@ -669,6 +669,7 @@ class QuestionPackagesController < ApplicationController
               end
               sbq = share_question.share_branch_questions.new({:content => new_content, :resource_url => new_resource_url,
                   :options => bq.options, :answer => bq.answer, :types => bq.types})
+
               bq.branch_tags.each do |bt|
                 sbq.branch_tags << bt
               end
@@ -807,7 +808,7 @@ class QuestionPackagesController < ApplicationController
               branch_question = new_question.branch_questions.create({:content => bq.content, :options => bq.options, :answer => bq.answer, :types => bq.types})
               new_content =  bq.content
               #选择题的话，内容里面有资源，复制资源
-              if bq.types == Question::TYPES[:SELECTING] && bq.content.present?
+              if bq.types == Question::TYPES[:SELECTING] && bq.content.present? && bq.content.include?("<file>")
                 content = bq.content.split("</file>")[1]
                 content_file = bq.content.split("</file>")[0].split("<file>")[1]
                 new_content_file = copy_file(media_path, new_question_pack, branch_question, content_file) if content_file.present?
@@ -841,16 +842,21 @@ class QuestionPackagesController < ApplicationController
         inner join branch_questions bq on bq.question_id = q.id where q.question_package_id = ?", 
           params[:id].to_i]).group_by{|i|i.question_id}
       questions.each_with_index do |question,index|
-        msg += "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}"
+        msg1 = ""
+        msg2 = ""
         if branch_questions[question.id].nil? 
-          msg += "没有小题 "
+          msg2 += "没有小题 "
+          msg1 = "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}"
           flag = false
         end
         if question.questions_time.nil?
-          msg +=",没有参考时间"
+          msg2 +=",没有参考时间"
+          msg1 ||= "第#{index+1}题，#{Question::TYPES_NAME[question.types]}#{question.name}" if msg1==""
           flag = false
         end
-        msg +="<br/>"
+        if msg1!=""||msg2!=""
+          msg += msg1+msg2+"<br/>"
+        end
       end
     else
       msg = "当前作业包中没有任何题目，请您创建题目。"

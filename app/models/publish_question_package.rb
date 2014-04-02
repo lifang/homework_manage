@@ -43,8 +43,8 @@ class PublishQuestionPackage < ActiveRecord::Base
     pub_ids = pub_tasks.present? ? pub_tasks.map(&:id) : []
     que_pack_ids = pub_tasks.present? ? pub_tasks.map(&:que_pack_id) : []
     s_a_rs = StudentAnswerRecord
-    .select("publish_question_package_id id, answer_file_url")
-    .where(["publish_question_package_id in (?) and student_id = ?", pub_ids, student_id])
+      .select("publish_question_package_id id, answer_file_url, updated_at")
+      .where(["publish_question_package_id in (?) and student_id = ?", pub_ids, student_id])
     s_a_rs = s_a_rs.group_by {|s| s.id}
     s_a_r_status = StudentAnswerRecord.get_student_answer_status school_class_id, student_id, pub_ids
     s_a_r_status = s_a_r_status.group_by { |sar| sar.pub_id }
@@ -56,6 +56,7 @@ class PublishQuestionPackage < ActiveRecord::Base
         question_types = []
         finish_types = []
         answer_url = nil
+        updated_at = nil
         if !que_packs_types[task.que_pack_id].nil?
           question_types = que_packs_types[task.que_pack_id].map(&:types)
         end
@@ -64,9 +65,10 @@ class PublishQuestionPackage < ActiveRecord::Base
         end
         if !s_a_rs[task.id].nil?
           answer_url = s_a_rs[task.id][0][:answer_file_url]
+          updated_at = s_a_rs[task.id][0][:updated_at]
         end
         tasks << {:id => task.id, :name => task.name, :start_time => task.start_time,
-          :question_types => question_types, :finish_types => finish_types, :answer_url => answer_url,
+          :question_types => question_types, :finish_types => finish_types, :answer_url => answer_url, :updated_at =>updated_at,
           :end_time => task.end_time, :question_packages_url => task.question_packages_url
         }
       end
@@ -89,9 +91,9 @@ class PublishQuestionPackage < ActiveRecord::Base
         props_types = props.map { |e| e[:types] }
         props = props.group_by { |e| e[:types] }
         answer_json["props"].each do |prop|
-          if props_types.include? prop["types"].to_i
+          if props_types.include? prop["type"].to_i
             user_prop_relation = UserPropRelation
-            .find_by_id props[prop["types"].to_i][0][:user_prop_relation_id]
+            .find_by_id props[prop["type"].to_i][0][:user_prop_relation_id]
             prop["branch_id"].each do |branch_id|
               if user_prop_relation
                 r = RecordUseProp.create(:user_prop_relation_id => user_prop_relation.id,

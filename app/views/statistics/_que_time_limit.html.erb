@@ -1,17 +1,19 @@
 <% question[:branch_questions].each do |bq| %>
-      <div class='q_topic'>
-        <div class='speedQuestions'>
-          <ul>
-            <li>
-              <a href="javascript:void(0)" class="<%= bq[:answer]== "true" ? "true" : "false" %>">T</a>
-            </li>
-            <li>
-               <p><%= bq[:content] %></p>
-            </li>
-            <li>
-              <a href="javascript:void(0)" class='<%= bq[:answer]== "true" ? "false" : "true" %>'>F</a>
-            </li>
-          </ul>
-        </div>
+  <%  next if @wrong_ids && !@wrong_ids.include?(bq[:id])%>
+    <%@wring_answer[bq[:id]]#这个是对应的错误答案%>
+    <div class='q_topic'>
+      <div class='speedQuestions'>
+        <ul>
+          <li>
+            <a href="javascript:void(0)" class="<%= bq[:answer]== "true" ? "true" : "false" %>">T</a>
+          </li>
+          <li>
+            <p><%= bq[:content]%></p>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class='<%= bq[:answer]== "true" ? "false" : "true" %>'>F</a>
+          </li>
+        </ul>
       </div>
+    </div>
 <% end %>

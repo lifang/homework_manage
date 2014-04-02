@@ -8,7 +8,7 @@
       <p>平均正确率：
         <% if @questions_answers.present? && @questions_answers.group_by{ |e| e[:types] }.present? %>
             <% answers_group_types = @questions_answers.group_by{ |e| e[:types] } %>
-            <%=  eval(answers_group_types[type].map { |e| e[:correct_rate] }.join('+'))/answers_group_types[type].map { |e| e[:correct_rate] }.length %>%
+            <%= answers_group_types[type].present? ? "#{(eval(answers_group_types[type].map { |e| e[:correct_rate] }.join('+'))/answers_group_types[type].map { |e| e[:correct_rate] }.length)}%" : "暂无数据" %>
         <% else %>
             暂无数据
         <% end %>

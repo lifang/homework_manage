@@ -1,7 +1,7 @@
 <% count = 1 %>
 <% question[:branch_questions].each do |bq| %>
-  <fieldset>
-    <legend><%= count %></count></legend>
+  <%if @wrong_ids.include?(bq[:id])%>
+<%@wring_answer[bq[:id]]#这个是对应的错误答案%>
     <div class='q_topic'>
       <div class='speedQuestions'>
         <ul>
@@ -21,6 +21,6 @@
         </ul>
       </div>
     </div>
-  </fieldset>
+<%end%>
   <% count += 1 %>
 <% end %>

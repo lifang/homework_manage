@@ -1,14 +1,14 @@
 <% count = 1 %>
-<fieldset>
-  <legend><%= count %></count></legend>
-  <% question[:branch_questions].each do |bq| %>
-      <div class='q_topic'>
-        <div class="sortQuestions qt_input">
-          <div class="qt_input">
-            <p><%= bq[:content] %></p>
-          </div>
+<% question[:branch_questions].each do |bq| %>
+  <%if @wrong_ids.include?(bq[:id])%>
+    <%@wring_answer[bq[:id]]#这个是对应的错误答案%>
+    <div class='q_topic'>
+      <div class="sortQuestions qt_input">
+        <div class="qt_input">
+          <p><%= bq[:content] %></p>
         </div>
       </div>
-      <% count += 1 %>
+    </div>
+    <% count += 1 %>
   <% end %>
-</fieldset>
+<% end %>

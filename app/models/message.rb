@@ -16,7 +16,7 @@ class Message < ActiveRecord::Base
       teachers_id = teachers.map(&:user_id)
       unless sender_id.to_i == reciver_id.to_i or sender_id.to_i == micropost.user_id
         count_msg += 1
-        m1_content = "[[" + sender.name + "]]回复了您的消息：" + content
+        m1_content = "[[" + sender.name + "]]回复了您的消息：;||;" + content
         push_content = "#{send_name}：#{content}"
         Message.create(:user_id => reciver_id, :content => m1_content, :micropost_id => micropost_id,
           :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id,:reply_micropost_id => reply_micropost_id)
@@ -26,7 +26,7 @@ class Message < ActiveRecord::Base
       follow_microposts = FollowMicropost.find_all_by_micropost_id(micropost_id.to_i)
       follow_users = follow_microposts.collect {|i| i.user_id }
       if count_msg == 0 && !follow_users.include?(reciver_id.to_i) && sender_id.to_i != reciver_id.to_i
-        m2_content = "[[" + send_name + "]]回复了您：" + content
+        m2_content = "[[" + send_name + "]]回复了您：;||;" + content
         push_content = "#{send_name}：#{content}"
         Message.create(:user_id => reciver_id, :content => m2_content, :micropost_id => micropost_id,
           :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id,:reply_micropost_id => reply_micropost_id)
@@ -35,7 +35,7 @@ class Message < ActiveRecord::Base
         #send_push_msg m_content, student.alias_name, teachers_id, reciver_id  if reciver_types == 0 && !student.nil?
       end
       if follow_microposts.any?
-        m3_content = "[[" + send_name + "]]回复了您关注的消息：" + content
+        m3_content = "[[" + send_name + "]]回复了您关注的消息：;||;" + content
         push_content = "#{send_name}：#{content}"
         follow_users -= [sender_id.to_i]  if follow_users.include?(sender_id.to_i)
         students = Student.where(["user_id in (?)",follow_users]).map!(&:alias_name)

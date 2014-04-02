@@ -146,13 +146,17 @@ class QuestionsController < ApplicationController
     @index_new = params[:index_new]
     content_index = params[:content_index]
     @content_index = content_index.to_i+1
-    left_lianxian = params[:left_lianxian]
-    right_lianxian = params[:right_lianxian]
+    left_lianxian1 = params[:left_lianxian1]
+    right_lianxian1 = params[:right_lianxian1]
+    left_lianxian2 = params[:left_lianxian2]
+    right_lianxian2 = params[:right_lianxian2]
+    left_lianxian3 = params[:left_lianxian3]
+    right_lianxian3 = params[:right_lianxian3]
+    content = left_lianxian1 + "<=>" + right_lianxian1 + ";||;" + left_lianxian2 + "<=>"+ right_lianxian2 + ";||;" + left_lianxian3 + "<=>" + right_lianxian3
     question_id = params[:question_id]
     @question = Question.find_by_id question_id
-    options = left_lianxian + ';||;' + right_lianxian
-    @branch_question = BranchQuestion.create(:content=>content_index,:types=>Question::TYPES[:LINING],:question_id=>question_id,
-      :options=>options,:answer=> options)
+    #    options = left_lianxian + ';||;' + right_lianxian
+    @branch_question = BranchQuestion.create(:content=>content,:types=>Question::TYPES[:LINING],:question_id=>question_id)
     @question_package_id = params[:question_package_id]
     @question_pack = QuestionPackage.find_by_id @question_package_id
   end
@@ -163,16 +167,20 @@ class QuestionsController < ApplicationController
     @index_new = params[:index_new]
     content_index = params[:content_index]
     @content_index = content_index.to_i+1
-    left_lianxian = params[:left_lianxian]
-    right_lianxian = params[:right_lianxian]
+    left_lianxian1 = params[:left_lianxian1]
+    right_lianxian1 = params[:right_lianxian1]
+    left_lianxian2 = params[:left_lianxian2]
+    right_lianxian2 = params[:right_lianxian2]
+    left_lianxian3 = params[:left_lianxian3]
+    right_lianxian3 = params[:right_lianxian3]
+    content = left_lianxian1 + "<=>" + right_lianxian1 + ";||;" + left_lianxian2 + "<=>"+ right_lianxian2 + ";||;" + left_lianxian3 + "<=>" + right_lianxian3
     question_id = params[:question_id]
     @question = Question.find_by_id question_id
-    options = left_lianxian + ';||;' + right_lianxian
+#    options = left_lianxian + ';||;' + right_lianxian
     branch_question_id = params[:branch_question_id]
     branchquestion = BranchQuestion.find_by_id branch_question_id
     if branchquestion
-      branchquestion.update_attributes(:content=>content_index,:types=>Question::TYPES[:LINING],:question_id=>question_id,
-        :options=>options,:answer=> options)
+      branchquestion.update_attributes(:content=>content,:types=>Question::TYPES[:LINING],:question_id=>question_id)
       @status = 1
     else
       @status = 0
@@ -230,32 +238,6 @@ class QuestionsController < ApplicationController
     end
   end
 
-  #分享题目
-  def share
-    question = Question.find_by_id(params[:id])
-    question_pack = question.question_package
-    Question.transaction do
-      unless question.if_shared
-        branch_questions = question.branch_questions
-        if branch_questions.present?
-          share_question = ShareQuestion.create({:user_id => current_user.id, :name => question.name, :types => question.types, :cell_id => question.cell_id, :episode_id => question.episode_id})
-          if share_question
-            question.branch_questions.each do |bq|
-              new_resource_url = copy_file(share_media_path, question_pack, bq, bq.resource_url) if bq.resource_url.present? #分享的时候，拷贝音频
-              share_question.share_branch_questions.create({:content => bq.content, :resource_url => new_resource_url})
-            end
-          end
-          question.update_attribute(:if_shared, true)
-          @status = 0 #分享成功
-        else
-          @status = 2 #大题下面无小题，提示
-        end
-      else
-        @status = 1 #已经分享过
-      end
-    end
-  end
-
   #预览题目
   def show
     @question = Question.find_by_id(params[:id])
@@ -279,9 +261,19 @@ class QuestionsController < ApplicationController
       begin
         share_question.update_attribute(:referenced_count, share_question.referenced_count.to_i + 1)
         share_branch_questions.each do |sbq|
-          branch_question = @question.branch_questions.create({:content => sbq.content, :options => sbq.options, :answer => sbq.answer})
+          branch_question = @question.branch_questions.create({:content => sbq.content, :options => sbq.options, :answer => sbq.answer, :types => sbq.types})
+          
+          new_content =  sbq.content
+          #选择题的话，内容里面有资源，复制资源
+          if sbq.types == Question::TYPES[:SELECTING] && sbq.content.present?
+            content = sbq.content.split("</file>")[1]
+            content_file = sbq.content.split("</file>")[0].split("<file>")[1]
+            new_content_file = copy_file(media_path, @question_pack, branch_question, content_file) if content_file.present?
+            new_content = "<file>#{new_content_file}</file>#{content}"
+          end
+
           new_resource_url = copy_file(media_path, @question_pack, branch_question, sbq.resource_url) if sbq.resource_url.present? #引用的时候，拷贝音频
-          branch_question.update_attribute(:resource_url, new_resource_url) if new_resource_url
+          branch_question.update_attributes(:resource_url => new_resource_url, :content => new_content) if new_resource_url
           sbq.branch_tags.each do |bt|
             branch_question.branch_tags << bt
           end
@@ -291,6 +283,7 @@ class QuestionsController < ApplicationController
       rescue Exception => e
         @status = 1
       end
+
     end
   end
 

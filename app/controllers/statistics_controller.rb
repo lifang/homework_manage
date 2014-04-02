@@ -14,12 +14,11 @@ class StatisticsController < ApplicationController
     @current_date =  @current_task.nil? ? @today_date : @current_task.created_at.strftime("%Y-%m-%d")
     @students = info[:students]
     @question_types = info[:question_types]
+    p @question_types 
     @student_answer_records = info[:student_answer_records]
     @average_correct_rate = info[:average_correct_rate]
     @average_complete_rate = info[:average_complete_rate]
     @record_details = info[:record_details]
-    p @all_tags
-    p @question_types
   end
 
   #切换日期
@@ -59,27 +58,15 @@ class StatisticsController < ApplicationController
     school_class_id = params[:school_class_id]
     publish_question_package = PublishQuestionPackage.find_by_id pub_id
     tag_id = publish_question_package.tag_id unless publish_question_package.nil?
-    info = PublishQuestionPackage.get_quetion_types_statistics(publish_question_package,
-      tag_id, school_class_id)
+    info = PublishQuestionPackage.get_quetion_types_statistics(publish_question_package, school_class_id)
     @question_types = info[:question_types]
     @questions = info[:questions]
-    use_times = info[:use_times]
-    @type_average_correct_rate = info[:type_average_correct_rate]
-    use_times = use_times.group_by {|q| q[:types]} if use_times.present?
-    tmp = []
-    if use_times.present?
-      use_times.each do |k,e|
-        use_times = 0
-        times = e.map{|q| q[:use_time]}
-        correct_rt = @questions[k].map do |q|
-          q[:average_correct_rate] if q[:average_correct_rate].present? && q[:average_correct_rate] >= 0
-        end
-        correct_rt = (eval correct_rt.join('+'))/correct_rt.length if correct_rt.present?
-        use_times = (eval times.join('+'))/times.length if times.present?
-        tmp << {:types => k, :use_time => use_times, :correct_rate => correct_rt}
-      end
-    end  
-    @use_times = tmp.group_by{|q| q[:types]}
+    @used_times = info[:used_times].group_by { |e| e[:types] } if info[:used_times].present?
+    @questions_answers = info[:questions_answers]
+    p @used_times
+    p @question_types
+    p @questions
+    p @questions_answers
   end
 
   #正确率列表——显示某一类型（学生做错的题目）原题
@@ -114,6 +101,7 @@ class StatisticsController < ApplicationController
             .joins("left join questions q on branch_questions.question_id = q.id")
             .select("distinct q.id")
             .where(["branch_questions.id in (?) and q.id is not null",wrong_ids])
+            p ques_id
             if ques_id.present?
               questions_id = ques_id.map(&:id)
               questions = Question
@@ -124,9 +112,11 @@ class StatisticsController < ApplicationController
               .select("content, resource_url, options, answer, question_id")
               .where(["question_id in (?)", questions_id])
               .group_by {|b| b.question_id}
-              #p questions
-              #p branch_questions
+              # p questions
+              # p branch_questions
               if questions.present?
+                p questions.present?
+
                 ques = []
                 questions.each do |q|
                   branch_ques = []
@@ -137,18 +127,17 @@ class StatisticsController < ApplicationController
                     :content => q.content, :branch_questions => branch_ques}
                 end
                 @origin_questions = {:types => types, :questions => ques}
-                p @origin_questions
                 @status = true
                 @notice = "答题记录读取完成"
                 @notice += ",未找到相关大题" if questions.length == 0
                 @notice += "！"
               else
                 @status = false
-                @notice = "没有找到相关题目！"
+                @notice = "未找到相关题目！"
               end
             else
-              @status = true
-              @notice = "答题记录读取完成,未找到相关大题！"
+              @status = false
+              @notice = "未找到相关题目！"
             end
           else
             @notice = "该学生#{Question::TYPES_NAME[types]}题没有答错的题目！"

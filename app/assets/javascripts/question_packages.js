@@ -203,7 +203,6 @@ function update_listening_reading(obj, school_class_id)
     var types = $(obj).parent().prev().find("form").find("[class='types']").val();
     var content = $.trim($(obj).val());
 
-
     if(content != "")
     {
         $(obj).parent().find("p").text(content);

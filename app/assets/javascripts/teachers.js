@@ -254,9 +254,13 @@ function onclick_submit(obj){
             tishi("题目长度超过250！");
         }
     }else if (question_type=="lianxian"){
-        var left_lianxian = questions_item.find("input[name='left_lianxian']").val()
-        var right_lianxian = questions_item.find("input[name='right_lianxian']").val()
-        if(left_lianxian==""|| right_lianxian==""){
+        var left_lianxian1 = questions_item.find("input[name='left_lianxian1']").val()
+        var right_lianxian1 = questions_item.find("input[name='right_lianxian1']").val()
+        var left_lianxian2 = questions_item.find("input[name='left_lianxian2']").val()
+        var right_lianxian2 = questions_item.find("input[name='right_lianxian2']").val()
+        var left_lianxian3 = questions_item.find("input[name='left_lianxian3']").val()
+        var right_lianxian3 = questions_item.find("input[name='right_lianxian3']").val()
+        if(left_lianxian1==""|| right_lianxian1==""||left_lianxian2==""||right_lianxian2==""||left_lianxian3==""||right_lianxian3==""){
             tishi("连线内容不能为空！");
             return false;
         }

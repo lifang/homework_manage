@@ -1,72 +1,68 @@
-<% if @question_types.present? && @question_types.class == Array %>
-  <% @question_types.each do  |quetion_type| %>
+<% if @question_types.present? %>
+  <% @question_types.each do  |type| %>
   <div class="sb_item_list">
     <div class="item_name">
-      <div class="<%= questions_img_class(quetion_type) %>"></div>
+      <div class="<%= questions_img_class(type) %>"></div>
       <div ></div>
-      <h2><%= Question::TYPES_NAME[quetion_type]  %></h2>
+      <h2><%= Question::TYPES_NAME[type]  %></h2>
       <p>平均正确率：
-        <% if @use_times[quetion_type] %>
-            <%= @use_times[quetion_type][0][:correct_rate] %>%
+        <% if @questions_answers.present? && @questions_answers.group_by{ |e| e[:types] }.present? %>
+            <% answers_group_types = @questions_answers.group_by{ |e| e[:types] } %>
+            <%= answers_group_types[type].present? ? "#{(eval(answers_group_types[type].map { |e| e[:correct_rate] }.join('+'))/answers_group_types[type].map { |e| e[:correct_rate] }.length)}%" : "暂无数据" %>
         <% else %>
             暂无数据
         <% end %>
       </p>
       <p>平均用时：
-        <% if @use_times[quetion_type] %>
-            <%= @use_times[quetion_type][0][:use_time] %>秒
+        <% if @questions_answers.present? && @used_times[type].present? %>
+            <%= eval(@used_times[type].map { |e| e[:use_time] }.join('+'))/@used_times[type].map { |e| e[:use_time] }.length %>秒
         <% else %>
             暂无数据
         <% end %>
       </p>
     </div>
     <div class="item_content">
-      <% if @questions[quetion_type].present?  %>
-      <ul>
-            <% count=1 %>
-            <% @questions[quetion_type].each do |que| %>
-            <li class="<%= correct_rate_color que[:average_correct_rate] %>"><span><%= count %></span><a href="javascript:void(0);" class="tooltip_title" title="点击查看" onclick="show_tags('<%= que[:id] %>','<%= params[:school_class_id] %>')">标签</a>
-              <p title="点击查看原题" onclick="show_que('<%= que[:id] %>','<%= params[:school_class_id] %>')" style="cursor:pointer;">
-              <% if que[:average_correct_rate] && que[:average_correct_rate] >= 0%>
-                <%= que[:average_correct_rate] %>%
-              <% else %>
-                暂无数据
-              <% end %>
-              </p>
-            </li>
-                <% count+=1 %>
-            <% end %>
-      </ul>
-      <% else %>
-          暂无数据
-      <% end %>
+
+      <% count=1 %>
+      <% @questions[type].each do |que| %>
+        <% answers_group_que_id = @questions_answers.group_by{ |e| e[:question_id] } %>
+        <% avg_correct_rate = answers_group_que_id[que.id].present? ? (eval(answers_group_que_id[que.id].map {|e| e[:correct_rate] }.join('+'))/answers_group_que_id[que.id].map {|e| e[:correct_rate] }.length) : -1 %>
+        <li class="<%= correct_rate_color avg_correct_rate %>"><span><%= count %></span><a href="javascript:void(0);" class="tooltip_title" title="点击查看" onclick="show_tags('<%= que.id %>','<%= params[:school_class_id] %>')">标签</a>
+          <p title="点击查看原题" onclick="show_que('<%= que.id %>','<%= params[:school_class_id] %>')" style="cursor:pointer;">
+          <% if avg_correct_rate && avg_correct_rate >= 0%>
+            <%= avg_correct_rate %>%
+          <% else %>
+            暂无数据
+          <% end %>
+          </p>
+        </li>
+        <% count+=1 %>
+      <% end %>  
     </div>
   </div>
   <% end %>
 
-<div class="s_tab">
+<div class="s_tab" id="tag_panel">
   <a href="javascript:void(0);" class="close">close</a>
   <div class="tab_head">标签</div>
   <div id="tag_area"></div>
   
 </div>
-
 <script>
     //统计-正确率-题型
     $(document).ready(function(){
         $(".item_content li a").click(function(e){
             
-                $(".s_tab").css('display','block');
-                $(".s_tab").css({
+                $("#tag_panel").css('display','block');
+                $("#tag_panel").css({
                     'top':(e.pageY)+'px',
                     'left':(e.pageX)+'px'
                 });
 
         });
     })
-    $(".s_tab .close").click(function(){
-        $(this).parents(".s_tab").css("display","none");
-        $("#tag_display_control").val(0);
+    $("#tag_panel .close").click(function(){
+        $(this).parents("#tag_panel").css("display","none");
     })
 </script>
 <% else%>

@@ -330,25 +330,25 @@ module MethodLibsHelper
           ques.each do |q|
             if q["branch_questions"]["branch_question"].class == Hash
               branch_questions = []
-              if key == "lining"  #连线题特殊处理
-                one_lining_branch_que_options = q["branch_questions"]["branch_question"]["options"].split(";||;").join("<=>");
-                q["branch_questions"]["branch_question"]["content"] = one_lining_branch_que_options
-              end
+#              if key == "lining"  #连线题特殊处理
+#                one_lining_branch_que_options = q["branch_questions"]["branch_question"]["options"].split(";||;").join("<=>");
+#                q["branch_questions"]["branch_question"]["content"] = one_lining_branch_que_options
+#              end
               branch_questions << q["branch_questions"]["branch_question"]
             else
-              if key == "lining"   #连线题特殊处理
-                branch_questions = []
-                lining_content = []
-                q["branch_questions"]["branch_question"].each do |bq_hash|
-                  lining_content << bq_hash["options"].split(";||;").join("<=>");
-                end
-                lining_content = lining_content.join(";||;")
-                branch_question = q["branch_questions"]["branch_question"][0].dup
-                branch_question["content"] = lining_content
-                branch_questions << branch_question
-              else
+#              if key == "lining"   #连线题特殊处理
+#                branch_questions = []
+#                lining_content = []
+#                q["branch_questions"]["branch_question"].each do |bq_hash|
+#                  lining_content << bq_hash["options"].split(";||;").join("<=>");
+#                end
+#                lining_content = lining_content.join(";||;")
+#                branch_question = q["branch_questions"]["branch_question"][0].dup
+#                branch_question["content"] = lining_content
+#                branch_questions << branch_question
+#              else
                 branch_questions = q["branch_questions"]["branch_question"]
-              end
+#              end
             end
             tmp_questions_collections[key][:questions] << {"id" => q["id"], "full_text" => q['full_text'], "branch_questions" => branch_questions}
             #              lisentings << {"id" => q["id"], "branch_questions" => branch_questions}  if key == "listening"
@@ -406,14 +406,19 @@ module MethodLibsHelper
     data =  (Net::HTTP.post_form(URI.parse(Micropost::JPUSH[:URI]), map)).body
   end
 
-
-  
   def push_after_reply_post content, teachers_id, reciver_id, school_class_id, student, reciver_types
     unless teachers_id.include?(reciver_id.to_i)
       if reciver_types == Micropost::USER_TYPES[:STUDENT] && !student.nil?  #?  TODO reciver_types == 1 学生
-        extras_hash = {:type => Student::PUSH_TYPE[:q_and_a]}
         school_class = SchoolClass.find_by_id school_class_id
-        android_and_ios_push(school_class,content,extras_hash)
+        extras_hash = {:type => Student::PUSH_TYPE[:q_and_a], :class_id => school_class_id, :class_name => school_class.name}
+        token = student.token
+        if token
+          ipad_push(content, [token], extras_hash)
+        else
+          qq_uid = student.qq_uid
+          jpush_parameter content, qq_uid, extras_hash
+        end
+        #android_and_ios_push(school_class,content,extras_hash)
       end
     end
   end
@@ -488,7 +493,7 @@ q.id = bq.question_id where kc.card_bag_id = ?"
     branch_id = []
     knowledge = knowledge_cards.group_by{ |knowledge_card| knowledge_card.types }
     knowledge.each do |types,knowledge_card|
-      if types==Question::TYPES[:LINING] || types==Question::TYPES[:CLOZE]
+      if  types==Question::TYPES[:CLOZE]
         knowledge_card.map(&:question_id).each do |arr_br_id|
           branch_id << arr_br_id
         end
@@ -564,20 +569,28 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
     #    sql = "SELECT s.alias_name FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
     #WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = ?#"
     #    student = Student.find_by_sql([sql,school_class_id])
-    extras_hash = {:type => Student::PUSH_TYPE[:publish_question]}
-    android_and_ios_push(school_class,content,extras_hash)
+    
+    publish_android_and_ios_push(school_class,content,publish_question_package.tag_id) #传tag参数，为了给对应分组的学生发送推送
    
   end
 
-  def android_and_ios_push(school_class,content,extras_hash=nil)
+  def publish_android_and_ios_push(school_class,content, tag_id=nil)
     #安卓推送
-    android_student_qq_uid = school_class.students.where("token is null").select("qq_uid").map(&:qq_uid)
+    if tag_id.present? and tag_id == 0  #未分组，默认为0
+      android_student_qq_uid = school_class.students.where("token is null ").select("qq_uid").map(&:qq_uid)
+    else
+      android_student_qq_uid = school_class.students.where("token is null and school_class_student_ralastions.tag_id = #{tag_id}").select("qq_uid").map(&:qq_uid)
+    end
     qq_uids = android_student_qq_uid.join(",")
-    extras_hash.merge!({:class_id => school_class.id })
+    extras_hash = {:type => Student::PUSH_TYPE[:publish_question], :class_id => school_class.id, :class_name => school_class.name}
     jpush_parameter content, qq_uids, extras_hash
 
     #ios 推送
-    ipad_student_tokens = school_class.students.where("token is not null").select("token").map(&:token)
+    if tag_id.present? && tag_id != 0  #分组
+      ipad_student_tokens = school_class.students.where("token is not null  and school_class_student_ralastions.tag_id = #{tag_id}").select("token").map(&:token)
+    else
+      ipad_student_tokens = school_class.students.where("token is not null").select("token").map(&:token)
+    end
     ipad_push(content, ipad_student_tokens, extras_hash)
   end
 

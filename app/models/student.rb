@@ -24,7 +24,6 @@ LEFT JOIN school_class_student_ralastions scsr on s.id = scsr.student_id LEFT JO
     #    正确率
     recorddetail = RecordDetail.joins("inner join student_answer_records sar on record_details.student_answer_record_id = sar.id").
       select("sar.student_id,record_details.id,  avg(record_details.correct_rate) correct_rate ").
-      where("record_details.is_complete= #{RecordDetail::IS_COMPLETE[:FINISH]}").
       where("sar.student_id in (?)",student_school_class.map(&:id)).where("sar.school_class_id=#{school_class_id}").group("sar.student_id").
       group_by{|record| record.student_id}
     #未交作业次数

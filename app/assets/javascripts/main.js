@@ -25,7 +25,7 @@ $(function(){
     $("#flash_field").fadeOut(4000);
     
     $(".item_content li a").click(function(e){
-        $(".s_tab").css('display','block');
+        $(".s_tab").show();
         $(".s_tab").css({
             'top':(e.pageY)+'px',
             'left':(e.pageX)+'px'
@@ -33,7 +33,7 @@ $(function(){
     });
 
     $(".close").click(function(){
-        $(this).parents(".s_tab").css("display","none");
+        $(this).parents(".s_tab").hide();
     })
 })
 
@@ -120,7 +120,7 @@ $(function(){
                     };
                 },
                 error: function(data){
-                    tishi("数据错误!");
+                     //tishi("数据错误!");
                 }
             })
 

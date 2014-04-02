@@ -42,7 +42,7 @@
   </div>
   <% end %>
 
-<div class="s_tab">
+<div class="s_tab" id="tag_panel">
   <a href="javascript:void(0);" class="close">close</a>
   <div class="tab_head">标签</div>
   <div id="tag_area"></div>
@@ -53,17 +53,16 @@
     $(document).ready(function(){
         $(".item_content li a").click(function(e){
             
-                $(".s_tab").css('display','block');
-                $(".s_tab").css({
+                $("#tag_panel").css('display','block');
+                $("#tag_panel").css({
                     'top':(e.pageY)+'px',
                     'left':(e.pageX)+'px'
                 });
 
         });
     })
-    $(".s_tab .close").click(function(){
-        $(this).parents(".s_tab").css("display","none");
-        $("#tag_display_control").val(0);
+    $("#tag_panel .close").click(function(){
+        $(this).parents("#tag_panel").css("display","none");
     })
 </script>
 <% else%>

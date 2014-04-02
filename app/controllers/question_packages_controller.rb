@@ -64,7 +64,7 @@ class QuestionPackagesController < ApplicationController
     types = params[:types]
     file = params[:file]
     branch_id = params[:branch_id]
-    if file.size > 1048576
+    if file && file.size > 1048576
       @status = -1
       @notice = "文件不能超过1M！" 
     else
@@ -92,7 +92,8 @@ class QuestionPackagesController < ApplicationController
           content = params[:content]
           
           if !file.nil?
-            @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
+            @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id, 
+                      :types => types.to_i)
             destination_dir = "#{media_path % @question.question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
             rename_file_name = "media_#{@branch_question.id}"
             upload = upload_file destination_dir, rename_file_name, file
@@ -182,7 +183,8 @@ class QuestionPackagesController < ApplicationController
           @status = -1
           @notice = "小题创建失败！"
           content = params[:content]
-          @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id)
+          @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id, 
+                              :types => types.to_i)
           if @branch_question
             destination_dir = "#{media_path % @question.question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
             rename_file_name =  "media_#{@branch_question.id}"

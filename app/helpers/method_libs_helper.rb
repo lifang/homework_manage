@@ -581,7 +581,7 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
       android_student_qq_uid = school_class.students.where("token is null and school_class_student_ralastions.tag_id = #{tag_id}").select("qq_uid").map(&:qq_uid)
     end
     qq_uids = android_student_qq_uid.join(",")
-    extras_hash = {:type => Student::PUSH_TYPE[:publish_question, :class_id => school_class.id]}
+    extras_hash = {:type => Student::PUSH_TYPE[:publish_question], :class_id => school_class.id}
     jpush_parameter content, qq_uids, extras_hash
 
     #ios 推送

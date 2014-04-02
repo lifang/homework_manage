@@ -11,7 +11,7 @@ class HomeworksController < ApplicationController
   before_filter :sign?, :get_unread_messes
   #作业主页
   def index
-    teacher = Teacher.find_by_id cookies[:teacher_id]
+    #teacher = Teacher.find_by_id cookies[:teacher_id]
     @school_class = SchoolClass.find_by_id params[:school_class_id].to_i
     page = params[:page]
     tasks = Teacher.get_publish_question_packages @school_class.id, page

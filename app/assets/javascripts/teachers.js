@@ -303,14 +303,14 @@ function show_branch_question(obj,question_package_id,question_id,types){
 
 //选择上传音频或者视屏
 function select_upload_choice(obj){
-    $("input[name='select_file']").removeAttr("id")
-    $(obj).parent().find("input[name='select_file']").attr("id","input_select_upload")
+    $("input[name='select_file']").removeAttr("id");
+    $(obj).parent().find("input[name='select_file']").attr("id","input_select_upload");
     if($(obj).attr("input_t")=="voice"){
-        $(obj).parent().find("#input_select_upload").attr("input_t","voice")
+        $(obj).parent().find("#input_select_upload").attr("input_t","voice");
     }else if ($(obj).attr("input_t")=="photo"){
-        $(obj).parent().find("#input_select_upload").attr("input_t","photo")
+        $(obj).parent().find("#input_select_upload").attr("input_t","photo");
     }
-    $(obj).parent().find("#input_select_upload").click()
+    $(obj).parent().find("#input_select_upload").click();
 //    $("#input_select_upload").click();
 }
 
@@ -386,6 +386,7 @@ function select_upload(obj){
                     source.src = data_arr[1]
                     audio.appendChild(source);
                     $("#audio_only").append(audio)
+                    $("#audio_only").removeAttr("id")
                 }else if(data_arr[0]=="photo"){
                     q_left.html("<img src='"+ data_arr[1] +"' style='width:86px;height:86px;'>")
                 }

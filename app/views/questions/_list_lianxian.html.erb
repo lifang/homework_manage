@@ -20,13 +20,15 @@
         <div class="questions_item" branch_question_index="<%= branch_question.id %>" stypes="save_lianxian" question_type="lianxian">
           <%= form_for :question,:url => { :action => :update_lianxian, :controller => :questions,:question_package_id=>@question_pack.id }, :method=>"post" ,:remote=>true do |f|%>
             <div class="q_topic">
-              <div class="ligatureQuestions">
-                <ul>
-                  <li class="qt_text"><p><%= branch_question.options.split(";||;")[0] %></p><input name="left_lianxian" type="text" value="<%= branch_question.options.split(";||;")[0] %>"/></li>
-                  <li><i></i></li>
-                  <li class="qt_text"><p><%= branch_question.options.split(";||;")[1] %></p><input name="right_lianxian" type="text" value="<%= branch_question.options.split(";||;")[1] %>"/></li>
-                </ul>
-              </div>
+              <% branch_question.content.split(";||;").each_with_index do |br_content,index| %>
+                <div class="ligatureQuestions">
+                  <ul>
+                    <li class="qt_text"><p><%= br_content.split("<=>")[0] %></p><input name="left_lianxian<%= index +=1 %>" type="text" value="<%= br_content.split("<=>")[0] %>"/></li>
+                    <li><i></i></li>
+                    <li class="qt_text"><p><%= br_content.split("<=>")[1] %></p><input name="right_lianxian<%= index %>" type="text" value="<%= br_content.split("<=>")[1] %>"/></li>
+                  </ul>
+                </div>
+              <% end if branch_question.content && branch_question.content.split(";||;") %>
             </div>
             <div class="qt_icon">
               <a href="javascript:void(0)" class="save tooltip_html save_chen"onclick="onclick_submit(this)" style="display:none" >保存</a>

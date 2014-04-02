@@ -89,9 +89,9 @@ class PublishQuestionPackage < ActiveRecord::Base
         props_types = props.map { |e| e[:types] }
         props = props.group_by { |e| e[:types] }
         answer_json["props"].each do |prop|
-          if props_types.include? prop["types"].to_i
+          if props_types.include? prop["type"].to_i
             user_prop_relation = UserPropRelation
-            .find_by_id props[prop["types"].to_i][0][:user_prop_relation_id]
+            .find_by_id props[prop["type"].to_i][0][:user_prop_relation_id]
             prop["branch_id"].each do |branch_id|
               if user_prop_relation
                 r = RecordUseProp.create(:user_prop_relation_id => user_prop_relation.id,

@@ -675,7 +675,7 @@ li.p_input p, li.p_input input, .tab_switch li input {
 .student_table table { background: #FFF;}
 .student_table table td { padding: 20px; text-align: center;}
 
-.td_student_img { display: inline-block; width: 90px; height: 90px; position: relative;}
+.td_student_img { float: left; width: 90px; height: 90px; position: relative;}
 .td_student_img .td_delete_a {
     position: absolute;
     top: 5px;
@@ -690,7 +690,7 @@ li.p_input p, li.p_input input, .tab_switch li input {
     overflow: hidden;
     padding-left: 10px;
     line-height: 24px;
-    display: inline-block;
+    float: left;
     text-align: left;
 }
 .td_student_text li span { width: 80px; display: inline-block; text-align: right;}
@@ -870,7 +870,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     width: 664px;
 }
 .speedQuestions .qt_text p{
- min-height:36px; 
+    min-height:36px;
 }
 .speedQuestions .qt_text input, .speedQuestions .qt_input input {
     line-height: 36px;
@@ -1147,7 +1147,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 .askAnswer_area_con { overflow: hidden; position: relative; padding: 0 10px;}
 .askAnswer_area_con .x { position: absolute; top: 0px; right: 0px; display: none;}
 .askAnswer_area_text { margin-bottom: 10px;}
-.askAnswer_area_func { color: #999;	position: relative;}
+.askAnswer_area_func { color: #999; position: relative; margin-bottom: 10px;}
 .askAnswer_area_func span { margin-right: 15px;}
 .askAnswer_area_func a {
     position: absolute;

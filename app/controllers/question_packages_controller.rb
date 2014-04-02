@@ -659,7 +659,15 @@ class QuestionPackagesController < ApplicationController
           if share_question
             question.branch_questions.each do |bq|
               new_resource_url = copy_file(share_media_path, question_pack, bq, bq.resource_url) if bq.resource_url.present? #分享的时候，拷贝音频
-              sbq = share_question.share_branch_questions.new({:content => bq.content, :resource_url => new_resource_url,
+              new_content =  bq.content
+              #选择题的话，内容里面有资源，复制资源
+              if bq.types == Question::TYPES[:SELECTING] && bq.content.present?
+                content = bq.content.split("</file>")[1]
+                content_file = bq.content.split("</file>")[0].split("<file>")[1]
+                new_content_file = copy_file(share_media_path, question_pack, bq, content_file) if content_file.present?
+                new_content = "<file>#{new_content_file}</file>#{content}"
+              end
+              sbq = share_question.share_branch_questions.new({:content => new_content, :resource_url => new_resource_url,
                   :options => bq.options, :answer => bq.answer, :types => bq.types})
               bq.branch_tags.each do |bt|
                 sbq.branch_tags << bt
@@ -797,8 +805,17 @@ class QuestionPackagesController < ApplicationController
             new_question_pack.save
             question.branch_questions.each do |bq|
               branch_question = new_question.branch_questions.create({:content => bq.content, :options => bq.options, :answer => bq.answer, :types => bq.types})
+              new_content =  bq.content
+              #选择题的话，内容里面有资源，复制资源
+              if bq.types == Question::TYPES[:SELECTING] && bq.content.present?
+                content = bq.content.split("</file>")[1]
+                content_file = bq.content.split("</file>")[0].split("<file>")[1]
+                new_content_file = copy_file(media_path, new_question_pack, branch_question, content_file) if content_file.present?
+                new_content = "<file>#{new_content_file}</file>#{content}"
+              end
+
               new_resource_url = copy_file(media_path, new_question_pack, branch_question, bq.resource_url) if bq.resource_url.present? #引用的时候，拷贝音频
-              branch_question.update_attribute(:resource_url, new_resource_url) if new_resource_url
+              branch_question.update_attributes(:resource_url => new_resource_url, :content => new_content)
               bq.branch_tags.each do |bt|
                 branch_question.branch_tags << bt
               end
@@ -806,7 +823,8 @@ class QuestionPackagesController < ApplicationController
           end if question_pack.questions
         end
         render :text => 0
-      rescue
+      rescue Exception => e
+        p e
         render :text => -1
       end
     end

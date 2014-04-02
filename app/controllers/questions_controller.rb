@@ -261,9 +261,18 @@ class QuestionsController < ApplicationController
       begin
         share_question.update_attribute(:referenced_count, share_question.referenced_count.to_i + 1)
         share_branch_questions.each do |sbq|
-          branch_question = @question.branch_questions.create({:content => sbq.content, :options => sbq.options, :answer => sbq.answer, :types => sbq.types})
+          branch_question = @question.branch_questions.create({:options => sbq.options, :answer => sbq.answer, :types => sbq.types})
+          
+          new_content =  sbq.content
+          #选择题的话，内容里面有资源，复制资源
+          if sbq.types == Question::TYPES[:SELECTING] && sbq.content.present?
+            content = sbq.content.split("</file>")[1]
+            content_file = sbq.content.split("</file>")[0].split("<file>")[1]
+            new_content_file = copy_file(media_path, @question_pack, branch_question, content_file) if content_file.present?
+            new_content = "<file>#{new_content_file}</file>#{content}"
+          end
           new_resource_url = copy_file(media_path, @question_pack, branch_question, sbq.resource_url) if sbq.resource_url.present? #引用的时候，拷贝音频
-          branch_question.update_attribute(:resource_url, new_resource_url) if new_resource_url
+          branch_question.update_attributes(:resource_url => new_resource_url, :content => new_content)
           sbq.branch_tags.each do |bt|
             branch_question.branch_tags << bt
           end
@@ -273,6 +282,7 @@ class QuestionsController < ApplicationController
       rescue Exception => e
         @status = 1
       end
+
     end
   end
 

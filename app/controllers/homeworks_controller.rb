@@ -104,8 +104,6 @@ class HomeworksController < ApplicationController
                 :question_package_id => question_package.id,
                 :start_time => time_now, :end_time => end_time,
                 :status => PublishQuestionPackage::STATUS[:NEW],
-                #              :listening_count => listening_count,
-                #              :reading_count => reading_count,
                 :question_packages_url => question_packages_url,
                 :tag_id => params[:tag_id])
               if publish_question_package
@@ -121,7 +119,7 @@ class HomeworksController < ApplicationController
                   :period_of_validity => publish_question_package.end_time,
                   :status => TaskMessage::STATUS[:YES],
                   :publish_question_package_id => publish_question_package.id)
-                compress_and_push file_dirs_url,question_package_id,@school_class,content,publish_question_package
+                # compress_and_push file_dirs_url,question_package_id,@school_class,content,publish_question_package
               end
             end
 

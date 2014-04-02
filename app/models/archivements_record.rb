@@ -3,6 +3,7 @@ class ArchivementsRecord < ActiveRecord::Base
   attr_protected :authentications
   TYPES = {:PEFECT => 0, :ACCURATE => 1, :QUICKLY => 2, :EARLY => 3}
   TYPES_NAME = {0 => "优异", 1 => "精准", 2 => "迅速", 3 => "捷足"}
+  LEVEL_SCORE = 100
 
   def self.update_archivements student, school_class, archivement_types
     archivement =  ArchivementsRecord
@@ -28,12 +29,21 @@ class ArchivementsRecord < ActiveRecord::Base
           (archivement.archivement_score+10))
     end
     content = "恭喜您获得成就“#{TYPES_NAME[archivement_types]}”"
-    extras_hash = {:type => Student::PUSH_TYPE[:sys_message]}
+    #extras_hash = {:type => Student::PUSH_TYPE[:sys_message]}
     SysMessage.create(school_class_id:school_class.id,
       student_id:student.id,
       content:content,
       status:0)
-    android_and_ios_push(school_class,content,extras_hash)
+    # 推送
+    extras_hash = {:type => Student::PUSH_TYPE[:sys_message], :class_id => school_class.id, :class_name => school_class.name}
+    token = student.token
+    if token
+      ipad_push(content, [token], extras_hash)
+    else
+      qq_uid = student.qq_uid
+      jpush_parameter content, qq_uid, extras_hash
+    end
+    #android_and_ios_push(school_class,content,extras_hash)
   end
   
   #获得成就时加道具

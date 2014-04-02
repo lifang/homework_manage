@@ -13,7 +13,7 @@
               <li><span>昵称：</span><%= student_situation[:nickname]%></li>
               <li><span>入学时间：</span><%=  student_situation[:created_at].nil? ? ""  : student_situation[:created_at].strftime("%F")%></li>
               <li><span>所在小组：</span><%= student_situation[:tag_name].nil? ? "未分组": student_situation[:tag_name]%>
-                <input type="button" class="student_text_a" value="<%= student_situation[:tag_name].nil? ? "分组" : "重新分组" %>" onclick="delete_student_tag(this,<%= school_class_id %>,<%= student_situation[:student_id] %>)"/>
+                <a href="javascript:void(0)" class="student_text_a" onclick="delete_student_tag(this,<%= school_class_id %>,<%= student_situation[:student_id] %>)"><%= student_situation[:tag_name].nil? ? "分组" : "重新分组" %></a>
               </li>
             </ul>
           </div>
@@ -25,10 +25,10 @@
         <td>
           <div class="award">
             <ul>
-              <li class="award01 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[0] %>">LV.<%= student_situation[:archive_pefect].nil? ? 0 : student_situation[:archive_pefect].archivement_score/200 %></li>
-              <li class="award02 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[1] %>">LV.<%= student_situation[:archive_accuraie].nil? ? 0 : student_situation[:archive_accuraie].archivement_score/200 %></li>
-              <li class="award03 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[2] %>">LV.<%= student_situation[:archive_quickly].nil? ? 0 : student_situation[:archive_quickly].archivement_score/200 %></li>
-              <li class="award04 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[3] %>">LV.<%= student_situation[:archive_early].nil? ? 0 : student_situation[:archive_early].archivement_score/200 %></li>
+              <li class="award01 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[0] %>">LV.<%= student_situation[:archive_pefect].nil? ? 0 : student_situation[:archive_pefect].archivement_score/ArchivementsRecord::LEVEL_SCORE %></li>
+              <li class="award02 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[1] %>">LV.<%= student_situation[:archive_accuraie].nil? ? 0 : student_situation[:archive_accuraie].archivement_score/ArchivementsRecord::LEVEL_SCORE %></li>
+              <li class="award03 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[2] %>">LV.<%= student_situation[:archive_quickly].nil? ? 0 : student_situation[:archive_quickly].archivement_score/ArchivementsRecord::LEVEL_SCORE %></li>
+              <li class="award04 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[3] %>">LV.<%= student_situation[:archive_early].nil? ? 0 : student_situation[:archive_early].archivement_score/ArchivementsRecord::LEVEL_SCORE %></li>
             </ul>
           </div>
         </td>

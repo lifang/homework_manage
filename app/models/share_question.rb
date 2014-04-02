@@ -5,6 +5,7 @@ class ShareQuestion < ActiveRecord::Base
   require 'will_paginate/array'
   Per_page = 10
 
+  
   def self.share_questions(cell_id, episode_id, types, sort, page)
     @share_questions = ShareQuestion.find_by_sql("select u.name user_name, sq.* from share_questions sq
 inner join users u on sq.user_id = u.id  where sq.types=#{types} and

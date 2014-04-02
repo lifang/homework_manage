@@ -1,7 +1,6 @@
-<% count = 1 %>
 <% question[:branch_questions].each do |bq| %>
-  <%if @wrong_ids.include?(bq[:id])%>
-<%@wring_answer[bq[:id]]#这个是对应的错误答案%>
+  <%  next if @wrong_ids && !@wrong_ids.include?(bq[:id])%>
+    <%@wring_answer[bq[:id]]#这个是对应的错误答案%>
     <div class='q_topic'>
       <div class='speedQuestions'>
         <ul>
@@ -21,6 +20,5 @@
         </ul>
       </div>
     </div>
-<%end%>
   <% count += 1 %>
 <% end %>

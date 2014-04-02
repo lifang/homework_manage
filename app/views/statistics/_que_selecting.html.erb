@@ -1,21 +1,68 @@
-<% count = 1 %>
 <% question[:branch_questions].each do |bq| %>
-  <%if @wrong_ids.include?(bq[:id])%>
+  <%  next if @wrong_ids && !@wrong_ids.include?(bq[:id])%>
     <%@wring_answer[bq[:id]]#这个是对应的错误答案%>
-    <div class='q_topic'>
-      <div class='multipleChoice'>
-        <div class='q_left'><img src='/assets/voice.jpg'/></div>
-        <div class='q_right'>
-          <div class='q_title'><%= question[:content] %></div>
-          <ul>
-            <% if bq.options.present? %>
-              <ul>
-                <% bq.options.split(/\;\|\|\;/).each do |option| %>
-                  <% if bq.answer.split(/\;\|\|\;/).length > 1%>
-                    <li><div class="icheckbox_square-aero <%= bq.answer.split(/\;\|\|\;/).include?(option) ? "checked" : "" %>" style="position: relative;"><input type="checkbox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"></ins></div><div class="qt_text"><p><%= option %></p><input name="" type="text"></div></li>
+      <div class='q_topic'>
+        <div class='multipleChoice'>
+          <% if bq.content && bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0].present? %>
+                <% case  File.extname(bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0]) %>
+                  <% when ".jpg"  then %>
+                   <div class="q_left">
+                    <img src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" style="width:86px;height:86px;">
+                  </div>
+                  <% when ".jpeg" then %>
+                   <div class="q_left">
+                    <img src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" style="width:86px;height:86px;">
+                  </div>
+                  <% when ".JPG"  then %>
+                   <div class="q_left">
+                    <img src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" style="width:86px;height:86px;">
+                  </div>
+                  <% when ".JPEG"  then %>
+                     <div class="q_left">
+                    <img src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" style="width:86px;height:86px;">
+                      </div>
+                  <% when ".PNG"  then %>
+                     <div class="q_left">
+                    <img src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" style="width:86px;height:86px;">
+                  </div>
+                  <% when ".png"  then %>
+                   <div class="q_left">
+                    <img src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" style="width:86px;height:86px;">
+                  </div>
+                  <% when ".mp3"  then %>
+                    <div class="q_left"><a href="javascript:void(0)" onclick="playAudio(this)" id="audio_only"> 
+                                          <img src="/assets/voiceing.jpg">
+                                          <audio preload="true" controls="" style="display: none;"><source type="audio/ogg" src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>"></audio></a><input type="text" value="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" name="select_resourse" style="display:none;"></div>
+                  <% when ".MP3"  then %>
+                    <div class="q_left"><a href="javascript:void(0)" onclick="playAudio(this)" id="audio_only"> 
+                                          <img src="/assets/voiceing.jpg">
+                                          <audio preload="true" controls="" style="display: none;"><source type="audio/ogg" src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>"></audio></a><input type="text" value="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" name="select_resourse" style="display:none;"></div>                               
+                <% end %>
+              <% end %>
+          <div class='q_right'>
+            <% if  bq.content  && bq.content.present? %>
+                <% if bq.content.scan(/\<file\>|\<[^\\]file\>/).to_a.length == 2 %>
+                  <% if  bq.content.split("</file>").to_a.length == 2 %>
+                    <div class="q_title"><div class="show_text"><p><%= bq.content.split("</file>")[1] %></p></div></div>
                   <% else %>
-                    <li><div class="iradio_square-aero <%= bq.answer.split(/\;\|\|\;/).include?(option) ? "checked" : "" %>" style="position: relative;"><input type="radio" name="iCheck" checked="" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"></ins></div><p><%= option %></p></li>
-                      <% end %>
+                    <% if  bq.content.scan(/\<file\>/).length > 0 %>
+                    <% else %>
+                      <div class="q_title"><div class="show_text"><p><%= bq.content %></p></div></div>
+                    <% end %>  
+                  <% end %>  
+                <% else  %>
+                    <div class="q_title"><div class="show_text"><p><%= bq.content %></p></div></div>
+                <% end %> 
+            <% end %>
+            <ul>
+              <% if bq.options.present? %>
+                  <ul>
+                    <% bq.options.split(/\;\|\|\;/).each do |option| %>
+                        <% if bq.answer.split(/\;\|\|\;/).length > 1%>
+                            <li><div class="icheckbox_square-aero <%= bq.answer.split(/\;\|\|\;/).include?(option) ? "checked" : "" %>" style="position: relative;"><input type="checkbox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"></ins></div><div class="qt_text"><p><%= option %></p><input name="" type="text"></div></li>
+                        <% else %>
+                            <li><div class="iradio_square-aero <%= bq.answer.split(/\;\|\|\;/).include?(option) ? "checked" : "" %>" style="position: relative;"><input type="radio" name="iCheck" checked="" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"></ins></div><p><%= option %></p></li>
+                        <% end %>
                     <% end %>
               </ul>
             <% end %>
@@ -23,5 +70,5 @@
         </div>
       </div>
     </div>
-  <%end%>
+
 <% end %>

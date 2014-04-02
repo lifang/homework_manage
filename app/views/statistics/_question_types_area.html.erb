@@ -6,38 +6,41 @@
       <div ></div>
       <h2><%= Question::TYPES_NAME[type]  %></h2>
       <p>平均正确率：
-        <% if @questions_answers.present? && @questions_answers.group_by{ |e| e[:types] }.present? %>
-            <% answers_group_types = @questions_answers.group_by{ |e| e[:types] } %>
-            <%= answers_group_types[type].present? ? "#{(eval(answers_group_types[type].map { |e| e[:correct_rate] }.join('+'))/answers_group_types[type].map { |e| e[:correct_rate] }.length)}%" : "暂无数据" %>
+        <% if @types_rate.present? %>
+            <%= @types_rate[type].present? ? "#{(eval(@types_rate[type].join("+"))/@types_rate[type].length)}%" : "暂无数据" %>
         <% else %>
             暂无数据
         <% end %>
       </p>
       <p>平均用时：
-        <% if @questions_answers.present? && @used_times[type].present? %>
-            <%= eval(@used_times[type].map { |e| e[:use_time] }.join('+'))/@used_times[type].map { |e| e[:use_time] }.length %>秒
+        <% if @used_times.present? %>
+            <%= @used_times[type].present? ? "#{eval(@used_times[type].join("+"))/@used_times[type].length}秒" : "暂无数据" %>
         <% else %>
             暂无数据
         <% end %>
       </p>
     </div>
     <div class="item_content">
-
-      <% count=1 %>
-      <% @questions[type].each do |que| %>
-        <% answers_group_que_id = @questions_answers.group_by{ |e| e[:question_id] } %>
-        <% avg_correct_rate = answers_group_que_id[que.id].present? ? (eval(answers_group_que_id[que.id].map {|e| e[:correct_rate] }.join('+'))/answers_group_que_id[que.id].map {|e| e[:correct_rate] }.length) : -1 %>
-        <li class="<%= correct_rate_color avg_correct_rate %>"><span><%= count %></span><a href="javascript:void(0);" class="tooltip_title" title="点击查看" onclick="show_tags('<%= que.id %>','<%= params[:school_class_id] %>')">标签</a>
-          <p title="点击查看原题" onclick="show_que('<%= que.id %>','<%= params[:school_class_id] %>')" style="cursor:pointer;">
-          <% if avg_correct_rate && avg_correct_rate >= 0%>
-            <%= avg_correct_rate %>%
-          <% else %>
-            暂无数据
-          <% end %>
-          </p>
-        </li>
-        <% count+=1 %>
-      <% end %>  
+      <% if @questions[type].present? %>
+        <% count=1 %>
+        <% @questions[type].each do |que| %>
+          <% if @branch_questions[que.id].present? %>
+            <% @branch_questions[que.id].each do |bq| %>
+                <% avg_correct_rate = @questions_answers[bq.id].present? ? eval(@questions_answers[bq.id].join('+'))/@questions_answers[bq.id].length : -1 %> 
+                <li class="<%= correct_rate_color avg_correct_rate %>"><span><%= count %></span><a href="javascript:void(0);" class="tooltip_title" title="点击查看" onclick="show_tags('<%= bq.id %>','<%= params[:school_class_id] %>')">标签</a>
+                  <p title="点击查看原题" onclick="show_que('<%= bq.id %>', '<%= type %>', '<%= params[:school_class_id] %>')" style="cursor:pointer;">
+                  <% if avg_correct_rate && avg_correct_rate >= 0 %>
+                    <%= avg_correct_rate %>%
+                  <% else %>
+                    暂无数据
+                  <% end %>
+                  </p>
+                </li>
+                <% count+=1 %>
+            <% end %>
+          <% end %>     
+        <% end %>  
+      <% end %>    
     </div>
   </div>
   <% end %>

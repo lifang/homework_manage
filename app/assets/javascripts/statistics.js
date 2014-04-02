@@ -178,14 +178,15 @@ function shou_incorrect_que(question_types, stu_ans_record_id, school_class_id)
 }
 
 //显示原题
-function show_que(que_id, school_class_id)
+function show_que(branch_id, types, school_class_id)
 {
     $.ajax({
         url: "/school_classes/"+ school_class_id +"/statistics/show_questions",
         type: "POST",
         dataType: "script",
         data:{
-            question_id:que_id
+            branch_id:branch_id,
+            types : types
         },
         success:function(data){
         },
@@ -195,14 +196,14 @@ function show_que(que_id, school_class_id)
 }
 
 //显示该题所有标签
-function show_tags(que_id, school_class_id)
+function show_tags(branch_id, school_class_id)
 {
     $.ajax({
         url: "/school_classes/"+ school_class_id +"/statistics/show_all_tags",
         type: "POST",
         dataType: "script",
         data:{
-            question_id:que_id
+            branch_id:branch_id
         },
         success:function(data){
         },

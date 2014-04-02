@@ -11,7 +11,7 @@ class HomeworksController < ApplicationController
   before_filter :sign?, :get_unread_messes
   #作业主页
   def index
-    teacher = Teacher.find_by_id cookies[:teacher_id]
+    #teacher = Teacher.find_by_id cookies[:teacher_id]
     @school_class = SchoolClass.find_by_id params[:school_class_id].to_i
     page = params[:page]
     tasks = Teacher.get_publish_question_packages @school_class.id, page
@@ -19,7 +19,6 @@ class HomeworksController < ApplicationController
     @un_delete_task = tasks[:un_delete]
     @all_pack_types_name = tasks[:all_pack_types_name]
     @school_tags = @school_class.tags  #班级分组， 用于发布作业的时候选择分组
-    p @school_tags
   end
 
   #删除题包
@@ -106,6 +105,7 @@ class HomeworksController < ApplicationController
                 :status => PublishQuestionPackage::STATUS[:NEW],
                 :question_packages_url => question_packages_url,
                 :tag_id => params[:tag_id])
+              question_package.update_attribute(:name, Time.now.strftime("%Y-%m-%d"))
               if publish_question_package
                 wanxin_ids = Question.where("question_package_id = ? and types = ?",question_package_id,Question::TYPES[:CLOZE])
                 wanxin_ids = wanxin_ids.map(&:id) unless wanxin_ids.blank?

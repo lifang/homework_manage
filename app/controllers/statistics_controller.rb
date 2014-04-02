@@ -61,9 +61,10 @@ class StatisticsController < ApplicationController
     info = PublishQuestionPackage.get_quetion_types_statistics(publish_question_package, school_class_id)
     @question_types = info[:question_types]
     @questions = info[:questions]
-    @used_times = info[:used_times].group_by { |e| e[:types] } if info[:used_times].present?
+    @branch_questions = info[:branch_questions]
+    @used_times = info[:used_times]
     @questions_answers = info[:questions_answers]
-
+    @types_rate = info[:types_rate]
   end
 
   #正确率列表——显示某一类型（学生做错的题目）原题
@@ -111,8 +112,6 @@ class StatisticsController < ApplicationController
               # p questions
               # p branch_questions
               if questions.present?
-                p questions.present?
-
                 ques = []
                 questions.each do |q|
                   branch_ques = []
@@ -150,46 +149,48 @@ class StatisticsController < ApplicationController
 
   #显示原题
   def show_questions
-    question_id = params[:question_id].to_i
-    @origin_questions = nil
+    types = params[:types].to_i
+    branch_id = params[:branch_id]
+    @questions = nil
+    branch_question = BranchQuestion.find_by_id branch_id
+    # branch_question = BranchQuestion.find_by_id_and_types branch_id, types
     ques = []
-    if question_id
-      question = Question
-      .select("questions.id, questions.types, questions.name, questions.full_text,
-                    questions.content")
-      .where(["questions.id in (?)", question_id])
-      branch_questions = BranchQuestion
-      .select("content, resource_url, options, answer, question_id")
-      .where(["question_id in (?)", question_id])
-      .group_by {|b| b.question_id}
-      question.each do |q|
-        branch_ques = []
-        if branch_questions[q.id].present?
-          branch_ques = branch_questions[q.id]
-        end
-        ques << {:id => q.id, :name => q.name, :types => q.types, :full_text => q.full_text,
-          :content => q.content, :branch_questions => branch_ques}
-      end
-      @origin_questions = {:types => question[0].types, :questions => ques}
+    @status = false
+    if branch_question
+      question = branch_question.question
+      if question.present?
+        branch_questions = question.branch_questions
+                                .select("content, resource_url, options, answer, question_id")
+                                .where("branch_questions.id = ?",branch_id)
+        ques = []
+        ques << {:id => question.id, :name => question.name, :types => question.types, :full_text => question.full_text,
+                    :content => question.content, :branch_questions => branch_questions}
+        @origin_questions = {:types => question.types, :questions => ques}
+        @status = true
+      else
+        @notice = "未找到原题，原题可能已经删除！"    
+      end 
+      
+    else
+      @notice = "未找到原题，原题可能已经删除！"
     end
   end
 
   #显示标签
   def show_all_tags
-    question_id = params[:question_id].to_i
+    branch_id = params[:branch_id].to_i
     @tags = nil
     @status = false
     @notice = "获取失败！"
-    if question_id
+    if branch_id
       tags = BranchQuestion.joins("left join btags_bque_relations bbr
             on branch_questions.id = bbr.branch_question_id")
-      .joins("left join branch_tags bt on bbr.branch_tag_id = bt.id")
-      .select("bt.name")
-      .where("bbr.id is not null and bt.id is not null and branch_questions.question_id = ?", question_id)
+          .joins("left join branch_tags bt on bbr.branch_tag_id = bt.id")
+          .select("bt.name")
+          .where("bbr.id is not null and bt.id is not null and branch_questions.id = ?", branch_id).uniq
       @tags = tags.to_json
       if tags.any?
         @all_tags = tags.map(&:name).inject(""){|s,n| s += "<p>"+n+"</p>";s} if tags.any?
-        p @all_tags
       else
         @all_tags = "<p>暂无标签</p>"
       end  

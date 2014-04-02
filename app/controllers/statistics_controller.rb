@@ -61,12 +61,10 @@ class StatisticsController < ApplicationController
     info = PublishQuestionPackage.get_quetion_types_statistics(publish_question_package, school_class_id)
     @question_types = info[:question_types]
     @questions = info[:questions]
-    @used_times = info[:used_times].group_by { |e| e[:types] } if info[:used_times].present?
+    @branch_questions = info[:branch_questions]
+    @used_times = info[:used_times]
     @questions_answers = info[:questions_answers]
-    p @used_times
-    p @question_types
-    p @questions
-    p @questions_answers
+    @types_rate = info[:types_rate]
   end
 
   #正确率列表——显示某一类型（学生做错的题目）原题
@@ -153,10 +151,11 @@ class StatisticsController < ApplicationController
 
   #显示原题
   def show_questions
-    question_id = params[:question_id].to_i
-    @origin_questions = nil
+    types = params[:types].to_i
+    branch_id = params[:branch_id]
+    @questions = nil
     ques = []
-    if question_id
+    if branch_id
       question = Question
       .select("questions.id, questions.types, questions.name, questions.full_text,
                     questions.content")

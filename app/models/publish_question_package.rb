@@ -336,95 +336,82 @@ class PublishQuestionPackage < ActiveRecord::Base
     # students_id
     # student_answer_records
     # record_details
-    questions = []
+    questions = {}
     question_types = []
-    #use_times = []
-    #questions_answers = []
-    use_times = {}
+    used_times = {}
     questions_answers = {}
     types_rate = {}
+    branch_questions = {}
     questions = QuestionPackage.get_one_package_questions publish_question_package.question_package_id
-    # question_types = questions.map(&:types).uniq.sort if questions.present?
-    # p question_types
+    if questions.present?
+      questions_id = questions.map { |e| e.id }
+      if questions_id.present?
+        branch_questions =  BranchQuestion.select("id, question_id").where(["question_id in (?)", questions_id])
+        branch_questions = branch_questions.group_by { |e| e.question_id }
+      end  
+    end  
+
     questions = questions.group_by{ |q| q.types } if questions.present?
+    
     question_types = questions.keys if questions.present?
-    # if publish_question_package.tag_id == 0
-      # students = SchoolClassStudentRalastion.where(["school_class_id = ?",school_class_id])
-                                            # .select("student_id").uniq
-    # else
-      # students = SchoolClassStudentRalastion.where(["school_class_id = ? and tag_id in (?)",
-                                                  # school_class_id,  publish_question_package.tag_id])   
-                                            # .select("student_id").uniq
-    # end  
-    if students.any?
-      #students_id = students.map(&:student_id)
-      student_answer_records = StudentAnswerRecord.select("id, student_id, answer_file_url")
-              .where(["publish_question_package_id = ? and school_class_id = ?",
-                         publish_question_package.id, school_class_id]).uniq
-      if student_answer_records.any?
-          answer_status_collection = []
-          base_url = "#{Rails.root}/public"
-          questions_answers = []
-          used_times = []
-          student_answer_records.each do |sar|
-            answer_url = "#{base_url}#{sar.answer_file_url}"
-            if File.exist? answer_url
-              answer_json = ""
-              # File.open(answer_url) do |file|
-                  # file.each do |line|
-                    # answer_json += line.to_s
-                  # end
-              # end
-              answer_json = File.open(answer_url).read
-              answer_records = ""
-              begin
-                answer_records = ActiveSupport::JSON.decode(answer_json)
-              rescue
-                {:question_types => [], :questions => [], :used_times => [], :questions_answers => []}
-              end
-                           
-              if answer_records.present?
-                question_types.each do |types|
-                  if answer_records[Question::TYPE_NAME_ARR[types.to_i]].present?
-                    if answer_records[Question::TYPE_NAME_ARR[types.to_i]]["questions"].present? && answer_records[Question::TYPE_NAME_ARR[types.to_i]]["use_time"].present?
-                      #used_times << {:types => types, :use_time => answer_records[Question::TYPE_NAME_ARR[types.to_i]]["use_time"].to_i }
-                      if used_times[types.to_i]
-                        used_times[types.to_i] << answer_records[Question::TYPE_NAME_ARR[types.to_i]]["use_time"].to_i
-                      else
-                        used_times[types.to_i] = [answer_records[Question::TYPE_NAME_ARR[types.to_i]]["use_time"].to_i]
-                      end
-                      
-                      answer_records[Question::TYPE_NAME_ARR[types.to_i]]["questions"].each do |question|
-                        if question.present? && question["id"].present? && question["branch_questions"].present?
-                          correct_rate_arr = question["branch_questions"].map{ |bq| bq["ratio"].to_i }
-                          if correct_rate_arr.any?
-                            correct_rate = eval(correct_rate_arr.join('+'))/correct_rate_arr.length
-                            #questions_answers << {:question_id => question["id"].to_i, :types => types, 
-                            #                      :correct_rate => correct_rate}
-                            if questions_answers[question["id"].to_i] 
-                              questions_answers[question["id"].to_i] << correct_rate
-                            else
-                              questions_answers[question["id"].to_i] = [correct_rate]
-                            end
-                            if types_rate[types.to_i]
-                              types_rate[types.to_i] << correct_rate
-                            else
-                              types_rate[types.to_i] = [correct_rate]
-                            end                            
-                          end  
-                        end 
-                      end
+    question_types.sort!
+    student_answer_records = StudentAnswerRecord.select("id, student_id, answer_file_url")
+            .where(["publish_question_package_id = ? and school_class_id = ?",
+                       publish_question_package.id, school_class_id]).uniq
+    if student_answer_records.any?
+        answer_status_collection = []
+        base_url = "#{Rails.root}/public"
+        
+        student_answer_records.each do |sar|
+          answer_url = "#{base_url}#{sar.answer_file_url}"
+          if File.exist? answer_url
+            answer_json = ""
+            answer_json = File.open(answer_url).read
+            answer_records = ""
+            begin
+              answer_records = ActiveSupport::JSON.decode(answer_json)
+            rescue
+              {:question_types => [], :questions => {}, :used_times => {}, :questions_answers => {}}
+            end
+                         
+            if answer_records.present?
+              question_types.each do |types|
+                if answer_records[Question::TYPE_NAME_ARR[types.to_i]].present?
+                  if answer_records[Question::TYPE_NAME_ARR[types.to_i]]["questions"].present? && answer_records[Question::TYPE_NAME_ARR[types.to_i]]["use_time"].present?
+                    if used_times[types.to_i].present?
+                      used_times[types.to_i] << answer_records[Question::TYPE_NAME_ARR[types.to_i]]["use_time"].to_i
+                    else
+                      used_times[types.to_i] = [answer_records[Question::TYPE_NAME_ARR[types.to_i]]["use_time"].to_i]
                     end
-                  end     
-                end
+                    
+                    answer_records[Question::TYPE_NAME_ARR[types.to_i]]["questions"].each do |question|
+                      if question.present? && question["id"].present? && question["branch_questions"].present?
+                        question["branch_questions"].each do |branch_question|    
+                          branch_correct_rate = branch_question["ratio"].to_i
+                          if questions_answers[branch_question["id"].to_i].present?
+                            questions_answers[branch_question["id"].to_i] << branch_correct_rate
+                          else
+                            questions_answers[branch_question["id"].to_i] = [branch_correct_rate]
+                          end
+                        end
+                        question_correct_arr = question["branch_questions"].map {|bq| bq["ratio"].to_i }
+                        question_correct_rate =  eval(question_correct_arr.join('+'))/question_correct_arr.length
+                        if types_rate[types.to_i].present?
+                          types_rate[types.to_i] << question_correct_rate
+                        else
+                          types_rate[types.to_i] = [question_correct_rate]
+                        end
+                      end 
+                    end
+                  end
+                end     
               end
-            end  
-          end
-      end     
+            end
+          end  
+        end    
     end
-    p used_times
     {:question_types => question_types, :questions => questions, :used_times => used_times,
-       :questions_answers => questions_answers}
+       :questions_answers => questions_answers, :types_rate => types_rate, :branch_questions => branch_questions}
   end
 end
 

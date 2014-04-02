@@ -11,7 +11,7 @@ class HomeworksController < ApplicationController
   before_filter :sign?, :get_unread_messes
   #作业主页
   def index
-    teacher = Teacher.find_by_id cookies[:teacher_id]
+    #teacher = Teacher.find_by_id cookies[:teacher_id]
     @school_class = SchoolClass.find_by_id params[:school_class_id].to_i
     page = params[:page]
     tasks = Teacher.get_publish_question_packages @school_class.id, page
@@ -19,7 +19,6 @@ class HomeworksController < ApplicationController
     @un_delete_task = tasks[:un_delete]
     @all_pack_types_name = tasks[:all_pack_types_name]
     @school_tags = @school_class.tags  #班级分组， 用于发布作业的时候选择分组
-    p @school_tags
   end
 
   #删除题包

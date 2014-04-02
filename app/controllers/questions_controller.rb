@@ -265,7 +265,7 @@ class QuestionsController < ApplicationController
           
           new_content =  sbq.content
           #选择题的话，内容里面有资源，复制资源
-          if sbq.types == Question::TYPES[:SELECTING] && sbq.content.present?
+          if sbq.types == Question::TYPES[:SELECTING] && sbq.content.present? && sbq.content.include?("<file>")
             content = sbq.content.split("</file>")[1]
             content_file = sbq.content.split("</file>")[0].split("<file>")[1]
             new_content_file = copy_file(media_path, @question_pack, branch_question, content_file) if content_file.present?

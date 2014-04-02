@@ -1,12 +1,10 @@
 <div class="statistics_head">
   <% if !@all_tags.nil? && @all_tags.length != 0  %>
       <div class="sh_choose">
-        <% count = 0 %>
         <% @all_tags.each do |tag| %>
-            <a href="javascript:void(0);" onclick="show_tag(this,'<%= params[:school_class_id] %>','<%= tag[:pub_id] %>')"  class="<%= count == 0 ? "hover"  : "" %>">
+            <a href="javascript:void(0);" onclick="show_tag(this,'<%= params[:school_class_id] %>','<%= tag[:pub_id] %>')"  class="<%= (@current_task.id == tag[:pub_id])  ? "hover"  : "" %>">
               <%= tag[:tag_name] %>
             </a>
-            <% count += 1 %>
         <% end %>
       </div>
   <% end %>

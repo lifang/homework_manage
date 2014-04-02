@@ -12,9 +12,7 @@ class PublishQuestionPackage < ActiveRecord::Base
   TIME_TOW_HOUR = 120
   CORRECT_RATE_SIX = 60
   CORRECT_RATE_TEN = 100
-  scope :not_calculated, lambda {|school_class_id|
-    where("'#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}' >= end_time and school_class_id = #{school_class_id} and is_calc = #{PublishQuestionPackage::IS_CALC[:WAIT]}")
-   }
+
   #获取当日或历史任务
   def self.get_tasks school_class_id, student_id, order_name=nil, date=nil, today_newer_id=nil
     my_tag_ids = Tag.get_my_tag_ids school_class_id, student_id
@@ -211,16 +209,31 @@ class PublishQuestionPackage < ActiveRecord::Base
     if time > 0
       if average_ratio >= CORRECT_RATE_SIX && average_ratio <= CORRECT_RATE_TEN && use_time < question.time
         ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:QUICKLY]
+        add_prop_get_archivement student.id,Prop::TYPES[:Reduce_time],school_class
         if time > TIME_TOW_HOUR
           ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:EARLY]
         end
       end
       if average_ratio == CORRECT_RATE_TEN
         ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:ACCURATE]
+        add_prop_get_archivement student.id,Prop::TYPES[:Show_corret_answer],school_class
       end
     end
   end
-  
+  #获得成就时加道具
+  def self.add_prop_get_archivement student_id,prop_types,school_class
+    student_prop = UserPropRelation.
+      find_by_student_id_and_prop_id_and_school_class_id(student_id,prop_types,school_class.id)
+    if student_prop
+      student_prop.update_attribute(:user_prop_num,student_prop.user_prop_num+2);
+    else
+      UserPropRelation.create(student_id:student_id,
+        user_prop_num:2,
+        school_class_id:school_class.id,
+        prop_id:prop_types)
+    end
+
+  end
 
   def self.get_homework_statistics date, school_class
     all_tags = nil
@@ -244,7 +257,7 @@ class PublishQuestionPackage < ActiveRecord::Base
         task = nil
         today_tasks.each do |tag_id, t|
   
-        task = t.first
+          task = t.first
           if tag_id == 0
             all_tags << {:pub_id => t.first.id, :tag_name => "全班"}
           else  
@@ -279,9 +292,11 @@ class PublishQuestionPackage < ActiveRecord::Base
     if task.tag_id == 0
       students_id = SchoolClassStudentRalastion.where(["school_class_id = ?",
           school_class_id]).map(&:student_id)
+      p 11111
     else
       students_id = SchoolClassStudentRalastion.where(["school_class_id = ? and tag_id = ?", 
           school_class_id, task.tag_id]).map(&:student_id)
+      p 2222
     end
     students = Student.select("students.id, u.name, u.avatar_url")
                       .joins("left join users u on students.user_id = u.id")

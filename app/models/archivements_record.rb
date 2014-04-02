@@ -3,6 +3,7 @@ class ArchivementsRecord < ActiveRecord::Base
   attr_protected :authentications
   TYPES = {:PEFECT => 0, :ACCURATE => 1, :QUICKLY => 2, :EARLY => 3}
   TYPES_NAME = {0 => "优异", 1 => "精准", 2 => "迅速", 3 => "捷足"}
+  LEVEL_SCORE = 100
 
   def self.update_archivements student, school_class, archivement_types
     archivement =  ArchivementsRecord

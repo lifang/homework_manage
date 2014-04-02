@@ -409,7 +409,8 @@ module MethodLibsHelper
   def push_after_reply_post content, teachers_id, reciver_id, school_class_id, student, reciver_types
     unless teachers_id.include?(reciver_id.to_i)
       if reciver_types == Micropost::USER_TYPES[:STUDENT] && !student.nil?  #?  TODO reciver_types == 1 学生
-        extras_hash = {:type => Student::PUSH_TYPE[:q_and_a], :class_id => school_class_id}
+        school_class = SchoolClass.find_by_id school_class_id
+        extras_hash = {:type => Student::PUSH_TYPE[:q_and_a], :class_id => school_class_id, :class_name => school_class.name}
         token = student.token
         if token
           ipad_push(content, [token], extras_hash)
@@ -581,7 +582,7 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
       android_student_qq_uid = school_class.students.where("token is null and school_class_student_ralastions.tag_id = #{tag_id}").select("qq_uid").map(&:qq_uid)
     end
     qq_uids = android_student_qq_uid.join(",")
-    extras_hash = {:type => Student::PUSH_TYPE[:publish_question], :class_id => school_class.id}
+    extras_hash = {:type => Student::PUSH_TYPE[:publish_question], :class_id => school_class.id, :class_name => school_class.name}
     jpush_parameter content, qq_uids, extras_hash
 
     #ios 推送

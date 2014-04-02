@@ -79,7 +79,7 @@
                   <% else %>
                       <td>暂无数据</td>
                   <% end %>
-                  <td><%= @student_answer_records[student.id].present? && @student_answer_records[student.id].first.average_complete_rate >= 0 ? "#{@student_answer_records[student.id].first.average_complete_rate}%" : "-" %></td>
+                  <td><%= @student_answer_records[student.id].present? && @student_answer_records[student.id].first.average_complete_rate  && @student_answer_records[student.id].first.average_complete_rate >= 0 ? "#{@student_answer_records[student.id].first.average_complete_rate}%" : "-" %></td>
                 </tr>
             <% end %>
         <% end %>
@@ -145,7 +145,7 @@
                   <% else %>
                       <td>暂无数据</td>
                   <% end %>
-                  <td><%= @student_answer_records[student.id].present? && @student_answer_records[student.id].first.average_correct_rate >= 0 ? "#{@student_answer_records[student.id].first.average_correct_rate}%" : "-" %></td>
+                  <td><%= @student_answer_records[student.id].present? && @student_answer_records[student.id].first.average_correct_rate && @student_answer_records[student.id].first.average_correct_rate >= 0 ? "#{@student_answer_records[student.id].first.average_correct_rate}%" : "-" %></td>
                 </tr>
             <% end %>
         <% end %>

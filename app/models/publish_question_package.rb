@@ -292,11 +292,9 @@ class PublishQuestionPackage < ActiveRecord::Base
     if task.tag_id == 0
       students_id = SchoolClassStudentRalastion.where(["school_class_id = ?",
           school_class_id]).map(&:student_id)
-      p 11111
     else
       students_id = SchoolClassStudentRalastion.where(["school_class_id = ? and tag_id = ?", 
           school_class_id, task.tag_id]).map(&:student_id)
-      p 2222
     end
     students = Student.select("students.id, u.name, u.avatar_url")
                       .joins("left join users u on students.user_id = u.id")

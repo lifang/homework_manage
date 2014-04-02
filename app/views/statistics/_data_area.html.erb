@@ -172,6 +172,7 @@
         $("#correct_table").tablesorter();
     });
    function click_complete_btn(obj){
+        $(".s_tab").hide();
         $(".sc_nav a").removeAttr("class");
         $(obj).attr("class", "hover");
         $(".b_table .sb_item_list").remove();
@@ -180,6 +181,7 @@
     }
 
     function click_correct_btn(obj){
+        $(".s_tab").hide();
         $(".sc_nav a").removeAttr("class");
         $(obj).attr("class", "hover");
         $(".b_table .sb_item_list").remove();

@@ -16,7 +16,6 @@ class PublishQuestionPackage < ActiveRecord::Base
   #获取当日或历史任务
   def self.get_tasks school_class_id, student_id, order_name=nil, date=nil, today_newer_id=nil
     my_tag_ids = Tag.get_my_tag_ids school_class_id, student_id
-    p my_tag_ids
     tags = "#{my_tag_ids}".gsub(/\[/, "(").gsub(/\]/, ")") if my_tag_ids && my_tag_ids.length != 0
     tasks_sql = "select p.id, q.name,p.question_package_id que_pack_id,p.start_time,p.end_time,
             p.question_packages_url FROM publish_question_packages p left join question_packages q
@@ -393,13 +392,11 @@ class PublishQuestionPackage < ActiveRecord::Base
                           else
                             questions_answers[branch_question["id"].to_i] = [branch_correct_rate]
                           end
-                        end
-                        question_correct_arr = question["branch_questions"].map {|bq| bq["ratio"].to_i }
-                        question_correct_rate =  eval(question_correct_arr.join('+'))/question_correct_arr.length
-                        if types_rate[types.to_i].present?
-                          types_rate[types.to_i] << question_correct_rate
-                        else
-                          types_rate[types.to_i] = [question_correct_rate]
+                          if types_rate[types.to_i].present?
+                            types_rate[types.to_i] << branch_correct_rate
+                          else
+                            types_rate[types.to_i] = [branch_correct_rate]
+                          end
                         end
                       end 
                     end

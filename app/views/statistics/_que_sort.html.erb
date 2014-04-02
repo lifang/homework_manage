@@ -1,6 +1,3 @@
-<% count = 1 %>
-<fieldset>
-  <legend><%= count %></count></legend>
   <% question[:branch_questions].each do |bq| %>
       <div class='q_topic'>
         <div class="sortQuestions qt_input">
@@ -9,6 +6,4 @@
           </div>
         </div>
       </div>
-      <% count += 1 %>
   <% end %>
-</fieldset>

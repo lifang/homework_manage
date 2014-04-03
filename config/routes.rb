@@ -127,7 +127,7 @@ HomeworkManage::Application.routes.draw do
     end
     resources :share_questions do
       collection do
-        get :list_questions_by_type
+        get :list_questions_by_type, :paginate_share_question
       end
     end
   end

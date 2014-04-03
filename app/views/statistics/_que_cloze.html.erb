@@ -18,16 +18,16 @@
                   <ul>
                     <% bq[:options].split(/\;\|\|\;/).each do |option| %>
                       <% if bq.answer.to_s.split(/\;\|\|\;/).length >1 %>
-                        <li class="<%= @wring_answer[bq[:id].to_i].split(";||;").include?(option) ? "correctAnswer_border" : "" %>">
-                          <div class="icheckbox_square-aero <%= bq.answer.split(/\;\|\|\;/).include?(option) ? "checked" : "" %>" style="position: relative;">
+                        <li class="<%=  bq.answer.split(/\;\|\|\;/).include?(option) ? "correctAnswer_border" : "" %>">
+                          <div class="icheckbox_square-aero <%= @wring_answer[bq[:id].to_i].split(";||;").include?(option) ? "checked" : "" %>" style="position: relative;">
                             <input type="checkbox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"/>
                             <ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"></ins>
                           </div>
                           <div class="qt_text"><p><%= option %></p></div>
                         </li>
                       <% else %>
-                        <li class="<%= @wring_answer[bq[:id].to_i].split(";||;").include?(option) ? "correctAnswer_border" : "" %>">
-                          <div class="iradio_square-aero <%= bq.answer.split(/\;\|\|\;/).include?(option) ? "checked" : "" %>" style="position: relative;">
+                        <li class="<%=  bq.answer.split(/\;\|\|\;/).include?(option) ? "correctAnswer_border" : "" %>">
+                          <div class="iradio_square-aero <%= @wring_answer[bq[:id].to_i].split(";||;").include?(option) ? "checked" : "" %>" style="position: relative;">
                             <input type="radio" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"/>
                             <ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"></ins>
                           </div>

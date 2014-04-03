@@ -5,7 +5,6 @@
       <div class='q_topic'>
         <div class='speedQuestions'>
           <ul>
-            <li><p><%= bq[:content] %></p></li>
             <% if bq[:resource_url].present? %>
               <li>
                 <a href="javascript:void(0)" class="voice tooltip_title" onclick="playAudio(this)" title="阅读">
@@ -18,16 +17,16 @@
             <% else %>
               <li></li>
             <% end %>
+            <li><p><%= bq[:content] %></p></li>
           </ul>
         </div>
-        <div class="errorAnswer"><p><span>需要多听的词：</span><%= @wring_answer[bq[:id].to_i].split(";||;").join(" ") if  @wring_answer[bq[:id].to_i] %></p></div>
+        <div class="errorAnswer"><p><span>需要多读的词：</span><%= @wring_answer[bq[:id].to_i].split(";||;").join(" ") if  @wring_answer[bq[:id].to_i] %></p></div>
       </div>
     <% end %>
   <%else%>
     <div class='q_topic'>
       <div class='speedQuestions'>
         <ul>
-          <li><p><%= bq[:content] %></p></li>
           <% if bq[:resource_url].present? %>
             <li>
               <a href="javascript:void(0)" class="voice tooltip_title" onclick="playAudio(this)" title="阅读">
@@ -40,6 +39,7 @@
           <% else %>
             <li></li>
           <% end %>
+          <li><p><%= bq[:content] %></p></li>
         </ul>
       </div>
     </div>

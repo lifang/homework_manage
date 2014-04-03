@@ -189,8 +189,6 @@ class PublishQuestionPackage < ActiveRecord::Base
             correct_rate_sum << record_details.correct_rate
             complete_rate_sum << record_details.is_complete
           end
-        else
-          break
         end
         
       end

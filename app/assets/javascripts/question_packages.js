@@ -58,7 +58,7 @@ function add_l_r_question(types, school_class_id )
 //选择上传音频文件
 function select_audio(obj)
 {   
-    $(obj).next().find("[class='file']").click();
+    $(obj).parent().next().next().find("[class='tmp_voice']").first().click();
 }
 
 //显示该单元该课下的题目
@@ -87,52 +87,39 @@ function show_ques(types, school_class_id)
 function check_audio(obj)
 {
     var file_name = $(obj).val();
-    var branch_id = $(obj).parent().parent().parent().parent().parent().find("input.branch_id").val();
+    var branch_id = $(obj).parents("form").first().find("input.branch_id").val();
+    var b_index = $(obj).parents("div.questions_item").first().index();
+    var question_package_id = $("#question_package_id").val();
     var types = $(obj).parent().find("input.types").val();
     var input_s = $(obj);
     var isIE = document.all && window.external
+    var file_name = $(obj).val();
     if(isIE){
     }
     else{
-        var file_size = input_s[0].files[0].size;
-        if(file_size>1048576){
-            $(obj).val("");
-            tishi("文件不能大于1M!");
-            return false;
-        }
-    }
-
-
-    if(types == 0)
-    {
-        if(file_name.match(/\..*$/) == ".mp3" || file_name.match(/\..*$/) == ".MP3")
-        {}
-        else
-        {
-            tishi("只能上传mp3格式文件！");
-            $(obj).val("");
-        }
-    }
-    else if(types == 1)
-    {
-        var file_name = $(obj).val();
-        if(file_name.match(/\..*$/) == ".mp3" || file_name.match(/\..*$/) == ".MP3")
-        {
-            if(branch_id == "")
-            {  
-
-            }   
-            else
-            {
-                $(obj).parent().submit();
+        if(file_name.size != "")
+        {    
+            var file_size = input_s[0].files[0].size;
+            if(file_size>1048576){
+                $(obj).val("");
+                tishi("文件不能大于1M!");
+                return false;
             }
-        }
-        else
-        {
-            tishi("只能上传mp3格式文件！");
-            $(obj).val("");
+        }    
+    }
 
-        }
+    if(file_name.match(/\..*$/) == ".mp3" || file_name.match(/\..*$/) == ".MP3")
+    {
+            $(obj).parent().find(".branch_id").first().val(branch_id);
+            $(obj).parent().find(".b_index").first().val(b_index);
+            $(obj).parent().find(".question_package_id").first().val(question_package_id);
+            $(obj).parent().submit();   
+    }
+    else
+    {
+        tishi("只能上传mp3格式文件！");
+        $(obj).val("");
+
     }
 
 }
@@ -161,7 +148,7 @@ function save_listening_reading(obj, types, school_class_id)
         {
             if(file == "")
             {
-                tishi("听写题资源不能为空！"); 
+                tishi("听写题资源不能为空！");
             }
             else
             {
@@ -649,27 +636,29 @@ function add_tags_to_listening_reading(question_id, b_index, tag_id, tag_name)
     var tag_li = "<li><p>"+tag_name+"</p><a href='javascript:void(0)'' class='x' onclick='delete_reading_listening_tags(this,"+tag_id+")'>X</a></li>";
     if(branch_id == "")
     {
-        if(tags_id == "")
-        {
-            $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("div.tag_ul").find("ul").append(tag_li);
-            $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tag_id);
-        }
-        else
-        {
-            var tags_id_arr = tags_id.split(/\|/);
-            var index = $.inArray(tag_id,tags_id_arr);
-            if(index== -1)
-            {
-                tags_id += "|";
-                tags_id += tag_id;
-                $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("div.tag_ul").find("ul").append(tag_li);
-                $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tags_id);
-            }
-            else
-            {
-                tishi("已添加该标签!");
-            }
-        }    
+        $("#tags_table").hide();
+        tishi("未保存小题，还不能添加标签!");
+        // if(tags_id == "")
+        // {
+        //     $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("div.tag_ul").find("ul").append(tag_li);
+        //     $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tag_id);
+        // }
+        // else
+        // {
+        //     var tags_id_arr = tags_id.split(/\|/);
+        //     var index = $.inArray(tag_id,tags_id_arr);
+        //     if(index== -1)
+        //     {
+        //         tags_id += "|";
+        //         tags_id += tag_id;
+        //         $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("div.tag_ul").find("ul").append(tag_li);
+        //         $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tags_id);
+        //     }
+        //     else
+        //     {
+        //         tishi("已添加该标签!");
+        //     }
+        // }    
     }
     else
     {
@@ -867,6 +856,7 @@ $(function(){
         var que_id = $(this).parents(".ab_list_title").find("input[name='question_id']").first().val();
         var que_name = $(this).parents(".ab_list_title").find("h1").first().text();
         var school_class_id = $("#school_class_id").val();
+        var this_icon = $(this);
         if(que_name==undefined || que_name=="" || que_name=="未命名"){
             var doc_height = $(document).height();
             $(".mask").css("height",doc_height);
@@ -886,7 +876,9 @@ $(function(){
                 success: function(data){
                     if(data.status == 0){
                         tishi("分享成功!");
-                        $(this).parents(".ab_list_title").find("h1").first().text(que_name);
+                        this_icon.addClass("share_icon_ed");
+                        this_icon.removeClass("share_icon");
+                        this_icon.parents(".ab_list_title").find("h1").first().text(que_name);
                     }else if(data.status == 1){
                         tishi("此题已经分享过");
                     }else if(data.status == 2){
@@ -981,6 +973,9 @@ function set_question_name_valid(question_id, school_class_id){
                     $.each(q_ids, function(){
                         if($(this).val()==question_id){
                             $(this).parents(".ab_list_title").find("h1").first().text(name);
+                            var share_icon = $(this).parents(".ab_list_title").find(".share_icon");
+                            share_icon.addClass("share_icon_ed");
+                            share_icon.removeClass("share_icon");
                         }
                     });
                 }else if(data.status == 1){

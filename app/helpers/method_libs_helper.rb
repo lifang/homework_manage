@@ -408,18 +408,23 @@ module MethodLibsHelper
 
   def push_after_reply_post content, teachers_id, reciver_id, school_class_id, student, reciver_types
     unless teachers_id.include?(reciver_id.to_i)
-      if reciver_types == Micropost::USER_TYPES[:STUDENT] && !student.nil?  #?  TODO reciver_types == 1 学生
+      if reciver_types == Micropost::USER_TYPES[:STUDENT] && !student.nil?  #  TODO reciver_types == 1 学生
         school_class = SchoolClass.find_by_id school_class_id
-        extras_hash = {:type => Student::PUSH_TYPE[:q_and_a], :class_id => school_class_id, :class_name => school_class.name}
-        token = student.token
-        if token
-          ipad_push(content, [token], extras_hash)
-        else
-          qq_uid = student.qq_uid
-          jpush_parameter content, qq_uid, extras_hash
-        end
+        extras_hash = {:type => Student::PUSH_TYPE[:q_and_a], :class_id => school_class_id, :class_name => school_class.name, :student_id => student.id}
+        push_method(content, extras_hash, student)
         #android_and_ios_push(school_class,content,extras_hash)
       end
+    end
+  end
+
+  #push 推送
+  def push_method(content, extras_hash, student)
+    token = student.token
+    if token
+      ipad_push(content, [token], extras_hash)
+    else
+      qq_uid = student.qq_uid
+      jpush_parameter content, qq_uid, extras_hash
     end
   end
   
@@ -588,7 +593,7 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
 
     #ios 推送
     if tag_id.present? && tag_id != 0  #分组
-      ipad_student_tokens = school_class.students.where("token is not null  and school_class_student_ralastions.tag_id = #{tag_id}").select("token").map(&:token)
+      ipad_student_tokens = school_class.students.where("token is not null and school_class_student_ralastions.tag_id = #{tag_id}").select("token").map(&:token)
     else
       ipad_student_tokens = school_class.students.where("token is not null").select("token").map(&:token)
     end

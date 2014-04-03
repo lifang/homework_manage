@@ -754,6 +754,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 .ab_func li a.save_icon { background: url(/assets/icon06.png) no-repeat 0 -50px; display: none;}
 .ab_func li a.share_icon { background: url(/assets/icon06.png) no-repeat 0 -75px;}
 .ab_func li a.delete_icon { background: url(/assets/icon06.png) no-repeat 0 -125px;}
+.ab_func li a.share_icon_ed { background: url(/assets/icon11.png) no-repeat 0 -25px;}
 .ab_func li a.time_limit_clock_icon { background: url(/assets/icon06.png) no-repeat 0 0;}
 
 .ab_func_disabled li i.clock_icon { background: url(/assets/icon06.png) no-repeat 0 -223px;}
@@ -761,12 +762,12 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 .ab_func_disabled li i.share_icon { background: url(/assets/icon06.png) no-repeat 0 -273px;}
 .ab_func_disabled li i.delete_icon { background: url(/assets/icon06.png) no-repeat 0 -125px;}
 
-
 .ab_list_open {}
 .ab_list_open .ab_list_title { background: #29bd7f; color: #fff;}
 .ab_list_open .ab_func li a.clock_icon { background: url(/assets/icon06.png) no-repeat 0 -25px;}
 .ab_list_open .ab_func li a.save_icon { background: url(/assets/icon06.png) no-repeat 0 -50px; display: block;}
 .ab_list_open .ab_func li a.share_icon { background: url(/assets/icon06.png) no-repeat 0 -100px;}
+.ab_list_open .ab_func li a.share_icon_ed { background: url(/assets/icon11.png) no-repeat 0 0px;}
 .ab_list_open .ab_func li a.delete_icon { background: url(/assets/icon06.png) no-repeat 0 -150px;}
 .ab_list_open .ab_func_disabled li i.delete_icon { background: url(/assets/icon06.png) no-repeat 0 -150px;}
 

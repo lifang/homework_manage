@@ -859,6 +859,7 @@ $(function(){
         var que_id = $(this).parents(".ab_list_title").find("input[name='question_id']").first().val();
         var que_name = $(this).parents(".ab_list_title").find("h1").first().text();
         var school_class_id = $("#school_class_id").val();
+        var this_icon = $(this);
         if(que_name==undefined || que_name=="" || que_name=="未命名"){
             var doc_height = $(document).height();
             $(".mask").css("height",doc_height);
@@ -878,7 +879,9 @@ $(function(){
                 success: function(data){
                     if(data.status == 0){
                         tishi("分享成功!");
-                        $(this).parents(".ab_list_title").find("h1").first().text(que_name);
+                        this_icon.addClass("share_icon_ed");
+                        this_icon.removeClass("share_icon");
+                        this_icon.parents(".ab_list_title").find("h1").first().text(que_name);
                     }else if(data.status == 1){
                         tishi("此题已经分享过");
                     }else if(data.status == 2){
@@ -973,6 +976,9 @@ function set_question_name_valid(question_id, school_class_id){
                     $.each(q_ids, function(){
                         if($(this).val()==question_id){
                             $(this).parents(".ab_list_title").find("h1").first().text(name);
+                            var share_icon = $(this).parents(".ab_list_title").find(".share_icon");
+                            share_icon.addClass("share_icon_ed");
+                            share_icon.removeClass("share_icon");
                         }
                     });
                 }else if(data.status == 1){

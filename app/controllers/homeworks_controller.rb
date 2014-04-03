@@ -69,7 +69,7 @@ class HomeworksController < ApplicationController
     question_package_id = params[:question_package_id]
     school_class_id = params[:school_class_id]
     end_time = params[:end_time]
-    time_now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+    time_now = Time.now.strftime("%F %T")
     status = false
     notice = "发布失败！"
     if (end_time <=> time_now) > 0
@@ -113,8 +113,8 @@ class HomeworksController < ApplicationController
                 status = true
                 notice = "发布成功！"
                 @publish_question_packages = Teacher.get_publish_question_packages @school_class.id, page
-                content = "教师：#{teacher.user.name}于#{publish_question_package.created_at.strftime("%Y-%m-%d %H:%M:%S")}发布了一个任务,
-                      任务截止时间：#{publish_question_package.end_time.strftime("%Y-%m-%d %H:%M:%S")}"
+                content = "教师：#{teacher.user.name}于#{publish_question_package.created_at.strftime("%F %T")}发布了一个任务,
+                      任务截止时间：#{publish_question_package.end_time.strftime("%F %T")}"
                 @school_class.task_messages.create(:content => content,
                   :period_of_validity => publish_question_package.end_time,
                   :status => TaskMessage::STATUS[:YES],

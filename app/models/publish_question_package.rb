@@ -17,9 +17,9 @@ class PublishQuestionPackage < ActiveRecord::Base
   def self.get_tasks school_class_id, student_id, order_name=nil, date=nil, today_newer_id=nil
     my_tag_ids = Tag.get_my_tag_ids school_class_id, student_id
     tags = "#{my_tag_ids}".gsub(/\[/, "(").gsub(/\]/, ")") if my_tag_ids && my_tag_ids.length != 0
-    tasks_sql = "select p.id, q.name,p.question_package_id que_pack_id,p.start_time,p.end_time,
-            p.question_packages_url FROM publish_question_packages p left join question_packages q
-            on p.question_package_id = q.id where p.school_class_id = #{school_class_id}"
+    tasks_sql = "select p.id, q.name,p.question_package_id que_pack_id,p.start_time,
+    p.end_time, p.question_packages_url FROM publish_question_packages p
+    left join question_packages q on p.question_package_id = q.id where p.school_class_id = #{school_class_id}"
     date_now = Time.now.strftime('%Y-%m-%d')
     if !order_name.nil? && order_name == "first"
       tasks_sql += " and p.status = #{PublishQuestionPackage::STATUS[:NEW]} and
@@ -67,9 +67,10 @@ class PublishQuestionPackage < ActiveRecord::Base
           answer_url = s_a_rs[task.id][0][:answer_file_url]
           updated_at = s_a_rs[task.id][0][:updated_at]
         end
-        tasks << {:id => task.id, :name => task.name, :start_time => task.start_time,
+        updated_at = updated_at.strftime("%F %T") if updated_at
+        tasks << {:id => task.id, :name => task.name, :start_time => task.start_time.strftime("%F %T"),
           :question_types => question_types, :finish_types => finish_types, :answer_url => answer_url, :updated_at =>updated_at,
-          :end_time => task.end_time, :question_packages_url => task.question_packages_url
+          :end_time => task.end_time.strftime("%F %T"), :question_packages_url => task.question_packages_url
         }
       end
     end
@@ -188,8 +189,6 @@ class PublishQuestionPackage < ActiveRecord::Base
             correct_rate_sum << record_details.correct_rate
             complete_rate_sum << record_details.is_complete
           end
-        else
-          break
         end
         
       end

@@ -47,13 +47,14 @@ class QuestionPackagesController < ApplicationController
                 @notice = "文件上传完成！"
               else
                 @status = false
-                @notice = "文件上传失败！"  
+                @notice = "文件上传失败！"
               end  
             else
               @status = false
-              @notice = "文件上传失败！"   
+              @notice = "该小题不存在,文件上传失败！"   
             end
           else
+            @status = true
             @notice = "文件上传完成！"
           end  
         else

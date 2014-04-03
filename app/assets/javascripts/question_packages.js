@@ -88,7 +88,6 @@ function check_audio(obj)
 {
     var file_name = $(obj).val();
     var branch_id = $(obj).parents("form").first().find("input.branch_id").val();
-    alert(branch_id);
     var b_index = $(obj).parents("div.questions_item").first().index();
     var question_package_id = $("#question_package_id").val();
     var types = $(obj).parent().find("input.types").val();
@@ -111,7 +110,7 @@ function check_audio(obj)
 
     if(file_name.match(/\..*$/) == ".mp3" || file_name.match(/\..*$/) == ".MP3")
     {
-            $(obj).parent().find(".branch_id").first().val(b_index);
+            $(obj).parent().find(".branch_id").first().val(branch_id);
             $(obj).parent().find(".b_index").first().val(b_index);
             $(obj).parent().find(".question_package_id").first().val(question_package_id);
             $(obj).parent().submit();   

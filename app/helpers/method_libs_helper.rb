@@ -588,7 +588,7 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
 
     #ios 推送
     if tag_id.present? && tag_id != 0  #分组
-      ipad_student_tokens = school_class.students.where("token is not null  and school_class_student_ralastions.tag_id = #{tag_id}").select("token").map(&:token)
+      ipad_student_tokens = school_class.students.where("token is not null and school_class_student_ralastions.tag_id = #{tag_id}").select("token").map(&:token)
     else
       ipad_student_tokens = school_class.students.where("token is not null").select("token").map(&:token)
     end

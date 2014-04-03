@@ -1,12 +1,23 @@
 <% question[:branch_questions].each do |bq| %>
-  <%  next if @wrong_ids && !@wrong_ids.include?(bq[:id])%>
-    <!--%@wring_answer[bq[:id]]#这个是对应的错误答案%-->
-    <div class='q_topic'>
-      <div class="sortQuestions qt_input">
-        <div class="qt_input">
-          <p><%= bq[:content] %></p>
+  <% if @wrong_ids %>
+    <% if @wrong_ids.include?(bq[:id])%>
+      <!--%@wring_answer[bq[:id]]#这个是对应的错误答案%-->
+      <div class='q_topic'>
+        <div class="sortQuestions qt_input">
+          <div class="qt_input">
+            <p><%= bq[:content] %></p>
+          </div>
+        </div>
+        <div class="errorAnswer"><p><span>学生答案：</span><%= @wring_answer[bq[:id].to_i].split(";||;").join(" ") if @wring_answer[bq[:id]] %></p></div>
+      </div>
+      <% end %>
+    <% else %>
+      <div class='q_topic'>
+        <div class="sortQuestions qt_input">
+          <div class="qt_input">
+            <p><%= bq[:content] %></p>
+          </div>
         </div>
       </div>
-    </div>
- 
-<% end %>
+    <% end %>
+  <% end %>

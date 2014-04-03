@@ -1,6 +1,25 @@
 <% question[:branch_questions].each do |bq| %>
-  <%  next if @wrong_ids && !@wrong_ids.include?(bq[:id])%>
-    <!--%@wring_answer[bq[:id]]#这个是对应的错误答案%-->
+  <% if @wrong_ids %>
+    <%  if @wrong_ids.include?(bq[:id])%>
+      <!--%@wring_answer[bq[:id]]#这个是对应的错误答案%-->
+      <div class='q_topic'>
+        <div class='speedQuestions error'>
+          <ul>
+            <li>
+              <a href="javascript:void(0)" class="<%=  @wring_answer[bq[:id].to_i]== "true" ? "true" : "false" %>">T</a>
+            </li>
+            <li>
+              <p><%= bq[:content]%></p>
+            </li>
+            <li>
+              <a href="javascript:void(0)" class='<%= @wring_answer[bq[:id].to_i]== "true" ? "false" : "true" %>'>F</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <% p 0000000000 %>
     <div class='q_topic'>
       <div class='speedQuestions'>
         <ul>
@@ -16,4 +35,5 @@
         </ul>
       </div>
     </div>
+  <% end %>
 <% end %>

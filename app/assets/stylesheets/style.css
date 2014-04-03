@@ -777,6 +777,12 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 .questions_item { overflow: hidden; margin: 10px 0;}
 .q_topic { background: #e5e8e7; padding: 10px 20px; float: left; width: 776px;}
 .tab_questions .q_topic { margin-bottom:10px; border-bottom: 1px #fff solid;}
+
+
+/*错误答案表现*/
+.tab_questions .error .true { background: #d54e21;}
+.tab_questions .errorAnswer { line-height: 36px; color: #d54e21;}
+.tab_questions .correctAnswer_border { border: 1px #1b7e5a solid;}
 /*完成*/
 .q_compile li a.true { background: #29bd7f;}
 .q_compile li a.voice { background: url(/assets/icon07.png) no-repeat 0 -185px;}
@@ -970,7 +976,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 }
 
 .gq_article li input[type="text"], .gq_article li p {
-    width: 275px;
+    width: 274px;
     border: none;
     line-height: 36px;
     padding: 0 10px;

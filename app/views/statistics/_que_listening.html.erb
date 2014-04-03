@@ -1,6 +1,31 @@
 <% question[:branch_questions].each do |bq| %>
-  <%  next if @wrong_ids && !@wrong_ids.include?(bq[:id])%>
-    <!--%@wring_answer[bq[:id]]#这个是对应的错误答案%-->
+  <% if  @wrong_ids %>
+    <%  if  @wrong_ids.include?(bq[:id])%>
+      <!--%@wring_answer[bq[:id]]#这个是对应的错误答案%-->
+      <div class='q_topic'>
+        <div class='speedQuestions'>
+          <ul>
+            <% if bq[:resource_url].present? %>
+              <li>
+                <a href="javascript:void(0)" class="voice tooltip_title" onclick="playAudio(this)" title="音频">
+                  <audio controls="controls" class="bq_audio" style="display:none;">
+                    <source src="<%= bq[:resource_url] %>" type="audio/mpeg" />
+                    Your browser does not support the audio element.
+                  </audio>
+                </a>
+              </li>
+            <% else %>
+              <li></li>
+            <% end %>
+            <li>
+              <p><%= bq[:content] %></p>
+            </li>
+          </ul>
+        </div>
+        <div class="errorAnswer"><p><span>需要多听的词：</span><%= @wring_answer[bq[:id].to_i].split(";&&;")[1].split(";||;").join(" ") if  @wring_answer[bq[:id].to_i]&&@wring_answer[bq[:id].to_i].split(";&&;")[1] %></p></div>
+      </div>
+    <% end %>
+  <%else%>
     <div class='q_topic'>
       <div class='speedQuestions'>
         <ul>
@@ -22,4 +47,5 @@
         </ul>
       </div>
     </div>
+  <% end %>
 <% end %>

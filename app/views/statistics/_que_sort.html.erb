@@ -8,7 +8,7 @@
             <p><%= bq[:content] %></p>
           </div>
         </div>
-        <div class="errorAnswer"><p><span>学生答案：</span><%= @wring_answer[bq[:id].to_i].split(";||;").join(" ") if @wring_answer[bq[:id] %></p></div>
+        <div class="errorAnswer"><p><span>学生答案：</span><%= @wring_answer[bq[:id].to_i].split(";||;").join(" ") if @wring_answer[bq[:id]] %></p></div>
       </div>
       <% end %>
     <% else %>

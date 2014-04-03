@@ -1,16 +1,37 @@
-
 <% question[:branch_questions].each do |bq| %>
-  <%  next if @wrong_ids && !@wrong_ids.include?(bq[:id])%>
-  <div class='q_topic'>
-    <% bq.content.split(";||;").each_with_index do |br_content,index| %>
-      <div class="ligatureQuestions">
-        <!--%@wring_answer[bq[:id]]#这个是对应的错误答案%-->
-        <ul>
-          <li><p><%= br_content.split("<=>")[0] %></p></li>
-          <li><i></i></li>
-          <li><p><%= br_content.split("<=>")[1] %></p></li>
-        </ul>
+  <% if @wrong_ids %>
+    <%   if  @wrong_ids.include?(bq[:id])%>
+      <div class='q_topic'>
+        <% bq.content.split(";||;").each_with_index do |br_content,index| %>
+          <div class="ligatureQuestions">
+            <!--%@wring_answer[bq[:id]]#这个是对应的错误答案%-->
+            <ul>
+              <li><p><%= br_content.split("<=>")[0] %></p></li>
+              <li><i></i></li>
+              <li><p><%= br_content.split("<=>")[1] %></p></li>
+            </ul>
+          </div>
+        <% end if bq.content && bq.content.split(";||;") %>
+        <div class="errorAnswer"><p><span>学生答案：</span>
+            <% @wring_answer[bq[:id].to_i].split(";||;").each do |lining|  %>
+              <%= lining.gsub(/\<\=\>/,"=>")  %>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+            <% end if @wring_answer[bq[:id].to_i] %>
+          </p></div>
       </div>
-    <% end if bq.content && bq.content.split(";||;") %>
-  </div>
+    <% end %>
+  <% else %>
+    <div class='q_topic'>
+      <% bq.content.split(";||;").each_with_index do |br_content,index| %>
+        <div class="ligatureQuestions">
+          <!--%@wring_answer[bq[:id]]#这个是对应的错误答案%-->
+          <ul>
+            <li><p><%= br_content.split("<=>")[0] %></p></li>
+            <li><i></i></li>
+            <li><p><%= br_content.split("<=>")[1] %></p></li>
+          </ul>
+        </div>
+      <% end if bq.content && bq.content.split(";||;") %>
+    </div>
+  <% end %>
 <% end %>

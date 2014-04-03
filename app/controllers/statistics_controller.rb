@@ -123,6 +123,7 @@ class StatisticsController < ApplicationController
                 end
                 @origin_questions = {:types => types, :questions => ques}
                 @wrong_ids = wrong_ids
+                p @wrong_ids
                 @status = true
                 @notice = "答题记录读取完成"
                 @notice += ",未找到相关大题" if questions.length == 0

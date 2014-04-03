@@ -144,7 +144,6 @@ function save_listening_reading(obj, types, school_class_id)
  
     if(types == 0) //听写
     {
-        tishi(1);
         if(content != "")
         {
             if(file == "")
@@ -165,7 +164,6 @@ function save_listening_reading(obj, types, school_class_id)
     }
     else if(types == 1)  // 朗读
     {
-        tishi(2);
         if(content != "")
         {
             $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();

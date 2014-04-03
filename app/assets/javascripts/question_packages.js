@@ -633,7 +633,7 @@ function add_b_tags(type, obj){
                 add_tags_to_listening_reading(question_id, b_index, tag_id, tag_name);
             })           
         })
-    }l
+    }
 
     return false;
 }

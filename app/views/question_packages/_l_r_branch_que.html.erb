@@ -53,7 +53,9 @@
       <% else %>
         <a href="javascript:void(0)" class="save tooltip_html" onclick="save_listening_reading(this,<%= types %>,<%= params[:school_class_id] %>)">保存</a>
       <% end %>
-      <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_b_tags('listening_and_reading_tags',this)">标签</a>
+      <% if branch_id.present? %>
+        <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_b_tags('listening_and_reading_tags',this)">标签</a>
+      <% end %>
     </div>
     <div class="tag_ul">
       <ul>

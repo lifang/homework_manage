@@ -58,7 +58,7 @@ function add_l_r_question(types, school_class_id )
 //选择上传音频文件
 function select_audio(obj)
 {   
-    $(obj).next().find("[class='file']").click();
+    $(obj).parent().next().next().find("[class='tmp_voice']").first().click();
 }
 
 //显示该单元该课下的题目
@@ -87,52 +87,40 @@ function show_ques(types, school_class_id)
 function check_audio(obj)
 {
     var file_name = $(obj).val();
-    var branch_id = $(obj).parent().parent().parent().parent().parent().find("input.branch_id").val();
+    var branch_id = $(obj).parents("form").first().find("input.branch_id").val();
+    alert(branch_id);
+    var b_index = $(obj).parents("div.questions_item").first().index();
+    var question_package_id = $("#question_package_id").val();
     var types = $(obj).parent().find("input.types").val();
     var input_s = $(obj);
     var isIE = document.all && window.external
+    var file_name = $(obj).val();
     if(isIE){
     }
     else{
-        var file_size = input_s[0].files[0].size;
-        if(file_size>1048576){
-            $(obj).val("");
-            tishi("文件不能大于1M!");
-            return false;
-        }
-    }
-
-
-    if(types == 0)
-    {
-        if(file_name.match(/\..*$/) == ".mp3" || file_name.match(/\..*$/) == ".MP3")
-        {}
-        else
-        {
-            tishi("只能上传mp3格式文件！");
-            $(obj).val("");
-        }
-    }
-    else if(types == 1)
-    {
-        var file_name = $(obj).val();
-        if(file_name.match(/\..*$/) == ".mp3" || file_name.match(/\..*$/) == ".MP3")
-        {
-            if(branch_id == "")
-            {  
-
-            }   
-            else
-            {
-                $(obj).parent().submit();
+        if(file_name.size != "")
+        {    
+            var file_size = input_s[0].files[0].size;
+            if(file_size>1048576){
+                $(obj).val("");
+                tishi("文件不能大于1M!");
+                return false;
             }
-        }
-        else
-        {
-            tishi("只能上传mp3格式文件！");
-            $(obj).val("");
+        }    
+    }
 
-        }
+    if(file_name.match(/\..*$/) == ".mp3" || file_name.match(/\..*$/) == ".MP3")
+    {
+            $(obj).parent().find(".branch_id").first().val(b_index);
+            $(obj).parent().find(".b_index").first().val(b_index);
+            $(obj).parent().find(".question_package_id").first().val(question_package_id);
+            $(obj).parent().submit();   
+    }
+    else
+    {
+        tishi("只能上传mp3格式文件！");
+        $(obj).val("");
+
     }
 
 }
@@ -157,11 +145,12 @@ function save_listening_reading(obj, types, school_class_id)
  
     if(types == 0) //听写
     {
+        tishi(1);
         if(content != "")
         {
             if(file == "")
             {
-                tishi("听写题资源不能为空！"); 
+                tishi("听写题资源不能为空！");
             }
             else
             {
@@ -177,6 +166,7 @@ function save_listening_reading(obj, types, school_class_id)
     }
     else if(types == 1)  // 朗读
     {
+        tishi(2);
         if(content != "")
         {
             $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();

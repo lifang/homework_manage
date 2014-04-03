@@ -11,7 +11,7 @@
             <% end %>
             <% if types == Question::TYPES[:LISTENING] %>
               <%= form_tag({:action => :save_listening}, :multipart => true ,:remote => true) do %>
-                <input type="file" name="file" class="file" style="display:none;" onchange="check_audio(this)"/>
+                <input type="hidden" name="file" value class="file" style="display:none;"/>
                 <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>"/>
                 <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>"/>
                 <input type="hidden" name="types" class="types" value="<%= types %>"/>
@@ -21,7 +21,7 @@
               <% end %>
             <% elsif types == Question::TYPES[:READING] %>
               <%= form_tag({:action => :save_reading}, :multipart => true ,:remote => true) do %>
-                <input type="file" name="file" class="file" style="display:none;" onchange="check_audio(this)"/>
+                <input type="hidden" name="file" value class="file" style="display:none;"/>
                 <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>"/>
                 <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>"/>
                 <input type="hidden" name="types" class="types" value="<%= types %>"/>
@@ -31,11 +31,20 @@
               <% end %>
             <% end %>  
         </li>
-          <li class="qt_text">
-            <p><%= content.present?  ? content : "" %></p>
-            <input class="content" type="text" value="<%= content.present?  ? content : "" %>" onblur="update_listening_reading(this,<%= params[:school_class_id] %>)" style="display:none;" />
-          </li>
-        </ul>
+        <li class="qt_text">
+          <p><%= content.present?  ? content : "" %></p>
+          <input class="content" type="text" value="<%= content.present?  ? content : "" %>" onblur="update_listening_reading(this,<%= params[:school_class_id] %>)" style="display:none;" />
+        </li>
+        <li class="upload_voice">
+          <%= form_tag({:action => :upload_voice}, :multipart => true ,:remote => true) do %>
+            <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>"/>
+            <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>"/>
+            <input type="file" name="file" class="tmp_voice" style="display:none;" onchange="check_audio(this)"/>
+            <input type="hidden" name="b_index" class="b_index"  value="<%= count_b.present?  ? count_b : "" %>"/>
+            <input type="hidden" name="question_package_id" class="question_package_id" value=""/>
+          <% end %>
+        </li>
+      </ul>
       </div>
     </div>
     <div class="qt_icon">

@@ -649,27 +649,29 @@ function add_tags_to_listening_reading(question_id, b_index, tag_id, tag_name)
     var tag_li = "<li><p>"+tag_name+"</p><a href='javascript:void(0)'' class='x' onclick='delete_reading_listening_tags(this,"+tag_id+")'>X</a></li>";
     if(branch_id == "")
     {
-        if(tags_id == "")
-        {
-            $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("div.tag_ul").find("ul").append(tag_li);
-            $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tag_id);
-        }
-        else
-        {
-            var tags_id_arr = tags_id.split(/\|/);
-            var index = $.inArray(tag_id,tags_id_arr);
-            if(index== -1)
-            {
-                tags_id += "|";
-                tags_id += tag_id;
-                $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("div.tag_ul").find("ul").append(tag_li);
-                $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tags_id);
-            }
-            else
-            {
-                tishi("已添加该标签!");
-            }
-        }    
+        $("#tags_table").hide();
+        tishi("未保存小题，还不能添加标签!");
+        // if(tags_id == "")
+        // {
+        //     $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("div.tag_ul").find("ul").append(tag_li);
+        //     $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tag_id);
+        // }
+        // else
+        // {
+        //     var tags_id_arr = tags_id.split(/\|/);
+        //     var index = $.inArray(tag_id,tags_id_arr);
+        //     if(index== -1)
+        //     {
+        //         tags_id += "|";
+        //         tags_id += tag_id;
+        //         $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("div.tag_ul").find("ul").append(tag_li);
+        //         $("#question_"+ question_id +"").find("div.questions_item:eq("+ b_index +")").find("input.tags_id").val(tags_id);
+        //     }
+        //     else
+        //     {
+        //         tishi("已添加该标签!");
+        //     }
+        // }    
     }
     else
     {

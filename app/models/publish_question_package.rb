@@ -209,14 +209,14 @@ class PublishQuestionPackage < ActiveRecord::Base
     if time > 0
       if average_ratio >= CORRECT_RATE_SIX && average_ratio <= CORRECT_RATE_TEN && use_time < question.time
         ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:QUICKLY]
-        add_prop_get_archivement student.id,Prop::TYPES[:Reduce_time],school_class
+        #add_prop_get_archivement student.id,Prop::TYPES[:Reduce_time],school_class
         if time > TIME_TOW_HOUR
           ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:EARLY]
         end
       end
       if average_ratio == CORRECT_RATE_TEN
         ArchivementsRecord.update_archivements student, school_class, ArchivementsRecord::TYPES[:ACCURATE]
-        add_prop_get_archivement student.id,Prop::TYPES[:Show_corret_answer],school_class
+        #add_prop_get_archivement student.id,Prop::TYPES[:Show_corret_answer],school_class
       end
     end
   end

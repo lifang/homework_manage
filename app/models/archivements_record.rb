@@ -14,36 +14,47 @@ class ArchivementsRecord < ActiveRecord::Base
         :school_class_id => school_class.id,
         :archivement_types => archivement_types,
         :archivement_score => 10)
-      unless archivement.archivement_score.nil?
-        if archivement.archivement_score%100 == 0
-          if archivement.archivement_types==ArchivementsRecord::TYPES[:QUICKLY]
-            add_prop_get_archivement student.id,Prop::TYPES[:Reduce_time],school_class
-          end
-          if archivement.archivement_types==ArchivementsRecord::TYPES[:ACCURATE]
-            add_prop_get_archivement student.id,Prop::TYPES[:Show_corret_answer],school_class
-          end
-        end
-      end
     else
       archivement.update_attributes(:archivement_score =>
-          (archivement.archivement_score+10))
+          (archivement.archivement_score.to_i+10))
     end
+
+   #额外参数
+    extras_hash = {:type => Student::PUSH_TYPE[:sys_message], :class_id => school_class.id, :class_name => school_class.name, :student_id => student.id}
+
+    #获得成就 保存系统消息 并且 发推送
     content = "恭喜您获得成就“#{TYPES_NAME[archivement_types]}”"
-    #extras_hash = {:type => Student::PUSH_TYPE[:sys_message]}
     SysMessage.create(school_class_id:school_class.id,
       student_id:student.id,
       content:content,
       status:0)
     # 推送
-    extras_hash = {:type => Student::PUSH_TYPE[:sys_message], :class_id => school_class.id, :class_name => school_class.name}
-    token = student.token
-    if token
-      ipad_push(content, [token], extras_hash)
-    else
-      qq_uid = student.qq_uid
-      jpush_parameter content, qq_uid, extras_hash
+    push_method(content, extras_hash, student)
+
+    #升级 保存系统消息，并推送
+    if archivement && archivement.archivement_score.present?
+      if archivement.archivement_score%100 == 0
+        if archivement.archivement_types==ArchivementsRecord::TYPES[:QUICKLY]  #精准
+          add_prop_get_archivement student.id,Prop::TYPES[:Reduce_time],school_class
+          content = "恭喜您! #{TYPES_NAME[archivement.archivement_types]}成就升到“#{archivement.archivement_score/100}”级了"
+          SysMessage.create(school_class_id:school_class.id,
+            student_id:student.id,
+            content:content,
+            status:0)
+          push_method(content, extras_hash, student)
+        end
+
+        if archivement.archivement_types==ArchivementsRecord::TYPES[:ACCURATE]  #迅速
+          add_prop_get_archivement student.id,Prop::TYPES[:Show_corret_answer],school_class
+          content = "恭喜您! #{TYPES_NAME[archivement.archivement_types]}成就升到“#{archivement.archivement_score/100}”级了"
+          SysMessage.create(school_class_id:school_class.id,
+            student_id:student.id,
+            content:content,
+            status:0)
+          push_method(content, extras_hash, student)
+        end
+      end
     end
-    #android_and_ios_push(school_class,content,extras_hash)
   end
   
   #获得成就时加道具

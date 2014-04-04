@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140404021517) do
+ActiveRecord::Schema.define(:version => 20140404034803) do
 
   create_table "app_versions", :force => true do |t|
     t.float "c_version"
@@ -306,7 +306,8 @@ ActiveRecord::Schema.define(:version => 20140404021517) do
   create_table "schools", :force => true do |t|
     t.string  "name"
     t.integer "students_count"
-    t.boolean "status",         :default => false
+    t.boolean "status",             :default => false
+    t.integer "used_school_counts"
   end
 
   add_index "schools", ["name"], :name => "index_schools_on_name"

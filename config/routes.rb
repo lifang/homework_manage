@@ -37,6 +37,7 @@ HomeworkManage::Application.routes.draw do
 
   namespace :admin do
     resources :schools
+    resources :courses
   end  
 
   resources :welcome do

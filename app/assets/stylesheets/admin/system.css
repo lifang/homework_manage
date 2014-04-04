@@ -3,7 +3,7 @@
 
 *{ padding: 0; margin: 0;}
 body { 
-	background: url(../assets/bg.jpg) no-repeat center 0 fixed;
+	background: url(/assets/bg.jpg) no-repeat center 0 fixed;
 	font-family:"微软雅黑", "宋体", Arial; 
 	font-size: 14px; 
 	color: #333;
@@ -33,7 +33,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 	height: 80px;
 	overflow: hidden;
 	text-indent: -999px; 
-	background: url(../assets/logo.png) no-repeat;
+	background: url(/assets/logo.png) no-repeat;
 	float: left;
 }
 
@@ -46,7 +46,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 	height: 16px;
 	line-height: 16px;
 	display: inline-block;
-	background: url(../assets/userInfo.png) no-repeat 0px 0px;
+	background: url(/assets/userInfo.png) no-repeat 0px 0px;
 	margin-top: 10px;
 }
 .userInfo li.email a { 
@@ -54,7 +54,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 	height: 12px;
 	line-height: 12px;
 	display: inline-block;
-	background: url(../assets/userInfo.png) no-repeat 0 -38px;
+	background: url(/assets/userInfo.png) no-repeat 0 -38px;
 	margin-top: 12px;
 }
 
@@ -142,7 +142,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 	width: 22px; 
 	height: 22px;
 	margin: 5px 4px; 
-	background: url(../assets/search.png) no-repeat;
+	background: url(/assets/search.png) no-repeat;
 	float: left;
 }
 .search input { width: 250px; height: 32px; line-height: 32px; border: none;}
@@ -172,14 +172,14 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 	text-indent: -999px;
 	margin: 0 5px; 
 }
-.delete_a { background: url(../assets/s_icon01.png) no-repeat 0px 0px;}
-.add_a { background: url(../assets/s_icon01.png) no-repeat 0px -25px;}
+.delete_a { background: url(/assets/s_icon01.png) no-repeat 0px 0px;}
+.add_a { background: url(/assets/s_icon01.png) no-repeat 0px -25px;}
 
-.controller_a { background: url(../assets/s_icon01.png) no-repeat 0px -50px;}
-.reset_a { background: url(../assets/s_icon01.png) no-repeat 0px -75px;}
-.blockUp_a { background: url(../assets/s_icon01.png) no-repeat 0px -100px;}
-.blockUp_a_ed { background: url(../assets/s_icon01.png) no-repeat 0px -125px;}
-.reduce_a { background: url(../assets/s_icon01.png) no-repeat 0px -150px;}
+.controller_a { background: url(/assets/s_icon01.png) no-repeat 0px -50px;}
+.reset_a { background: url(/assets/s_icon01.png) no-repeat 0px -75px;}
+.blockUp_a { background: url(/assets/s_icon01.png) no-repeat 0px -100px;}
+.blockUp_a_ed { background: url(/assets/s_icon01.png) no-repeat 0px -125px;}
+.reduce_a { background: url(/assets/s_icon01.png) no-repeat 0px -150px;}
 
 .form_list li a.add_a, .form_list li a.reduce_a  { margin-bottom: -7px;}
 
@@ -206,7 +206,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 	width: 22px; 
 	height: 22px; 
 	display: block; 
-	background: url(../assets/close.jpg) no-repeat;
+	background: url(/assets/close.jpg) no-repeat;
 	text-indent: -999px;
 	overflow: hidden;
 	position: absolute; 
@@ -219,7 +219,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 	width: 350px;
 	line-height: 38px;
 	margin: 20px auto; 
-	background: url(../assets/th.png) no-repeat 0 0;
+	background: url(/assets/th.png) no-repeat 0 0;
 	padding-left: 30px;
 	text-align: center;
 }
@@ -231,7 +231,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 	text-indent: -999px;
 	overflow: hidden;
 	position: absolute;
-	background: url(../assets/x.png) no-repeat;
+	background: url(/assets/x.png) no-repeat;
 }
 
 .tab_btn { margin: 10px 0; text-align: center; padding: 10px;}
@@ -266,7 +266,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 	width: 24px; 
 	height: 24px; 
 	display: block; 
-	background: url(../assets/file.png) no-repeat;
+	background: url(/assets/file.png) no-repeat;
 	overflow: hidden; 
 	text-indent: -999px;
 }
@@ -291,7 +291,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 	background: #fff;
 }
 .form_list li .jqTransformSelectWrapper a.jqTransformSelectOpen {
-	background:url("../assets/select01.png") no-repeat  center center rgba(0, 0, 0, 0);
+	background:url("/assets/select01.png") no-repeat  center center rgba(0, 0, 0, 0);
 	height: 38px;
 	top: 0px;
 }
@@ -304,4 +304,30 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 }
 .form_list li .jqTransformSelectWrapper ul { top: 38px;}
 .form_list li .jqTransformSelectWrapper ul li { padding: 0; margin: 0; width: 230px; line-height: normal;}
+
+/*弹出提示逐渐消失*/
+.tab_Prompt {
+    width: 300px;
+    padding: 20px;
+    box-shadow: 0px 0px 5px rgba(51,51,51,0.8);
+    border-radius: 5px;
+    background: rgba(255,255,255,0.8);
+    position: absolute;
+    display: none;
+    z-index: 1000;
+}
+.tab_Prompt a.x { top: 10px; right: 10px;}
+.tab_Prompt p { padding: 10px; text-align: center; line-height: 24px;}
+
+/*tab*/
+.mask {
+    background: url(/assets/black.png) repeat;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    display: none;
+}
 

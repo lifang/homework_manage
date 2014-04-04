@@ -1,0 +1,46 @@
+<div class="subject">
+  <div class="subject_head">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="200">
+          <div class="select_box">
+            <div class="rowElem">
+              <select name="select1" onchange="select_course(this)">
+                <option value="0" <% if @course_id.nil? || @course_id.to_i==0 %>selected<% end %>>科目</option>
+                <% @all_courses.each do |c| %>
+                  <option value="<%= c.id %>" <% if @course_id.to_i == c.id %>selected<% end %>><%= c.name %></option>
+                <% end if @all_courses %>
+              </select>
+            </div>
+          </div>
+        </td>
+        <td>教材</td>
+      </tr>
+    </table>
+  </div>
+  <div class="subject_body">
+    <% @page_courses.each do |pc| %>
+      <% teach_mat = @teaching_materials[pc.id] if @teaching_materials && @teaching_materials[pc.id] && @teaching_materials[pc.id].length > 0 %>
+      <div class="b_table">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td rowspan="<%= teach_mat.nil? ? "2" : teach_mat.length + 2 %>" width="300">
+              <div class="subject_td_title"><h1><%= pc.name %></h1> <a href="javascript:void(0)" class="delete_a tooltip_html">删除</a></div>
+            </td>
+          </tr>
+          <% teach_mat.each do |tm| %>
+            <tr>
+              <td><div class="subject_td_con"><h2><%= tm.name %></h2><a href="#" class="delete_a tooltip_html">删除</a></div></td>
+            </tr>
+          <% end if teach_mat %>
+          <tr>
+            <td><a href="#" class="add_a tooltip_html">添加</a></td>
+          </tr>
+        </table>
+      </div>
+    <% end if @page_courses.any? %>
+  </div>
+</div>
+
+
+

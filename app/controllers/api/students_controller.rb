@@ -255,8 +255,6 @@ class Api::StudentsController < ApplicationController
         knowledges_cards_count = card_bag.knowledges_cards_count
       end
       props = Prop.get_prop_num school_class.id, student.id
-      p  11111111111111111
-      p props
       tasks = PublishQuestionPackage.get_tasks school_class.id, student.id,"first"
       status = "success"
       notice = "获取成功！"

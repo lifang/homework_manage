@@ -101,15 +101,13 @@ class PublishQuestionPackage < ActiveRecord::Base
             user_prop_relation = UserPropRelation.find_by_id props[prop["type"].to_i][0][:user_prop_relation_id]
             prop["branch_id"].each do |branch_id|
               if user_prop_relation
-                rup = RecordUseProp.find_by_user_prop_relation_id_and_branch_question_id(user_prop_relation.id, branch_id)
-                unless rup
-                  RecordUseProp.create(:user_prop_relation_id => user_prop_relation.id,
-                    :branch_question_id => branch_id)
-                    user_prop_relation.update_attributes(:user_prop_num =>
-                        (user_prop_relation.user_prop_num-1).to_i) if user_prop_relation.user_prop_num
-                end
+                RecordUseProp.create(:user_prop_relation_id => user_prop_relation.id,
+                  :branch_question_id => branch_id)
               end
             end if prop["branch_id"].present?
+            
+            user_prop_relation.update_attributes(:user_prop_num =>
+                (user_prop_relation.user_prop_num-prop["branch_id"].length).to_i) if user_prop_relation && user_prop_relation.user_prop_num
           end
         end
       end

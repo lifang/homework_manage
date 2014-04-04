@@ -36,7 +36,11 @@ HomeworkManage::Application.routes.draw do
   end
 
   namespace :admin do
-    resources :schools
+    resources :schools do
+      collection do
+        
+      end
+    end
   end  
 
   resources :welcome do
@@ -118,9 +122,9 @@ HomeworkManage::Application.routes.draw do
           :save_wanxin_branch_question
       end
       resources :questions do
-         member do
+        member do
           post :share, :reference
-         end
+        end
         resources :branch_questions do
           collection do
             get 
@@ -140,9 +144,9 @@ HomeworkManage::Application.routes.draw do
       get :render_new_question
     end
     resources :questions do
-#      member do
-#        post :share, :reference
-#      end
+      #      member do
+      #        post :share, :reference
+      #      end
       collection do
         get :show_branch_question
         get :show_select,:question_selects_all,:new_lianxian,:delete_branch_question

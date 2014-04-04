@@ -7,6 +7,8 @@ class Teacher < ActiveRecord::Base
   has_many :question_packages, :dependent => :destroy
   has_many :publish_question_packages, :dependent => :destroy
   belongs_to :user
+  TYPES = {:SYSTEM => 0,:SCHOOL=>1,:EXAM=>2,:teacher=>3}
+  TYPES_NAME = {0=>'系统管理员',1=>'学校管理员',2=>'题库管理员',3=>'教师'}
   AVATAR_SIZE = [176]
   SCREENSHOT_SIZE = [298]
   STATUS = {:YES => 0, :NO => 1}
@@ -20,9 +22,9 @@ class Teacher < ActiveRecord::Base
     publish_question_packages = QuestionPackage.find_by_sql(sql_str).paginate(:page => page, :per_page => PublishQuestionPackage::PER_PAGE)
     pub_package_id = []
     publish_question_packages.each do |e|
-     if e.publish_question_package_id.nil? == false
+      if e.publish_question_package_id.nil? == false
         pub_package_id << e.publish_question_package_id
-     end
+      end
     end
     que_packs_id = publish_question_packages.map(&:question_package_id)
     que_pack_types = QuestionPackage.get_all_packs_que_types school_class_id,que_packs_id
@@ -41,7 +43,7 @@ class Teacher < ActiveRecord::Base
     end
    
     all_pack_types_name = all_pack_types_name.group_by {|e| e[:id]}
-     p all_pack_types_name
+    p all_pack_types_name
     student_answer_records = StudentAnswerRecord.where("school_class_id = ? and publish_question_package_id in (?)",school_class_id,pub_package_id)
     student_answer_records.map!(&:publish_question_package_id).uniq!
     info = {:publish_question_packages => publish_question_packages, :un_delete => student_answer_records, :all_pack_types_name => all_pack_types_name}

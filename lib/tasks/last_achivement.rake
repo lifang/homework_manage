@@ -1,4 +1,6 @@
 #encoding: utf-8
+require "#{Rails.root}/app/helpers/method_libs_helper"
+include MethodLibsHelper
 namespace :last_achivement do
   desc "when question package ended_at time is come, get last achievement"  #在作业截止时间到的时候，计算最后一个 “优异” 成就
   task(:auto_generate_customer_types => :environment) do
@@ -30,19 +32,26 @@ rd.student_answer_record_id = sar.id where question_package_id in (?) and school
             calculated_score = (record.avg_correct_rate * 8 + time_rate * 6 + (18/index + 1)).round  # 【优异】成就计算公式  平均正确率*8 + 时效性*6 + (18/排名)
             calculated_score = calculated_score
             archivement = ArchivementsRecord
-                .find_by_student_id_and_school_class_id_and_archivement_types(record.student_id,
-                              school_class.id, ArchivementsRecord::TYPES[:PEFECT].to_i)
-              if archivement.nil?
-                archivement = ArchivementsRecord.create(:student_id => record.student_id,
-                              :school_class_id => record.school_class_id,
-                              :archivement_types => ArchivementsRecord::TYPES[:PEFECT].to_i,
-                              :archivement_score => calculated_score)
-              else
-                archivement.update_attributes(:archivement_score => (archivement.archivement_score + calculated_score))
-              end
+            .find_by_student_id_and_school_class_id_and_archivement_types(record.student_id,
+              school_class.id, ArchivementsRecord::TYPES[:PEFECT].to_i)
+            if archivement.nil?
+              archivement = ArchivementsRecord.create(:student_id => record.student_id,
+                :school_class_id => record.school_class_id,
+                :archivement_types => ArchivementsRecord::TYPES[:PEFECT].to_i,
+                :archivement_score => calculated_score)
+            else
+              archivement.update_attributes(:archivement_score => (archivement.archivement_score.to_i + calculated_score))
+            end
           rescue Exception => e
-            File.open("#{Rails.root}/public/e.log", "wb"){|f| f.write "question_pack:#{record.question_package_id}----#{e}"}
+            File.open("#{Rails.root}/public/e.log", "a"){|f| f.write "\n question_pack:#{record.question_package_id}----#{e}"}
             next
+          else
+            #获得成就 保存系统消息 并且 发推送
+            student = Student.find_by_id record.student_id
+            #额外参数
+            extras_hash = {:type => Student::PUSH_TYPE[:sys_message], :class_id => school_class.id, :class_name => school_class.name, :student_id => student.id}
+            content = "恭喜您获得成就“#{ArchivementsRecord::TYPES_NAME[ArchivementsRecord::TYPES[:PEFECT]]}”"
+            save_sys_message(student, content, extras_hash, school_class)
           end
         end
       end

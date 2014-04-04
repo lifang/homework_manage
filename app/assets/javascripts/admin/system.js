@@ -53,6 +53,7 @@ $(function(){
 	});
 })
 
+//tishi
 function tishi(message){
     $("#tab_Prompt").find("p").first().html(message);
     var scolltop = document.body.scrollTop|document.documentElement.scrollTop;
@@ -79,16 +80,13 @@ function tishi(message){
 
 //popup
 function popup(t){
+    var scolltop = document.body.scrollTop|document.documentElement.scrollTop; //滚动条高度
     var win_width = $(window).width();
-    var win_height = $(window).height();
-    var doc_width = $(document).width();
     var doc_height = $(document).height();
-
-    var layer_height = $(t).height();
     var layer_width = $(t).width();
 
     var left = (win_width-layer_width)/2;
-    var top = (win_height-layer_height)/2;
+    var top = scolltop+100;
     $(".mask").css("height",doc_height);
     $(t).css('top',top);
     $(t).css('left',left);

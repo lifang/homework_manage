@@ -36,7 +36,13 @@ HomeworkManage::Application.routes.draw do
   end
 
   namespace :admin do
-    resources :courses
+
+    resources :courses do
+      collection do
+        get :del_teaching_material
+      end
+    end
+    
     resources :schools do
       collection do
         

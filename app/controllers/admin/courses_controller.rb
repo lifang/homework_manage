@@ -2,6 +2,7 @@
 class Admin::CoursesController < ApplicationController
 	layout "admin"
   require 'will_paginate/array'
+  skip_before_filter :get_teacher_infos
 	def index
     @course_id = params[:course_id]
     @all_courses = Course.where(["status = ?", Course::STATUS[:NORMAL]])
@@ -14,19 +15,40 @@ class Admin::CoursesController < ApplicationController
     end
     
     @page_courses = courses.paginate(:page => params[:page] ||= 1, :per_page => Course::PER_PAGE) if courses.any?
-    @teaching_materials = TeachingMaterial.where(["course_id in (?)", @page_courses.map(&:id)]).group_by{|tm|
+    @teaching_materials = TeachingMaterial.where(["status = ? and course_id in (?)", TeachingMaterial::STATUS[:NORMAL],
+        @page_courses.map(&:id)]).group_by{|tm|
       tm.course_id} if @page_courses
 	end
 
+  #删除科目
   def destroy
     Course.transaction do
       course = Course.find_by_id(params[:id].to_i)
       if course.update_attribute("status", Course::STATUS[:DELETED])
-        flash[:notice] = "删除成功!"
+        status = 1
       else
-        flash[:notice] = "删除失败!"
+        status = 0
       end
-      redirect_to "/admin/courses"
+      render :json => {:status => status}
+    end
+  end
+
+  #新建科目
+  def create
+
+  end
+  
+  #删除教材
+  def del_teaching_material
+    TeachingMaterial.transaction do
+      t_m_id = params[:teaching_material_id]
+      t_material = TeachingMaterial.find_by_id(t_m_id)
+      if t_material.update_attribute("status", TeachingMaterial::STATUS[:DELETED])
+        status = 1
+      else
+        status = 0
+      end
+      render :json => {:status => status}
     end
   end
 end

@@ -34,4 +34,18 @@ HomeworkManage::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  config.action_mailer.default_url_options = { :host => '58.240.210.42:3004' }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.default :content_type => "text/html"
+  ActionMailer::Base.smtp_settings = {
+	  :enable_starttls_auto => true,
+	  :address => "smtp.gmail.com",
+	  :port => 587,
+	  :authentication => :plain,
+	  :user_name => "amandamfl1989@gmail.com",
+	  :password => "amanda1989"
+  }
+  
 end

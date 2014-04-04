@@ -2,6 +2,9 @@
 class Admin::SchoolsController < ApplicationController
 	layout "admin"
 	def index
-		
-	end	
+		@school
+	end
+  def create
+    
+  end
 end

@@ -152,6 +152,7 @@ function save_listening_reading(obj, types, school_class_id)
             }
             else
             {
+                $(obj).attr("disabled","true");
                 $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();
             }    
                 
@@ -166,6 +167,7 @@ function save_listening_reading(obj, types, school_class_id)
     {
         if(content != "")
         {
+            $(obj).attr("disabled","true");
             $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();
         }
         else

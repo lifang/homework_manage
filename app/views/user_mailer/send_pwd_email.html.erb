@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h3>欢迎加入超级作业本, <%= @email %></h3>
+    <p>
+      恭喜您！<br/>
+      您已经成为 <%= @type_name %><br/>
+      您的密码是：<%=@pwd %>
+    </p>
+    <p>
+      请使用邮箱，密码
+      点击连接 <a href="<%= @url %>"><%= @url %></a> 登录到超级作业本
+    </p>
+    <p>感谢您加入超级作业本，祝生活愉快!</p>
+  </body>
+</html>

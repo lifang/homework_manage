@@ -1183,13 +1183,21 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 
 .multipleChoice .q_right li .icheckbox_square-green,
 .multipleChoice .q_right li .iradio_square-green { float: left; margin-top: 7px; margin-right: 21px;}
+
 .multipleChoice .q_right li .icheckbox_square-aero,
 .multipleChoice .q_right li .iradio_square-aero { float: left; margin-top: 7px; margin-right: 21px;}
 
+.multipleChoice .q_right li .icheckbox_square-red,
+.multipleChoice .q_right li .iradio_square-red { float: left; margin-top: 7px; margin-right: 21px;}
+
 .gq_article li .icheckbox_square-green,
 .gq_article li .iradio_square-green { float: left; margin-top: 7px; margin-right: 10px;}
+
 .gq_article li .icheckbox_square-aero,
 .gq_article li .iradio_square-aero { float: left; margin-top: 7px; margin-right: 10px;}
+
+.gq_article li .icheckbox_square-red,
+.gq_article li .iradio_square-red { float: left; margin-top: 7px; margin-right: 10px;}
 
 
 

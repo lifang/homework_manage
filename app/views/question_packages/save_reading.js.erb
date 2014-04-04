@@ -4,11 +4,5 @@ $("#question_<%= @question.id %>").find("div.questions_item:eq("+ <%= @b_index %
 $("#question_<%= @question.id %>").find("div.questions_item:eq("+ <%= @b_index %> +")").find("div.qt_icon").append('<%= j(render "tag_btn") %>');
 $("#question_<%= @question.id %>").find("div.questions_item:eq("+ <%= @b_index %> +")").find("[class='branch_id']").val(<%= @branch_question.id %>);
 $("#question_<%= @question.id %>").find("[class='ab_article']").append("<%=j(render 'l_r_branch_que', {:types=> @types, :question_id => @question_id, :resource_url=> nil, :branch_id => nil, :content =>nil, :count_q=> nil , :count_b => nil} )%>");
-<% else %>
-var btn_class = $("#question_<%= @question.id %>").find("div.questions_item:eq("+ <%= @b_index %> +")").find("div.qt_icon").find("a:eq(0)").attr("class");
-if(btn_class == "save")
-{
-	$("#question_<%= @question.id %>").find("div.questions_item:eq("+ <%= @b_index %> +")").find("div.qt_icon").find("a:eq(0)").removeAttr("disabled");
-}
 <% end%>
 tishi("<%= @notice %>");

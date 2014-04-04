@@ -51,7 +51,7 @@
       <% if content.present? %>
         <a href="javascript:void(0)" class="delete tooltip_html" style="" onclick="delete_reading_listening_branch(this)">删除</a>
       <% else %>
-        <a href="javascript:void(0)" class="save tooltip_html" onclick="save_listening_reading(this,<%= types %>,<%= params[:school_class_id] %>)">保存</a>
+        <a href="javascript:void(0)" class="save tooltip_html" onclick="save_listening_reading(this,<%= types %>,<%= params[:school_class_id] %>);">保存</a>
       <% end %>
       <% if branch_id.present? %>
         <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_b_tags('listening_and_reading_tags',this)">标签</a>

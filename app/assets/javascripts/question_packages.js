@@ -138,6 +138,7 @@ function playAudio(obj){
 //保存听力和朗读
 function save_listening_reading(obj, types, school_class_id)
 {
+    $(obj).removeAttr("onclick");
     var content = $.trim($(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("[class='content']").val());
     var types = $.trim($(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("[class='types']").val());
     var file = $.trim($(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("[class='file']").val());  
@@ -149,10 +150,10 @@ function save_listening_reading(obj, types, school_class_id)
             if(file == "")
             {
                 tishi("听写题资源不能为空！");
+                $(obj).attr("onclick", "save_listening_reading(this,"+types+","+ school_class_id +")");
             }
             else
             {
-                $(obj).attr("disabled","true");
                 $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();
             }    
                 
@@ -161,19 +162,20 @@ function save_listening_reading(obj, types, school_class_id)
         {
             tishi("小题内容不能为空！");
             $(obj).val();
+            $(obj).attr("onclick", "save_listening_reading(this,"+types+","+ school_class_id +")");
         }
     }
     else if(types == 1)  // 朗读
     {
         if(content != "")
         {
-            $(obj).attr("disabled","true");
             $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();
         }
         else
         {
             tishi("小题内容不能为空！");
             $(obj).val();
+            $(obj).attr("onclick", "save_listening_reading(this,"+types+","+ school_class_id +")");
         }    
 
     } 

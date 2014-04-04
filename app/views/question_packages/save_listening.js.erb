@@ -7,11 +7,5 @@ $("#question_<%= @question.id %>").find("[class='ab_article']").append("<%=j(ren
 $("#question_<%= @question.id %>").find("div.questions_item:eq("+ <%= @b_index %> +")").find("ul.branch_question").find("li:eq(0)").find("a:eq(0)").remove();
 $("#question_<%= @question.id %>").find("div.questions_item:eq("+ <%= @b_index %> +")").find("ul.branch_question").find("li:eq(0)").prepend('<%=j(render "voice_tmp", {:resource_url=> @branch_question.resource_url} )%>');
 $("#question_<%= @question.id %>").find("div.questions_item:eq("+ <%= @b_index %> +")").find("ul.branch_question").find("li:eq(0)").find("[class='file']").remove();
-<% else %>
-var btn_class = $("#question_<%= @question.id %>").find("div.questions_item:eq("+ <%= @b_index %> +")").find("div.qt_icon").find("a:eq(0)").attr("class");
-if(btn_class == "save")
-{
-	$("#question_<%= @question.id %>").find("div.questions_item:eq("+ <%= @b_index %> +")").find("div.qt_icon").find("a:eq(0)").removeAttr("disabled");
-}
 <% end%>
 tishi("<%= @notice %>");

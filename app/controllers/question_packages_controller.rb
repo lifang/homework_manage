@@ -108,6 +108,7 @@ class QuestionPackagesController < ApplicationController
     @b_index = params[:b_index].to_i
     tags_id = params[:tags_id]
     types = params[:types]
+    @types = types
     file = params[:file]
     branch_id = params[:branch_id]
     if types.present?
@@ -124,12 +125,12 @@ class QuestionPackagesController < ApplicationController
             @status = 0
             @notice = "小题修改成功！"  
           else
-            @status = -1
+            @status = -2
             @notice = "小题修改失败！"    
           end
         end
       else
-        @status = -1
+        @status = -2
         @notice = "小题创建失败！"
         content = params[:content]
         if file.present?
@@ -156,6 +157,7 @@ class QuestionPackagesController < ApplicationController
     @b_index = params[:b_index].to_i
     tags_id = params[:tags_id]
     types = params[:types]
+    @types = types
     file = params[:file]
     if types.present?
       @types = types.to_i
@@ -179,7 +181,7 @@ class QuestionPackagesController < ApplicationController
           end
         end
       else
-        @status = -1
+        @status = -2
         @notice = "小题创建失败！"
         content = params[:content]
         if file.present?
@@ -192,16 +194,7 @@ class QuestionPackagesController < ApplicationController
         if @branch_question.present?
           @status = 1
           @notice = "小题创建成功！"
-        end  
-          # unless @branch_question.nil?
-          #   if tags_id.present?    #保存小题时添加标签
-          #     tags_id.split(/\|/).each do |tag_id|
-          #       @branch_question.btags_bque_relations.create(:branch_tag_id => tag_id.to_i) if tag_id.to_i > 0
-          #     end
-          #   end
-          #   @status = 1
-          #   @notice = "小题创建完成！"
-          # end
+        end
       end
     else
       @status = -1

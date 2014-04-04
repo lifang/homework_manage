@@ -2,7 +2,7 @@ class Prop < ActiveRecord::Base
   attr_protected :authentications
   has_many :user_prop_relations, :dependent => :destroy
   has_many :students, :through => :user_prop_relations
-  TYPES={:Reduce_time=>0,:Show_corret_answer=>1}
+  TYPES={:Reduce_time=>1,:Show_corret_answer=>0}  #1减时   0 显示正确答案
   DefaultPropNumber = 2
   #获取道具数量
   def self.get_prop_num school_class_id, student_id

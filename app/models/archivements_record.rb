@@ -34,11 +34,11 @@ class ArchivementsRecord < ActiveRecord::Base
         save_sys_message(student, content, extras_hash, school_class)
         
         if archivement.archivement_types==ArchivementsRecord::TYPES[:QUICKLY]  #精准
-          add_prop_get_archivement student.id,school_class
+          add_prop_get_archivement student.id,school_class #升级， 送道具
         end
 
         if archivement.archivement_types==ArchivementsRecord::TYPES[:ACCURATE]  #迅速
-          add_prop_get_archivement student.id,school_class
+          add_prop_get_archivement student.id,school_class  #升级， 送道具
 #          add_prop_get_archivement student.id,Prop::TYPES[:Reduce_time],school_class
 #          add_prop_get_archivement student.id,Prop::TYPES[:Show_corret_answer],school_class
         end

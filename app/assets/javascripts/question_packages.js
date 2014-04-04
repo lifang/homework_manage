@@ -155,8 +155,7 @@ function save_listening_reading(obj, types, school_class_id)
             else
             {
                 $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();
-            }    
-                
+            }     
         }
         else
         {

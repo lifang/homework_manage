@@ -29,32 +29,37 @@ class ArchivementsRecord < ActiveRecord::Base
     #升级 保存系统消息，并推送
     if archivement && archivement.archivement_score.present?
       if archivement.archivement_score%100 == 0
+
+        content = "恭喜您! #{TYPES_NAME[archivement.archivement_types]}成就升到“#{archivement.archivement_score/100}”级了"
+        save_sys_message(student, content, extras_hash, school_class)
+        
         if archivement.archivement_types==ArchivementsRecord::TYPES[:QUICKLY]  #精准
-          add_prop_get_archivement student.id,Prop::TYPES[:Reduce_time],school_class
-          content = "恭喜您! #{TYPES_NAME[archivement.archivement_types]}成就升到“#{archivement.archivement_score/100}”级了"
-          save_sys_message(student, content, extras_hash, school_class)
+          add_prop_get_archivement student.id,school_class
         end
 
         if archivement.archivement_types==ArchivementsRecord::TYPES[:ACCURATE]  #迅速
-          add_prop_get_archivement student.id,Prop::TYPES[:Show_corret_answer],school_class
-          content = "恭喜您! #{TYPES_NAME[archivement.archivement_types]}成就升到“#{archivement.archivement_score/100}”级了"
-          save_sys_message(student, content, extras_hash, school_class)
+          add_prop_get_archivement student.id,school_class
+#          add_prop_get_archivement student.id,Prop::TYPES[:Reduce_time],school_class
+#          add_prop_get_archivement student.id,Prop::TYPES[:Show_corret_answer],school_class
         end
+
       end
     end
   end
   
   #获得成就时加道具
-  def self.add_prop_get_archivement student_id,prop_types,school_class
-    student_prop = UserPropRelation.
-      find_by_student_id_and_prop_id_and_school_class_id(student_id,prop_types,school_class.id)
-    if student_prop
-      student_prop.update_attribute(:user_prop_num,student_prop.user_prop_num+2);
+  def self.add_prop_get_archivement student_id,school_class
+    student_props = UserPropRelation.where(:student_id => student_id, :school_class_id => school_class.id)
+    if student_props
+      student_props.update_all(user_prop_num:student_props.user_prop_num+2)
     else
-      UserPropRelation.create(student_id:student_id,
-        user_prop_num:2,
-        school_class_id:school_class.id,
-        prop_id:prop_types)
+      Prop.find_each do |prop|
+        UserPropRelation.create(student_id:student_id,
+          user_prop_num:2,
+          school_class_id:school_class.id,
+          prop_id:prop.id)
+      end
+
     end
 
   end

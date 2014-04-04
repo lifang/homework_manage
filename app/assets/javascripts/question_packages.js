@@ -192,6 +192,7 @@ function update_listening_reading(obj, school_class_id)
     var b_index = $(obj).parent().parent().parent().parent().parent().index();
     var types = $(obj).parent().prev().find("form").find("[class='types']").val();
     var content = $.trim($(obj).val());
+    var old_content = $(obj).parent().find("p").text();
 
     if(content != "")
     {
@@ -206,10 +207,10 @@ function update_listening_reading(obj, school_class_id)
         {
             if(branch_id != "")
             {
-                var url =  "/school_classes/"+school_class_id+"/question_packages/save_listening";
+                var url =  "/school_classes/"+school_class_id+"/question_packages/update_listening";
                 $.ajax({
                     type: "post",
-                    dataType: "script",
+                    dataType: "json",
                     url: url,
                     data: {
                         branch_id : branch_id,
@@ -221,6 +222,16 @@ function update_listening_reading(obj, school_class_id)
                         cell_id : cell_id
                     },
                     success: function(data){
+                        if(data.status == true)
+                        {
+                            tishi("小题修改成功！");
+                        }
+                        else
+                        {
+                            tishi("小题修改失败！");  
+                        }    
+                    },
+                    error: function(data){ 
                     }
                 }); 
             }
@@ -252,6 +263,7 @@ function update_listening_reading(obj, school_class_id)
     }
     else
     {
+        $(obj).val(old_content);
         tishi("小题内容不能为空！");
     }
 

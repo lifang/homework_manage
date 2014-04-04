@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140329014808) do
+ActiveRecord::Schema.define(:version => 20140404021517) do
 
   create_table "app_versions", :force => true do |t|
     t.float "c_version"
@@ -100,6 +100,13 @@ ActiveRecord::Schema.define(:version => 20140329014808) do
     t.datetime "updated_at",           :null => false
   end
 
+  create_table "courses", :force => true do |t|
+    t.string  "name"
+    t.boolean "status", :default => false
+  end
+
+  add_index "courses", ["name"], :name => "index_courses_on_name"
+
   create_table "episodes", :force => true do |t|
     t.string   "name"
     t.integer  "cell_id"
@@ -175,12 +182,12 @@ ActiveRecord::Schema.define(:version => 20140329014808) do
     t.string   "question_packages_url"
     t.datetime "start_time"
     t.datetime "end_time"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
     t.integer  "listening_count"
     t.integer  "reading_count"
     t.integer  "tag_id",                :default => 0
-    t.integer  "is_calc",               :default => 0
+    t.boolean  "is_calc",               :default => false
   end
 
   add_index "publish_question_packages", ["question_package_id"], :name => "index_publish_question_packages_on_question_package_id"
@@ -208,14 +215,15 @@ ActiveRecord::Schema.define(:version => 20140329014808) do
     t.string   "name"
     t.integer  "types"
     t.integer  "question_package_id"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
     t.integer  "cell_id"
     t.integer  "episode_id"
     t.boolean  "if_shared"
     t.integer  "questions_time"
     t.text     "full_text"
     t.string   "content"
+    t.boolean  "if_from_reference",   :default => false
   end
 
   add_index "questions", ["question_package_id"], :name => "index_questions_on_question_package_id"
@@ -294,6 +302,14 @@ ActiveRecord::Schema.define(:version => 20140329014808) do
 
   add_index "school_classes", ["teacher_id"], :name => "index_school_classes_on_teacher_id"
   add_index "school_classes", ["teaching_material_id"], :name => "index_school_classes_on_teaching_material_id"
+
+  create_table "schools", :force => true do |t|
+    t.string  "name"
+    t.integer "students_count"
+    t.boolean "status",         :default => false
+  end
+
+  add_index "schools", ["name"], :name => "index_schools_on_name"
 
   create_table "share_branch_questions", :force => true do |t|
     t.string   "content"
@@ -397,10 +413,12 @@ ActiveRecord::Schema.define(:version => 20140329014808) do
     t.string   "email"
     t.integer  "status"
     t.integer  "types"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
     t.integer  "user_id"
     t.integer  "last_visit_class_id"
+    t.integer  "teaching_material_id"
+    t.integer  "school_id"
   end
 
   add_index "teachers", ["user_id"], :name => "index_teachers_on_user_id"
@@ -409,6 +427,7 @@ ActiveRecord::Schema.define(:version => 20140329014808) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "course_id"
   end
 
   create_table "user_prop_relations", :force => true do |t|

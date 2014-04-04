@@ -3,20 +3,19 @@
   <head>
     <meta charset="utf-8"/>
     <title>HomeworkManage</title>
-    <%= stylesheet_link_tag    "application", :media => "all"  %>
-    <%= stylesheet_link_tag    "/assets/jqtransform.css", :media => "all"  %>
-    <%= javascript_include_tag "application", "jquery.tablesorter"%>
+    <%= stylesheet_link_tag    "/assets/admin/system.css", :media => "all"  %>
+    <%= javascript_include_tag "application", "/admin/system.js" %>
     <script type="text/javascript" src="/assets/My97DatePicker/WdatePicker.js" ></script>
     <%= csrf_meta_tags %>
   </head>
   <body >
     <div class="wrap">
-      <div class="head clearAfter">
-          <%=render 'layouts/admin_nav'%>
-      </div>      
-      <div class="main">
-          <%= yield %>     
-      </div>
+        <div class="head clearAfter">
+            <%=render 'layouts/admin_nav'%>
+        </div>
+        <div class="main">
+            <%= yield %>     
+        </div>
     </div>
   </body>  
  </html>

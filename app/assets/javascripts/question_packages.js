@@ -181,28 +181,48 @@ function save_listening_reading(obj, types, school_class_id)
 
 }
 
-//听力和朗读的onblur事件
-function update_listening_reading(obj, school_class_id)
+//修改听力或朗读题内容
+function change_text(obj)
+{
+    var branch_id = $.trim($(obj).parents(".questions_item").find("input.branch_id").first().val());
+    var types = $(obj).parents(".branch_question").first().find("input.types").first().val();
+    var school_class_id = $("#school_class_id").val();
+    if(branch_id != "")
+    {
+        var save_btn = $(obj).parents(".questions_item").find("div.qt_icon").find("a.save");
+        var delete_btn = $(obj).parents(".questions_item").find("div.qt_icon").find("a.delete");
+        if(save_btn.length > 0)
+        {}
+        else
+        {
+            $(obj).parents(".questions_item").find("div.qt_icon").find("a.delete").first().hide();
+            var update_btn = '<a href="javascript:void(0)" class="save tooltip_html" onclick="update_listening_reading(this,'+ types +','+ school_class_id +');">更新</a>'
+            $(obj).parents(".questions_item").find("div.qt_icon").first().prepend
+            (update_btn);
+        }    
+    }   
+}
+
+function listening_reading_onblur(obj)
+{
+    var b_index = $(obj).parents(".questions_item").index();
+    var content = $(obj).val();
+    // alert("b_index = "+ b_index +",content ="+ content +"");
+    $(".questions_item").find("input.content").val(content);
+    $(".questions_item").find("input.b_index").val(b_index);
+}
+
+//更新听力和朗读事件
+function update_listening_reading(obj, types, school_class_id)
 {
     var question_package_id = $("#question_package_id").val();
-    var cell_id = $("#cell_id").val();
-    var episode_id = $("#episode_id").val();
     var question_id = $(obj).parent().prev().find("form").find("[class='question_id']").val();
     var branch_id = $.trim($(obj).parent().prev().find("[class='branch_id']").val());
     var b_index = $(obj).parent().parent().parent().parent().parent().index();
-    var types = $(obj).parent().prev().find("form").find("[class='types']").val();
-    var content = $.trim($(obj).val());
-    var old_content = $(obj).parent().find("p").text();
+    var content = $.trim($(obj).parent().prev().find("li.qt_text").find("input.content").first().val());
 
     if(content != "")
     {
-        $(obj).parent().find("p").text(content);
-        $(obj).hide();
-        $(obj).parent().find("p").show();
-        $(obj).parents(".assignment_body_list").find("form").find("[class='question_id']").val(question_id);
-        $(obj).parent().prev().find("form").find("[class='b_index']").val(b_index);
-        $(obj).parent().prev().find("form").find("[class='content']").val(content);
-
         if(types == 0)  //听写
         {
             if(branch_id != "")
@@ -216,14 +236,18 @@ function update_listening_reading(obj, school_class_id)
                         branch_id : branch_id,
                         types : types,
                         content : content,
+                        b_index : b_index,
                         question_id : question_id,
-                        question_package_id : question_package_id,
-                        episode_id : episode_id,
-                        cell_id : cell_id
+                        // question_package_id : question_package_id,
+                        // episode_id : episode_id,
+                        // cell_id : cell_id
                     },
                     success: function(data){
                         if(data.status == true)
                         {
+                            var div_qt_icon = $(obj).parents("div.qt_icon").first();
+                            $(obj).remove();
+                            $(div_qt_icon).find("a.delete").show();
                             tishi("小题修改成功！");
                         }
                         else
@@ -251,11 +275,14 @@ function update_listening_reading(obj, school_class_id)
                         types : types,
                         content : content,
                         question_id : question_id,
-                        question_package_id : question_package_id,
-                        episode_id : episode_id,
-                        cell_id : cell_id
+                        // question_package_id : question_package_id,
+                        // episode_id : episode_id,
+                        // cell_id : cell_id
                     },
                     success: function(data){
+                        var div_qt_icon = $(obj).parents("div.qt_icon").first();
+                        $(obj).remove();
+                        $(div_qt_icon).find("a.delete").show();
                     }
                 });
             }
@@ -263,7 +290,6 @@ function update_listening_reading(obj, school_class_id)
     }
     else
     {
-        $(obj).val(old_content);
         tishi("小题内容不能为空！");
     }
 

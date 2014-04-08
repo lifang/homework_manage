@@ -17,43 +17,11 @@
           <td><%= school.used_school_counts %>/<%= school.students_count %></td>
           <td><a href="javascript:void(0);" class="add_a tooltip_html" onclick="add_students_count(this,<%= school.id %>,<%= school.students_count %>)">增加</a></td>
           <td><%= school.email %> / ******</td>
-          <td><a href="#" class="reset_a tooltip_html" onclick="reset_password(this,<%= school.id %>)">重置密码</a></td>
+          <td><a href="javascript:void(0);" class="reset_a tooltip_html" onclick="reset_password(this,<%= school.id %>)">重置密码</a></td>
           <td><a href="javascript:void(0);" class="<%= school.status ? "blockUp_a" : "blockUp_a_ed" %> tooltip_html" onclick="is_enable(this,<%= school.id %>)">
               <%= school.status ? "停用" : "启用" %></a></td>
         </tr>
       <% end if @schools %>
-      <tr>
-        <td>新东方</td>
-        <td>70/100</td>
-        <td><a href="#" class="add_a tooltip_html">增加</a></td>
-        <td>wll2014 / ******</td>
-        <td><a href="#" class="reset_a tooltip_html">重置密码</a></td>
-        <td><a href="javascript:void(0);" class="blockUp_a tooltip_html">停用</a></td>
-      </tr>
-      <tr>
-        <td>新东方</td>
-        <td>70/100</td>
-        <td><a href="#" class="add_a tooltip_html">增加</a></td>
-        <td>wll2014 / ******</td>
-        <td><a href="#" class="reset_a tooltip_html">重置密码</a></td>
-        <td><a href="javascript:void(0);" class="blockUp_a_ed tooltip_html">启用</a></td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
     </tbody>
   </table>
 </div>

@@ -3,10 +3,10 @@
 
 *{ padding: 0; margin: 0;}
 body { 
-	background: url(/assets/bg.jpg) no-repeat center 0 fixed;
-	font-family:"微软雅黑", "宋体", Arial; 
-	font-size: 14px; 
-	color: #333;
+    background: url(/assets/bg.jpg) no-repeat center 0 fixed;
+    font-family:"微软雅黑", "宋体", Arial;
+    font-size: 14px;
+    color: #333;
 }
 img { border: none;}
 li { list-style: none;}
@@ -18,23 +18,23 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 
 
 .clearAfter:after {
-	display: block;
-	overflow:hidden;
-	clear: both;
-	height:0;
-	visibility:hidden;
-	content:".";
+    display: block;
+    overflow:hidden;
+    clear: both;
+    height:0;
+    visibility:hidden;
+    content:".";
 }
 
 .wrap { width: 960px; margin: 0 auto;}
 .head { height: 130px;}
 .logo { 
-	width: 160px; 
-	height: 80px;
-	overflow: hidden;
-	text-indent: -999px; 
-	background: url(/assets/logo.png) no-repeat;
-	float: left;
+    width: 160px;
+    height: 80px;
+    overflow: hidden;
+    text-indent: -999px;
+    background: url(/assets/logo.png) no-repeat;
+    float: left;
 }
 
 /*顶部用户信息*/
@@ -42,30 +42,30 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 .userInfo ul { float: right;}
 .userInfo li { float: left; height: 38px; margin: 0 10px;}
 .userInfo li.userName a {
-	padding-left: 18px;
-	height: 16px;
-	line-height: 16px;
-	display: inline-block;
-	background: url(/assets/userInfo.png) no-repeat 0px 0px;
-	margin-top: 10px;
+    padding-left: 18px;
+    height: 16px;
+    line-height: 16px;
+    display: inline-block;
+    background: url(/assets/userInfo.png) no-repeat 0px 0px;
+    margin-top: 10px;
 }
 .userInfo li.email a { 
-	padding-left: 18px;
-	height: 12px;
-	line-height: 12px;
-	display: inline-block;
-	background: url(/assets/userInfo.png) no-repeat 0 -38px;
-	margin-top: 12px;
+    padding-left: 18px;
+    height: 12px;
+    line-height: 12px;
+    display: inline-block;
+    background: url(/assets/userInfo.png) no-repeat 0 -38px;
+    margin-top: 12px;
 }
 
 /*导航菜单*/
 .nav { 
-	background: #FFF; 
-	height: 58px; 
-	line-height: 58px; 
-	font-size: 16px; 
-	float: right; 
-	margin-top: 11px;
+    background: #FFF;
+    height: 58px;
+    line-height: 58px;
+    font-size: 16px;
+    float: right;
+    margin-top: 11px;
 }
 .nav li { float: left; margin: 0 55px;}
 .nav li a {}
@@ -76,29 +76,29 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 .tooltip_box { position: absolute; z-index: 20000; }
 .tooltip_next { 
     background: #FFF;
-	border: 1px #666666 solid;
-	box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
-	border-radius: 0.2em; 
-	-moz-border-radius: 0.2em; 
-	-webkit-border-radius: 0.2em; 
-	line-height: 25px; 
-	text-align: center; 
-	padding: 5px 10px; 
-	color: #333;
-	max-width: 300px; 
-	word-break:break-all; 
-	word-wrap:break-word;
+    border: 1px #666666 solid;
+    box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+    border-radius: 0.2em;
+    -moz-border-radius: 0.2em;
+    -webkit-border-radius: 0.2em;
+    line-height: 25px;
+    text-align: center;
+    padding: 5px 10px;
+    color: #333;
+    max-width: 300px;
+    word-break:break-all;
+    word-wrap:break-word;
 }
 
 
 /*科目*/
 .subject { padding:20px 0;}
 .subject_head { 
-	height: 90px; 
-	background: #48d47e; 
-	text-align: center; 
-	position: relative; 
-	font-size: 16px;
+    height: 90px;
+    background: #48d47e;
+    text-align: center;
+    position: relative;
+    font-size: 16px;
 }
 
 .select_box {}
@@ -119,19 +119,19 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 /*Controller题库管理员*/
 .controller { padding:20px 0;}
 .controller_head { 
-	height: 90px; 
-	background: #48d47e; 
-	text-align: center; 
-	position: relative; 
-	font-size: 16px;
+    height: 90px;
+    background: #48d47e;
+    text-align: center;
+    position: relative;
+    font-size: 16px;
 }
 .addController_btn_a {
-	padding: 10px 50px; 
-	background:#1a875a; 
-	display: inline-block; 
-	color: #FFF;
-	margin-top: 25px;
-	margin-right: 150px;
+    padding: 10px 50px;
+    background:#1a875a;
+    display: inline-block;
+    color: #FFF;
+    margin-top: 25px;
+    margin-right: 150px;
 }
 .controller_head .search { display: inline-block;}
 .controller_body { background: #FFF;}
@@ -139,11 +139,11 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 /*search*/
 .search { width: 280px; height: 32px; background:  #FFF;}
 .search button { 
-	width: 22px; 
-	height: 22px;
-	margin: 5px 4px; 
-	background: url(/assets/search.png) no-repeat;
-	float: left;
+    width: 22px;
+    height: 22px;
+    margin: 5px 4px;
+    background: url(/assets/search.png) no-repeat;
+    float: left;
 }
 .search input { width: 250px; height: 32px; line-height: 32px; border: none;}
 
@@ -153,11 +153,11 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 .b_table table { background: #fff;}
 .tbg { background: #f6f6f6;}
 .b_table table td, .b_table table th { 
-	padding: 10px 0;
-	height: 50px;
-	font-weight:inherit;
-	font-size: 14px;
-	text-align: center;
+    padding: 10px 0;
+    height: 50px;
+    font-weight:inherit;
+    font-size: 14px;
+    text-align: center;
 }
 .b_table table th { font-weight:bold;}
 .b_table table td { color: #333;}
@@ -165,12 +165,12 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 
 /*按钮图标*/
 .delete_a, .add_a, .controller_a, .reset_a, .blockUp_a, .blockUp_a_ed, .reduce_a {
-	width: 25px; 
-	height: 25px;
-	display: inline-block;
-	overflow: hidden; 
-	text-indent: -999px;
-	margin: 0 5px; 
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    overflow: hidden;
+    text-indent: -999px;
+    margin: 0 5px;
 }
 .delete_a { background: url(/assets/s_icon01.png) no-repeat 0px 0px;}
 .add_a { background: url(/assets/s_icon01.png) no-repeat 0px -25px;}
@@ -185,53 +185,53 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 
 /*tab*/
 .tab, .s_tab {
-	background: #f6f6f6; 
-	border: 1px #dd5c05 solid; 
-	padding-bottom: 10px; 
-	z-index: 100;
-	
+    background: #f6f6f6;
+    border: 1px #dd5c05 solid;
+    padding-bottom: 10px;
+    z-index: 100;
+
 }
 .s_tab { width: 200px; position: absolute;}
 .tab { width: 500px; position: absolute;}
 .tab_head { 
-	height: 32px; 
-	line-height: 32px; 
-	color: #FFF; 
-	background: #dd5c05; 
-	padding-left: 20px;
+    height: 32px;
+    line-height: 32px;
+    color: #FFF;
+    background: #dd5c05;
+    padding-left: 20px;
 }
 .tab_body {}
 
 .close { 
-	width: 22px; 
-	height: 22px; 
-	display: block; 
-	background: url(/assets/close.jpg) no-repeat;
-	text-indent: -999px;
-	overflow: hidden;
-	position: absolute; 
-	top: 5px; 
-	right: 5px;
-	cursor: pointer;
+    width: 22px;
+    height: 22px;
+    display: block;
+    background: url(/assets/close.jpg) no-repeat;
+    text-indent: -999px;
+    overflow: hidden;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
 }
 .tab_warning { 
-	font-size: 18px; 
-	width: 350px;
-	line-height: 38px;
-	margin: 20px auto; 
-	background: url(/assets/th.png) no-repeat 0 0;
-	padding-left: 30px;
-	text-align: center;
+    font-size: 18px;
+    width: 350px;
+    line-height: 38px;
+    margin: 20px auto;
+    background: url(/assets/th.png) no-repeat 0 0;
+    padding-left: 30px;
+    text-align: center;
 }
 
 .x { 
-	width: 10px;
-	height: 10px;
-	display: block;
-	text-indent: -999px;
-	overflow: hidden;
-	position: absolute;
-	background: url(/assets/x.png) no-repeat;
+    width: 10px;
+    height: 10px;
+    display: block;
+    text-indent: -999px;
+    overflow: hidden;
+    position: absolute;
+    background: url(/assets/x.png) no-repeat;
 }
 
 .tab_btn { margin: 10px 0; text-align: center; padding: 10px;}
@@ -241,66 +241,76 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 .form_list { text-align: center; border-bottom: 1px #dbdcdc solid; margin: 0 20px;}
 .form_list li { margin: 20px auto; width: 352px;}
 .form_list li label { 
-	width: 100px;
-	height: 38px; 
-	line-height: 38px;  
-	display: inline-block; 
-	text-align: right; 
-	font-size: 16px;
-	float: left;
+    width: 100px;
+    height: 38px;
+    line-height: 38px;
+    display: inline-block;
+    text-align: right;
+    font-size: 16px;
+    float: left;
 }
 .form_list li input[type="text"], .form_list li p { 
-	width: 240px; 
-	height: 38px; 
-	line-height: 38px; 
-	border: 1px #DD5C05 solid; 
-	padding: 0 5px;
-	display: inline-block;
-	text-align: center;
+    width: 240px;
+    height: 38px;
+    line-height: 38px;
+    border: 1px #DD5C05 solid;
+    padding: 0 5px;
+    display: inline-block;
+    text-align: center;
 }
+.form_list li input[type="password"], .form_list li p {
+    width: 240px;
+    height: 38px;
+    line-height: 38px;
+    border: 1px #DD5C05 solid;
+    padding: 0 5px;
+    display: inline-block;
+    text-align: center;
+}
+
 .form_list li p.file_p { position: relative; background: #FFF;}
 .form_list li a.file_a { 
-	position: absolute; 
-	top: 7px; 
-	right: 7px;
-	width: 24px; 
-	height: 24px; 
-	display: block; 
-	background: url(/assets/file.png) no-repeat;
-	overflow: hidden; 
-	text-indent: -999px;
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 24px;
+    height: 24px;
+    display: block;
+    background: url(/assets/file.png) no-repeat;
+    overflow: hidden;
+    text-indent: -999px;
 }
 .form_list li a.file_a input[type="file"] {
-	width: 24px; 
-	height: 24px;
-	display: block;
-	cursor: pointer;  
-	position: absolute;  
-	top: 0;  
-	left: 0;   
-	font-size: 25px; /* 增大不同浏览器的可点击区域 */  
-	opacity: 0; /* 实现的关键点 */  
-	filter:alpha(opacity=0);/* 兼容IE */
+    width: 24px;
+    height: 24px;
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 25px; /* 增大不同浏览器的可点击区域 */
+    opacity: 0; /* 实现的关键点 */
+    filter:alpha(opacity=0);/* 兼容IE */
 }
 
 .form_list li .jqTransformSelectWrapper { 
-	width: 250px; 
-	height: 38px;
-	line-height: 38px;
-	border: 1px #DD5C05 solid;
-	background: #fff;
+    width: 250px;
+    height: 38px;
+    line-height: 38px;
+    border: 1px #DD5C05 solid;
+    background: #fff;
 }
 .form_list li .jqTransformSelectWrapper a.jqTransformSelectOpen {
-	background:url("/assets/select01.png") no-repeat  center center rgba(0, 0, 0, 0);
-	height: 38px;
-	top: 0px;
+    background:url("/assets/select01.png") no-repeat  center center rgba(0, 0, 0, 0);
+    height: 38px;
+    top: 0px;
 }
 .form_list li .jqTransformSelectWrapper div span { 
-	color: #DD5C05;
-	width: 270px;
-	height: 38px;
-	line-height: 38px;
-	position: static
+    color: #DD5C05;
+    width: 270px;
+    height: 38px;
+    line-height: 38px;
+    position: static
 }
 .form_list li .jqTransformSelectWrapper ul { top: 38px;}
 .form_list li .jqTransformSelectWrapper ul li { padding: 0; margin: 0; width: 230px; line-height: normal;}
@@ -331,3 +341,11 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
     left: 0;
     display: none;
 }
+
+/*pageTurn----*/
+.pageTurn { padding: 10px 0; text-align: center; font-size: 13px; color: #333; margin: 20px 0;}
+.pageTurn a { padding: 5px 12px; margin: 0px 2px; color: #333; background: #dbdbdb;}
+.pageTurn a:hover, .pageTurn a:active { color: #48D47E;}
+
+.pageTurn a.current { padding: 5px 12px; font-weight: bold; color: #fff; background: #48D47E;}
+.pageTurn .disabled {display: none;}

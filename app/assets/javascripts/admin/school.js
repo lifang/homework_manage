@@ -84,6 +84,15 @@ function update_school_password(obj){
 }
 
 //查询学校列表
-function search_schools(){
+function search_schools(obj){
+    var schools_name = $(obj).parents(".search").find("input[name=''schools_name]").val();
+    $.ajax({
+        url : "",
+        dataType : "script",
+        type : "post",
+        data : {
+            schools_name : schools_name
+        }
+    })
     
 }

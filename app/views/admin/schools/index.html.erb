@@ -3,7 +3,7 @@
   <div class="controller">
     <div class="controller_head">
       <a href="javascript:void(0)" class="addController_btn_a" onclick="show_new_chool()">新建学校</a>
-      <div class="search"><button onclick="search_schools()"></button><input name="schools_name" type="text"/></div>
+      <div class="search"><button onclick="search_schools(this)"></button><input name="schools_name" type="text"/></div>
     </div>
     <div class="controller_body">
       <%= render :partial => 'school_list'  %>

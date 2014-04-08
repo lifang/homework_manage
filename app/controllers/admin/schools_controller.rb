@@ -60,5 +60,9 @@ class Admin::SchoolsController < ApplicationController
     end
     render :json => {:status => status}
   end
-  
+
+  # 查询班级
+  def search_schools
+    
+  end
 end

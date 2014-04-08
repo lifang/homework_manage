@@ -1,8 +1,8 @@
-<script language="javascript">
-  $(function(){
-    $('.select_box').jqTransform();
-  });
-</script>
+<!--script language="javascript">
+//   $(function(){
+//     $('.select_box').jqTransform();
+//   });
+// </script-->
 <%= form_tag({:action => :set_teaching_materials} ,:remote => true) do %>
 <a href="javascript:void(0);" class="close">close</a>
 <div class="tab_head">修改管辖</div>
@@ -11,7 +11,7 @@
     <div class="form_list" id="course_select">
         <ul>
             <li><label>管理课程：</label>
-              <div class="select_box selectPosition">
+              <div class="select_box">
                     <div class="rowElem">
                         <select name="course_id" onchange="load_material(this,'course_select')" class="course_select">                            
                             <option value="0">选择课程</option>

@@ -82,3 +82,8 @@ function update_school_password(obj){
         alert("两次密码输入不一致！");
     }
 }
+
+//查询学校列表
+function search_schools(){
+    
+}

@@ -11,7 +11,7 @@ class TeachingMaterial < ActiveRecord::Base
     path = upload_xls_file(course_id, teaching_materia_id, cell_episode_xls)
     status = 1
     if path == ""
-      status = 0
+      status = 2
     else
       begin
         Spreadsheet.open path do |book|
@@ -30,7 +30,7 @@ class TeachingMaterial < ActiveRecord::Base
           end
         end
       rescue
-        status = 0
+        status = 2
       end
     end
     

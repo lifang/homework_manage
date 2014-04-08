@@ -1,7 +1,8 @@
 <% if @status == 1 %>
-  alert("创建成功!")
+  tishi("创建成功!")
   $(".controller_body").html('<%= j(render :partial => 'school_list') %>')
   $("#system_new_school").hide();
+  $(".mask").hide();
 <% else %>
-  alert("学校和邮箱不可重复！")
+  tishi("<%= @notice %>")
 <% end %>

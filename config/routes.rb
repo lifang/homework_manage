@@ -40,6 +40,7 @@ HomeworkManage::Application.routes.draw do
     resources :courses do
       collection do
         get :del_teaching_material
+        post :new_teach_material, :new_course_and_teach_material_valid
       end
     end
     

@@ -23,7 +23,7 @@
               <td><%= admin.material_name.present? ? admin.material_name : "未设置" %></td>
               <td><a href="javascript:void(0)" class="controller_a tooltip_html" onclick="show_material_pannel(<%= admin.id %>)" >修改管辖</a></td>
               <td><%= admin.email %>/ ******</td>
-              <td><a href="javascript:void(0)" class="reset_a tooltip_html">重置密码</a></td>
+              <td><a href="javascript:void(0)" class="reset_a tooltip_html" onclick="show_password_pannel(<%= admin.id %>)" >重置密码</a></td>
               <td><a href="javascript:void(0);" class="blockUp_a tooltip_html">停用</a></td>
             </tr>
             <% end %>

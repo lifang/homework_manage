@@ -14,16 +14,23 @@ class Admin::SchoolsController < ApplicationController
     avatar_url = "/assets/default_avater.jpg"
     if school_exist || teacher_exit
       @status = 0
+      @notice = "学校和邮箱已存在！"
     else
-      School.transaction do
-        password =School.newpass(6)
-        school = School.create(:name =>school_name,:students_count=> school_students_count,:status => School::STATUS[:NORMAL],:used_school_counts => 0 )
-        user = User.create(:name => school_name,:avatar_url => avatar_url)
-        teacher = Teacher.create(:password => password,:email => email,:types => Teacher::TYPES[:SCHOOL],:status=>Teacher::STATUS[:YES],
-          :user_id => user.id,:school_id => school.id)
-        encryptpassword = teacher.encrypt_password
-        teacher.update_attributes(:password => encryptpassword)
-        @status = 1
+      if school_name.nil? || school_students_count.nil?
+        @status = 0
+        @notice = "学校名称和学校人数不能为空!"
+      else
+        School.transaction do
+          password =School.newpass(6)
+          school = School.create(:name =>school_name,:students_count=> school_students_count,:status => School::STATUS[:NORMAL],:used_school_counts => 0 )
+          user = User.create(:name => school_name,:avatar_url => avatar_url)
+          teacher = Teacher.create(:password => password,:email => email,:types => Teacher::TYPES[:SCHOOL],:status=>Teacher::STATUS[:YES],
+            :user_id => user.id,:school_id => school.id)
+          encryptpassword = teacher.encrypt_password
+          teacher.update_attributes(:password => encryptpassword)
+          @status = 1
+          UserMailer.send_pwd_email(email, password, Teacher::TYPES[:SCHOOL]);
+        end
       end
     end
     @schools = School.schools_list
@@ -46,7 +53,6 @@ class Admin::SchoolsController < ApplicationController
   def update_school_password
     school_id = params[:school_id]
     password_new = params[:password_new]
-    p 1111,school_id,password_new
     school_teacher = Teacher.find_by_school_id school_id
     if school_teacher
       Teacher.transaction do
@@ -63,7 +69,28 @@ class Admin::SchoolsController < ApplicationController
 
   # 查询班级
   def search_schools
-    schools_name = params[:schools_name]
-    
+    schools_name = params[:schools_name].nil? ? "" : "%" + params[:schools_name].strip.to_s + "%"
+    @schools = School.schools_list schools_name
+  end
+
+  #停用或者启用
+  def is_enable
+    school_id = params[:school_id]
+    school_teacher = School.find_by_id school_id
+    if school_teacher
+      if school_teacher.status
+        school_teacher.update_attributes(:status=>School::STATUS[:DELETE])
+        status = 1
+        notice = '学校已禁用！'
+      else
+        school_teacher.update_attributes(:status=>School::STATUS[:NORMAL])
+        status = 2
+        notice = '学校已启用！'
+      end
+    else
+      status = 0
+      notice = '学校不存在！'
+    end
+    render :json => {:status => status,:notice=>notice}
   end
 end

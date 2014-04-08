@@ -10,8 +10,12 @@ class School< ActiveRecord::Base
     return newpass
   end
 
-  def self.schools_list
-    @schools = School.joins("inner join teachers t on schools.id=t.school_id").select("Schools.*,t.email").
-      where("t.types=#{Teacher::TYPES[:SCHOOL]}")
+  def self.schools_list schools_name=nil
+    sql_school = "SELECT Schools.*,t.email FROM schools inner join teachers t on schools.id=t.school_id
+WHERE t.types=#{Teacher::TYPES[:SCHOOL]} "
+    if !schools_name.nil?
+      sql_school += "and schools.name like '#{schools_name}'"
+    end
+    @schools = School.find_by_sql(sql_school)
   end
 end

@@ -85,9 +85,9 @@ function update_school_password(obj){
 
 //查询学校列表
 function search_schools(obj){
-    var schools_name = $(obj).parents(".search").find("input[name=''schools_name]").val();
+    var schools_name = $(obj).parents(".search").find("input[name='schools_name']").val();
     $.ajax({
-        url : "",
+        url : "/admin/schools/search_schools",
         dataType : "script",
         type : "post",
         data : {
@@ -95,4 +95,27 @@ function search_schools(obj){
         }
     })
     
+}
+
+// 停用或者启用
+function is_enable(obj,school_id){
+    $.ajax({
+        url : "/admin/schools/is_enable",
+        dataType : "json",
+        type : "post",
+        data : {
+            school_id : school_id
+        },
+        success : function(data){
+            if(data.status==1){
+                $(obj).attr("class","blockUp_a_ed tooltip_html");
+                tishi(data.notice);
+            }else if (data.status==2){
+                $(obj).attr("class","blockUp_a tooltip_html");
+                tishi(data.notice);
+            }else{
+                tishi(data.notice);
+            }
+        }
+    })
 }

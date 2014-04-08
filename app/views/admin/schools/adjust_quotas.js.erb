@@ -1,7 +1,7 @@
 <% if @status==1 %>
-  alert("修改成功！")
+  tishi("修改成功！")
   $(".controller_body").html('<%= j(render :partial => 'school_list') %>')
   $("#adjust_quotas").hide();
 <% else %>
-  alert("修改失败！")
+  tishi("修改失败！")
 <% end %>

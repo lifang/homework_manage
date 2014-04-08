@@ -20,11 +20,21 @@ function add_a(obj){
 }
 // 新建 学校
 function system_new_school(obj){
+    var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
     var system_new_school = $(obj).parents("#system_new_school");
     var school_name = system_new_school.find("input[name='school_name']").val();
-    alert(school_name)
     var school_students_count = system_new_school.find("input[name='school_students_count']").val();
     var email = system_new_school.find("input[name='email']").val();
+    if (school_name==""){
+        tishi("学校名称不能为空！");
+        return false;
+    }else if(school_students_count==""){
+        tishi("学校配额不能为空！");
+        return false;
+    }else if(!email_reg.test(email)){
+        tishi("邮箱格式不正确,请重新输入！");
+        return false;
+    }
     $.ajax({
         url:"/admin/schools",
         type:"post",
@@ -54,13 +64,26 @@ function add_students_count(obj,school_id,students_count){
 function adjust_quotas(obj){
     var students_count = $(obj).parents("#adjust_quotas").find("input[name='students_count']").val();
     var school_id = $(obj).parents("#adjust_quotas").find("input[name='school_id']").val()
+    if(students_count<1){
+        tishi("配额必须大于0！");
+        return false;
+    }
     $.ajax({
         url : "/admin/schools/adjust_quotas",
         type : "post",
-        dataType : "script",
+        dataType : "json",
         data : {
             students_count : students_count,
             school_id : school_id
+        },
+        success : function(data){
+            tishi(data.notice)
+            $("#adjust_quotas").hide();
+            $(".mask").hide();
+            if(data.status==1){
+                tr_school_id=
+                $("tr[tr_school_id='"+ school_id +"']").find(".school_student_count").html(data.count_show);
+            }
         }
     })
 }

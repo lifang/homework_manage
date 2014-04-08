@@ -68,6 +68,7 @@ class Admin::SchoolsController < ApplicationController
         school_teacher.update_attributes(:password => password_new)
         password = school_teacher.encrypt_password
         school_teacher.update_attributes(:password => password)
+        UserMailer.send_pwd_email(school_teacher.email, password_new, Teacher::TYPES[:SCHOOL])
       end
       status = 1
     else
@@ -75,8 +76,6 @@ class Admin::SchoolsController < ApplicationController
     end
     render :json => {:status => status}
   end
-
-
 
   #停用或者启用
   def is_enable

@@ -38,7 +38,7 @@
           </tr>
         </table>
       </div>
-    <% end if @page_courses.any? %>
+    <% end if @page_courses && @page_courses.any? %>
     <div class="b_table">
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
@@ -47,10 +47,10 @@
         </tr>
       </table>
     </div>
-    <% if @page_courses %>
-      <%= will_paginate @page_courses, :next_label => "下一页", :previous_label => "上一页", :class => "pageTurn"%>
-    <% end %>
   </div>
+  <% if @page_courses %>
+    <%= will_paginate @page_courses, :next_label => "下一页", :previous_label => "上一页", :class => "pageTurn"%>
+  <% end %>
 </div>
 
 <div class="tab" id="del_course_tab" style="display:none;">
@@ -106,6 +106,7 @@
             </p>
           </li>
         </ul>
+        <p class="notice"><a href="/xls_example.xlsx">点击查看表格实例</a></p>
       </div>
     </div>
     <div class="tab_btn"><button type="button" onclick="new_teach_material_commit(this)">确定</button></div>

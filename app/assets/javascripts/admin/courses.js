@@ -120,15 +120,15 @@ function new_teach_material_commit(obj){
     }else{
         var t_name = $.trim($("#new_teach_material_name").val());
         var t_xls = $("#new_teach_material_xls").val();
-        var xls_format ="xls";
+        var xls_format =["xls", "xlsx"];
         if(t_name==""){
             tishi("教材名称不能为空!");
         }else if(t_xls==""){
             tishi("请导入章节数据的表格文件!");
         }else{
-            var xls_type = t_xls.substring(t_xls.lastIndexOf(".")).toLowerCase();   //.xls
-            if(xls_type.substring(1, xls_type.length)!=xls_format){
-                tishi("请上传正确的表格文件,文件格式必须为'xls'!");
+            var xls_type = t_xls.substring(t_xls.lastIndexOf(".")).toLowerCase();   //.xls  .xlsx
+            if(xls_format.indexOf(xls_type.substring(1, xls_type.length))==-1){
+                tishi("请上传正确的表格文件,文件格式必须为'xls'或者'xlsx'!");
             }else{
                 $(obj).removeAttr("onclick");
                 $.ajax({
@@ -154,7 +154,6 @@ function new_teach_material_commit(obj){
                         tishi("数据错误!");
                     }
                 })
-
             }
         }
     }

@@ -1,0 +1,7 @@
+<% if @status == 1 %>
+  alert("创建成功!")
+  $(".controller_body").html('<%= j(render :partial => 'school_list') %>')
+  $("#system_new_school").hide();
+<% else %>
+  alert("学校和邮箱不可重复！")
+<% end %>

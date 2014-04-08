@@ -38,7 +38,8 @@ HomeworkManage::Application.routes.draw do
   namespace :admin do
     resources :schools do
       collection do
-        
+        post :adjust_quotas
+        get :update_school_password
       end
     end
   end  

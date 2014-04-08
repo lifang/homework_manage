@@ -24,7 +24,7 @@ class Admin::SchoolsController < ApplicationController
     else
       if school_name.nil? || school_students_count.nil?
         @status = 0
-        @notice = "学校名称和学校人数不能为空!"
+        @notice = "学校名称和学校配额不能为空!"
       else
         School.transaction do
           password =School.newpass(6)
@@ -35,7 +35,7 @@ class Admin::SchoolsController < ApplicationController
           encryptpassword = teacher.encrypt_password
           teacher.update_attributes(:password => encryptpassword)
           @status = 1
-          UserMailer.send_pwd_email(email, password, Teacher::TYPES[:SCHOOL])
+          UserMailer.send_pwd_email(email, password, Teacher::TYPES[:SCHOOL]).deliver
         end
       end
     end
@@ -47,7 +47,13 @@ class Admin::SchoolsController < ApplicationController
     students_count = params[:students_count]
     school_id = params[:school_id]
     school = School.find_by_id school_id
+    admin = Teacher.find_by_types Teacher::TYPES[:SYSTEM]
+    teacher = Teacher.find_by_school_id school_id
     if school && school.update_attributes(:students_count => students_count)
+      content = "额度调整为" + students_count
+      if admin && teacher
+        AdminMessage.create(:sender_id=>admin.id,:receiver_id=>teacher.id,:content => content)
+      end
       status = 1
       notice = "调整成功！"
       count_show = school.used_school_counts.to_s + "/" + students_count
@@ -68,7 +74,7 @@ class Admin::SchoolsController < ApplicationController
         school_teacher.update_attributes(:password => password_new)
         password = school_teacher.encrypt_password
         school_teacher.update_attributes(:password => password)
-        UserMailer.send_pwd_email(school_teacher.email, password_new, Teacher::TYPES[:SCHOOL])
+        UserMailer.send_pwd_email(school_teacher.email, password_new, Teacher::TYPES[:SCHOOL]).deliver
       end
       status = 1
     else

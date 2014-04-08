@@ -30,17 +30,18 @@ class Admin::QuestionAdminsController < ApplicationController
     @notice = "教材不能为空!"
     if material_id.present?
       teacher = Teacher.find_by_id teacher_id
+      p teacher
       if teacher.present?
-        if teacher.update_attributes(:teaching_material_id => material_id)
-           @notice = "管理员信息不能为空!"  
-           @status = "修改成功！"
+        if teacher.update_attributes(:teaching_material_id => material_id.to_i)
+           @notice = "修改成功!"  
+           @status = true
         else
            @notice = "修改失败！"
         end
       else
          @notice = "管理员信息不能为空!"
       end
-    end  
+    end 
   end  
 
   #加载教材
@@ -48,4 +49,8 @@ class Admin::QuestionAdminsController < ApplicationController
     course_id = params[:course_id]
     @materials = TeachingMaterial.where(["course_id = ?", course_id])
   end
+
+  def load_password_panel
+    @teacher_id = params[:teacher_id]
+  end  
 end

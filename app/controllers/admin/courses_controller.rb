@@ -65,21 +65,24 @@ class Admin::CoursesController < ApplicationController
   def new_teach_material
     TeachingMaterial.transaction do
       status = 1
-      msg = ""
       name = params[:new_teach_material_name]
       course_id = params[:new_teach_material_course_id]
       tm = TeachingMaterial.new(:name => name.nil? || name == "" ? "" : name.strip, :course_id => course_id.to_i,
         :status => TeachingMaterial::STATUS[:NORMAL])
       if tm.save
-        TeachingMaterial.upload_xls(tm.id, params[:new_teach_material_xls])
+        status = TeachingMaterial.upload_xls(course_id.to_i, tm.id, params[:new_teach_material_xls])
       else
         status = 0
-        msg = "新建失败!"
       end
-      flash[:notice] = msg
+      if status == 1
+        flash[:notice] = "教材创建成功!"
+      else
+        flash[:notice] = "教材创建失败!"
+      end
       redirect_to "/admin/courses"
     end
   end
+
   #新建科目或教材重名验证
   def new_course_and_teach_material_valid
     type = params[:type].to_i

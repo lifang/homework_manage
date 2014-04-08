@@ -9,6 +9,10 @@
     <%= csrf_meta_tags %>
   </head>
   <body >
+    <div class="tab_Prompt" id="tab_Prompt">
+      <a href="javascript:void(0)" class="x"></a>
+      <p></p>
+    </div>
     <div class="wrap">
       <div class="head clearAfter">
         <%=render 'layouts/admin_nav'%>
@@ -18,9 +22,10 @@
       </div>
     </div>
     <div class="mask"></div>
-    <div class="tab_Prompt" id="tab_Prompt">
-      <a href="javascript:void(0)" class="x"></a>
-      <p></p>
-    </div>
+    <% if flash[:notice] %>
+      <script>
+        tishi('<%= flash[:notice] %>')
+      </script>
+    <% end %>
   </body>  
 </html>

@@ -35,7 +35,7 @@ class Api::StudentsController < ApplicationController
         :sender_types => sender_types, :content => content,
         :micropost_id => micropost_id, :reciver_id => reciver_id,:reciver_types => reciver_types)
       replymicropost.save
-      replymicropost_return = ReplyMicropost.find_by_sql(["select rm.id, rm.content, rm.sender_id, rm.sender_types, rm.reciver_id, DATE_FORMAT(rm.created_at, '%Y-%m-%d %H:%i:%S') as created_at, s.name sender_name,
+      replymicropost_return = ReplyMicropost.find_by_sql(["select rm.id, rm.content, rm.sender_id, rm.sender_types, rm.reciver_id, DATE_FORMAT(rm.created_at, '%Y-%m-%d %H:%i:%S') as new_created_at, s.name sender_name,
               s.avatar_url sender_avatar_url, u.name reciver_name, u.avatar_url reciver_avatar_url
               from reply_microposts rm left join
               users s on rm.sender_id = s.id left join users u on rm.reciver_id = u.id
@@ -140,7 +140,7 @@ class Api::StudentsController < ApplicationController
       follow_microposts_id = follow_microposts_record.map{|m| m.micropost_id }
       follow_microposts_id = follow_microposts_id.to_s.gsub(/\[|\]/,"")
       if follow_microposts_id.size > 0
-        sql_str = "select m.id micropost_id, m.user_id, m.user_types, m.content, DATE_FORMAT(m.created_at, '%Y-%m-%d %H:%i:%S') as created_at,
+        sql_str = "select m.id micropost_id, m.user_id, m.user_types, m.content, DATE_FORMAT(m.created_at, '%Y-%m-%d %H:%i:%S') as new_created_at,
                 m.reply_microposts_count, m.follow_microposts_count, u.name, u.avatar_url
                 from microposts m inner join users u on u.id = m.user_id
                 where m.school_class_id = #{school_class.id} and m.id in (#{follow_microposts_id})
@@ -922,7 +922,7 @@ class Api::StudentsController < ApplicationController
             notice = "该提示消息不存在！"
           else
             if message.update_attributes(:status => Message::STATUS[:READED])
-              sql_str = "select m.content, m.created_at, m.id micropost_id, m.reply_microposts_count,
+              sql_str = "select m.content, DATE_FORMAT(m.created_at, '%Y-%m-%d %H:%i:%S') as new_created_at, m.id micropost_id, m.reply_microposts_count,
               m.school_class_id, m.user_id,m.user_types, u.name, u.avatar_url from microposts m
               left join users u on m.user_id = u.id where m.id = #{message.micropost_id}"
               micropost = Message.find_by_sql sql_str
@@ -971,7 +971,7 @@ class Api::StudentsController < ApplicationController
       sysmessage = nil
     else
       page = params[:page].nil? ? 1 : params[:page]
-      sysmessage = SysMessage.paginate_by_sql(["select * from sys_messages WHERE student_id = ? and school_class_id = ? order by created_at desc",
+      sysmessage = SysMessage.paginate_by_sql(["select DATE_FORMAT(sm.created_at, '%Y-%m-%d %H:%i:%S') as new_created_at, sm.school_class_id, sm.student_id,sm.content from sys_messages sm WHERE student_id = ? and school_class_id = ? order by created_at desc",
           student_id,school_class_id],:per_page =>SysMessage::PER_PAGE ,:page => page)
       status = "success"
       notice = "获取成功！！"

@@ -35,7 +35,16 @@ class Admin::CoursesController < ApplicationController
 
   #新建科目
   def create
-
+    Course.transaction do
+      name = params[:new_course_name]
+      course = Course.create(:name => name, :status => Course::STATUS[:NORMAL])
+      if course.save
+        flash[:notice] = "科目创建成功!"
+      else
+        flash[:notice] = "科目创建失败!"
+      end
+      redirect_to "/admin/courses"
+    end
   end
   
   #删除教材
@@ -51,4 +60,44 @@ class Admin::CoursesController < ApplicationController
       render :json => {:status => status}
     end
   end
+
+  #新建教材
+  def new_teach_material
+    TeachingMaterial.transaction do
+      status = 1
+      msg = ""
+      name = params[:new_teach_material_name]
+      course_id = params[:new_teach_material_course_id]
+      tm = TeachingMaterial.new(:name => name.nil? || name == "" ? "" : name.strip, :course_id => course_id.to_i,
+        :status => TeachingMaterial::STATUS[:NORMAL])
+      if tm.save
+        TeachingMaterial.upload_xls(tm.id, params[:new_teach_material_xls])
+      else
+        status = 0
+        msg = "新建失败!"
+      end
+      flash[:notice] = msg
+      redirect_to "/admin/courses"
+    end
+  end
+  #新建科目或教材重名验证
+  def new_course_and_teach_material_valid
+    type = params[:type].to_i
+    name = params[:name]
+    status = 0
+    if type == 1  #科目
+      course = Course.find_by_name_and_status(name, Course::STATUS[:NORMAL])
+      if course.nil?
+        status = 1
+      end
+    elsif type == 2
+      course_id = params[:course_id].to_i
+      tm = TeachingMaterial.find_by_name_and_course_id_and_status(name, course_id, TeachingMaterial::STATUS[:NORMAL])
+      if tm.nil?
+        status = 1
+      end
+    end
+    render :json => {:status => status}
+  end
+
 end

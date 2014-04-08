@@ -34,7 +34,7 @@
             </tr>
           <% end if teach_mat %>
           <tr>
-            <td><a href="javascript:void" class="add_a tooltip_html">添加</a></td>
+            <td><a href="javascript:void" class="add_a tooltip_html" onclick="new_teach_material(this, '<%= pc.id %>')">添加</a></td>
           </tr>
         </table>
       </div>
@@ -42,13 +42,13 @@
     <div class="b_table">
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <td width="300"><a href="javascript:void(0)" class="add_a tooltip_html" onclick="new_course(this)">添加</a></td>
+          <td width="300"><a href="javascript:void(0)" class="add_a tooltip_html" onclick="new_course()">添加</a></td>
           <td></td>
         </tr>
       </table>
     </div>
     <% if @page_courses %>
-    <%= will_paginate @page_courses, :next_label => "下一页", :previous_label => "上一页", :class => "pageTurn"%>
+      <%= will_paginate @page_courses, :next_label => "下一页", :previous_label => "上一页", :class => "pageTurn"%>
     <% end %>
   </div>
 </div>
@@ -71,19 +71,49 @@
 
 <div class="tab" id="new_course_tab" style="display:none;">
   <%= form_tag "/admin/courses", :method => "post" do %>
+    <a href="javascript:void(0);" class="close">close</a>
+    <div class="tab_head">新加科目</div>
+    <div class="tab_warning">输入新科目名称</div>
+    <div class="tab_body clearAfter">
+      <div class="form_list">
+        <ul>
+          <li><label>科目名称：</label><input id="new_course_name" name="new_course_name" type="text"/></li>
+        </ul>
+      </div>
+    </div>
+    <div class="tab_btn"><button type="button" onclick="new_course_commit(this)">确定</button></div>
+  <% end %>
+</div>
+
+<div class="tab"  id="new_teach_material_tab" style="display:none;">
+  <%= form_tag "/admin/courses/new_teach_material", :method => "post", :multipart => true do %>
   <a href="javascript:void(0);" class="close">close</a>
-  <div class="tab_head">新加科目</div>
-  <div class="tab_warning">输入新科目名称</div>
+  <div class="tab_head">新加教材</div>
+  <div class="tab_warning">输入新教材名称</div>
+  <input type="hidden" name="new_teach_material_course_id" value="0"/>
   <div class="tab_body clearAfter">
     <div class="form_list">
       <ul>
-        <li><label>科目名称：</label><input id="new_course_name" name="new_course_name" type="text"/></li>
+        <li><label>教材名称：</label>
+          <input name="new_teach_material_name" id="new_teach_material_name" type="text"/>
+        </li>
+        <li><label>章节列表：</label>
+          <p class="file_p">
+            <span>选择章节清单位置</span>
+            <a href="javascript:void(0);" class="file_a">
+              <input multiple type="file" name="new_teach_material_xls" id="new_teach_material_xls"/>
+            </a>
+          </p>
+        </li>
       </ul>
     </div>
   </div>
-  <div class="tab_btn"><button type="button" onclick="new_course_commit(this)">确定</button></div>
+  <div class="tab_btn"><button type="button" onclick="new_teach_material_commit(this)">确定</button></div>
   <% end %>
 </div>
+
+
+
 
 
 

@@ -54,7 +54,7 @@ class Message < ActiveRecord::Base
   #获取群我的当前班级的的消息
   def self.get_my_messages school_class, user_id
     messages = Message.joins('LEFT JOIN users u ON messages.sender_id = u.id').
-      select("messages.id, messages.content, messages.user_id, messages.created_at, u.name sender_name,
+      select("messages.id, messages.content, messages.user_id, DATE_FORMAT(messages.created_at, '%Y-%m-%d %H:%i:%S') as new_created_at, u.name sender_name,
      u.avatar_url sender_avatar_url, messages.micropost_id ").
       order("messages.created_at DESC").
       where("user_id = ? and school_class_id = ? and status = ?", user_id, school_class.id,
@@ -67,7 +67,7 @@ class Message < ActiveRecord::Base
     page = 1 if page.eql?(0)
     messages = Message.joins('LEFT JOIN users u ON messages.sender_id = u.id').
       joins("INNER JOIN reply_microposts rm on rm.id = messages.reply_micropost_id").
-      select("messages.id, messages.content, messages.user_id, messages.created_at, u.name sender_name,
+      select("messages.id, messages.content, messages.user_id, DATE_FORMAT(messages.created_at, '%Y-%m-%d %H:%i:%S') as new_created_at, u.name sender_name,
      u.avatar_url sender_avatar_url, messages.micropost_id ,rm.sender_id reciver_id,rm.sender_types reciver_types").
       order("messages.created_at DESC").
       where("user_id = ? and school_class_id = ? and status = ?", user_id, school_class.id,

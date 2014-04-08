@@ -41,6 +41,13 @@ HomeworkManage::Application.routes.draw do
         
       end
     end
+
+    resources :question_admins do
+      collection do
+        get :change_teaching_materials
+      end
+
+    end  
   end  
 
   resources :welcome do

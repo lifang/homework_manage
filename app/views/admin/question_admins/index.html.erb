@@ -1,0 +1,37 @@
+<div class="controller">
+  <div class="controller_head">
+    <a href="javascript:void(0)" class="addController_btn_a">新建管理员</a>
+    <div class="search"><button></button><input name="" type="text"></div>
+  </div>
+  <div class="controller_body">
+      <div class="b_table">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+           <thead>
+            <tr>
+              <th>管理员姓名</th>
+              <th>管辖题库（教材）</th>
+              <th>修改管辖</th>
+              <th>管理员账户信息</th>
+              <th>重置密码</th>
+              <th>停用</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @question_admins.each do |admin| %>
+            <tr>
+              <td><%= admin.name %></td>
+              <td><%= admin.material_name.present? ? admin.material_name : "未设置" %></td>
+              <td><a href="javascript:void(0)" class="controller_a tooltip_html" onclick="show_material_pannel(<%= admin.id %>)" >修改管辖</a></td>
+              <td><%= admin.email %>/ ******</td>
+              <td><a href="javascript:void(0)" class="reset_a tooltip_html">重置密码</a></td>
+              <td><a href="javascript:void(0);" class="blockUp_a tooltip_html">停用</a></td>
+            </tr>
+            <% end %>
+            </tbody>
+          </table>
+      </div>
+  </div>
+</div>
+
+<div class="tab" id="question_admin" style="display:none;">
+<div>  

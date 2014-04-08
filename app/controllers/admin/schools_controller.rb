@@ -2,7 +2,7 @@
 class Admin::SchoolsController < ApplicationController
 	layout "admin"
 	def index
-    @schools = School.schools_list
+    @schools = School.schools_list params[:page] ||= 1
 	end
   
   def create
@@ -33,7 +33,7 @@ class Admin::SchoolsController < ApplicationController
         end
       end
     end
-    @schools = School.schools_list
+    @schools = School.schools_list params[:page] ||= 1
   end
 
   #调整配额
@@ -46,7 +46,7 @@ class Admin::SchoolsController < ApplicationController
     else
       @status = 0
     end
-    @schools = School.schools_list
+    @schools = School.schools_list params[:page] ||= 1
   end
 
   #  修改密码
@@ -67,10 +67,10 @@ class Admin::SchoolsController < ApplicationController
     render :json => {:status => status}
   end
 
-  # 查询班级
+  # 查询学校
   def search_schools
     schools_name = params[:schools_name].nil? ? "" : "%" + params[:schools_name].strip.to_s + "%"
-    @schools = School.schools_list schools_name
+    @schools = School.schools_list schools_name,params[:page] ||= 1
   end
 
   #停用或者启用

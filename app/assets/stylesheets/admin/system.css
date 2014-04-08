@@ -346,6 +346,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 .pageTurn { padding: 10px 0; text-align: center; font-size: 13px; color: #333; margin: 20px 0;}
 .pageTurn a { padding: 5px 12px; margin: 0px 2px; color: #333; background: #dbdbdb;}
 .pageTurn a:hover, .pageTurn a:active { color: #48D47E;}
+.pageTurn em.current { padding: 5px 12px; font-weight: bold; color: #fff; background: #48D47E;}
 
 .pageTurn a.current { padding: 5px 12px; font-weight: bold; color: #fff; background: #48D47E;}
 .pageTurn .disabled {display: none;}

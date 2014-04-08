@@ -2,111 +2,66 @@
 <div class="main">
   <div class="controller">
     <div class="controller_head">
-      <a href="#" class="addController_btn_a">新建学校</a>
-      <div class="search"><button></button><input name="" type="text"/></div>
+      <a href="javascript:void(0)" class="addController_btn_a" onclick="show_new_chool()">新建学校</a>
+      <div class="search"><button onclick="search_schools(this)"></button><input name="schools_name" type="text" value="<%= @schools_name if @schools_name %>"/></div>
     </div>
     <div class="controller_body">
-      <div class="b_table">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <thead>
-            <tr>
-              <th>学校名称</th>
-              <th>配额使用情况</th>
-              <th>配额调整</th>
-              <th>学校管理员账户信息</th>
-              <th>重设密码</th>
-              <th>停用</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>新东方</td>
-              <td>70/100</td>
-              <td><a href="#" class="add_a tooltip_html">增加</a></td>
-              <td>wll2014 / ******</td>
-              <td><a href="#" class="reset_a tooltip_html">重置密码</a></td>
-              <td><a href="javascript:void(0);" class="blockUp_a tooltip_html">停用</a></td>
-            </tr>
-            <tr>
-              <td>新东方</td>
-              <td>70/100</td>
-              <td><a href="#" class="add_a tooltip_html">增加</a></td>
-              <td>wll2014 / ******</td>
-              <td><a href="#" class="reset_a tooltip_html">重置密码</a></td>
-              <td><a href="javascript:void(0);" class="blockUp_a_ed tooltip_html">启用</a></td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <%= render :partial => 'school_list'  %>
     </div>
   </div>
 </div>
 
-<div class="tab">
+<div class="tab system" id="system_new_school">
   <a href="javascript:void(0);" class="close">close</a>
   <div class="tab_head">新建学校</div>
   <div class="tab_warning">请输入学校相关信息</div>
   <div class="tab_body clearAfter">
     <div class="form_list">
       <ul>
-        <li><label>学校名称：</label><input name="" type="text"/></li>
-        <li><label>学校配额：</label><input name="" type="text"/></li>
-        <li><label>邮箱邮箱：</label><input name="" type="text"/></li>
+        <li><label>学校名称：</label><input name="school_name" type="text"/></li>
+        <li><label>学校配额：</label><input name="school_students_count" type="text"/></li>
+        <li><label>邮箱邮箱：</label><input name="email" type="text"/></li>
       </ul>
     </div>
   </div>
-  <div class="tab_btn"><button type="submit">确定</button></div>
+  <div class="tab_btn"><button onclick="system_new_school(this)">确定</button></div>
 </div>
 
-<div class="tab">
+<div class="tab system" id="adjust_quotas">
   <a href="javascript:void(0);" class="close">close</a>
   <div class="tab_head">配额调整</div>
   <div class="tab_warning">新东方配额调整</div>
   <div class="tab_body clearAfter">
     <div class="form_list">
       <ul>
-        <li><a href="#" class="reduce_a tooltip_html">减少</a>
-          <input name="" type="text"/>
-          <a href="#" class="add_a tooltip_html">增加</a>
+        <li><a href="javascript:void(0);" class="reduce_a tooltip_html" onclick="reduce_a(this)">减少</a>
+          <input name="students_count" type="text"/>
+          <input name="school_id" type="hidden"/>
+          <a href="javascript:void(0);" class="add_a tooltip_html" onclick="add_a(this)">增加</a>
         </li>
       </ul>
     </div>
   </div>
-  <div class="tab_btn"><button type="submit">确定</button></div>
+  <div class="tab_btn"><button onclick="adjust_quotas(this)">确定</button></div>
 </div>
 
-<div class="tab">
+<div class="tab system" id="update_school_password">
   <a href="javascript:void(0);" class="close">close</a>
   <div class="tab_head">重设密码</div>
   <div class="tab_warning">为学校重新设置密码</div>
   <div class="tab_body clearAfter">
     <div class="form_list">
       <ul>
-        <li><label>新密码：</label><input name="" type="text"/></li>
-        <li><label>确认密码：</label><input name="" type="text"/></li>
+        <li><label>新密码：</label><input name="password_new" type="password"/></li>
+        <li><label>确认密码：</label><input name="password_again" type="password"/></li>
+        <input type="hidden" name="school_id"/>
       </ul>
     </div>
   </div>
-  <div class="tab_btn"><button type="submit">确定</button></div>
+  <div class="tab_btn"><button onclick="update_school_password(this)">确定</button></div>
 </div>
 
-<div class="tab">
+<div class="tab system">
   <a href="javascript:void(0);" class="close">close</a>
   <div class="tab_head">停用学校</div>
   <div class="tab_warning">是否要停用该学校</div>

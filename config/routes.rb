@@ -36,9 +36,23 @@ HomeworkManage::Application.routes.draw do
   end
 
   namespace :admin do
+
+    resources :courses do
+      collection do
+        get :del_teaching_material
+      end
+    end
+    
     resources :schools do
       collection do
-        
+        post :adjust_quotas,:search_schools,:is_enable
+        get :update_school_password
+      end
+    end
+
+    resources :systems do
+      collection do
+        post :reset_password, :disable_enable_account
       end
     end
 

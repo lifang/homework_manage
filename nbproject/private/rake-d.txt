@@ -62,6 +62,7 @@ doc\:rails=
 doc\:reapp=
 doc\:rerails=
 environment=
+last_achivement\:auto_generate_customer_types=
 log\:clear=
 middleware=
 notes=

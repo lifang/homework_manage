@@ -1,0 +1,28 @@
+<div class="b_table">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <thead>
+      <tr>
+        <th>学校名称</th>
+        <th>配额使用情况</th>
+        <th>配额调整</th>
+        <th>学校管理员账户信息</th>
+        <th>重设密码</th>
+        <th>停用</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @schools.each do |school| %>
+      <tr class="school_tr" tr_school_id="<%= school.id %>">
+          <td class="school_name"><%= school.name %></td>
+          <td class="school_student_count"><%= school.used_school_counts %>/<%= school.students_count %></td>
+          <td><a href="javascript:void(0);" class="add_a tooltip_html" onclick="add_students_count(this,<%= school.id %>,<%= school.students_count %>)">增加</a></td>
+          <td><%= school.email %> / ******</td>
+          <td><a href="javascript:void(0);" class="reset_a tooltip_html" onclick="reset_password(this,<%= school.id %>)">重置密码</a></td>
+          <td><a href="javascript:void(0);" class="<%= school.status ? "blockUp_a" : "blockUp_a_ed" %> tooltip_html" onclick="is_enable(this,<%= school.id %>)">
+              <%= school.status ? "停用" : "启用" %></a></td>
+        </tr>
+      <% end if @schools %>
+    </tbody>
+  </table>
+</div>
+<%= will_paginate @schools, :previous_label => "上一页", :next_label => "下一页", :class => "pageTurn" %>

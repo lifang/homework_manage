@@ -15,7 +15,7 @@ class PublishQuestionPackage < ActiveRecord::Base
 
 
    scope :not_calculated, lambda {|school_class_id|
-     where("'#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}' >= end_time and school_class_id = #{school_class_id} and is_calc = #{PublishQuestionPackage::IS_CALC[:WAIT]}")
+     where("'#{Time.now.strftime("%F %T")}' >= end_time and school_class_id = #{school_class_id} and is_calc = #{PublishQuestionPackage::IS_CALC[:WAIT]}")
     }
 
   #获取当日或历史任务

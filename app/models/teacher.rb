@@ -7,13 +7,29 @@ class Teacher < ActiveRecord::Base
   has_many :question_packages, :dependent => :destroy
   has_many :publish_question_packages, :dependent => :destroy
   belongs_to :user
-  TYPES = {:SYSTEM => 0,:SCHOOL=>1,:EXAM=>2,:teacher=>3}
+
+  TYPES = {:SYSTEM => 0,:SCHOOL =>1,:EXAM=>2,:teacher=>3}
   TYPES_NAME = {0=>'系统管理员',1=>'学校管理员',2=>'题库管理员',3=>'教师'}
+  Types_arr = TYPES.keys
   AVATAR_SIZE = [176]
   SCREENSHOT_SIZE = [298]
   STATUS = {:YES => 0, :NO => 1}
   STATUS_NAME = {0 => '正常', 1 => "失效"}
   TEAVHER_URL = "/assets/default_avater.jpg"
+
+  Types_arr.each do |type|
+    define_method "#{type.to_s.downcase}?" do
+      self.types == TYPES[type]
+    end
+  end
+
+  def teacher_valid?
+    self.status == STATUS[:YES]
+  end
+
+  def teacher_invalid?
+    self.status == STATUS[:NO]
+  end
 
   def self.get_publish_question_packages school_class_id, page
     sql_str = "select q.id question_package_id, q.name, p.id publish_question_package_id,

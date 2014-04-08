@@ -71,10 +71,19 @@ function adjust_quotas(obj){
     $.ajax({
         url : "/admin/schools/adjust_quotas",
         type : "post",
-        dataType : "script",
+        dataType : "json",
         data : {
             students_count : students_count,
             school_id : school_id
+        },
+        success : function(data){
+            tishi(data.notice)
+            $("#adjust_quotas").hide();
+            $(".mask").hide();
+            if(data.status==1){
+                tr_school_id=
+                $("tr[tr_school_id='"+ school_id +"']").find(".school_student_count").html(data.count_show);
+            }
         }
     })
 }

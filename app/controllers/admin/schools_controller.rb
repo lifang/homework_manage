@@ -42,11 +42,14 @@ class Admin::SchoolsController < ApplicationController
     school_id = params[:school_id]
     school = School.find_by_id school_id
     if school && school.update_attributes(:students_count => students_count)
-      @status = 1
+      status = 1
+      notice = "调整成功！"
+      count_show = school.used_school_counts.to_s + "/" + students_count
     else
-      @status = 0
+      status = 0
+      notice = "调整失败！"
     end
-    @schools = School.schools_list params[:page] ||= 1
+    render :json => {:status => status,:notice => notice,:count_show => count_show}
   end
 
   #  修改密码

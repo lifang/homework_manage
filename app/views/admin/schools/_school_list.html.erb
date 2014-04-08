@@ -12,9 +12,9 @@
     </thead>
     <tbody>
       <% @schools.each do |school| %>
-        <tr class="school_tr">
+      <tr class="school_tr" tr_school_id="<%= school.id %>">
           <td class="school_name"><%= school.name %></td>
-          <td><%= school.used_school_counts %>/<%= school.students_count %></td>
+          <td class="school_student_count"><%= school.used_school_counts %>/<%= school.students_count %></td>
           <td><a href="javascript:void(0);" class="add_a tooltip_html" onclick="add_students_count(this,<%= school.id %>,<%= school.students_count %>)">增加</a></td>
           <td><%= school.email %> / ******</td>
           <td><a href="javascript:void(0);" class="reset_a tooltip_html" onclick="reset_password(this,<%= school.id %>)">重置密码</a></td>

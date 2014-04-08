@@ -2,9 +2,15 @@
 class Admin::SchoolsController < ApplicationController
 	layout "admin"
 	def index
-    @schools = School.schools_list params[:page] ||= 1
+    @schools_name = params[:schools_name]
+    schools_name = params[:schools_name].nil? || params[:schools_name] == "" ? nil : "%" + params[:schools_name].strip.to_s + "%"
+    if schools_name.nil?
+      @schools = School.schools_list params[:page] ||= 1
+    else
+      @schools = School.schools_list schools_name,params[:page] ||= 1
+    end
 	end
-  
+
   def create
     school_name = params[:school_name]
     school_students_count = params[:school_students_count]
@@ -70,11 +76,7 @@ class Admin::SchoolsController < ApplicationController
     render :json => {:status => status}
   end
 
-  # 查询学校
-  def search_schools
-    schools_name = params[:schools_name].nil? ? "" : "%" + params[:schools_name].strip.to_s + "%"
-    @schools = School.schools_list schools_name,params[:page] ||= 1
-  end
+
 
   #停用或者启用
   def is_enable

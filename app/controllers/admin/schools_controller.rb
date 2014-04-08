@@ -80,14 +80,17 @@ class Admin::SchoolsController < ApplicationController
   #停用或者启用
   def is_enable
     school_id = params[:school_id]
-    school_teacher = School.find_by_id school_id
-    if school_teacher
-      if school_teacher.status
-        school_teacher.update_attributes(:status=>School::STATUS[:DELETE])
+    school = School.find_by_id school_id
+    teacher = Teacher.find_by_school_id school_id
+    if school
+      if school.status
+        school.update_attributes(:status=>School::STATUS[:DELETE])
+        teacher.update_attributes(:status=>Teacher::STATUS[:NO])
         status = 1
         notice = '学校已禁用！'
       else
-        school_teacher.update_attributes(:status=>School::STATUS[:NORMAL])
+        school.update_attributes(:status=>School::STATUS[:NORMAL])
+        teacher.update_attributes(:status=>Teacher::STATUS[:YES])
         status = 2
         notice = '学校已启用！'
       end

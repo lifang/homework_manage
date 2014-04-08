@@ -302,7 +302,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
     background: #fff;
 }
 .form_list li .jqTransformSelectWrapper a.jqTransformSelectOpen {
-    background:url("/assets/select01.png") no-repeat  center center rgba(0, 0, 0, 0);
+    background:url(/assets/select01.png) no-repeat  center center rgba(0, 0, 0, 0);
     height: 38px;
     top: 0px;
 }

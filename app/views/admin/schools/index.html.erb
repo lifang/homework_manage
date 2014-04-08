@@ -3,11 +3,12 @@
   <div class="controller">
     <div class="controller_head">
       <a href="javascript:void(0)" class="addController_btn_a" onclick="show_new_chool()">新建学校</a>
-      <div class="search"><button onclick="search_schools(this)"></button><input name="schools_name" type="text" value="<%= @schools_name if @schools_name %>"/></div>
+      <div class="search"><button onclick="search_schools(this)"></button><input name="schools_name" type="text" value="<%= @schools_name if  @schools_name%>"/></div>
     </div>
     <div class="controller_body">
       <%= render :partial => 'school_list'  %>
     </div>
+    <%= will_paginate @schools, :previous_label => "上一页", :next_label => "下一页", :class => "pageTurn" %>
   </div>
 </div>
 

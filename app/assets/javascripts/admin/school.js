@@ -111,6 +111,7 @@ function update_school_password(obj){
                 if(data.status==1){
                     tishi("修改成功！");
                     $("#update_school_password").hide();
+                    $(".mask").hide();
                 }else{
                     tishi("修改失败！")
                 }
@@ -130,23 +131,31 @@ function search_schools(obj){
 
 // 停用或者启用
 function is_enable(obj,school_id){
-    $.ajax({
-        url : "/admin/schools/is_enable",
-        dataType : "json",
-        type : "post",
-        data : {
-            school_id : school_id
-        },
-        success : function(data){
-            if(data.status==1){
-                $(obj).attr("class","blockUp_a_ed tooltip_html");
-                tishi(data.notice);
-            }else if (data.status==2){
-                $(obj).attr("class","blockUp_a tooltip_html");
-                tishi(data.notice);
-            }else{
-                tishi(data.notice);
+    var content_tishi = "";
+    if($(obj).attr("class").indexOf("blockUp_a_ed")>=0){
+        content_tishi = "确认启用？"
+    }else{
+        content_tishi = "确认停用？";
+    }
+    if(confirm(content_tishi)){
+        $.ajax({
+            url : "/admin/schools/is_enable",
+            dataType : "json",
+            type : "post",
+            data : {
+                school_id : school_id
+            },
+            success : function(data){
+                if(data.status==1){
+                    $(obj).attr("class","blockUp_a_ed tooltip_html");
+                    tishi(data.notice);
+                }else if (data.status==2){
+                    $(obj).attr("class","blockUp_a tooltip_html");
+                    tishi(data.notice);
+                }else{
+                    tishi(data.notice);
+                }
             }
-        }
-    })
+        })
+    }
 }

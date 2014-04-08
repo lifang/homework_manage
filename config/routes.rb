@@ -40,7 +40,6 @@ HomeworkManage::Application.routes.draw do
     resources :courses do
       collection do
         get :del_teaching_material
-        post :new_course_and_teach_material_valid, :new_teach_material
       end
     end
     
@@ -48,6 +47,12 @@ HomeworkManage::Application.routes.draw do
       collection do
         post :adjust_quotas,:search_schools,:is_enable
         get :update_school_password
+      end
+    end
+
+    resources :systems do
+      collection do
+        post :reset_password, :disable_enable_account
       end
     end
   end  

@@ -14,7 +14,7 @@ class Api::StudentsController < ApplicationController
     micropost = Micropost.new(:user_id => user_id, :user_types => user_types, 
       :content => content, :school_class_id => school_class_id, :reply_microposts_count => 0)
     if micropost.save
-      micropost_return = Micropost.find_by_sql(["SELECT m.*,u.avatar_url,u.name from microposts m INNER JOIN users u on m.user_id = u.id where m.id = ?",micropost.id])
+      micropost_return = Micropost.find_by_sql(["SELECT m.*,DATE_FORMAT(m.created_at, '%Y-%m-%d %H:%i:%S') as new_created_at, u.avatar_url,u.name from microposts m INNER JOIN users u on m.user_id = u.id where m.id = ?",micropost.id])
       render :json => {:status => 'success', :notice => '消息发布成功',:micropost=>micropost_return}
     else
       render :json => {:status => 'error', :notice => '消息发布失败',:micropost=>[]}
@@ -971,7 +971,7 @@ class Api::StudentsController < ApplicationController
       sysmessage = nil
     else
       page = params[:page].nil? ? 1 : params[:page]
-      sysmessage = SysMessage.paginate_by_sql(["select DATE_FORMAT(sm.created_at, '%Y-%m-%d %H:%i:%S') as new_created_at, sm.school_class_id, sm.student_id,sm.content from sys_messages sm WHERE student_id = ? and school_class_id = ? order by created_at desc",
+      sysmessage = SysMessage.paginate_by_sql(["select DATE_FORMAT(sm.created_at, '%Y-%m-%d %H:%i:%S') as new_created_at, sm.id, sm.status, sm.school_class_id, sm.student_id,sm.content from sys_messages sm WHERE student_id = ? and school_class_id = ? order by created_at desc",
           student_id,school_class_id],:per_page =>SysMessage::PER_PAGE ,:page => page)
       status = "success"
       notice = "获取成功！！"

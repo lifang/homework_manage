@@ -90,4 +90,14 @@ module ApplicationHelper
     branch_tags = BranchTag.where(["teacher_id is null or teacher_id = ?", teacher_id])
     return branch_tags
   end
+
+  #生成随机密码
+  def random(limit)
+    strong_alphanumerics = %w{
+          a b c d e f g h i j k l m n o p q r s t u v w x y z
+          A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+          1 2 3 4 5 6 7 8 9
+    }
+    Array.new(limit, "").collect{strong_alphanumerics[rand(61)]}.join
+  end
 end

@@ -27,7 +27,7 @@ class Admin::SchoolsController < ApplicationController
         @notice = "学校名称和学校配额不能为空!"
       else
         School.transaction do
-          password =School.newpass(6)
+          password =random(6)
           school = School.create(:name =>school_name,:students_count=> school_students_count,:status => School::STATUS[:NORMAL],:used_school_counts => 0 )
           user = User.create(:name => school_name,:avatar_url => avatar_url)
           teacher = Teacher.create(:password => password,:email => email,:types => Teacher::TYPES[:SCHOOL],:status=>Teacher::STATUS[:YES],

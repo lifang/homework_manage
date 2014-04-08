@@ -32,6 +32,23 @@ function show_password_pannel(teacher_id)
     });
 }
 
+
+function show_disable_pannel(teacher_id)
+{
+    teacher_id
+    $.ajax({
+        type: "get",
+        dataType: "script",
+        url: "/admin/question_admins/load_disable_teacher",
+        data: {
+            teacher_id : teacher_id
+        },
+        success: function(data){
+               
+        }
+    });
+}
+
 //加载教材
 function load_material(obj,div_id)
 {
@@ -81,4 +98,35 @@ function check_teaching_materials(obj)
             $(obj).parents("form").submit();
         } 
     } 
+}
+
+function check_password(obj)
+{
+    $(obj).attr("disablesd", "true");
+    var password = $(obj).parents("form").find(".password").val(); 
+    var confirm_password = $(obj).parents("form").find(".confirm_password").val(); 
+    if(password == "")
+    {
+        tishi("密码不能为空!");
+        $(obj).removeAttr("disablesd");
+    }
+    else
+    {
+        if(confirm_password == "")
+        {
+            tishi("确认密码不能为空!");
+            $(obj).removeAttr("disablesd");
+        }
+        else
+        {
+            if(password != confirm_password)
+            {
+                tishi("两次密码不一致!");   
+            }
+            else
+            {
+                $(obj).parents("form").submit();
+            }    
+        }
+    }
 }

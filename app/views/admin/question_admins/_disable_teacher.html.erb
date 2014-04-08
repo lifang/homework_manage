@@ -1,0 +1,7 @@
+<%= form_tag({:action => :disable_teacher} ,:remote => true) do %>
+	<a href="javascript:void(0);" class="close">close</a>
+	<div class="tab_head">停用题库管理员</div>
+    <div class="tab_warning">确定要停用该题库管理员吗</div>
+    <input type="hidden" value="<%= @teacher_id %>" name="teacher_id">
+    <div class="tab_btn"><button type="submit">确定</button></div>
+<% end %>

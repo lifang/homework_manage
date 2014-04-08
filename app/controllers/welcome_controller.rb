@@ -19,6 +19,7 @@ class WelcomeController < ApplicationController
         class_id = teacher.last_visit_class_id
         @school_class = class_id.nil? ? nil : SchoolClass.find_by_id(class_id)
         last_visit_class = @class_id.nil? ? false : true
+
         if @school_class
           if @school_class.status == SchoolClass::STATUS[:EXPIRED] || (@school_class.period_of_validity.to_i - Time.now.to_i) < 0
             @school_classes = teacher.school_classes.
@@ -29,7 +30,7 @@ class WelcomeController < ApplicationController
               last_visit_class = false
             else
               @teachingmaterial = TeachingMaterial.all
-              @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
+              @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id).where("school_classes.period_of_validity>now()")
               @school_class = @school_classes.first
               teacher.update_attributes(:last_visit_class_id => @school_class.id)
               last_visit_class = true

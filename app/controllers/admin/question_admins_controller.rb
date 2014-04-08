@@ -44,6 +44,41 @@ class Admin::QuestionAdminsController < ApplicationController
     end 
   end  
 
+  def set_password
+    password = params[:password]
+    teacher_id  =  params[:teacher_id]
+    teacher  =  Teacher.find_by_id teacher_id
+    @status = false
+    @notice = "教师信息不能为空!"
+    if teacher.present?
+      if teacher.update_attributes(:password => password)
+        if teacher.update_attributes(:password => teacher.encrypt_password)
+          @status = true
+          @notice = "密码修改成功!"  
+        else
+          @notice = "密码修改失败!"  
+        end 
+      else
+        @notice = "密码修改失败!"   
+      end  
+    end  
+  end  
+
+  def disable_teacher
+    teacher_id  =  params[:teacher_id]
+    teacher  =  Teacher.find_by_id teacher_id
+    @status = false
+    @notice = "教师信息不能为空!"
+    if teacher.present?
+      if teacher.update_attributes(:status => Teacher::STATUS[:NO])
+        @status = true
+        @notice = "禁用成功！"  
+      else
+        @notice = "禁用失败!"  
+      end
+    end  
+  end 
+
   #加载教材
   def load_materials
     course_id = params[:course_id]
@@ -53,4 +88,9 @@ class Admin::QuestionAdminsController < ApplicationController
   def load_password_panel
     @teacher_id = params[:teacher_id]
   end  
+
+  def load_disable_teacher
+    @teacher_id = params[:teacher_id]
+  end 
+
 end

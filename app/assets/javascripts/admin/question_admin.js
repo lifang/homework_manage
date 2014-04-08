@@ -15,6 +15,23 @@ function show_material_pannel(teacher_id)
     });
 }
 
+
+function show_password_pannel(teacher_id)
+{
+    teacher_id
+    $.ajax({
+        type: "get",
+        dataType: "script",
+        url: "/admin/question_admins/load_password_panel",
+        data: {
+            teacher_id : teacher_id
+        },
+        success: function(data){
+               
+        }
+    });
+}
+
 //加载教材
 function load_material(obj,div_id)
 {

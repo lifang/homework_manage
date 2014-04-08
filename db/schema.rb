@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140404093426) do
+ActiveRecord::Schema.define(:version => 20140408040015) do
+
+  create_table "admin_messages", :force => true do |t|
+    t.integer "sender_id"
+    t.integer "receiver_id"
+    t.string  "content"
+  end
+
+  add_index "admin_messages", ["receiver_id"], :name => "index_admin_messages_on_receiver_id"
 
   create_table "app_versions", :force => true do |t|
     t.float "c_version"

@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
   def get_teacher_infos
    
     if current_teacher
-      @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
+      @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id).where("school_classes.period_of_validity>now()")
       @schoolclass = SchoolClass.find(current_teacher.last_visit_class_id) if current_teacher.last_visit_class_id
       @user = User.find(current_teacher.user_id)
       @teachingmaterial = TeachingMaterial.all

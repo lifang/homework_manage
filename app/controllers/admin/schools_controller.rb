@@ -2,9 +2,15 @@
 class Admin::SchoolsController < ApplicationController
 	layout "admin"
 	def index
-    @schools = School.schools_list params[:page] ||= 1
+    @schools_name = params[:schools_name]
+    schools_name = params[:schools_name].nil? || params[:schools_name] == "" ? nil : "%" + params[:schools_name].strip.to_s + "%"
+    if schools_name.nil?
+      @schools = School.schools_list params[:page] ||= 1
+    else
+      @schools = School.schools_list schools_name,params[:page] ||= 1
+    end
 	end
-  
+
   def create
     school_name = params[:school_name]
     school_students_count = params[:school_students_count]
@@ -62,6 +68,7 @@ class Admin::SchoolsController < ApplicationController
         school_teacher.update_attributes(:password => password_new)
         password = school_teacher.encrypt_password
         school_teacher.update_attributes(:password => password)
+        UserMailer.send_pwd_email(school_teacher.email, password_new, Teacher::TYPES[:SCHOOL])
       end
       status = 1
     else
@@ -70,23 +77,20 @@ class Admin::SchoolsController < ApplicationController
     render :json => {:status => status}
   end
 
-  # 查询学校
-  def search_schools
-    schools_name = params[:schools_name].nil? ? "" : "%" + params[:schools_name].strip.to_s + "%"
-    @schools = School.schools_list schools_name,params[:page] ||= 1
-  end
-
   #停用或者启用
   def is_enable
     school_id = params[:school_id]
-    school_teacher = School.find_by_id school_id
-    if school_teacher
-      if school_teacher.status
-        school_teacher.update_attributes(:status=>School::STATUS[:DELETE])
+    school = School.find_by_id school_id
+    teacher = Teacher.find_by_school_id school_id
+    if school
+      if school.status
+        school.update_attributes(:status=>School::STATUS[:DELETE])
+        teacher.update_attributes(:status=>Teacher::STATUS[:NO])
         status = 1
         notice = '学校已禁用！'
       else
-        school_teacher.update_attributes(:status=>School::STATUS[:NORMAL])
+        school.update_attributes(:status=>School::STATUS[:NORMAL])
+        teacher.update_attributes(:status=>Teacher::STATUS[:YES])
         status = 2
         notice = '学校已启用！'
       end

@@ -33,7 +33,7 @@
         </li>
         <li class="qt_text">
           <p><%= content.present?  ? content : "" %></p>
-          <input class="content" type="text" value="<%= content.present?  ? content : "" %>" onblur="update_listening_reading(this,<%= params[:school_class_id] %>)" style="display:none;" />
+          <input class="content" type="text" value="<%= content.present?  ? content : "" %>" onblur="listening_reading_onblur(this)" onchange="change_text(this)" style="display:none;" />
         </li>
         <li class="upload_voice">
           <%= form_tag({:action => :upload_voice}, :multipart => true ,:remote => true) do %>

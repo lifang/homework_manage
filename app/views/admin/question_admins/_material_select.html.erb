@@ -1,0 +1,19 @@
+<script language="javascript">
+  $(function(){
+    $('.select_box').jqTransform();
+  });
+</script>
+<ul>
+    <li><label>管理题库：</label>
+      <div class="select_box">
+            <div class="rowElem">
+                <select name="material_id" class="material_select">
+                    <option value="0">选择题库</option>
+                    <% @materials.each do |material| %>
+                      <option value="<%= material.id %>"><%= material.name %></option> 
+                    <% end %>
+                </select>
+            </div>
+        </div>
+    </li>
+</ul>

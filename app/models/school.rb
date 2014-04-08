@@ -3,7 +3,7 @@ class School< ActiveRecord::Base
   attr_protected :authentications
   STATUS = {:DELETE => 0,:NORMAL => 1}
   STATUS_NAME = {0=>'已删除',1=>'正常'}
-  PER_PAGE = 2
+  PER_PAGE = 10
   def self.newpass( len )
     chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
     newpass = ""

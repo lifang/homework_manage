@@ -63,6 +63,7 @@ class Admin::SchoolsController < ApplicationController
 
   # 查询班级
   def search_schools
+    schools_name = params[:schools_name]
     
   end
 end

@@ -305,3 +305,29 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 .form_list li .jqTransformSelectWrapper ul { top: 38px;}
 .form_list li .jqTransformSelectWrapper ul li { padding: 0; margin: 0; width: 230px; line-height: normal;}
 .system{display: none;}
+
+/*弹出提示逐渐消失*/
+.tab_Prompt {
+    width: 300px;
+    padding: 20px;
+    box-shadow: 0px 0px 5px rgba(51,51,51,0.8);
+    border-radius: 5px;
+    background: rgba(255,255,255,0.8);
+    position: absolute;
+    display: none;
+    z-index: 1000;
+}
+.tab_Prompt a.x { top: 10px; right: 10px;}
+.tab_Prompt p { padding: 10px; text-align: center; line-height: 24px;}
+
+/*tab*/
+.mask {
+    background: url(/assets/black.png) repeat;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    display: none;
+}

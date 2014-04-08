@@ -698,8 +698,14 @@ class Api::StudentsController < ApplicationController
       answer_records = ActiveSupport::JSON.decode(answer_json)
       PublishQuestionPackage.update_scores_and_achirvements(answer_records, student,
         school_class, publish_question_package, student_answer_record)
-      
 
+      #保存完道具后， 清空文件json中的 道具使用情况，再重新写入文件
+      answer_records["props"].each do |prop|
+        prop["branch_id"] = []
+      end if answer_records["props"]
+
+      File.open(anwser_file_url, "wb"){|f| f.write answer_records}
+      #保存完道具后， 清空文件json中的 道具使用情况
       notice = "作业状态更新完成!"
       status = "success"
     else

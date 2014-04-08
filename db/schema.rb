@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140404034803) do
+ActiveRecord::Schema.define(:version => 20140404093426) do
 
   create_table "app_versions", :force => true do |t|
     t.float "c_version"
@@ -426,9 +426,10 @@ ActiveRecord::Schema.define(:version => 20140404034803) do
 
   create_table "teaching_materials", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
     t.integer  "course_id"
+    t.boolean  "status",     :default => true
   end
 
   create_table "user_prop_relations", :force => true do |t|

@@ -3,17 +3,8 @@ class Admin::QuestionAdminsController < ApplicationController
 	layout "admin"
   
   def index
-  	school_class_id = params[:school_class_id]
-  	school_class_id = 1
-  	@question_admins =  Teacher
-  				.select("teachers.id, teachers.email, teachers.password, u.name, t.name material_name")
-  				.joins("left join users u on teachers.user_id = u.id")
-  				.joins("left join teaching_materials t on teachers.teaching_material_id = t.id")
-  				.where(["teachers.types = ? and teachers.school_id = ?", Teacher::TYPES[:EXAM], school_class_id])
-  end
-
-  def create
-    
+    key_word = params[:key_word]
+  	@question_admins =  Teacher.question_admin_list key_word, params[:page]
   end
 
   #修改管理范围
@@ -67,17 +58,43 @@ class Admin::QuestionAdminsController < ApplicationController
   def disable_teacher
     teacher_id  =  params[:teacher_id]
     teacher  =  Teacher.find_by_id teacher_id
+    status = params[:status]
+    status = (status.to_i == Teacher::STATUS[:NO]) ? Teacher::STATUS[:YES] : Teacher::STATUS[:NO]
     @status = false
     @notice = "教师信息不能为空!"
     if teacher.present?
-      if teacher.update_attributes(:status => Teacher::STATUS[:NO])
-        @status = true
-        @notice = "禁用成功！"  
+      if status == Teacher::STATUS[:YES]
+        title = "启用"
       else
-        @notice = "禁用失败!"  
+        title = "禁用"
+      end  
+      if teacher.update_attributes(:status => status)
+        @status = true
+        @notice = "#{title}成功！"  
+      else
+        @notice = "#{title}失败!"  
       end
     end  
   end 
+
+  def add_question_admin
+    name = params[:name]
+    email = params[:email]
+    material_id = params[:material_id]
+    password = random(6)
+    @status = false
+    @notice = "创建失败！"
+    if name && email &&  material_id && password
+      user = User.create(:name => name)
+      teacher = Teacher.create(:email => email, :password => password, :status => Teacher::STATUS[:YES], :types => Teacher::TYPES[:EXAM], 
+                            :user_id => user.id, :teaching_material_id => material_id)
+      teacher.update_attributes(:password => teacher.encrypt_password)
+      p password
+      UserMailer.send_pwd_email(email,password, Teacher::TYPES[:EXAM]).deliver
+      @status = true
+      @notice = "创建成功！"
+    end  
+  end  
 
   #加载教材
   def load_materials
@@ -91,6 +108,15 @@ class Admin::QuestionAdminsController < ApplicationController
 
   def load_disable_teacher
     @teacher_id = params[:teacher_id]
+    @status = params[:status]
+    if @status.to_i == Teacher::STATUS[:YES]
+       @title = "禁用" 
+    elsif @status.to_i == Teacher::STATUS[:NO]
+       @title ="启用"
+    end   
   end 
 
+  def load_add_question_admin_panel
+    @courses = Course.all
+  end
 end

@@ -71,13 +71,19 @@ class Admin::CoursesController < ApplicationController
         :status => TeachingMaterial::STATUS[:NORMAL])
       if tm.save
         status = TeachingMaterial.upload_xls(course_id.to_i, tm.id, params[:new_teach_material_xls])
+        if status == 2
+          tm.destroy
+        end
       else
         status = 0
       end
+
       if status == 1
         flash[:notice] = "教材创建成功!"
-      else
+      elsif status == 0
         flash[:notice] = "教材创建失败!"
+      elsif status == 2
+        flash[:notice] = "文件读取失败!"
       end
       redirect_to "/admin/courses"
     end

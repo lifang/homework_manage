@@ -351,3 +351,6 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 
 .pageTurn a.current { padding: 5px 12px; font-weight: bold; color: #fff; background: #48D47E;}
 .pageTurn .disabled {display: none;}
+
+.form_list .notice { padding-bottom: 10px; margin: 0 55px; text-align: right;}
+.form_list .notice a { color: #dd5c05;}

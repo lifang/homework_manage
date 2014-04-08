@@ -77,8 +77,28 @@ function new_course_commit(obj){
     var name = $.trim($("#new_course_name").val());
     if(name==""){
         tishi("科目名称不能为空!");
-    }else{
         $(obj).removeAttr("onclick");
-        $(obj).parents("form").submit();
+    }else{
+        $.ajax({
+            type: "get",
+            url: "/admin/courses/new_course_and_teach_material_valid",
+            dataType: "json",
+            data: {
+                type : 1,
+                name : name
+            },
+            success: function(data){
+                if(data.status==0){
+                    $(obj).attr("onclick", "new_course_commit(this)");
+                    tishi("已有同名的科目!");
+                }else{
+                    $(obj).parents("form").submit();
+                }
+            },
+            error: function(){
+                tishi("数据错误!");
+            }
+        })
+        
     }
 }

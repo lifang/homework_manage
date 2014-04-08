@@ -35,7 +35,16 @@ class Admin::CoursesController < ApplicationController
 
   #新建科目
   def create
-
+    Course.transaction do
+      name = params[:new_course_name]
+      course = Course.create(:name => name, :status => Course::STATUS[:NORMAL])
+      if course.save
+        flash[:notice] = "科目创建成功!"
+      else
+        flash[:notice] = "科目创建失败!"
+      end
+      redirect_to "/admin/courses"
+    end
   end
   
   #删除教材
@@ -51,4 +60,19 @@ class Admin::CoursesController < ApplicationController
       render :json => {:status => status}
     end
   end
+
+  #新建科目或教材重名验证
+  def new_course_and_teach_material_valid
+    type = params[:type].to_i
+    name = params[:name]
+    status = 0
+    if type == 1  #科目
+      course = Course.find_by_name_and_status(name, Course::STATUS[:NORMAL])
+      if course.nil?
+        status = 1
+      end
+    end
+    render :json => {:status => status}
+  end
+
 end

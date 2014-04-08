@@ -102,5 +102,6 @@ function popup(t){
 $(function(){
     $(document).on("click",".system a.close",function(){
         $(this).parents(".system").hide();
+        $(".mask").hide();
     })
 })

@@ -46,7 +46,7 @@ HomeworkManage::Application.routes.draw do
     
     resources :schools do
       collection do
-        post :adjust_quotas
+        post :adjust_quotas,:search_schools,:is_enable
         get :update_school_password
       end
     end

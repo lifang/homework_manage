@@ -3,8 +3,21 @@
 
 function show_new_chool(){
     $("#system_new_school").show();
+    $(".mask").show();
 }
 
+//减少
+function reduce_a(obj){
+    var val_student_count = $(obj).parents("li").find("input[name='students_count']").val()
+    var number = parseInt(val_student_count)-1
+    $(obj).parents("li").find("input[name='students_count']").val(number)
+}
+//增加
+function add_a(obj){
+    var val_student_count = $(obj).parents("li").find("input[name='students_count']").val()
+    var number = parseInt(val_student_count)+1
+    $(obj).parents("li").find("input[name='students_count']").val(number)
+}
 // 新建 学校
 function system_new_school(obj){
     var system_new_school = $(obj).parents("#system_new_school");
@@ -34,6 +47,7 @@ function add_students_count(obj,school_id,students_count){
     $("#adjust_quotas").find("input[name='students_count']").val(students_count);
     $("#adjust_quotas").find("input[name='school_id']").val(school_id);
     $("#adjust_quotas").show();
+    $(".mask").show();
 }
 
 //调整配额
@@ -54,6 +68,7 @@ function adjust_quotas(obj){
 function reset_password(obj,school_id){
     $("#update_school_password").find("input[name='school_id']").val(school_id);
     $("#update_school_password").show();
+    $(".mask").show();
 }
 
 function update_school_password(obj){
@@ -85,9 +100,9 @@ function update_school_password(obj){
 
 //查询学校列表
 function search_schools(obj){
-    var schools_name = $(obj).parents(".search").find("input[name=''schools_name]").val();
+    var schools_name = $(obj).parents(".search").find("input[name='schools_name']").val();
     $.ajax({
-        url : "",
+        url : "/admin/schools/search_schools",
         dataType : "script",
         type : "post",
         data : {
@@ -95,4 +110,27 @@ function search_schools(obj){
         }
     })
     
+}
+
+// 停用或者启用
+function is_enable(obj,school_id){
+    $.ajax({
+        url : "/admin/schools/is_enable",
+        dataType : "json",
+        type : "post",
+        data : {
+            school_id : school_id
+        },
+        success : function(data){
+            if(data.status==1){
+                $(obj).attr("class","blockUp_a_ed tooltip_html");
+                tishi(data.notice);
+            }else if (data.status==2){
+                $(obj).attr("class","blockUp_a tooltip_html");
+                tishi(data.notice);
+            }else{
+                tishi(data.notice);
+            }
+        }
+    })
 }

@@ -100,7 +100,21 @@ function popup(t){
 }
 // 点击关闭按钮关闭弹出层
 $(function(){
+    var win_width = $(window).width();
+    var win_height = $(window).height();
+    var doc_width = $(document).width();
+    var doc_height = $(document).height();
+
+    var layer_height = $(".system").height();
+    var layer_width = $(".system").width();
+
+    var left = (win_width-layer_width)/2;
+    var top = (win_height-layer_height)/2;
+    $(".mask").css("height",doc_height);
+    $(".system").css('top',top);
+    $(".system").css('left',left);
     $(document).on("click",".system a.close",function(){
         $(this).parents(".system").hide();
+        $(".mask").hide();
     })
 })

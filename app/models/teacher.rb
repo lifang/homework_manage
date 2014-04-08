@@ -7,7 +7,7 @@ class Teacher < ActiveRecord::Base
   has_many :question_packages, :dependent => :destroy
   has_many :publish_question_packages, :dependent => :destroy
   belongs_to :user
-  TYPES = {:SYSTEM => 0,:SCHOOL=>1,:EXAM=>2,:teacher=>3}
+  TYPES = {:SYSTEM => 0,:SCHOOL =>1,:EXAM=>2,:teacher=>3}
   TYPES_NAME = {0=>'系统管理员',1=>'学校管理员',2=>'题库管理员',3=>'教师'}
   AVATAR_SIZE = [176]
   SCREENSHOT_SIZE = [298]

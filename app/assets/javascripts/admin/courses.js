@@ -68,7 +68,7 @@ function del_t_material_commit(obj){
     }
 }
 
-function new_course(obj){
+function new_course(){
     $(".mask").show();
     popup("#new_course_tab");
 }
@@ -80,7 +80,7 @@ function new_course_commit(obj){
         $(obj).removeAttr("onclick");
     }else{
         $.ajax({
-            type: "get",
+            type: "post",
             url: "/admin/courses/new_course_and_teach_material_valid",
             dataType: "json",
             data: {
@@ -100,5 +100,60 @@ function new_course_commit(obj){
             }
         })
         
+    }
+}
+
+function new_teach_material(obj, course_id){
+    if(course_id==undefined || course_id==""){
+        tishi("数据错误!");
+    }else{
+        $("#new_teach_material_tab").find("input[name='new_teach_material_course_id']").val(course_id);
+        $(".mask").show();
+        popup("#new_teach_material_tab");
+    }
+}
+
+function new_teach_material_commit(obj){
+    var course_id = $("#new_teach_material_tab").find("input[name='new_teach_material_course_id']").first().val();
+    if(course_id==undefined || course_id=="" || course_id=="0"){
+        tishi("数据错误!");
+    }else{
+        var t_name = $.trim($("#new_teach_material_name").val());
+        var t_xls = $("#new_teach_material_xls").val();
+        var xls_format ="xls";
+        if(t_name==""){
+            tishi("教材名称不能为空!");
+        }else if(t_xls==""){
+            tishi("请导入章节数据的表格文件!");
+        }else{
+            var xls_type = t_xls.substring(t_xls.lastIndexOf(".")).toLowerCase();   //.xls
+            if(xls_type.substring(1, xls_type.length)!=xls_format){
+                tishi("请上传正确的表格文件,文件格式必须为'xls'!");
+            }else{
+                $(obj).removeAttr("onclick");
+                $.ajax({
+                    type: "post",
+                    url: "/admin/courses/new_course_and_teach_material_valid",
+                    dataType: "json",
+                    data: {
+                        type : 2,
+                        name : t_name,
+                        course_id : course_id
+                    },
+                    success: function(data){
+                        if(data.status==0){
+                            $(obj).attr("onclick", "new_teach_material_commit(this)");
+                            tishi("已有同名的教材!");
+                        }else{
+                            $(obj).parents("form").submit();
+                        }
+                    },
+                    error: function(){
+                        tishi("数据错误!");
+                    }
+                })
+
+            }
+        }
     }
 }

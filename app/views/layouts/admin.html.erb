@@ -3,9 +3,10 @@
   <head>
     <meta charset="utf-8"/>
     <title>HomeworkManage</title>
-    <%= stylesheet_link_tag    "/assets/admin/system.css", :media => "all"  %>
+    <%= stylesheet_link_tag   "/assets/admin/jqtransform.css", "/assets/admin/system.css", :media => "all"  %>
     <%= javascript_include_tag "application", "/assets/admin/system.js", "/assets/admin/question_admin.js" %>
     <script type="text/javascript" src="/assets/My97DatePicker/WdatePicker.js" ></script>
+     <%= javascript_include_tag "/assets/admin/jquery.jqtransform.js"%>
     <%= csrf_meta_tags %>
   </head>
   <body >

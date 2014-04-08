@@ -1,19 +1,36 @@
+<script language="javascript">
+  $(function(){
+    $('.select_box').jqTransform();
+  });
+</script>
+<%= form_tag({:action => :set_teaching_materials} ,:remote => true) do %>
 <a href="javascript:void(0);" class="close">close</a>
 <div class="tab_head">修改管辖</div>
 <div class="tab_warning">点击下拉菜单重新选择管理题库</div>
 <div class="tab_body clearAfter">
-  <div class="form_list">
-      <ul>
+    <div class="form_list" id="course_select">
+        <ul>
+            <li><label>管理课程：</label>
+              <div class="select_box selectPosition">
+                    <div class="rowElem">
+                        <select name="course_id" onchange="load_material(this,'course_select')" class="course_select">                            
+                            <option value="0">选择课程</option>
+                            <% @courses.each do |course| %>
+                                <option value="<%= course.id %>"><%= course.name %></option>
+                            <% end %>    
+                        </select>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="form_list" id="material_select">
+        <ul>
             <li><label>管理题库：</label>
               <div class="select_box">
                     <div class="rowElem">
-                        <select name="select1" >
-                            <option value="opt1">选择题库</option>
-                            <option value="opt2">Option 2</option>
-                            <option value="opt3">Option 3</option>
-                            <option value="opt3">Option 3</option>
-                            <option value="opt3">Option 3</option>
-                            <option value="opt3">Option 3</option>
+                        <select name="material_id" disabled="true"  class="material_select">
+                            <option value="0">选择题库</option>
                         </select>
                     </div>
                 </div>
@@ -21,4 +38,6 @@
         </ul>
     </div>
 </div>
-<div class="tab_btn"><button type="submit">确定</button></div>
+<input type="hidden" name="teacher_id" value="<%= @teacher_id %>">
+<div class="tab_btn"><button type="button" onclick="check_teaching_materials(this)" >确定</button></div>
+<% end %>

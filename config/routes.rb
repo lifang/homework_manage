@@ -44,7 +44,8 @@ HomeworkManage::Application.routes.draw do
 
     resources :question_admins do
       collection do
-        get :change_teaching_materials
+        get :change_teaching_materials, :load_materials
+        post :set_teaching_materials
       end
 
     end  

@@ -18,6 +18,34 @@ class Admin::QuestionAdminsController < ApplicationController
 
   #修改管理范围
   def change_teaching_materials
-  	
-  end 	
+    @courses = Course.all
+    @teacher_id = params[:teacher_id]
+  end
+
+  def set_teaching_materials
+    material_id = params[:material_id]
+    course_id = params[:course_id]
+    teacher_id = params[:teacher_id]
+    @status = false
+    @notice = "教材不能为空!"
+    if material_id.present?
+      teacher = Teacher.find_by_id teacher_id
+      if teacher.present?
+        if teacher.update_attributes(:teaching_material_id => material_id)
+           @notice = "管理员信息不能为空!"  
+           @status = "修改成功！"
+        else
+           @notice = "修改失败！"
+        end
+      else
+         @notice = "管理员信息不能为空!"
+      end
+    end  
+  end  
+
+  #加载教材
+  def load_materials
+    course_id = params[:course_id]
+    @materials = TeachingMaterial.where(["course_id = ?", course_id])
+  end
 end

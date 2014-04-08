@@ -145,6 +145,8 @@ function new_teach_material_commit(obj){
                             $(obj).attr("onclick", "new_teach_material_commit(this)");
                             tishi("已有同名的教材!");
                         }else{
+                            $("#new_teach_material_tab").hide();
+                            popup("#waiting_warning");
                             $(obj).parents("form").submit();
                         }
                     },

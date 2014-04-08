@@ -330,25 +330,25 @@ module MethodLibsHelper
           ques.each do |q|
             if q["branch_questions"]["branch_question"].class == Hash
               branch_questions = []
-#              if key == "lining"  #连线题特殊处理
-#                one_lining_branch_que_options = q["branch_questions"]["branch_question"]["options"].split(";||;").join("<=>");
-#                q["branch_questions"]["branch_question"]["content"] = one_lining_branch_que_options
-#              end
+              #              if key == "lining"  #连线题特殊处理
+              #                one_lining_branch_que_options = q["branch_questions"]["branch_question"]["options"].split(";||;").join("<=>");
+              #                q["branch_questions"]["branch_question"]["content"] = one_lining_branch_que_options
+              #              end
               branch_questions << q["branch_questions"]["branch_question"]
             else
-#              if key == "lining"   #连线题特殊处理
-#                branch_questions = []
-#                lining_content = []
-#                q["branch_questions"]["branch_question"].each do |bq_hash|
-#                  lining_content << bq_hash["options"].split(";||;").join("<=>");
-#                end
-#                lining_content = lining_content.join(";||;")
-#                branch_question = q["branch_questions"]["branch_question"][0].dup
-#                branch_question["content"] = lining_content
-#                branch_questions << branch_question
-#              else
-                branch_questions = q["branch_questions"]["branch_question"]
-#              end
+              #              if key == "lining"   #连线题特殊处理
+              #                branch_questions = []
+              #                lining_content = []
+              #                q["branch_questions"]["branch_question"].each do |bq_hash|
+              #                  lining_content << bq_hash["options"].split(";||;").join("<=>");
+              #                end
+              #                lining_content = lining_content.join(";||;")
+              #                branch_question = q["branch_questions"]["branch_question"][0].dup
+              #                branch_question["content"] = lining_content
+              #                branch_questions << branch_question
+              #              else
+              branch_questions = q["branch_questions"]["branch_question"]
+              #              end
             end
             tmp_questions_collections[key][:questions] << {"id" => q["id"], "full_text" => q['full_text'], "branch_questions" => branch_questions}
             #              lisentings << {"id" => q["id"], "branch_questions" => branch_questions}  if key == "listening"
@@ -391,7 +391,7 @@ module MethodLibsHelper
     code = Digest::MD5.hexdigest(input)
     #msg_content =  "{\"n_title\":\"1111222\",\"n_content\":#{messages},\"n_extras\":{\"class_id\":\"2\"} }"  Jpush消息格式
     content = {"n_content" => "#{messages}","n_title"=> "超级作业本"}
-#    content = {"n_content" => "#{messages}","n_title"=> "2iidid"}
+    #    content = {"n_content" => "#{messages}","n_title"=> "2iidid"}
     content["n_extras"]=extras_hash if !extras_hash.nil? && extras_hash.class == Hash
     msg_content = content.to_json()
     map = Hash.new
@@ -592,10 +592,10 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
 
   def publish_android_and_ios_push(school_class,content, tag_id=nil)
     #安卓推送
-    if tag_id.present? and tag_id == 0  #未分组，默认为0
-      android_student_qq_uid = school_class.students.where("token is null ").select("qq_uid").map(&:qq_uid)
-    else
+    if tag_id.present? && tag_id != 0  #分组
       android_student_qq_uid = school_class.students.where("token is null and school_class_student_ralastions.tag_id = #{tag_id}").select("qq_uid").map(&:qq_uid)
+    else
+      android_student_qq_uid = school_class.students.where("token is null ").select("qq_uid").map(&:qq_uid)
     end
     qq_uids = android_student_qq_uid.join(",")
     extras_hash = {:type => Student::PUSH_TYPE[:publish_question], :class_id => school_class.id, :class_name => school_class.name}

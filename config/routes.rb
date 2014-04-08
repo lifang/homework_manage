@@ -58,8 +58,8 @@ HomeworkManage::Application.routes.draw do
 
     resources :question_admins do
       collection do
-        get :change_teaching_materials, :load_materials, :load_password_panel
-        post :set_teaching_materials
+        get :change_teaching_materials, :load_materials, :load_password_panel, :load_disable_teacher
+        post :set_teaching_materials, :set_password, :disable_teacher
       end
 
     end  

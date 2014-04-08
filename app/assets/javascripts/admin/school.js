@@ -109,29 +109,22 @@ function update_school_password(obj){
             },
             success : function(data){
                 if(data.status==1){
-                    alert("修改成功！");
+                    tishi("修改成功！");
                     $("#update_school_password").hide();
                 }else{
-                    alert("修改失败！")
+                    tishi("修改失败！")
                 }
             }
         })
     }else{
-        alert("两次密码输入不一致！");
+        tishi("两次密码输入不一致！");
     }
 }
 
 //查询学校列表
 function search_schools(obj){
     var schools_name = $(obj).parents(".search").find("input[name='schools_name']").val();
-    $.ajax({
-        url : "/admin/schools/search_schools",
-        dataType : "script",
-        type : "post",
-        data : {
-            schools_name : schools_name
-        }
-    })
+    window.location.href="/admin/schools?schools_name="+schools_name
     
 }
 

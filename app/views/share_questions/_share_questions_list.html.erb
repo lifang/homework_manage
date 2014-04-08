@@ -1,0 +1,27 @@
+<% @share_questions.each do |sq| %>
+  <div class="assignment_body_list">
+    <div class="ab_list_title">
+      <h1><%= sq.name %></h1>
+      <p><%= Question::TYPES_NAME[sq.types] %> / <%= sq.user_name %> / <%= sq.created_at.strftime("%Y-%m-%d") %> / 参考时间：<%= sq.questions_time || 0 %>秒</p>
+      <div class="ab_func">
+        <%=link_to  reference_school_class_question_package_question_path(@school_class_id, @question_pack_id, sq.id), :class =>"quote_btn_a", :method => "post", :remote => true, 'data-type' => "script", :onclick => "return false" do %>
+          <span>引用</span>
+        <% end %>
+        <p>被引用<%= sq.referenced_count || 0 %>次</p>
+      </div>
+    </div>
+    <%= render  "/branch_questions/#{Question::TYPES_TITLE[sq.types]}_list", {:branch_questions => @share_branch_questions[sq.id], :branch_tags => @branch_tags, :question => sq} %>
+  </div>
+<% end %>
+
+<%= will_paginate @share_questions, :previous_label=>'上一页',:next_label=>'下一页', :class => "pageTurn" %>
+
+<script>
+  $(".pageTurn a").each(function(){
+    var old_url = $(this).attr("href");
+    var new_url = old_url.replace("list_questions_by_type", "paginate_share_question");
+    $(this).attr("href", new_url)
+    $(this).attr("data-remote", "true");
+    $(this).attr("data-type", "script");
+  })
+ </script>

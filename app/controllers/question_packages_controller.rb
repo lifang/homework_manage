@@ -102,52 +102,48 @@ class QuestionPackagesController < ApplicationController
     render :json => {:status=> status}
   end  
 
+  #更新听力题
+  def update_listening
+    branch_id = params[:branch_id]
+    branch_question = BranchQuestion.find_by_id branch_id
+    status = false
+    @notice = "该小题不存在，修改失败！"
+    if branch_question.present?
+      if branch_question.update_attributes(:content => params[:content]) 
+        status = true
+        notice = "小题修改成功！"  
+      else
+        notice = "小题修改失败！"
+      end
+    end
+    render :json => {:status => status, :notice => notice}
+  end  
+
   #创建听力题小题
   def save_listening
     @q_index = params[:q_index].to_i
     @b_index = params[:b_index].to_i
     tags_id = params[:tags_id]
     types = params[:types]
-    @types = types
     file = params[:file]
     branch_id = params[:branch_id]
+    @status = -2
+    @notice = "小题创建失败！"
     if types.present?
       @types = types.to_i
       @question = Question.find_by_id params[:question_id].to_i
-      @question_id = @question.id
-      if branch_id.present?
-        @branch_question = BranchQuestion.find_by_id branch_id
-        if @branch_question.nil?
-          @status = -1
-          @notice = "该小题不存在，修改失败！"
-        else
-          if @branch_question.update_attributes(:content => params[:content]) 
-            @status = 0
-            @notice = "小题修改成功！"  
-          else
-            @status = -2
-            @notice = "小题修改失败！"    
-          end
+      @question_id = @question.id      
+      content = params[:content]
+      if file.present?
+        @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id, 
+                          :types => types.to_i, :resource_url => file)
+        if @branch_question.present?
+          @status = 1
+          @notice = "小题创建成功！"
         end
       else
-        @status = -2
-        @notice = "小题创建失败！"
-        content = params[:content]
-        if file.present?
-          @branch_question = BranchQuestion.create(:content => content, :question_id => @question_id, 
-                            :types => types.to_i, :resource_url => file)
-          if @branch_question.present?
-            @status = 1
-            @notice = "小题创建成功！"
-          end
-        else
-          @branch_question = nil
-          @notice = "听写题资源不能为空！"
-        end
-      end  
-    else
-      @status = -1
-      @notice = "该小题不存在数据错误，题型不能为空！" 
+        @notice = "听写题资源不能为空！"
+      end
     end  
   end 
   
@@ -157,7 +153,6 @@ class QuestionPackagesController < ApplicationController
     @b_index = params[:b_index].to_i
     tags_id = params[:tags_id]
     types = params[:types]
-    @types = types
     file = params[:file]
     if types.present?
       @types = types.to_i

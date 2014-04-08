@@ -140,7 +140,7 @@ class Api::StudentsController < ApplicationController
       follow_microposts_id = follow_microposts_record.map{|m| m.micropost_id }
       follow_microposts_id = follow_microposts_id.to_s.gsub(/\[|\]/,"")
       if follow_microposts_id.size > 0
-        sql_str = "select m.id micropost_id, m.user_id, m.user_types, m.content, DATE_FORMAT(m.created_at, '%Y-%m-%d %H:%i:%S'),
+        sql_str = "select m.id micropost_id, m.user_id, m.user_types, m.content, DATE_FORMAT(m.created_at, '%Y-%m-%d %H:%i:%S') created_at,
                 m.reply_microposts_count, m.follow_microposts_count, u.name, u.avatar_url
                 from microposts m inner join users u on u.id = m.user_id
                 where m.school_class_id = #{school_class.id} and m.id in (#{follow_microposts_id})

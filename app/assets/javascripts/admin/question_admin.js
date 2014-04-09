@@ -87,7 +87,7 @@ function load_material(obj,div_id)
     }    
     else
     {
-        alert("课程为空！");
+        tishi("课程为空！");
     }    
 }
 
@@ -100,14 +100,14 @@ function check_teaching_materials(obj)
     // alert(material_select);
     if(course_select == 0)
     {
-        alert("请选择课程!");
+        tishi("请选择课程!");
         $(obj).removeAttr("disablesd");
     }
     else
     {
         if(material_select == 0)
         {
-            alert("请选择教材!");
+            tishi("请选择教材!");
             $(obj).removeAttr("disablesd");
         }
         else

@@ -17,7 +17,7 @@ function show_material_pannel(teacher_id)
 function search_admin(obj)
 {
     var key_word = $(obj).parents(".search").find(".key_word").val();
-    tishi(key_word);
+    // tishi(key_word);
     window.location.href="/admin/question_admins?key_word="+key_word;
 }
 

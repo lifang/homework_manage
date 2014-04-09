@@ -1,0 +1,49 @@
+<div class="tab">
+<%= form_tag({:action => :add_question_admin} ,:remote => true) do %>
+    <a href="javascript:void(0);" class="close">close</a>
+    <div class="tab_head">新建管理员</div>
+    <div class="tab_warning">请输入管理员相关信息</div>
+    <div class="tab_body clearAfter">
+        <div class="form_list">
+            <ul>
+                <li><label>管理员名称：</label><input name="name" class="name" type="text"></li>
+            </ul>    
+        </div>    
+        <div class="form_list" id="course_select">
+            <ul>
+                <li><label>管理课程：</label>
+                  <div class="select_box">
+                        <div class="rowElem">
+                            <select name="course_id" onchange="load_material(this,'course_select')" class="course_select">             
+                                <option value="0">选择课程</option>
+                                <% @courses.each do |course| %>
+                                    <option value="<%= course.id %>"><%= course.name %></option>
+                                <% end %>    
+                            </select>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="form_list" id="material_select">
+            <ul>
+                <li><label>管理题库：</label>
+                  <div class="select_box">
+                        <div class="rowElem">
+                            <select name="material_id" disabled="true"  class="material_select">
+                                <option value="0">选择题库</option>
+                            </select>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="form_list">
+            <ul>
+               <li><label>管理员邮箱：</label><input name="email"  class="email" type="text"></li>
+            </ul>    
+        </div> 
+    </div>
+    <div class="tab_btn"><button type="button" onclick="check_admin_info(this)">确定</button></div>
+<% end %>    
+</div>

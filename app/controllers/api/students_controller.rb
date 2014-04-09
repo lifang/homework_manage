@@ -88,7 +88,8 @@ class Api::StudentsController < ApplicationController
   #显示班级列表
   def get_my_classes
     student_id = params[:student_id].to_i
-    classes = SchoolClass.find_by_sql(["SELECT school_classes.id class_id,school_classes.name class_name
+    classes = SchoolClass.find_by_sql(["SELECT school_classes.id class_id,school_classes.name class_name, 
+              DATE_FORMAT(school_classes.period_of_validity , '%Y-%m-%d %H:%i:%S') as period_of_validity
             from school_classes INNER JOIN school_class_student_ralastions 
             on school_classes.id = school_class_student_ralastions.school_class_id
             where school_classes.status = ? and school_classes.period_of_validity >= ?
@@ -206,7 +207,7 @@ class Api::StudentsController < ApplicationController
             :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
               :nickname => student.nickname, :avatar_url => student.user.avatar_url},
             :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-              :tearcher_id => tearcher_id },
+              :tearcher_id => tearcher_id,  :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S")  },
             :microposts => microposts,
             :follow_microposts_id => follow_microposts_id,
           }
@@ -229,7 +230,7 @@ class Api::StudentsController < ApplicationController
             :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
               :nickname => student.nickname, :avatar_url => student.user.avatar_url},
             :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-              :tearcher_id => tearcher_id },
+              :tearcher_id => tearcher_id , :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S") },
             :microposts => microposts,
             :follow_microposts_id => follow_microposts_id,
           }
@@ -488,7 +489,7 @@ class Api::StudentsController < ApplicationController
           :student => {:id => student.id, :name => student.user.name,:user_id => student.user.id,
             :nickname => student.nickname, :avatar_url => student.user.avatar_url},
           :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-            :tearcher_id => tearcher_id },
+            :tearcher_id => tearcher_id , :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S")},
           :microposts => microposts,
           :follow_microposts_id => follow_microposts_id
         }
@@ -551,7 +552,7 @@ class Api::StudentsController < ApplicationController
             :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
               :nickname => student.nickname, :avatar_url => student.user.avatar_url},
             :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-              :tearcher_id => tearcher_id },
+              :tearcher_id => tearcher_id , :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S")},
             :microposts => microposts,
             :follow_microposts_id => follow_microposts_id,
           }

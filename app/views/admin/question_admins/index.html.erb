@@ -1,7 +1,7 @@
 <div class="controller">
   <div class="controller_head">
-    <a href="javascript:void(0)" class="addController_btn_a">新建管理员</a>
-    <div class="search"><button></button><input name="" type="text"></div>
+    <a href="javascript:void(0)" class="addController_btn_a" onclick="show_add_question_admin_pannel()">新建管理员</a>
+    <div class="search"><button onclick="search_admin(this)"></button><input class="key_word" type="text"></div>
   </div>
   <div class="controller_body">
       <div class="b_table">
@@ -24,7 +24,7 @@
               <td><a href="javascript:void(0)" class="controller_a tooltip_html" onclick="show_material_pannel(<%= admin.id %>)" >修改管辖</a></td>
               <td><%= admin.email %>/ ******</td>
               <td><a href="javascript:void(0)" class="reset_a tooltip_html" onclick="show_password_pannel(<%= admin.id %>)" >重置密码</a></td>
-              <td><a href="javascript:void(0);" class="blockUp_a tooltip_html" onclick="show_disable_pannel(<%= admin.id %>)">停用</a></td>
+              <td><a href="javascript:void(0);" class="<%= admin.status == Teacher::STATUS[:YES] ? 'blockUp_a' : 'blockUp_a_ed' %> tooltip_html" onclick="show_disable_pannel(<%= admin.id %>,<%= admin.status %>)"><%= admin.status == Teacher::STATUS[:YES] ?  "停用" : "禁用" %></a></td>
             </tr>
             <% end %>
             </tbody>
@@ -32,6 +32,7 @@
       </div>
   </div>
 </div>
+<%= will_paginate @question_admins, :next_label => "下一页", :previous_label => "上一页", :class => "pageTurn"%>
 
 
 <div class="tab" id="question_admin" style="display:none;">

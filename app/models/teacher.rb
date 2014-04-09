@@ -17,6 +17,7 @@ class Teacher < ActiveRecord::Base
   STATUS_NAME = {0 => '正常', 1 => "失效"}
   TEAVHER_URL = "/assets/default_avater.jpg"
 
+  PER_PAGE = 2
   Types_arr.each do |type|
     define_method "#{type.to_s.downcase}?" do
       self.types == TYPES[type]
@@ -72,6 +73,22 @@ class Teacher < ActiveRecord::Base
   def encrypt_password
     self.password = encrypt(password)
   end
+
+  def self.question_admin_list key_word=nil, page
+    where_conddition = []
+    where_conddition[0] = "teachers.types = ?"
+    where_conddition << Teacher::TYPES[:EXAM]
+    if key_word.present?
+      where_conddition[0] += " and u.name like '%#{key_word}%'"
+    end  
+    p where_conddition
+    admins = Teacher
+          .select("teachers.id, teachers.email, teachers.status, teachers.password, u.name, t.name material_name")
+          .joins("left join users u on teachers.user_id = u.id")
+          .joins("left join teaching_materials t on teachers.teaching_material_id = t.id")
+          .where(where_conddition).paginate(:page => page, :per_page => Teacher::PER_PAGE)
+    admins
+  end  
 
   private
   def encrypt(pwd)

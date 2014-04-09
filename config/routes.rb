@@ -77,6 +77,12 @@ HomeworkManage::Application.routes.draw do
 
   namespace :school_manage do   #学校管理
     resources :student_manages
+
+    resources :quota_consumptions do
+      collection do
+        
+      end  
+    end
   end
 
   resources :welcome do

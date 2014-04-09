@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>HomeworkManage</title>
+    <%= stylesheet_link_tag   "/assets/admin/jqtransform.css", "/assets/admin/system.css", :media => "all"  %>
+    <%= javascript_include_tag "/assets/admin/question_admin.js", "application", "/assets/admin/system.js", "/assets/admin/courses.js","/assets/admin/school.js" %>
+    <script type="text/javascript" src="/assets/My97DatePicker/WdatePicker.js" ></script>
+    <%= javascript_include_tag "/assets/admin/jquery.jqtransform.js"%>
+    <%= csrf_meta_tags %>
+    <!--美化select-->
+    <script language="javascript">
+      $(function(){
+        $('.select_box').jqTransform();
+      });
+    </script>
+  </head>
+  <body >
+    <div class="tab_Prompt" id="tab_Prompt">
+      <a href="javascript:void(0)" class="x"></a>
+      <p></p>
+    </div>
+    <div class="wrap">
+      <div class="head clearAfter">
+        <%=render 'layouts/school_manage_nav'%>
+      </div>
+      <div class="main">
+        <%= yield %>
+      </div>
+    </div>
+    <div class="mask"></div>
+    <% if flash[:notice] %>
+      <script>
+        tishi('<%= flash[:notice] %>')
+      </script>
+    <% end %>
+  </body>
+</html>

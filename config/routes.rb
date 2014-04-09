@@ -35,7 +35,7 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
-  namespace :admin do
+  namespace :admin do   #系统管理员
 
     resources :courses do
       collection do
@@ -65,6 +65,10 @@ HomeworkManage::Application.routes.draw do
 
     end  
   end  
+
+  namespace :admin do   #学校管理
+    resources :student_manages
+  end
 
   resources :welcome do
     collection do
@@ -132,7 +136,7 @@ HomeworkManage::Application.routes.draw do
           :new_reading_or_listening, :share_question, :delete_question,
           :search_b_tags, :add_b_tags,:save_branch_tag, :set_question_time
         post :create_time_limit, :save_listening, :save_reading, :set_question_time, :delete_branch, :upload_voice,
-              :update_listening
+          :update_listening
       end
       member do
         get :new_index,:show_wanxin,:create_wanxin,:create_paixu,

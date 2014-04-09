@@ -6,7 +6,5 @@
 	location.href="/admin/question_admins";
 <% elsif @status == false %>	
 	$("#waiting_warning").hide();
-	$(".mask").hide();
-	popup("#question_admin");
 <% end %>
 tishi('<%= @notice %>');

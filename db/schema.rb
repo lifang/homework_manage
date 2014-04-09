@@ -11,11 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(:version => 20140409022814) do
-=======
 ActiveRecord::Schema.define(:version => 20140409064514) do
->>>>>>> 617bf75e3413a4dffb2bc68e6702326537c917f8
 
   create_table "admin_messages", :force => true do |t|
     t.integer "sender_id"
@@ -400,10 +396,7 @@ ActiveRecord::Schema.define(:version => 20140409064514) do
     t.integer  "s_no"
     t.string   "active_code"
     t.boolean  "active_status"
-<<<<<<< HEAD
-=======
     t.integer  "school_id"
->>>>>>> 617bf75e3413a4dffb2bc68e6702326537c917f8
   end
 
   add_index "students", ["user_id"], :name => "index_students_on_user_id"

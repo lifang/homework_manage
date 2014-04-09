@@ -39,7 +39,7 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
-  namespace :admin do
+  namespace :admin do   #系统管理员
 
     resources :courses do
       collection do
@@ -74,6 +74,10 @@ HomeworkManage::Application.routes.draw do
 
     end  
   end  
+
+  namespace :admin do   #学校管理
+    resources :student_manages
+  end
 
   resources :welcome do
     collection do

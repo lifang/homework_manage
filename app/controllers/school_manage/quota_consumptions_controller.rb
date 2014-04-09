@@ -1,6 +1,8 @@
 #encoding: utf-8
 class SchoolManage::QuotaConsumptionsController < ApplicationController
   layout "school_manage"
+  skip_before_filter :get_teacher_infos
+  before_filter :check_if_schooladmin, :only => [:index]
 
   def index
   	@teacher = Teacher.where("types = #{Teacher::TYPES[:SCHOOL]}").first

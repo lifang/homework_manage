@@ -252,3 +252,39 @@ function delete_student_relation(school_class_id, student_id)
 function cancle_this_window(obj){
     $($(obj).parents(".tab_mess")[0]).hide(10);
 }
+
+//welcome  班级第一次登录  开始
+
+//选择完科目，显示教材
+function showTeachMaterial(obj){
+    var course_id = $(obj).find("option:selected").val();
+    if(course_id != "opt1"){
+        $(".select_tm").hide();
+        $("li[data-courseid="+ course_id +"]").show().find("select").removeAttr("disabled");
+    }else{
+        $(".select_tm").hide();
+        $(".select_tm").first().show().find("select").find("option[value='opt1']").attr("selected", true).end().attr("disabled", "disabled");
+    }
+}
+//选择科目
+function setCourse(obj){
+    var course_id = $(obj).parents("#first_step").find("select").find("option:selected").val();
+    $("#third_step").find("#class_course_id").val(course_id);
+    //隐藏第一步
+    $(obj).parents("#first_step").css("display","none");
+    $(".mask").css("display","none");
+    //显示第二步
+    popup("#second_step");
+}
+
+//选择章节
+function setTm(obj){
+    var course_id = $("#third_step").find("#class_course_id").val();
+    var tm_id = $(obj).parents("#second_step").find("li[data-courseid="+ course_id +"]").find("select").find("option:selected").val();
+    $("#third_step").find("#class_tm_id").val(tm_id);
+    //隐藏第二步
+    $(obj).parents("#second_step").css("display","none");
+    $(".mask").css("display","none");
+    //显示第三步
+    popup("#third_step");
+}

@@ -73,6 +73,9 @@
   <script language="javascript">
     $(function(){
       $('.select_box').jqTransform();
+      $(".select_course").find(".jqTransformSelectWrapper").css({"z-index": 12});
+      $(".select_tm").hide();
+      $(".select_tm").first().show().find("select").attr("disabled", "disabled");
     });
   </script>
   <% if flash[:verification_code] %>

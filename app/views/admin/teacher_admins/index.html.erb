@@ -6,7 +6,7 @@
   </script>
   <div class="controller">
     <div class="controller_head">
-      <a href="#" class="addController_btn_a">新建教师</a>
+      <a href="javascript:void(0)" class="addController_btn_a" onclick="$('#teacher_admin_create').show();">新建教师</a>
       <div class="search"><button></button><input name="" type="text"/></div>
     </div>
     <div class="controller_body">
@@ -67,22 +67,22 @@
   </div>
 </div>
 
-<div class="tab">
+<div class="tab system" id="teacher_admin_create">
   <a href="javascript:void(0);" class="close">close</a>
   <div class="tab_head">新建管理员</div>
   <div class="tab_warning">请输入教师相关信息</div>
   <div class="tab_body clearAfter">
     <div class="form_list">
       <ul>
-        <li><label>教师名称：</label><input name="" type="text"/></li>
-        <li><label>教师邮箱：</label><input name="" type="text"/></li>
+        <li><label>教师名称：</label><input name="teacher_name" type="text"/></li>
+        <li><label>教师邮箱：</label><input name="teacher_email" type="text"/></li>
       </ul>
     </div>
   </div>
-  <div class="tab_btn"><button type="submit">确定</button></div>
+  <div class="tab_btn"><button onclick="admin_create_teacher(this)">确定</button></div>
 </div>
 
-<div class="tab">
+<div class="tab system">
   <a href="javascript:void(0);" class="close">close</a>
   <div class="tab_head">创建成功</div>
   <div class="tab_warning">老师账户信息已经发送到邮箱</div>
@@ -90,7 +90,7 @@
   <div class="tab_btn"><button type="submit">确定</button></div>
 </div>
 
-<div class="tab">
+<div class="tab system">
   <a href="javascript:void(0);" class="close">close</a>
   <div class="tab_head">重设密码</div>
   <div class="tab_warning">重新为教师登录设置密码</div>
@@ -105,7 +105,7 @@
   <div class="tab_btn"><button type="submit">确定</button></div>
 </div>
 
-<div class="tab">
+<div class="tab system">
   <a href="javascript:void(0);" class="close">close</a>
   <div class="tab_head">班级过户</div>
   <div class="tab_warning">选择需要调整的班级和老师</div>
@@ -146,7 +146,7 @@
   <div class="tab_btn"><button type="submit">确定</button></div>
 </div>
 
-<div class="tab">
+<div class="tab system">
   <a href="javascript:void(0);" class="close">close</a>
   <div class="tab_head">停用教师</div>
   <div class="tab_warning">确认停用该教师吗</div>

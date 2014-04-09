@@ -55,6 +55,11 @@ HomeworkManage::Application.routes.draw do
       end
     end
 
+    resources :teacher_admins do
+      collection do
+      end
+    end
+
     resources :systems do
       collection do
         post :reset_password, :disable_enable_account
@@ -136,7 +141,7 @@ HomeworkManage::Application.routes.draw do
           :new_reading_or_listening, :share_question, :delete_question,
           :search_b_tags, :add_b_tags,:save_branch_tag, :set_question_time
         post :create_time_limit, :save_listening, :save_reading, :set_question_time, :delete_branch, :upload_voice,
-              :update_listening
+          :update_listening
       end
       member do
         get :new_index,:show_wanxin,:create_wanxin,:create_paixu,

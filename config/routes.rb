@@ -1,6 +1,10 @@
 HomeworkManage::Application.routes.draw do
 
 
+  get "teacher_admins/index"
+
+  get "teachers_admin/index"
+
   resources :microposts do
     get :create_reply
     member do
@@ -35,7 +39,7 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
-  namespace :admin do
+  namespace :admin do   #系统管理员
 
     resources :courses do
       collection do
@@ -48,6 +52,11 @@ HomeworkManage::Application.routes.draw do
       collection do
         post :adjust_quotas,:search_schools,:is_enable
         get :update_school_password
+      end
+    end
+
+    resources :teacher_admins do
+      collection do
       end
     end
 
@@ -65,6 +74,10 @@ HomeworkManage::Application.routes.draw do
 
     end  
   end  
+
+  namespace :school_manage do   #学校管理
+    resources :student_manages
+  end
 
   resources :welcome do
     collection do
@@ -132,7 +145,7 @@ HomeworkManage::Application.routes.draw do
           :new_reading_or_listening, :share_question, :delete_question,
           :search_b_tags, :add_b_tags,:save_branch_tag, :set_question_time
         post :create_time_limit, :save_listening, :save_reading, :set_question_time, :delete_branch, :upload_voice,
-              :update_listening
+          :update_listening
       end
       member do
         get :new_index,:show_wanxin,:create_wanxin,:create_paixu,

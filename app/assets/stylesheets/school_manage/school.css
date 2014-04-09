@@ -91,32 +91,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 }
 
 
-/*科目*/
-.subject { padding:20px 0;}
-.subject_head { 
-    height: 90px;
-    background: #48d47e;
-    text-align: center;
-    position: relative;
-    font-size: 16px;
-}
-
-.select_box {}
-.select_box .jqTransformSelectWrapper { width: 150px;}
-
-.subject_head td { height: 90px; padding: 0 50px; color: #FFF;}
-.subject_head td:first-child { background: #29b97d;}
-
-
-.subject_body { background: #FFF;}
-.subject_body .b_table { border-bottom: 2px #CCCCCC solid;}
-
-.subject_td_title h1 { font-size: 16px; line-height: 32px;}
-.subject_td_con { overflow: hidden;}
-.subject_td_con h2 { font-size: 16px; line-height: 32px; font-weight: normal;}
-.subject_td_con a.delete_a { float: right; margin-top: -28px; margin-right: 50px;}
-
-/*Controller题库管理员*/
+/*Controller*/
 .controller { padding:20px 0;}
 .controller_head { 
     height: 90px;
@@ -134,8 +109,14 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
     margin-right: 150px;
 }
 .controller_head .search { display: inline-block;}
-.controller_body { background: #FFF;}
 .controller_head .file_btn { margin: 25px 150px 0 0;}
+.controller_body { background: #FFF;}
+
+/*quotaLoading*/
+.quotaLoading { display: inline-block;}
+.quotaLoading li { display: inline-block; color: #FFF;}
+.quotaLoading li.quotaLoading_bg { background: #1A875A; padding: 2px; width: 300px; height: 10px;}
+.quotaLoading li.quotaLoading_bg p { background: #24f69f; height: 10px;}
 
 /*search*/
 .search { width: 280px; height: 32px; background:  #FFF;}
@@ -165,7 +146,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 .b_table table td h1 {}
 
 /*按钮图标*/
-.delete_a, .add_a, .controller_a, .reset_a, .blockUp_a, .blockUp_a_ed, .reduce_a {
+.delete_a, .add_a, .controller_a, .reset_a, .blockUp_a, .blockUp_a_ed, .reduce_a, .transfer_a {
     width: 25px;
     height: 25px;
     display: inline-block;
@@ -173,14 +154,15 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
     text-indent: -999px;
     margin: 0 5px;
 }
-.delete_a { background: url(/assets/s_icon01.png) no-repeat 0px 0px;}
-.add_a { background: url(/assets/s_icon01.png) no-repeat 0px -25px;}
+.delete_a { background: url(/assets/school_manage_imgs/s_icon01.png) no-repeat 0px 0px;}
+.add_a { background: url(../images/s_icon01.png) no-repeat 0px -25px;}
 
-.controller_a { background: url(/assets/s_icon01.png) no-repeat 0px -50px;}
-.reset_a { background: url(/assets/s_icon01.png) no-repeat 0px -75px;}
-.blockUp_a { background: url(/assets/s_icon01.png) no-repeat 0px -100px;}
-.blockUp_a_ed { background: url(/assets/s_icon01.png) no-repeat 0px -125px;}
-.reduce_a { background: url(/assets/s_icon01.png) no-repeat 0px -150px;}
+.controller_a { background: url(/assets/school_manage_imgs/s_icon01.png) no-repeat 0px -50px;}
+.reset_a { background: url(/assets/school_manage_imgs/s_icon01.png) no-repeat 0px -75px;}
+.blockUp_a { background: url(/assets/school_manage_imgs/s_icon01.png) no-repeat 0px -100px;}
+.blockUp_a_ed { background: url(/assets/school_manage_imgs/s_icon01.png) no-repeat 0px -125px;}
+.reduce_a { background: url(/assets/school_manage_imgs/s_icon01.png) no-repeat 0px -150px;}
+.transfer_a { background: url(/assets/school_manage_imgs/s_icon01.png) no-repeat 0px -175px;}
 
 .form_list li a.add_a, .form_list li a.reduce_a  { margin-bottom: -7px;}
 
@@ -202,6 +184,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
     padding-left: 20px;
 }
 .tab_body {}
+.tab_body img { margin: 0 auto; display: block;}
 
 .close { 
     width: 22px;
@@ -241,6 +224,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 /*form_list*/
 .form_list { text-align: center; border-bottom: 1px #dbdcdc solid; margin: 0 20px;}
 .form_list li { margin: 20px auto; width: 352px;}
+
 .form_list li label { 
     width: 100px;
     height: 38px;
@@ -259,16 +243,6 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
     display: inline-block;
     text-align: center;
 }
-.form_list li input[type="password"], .form_list li p {
-    width: 240px;
-    height: 38px;
-    line-height: 38px;
-    border: 1px #DD5C05 solid;
-    padding: 0 5px;
-    display: inline-block;
-    text-align: center;
-}
-
 .form_list li p.file_p { position: relative; background: #FFF;}
 .form_list li a.file_a { 
     position: absolute;
@@ -298,12 +272,12 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 .form_list li .jqTransformSelectWrapper { 
     width: 250px;
     height: 38px;
-    line-height: 38px;
     border: 1px #DD5C05 solid;
     background: #fff;
 }
+
 .form_list li .jqTransformSelectWrapper a.jqTransformSelectOpen {
-    background:url(/assets/select01.png) no-repeat  center center rgba(0, 0, 0, 0);
+    background:url("/assets/select01.png") no-repeat  center center rgba(0, 0, 0, 0);
     height: 38px;
     top: 0px;
 }
@@ -316,7 +290,68 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 }
 .form_list li .jqTransformSelectWrapper ul { top: 38px;}
 .form_list li .jqTransformSelectWrapper ul li { padding: 0; margin: 0; width: 230px; line-height: normal;}
-.system{display: none;}
+
+
+/*file btn*/
+.file_btn {
+    position: relative;
+    display: inline-block;
+    padding: 10px 50px;
+    background: #1A875A;
+    color: #FFF;
+}
+.file_btn input[type="file"] {
+    width: 196px;
+    height: 42px;
+    display: inline-block;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 25px; /* 增大不同浏览器的可点击区域 */
+    opacity: 0; /* 实现的关键点 */
+    filter:alpha(opacity=0);/* 兼容IE */
+}
+
+/*用户信息tab*/
+.tab_user { 
+    width: 330px;
+    padding: 20px;
+    background: #FFF;
+    box-shadow: 0px 0px 5px rgba(51,51,51,0.8);
+    border-radius: 5px;
+    position: absolute;
+}
+.tab_user h1 { text-align: right; line-height: 36px; font-size: 18px; font-weight: normal;}
+.tab_user_box { overflow: hidden;}
+
+
+.tab_user_box { width: 300px; padding: 0 10px; overflow: hidden;}
+.tab_user_box li {}
+.tab_user_box li label { display: block; line-height: 32px;}
+.tab_user_box li input { 
+    border: 1px #36c77b solid;
+    height: 32px;
+    line-height: 32px;
+    width: 280px;
+    padding: 0 10px;
+}
+.tab_user_box li input[disabled] { background: #e4f4ea;}
+
+.tab_user_btn, .tab_out_btn { margin: 10px 0; text-align: center; padding: 10px;}
+.tab_user_btn button { 
+    padding: 10px 50px;
+    display: inline-block;
+    color: #FFF;
+    background: #36c77b;
+}
+.tab_out_btn { border-top: 1px #dbdcdc solid; padding-top: 20px;}
+.tab_out_btn button { 
+    padding: 10px 50px;
+    display: inline-block;
+    color: #FFF;
+    background: #fb393c;
+}
 
 /*弹出提示逐渐消失*/
 .tab_Prompt {

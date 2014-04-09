@@ -1,5 +1,5 @@
 #encoding: utf-8
-class StudentManagesController < ApplicationController
-
+class SchoolManage::StudentManagesController < ApplicationController
+  layout "school_manage"
 
 end

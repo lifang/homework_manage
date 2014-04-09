@@ -66,7 +66,7 @@ HomeworkManage::Application.routes.draw do
     end  
   end  
 
-  namespace :admin do   #学校管理
+  namespace :school_manage do   #学校管理
     resources :student_manages
   end
 

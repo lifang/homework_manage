@@ -7,9 +7,13 @@ class CreateSchoolClassStudentRelationsAndAddColumnsToStudents < ActiveRecord::M
       t.timestamps
     end
 
-    add_column :students, :s_no, :integer   #学号
+    add_column :students, :s_no, :string   #学号
     add_column :students, :active_code, :string  #激活码
     add_column :students, :active_status, :boolean   #激活状态
+
+    add_index :students, :s_no
+    add_index :students, :active_code
+    add_index :students, :active_status
   end
 
 end

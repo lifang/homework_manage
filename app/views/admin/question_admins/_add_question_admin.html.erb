@@ -1,3 +1,8 @@
+<script language="javascript">
+      $(function(){
+        $('.select_box').jqTransform();
+      });
+    </script>
 <%= form_tag({:action => :add_question_admin} ,:remote => true) do %>
     <a href="javascript:void(0);" class="close">close</a>
     <div class="tab_head">新建管理员</div>
@@ -12,7 +17,7 @@
             <ul>
                 <li><label>管理课程：</label>
                   <div class="select_box">
-                        <div class="rowElem">
+                        <div class="rowElem selectPosition">
                             <select name="course_id" onchange="load_material(this,'course_select')" class="course_select">             
                                 <option value="0">选择课程</option>
                                 <% @courses.each do |course| %>

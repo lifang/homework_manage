@@ -170,6 +170,8 @@ function check_admin_info(obj)
         }
         else
         {
+            popup("#waiting_warning");
+            $(".tab").hide();
             $(obj).parents("form").submit();
         }
     }    

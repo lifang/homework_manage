@@ -85,14 +85,18 @@ class Admin::QuestionAdminsController < ApplicationController
     @status = false
     @notice = "创建失败！"
     if name && email &&  material_id && password
-      user = User.create(:name => name)
-      teacher = Teacher.create(:email => email, :password => password, :status => Teacher::STATUS[:YES], :types => Teacher::TYPES[:EXAM], 
-                            :user_id => user.id, :teaching_material_id => material_id)
-      teacher.update_attributes(:password => teacher.encrypt_password)
-      p password
-      UserMailer.send_pwd_email(email,password, Teacher::TYPES[:EXAM]).deliver
-      @status = true
-      @notice = "创建成功！"
+      teacher = Teacher.find_by_email email
+      if teacher.present?
+        @notice = "email已存在，请重更换邮箱！"  
+      else  
+        user = User.create(:name => name)
+        teacher = Teacher.create(:email => email, :password => password, :status => Teacher::STATUS[:YES], :types => Teacher::TYPES[:EXAM], 
+                              :user_id => user.id, :teaching_material_id => material_id)
+        teacher.update_attributes(:password => teacher.encrypt_password)
+        UserMailer.send_pwd_email(email,password, Teacher::TYPES[:EXAM]).deliver
+        @status = true
+        @notice = "创建成功！"
+      end  
     end  
   end  
 

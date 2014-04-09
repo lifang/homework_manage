@@ -1,6 +1,10 @@
 HomeworkManage::Application.routes.draw do
 
 
+  get "teacher_admins/index"
+
+  get "teachers_admin/index"
+
   resources :microposts do
     get :create_reply
     member do

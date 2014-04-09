@@ -68,15 +68,24 @@ HomeworkManage::Application.routes.draw do
   end  
 
   namespace :school_manage do   #学校管理
-    resources :student_manages
-
 
     resources :teacher_manages do
       collection do
         post :update_password
       end
     end
+    resources :quota_consumptions do
+      collection do
+        get :load_quota_consumptions_panel
+        post :apply_quota_consumptions
+      end  
+    end  
 
+    resources :student_manages do
+      collection do
+        post :set_stu_active_status
+      end
+    end
   end
 
   resources :welcome do

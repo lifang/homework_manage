@@ -73,7 +73,7 @@ HomeworkManage::Application.configure do
 	  :address => "smtp.gmail.com",
 	  :port => 587,
 	  :authentication => :plain,
-	  :user_name => "amandamfl1989@gmail.com",
-	  :password => "amanda1989"
+	  :user_name => " mailer@comdosoft.com",
+	  :password => "comdo2010"
   }
 end

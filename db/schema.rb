@@ -11,6 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+
 ActiveRecord::Schema.define(:version => 20140409022814) do
 
   create_table "admin_messages", :force => true do |t|
@@ -377,6 +378,12 @@ ActiveRecord::Schema.define(:version => 20140409022814) do
   add_index "student_answer_records", ["school_class_id"], :name => "index_student_answer_records_on_school_class_id"
   add_index "student_answer_records", ["student_id"], :name => "index_student_answer_records_on_student_id"
 
+  create_table "student_veri_codes", :force => true do |t|
+    t.integer  "code"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "students", :force => true do |t|
     t.string   "nickname"
     t.string   "qq_uid"
@@ -390,6 +397,7 @@ ActiveRecord::Schema.define(:version => 20140409022814) do
     t.integer  "s_no"
     t.string   "active_code"
     t.boolean  "active_status"
+    t.integer  "school_id"
   end
 
   add_index "students", ["user_id"], :name => "index_students_on_user_id"

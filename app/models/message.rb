@@ -10,6 +10,7 @@ class Message < ActiveRecord::Base
     sender = User.find_by_id sender_id.to_i
     send_name = sender.try(:name) || ""
     micropost = Micropost.find_by_id micropost_id.to_i
+    student = Student.find_by_user_id reciver_id.to_i
     count_msg = 0
     if sender
       teachers = Teacher.where("status = #{Teacher::STATUS[:YES]}")
@@ -20,7 +21,6 @@ class Message < ActiveRecord::Base
         push_content = "#{send_name}：#{content}"
         Message.create(:user_id => reciver_id, :content => m1_content, :micropost_id => micropost_id,
           :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id,:reply_micropost_id => reply_micropost_id)
-        student = Student.find_by_user_id reciver_id.to_i
         push_after_reply_post push_content, teachers_id, reciver_id, school_class_id, student, reciver_types
       end
       follow_microposts = FollowMicropost.find_all_by_micropost_id(micropost_id.to_i)
@@ -30,17 +30,13 @@ class Message < ActiveRecord::Base
         push_content = "#{send_name}：#{content}"
         Message.create(:user_id => reciver_id, :content => m2_content, :micropost_id => micropost_id,
           :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id,:reply_micropost_id => reply_micropost_id)
-        student = Student.find_by_user_id reciver_id.to_i
         push_after_reply_post push_content, teachers_id, reciver_id, school_class_id, student, reciver_types
-        #send_push_msg m_content, student.alias_name, teachers_id, reciver_id  if reciver_types == 0 && !student.nil?
       end
       if follow_microposts.any?
         m3_content = "[[" + send_name + "]]回复了您关注的消息：;||;" + content
         push_content = "#{send_name}：#{content}"
         follow_users -= [sender_id.to_i]  if follow_users.include?(sender_id.to_i)
-#        students = Student.where(["user_id in (?)",follow_users]).map!(&:alias_name)
         push_after_reply_post push_content, teachers_id, reciver_id, school_class_id, student, reciver_types
-        # send_push_msg m_content, student.alias_name, teachers_id, reciver_id  if reciver_types == 0 && !student.nil?
         follow_users.each do |u_id|
           unless sender_id.to_i == u_id
             Message.create(:user_id => u_id, :content => m3_content, :micropost_id => micropost_id,

@@ -36,7 +36,6 @@ $(function(){
         this.myTitle=this.title;
         this.title="";
         var tooltip = "<div class='tooltip_box'><div class='tooltip_next'>"+this.myTitle+"</div></div>";
-		
         $("body").append(tooltip);
         $(".tooltip_box").css({
             "top":(e.pageY+y)+"px",
@@ -52,7 +51,6 @@ $(function(){
         })
     });
 })
-
 
 //tishi
 function tishi(message){
@@ -100,3 +98,23 @@ $(function(){
         $(".mask").hide();
     })
 })
+//popup
+function popup(t){
+    var scolltop = document.body.scrollTop|document.documentElement.scrollTop; //滚动条高度
+    var win_width = $(window).width();
+    var doc_height = $(document).height();
+    var layer_width = $(t).width();
+
+    var left = (win_width-layer_width)/2;
+    var top = scolltop+100;
+    $(".mask").css("height",doc_height);
+    $(t).css('top',top);
+    $(t).css('left',left);
+    $(".mask").css("display","block");
+    $(t).css('display','block');
+
+    $(".close").click(function(){
+        $(this).parents(t).css("display","none");
+        $(".mask").css("display","none");
+    });
+}

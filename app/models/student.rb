@@ -15,6 +15,7 @@ class Student < ActiveRecord::Base
   belongs_to :user
   validates_uniqueness_of :qq_uid
 
+  ACTIVE_STATUS = {:YES => 1, :NO => 0} #是否激活 1已激活 0未激活
   def self.list_student page,school_class_id
     sql_student = "SELECT s.id,s.nickname,u.name user_name,u.avatar_url,scsr.created_at,t.name tag_name from
     students s LEFT JOIN users u on s.user_id = u.id

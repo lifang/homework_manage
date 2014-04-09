@@ -307,13 +307,13 @@
 			var newWidth = (iSelectWidth > oSpan.innerWidth())?iSelectWidth+oLinkOpen.outerWidth():$wrapper.width();
 			$wrapper.css('width',newWidth);
 			$ul.css('width',newWidth-2);
-			oSpan.css({width:iSelectWidth});
+			//oSpan.css({width:iSelectWidth});
 		
 			// Calculate the height if necessary, less elements that the default height
 			//show the ul to calculate the block, if ul is not displayed li height value is 0
 			$ul.css({display:'block',visibility:'hidden'});
 			var iSelectHeight = ($('li',$ul).length)*($('li:first',$ul).height());//+1 else bug ff
-			(iSelectHeight < $ul.height()) && $ul.css({height:iSelectHeight,'overflow':'hidden'});//hidden else bug with ff
+			(iSelectHeight < $ul.height()) && $ul.css({'overflow':'auto'});//hidden else bug with ff
 			$ul.css({display:'none',visibility:'visible'});
 			
 		});

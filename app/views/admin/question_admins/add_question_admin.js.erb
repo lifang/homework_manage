@@ -1,7 +1,12 @@
 <% if @status == true %>
+	$("#waiting_warning").hide();
 	$("#question_admin").empty();
 		$(".mask").hide();
 	$("#question_admin").hide();
+	location.href="/admin/question_admins";
+<% elsif @status == false %>	
+	$("#waiting_warning").hide();
+	$(".mask").hide();
+	popup("#question_admin");
 <% end %>
 tishi('<%= @notice %>');
-location.href="/admin/question_admins";

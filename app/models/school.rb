@@ -12,7 +12,7 @@ class School< ActiveRecord::Base
   end
 
   def self.schools_list schools_name=nil,page
-    sql_school = "SELECT schools.*,t.email FROM schools inner join teachers t on schools.id=t.school_id
+    sql_school = "SELECT schools.*, t.email FROM schools inner join teachers t on schools.id=t.school_id
 WHERE t.types=#{Teacher::TYPES[:SCHOOL]} "
     if !schools_name.nil?
       sql_school += "and schools.name like '#{schools_name}'"

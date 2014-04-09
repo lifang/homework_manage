@@ -9,55 +9,34 @@
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <thead>
             <tr>
-              <th>教师名称</th>
-              <th>执教班级数</th>
-              <th>执教学生数</th>
-              <th>账户信息</th>
-              <th>重置密码</th>
-              <th>过户</th>
+              <th>学生姓名</th>
+              <th>学号</th>
+              <th>激活码</th>
+              <th>激活状态</th>
               <th>停用</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>王丽丽</td>
-              <td>2</td>
-              <td>82</td>
-              <td>wll2014 / ******</td>
-              <td><a href="#" class="reset_a tooltip_html">重置密码</a></td>
-              <td><a href="#" class="transfer_a tooltip_html">过户</a></td>
-              <td><a href="javascript:void(0);" class="blockUp_a tooltip_html">停用</a></td>
-            </tr>
-            <tr>
-              <td>王丽丽</td>
-              <td>2</td>
-              <td>82</td>
-              <td>wll2014 / ******</td>
-              <td><a href="#" class="reset_a tooltip_html">重置密码</a></td>
-              <td><a href="#" class="transfer_a tooltip_html">过户</a></td>
-              <td><a href="javascript:void(0);" class="blockUp_a_ed tooltip_html">启用</a></td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
+            <% @students.each do |s| %>
+              <tr>
+                <td><%= s.uname %></td>
+                <td><%= s.s_no.nil? ? "无" : s.s_no %></td>
+                <td><%= s.active_code.nil? ? "无" : s.active_code %></td>
+                <td><%= s.active_status==true ? "已激活" : "未激活" %></td>
+                <% if s.active_status.nil? || s.active_status==false%>
+                  <td><a href="javascript:void(0);" class="blockUp_a_ed tooltip_html" onclick="set_stu_active_status(this, '<%= s.id %>', 'open')">启用</a></td>
+                <% else %>
+                  <td><a href="javascript:void(0);" class="blockUp_a tooltip_html" onclick="set_stu_active_status(this, '<%= s.id %>', 'close')">停用</a></td>
+                <% end %>
+              </tr>
+            <% end if @students && @students.any? %>
           </tbody>
         </table>
       </div>
     </div>
   </div>
+</div>
+
+<div class="tab_Prompt" id="waiting_warning">  <!--文件上传等待框-->
+  <p></p>
 </div>

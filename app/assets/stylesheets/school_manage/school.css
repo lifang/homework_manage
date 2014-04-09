@@ -155,7 +155,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
     margin: 0 5px;
 }
 .delete_a { background: url(/assets/school_manage_imgs/s_icon01.png) no-repeat 0px 0px;}
-.add_a { background: url(../images/s_icon01.png) no-repeat 0px -25px;}
+.add_a { background: url(/assets/school_manage_imgs/s_icon01.png) no-repeat 0px -25px;}
 
 .controller_a { background: url(/assets/school_manage_imgs/s_icon01.png) no-repeat 0px -50px;}
 .reset_a { background: url(/assets/school_manage_imgs/s_icon01.png) no-repeat 0px -75px;}

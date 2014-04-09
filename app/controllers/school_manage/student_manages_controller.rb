@@ -1,5 +1,35 @@
 #encoding: utf-8
 class SchoolManage::StudentManagesController < ApplicationController
   layout "school_manage"
+  def index
+    admin = Teacher.find_by_id(1)
+    @name = params[:name]
+    sql = ["select s.*, u.name uname from students s inner join users u on s.user_id=u.id
+    where s.school_id = ?", admin.school_id]
+    if @name && @name != ""
+      sql[0] += " and u.name like ?"
+      sql << "%#{@name.strip.gsub(/[%_]/){|x| '\\' + x}}%"
+    end
+    @students = Student.paginate_by_sql(sql, :page => params[:page], :per_page => 10)
+  end
+
+  #启用或停用学生
+  def set_stu_active_status
+    student_id = params[:stu_id].to_i
+    Student.transaction do
+      status = 0
+      student = Student.find_by_id(student_id)
+      if student && student.active_status == true
+        if student.update_attribute("active_status", false)
+          status = 1
+        end
+      elsif student && student.active_status == false
+        if student.update_attribute("active_status", true)
+          status = 1
+        end
+      end
+      render :json => {:status => status}
+    end
+  end
 
 end

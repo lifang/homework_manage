@@ -1,6 +1,6 @@
 #encoding: utf-8
 class UserMailer < ActionMailer::Base
-  default from: 'amandamfl1989@gmail.com'
+  default from: ' mailer@comdosoft.com'
 
   def send_pwd_email(email, pwd, type)
     @email, @pwd, @type_name = email, pwd, Teacher::TYPES_NAME[type]

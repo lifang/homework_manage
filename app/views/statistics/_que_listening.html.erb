@@ -22,7 +22,13 @@
             </li>
           </ul>
         </div>
-        <div class="errorAnswer"><p><span>需要多听的词：</span><%= @wring_answer[bq[:id].to_i].split(";&&;")[1].split(";||;").join(" ") if  @wring_answer[bq[:id].to_i]&&@wring_answer[bq[:id].to_i].split(";&&;")[1] %></p></div>
+        <div class="errorAnswer"><p><span>需要多听的词：</span>
+            <% if  @wring_answer[bq[:id].to_i] %>
+              <% a =  @wring_answer[bq[:id].to_i].split(";||;") %>
+              <% a.delete_at(0) if a[0] %>
+              <%= a.join("  ")%>
+            <% end %>
+          </p></div>
       </div>
     <% end %>
   <%else%>

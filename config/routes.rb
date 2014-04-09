@@ -1,6 +1,10 @@
 HomeworkManage::Application.routes.draw do
 
 
+  get "teacher_admins/index"
+
+  get "teachers_admin/index"
+
   resources :microposts do
     get :create_reply
     member do
@@ -48,6 +52,11 @@ HomeworkManage::Application.routes.draw do
       collection do
         post :adjust_quotas,:search_schools,:is_enable
         get :update_school_password
+      end
+    end
+
+    resources :teacher_admins do
+      collection do
       end
     end
 

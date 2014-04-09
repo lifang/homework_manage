@@ -3,7 +3,9 @@
     <div class="askAnswer_area_box question_area_box">
       <div class="askAnswer_avater"><img src="<%=  reply.sender_avatar_url%>"/></div>
       <div class="askAnswer_area_con question_area_con">
-        <a  href="javascript:void(0);" class="x" onclick="delete_reply(this,<%=reply.id%>,'<%=@micropost.id%>')" >删除</a>
+        <% if @micropost.user_id == current_teacher.user_id || reply.sender_id ==  current_teacher.user_id %>
+          <a  href="javascript:void(0);" class="x" onclick="delete_reply(this,<%=reply.id%>,'<%=@micropost.id%>')" >删除</a>
+        <% end %>
         <div class="askAnswer_area_text">
           <%=reply.content%>
         </div>
@@ -24,7 +26,7 @@
 <input type="hidden" class="current_page" value="1"/>
 
 <div id="see_more">
-<%= render :partial => 'microposts/see_more'  %>
+  <%= render :partial => 'microposts/see_more'  %>
 </div>
 
 <div class="ask_area" style="display:none;">

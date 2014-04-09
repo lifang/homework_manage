@@ -108,7 +108,7 @@
     <div class="tag_tab" id="tags_table">
       <span class="arrows">A</span>
       <div class="search">
-        <input type="text" oninput="search_b_tags(this, <%= @school_class.id  %>)"/></div>
+        <input type="text" onkeyup="search_b_tags(this, <%= @school_class.id  %>)"/></div>
       <ul>
         <% @b_tags.each do |bt| %>
           <li><input type="checkbox" value="<%= bt.id %>"/><p><%= bt.name %></p></li>

@@ -1,0 +1,8 @@
+<% if @status == 1 %>
+  tishi("<%= @notice %>")
+  $(".controller_body").html('<%= j(render :partial => 'teacher_list') %>')
+  $("#teacher_admin_create").hide();
+  $(".mask").hide();
+<% else %>
+  tishi("<%= @notice %>")
+<% end %>

@@ -38,7 +38,7 @@ class Message < ActiveRecord::Base
         m3_content = "[[" + send_name + "]]回复了您关注的消息：;||;" + content
         push_content = "#{send_name}：#{content}"
         follow_users -= [sender_id.to_i]  if follow_users.include?(sender_id.to_i)
-        students = Student.where(["user_id in (?)",follow_users]).map!(&:alias_name)
+#        students = Student.where(["user_id in (?)",follow_users]).map!(&:alias_name)
         push_after_reply_post push_content, teachers_id, reciver_id, school_class_id, student, reciver_types
         # send_push_msg m_content, student.alias_name, teachers_id, reciver_id  if reciver_types == 0 && !student.nil?
         follow_users.each do |u_id|

@@ -366,7 +366,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 }
 .tab_Prompt a.x { top: 10px; right: 10px;}
 .tab_Prompt p { padding: 10px; text-align: center; line-height: 24px;}
-
+.system{display: none;}
 /*tab*/
 .mask {
     background: url(/assets/black.png) repeat;

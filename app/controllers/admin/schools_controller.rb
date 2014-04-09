@@ -68,7 +68,7 @@ class Admin::SchoolsController < ApplicationController
   def update_school_password
     school_id = params[:school_id]
     password_new = params[:password_new]
-    school_teacher = Teacher.find_by_school_id school_id
+    school_teacher = Teacher.find_by_school_id_and_types school_id,Teacher::TYPES[:SCHOOL]
     if school_teacher
       Teacher.transaction do
         school_teacher.update_attributes(:password => password_new)

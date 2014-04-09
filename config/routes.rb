@@ -1,10 +1,6 @@
 HomeworkManage::Application.routes.draw do
 
 
-  get "teacher_admins/index"
-
-  get "teachers_admin/index"
-
   resources :microposts do
     get :create_reply
     member do
@@ -55,10 +51,6 @@ HomeworkManage::Application.routes.draw do
       end
     end
 
-    resources :teacher_admins do
-      collection do
-      end
-    end
 
     resources :systems do
       collection do
@@ -77,6 +69,14 @@ HomeworkManage::Application.routes.draw do
 
   namespace :school_manage do   #学校管理
     resources :student_manages
+
+
+    resources :teacher_manages do
+      collection do
+        post :update_password
+      end
+    end
+
   end
 
   resources :welcome do

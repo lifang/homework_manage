@@ -80,7 +80,8 @@ HomeworkManage::Application.routes.draw do
 
     resources :quota_consumptions do
       collection do
-        
+        get :load_quota_consumptions_panel
+        post :apply_quota_consumptions
       end  
     end
   end

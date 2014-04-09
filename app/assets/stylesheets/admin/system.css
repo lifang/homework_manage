@@ -315,7 +315,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
     position: static
 }
 .form_list li .jqTransformSelectWrapper ul { top: 38px;}
-.form_list li .jqTransformSelectWrapper ul li { padding: 0; margin: 0; width: 230px; line-height: normal;}
+.form_list li .jqTransformSelectWrapper ul li { padding: 0; margin: 0; width: 100%; line-height: normal;}
 .system{display: none;}
 
 /*弹出提示逐渐消失*/

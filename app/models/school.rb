@@ -22,6 +22,7 @@ WHERE t.types=#{Teacher::TYPES[:SCHOOL]} "
 
   #获取配额消费列表
   def self.quota_consumptions_list school_id, page=nil
+    page = 1 if !page.present?
     quota_consumptions = []
     if school_id.present?
       teachers = Teacher.where("school_id = ?",school_id) if school_id.present?
@@ -35,7 +36,7 @@ WHERE t.types=#{Teacher::TYPES[:SCHOOL]} "
                                .joins("left join users u on s.user_id = u.id")
                                .joins("left join school_classes sc on school_class_students_relations.school_class_id = sc.id")
                                .where(["school_class_students_relations.school_id = ? and school_class_students_relations.school_class_id in (?)", 
-                                                      school_id, school_classes_id])                       
+                                                      school_id, school_classes_id]).paginate(:page => page, :per_page => PER_PAGE)                       
       end                               
     end 
     quota_consumptions                             

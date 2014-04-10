@@ -35,13 +35,14 @@
         </div>
     </div>
 </div>
+
+<%= will_paginate @quota_consumptions, :next_label => "下一页", :previous_label => "上一页", :class => "pageTurn"%>
 <script>
   $(document).ready(function(){
     var used_school_counts = <%= @school.used_school_counts%>;
     var students_count = <%= @school.students_count %>;
     var m_width = $(".quotaLoading_bg").width();
     var width =  m_width*used_school_counts/students_count;
-    tishi(width);
     $(".quotaLoading_bg").find("p").css("width",width);
   })
 </script>

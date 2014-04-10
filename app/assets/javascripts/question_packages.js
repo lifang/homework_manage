@@ -1367,16 +1367,6 @@ function wp_set_time(obj){
         return false;
     };
 }
-//阻止冒泡
-function stopPropagation(e) {
-    e = e || window.event;
-    if(e.stopPropagation) { //W3C阻止冒泡方法
-        e.stopPropagation();
-    } else {
-        e.cancelBubble = true; //IE阻止冒泡方法
-    }
-}
-
 
 function wanxin_save_btn(obj){
     var wanxin_id = $(obj).parents(".assignment_body_list").find(".ab_list_box").find(".wanxin_content").attr("id");

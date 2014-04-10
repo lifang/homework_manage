@@ -13,7 +13,7 @@
     <%= form_for :teachers, :url => {:action => :upload_avatar,:controller => :teachers},:html => {:multipart => true,:method => :post},:remote => true, "data-type" => "script" do|f|  %>
 
       <div class="tab_user_left">
-        <div class="avater_default"><img src='<%=  @user.avatar_url%>' width="90px"/></div>
+        <div class="avater_default"><img src='<%=  current_user.avatar_url%>' width="90px"/></div>
         <a href="javascript:void(0);" class="avater_a">
           <span>确定</span>
           <input  name="file_upload" id="file_uploads"type="file" onchange="upload_avatar(this,<%= @school_class.id %>)"/>
@@ -26,8 +26,8 @@
     </li>
     <div class="tab_user_right">
       <ul>
-        <li><label>姓名</label><input name="" type="text" value="<%= @user.name %>" disabled/></li>
-        <li><label>邮箱</label><input name="" type="text" value="<%= @teacher.email %>" disabled/></li>
+        <li><label>姓名</label><input name="" type="text" value="<%= current_user.name %>" disabled/></li>
+        <li><label>邮箱</label><input name="" type="text" value="<%= current_teacher.email %>" disabled/></li>
         <li><label>原密码</label><input name="password_now" type="password"/></li>
         <li><label>新密码</label><input name="password_update" type="password"/></li>
         <li><label>确认新密码</label><input name="password_update_agin" type="password"/></li>

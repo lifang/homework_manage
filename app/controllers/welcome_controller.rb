@@ -2,6 +2,7 @@
 class WelcomeController < ApplicationController
   include MethodLibsHelper
   layout 'welcome'
+  skip_before_filter :get_teacher_infos, :sign?, :get_unread_messes
 
   #教师登陆
   def login
@@ -15,7 +16,7 @@ class WelcomeController < ApplicationController
     else
       if teacher && teacher.has_password?(password)
         cookies[:teacher_id]={:value => teacher.id, :path => "/", :secure  => false}
-        cookies[:user_id]={:value => teacher.user.id, :path => "/", :secure  => false}
+        cookies[:user_id]={:value => teacher.user.try(:id), :path => "/", :secure  => false}
 
         notice, status, last_visit_class, @redirect_path = redirect_to_different_page(teacher)
       else
@@ -46,7 +47,7 @@ class WelcomeController < ApplicationController
     notice = "注册失败，请重新注册！"
     if !teacher.nil?
       status = false
-      notice = "该邮箱已被注册，换个邮箱！"
+      notice = "该邮箱已被注册或停用，换个邮箱！"
     else
       Teacher.transaction do
         teacher = Teacher.create(:email => email, :password => password,

@@ -1,7 +1,7 @@
 #encoding:utf-8
 class MicropostsController < ApplicationController
 
-  before_filter :get_school_class, :get_unread_messes
+  before_filter :get_school_class
   def index
 
   end

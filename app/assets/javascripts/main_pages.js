@@ -253,6 +253,15 @@ function cancle_this_window(obj){
     $($(obj).parents(".tab_mess")[0]).hide(10);
 }
 
+//阻止冒泡
+function stopPropagation(e) {
+    e = e || window.event;
+    if(e.stopPropagation) { //W3C阻止冒泡方法
+        e.stopPropagation();
+    } else {
+        e.cancelBubble = true; //IE阻止冒泡方法
+    }
+}
 //welcome  班级第一次登录  开始
 
 //选择完科目，显示教材

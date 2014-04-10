@@ -1,5 +1,6 @@
 #encoding: utf-8
 class Student < ActiveRecord::Base
+  require 'roo'
   require 'will_paginate/array'
   attr_protected :authentications
   STATUS = {:YES => 0, :NO => 1}
@@ -80,4 +81,6 @@ where scsr.tag_id = ? and school_class_id = ?"
 where scsr.tag_id IS NULL and school_class_id = ?"
     @student_notags = Student.find_by_sql([sql_notag_student,school_class_id])
   end
+
+  
 end

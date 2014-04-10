@@ -2,9 +2,9 @@
 class SchoolManage::StudentManagesController < ApplicationController
   layout "school_manage"
   skip_before_filter :get_teacher_infos,:get_unread_messes
-  #before_filter :check_if_schooladmin, :only => [:index]
+  before_filter :check_if_schooladmin, :only => [:index]
   def index
-    admin = Teacher.find_by_id(1)
+    admin = Teacher.find_by_id(cookies[:teacher_id])
     @name = params[:student_name]
     sql = ["select s.*, u.name uname from students s inner join users u on s.user_id=u.id
     where s.school_id = ?", admin.school_id]
@@ -34,10 +34,12 @@ def create
   Student.transaction do
     school_id = params[:school_id].to_i
     xls_form = params[:stu_list_form]
-    status,veri_code = Student.upload_student_list_xls(school_id, xls_form)
+    status,veri_code,error_str = Student.upload_student_list_xls(school_id, xls_form)
     if status == 1
       flash[:notice] = "创建成功!"
       flash[:veri_code] = "#{veri_code}"
+    elsif status == -1
+      flash[:notice] = "学号为:#{error_str}的学生已存在!"
     else
       flash[:notice] = "文件读取失败!"
     end
@@ -46,17 +48,17 @@ def create
 end
   
 #启用或停用学生
-def set_stu_active_status
+def set_stu_status
   student_id = params[:stu_id].to_i
   Student.transaction do
     status = 0
     student = Student.find_by_id(student_id)
-    if student && student.active_status == true
-      if student.update_attribute("active_status", false)
+    if student.status == Student::STATUS[:YES]
+      if student.update_attribute("status", Student::STATUS[:NO])
         status = 1
       end
-    elsif student && student.active_status == false
-      if student.update_attribute("active_status", true)
+    else
+      if student.update_attribute("status", Student::STATUS[:YES])
         status = 1
       end
     end

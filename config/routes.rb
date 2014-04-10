@@ -54,7 +54,7 @@ HomeworkManage::Application.routes.draw do
 
     resources :systems do
       collection do
-        post :reset_password, :disable_enable_account
+        post :reset_password, :disable_enable_account, :delete_messages
       end
     end
 

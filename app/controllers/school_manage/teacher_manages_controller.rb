@@ -3,6 +3,8 @@ class SchoolManage::TeacherManagesController < ApplicationController
   layout "school_manage"
   skip_before_filter :get_teacher_infos,:get_unread_messes
   before_filter :check_if_schooladmin, :only => [:index]
+  before_filter :get_admin_unread_messes
+  
   def index
     @teacher_name = params[:teacher_name]
     teacher_name = params[:teacher_name].nil? || params[:teacher_name] == "" ? nil : "%" + params[:teacher_name].strip.to_s + "%"

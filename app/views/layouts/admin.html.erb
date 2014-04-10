@@ -21,6 +21,7 @@
       <p></p>
     </div>
     <%=render 'layouts/admin_user_info'%>
+
     <div class="wrap">
       <div class="head clearAfter">
         <%=render 'layouts/admin_nav'%>
@@ -29,6 +30,7 @@
         <%= yield %>
       </div>
     </div>
+        <%= render 'layouts/admin_right_message' %>
     <div class="mask"></div>
     <% if flash[:notice] %>
       <script>

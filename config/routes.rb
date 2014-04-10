@@ -7,7 +7,7 @@ HomeworkManage::Application.routes.draw do
       get :reply_page_change,:delete_micropost,:delete_micropost_reply,:delete_micropost,:add_reply_page,:particate_reply_show
     end
   end
- 
+
   post "/share_questions/view"
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -83,7 +83,7 @@ HomeworkManage::Application.routes.draw do
 
     resources :student_manages do
       collection do
-        post :set_stu_active_status
+        post :set_stu_status
       end
     end
 

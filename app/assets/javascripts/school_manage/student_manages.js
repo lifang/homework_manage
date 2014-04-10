@@ -1,4 +1,4 @@
-function set_stu_active_status(student_id, type){   //点击设置停用或启用学生弹出层
+function set_stu_status(student_id, type){   //点击设置停用或启用学生弹出层
     var head_con = ""
     var con = "";
     if(type=="open"){
@@ -13,19 +13,19 @@ function set_stu_active_status(student_id, type){   //点击设置停用或启�
     var button = $("#set_stu_active_status_div").find("button[type='button']").first();
     if(button != undefined){
         button.removeAttr("onclick");
-        button.attr("onclick", "set_stu_active_status_commit('"+student_id+"', '"+type+"')");
+        button.attr("onclick", "set_stu_status_commit('"+student_id+"', '"+type+"')");
     };
     popup("#set_stu_active_status_div");
 }
 
-function set_stu_active_status_commit(student_id, type){    //设置停用或启用学生确定
+function set_stu_status_commit(student_id, type){    //设置停用或启用学生确定
     $("#set_stu_active_status_div").hide();
     $(".mask").hide();
     $("#waiting_warning").find("p").first().text("正在处理...");
     popup("#waiting_warning");
     $.ajax({
         type: "post",
-        url: "/school_manage/student_manages/set_stu_active_status",
+        url: "/school_manage/student_manages/set_stu_status",
         dataType: "json",
         data: {
             stu_id : student_id
@@ -43,9 +43,8 @@ function set_stu_active_status_commit(student_id, type){    //设置停用或启
                             a.removeAttr("class");
                             a.removeAttr("onclick");
                             a.attr("class", "blockUp_a_ed tooltip_html");
-                            a.attr("onclick", "set_stu_active_status('"+student_id+"', 'open')");
+                            a.attr("onclick", "set_stu_status('"+student_id+"', 'open')");
                             a.text("启用");
-                            a.parent().prev().text("未激活");
                         }
                     })
                 }else{
@@ -55,9 +54,8 @@ function set_stu_active_status_commit(student_id, type){    //设置停用或启
                             a.removeAttr("class");
                             a.removeAttr("onclick");
                             a.attr("class", "blockUp_a tooltip_html");
-                            a.attr("onclick", "set_stu_active_status('"+student_id+"', 'close')");
+                            a.attr("onclick", "set_stu_status('"+student_id+"', 'close')");
                             a.text("停用");
-                            a.parent().prev().text("已激活")
                         }
                     })
                 }

@@ -24,10 +24,10 @@
               <td><%= s.active_status==true ? "已激活" : "未激活" %></td>
               <td>
                 <input type="hidden" name="stu_id" value="<%= s.id %>"/>
-                <% if s.active_status.nil? || s.active_status==false%>
-                  <a href="javascript:void(0);" class="blockUp_a_ed tooltip_html" onclick="set_stu_active_status('<%= s.id %>', 'open')">启用</a>
-                <% else %>
-                  <a href="javascript:void(0);" class="blockUp_a tooltip_html" onclick="set_stu_active_status('<%= s.id %>', 'close')">停用</a>
+                <% if s.status.to_i == 1%>
+                  <a href="javascript:void(0);" class="blockUp_a_ed tooltip_html" onclick="set_stu_status('<%= s.id %>', 'open')">启用</a>
+                <% elsif s.status.to_i == 0 %>
+                  <a href="javascript:void(0);" class="blockUp_a tooltip_html" onclick="set_stu_status('<%= s.id %>', 'close')">停用</a>
                 <% end %>
               </td>
             </tr>

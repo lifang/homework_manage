@@ -53,7 +53,7 @@ class Admin::SchoolsController < ApplicationController
     admin = Teacher.find_by_types Teacher::TYPES[:SYSTEM]
     teacher = Teacher.find_by_school_id school_id
     if school && school.update_attributes(:students_count => students_count)
-      content = "额度调整为" + students_count
+      content = "系统管理员于#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}将您的学生配额调整到#{students_count}个"
       if admin && teacher
         AdminMessage.create(:sender_id=>admin.id,:receiver_id=>teacher.id,:content => content)
       end

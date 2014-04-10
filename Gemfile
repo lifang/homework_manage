@@ -29,7 +29,7 @@ gem 'remotipart', '~> 1.0' #ajax upload file
 gem "mini_magick", "3.5.0" #handle image
 gem 'carrierwave', "0.5.8" #upload image
 gem 'archive-zip', '0.6.0' #handle zip
-#gem 'spreadsheet', '0.6.5.5' #不支持xlsx文件解析
+gem 'spreadsheet', '0.9.7' #不支持xlsx文件解析
 gem 'roo', '~>1.13.2' #解析xls和xlsx文件
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

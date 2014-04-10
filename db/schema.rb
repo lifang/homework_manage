@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140409092051) do
+ActiveRecord::Schema.define(:version => 20140410044833) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer "sender_id"
@@ -393,13 +393,15 @@ ActiveRecord::Schema.define(:version => 20140409092051) do
     t.datetime "updated_at",          :null => false
     t.integer  "user_id"
     t.string   "token"
-    t.integer  "s_no"
+    t.string   "s_no"
     t.string   "active_code"
     t.boolean  "active_status"
     t.integer  "school_id"
+    t.integer  "veri_code"
   end
 
   add_index "students", ["user_id"], :name => "index_students_on_user_id"
+  add_index "students", ["veri_code"], :name => "index_students_on_veri_code"
 
   create_table "sys_messages", :force => true do |t|
     t.integer  "school_class_id"

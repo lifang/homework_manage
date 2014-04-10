@@ -1,11 +1,6 @@
 <div class="controller">
   <div class="controller_head">
-    <a href="javascript:void(0);" class="file_btn"><span>导入学生清单</span>
-      <%= form_tag "/school_manage/student_manages", :method => "post", :multipart => true, :id => "import_student_form" do %>
-      <input type="hidden" name="school_id" value="<%= @school_id %>"/>
-      <input name="stu_list_form" multiple type="file" onchange="import_stu_xls_valid(this)"/>
-      <% end %>
-    </a>
+    <a href="javascript:void(0);" class="file_btn" onclick="import_stu_xls()"><span>导入学生清单</span></a>
     <div class="search"><button onclick="search_student()"></button><input id="student_name" type="text" value="<%= @name.nil? || @name=="" ? "" : @name %>"/></div>
   </div>
   <div class="controller_body">
@@ -31,7 +26,7 @@
                 <input type="hidden" name="stu_id" value="<%= s.id %>"/>
                 <% if s.active_status.nil? || s.active_status==false%>
                   <a href="javascript:void(0);" class="blockUp_a_ed tooltip_html" onclick="set_stu_active_status('<%= s.id %>', 'open')">启用</a>
-                <% else %> 
+                <% else %>
                   <a href="javascript:void(0);" class="blockUp_a tooltip_html" onclick="set_stu_active_status('<%= s.id %>', 'close')">停用</a>
                 <% end %>
               </td>
@@ -53,7 +48,51 @@
   <div class="tab_btn"><button type="button">确定</button></div>
 </div>
 
+<div class="tab" id ="import_student_div" style="display:none;">
+  <%= form_tag "/school_manage/student_manages", :method => "post", :multipart => true, :id => "import_student_form" do %>
+    <a href="javascript:void(0);" class="close">close</a>
+    <div class="tab_head">导入清单</div>
+    <div class="tab_warning">请选择导入学生清单</div>
+    <div class="tab_body clearAfter">
+      <div class="form_list">
+        <ul>
+          <li><label>清单列表：</label>
+            <p class="file_p">
+              <span>选择学生清单位置</span>
+              <a href="javascript:void(0);" class="file_a">
+                <input id="stu_list_form" name="stu_list_form" multiple type="file"/>
+              </a>
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <input type="hidden" name="school_id" value="<%= @school_id %>"/>
+    <div class="tab_btn"><button type="button" onclick="import_stu_xls_valid(this)">确定</button></div>
+  <% end %>
+</div>
 
 <div class="tab_Prompt" id="waiting_warning">  <!--文件上传等待框-->
   <p></p>
 </div>
+
+<% if flash[:veri_code] %>
+  <div class="tab" id="download_stu_list_div" style="display:none;">
+    <a href="javascript:void(0);" class="close">close</a>
+    <div class="tab_head">形成激活码</div>
+    <div class="tab_warning">生成学生激活码清单一份</div>
+    <div class="tab_body clearAfter">
+      <img src="/assets/school_manage_imgs/qd.png"/>
+    </div>
+    <div class="tab_btn">
+      <button onclick="download_stu_list_xls('<%= flash[:veri_code] %>')">下载</button>
+    </div>
+  </div>
+  <script>
+    popup("#download_stu_list_div");
+    function download_stu_list_xls(veri_code){
+      window.location.href="/school_manage/student_manages.xls?veri_code="+veri_code;
+    }
+  </script>
+<% end %>
+

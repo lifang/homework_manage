@@ -34,6 +34,7 @@ class TeachingMaterial < ActiveRecord::Base
           end
         end
       rescue
+        File.delete(path) if File.exist?(path)
         status = 2
       end
     end

@@ -19,7 +19,7 @@
       <a href="javascript:void(0)" class="x"></a>
       <p></p>
     </div>
-
+    <div class="mask"></div>
     <div class="wrap">
       <div class="head clearAfter">
         <%=render 'layouts/school_manage_nav'%>
@@ -28,7 +28,6 @@
         <%= yield %>
       </div>
     </div>
-    <div class="mask"></div>
     <% if flash[:notice] %>
       <script>
         tishi('<%= flash[:notice] %>')

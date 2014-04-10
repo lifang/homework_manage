@@ -1,7 +1,8 @@
 #encoding: utf-8
 class Admin::QuestionAdminsController < ApplicationController
 	layout "admin"
-  
+  skip_before_filter :get_teacher_infos
+  before_filter :check_if_sysadmin, :only => [:index]
   def index
     key_word = params[:key_word]
   	@question_admins =  Teacher.question_admin_list key_word, params[:page]

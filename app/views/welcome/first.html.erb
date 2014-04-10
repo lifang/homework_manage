@@ -1,53 +1,107 @@
 <script type="text/javascript" src="/assets/jquery.jqtransform.js"></script>
 <link href="/assets/jqtransform.css" rel="stylesheet" type="text/css"/>
 <script language="javascript">
-	$(function(){
-		$('.select_box').jqTransform();
-	});
+  $(function(){
+    $('.select_box').jqTransform();
+    $(".select_tm").hide();
+    $(".select_tm").first().show().find("select").attr("disabled", "disabled");
+  });
 </script>
 <div class="wrap">
   <div class="login_bg">
-    <div class="tab" id="login_div" >
-      <%= form_tag({:controller => :welcome, :action => :create_first_class}, :remote => true) do %>
-        <div class="tab tab500" style="display:inline;">
-	<a href="javascript:void(0);" class="close">close</a>
-	<div class="tab_head">创建班级</div>
-        <div class="tab_body clearAfter">
-          <div class="tab_warning">第一次登录请创建您的班级</div>
-          <div class="tab_setClass">
-            <ul>
-              <li>
-                <div class="select_box">
-                  <div class="rowElem">
-                    <select id="teaching_material_id" name="teaching_material_id">
-                      <option value="0" selected="selected">请选择</option>
-                      <% @teachering_materials.each do |m| %>
-                        <option value="<%= m.id %>"><%= m.name %></option>
-                      <% end %>
-                    </select>
-                  </div>
+    <!-- 第一步 选科目 -->
+    <div class="tab tab500" id="first_step">
+      <a href="javascript:void(0);" class="close">close</a>
+      <div class="tab_head">创建班级</div>
+      <div class="tab_body clearAfter" style="overflow-y:inherit;">
+        <div class="tab_setClass">
+          <div class="tab_setClass_step">
+            <h2>1.首先请选择你所执教的科目</h2>
+            <p class="step_one">第一步</p>
+          </div>
+          <ul>
+            <li>
+              <div class="select_box">
+                <div class="rowElem selectPosition">
+                  <select name="course_id" onchange="showTeachMaterial(this)">
+                    <option value="opt1">选择科目</option>
+                    <% @courses.each do |course| %>
+                      <option value="<%= course.id%>"><%= course.name %></option>
+                    <% end %>
+                  </select>
                 </div>
-              </li>
-              <li>
-                <input id="class_name" name="class_name" type="text" placeholder="班级名称" />
-              </li>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="tab_btn"><button type="button" onclick="setCourse(this)">确定</button></div>
+      </div>
+      </div>
+
+      <!-- 第二步 选教材 -->
+
+      <div class="tab tab500" id="second_step">
+        <a href="javascript:void(0);" class="close">close</a>
+        <div class="tab_head">创建班级</div>
+        <div class="tab_body clearAfter" style="overflow-y:inherit;">
+          <div class="tab_setClass">
+            <div class="tab_setClass_step">
+              <h2>1.请选择科目对应的教材</h2>
+              <p class="step_two">第二步</p>
+            </div>
+            <ul>
+              <% @teachingmaterial.each do |course_id, teachingmaterials| %>
+                <li class="select_tm" data-courseid="<%= course_id %>">
+                  <div class="select_box">
+                    <div class="rowElem">
+                      <select name="teaching_material_id">
+                        <option value="opt1">选择教材</option>
+                        <% teachingmaterials.each do |teachingmaterial| %>
+                          <option value="<%= teachingmaterial.id%>"><%= teachingmaterial.name %></option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+            <p class="notice">注：题库的选择对老师今后在布置作业创建题目或
+              是引用题目时都至关重要，请认真选择。</p>
+
+          </div>
+          <div class="tab_btn"><button type="button" onclick="setTm(this)">确定</button></div>
+        </div>
+      </div>
+
+    <!-- 第三步 名称，截止时间 -->
+    <%= form_tag({:controller => :welcome, :action => :create_first_class}, :remote => true) do %>
+      <div class="tab tab500" id="third_step">
+        <a href="javascript:void(0);" class="close">close</a>
+        <div class="tab_head">创建班级</div>
+        <div class="tab_body clearAfter">
+          <div class="tab_setClass">
+            <div class="tab_setClass_step">
+              <h2>1.请为班级取名字</h2>
+              <p class="step_three">第三步</p>
+            </div>
+            <ul>
+              <li> <input id="class_name" name="class_name" type="text" placeholder="班级名称" /></li>
               <li>
                 <input id="period_of_validity" name="period_of_validity" placeholder="选择结束时间" readonly="readonly"  type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',autoPickDate:true,minDate:'%y-%M-%d'})" />
               </li>
             </ul>
-            <div class="tab_switch_btn"> <button style="background: #dd5c05;color: white;width: 100px;padding: 10px;"  type="button" onclick="check_class_info();">确认</button></div>
+            <input type="hidden" id="class_course_id" name="class_course_id"/>
+            <input type="hidden" id="class_tm_id" name="class_cell_id"/>
           </div>
+          <div class="tab_btn"><button type="button" onclick="check_class_info(this);">确定</button></div>
         </div>
       </div>
-      
-  <input id="submit_class_info"  style="display: none;" value="确认" type="submit"/>
-<% end %>
-</div>
-</div>
+    <% end %>
+  </div>
 </div>
 
 <script>
   $(document).ready(function(){
-    show_windows("login_div");
+     popup("#first_step");
   })
 </script>

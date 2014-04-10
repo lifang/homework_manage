@@ -16,33 +16,8 @@ class WelcomeController < ApplicationController
       if teacher && teacher.has_password?(password)
         cookies[:teacher_id]={:value => teacher.id, :path => "/", :secure  => false}
         cookies[:user_id]={:value => teacher.user.id, :path => "/", :secure  => false}
-        class_id = teacher.last_visit_class_id
-        @school_class = class_id.nil? ? nil : SchoolClass.find_by_id(class_id)
-        last_visit_class = @class_id.nil? ? false : true
 
-        if @school_class
-          if @school_class.status == SchoolClass::STATUS[:EXPIRED] || (@school_class.period_of_validity.to_i - Time.now.to_i) < 0
-            @school_classes = teacher.school_classes.
-              where("status = #{SchoolClass::STATUS[:NORMAL]} and TIMESTAMPDIFF(SECOND,now(),school_classes.period_of_validity) > 0")
-            if @school_classes && @school_classes.length == 0
-              status = true
-              flash[:notice] = "上次登陆班级失效，请重新创建班级！"
-              last_visit_class = false
-            else
-              @teachingmaterial = TeachingMaterial.all
-              @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id).where("school_classes.period_of_validity>now()")
-              @school_class = @school_classes.first
-              teacher.update_attributes(:last_visit_class_id => @school_class.id)
-              last_visit_class = true
-              status = true
-              flash[:notice] = "登陆成功！"
-            end
-          else
-            last_visit_class = true
-            status = true
-            flash[:notice] = "登陆成功！"
-          end
-        end
+        notice, status, last_visit_class, @redirect_path = redirect_to_different_page(teacher)
       else
         status = false
         notice = "密码错误，登录失败！"
@@ -75,7 +50,7 @@ class WelcomeController < ApplicationController
     else
       Teacher.transaction do
         teacher = Teacher.create(:email => email, :password => password,
-          :status => Teacher::STATUS[:YES])
+          :status => Teacher::STATUS[:YES],:types => Teacher::TYPES[:teacher])
         destination_dir = "avatars/teachers/#{Time.now.strftime('%Y-%m')}"
         rename_file_name = "teacher_#{teacher.id}"
         avatar_url = ""
@@ -107,8 +82,13 @@ class WelcomeController < ApplicationController
 
   #教师第一次注册后跳转页面
   def first
-    @teachering_materials = TeachingMaterial.select("id,name")
-    @teacher = Teacher.find_by_id cookies[:teacher_id]
+    #@teachering_materials = TeachingMaterial.select("id,name")
+    if current_teacher
+      @teacher = Teacher.find_by_id cookies[:teacher_id]
+    else
+      flash[:notice] = "请先登录！"
+      redirect_to "/"
+    end
   end
 
   #第一次创建班级
@@ -160,4 +140,56 @@ class WelcomeController < ApplicationController
     #    render :index
     redirect_to '/'
   end
+
+
+  def redirect_to_different_page(teacher)
+    redirect_path = ""
+    notice = ""
+    if teacher.teacher_admin?   #普通教师
+      class_id = teacher.last_visit_class_id
+      @school_class = class_id.nil? ? nil : SchoolClass.find_by_id(class_id)
+      last_visit_class = @class_id.nil? ? false : true
+      if @school_class
+        if @school_class.status == SchoolClass::STATUS[:EXPIRED] || (@school_class.period_of_validity.to_i - Time.now.to_i) < 0
+          @school_classes = teacher.school_classes.
+            where("status = #{SchoolClass::STATUS[:NORMAL]} and TIMESTAMPDIFF(SECOND,now(),school_classes.period_of_validity) > 0")
+          if @school_classes && @school_classes.length == 0
+            status = true
+            flash[:notice] = "上次登陆班级失效，请重新创建班级！"
+            last_visit_class = false
+            redirect_path = "/welcome/first"
+          else
+            @teachingmaterial = TeachingMaterial.all
+            @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id).where("school_classes.period_of_validity>now()")
+            @school_class = @school_classes.first
+            teacher.update_attributes(:last_visit_class_id => @school_class.id)
+            last_visit_class = true
+            status = true
+            flash[:notice] = "登陆成功！"
+            redirect_path = "/school_classes/#{@school_class.id}/main_pages"
+          end
+        else
+          last_visit_class = true
+          status = true
+          flash[:notice] = "登陆成功！"
+          redirect_path = "/school_classes/#{@school_class.id}/main_pages"
+        end
+      end
+    elsif teacher.school_admin?
+      flash[:notice] = "登陆成功！"
+      redirect_path = "/school_manage/teacher_manages"
+    elsif teacher.system_admin?
+      flash[:notice] = "登陆成功！"
+      redirect_path = "/admin/schools"
+    elsif teacher.exam_admin?
+      
+    else
+      status = false
+      notice = "用户没有权限登录！"
+    end
+
+    [notice, status, last_visit_class, redirect_path]
+  end
+
+  
 end

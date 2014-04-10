@@ -1,6 +1,8 @@
 #encoding: utf-8
 class SchoolManage::TeacherManagesController < ApplicationController
   layout "school_manage"
+  skip_before_filter :get_teacher_infos
+  before_filter :check_if_schooladmin, :only => [:index]
   def index
     current_school = 12
     sql = "select * from teachers where school_id = 12 and types=3"

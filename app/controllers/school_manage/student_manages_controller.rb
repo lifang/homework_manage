@@ -3,8 +3,10 @@ class SchoolManage::StudentManagesController < ApplicationController
   layout "school_manage"
   skip_before_filter :get_teacher_infos,:get_unread_messes
   before_filter :check_if_schooladmin, :only => [:index]
+  before_filter :get_admin_unread_messes
+
   def index
-    admin = Teacher.find_by_id(cookies[:teacher_id])
+    admin = Teacher.find_by_id(1)
     @name = params[:student_name]
     sql = ["select s.*, u.name uname from students s inner join users u on s.user_id=u.id
     where s.school_id = ?", admin.school_id]

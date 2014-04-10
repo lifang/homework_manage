@@ -29,6 +29,7 @@
         <%= yield %>
       </div>
     </div>
+    <%= render 'layouts/admin_right_message' %>
     <% if flash[:notice] %>
       <script>
         tishi('<%= flash[:notice] %>')

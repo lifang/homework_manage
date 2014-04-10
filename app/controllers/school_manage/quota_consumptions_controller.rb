@@ -3,6 +3,7 @@ class SchoolManage::QuotaConsumptionsController < ApplicationController
   layout "school_manage"
   skip_before_filter :get_teacher_infos,:get_unread_messes
   before_filter :check_if_schooladmin, :only => [:index]
+  before_filter :get_admin_unread_messes
 
   def index
     teacher_id = cookies[:teacher_id]

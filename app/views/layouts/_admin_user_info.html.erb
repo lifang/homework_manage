@@ -1,0 +1,23 @@
+<script language="javascript">
+  $(function(){
+    $('.select_box').jqTransform();
+  });
+</script>
+<div class="tab_user" style="z-index: 999">
+  <%= form_for :teacher, :url => "/school_manage/passwords/reset_password", :remote => true do |f| %>
+    <h1>个人信息</h1>
+    <div class="tab_user_box">
+      <div class="tab_user_right">
+        <ul>
+          <li><label>姓名</label><input name="" type="text" value="<%= current_user.name %>" disabled/></li>
+          <li><label>邮箱</label><input name="" type="text" value="<%= current_teacher.email %>" disabled/></li>
+          <li><label>原密码</label><input class="old_pwd" name="password" type="password"/></li>
+          <li><label>新密码</label><input class="new_pwd" name="new_password" type="password"/></li>
+          <li><label>确认新密码</label><input class="confirm_pwd" name="password_confirmation" type="password"/></li>
+        </ul>
+      </div>
+    </div>
+    <div class="tab_user_btn"><button type="button" onclick="return check_password(this)">保存</button></div>
+    <div class="tab_out_btn"><a class="logout" href="/welcome/logout">退出</a></div>
+  <% end %>
+</div>

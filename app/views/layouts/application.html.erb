@@ -37,18 +37,8 @@
         <%=render 'layouts/top_side'%>
         <%=render 'layouts/user_info'%>
         <%= yield %>
-        <div class="right_side_mess">
-          <% if @unread_messes.any? %>
-            <a href="javascript:void(0)" class="side_mess_delete" onclick="del_all_unread_msg(<%= @unread_messes[0].user_id %>, <%= @unread_messes[0].school_class_id %>)">全部删除</a>
-          <% end %>
-          <div class="side_mess_box">
-            <ul>
-              <% @unread_messes.each do |um| %>
-                <a href="/school_classes/<%= @school_class.id %>/messages/check_micropost?uid=<%= um.user_id %>&mid=<%= um.micropost_id %>&mess_id=<%= um.id %>"><li><p><%= um.content.nil? ? "" : um.content.gsub(/\[|\]|;|\||/, "") %></p><p><%= um.created_at.nil? ? "" : um.created_at.strftime("%Y-%m-%d %H:%M") %></p></li></a>
-              <% end if @unread_messes.any? %>
-            </ul>
-          </div>
-        </div>
+        <%= render 'layout/right_message' %>
+
       </div>     
     </div>
     <div class="mask"></div>

@@ -86,6 +86,12 @@ HomeworkManage::Application.routes.draw do
         post :set_stu_active_status
       end
     end
+
+    resources :passwords do
+      collection do
+        post :reset_password
+      end
+    end
   end
 
   resources :welcome do

@@ -10,40 +10,60 @@ class Message < ActiveRecord::Base
     sender = User.find_by_id sender_id.to_i
     send_name = sender.try(:name) || ""
     micropost = Micropost.find_by_id micropost_id.to_i
-    student = Student.find_by_user_id reciver_id.to_i
-    count_msg = 0
+    
+    if_send = false  #发一种消息就行，不发其他类型的了
+    have_sended_user_ids = []
     if sender
       teachers = Teacher.where("status = #{Teacher::STATUS[:YES]}")
       teachers_id = teachers.map(&:user_id)
-      unless sender_id.to_i == reciver_id.to_i or sender_id.to_i == micropost.user_id
-        count_msg += 1
+      if sender_id.to_i != reciver_id.to_i && sender_id.to_i != micropost.user_id  #某学生发布的问答，老师或者其他同学回复他
+        if_send = true
         m1_content = "[[" + sender.name + "]]回复了您的消息：;||;" + content
         push_content = "#{send_name}：#{content}"
-        Message.create(:user_id => reciver_id, :content => m1_content, :micropost_id => micropost_id,
-          :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id,:reply_micropost_id => reply_micropost_id)
-        push_after_reply_post push_content, teachers_id, reciver_id, school_class_id, student, reciver_types
+        if micropost.user_id == reciver_id.to_i
+          have_sended_user_ids << reciver_id.to_i
+          student = Student.find_by_user_id reciver_id.to_i #直接发给楼主
+          Message.create(:user_id => reciver_id, :content => m1_content, :micropost_id => micropost_id,
+            :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id,:reply_micropost_id => reply_micropost_id)
+          push_after_reply_post push_content, teachers_id, reciver_id, school_class_id, student, reciver_types
+        else
+          have_sended_user_ids << micropost.user_id
+          student = Student.find_by_user_id micropost.user_id #楼主的帖子下面，别人互相回复
+          Message.create(:user_id => micropost.user_id, :content => m1_content, :micropost_id => micropost_id,
+            :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id,:reply_micropost_id => reply_micropost_id)
+          push_after_reply_post push_content, teachers_id, micropost.user_id, school_class_id, student, reciver_types
+        end
       end
-      follow_microposts = FollowMicropost.find_all_by_micropost_id(micropost_id.to_i)
-      follow_users = follow_microposts.collect {|i| i.user_id }
-      if count_msg == 0 && !follow_users.include?(reciver_id.to_i) && sender_id.to_i != reciver_id.to_i
+      
+      follow_microposts = FollowMicropost.find_all_by_micropost_id(micropost_id.to_i)  #关注此贴子的记录
+      follow_users = follow_microposts.collect {|i| i.user_id }  #关注此贴子的所有人
+
+      if !if_send && !follow_users.include?(reciver_id.to_i) && sender_id.to_i != reciver_id.to_i
         m2_content = "[[" + send_name + "]]回复了您：;||;" + content
         push_content = "#{send_name}：#{content}"
+        have_sended_user_ids << reciver_id.to_i
+        student = Student.find_by_user_id reciver_id.to_i  #发给一个人
         Message.create(:user_id => reciver_id, :content => m2_content, :micropost_id => micropost_id,
           :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id,:reply_micropost_id => reply_micropost_id)
         push_after_reply_post push_content, teachers_id, reciver_id, school_class_id, student, reciver_types
       end
-      if follow_microposts.any?
+      
+      if follow_users.present?
         m3_content = "[[" + send_name + "]]回复了您关注的消息：;||;" + content
         push_content = "#{send_name}：#{content}"
-        follow_users -= [sender_id.to_i]  if follow_users.include?(sender_id.to_i)
-        push_after_reply_post push_content, teachers_id, reciver_id, school_class_id, student, reciver_types
-        follow_users.each do |u_id|
+        follow_users = follow_users - [sender_id.to_i]  if follow_users.include?(sender_id.to_i)  #发送者是关注者的过滤掉
+        follow_users -= have_sended_user_ids #发送过的过滤掉
+        
+        follow_users.each do |u_id|   #发给关注问答的人
           unless sender_id.to_i == u_id
+            student = Student.find_by_user_id u_id
             Message.create(:user_id => u_id, :content => m3_content, :micropost_id => micropost_id,
               :school_class_id => school_class_id, :status => STATUS[:NOMAL], :sender_id => sender.id,:reply_micropost_id => reply_micropost_id)
+            push_after_reply_post push_content, teachers_id, reciver_id, school_class_id, student, reciver_types
           end
         end
       end
+      
     end
   end
 

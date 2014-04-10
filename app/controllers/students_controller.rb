@@ -16,10 +16,25 @@ class StudentsController < ApplicationController
   def delete_student
     student_id = params[:student_id]
     schoolclassstudentralastion = SchoolClassStudentRalastion.find_by_student_id_and_school_class_id student_id,school_class_id
-    if schoolclassstudentralastion && schoolclassstudentralastion.destroy
-      @notice = "删除成功。"
-    else
-      @notice = "删除失败！"
+    Student.transaction do 
+      if schoolclassstudentralastion && schoolclassstudentralastion.destroy
+        teacher = @schoolclass.teacher
+        #如果创建该班级的老师属于某个学校，且被删除的学生没有做任何作业，则归还学生配额
+        if teacher.school_id.present?
+          school_class_students_relation = SchoolClassStudentsRelation.find_by_school_id_and_student_id_and_school_class_id(teacher.school_id,
+                                          student_id, @schoolclass.id)
+          school_class_students_relation.destroy if school_class_students_relation.present?
+          student_answer_records =  StudentAnswerRecord.where(["student_id = ? and school_class_id = ?",
+                                                               student_id, @schoolclass.id])
+          if !student_answer_records.any?
+            school = School.find_by_id teacher.school_id
+            school.update_attributes(:used_school_counts => school.used_school_counts+1)
+          end  
+        end  
+        @notice = "删除成功。"
+      else
+        @notice = "删除失败！"
+      end
     end
     redirect_to "/school_classes/#{school_class_id}/students"
   end

@@ -1,0 +1,11 @@
+<% if @school_class.blank? %>
+  tishi("没有可以过户的班级！");
+<% else %>
+  <% if @teachers.blank? %>
+    tishi("没有可以过户的老师！");
+  <% else %>
+    $("#available_transfer").html('<%= j(render :partial=> "available_transfer") %>');
+    $(".mask").show();
+    $("#class_transfer").show();
+  <% end %>
+<% end %>

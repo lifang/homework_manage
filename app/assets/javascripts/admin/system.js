@@ -128,3 +128,56 @@ $(function(){
         $(".mask").hide();
     })
 })
+
+//侧边留言信息页面高度 点击滑出
+$(function(){
+    var ch = document.documentElement.clientHeight;
+    $(".right_side_mess").css("height",$(document).height()-40);
+
+    $(".email").click(function(){
+        $(".right_side_mess").slideDown("slow");
+    })
+    $(document).bind('click', function (e) {
+        if ( $(e.target).closest(".right_side_mess").length>0 || $(e.target).closest(".email").length>0 ) {
+            $(".right_side_mess").slideDown("slow");
+        }else{
+            $(".right_side_mess").slideUp("slow");
+        }
+    });
+})
+
+
+// 个人信息 鼠标点击别处隐藏tab
+$(function(){
+    $(".userName").click(function(e){
+        $(".tab_user").css('display','block');
+        $(".tab_user").css({
+            'top':(e.pageY+30)+'px',
+            'left':(e.pageX-350)+'px'
+        });
+        return false;
+    });
+    $(document).bind('click', function (e) {
+        if ( $(e.target).closest(".tab_user").length>0 ) {
+            $(".tab_user").css('display','block');
+        }else{
+            $(".tab_user").css('display','none');
+        }
+    });
+})
+
+// 检查密码
+ function check_password(obj){
+     var form = $(obj).parents("form");
+     var new_pwd = form.find(".new_pwd").val();
+     var confirm_pwd = form.find(".confirm_pwd").val();
+     if(new_pwd.length<6 || new_pwd.length>20 || confirm_pwd.length < 6 || confirm_pwd.length > 20){
+        tishi("密码长度在6到20位之间");
+        return false;
+    }else if(new_pwd != confirm_pwd){
+        tishi("两次输入的密码不一致");
+        return false;
+    }else{
+        form.submit();
+    }
+ }

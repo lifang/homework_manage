@@ -68,10 +68,8 @@ class ApplicationController < ActionController::Base
     if cookies[:teacher_id]
       teacher = Teacher.find cookies[:teacher_id]
       unless teacher.system_admin?
-        cookies.delete(:teacher_id)
-        cookies.delete(:user_id)
         flash[:notice] = "您没有权限访问此页面！"
-        redirect_to "/"
+        redirect_to "/welcome/logout"
       end
     else
       flash[:notice] = "请先登录"
@@ -84,10 +82,8 @@ class ApplicationController < ActionController::Base
     if cookies[:teacher_id]
       teacher = Teacher.find cookies[:teacher_id]
       unless teacher.school_admin?
-        cookies.delete(:teacher_id)
-        cookies.delete(:user_id)
         flash[:notice] = "您没有权限访问此页面！"
-        redirect_to "/"
+        redirect_to "/welcome/logout"
       end
     else
       flash[:notice] = "请先登录"

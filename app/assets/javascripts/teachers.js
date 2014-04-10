@@ -18,22 +18,22 @@ function create_school_class(school_class_id){
     var class_name = $.trim($("input[name='class_name']").val());
     var period_of_validity = $("input[name='period_of_validity']").val();
     var message;
-    if(course_id == "opt1"){
-        message = "请选择科目"
+    if(course_id == "opt1" || typeof(course_id) == "undefined"){
+        message = "请选择科目 或者 管理员没有添加科目"
         tishi(message);
         return false;
     }
-    if(teaching_material_id == "opt1"){
-        message = "请选择教材"
+    else if(teaching_material_id == "opt1" || typeof(teaching_material_id) == "undefined"){
+        message = "请选择教材 或者 当前科目下没有添加教材！"
         tishi(message);
         return false;
     }
-    if (class_name==""){
+    else if (class_name==""){
         message = "请输入班级名称"
         tishi(message);
         return false;
     }
-    if (period_of_validity==""){
+    else if (period_of_validity==""){
         message = "请选择结束时间";
         tishi(message);
     }else{

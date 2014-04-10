@@ -7,11 +7,11 @@ class WelcomeController < ApplicationController
   def login
     email = params[:email].to_s  #需前台验证email地址
     password = params[:password].to_s
-    teacher = Teacher.find_by_email email
+    teacher = Teacher.find_by_email_and_status email, Teacher::STATUS[:YES]
     last_visit_class = false
     if teacher.nil?
       status = false
-      notice = "用户不存在，请先注册！"
+      notice = "用户不存在或者已被停用，请先注册！"
     else
       if teacher && teacher.has_password?(password)
         cookies[:teacher_id]={:value => teacher.id, :path => "/", :secure  => false}
@@ -174,6 +174,11 @@ class WelcomeController < ApplicationController
           flash[:notice] = "登陆成功！"
           redirect_path = "/school_classes/#{@school_class.id}/main_pages"
         end
+      else
+        flash[:notice] = "登陆成功！"
+        status = true
+        last_visit_class = false
+        redirect_path = "/welcome/first"
       end
     elsif teacher.school_admin?
       flash[:notice] = "登陆成功！"

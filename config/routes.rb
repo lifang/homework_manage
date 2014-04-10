@@ -7,11 +7,6 @@ HomeworkManage::Application.routes.draw do
       get :reply_page_change,:delete_micropost,:delete_micropost_reply,:delete_micropost,:add_reply_page,:particate_reply_show
     end
   end
- 
-  resources :test do
-    collection do
-    end
-  end
 
   post "/share_questions/view"
   # The priority is based upon order of creation:

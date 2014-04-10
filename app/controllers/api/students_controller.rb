@@ -480,8 +480,7 @@ class Api::StudentsController < ApplicationController
               else
                 user = User.create(:name => name, :avatar_url => avatar_url)
                 student.update_attributes(:user_id => user.id)
-              end  
-              render :json => {:status => "success", :notice => "登记成功!"} 
+              end 
             end 
           else
             # Student.transaction do

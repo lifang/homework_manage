@@ -8,7 +8,6 @@ class SchoolManage::QuotaConsumptionsController < ApplicationController
     teacher_id = cookies[:teacher_id]
   	@teacher = Teacher.find_by_id teacher_id
     @school = School.find_by_id @teacher.school_id
-    @quota_consumptions = []
     @quota_consumptions = School.quota_consumptions_list @teacher.school_id
   end 	
 

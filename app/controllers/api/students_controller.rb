@@ -5,6 +5,7 @@ include REXML
 require 'json'
 include MethodLibsHelper
 class Api::StudentsController < ApplicationController
+  skip_before_filter :get_teacher_infos,:get_unread_messes
   #  发布消息
   def news_release
     content = params[:content] 

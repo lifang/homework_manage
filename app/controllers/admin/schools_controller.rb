@@ -1,7 +1,7 @@
 #encoding: utf-8
 class Admin::SchoolsController < ApplicationController
 	layout "admin"
-  skip_before_filter :get_teacher_infos
+  skip_before_filter :get_teacher_infos,:get_unread_messes
   before_filter :check_if_sysadmin, :only => [:index]
 	def index
     @schools_name = params[:schools_name]
@@ -90,7 +90,7 @@ class Admin::SchoolsController < ApplicationController
   def is_enable
     school_id = params[:school_id]
     school = School.find_by_id school_id
-    teacher = Teacher.find_by_school_id school_id
+    teacher = Teacher.find_by_school_id_and_types school_id,Teacher::TYPES[:SCHOOL]
     if school
       if school.status
         school.update_attributes(:status=>School::STATUS[:DELETE])

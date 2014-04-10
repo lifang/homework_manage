@@ -7,7 +7,7 @@
   <div class="controller">
     <div class="controller_head">
       <a href="javascript:void(0)" class="addController_btn_a" onclick="$('#teacher_admin_create').show();">新建教师</a>
-      <div class="search"><button></button><input name="" type="text"/></div>
+      <div class="search"><button onclick="sercher_teacher(this)"></button><input name="teacher_name" type="text" value="<%= @teacher_name if  @teacher_name%>"/></div>
     </div>
     <div class="controller_body">
       <%= render :partial => 'teacher_list' %>

@@ -4,7 +4,6 @@ require 'fileutils'
 require "mini_magick"
 include MethodLibsHelper
 class TeachersController < ApplicationController
-  before_filter :sign?, :get_unread_messes
   before_filter :get_school_class
   #教师创建班级
   def create_class
@@ -77,7 +76,7 @@ class TeachersController < ApplicationController
   end
   #  进入设置页面
   def teacher_setting
-    @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
+    @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id).where("school_classes.period_of_validity>now()")
     @schoolclass = SchoolClass.find(current_teacher.last_visit_class_id)
     @user = User.find(current_teacher.user_id)
     @teachingmaterial = TeachingMaterial.all
@@ -137,7 +136,7 @@ class TeachersController < ApplicationController
 from school_classes sc where sc.id=?"
     @schoolclass = SchoolClass.find_by_sql([sql_schoolclass,school_class_id,school_class_id]).first
     school_class = SchoolClass.find_by_id(params[:id])
-    @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
+    @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id).where("school_classes.period_of_validity>now()")
     if school_class && school_class.destroy
       flash[:notice] = "操作成功!"
       @status = 1

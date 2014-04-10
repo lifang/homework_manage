@@ -30,7 +30,13 @@
 # 	SchoolClassStudentRalastion.create(:student_id => id, :school_class_id =>1)
 # end
 
+teacher = Teacher.find_by_types(Teacher::TYPES[:SYSTEM])
+unless teacher
+  user = User.create({:name => "sys_admin", :avatar_url => "/assets/default_avater.jpg"})
+  Teacher.create({:email => "mailer@comdosoft.com", :status => Teacher::STATUS[:YES],
+      :password =>  Digest::SHA2.hexdigest("admin123"),
+      :types => Teacher::TYPES[:SYSTEM], :user_id => user.id})
 
-StudentAnswerRecord.create(:student_id => 1, :school_class_id => 1, :publish_question_package_id => 1, :average_correct_rate => 0,
-			:average_complete_rate =>0)
+end
+
 

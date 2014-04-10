@@ -1,6 +1,5 @@
 #encoding:utf-8
 class MainPagesController < ApplicationController
-  before_filter :sign?, :get_unread_messes
   before_filter :get_school_class
   def index
     @class_index =-1

@@ -2,7 +2,6 @@
 include QuestionPackagesHelper
 include MethodLibsHelper
 class QuestionPackagesController < ApplicationController
-  before_filter :sign?, :get_unread_messes
   before_filter :get_cells_and_episodes, :only => [:new, :render_new_question]
   before_filter :get_school_class
   def index

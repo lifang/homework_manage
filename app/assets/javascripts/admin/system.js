@@ -78,6 +78,16 @@ function tishi(message){
 
 }
 
+//阻止冒泡
+function stopPropagation(e) {
+    e = e || window.event;
+    if(e.stopPropagation) { //W3C阻止冒泡方法
+        e.stopPropagation();
+    } else {
+        e.cancelBubble = true; //IE阻止冒泡方法
+    }
+}
+
 //popup
 function popup(t){
     var scolltop = document.body.scrollTop|document.documentElement.scrollTop; //滚动条高度

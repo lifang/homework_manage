@@ -155,7 +155,7 @@ function check_admin_info(obj)
     var course_select = $(obj).parents("form").find(".course_select").val(); 
     var material_select = $(obj).parents("form").find(".material_select").val(); 
     var email = $(obj).parents("form").find(".email").val(); 
-    var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+    var email_reg = /^([a-zA-Z0-9]+[_|\_|\.\-]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}(\.[a-zA-Z]{2,2}){0,1}$/;
     if(name == "" || course_select == "" || material_select == "" || email == "")
     {
         tishi("管理员名称、课程、教材、邮箱不能为空！");

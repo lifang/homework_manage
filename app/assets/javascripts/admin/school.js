@@ -39,7 +39,7 @@ function validation_number(obj){
 }
 // 新建 学校
 function system_new_school(obj){
-    var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+    var email_reg = /^([a-zA-Z0-9]+[_|\_|\.\-]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}(\.[a-zA-Z]{2,2}){0,1}$/;
     var system_new_school = $(obj).parents("#system_new_school");
     var school_name = system_new_school.find("input[name='school_name']").val();
     var school_students_count = system_new_school.find("input[name='school_students_count']").val();

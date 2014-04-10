@@ -20,7 +20,8 @@
           <td><%= teacher.email %>/******</td>
           <td><a href="javascript:void(0);" class="reset_a tooltip_html" onclick="reset_teacher_password(this,<%= teacher.id %>)">重置密码</a></td>
           <td><a href="javascript:void(0);" class="transfer_a tooltip_html" onclick="show_class_transfer(this)">过户</a></td>
-          <td><a href="javascript:void(0);" class="blockUp_a tooltip_html">停用</a></td>
+          <td><a href="javascript:void(0);" class="<%= teacher.status==0 ? "blockUp_a" : "blockUp_a_ed" %>  tooltip_html" onclick="is_disable(this,<%= teacher.id %>)">
+              <%= teacher.status==0 ? "停用" : "启用" %></a></td>
         </tr>
       <% end if @teachers  %>
       <tr>

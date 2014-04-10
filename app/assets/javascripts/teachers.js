@@ -274,6 +274,9 @@ function onclick_submit(obj){
         if(left_lianxian1==""|| right_lianxian1==""||left_lianxian2==""||right_lianxian2==""||left_lianxian3==""||right_lianxian3==""){
             tishi("连线内容不能为空！");
             return false;
+        }else if (left_lianxian1>100||right_lianxian1>100||left_lianxian2>100||right_lianxian2>100||left_lianxian3>100||right_lianxian3>100){
+            tishi("字符长度不能超过100");
+            return false;
         }
     }
     $(obj).parent().parent().find(".submit_sava").click();

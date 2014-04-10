@@ -31,7 +31,6 @@ class Admin::SchoolsController < ApplicationController
       else
         School.transaction do
           password =random(6)
-          p password
           school = School.create(:name =>school_name,:students_count=> school_students_count,:status => School::STATUS[:NORMAL],:used_school_counts => 0 )
           user = User.create(:name => school_name,:avatar_url => avatar_url)
           teacher = Teacher.create(:password => password,:email => email,:types => Teacher::TYPES[:SCHOOL],:status=>Teacher::STATUS[:YES],

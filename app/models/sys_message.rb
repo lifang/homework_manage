@@ -1,3 +1,3 @@
 class SysMessage < ActiveRecord::Base
-  PER_PAGE = 2
+  PER_PAGE = 10
 end

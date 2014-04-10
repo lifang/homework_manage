@@ -45,6 +45,7 @@ function set_stu_active_status_commit(student_id, type){    //设置停用或启
                             a.attr("class", "blockUp_a_ed tooltip_html");
                             a.attr("onclick", "set_stu_active_status('"+student_id+"', 'open')");
                             a.text("启用");
+                            a.parent().prev().text("未激活");
                         }
                     })
                 }else{
@@ -55,7 +56,8 @@ function set_stu_active_status_commit(student_id, type){    //设置停用或启
                             a.removeAttr("onclick");
                             a.attr("class", "blockUp_a tooltip_html");
                             a.attr("onclick", "set_stu_active_status('"+student_id+"', 'close')");
-                            a.text("停用")
+                            a.text("停用");
+                            a.parent().prev().text("已激活")
                         }
                     })
                 }
@@ -76,17 +78,23 @@ function search_student(){  //搜索学生
     window.location.href="/school_manage/student_manages?student_name="+name;
 }
 
+
+function import_stu_xls(){
+    popup("#import_student_div");
+}
+
 function import_stu_xls_valid(obj){ //导入学生表格验证
-    var file_name = $(obj).val();
+    var file_name = $("#stu_list_form").val();
     var point_type = file_name.substring(file_name.lastIndexOf(".")).toLowerCase();
     var type = point_type.substring(1, point_type.length);
     if(type != "xls" && type != "xlsx"){
         tishi("请上传正确的表格文件,文件格式必须为'xls'或者'xlsx'!");
-        $(obj).val("");
+        $("#stu_list_form").val("");
     }else{
+        $("#import_student_div").hide();
+        $(".mask").hide();
         $("#waiting_warning").find("p").first().text("文件上传中，请稍后...");
         popup("#waiting_warning");
         $(obj).parents("form").submit();
     }
-
 }

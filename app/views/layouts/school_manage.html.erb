@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <title>HomeworkManage</title>
     <%= stylesheet_link_tag   "/assets/admin/jqtransform.css", "/assets/school_manage/school.css", :media => "all"  %>
-    <%= javascript_include_tag "application", "/assets/school_manage/school.js","/assets/school_manage/teacher_manage.js", "/assets/admin/jquery.jqtransform.js" , "/assets/school_manage/quota_consumptions.js" ,"/assets/school_manage/student_manages.js"%>
+    <%= javascript_include_tag "application", "/assets/admin/system.js","/assets/school_manage/teacher_manage.js", "/assets/admin/jquery.jqtransform.js" , "/assets/school_manage/quota_consumptions.js" ,"/assets/school_manage/student_manages.js"%>
     <%= javascript_include_tag %>
     <%= csrf_meta_tags %>
     <!--美化select-->
@@ -19,7 +19,8 @@
       <a href="javascript:void(0)" class="x"></a>
       <p></p>
     </div>
-
+    <div class="mask"></div>
+    <%=render 'layouts/admin_user_info'%>
     <div class="wrap">
       <div class="head clearAfter">
         <%=render 'layouts/school_manage_nav'%>
@@ -28,7 +29,6 @@
         <%= yield %>
       </div>
     </div>
-    <div class="mask"></div>
     <% if flash[:notice] %>
       <script>
         tishi('<%= flash[:notice] %>')

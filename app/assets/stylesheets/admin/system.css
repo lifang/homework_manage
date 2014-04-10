@@ -318,6 +318,48 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 .form_list li .jqTransformSelectWrapper ul li { padding: 0; margin: 0; width: 100%; line-height: normal;}
 .system{display: none;}
 
+
+/*用户信息tab*/
+.tab_user {
+    width: 330px;
+    padding: 20px;
+    background: #FFF;
+    box-shadow: 0px 0px 5px rgba(51,51,51,0.8);
+    border-radius: 5px;
+    position: absolute;
+    display: none;
+}
+.tab_user h1 { text-align: right; line-height: 36px; font-size: 18px; font-weight: normal;}
+.tab_user_box { overflow: hidden;}
+
+
+.tab_user_box { width: 300px; padding: 0 10px; overflow: hidden;}
+.tab_user_box li {}
+.tab_user_box li label { display: block; line-height: 32px;}
+.tab_user_box li input {
+    border: 1px #36c77b solid;
+    height: 32px;
+    line-height: 32px;
+    width: 280px;
+    padding: 0 10px;
+}
+.tab_user_box li input[disabled] { background: #e4f4ea;}
+
+.tab_user_btn, .tab_out_btn { margin: 10px 0; text-align: center; padding: 10px;}
+.tab_user_btn button{
+    padding: 10px 50px;
+    display: inline-block;
+    color: #FFF;
+    background: #36c77b;
+}
+.tab_out_btn { border-top: 1px #dbdcdc solid; padding-top: 20px;}
+.tab_out_btn button, .tab_out_btn a.logout {
+    padding: 10px 50px;
+    display: inline-block;
+    color: #FFF;
+    background: #fb393c;
+}
+
 /*弹出提示逐渐消失*/
 .tab_Prompt {
     width: 300px;

@@ -2,7 +2,7 @@
 class WelcomeController < ApplicationController
   include MethodLibsHelper
   layout 'welcome'
-  skip_before_filter :get_teacher_infos, :sign?, :get_unread_messes
+  skip_before_filter :sign?, :get_unread_messes
 
   #教师登陆
   def login
@@ -34,6 +34,7 @@ class WelcomeController < ApplicationController
     cookies.delete(:teacher_id)
     cookies.delete(:user_id)
     cookies.delete(:student_has_ungrouped) if cookies[:student_has_ungrouped]
+    flash[:notice] = flash[:notice]
     redirect_to "/"
   end
   #教师注册

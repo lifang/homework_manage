@@ -5,7 +5,11 @@ class SchoolManage::QuotaConsumptionsController < ApplicationController
   before_filter :check_if_schooladmin, :only => [:index]
 
   def index
-  	@teacher = Teacher.where("types = #{Teacher::TYPES[:SCHOOL]}").first
+    teacher_id = cookies[:teacher_id]
+  	@teacher = Teacher.find_by_id teacher_id
+    @school = School.find_by_id @teacher.school_id
+    @quota_consumptions = []
+    @quota_consumptions = School.quota_consumptions_list @teacher.school_id
   end 	
 
   #加载购买配额页面

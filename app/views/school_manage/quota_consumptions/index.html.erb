@@ -5,7 +5,7 @@
           <div class="quotaLoading">
               <ul>
                   <li class="quotaLoading_bg"><p style="width: 50%;"></p></li>
-                    <li>80/100</li>
+                    <li><%= @school.used_school_counts %>/<%= @school.students_count %></li>
                 </ul>
             </div>
         </div>
@@ -21,36 +21,31 @@
                   </tr>
                   </thead>
                   <tbody>
+                  <% @quota_consumptions.each do |record| %>
                   <tr>
-                    <td>王丽丽</td>
-                    <td>202458</td>
-                    <td>2</td>
-                    <td>2014-02-15</td>
+                    <td><%= record.name %></td>
+                    <td><%= record.s_no %></td>
+                    <td><%= record.class_name %></td>
+                    <td><%= record.created_at.strftime("%Y-%m-%d")%></td>
                   </tr>
-                  <tr>
-                    <td>王丽丽</td>
-                    <td>202458</td>
-                    <td>2</td>
-                    <td>2014-02-15</td>
-                  </tr>
-                  <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                  </tr>
+                  <% end %>
                   </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<%= will_paginate @quota_consumptions, :next_label => "下一页", :previous_label => "上一页", :class => "pageTurn"%>
+<script>
+  $(document).ready(function(){
+    var used_school_counts = <%= @school.used_school_counts%>;
+    var students_count = <%= @school.students_count %>;
+    var m_width = $(".quotaLoading_bg").width();
+    var width =  m_width*used_school_counts/students_count;
+    $(".quotaLoading_bg").find("p").css("width",width);
+  })
+</script>
 
 <div class="tab" style="display:none;" id="quota_consumptions">
 </div>

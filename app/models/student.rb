@@ -82,5 +82,85 @@ where scsr.tag_id IS NULL and school_class_id = ?"
     @student_notags = Student.find_by_sql([sql_notag_student,school_class_id])
   end
 
-  
+  def self.upload_student_list_xls school_id, student_list_xls #解析表格文件并且存入数据库
+    file_path, max_code = upload_student_list_xls_file(school_id, student_list_xls)
+    status = 1
+    if file_path == ""
+      status = 0
+    else
+      file_type = file_path.split(".").reverse[0]
+      begin
+        if file_type == "xls"
+          s = Roo::Excel.new(file_path)
+        elsif file_type == "xlsx"
+          s = Roo::Excelx.new(file_path)
+        end
+        s.default_sheet = s.sheets.first  #默认第一页卡(sheet1)
+        s.each_with_index do |row, index|
+          if index != 0
+            if row[0] && row[1]
+              user = User.create(:name => row[0])
+              student = Student.create(:nickname => row[0], :status => Student::STATUS[:YES], :user_id => user.id,
+                :s_no => row[1], :active_status => ACTIVE_STATUS[:NO], :school_id => school_id, :veri_code => max_code)
+              str = ""
+              if student.id < 10
+                str = "00000#{student.id}"
+              elsif student.id >= 10 && student.id < 100
+                str = "0000#{student.id}"
+              elsif student.id >= 100 && student.id < 1000
+                str = "000#{student.id}"
+              elsif student.id >= 1000 && student.id < 10000
+                str = "00#{student.id}"
+              elsif student.id >= 10000 && student.id < 100000
+                str = "0#{student.id}"
+              else
+                str = "#{student.id}"
+              end
+              student.update_attribute("active_code", "#{max_code}#{str}")
+            end
+          end
+        end
+        StudentVeriCode.create(:code => max_code)
+      rescue
+        File.delete(file_path) if File.exist?(file_path)
+        status = 0
+      end
+    end
+    return [status, max_code]
+  end
+
+  def self.upload_student_list_xls_file school_id, student_list_xls  #上传学生表格文件到服务器
+    root_path = "#{Rails.root}/public/"
+    ori_file_name = student_list_xls.original_filename
+    mc = StudentVeriCode.find_by_sql(["select max(code) m_code from student_veri_codes"]).first
+    if mc.m_code.nil?
+      max_code = 1001
+    else
+      max_code = mc.m_code + 1
+    end
+    dirs = ["/students_xls", "/#{school_id}", "/#{max_code}"]
+    file_name = "#{dirs.join}/#{max_code}.#{ori_file_name.split(".").reverse[0]}"
+    path = ""
+    begin
+      dirs.each_with_index{|d,index| Dir.mkdir(root_path + dirs[0..index].join) unless File.directory?(root_path + dirs[0..index].join)}
+      File.open(root_path+ file_name, "wb") { |i| i.write(student_list_xls.read) }    #存入表格xls文件
+      path = root_path+ file_name
+    rescue
+      path = ""
+    end
+    return [path, max_code]
+  end
+
+  def self.make_student_list_xls_report students    #生成学生激活码表格单
+    xls_report = StringIO.new
+    Spreadsheet.client_encoding = "UTF-8"
+    book = Spreadsheet::Workbook.new
+    sheet1 = book.create_worksheet :name => "学生激活码清单"  #页卡
+    sheet1.row(0).concat %w{姓名 学号 激活码}
+    students.each_with_index do |s, index|
+      sheet1.row(index + 1).concat ["#{s.nickname}", "#{s.s_no}", "#{s.active_code}"]
+    end
+    book.write xls_report
+    xls_report.string
+  end
 end

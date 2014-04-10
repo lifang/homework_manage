@@ -442,7 +442,7 @@ class Api::StudentsController < ApplicationController
     verification_code = params[:verification_code]
     student = Student.find_by_qq_uid qq_uid
     school_class = SchoolClass.find_by_verification_code(verification_code)
-    if !school_class.nil?
+    if !school_class.nil?  
       if school_class.status == SchoolClass::STATUS[:EXPIRED] ||
           school_class.period_of_validity - Time.now <= 0
         render :json => {:status => "error", :notice => "班级已失效！"}
@@ -478,6 +478,19 @@ class Api::StudentsController < ApplicationController
             student.user_prop_relations.create(:prop_id => prop.id, :user_prop_num => Prop::DefaultPropNumber,
                                                :school_class_id => school_class.id)
           end
+          #如果该班级教师属于某个学校的,则减去该学校的配额
+          if school_class.teacher.school_id.present?
+            school = School.find_by_id school_class.teacher.school_id
+            if school && (school.students_count - school.used_school_counts) > 0
+              school.update_attributes(:used_school_counts => school.used_school_counts - 1)
+              SchoolClassStudentsRelation.create(:school_id => school.id, :school_class_id => school_class.id,
+                              :student_id => student.id)
+            else
+              notice = "配额不足,请联系学校管理员申请学生配额!"
+              status = "error"
+              render :json => {:status => status, :notice => notice}
+            end 
+          end  
         end
         class_id = school_class.id
         class_name = school_class.name
@@ -766,6 +779,19 @@ class Api::StudentsController < ApplicationController
               student.user_prop_relations.create(:prop_id => prop.id, :user_prop_num => Prop::DefaultPropNumber,
                                                  :school_class_id => school_class.id)
             end
+            #如果创建该班级教师属于某个学校的,则减去该学校的配额
+            if school_class.teacher.school_id.present?
+              school = School.find_by_id school_class.teacher.school_id
+              if school && (school.students_count - school.used_school_counts) > 0
+                school.update_attributes(:used_school_counts => school.used_school_counts - 1)
+                SchoolClassStudentsRelation.create(:school_id => school.id, :school_class_id => school_class.id,
+                                :student_id => student.id)
+              else
+                notice = "配额不足,请联系学校管理员申请学生配额!"
+                status = "error"
+                render :json => {:status => status, :notice => notice}
+              end 
+            end 
             class_id = school_class.id
             class_name = school_class.name
             tearcher_id = school_class.teacher.id

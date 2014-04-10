@@ -6,7 +6,7 @@ class SchoolManage::PasswordsController < ApplicationController
     Teacher.transaction do
       if current_teacher && current_teacher.has_password?(old_pwd)
         current_teacher.update_attributes(:password => Digest::SHA2.hexdigest(new_pwd))
-        flash[:notice] = "请重新登录!"
+        flash[:notice] = "密码已改变，请重新登录!"
         notice = "密码修改成功！"
         status = true
       else

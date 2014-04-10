@@ -100,7 +100,7 @@ where scsr.tag_id IS NULL and school_class_id = ?"
         s.default_sheet = s.sheets.first  #默认第一页卡(sheet1)
         s.each_with_index do |row, index|
           if index != 0
-          s_no_ele = row[1].class.to_s == "String" ? row[1] : row[1].to_i
+          s_no_ele = row[1].class.to_s == "String" ? row[1] : "#{row[1].to_i}"
           unique_s_no << s_no_ele
           end
         end
@@ -115,7 +115,7 @@ where scsr.tag_id IS NULL and school_class_id = ?"
               if row[0] && row[1]
                 user = User.create(:name => row[0])
                 student = Student.create(:nickname => row[0], :status => Student::STATUS[:YES], :user_id => user.id,
-                  :s_no => row[1].class.to_s == "String" ? row[1] : row[1].to_i,
+                  :s_no => row[1].class.to_s == "String" ? row[1] : "#{row[1].to_i}",
                   :active_status => ACTIVE_STATUS[:NO], :school_id => school_id, :veri_code => max_code)
                 str = ""
                 if student.id < 10

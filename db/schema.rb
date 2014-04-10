@@ -11,12 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140410044833) do
+ActiveRecord::Schema.define(:version => 20140410064927) do
 
   create_table "admin_messages", :force => true do |t|
-    t.integer "sender_id"
-    t.integer "receiver_id"
-    t.string  "content"
+    t.integer  "sender_id"
+    t.integer  "receiver_id"
+    t.string   "content"
+    t.boolean  "status"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "admin_messages", ["receiver_id"], :name => "index_admin_messages_on_receiver_id"

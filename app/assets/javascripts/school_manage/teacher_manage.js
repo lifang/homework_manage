@@ -96,36 +96,53 @@ function confirm_transfer(obj){
         }
     })
 }
+// 提示是否启用或者禁用
+function tishi_is_able(obj,teacher_id){
+    var content_tishi = "";
+    if($(obj).attr("class").indexOf("blockUp_a_ed")>=0){
+        content_tishi = "启用"
+    }else{
+        content_tishi = "停用";
+    }
+    $("#shifoutingyong").find(".tab_head").text(content_tishi + "教师");
+    $("#shifoutingyong").find(".tab_warning").text("确认"+content_tishi + "改教师吗？");
+    $("#shifoutingyong").find("button").attr("onclick","is_disable(this,"+teacher_id+")");
+    $("#shifoutingyong").show();
+}
 
 // 是否禁用教师
 function is_disable(obj,teacher_id){
-    var content_tishi = "";
-    if($(obj).attr("class").indexOf("blockUp_a_ed")>=0){
-        content_tishi = "确认启用？"
-    }else{
-        content_tishi = "确认停用？";
-    }
-    if(confirm(content_tishi)){
-        $.ajax({
-            url : "/school_manage/teacher_manages/is_disable",
-            dataType : "json",
-            type : "post",
-            data : {
-                teacher_id : teacher_id
-            },
-            success : function(data){
-                if(data.status==1){
-                    $(obj).attr("class","blockUp_a_ed tooltip_html");
-                    tishi(data.notice);
-                }else if (data.status==2){
-                    $(obj).attr("class","blockUp_a tooltip_html");
-                    tishi(data.notice);
-                }else{
-                    tishi(data.notice);
-                }
+    //    var content_tishi = "";
+    //    if($(obj).attr("class").indexOf("blockUp_a_ed")>=0){
+    //        content_tishi = "确认启用？"
+    //    }else{
+    //        content_tishi = "确认停用？";
+    //    }
+    //    if(confirm(content_tishi)){
+    $.ajax({
+        url : "/school_manage/teacher_manages/is_disable",
+        dataType : "json",
+        type : "post",
+        data : {
+            teacher_id : teacher_id
+        },
+        success : function(data){
+            if(data.status==1){
+                $("a[teacher_id="+ teacher_id +"]").attr("class","blockUp_a_ed tooltip_html");
+                //                    $(obj).attr("class","blockUp_a_ed tooltip_html");
+                tishi(data.notice);
+                 $("#shifoutingyong").hide();
+            }else if (data.status==2){
+                $("a[teacher_id="+ teacher_id +"]").attr("class","blockUp_a tooltip_html");
+                //                    $(obj).attr("class","blockUp_a tooltip_html");
+                tishi(data.notice);
+                 $("#shifoutingyong").hide();
+            }else{
+                tishi(data.notice);
             }
-        })
-    }
+        }
+    })
+//    }
 }
 //搜索老师
 function sercher_teacher(obj){

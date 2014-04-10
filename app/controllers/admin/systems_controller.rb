@@ -2,6 +2,7 @@
 class Admin::SystemsController < ApplicationController
   layout "admin"
   skip_before_filter :get_teacher_infos,:get_unread_messes
+  before_filter :get_admin_unread_messes, :only => [:delete_messages]
 
   def reset_password
     sys_user = Teacher.find_by_id params[:teacher_id]
@@ -22,5 +23,11 @@ class Admin::SystemsController < ApplicationController
       sys_user.update_attribute(:status, Teacher::STATUS[:YES])
     end
   end
-  
+
+  def delete_messages
+    AdminMessage.transaction do
+        @unread_messes.update_all(status:AdminMessage::STATUS[:READED])
+    end
+  end
+
 end

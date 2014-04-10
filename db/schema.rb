@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140409064514) do
+ActiveRecord::Schema.define(:version => 20140409092051) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer "sender_id"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(:version => 20140409064514) do
   add_index "archivements_records", ["student_id"], :name => "index_archivements_records_on_student_id"
 
   create_table "branch_questions", :force => true do |t|
-    t.string   "content"
+    t.string   "content",      :limit => 1000
     t.integer  "types"
     t.string   "resource_url"
     t.integer  "question_id"

@@ -19,7 +19,7 @@ class Teacher < ActiveRecord::Base
 
   PER_PAGE = 2
   Types_arr.each do |type|
-    define_method "#{type.to_s.downcase}?" do
+    define_method "#{type.to_s.downcase}_admin?" do
       self.types == TYPES[type]
     end
   end

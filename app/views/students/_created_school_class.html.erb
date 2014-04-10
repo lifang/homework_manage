@@ -5,17 +5,31 @@
   <div class="tab_setClass">
     <ul>
       <li>
-        <div class="select_box">
+        <div class="select_box select_course">
           <div class="rowElem">
-            <select name="teaching_material_id" >
-              <option value="opt1">选择教材</option>
-              <% @teachingmaterial.each   do |teachingmaterial| %>
-                <option value="<%= teachingmaterial.id%>"><%= teachingmaterial.name %></option>
+            <select name="course_id" onchange="showTeachMaterial(this)">
+              <option value="opt1">选择科目</option>
+              <% @courses.each do |course| %>
+                <option value="<%= course.id%>"><%= course.name %></option>
               <% end %>
             </select>
           </div>
         </div>
       </li>
+      <% @teachingmaterial.each do |course_id, teachingmaterials| %>
+        <li class="select_tm" data-courseid="<%= course_id %>">
+          <div class="select_box">
+            <div class="rowElem">
+              <select name="teaching_material_id">
+                <option value="opt1">选择教材</option>
+                <% teachingmaterials.each do |teachingmaterial| %>
+                  <option value="<%= teachingmaterial.id%>"><%= teachingmaterial.name %></option>
+                <% end %>
+              </select>
+            </div>
+          </div>
+        </li>
+      <% end %>
       <li><input name="class_name" type="text" placeholder="班级名称"/></li>
       <li>
         <input name="period_of_validity" type="text" placeholder="请选择时间" id="started_at" value=""class="Wdate" readonly onclick="WdatePicker({dateFmt:'yyyy-MM-dd',autoPickDate:true,minDate:'%y-%M-%d',onpicked:function(dp){}})"/>

@@ -5,13 +5,13 @@
 <div class="tab_body clearAfter">
   <div class="form_list">
       <ul>
-            <li><a href="#" class="reduce_a tooltip_html">减少</a>
-            <input name="" type="text">
-            <a href="#" class="add_a tooltip_html">增加</a>
+            <li><a href="javascript:void(0)"  onclick="reduce_a(this)" class="reduce_a tooltip_html">减少</a>
+            <input name="number" type="text" value="1" class="number">
+            <a href="javascript:void(0)" onclick="add_a(this)" class="add_a tooltip_html">增加</a>
             </li>
         </ul>
     </div>
 </div>
-<input type="hidden" value="<%= @teacher_id %>" >
-<div class="tab_btn"><button type="button" onclick="">确定</button></div>
+<input name="teacher_id" type="hidden" value="<%= @teacher_id %>" class="teacher_id">
+<div class="tab_btn"><button type="button"  class="submit_apply_quota_consumptions" onclick="check_apply_quota_consumptions(this)">确定</button></div>
 <% end %>

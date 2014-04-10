@@ -1,0 +1,7 @@
+<% if @status == true %>
+	$("#quota_consumptions").hide();
+	$(".mask").hide();
+<% else%>
+	$(".submit_apply_quota_consumptions").removeAttr("disabled");
+<% end %>
+tishi('<%= @notice %>');

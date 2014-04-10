@@ -637,16 +637,18 @@ function check_value()
 }
 
 //检查班级信息
-function check_class_info()
+function check_class_info(obj)
 {
-    teaching_material_id = $.trim($("#teaching_material_id").val());
-    class_name = $.trim($("#class_name").val());
-    period_of_validity = $.trim($("#period_of_validity").val());
-
-    if(teaching_material_id == 0 || class_name == "" || period_of_validity == "")
-        tishi('信息填写不完整不能为空！');
+    var course_id = $.trim($("#class_course_id").val());
+    var tm_id = $.trim($("#class_tm_id").val());
+    var class_name = $.trim($("#class_name").val());
+    var period_of_validity = $.trim($("#period_of_validity").val());
+    if(course_id == "") tishi('请选择科目！');
+    else if(tm_id == "") tishi('请选择教材！');
+    else if(class_name == "") tishi('请输入名称！');
+    else if(period_of_validity == "") tishi('请选择结束时间！');
     else
-        $("#submit_class_info").click();
+        $(obj).parents("form").submit();
 }
 
 //删除题包

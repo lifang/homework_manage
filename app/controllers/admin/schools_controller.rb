@@ -1,6 +1,8 @@
 #encoding: utf-8
 class Admin::SchoolsController < ApplicationController
 	layout "admin"
+  skip_before_filter :get_teacher_infos
+  before_filter :check_if_sysadmin, :only => [:index]
 	def index
     @schools_name = params[:schools_name]
     schools_name = params[:schools_name].nil? || params[:schools_name] == "" ? nil : "%" + params[:schools_name].strip.to_s + "%"

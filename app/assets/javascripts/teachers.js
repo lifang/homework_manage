@@ -13,10 +13,21 @@ function created_new_class(){
     $(".created_new_class").show();
 }
 function create_school_class(school_class_id){
-    var teaching_material_id = $("select[name='teaching_material_id']").val();
+    var course_id = $("select[name='course_id']").val();
+    var teaching_material_id = $("li[data-courseid="+ course_id +"]").find("select").val();
     var class_name = $.trim($("input[name='class_name']").val());
     var period_of_validity = $("input[name='period_of_validity']").val();
     var message;
+    if(course_id == "opt1"){
+        message = "请选择科目"
+        tishi(message);
+        return false;
+    }
+    if(teaching_material_id == "opt1"){
+        message = "请选择教材"
+        tishi(message);
+        return false;
+    }
     if (class_name==""){
         message = "请输入班级名称"
         tishi(message);

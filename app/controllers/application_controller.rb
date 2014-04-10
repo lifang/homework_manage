@@ -1,3 +1,4 @@
+#encoding: utf-8
 class ApplicationController < ActionController::Base
   protect_from_forgery
   include ApplicationHelper
@@ -39,7 +40,9 @@ class ApplicationController < ActionController::Base
       @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id).where("school_classes.period_of_validity>now()")
       @schoolclass = SchoolClass.find(current_teacher.last_visit_class_id) if current_teacher.last_visit_class_id
       @user = User.find(current_teacher.user_id)
-      @teachingmaterial = TeachingMaterial.all
+      @courses = Course.all
+      teachingmaterial = TeachingMaterial.where(:course_id => @courses.map(&:id))
+      @teachingmaterial = teachingmaterial.group_by{|tm| tm.course_id}
     end
   end
 
@@ -58,4 +61,38 @@ class ApplicationController < ActionController::Base
     end
     new_audio_path
   end
+
+
+  #检查是否是系统管理员
+  def check_if_sysadmin
+    if cookies[:teacher_id]
+      teacher = Teacher.find cookies[:teacher_id]
+      unless teacher.system_admin?
+        cookies.delete(:teacher_id)
+        cookies.delete(:user_id)
+        flash[:notice] = "您没有权限访问此页面！"
+        redirect_to "/"
+      end
+    else
+      flash[:notice] = "请先登录"
+      redirect_to "/"
+    end
+  end
+
+  #检查是否是学校管理员
+  def check_if_schooladmin
+    if cookies[:teacher_id]
+      teacher = Teacher.find cookies[:teacher_id]
+      unless teacher.school_admin?
+        cookies.delete(:teacher_id)
+        cookies.delete(:user_id)
+        flash[:notice] = "您没有权限访问此页面！"
+        redirect_to "/"
+      end
+    else
+      flash[:notice] = "请先登录"
+      redirect_to "/"
+    end
+  end
+  
 end

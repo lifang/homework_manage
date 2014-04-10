@@ -1,41 +1,58 @@
-<div class="main">
-  <div class="controller">
-    <div class="controller_head">
-      <a href="javascript:void(0);" class="file_btn"><span>导入学生清单</span><input name="" multiple type="file"/></a>
-      <div class="search"><button></button><input name="" type="text"/></div>
-    </div>
-    <div class="controller_body">
-      <div class="b_table">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <thead>
+<div class="controller">
+  <div class="controller_head">
+    <a href="javascript:void(0);" class="file_btn"><span>导入学生清单</span>
+      <%= form_tag "/school_manage/student_manages", :method => "post", :multipart => true, :id => "import_student_form" do %>
+      <input type="hidden" name="school_id" value="<%= @school_id %>"/>
+      <input name="stu_list_form" multiple type="file" onchange="import_stu_xls_valid(this)"/>
+      <% end %>
+    </a>
+    <div class="search"><button onclick="search_student()"></button><input id="student_name" type="text" value="<%= @name.nil? || @name=="" ? "" : @name %>"/></div>
+  </div>
+  <div class="controller_body">
+    <div class="b_table">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" id="student_list_table">
+        <thead>
+          <tr>
+            <th>学生姓名</th>
+            <th>学号</th>
+            <th>激活码</th>
+            <th>激活状态</th>
+            <th>设置</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @students.each do |s| %>
             <tr>
-              <th>学生姓名</th>
-              <th>学号</th>
-              <th>激活码</th>
-              <th>激活状态</th>
-              <th>停用</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @students.each do |s| %>
-              <tr>
-                <td><%= s.uname %></td>
-                <td><%= s.s_no.nil? ? "无" : s.s_no %></td>
-                <td><%= s.active_code.nil? ? "无" : s.active_code %></td>
-                <td><%= s.active_status==true ? "已激活" : "未激活" %></td>
+              <td><%= s.uname %></td>
+              <td><%= s.s_no.nil? ? "无" : s.s_no %></td>
+              <td><%= s.active_code.nil? ? "无" : s.active_code %></td>
+              <td><%= s.active_status==true ? "已激活" : "未激活" %></td>
+              <td>
+                <input type="hidden" name="stu_id" value="<%= s.id %>"/>
                 <% if s.active_status.nil? || s.active_status==false%>
-                  <td><a href="javascript:void(0);" class="blockUp_a_ed tooltip_html" onclick="set_stu_active_status(this, '<%= s.id %>', 'open')">启用</a></td>
-                <% else %>
-                  <td><a href="javascript:void(0);" class="blockUp_a tooltip_html" onclick="set_stu_active_status(this, '<%= s.id %>', 'close')">停用</a></td>
+                  <a href="javascript:void(0);" class="blockUp_a_ed tooltip_html" onclick="set_stu_active_status('<%= s.id %>', 'open')">启用</a>
+                <% else %> 
+                  <a href="javascript:void(0);" class="blockUp_a tooltip_html" onclick="set_stu_active_status('<%= s.id %>', 'close')">停用</a>
                 <% end %>
-              </tr>
-            <% end if @students && @students.any? %>
-          </tbody>
-        </table>
-      </div>
+              </td>
+            </tr>
+          <% end if @students && @students.any? %>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
+<% if @students && @students.any? %>
+  <%= will_paginate  @students, :previous_label => "上一页", :next_label => "下一页", :class => "pageTurn"%>
+<% end %>
+
+<div class="tab" id="set_stu_active_status_div" style="display:none;">   <!--启用或者停用学生-->
+  <a href="javascript:void(0);" class="close">close</a>
+  <div class="tab_head"></div>
+  <div class="tab_warning"></div>
+  <div class="tab_btn"><button type="button">确定</button></div>
+</div>
+
 
 <div class="tab_Prompt" id="waiting_warning">  <!--文件上传等待框-->
   <p></p>

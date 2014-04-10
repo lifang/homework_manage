@@ -1,0 +1,12 @@
+<div class="right_side_mess">
+  <% if @unread_messes.any? %>
+    <a href="/admin/systems/delete_messages" class="side_mess_delete" data-remote="true" data-method="post" data-confirm="确定删除嘛？">全部删除</a>
+  <% end %>
+  <div class="side_mess_box">
+    <ul>
+      <% @unread_messes.each do |um| %>
+      <li><p><%= um.content.nil? ? "" : um.content.gsub(/\[|\]|;|\||/, "") %></p><p><%= um.created_at.nil? ? "" : um.created_at.strftime("%Y-%m-%d %H:%M") %></p></li>
+      <% end if @unread_messes.any? %>
+    </ul>
+  </div>
+</div>

@@ -85,6 +85,8 @@ where scsr.tag_id IS NULL and school_class_id = ?"
   def self.upload_student_list_xls school_id, student_list_xls #解析表格文件并且存入数据库
     file_path, max_code = upload_student_list_xls_file(school_id, student_list_xls)
     status = 1
+    unique_s_no = []
+    unique_str = ""
     if file_path == ""
       status = 0
     else
@@ -98,35 +100,49 @@ where scsr.tag_id IS NULL and school_class_id = ?"
         s.default_sheet = s.sheets.first  #默认第一页卡(sheet1)
         s.each_with_index do |row, index|
           if index != 0
-            if row[0] && row[1]
-              user = User.create(:name => row[0])
-              student = Student.create(:nickname => row[0], :status => Student::STATUS[:YES], :user_id => user.id,
-                :s_no => row[1], :active_status => ACTIVE_STATUS[:NO], :school_id => school_id, :veri_code => max_code)
-              str = ""
-              if student.id < 10
-                str = "00000#{student.id}"
-              elsif student.id >= 10 && student.id < 100
-                str = "0000#{student.id}"
-              elsif student.id >= 100 && student.id < 1000
-                str = "000#{student.id}"
-              elsif student.id >= 1000 && student.id < 10000
-                str = "00#{student.id}"
-              elsif student.id >= 10000 && student.id < 100000
-                str = "0#{student.id}"
-              else
-                str = "#{student.id}"
-              end
-              student.update_attribute("active_code", "#{max_code}#{str}")
-            end
+          s_no_ele = row[1].class.to_s == "String" ? row[1] : "#{row[1].to_i}"
+          unique_s_no << s_no_ele
           end
         end
-        StudentVeriCode.create(:code => max_code)
+        unique_stus = Student.where(["s_no in (?)", unique_s_no])
+        if unique_stus.length > 0
+          status = -1
+          unique_str = unique_stus.map(&:s_no).join(", ")
+        end
+        if status == 1
+          s.each_with_index do |row, index|
+            if index != 0
+              if row[0] && row[1]
+                user = User.create(:name => row[0])
+                student = Student.create(:nickname => row[0], :status => Student::STATUS[:YES], :user_id => user.id,
+                  :s_no => row[1].class.to_s == "String" ? row[1] : "#{row[1].to_i}",
+                  :active_status => ACTIVE_STATUS[:NO], :school_id => school_id, :veri_code => max_code)
+                str = ""
+                if student.id < 10
+                  str = "00000#{student.id}"
+                elsif student.id >= 10 && student.id < 100
+                  str = "0000#{student.id}"
+                elsif student.id >= 100 && student.id < 1000
+                  str = "000#{student.id}"
+                elsif student.id >= 1000 && student.id < 10000
+                  str = "00#{student.id}"
+                elsif student.id >= 10000 && student.id < 100000
+                  str = "0#{student.id}"
+                else
+                  str = "#{student.id}"
+                end
+                student.update_attribute("active_code", "#{max_code}#{str}")
+              end
+            end
+          end
+          StudentVeriCode.create(:code => max_code)
+        end
       rescue
         File.delete(file_path) if File.exist?(file_path)
         status = 0
       end
     end
-    return [status, max_code]
+    return [status, max_code, unique_str]
   end
 
   def self.upload_student_list_xls_file school_id, student_list_xls  #上传学生表格文件到服务器

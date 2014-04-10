@@ -32,6 +32,20 @@ class Teacher < ActiveRecord::Base
     self.status == STATUS[:NO]
   end
 
+  def self.manage_teacher_list school_id,teacher_name=nil,page
+    sql_teacher = 'select t.*,COUNT(DISTINCT sc.id) count_class, COUNT(DISTINCT scsr.id) count_student,u.name
+from teachers t left JOIN school_classes sc on t.id = sc.teacher_id left JOIN school_class_student_ralastions
+scsr on sc.id = scsr.school_class_id INNER JOIN users u on t.user_id = u.id where t.school_id = ? and t.types=? '
+    group_teacher_id = 'GROUP BY t.id'
+    if teacher_name.nil?
+      sql_teacher += group_teacher_id
+    else
+      sql_teacher += "and u.name like '#{teacher_name}' "  + group_teacher_id
+    end
+    @teachers = Teacher.paginate_by_sql([sql_teacher,school_id,Teacher::TYPES[:teacher]],:per_page => PER_PAGE, :page => page)
+    p @teachers
+  end
+
   def self.get_publish_question_packages school_class_id, page
     sql_str = "select q.id question_package_id, q.name, p.id publish_question_package_id,
       q.created_at, p.status status, p.end_time from question_packages q left join publish_question_packages p
@@ -83,10 +97,10 @@ class Teacher < ActiveRecord::Base
     end  
     p where_conddition
     admins = Teacher
-          .select("teachers.id, teachers.email, teachers.status, teachers.password, u.name, t.name material_name")
-          .joins("left join users u on teachers.user_id = u.id")
-          .joins("left join teaching_materials t on teachers.teaching_material_id = t.id")
-          .where(where_conddition).paginate(:page => page, :per_page => Teacher::PER_PAGE)
+    .select("teachers.id, teachers.email, teachers.status, teachers.password, u.name, t.name material_name")
+    .joins("left join users u on teachers.user_id = u.id")
+    .joins("left join teaching_materials t on teachers.teaching_material_id = t.id")
+    .where(where_conddition).paginate(:page => page, :per_page => Teacher::PER_PAGE)
     admins
   end  
 

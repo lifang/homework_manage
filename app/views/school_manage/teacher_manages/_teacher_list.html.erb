@@ -1,29 +1,32 @@
-<div class="b_table">
-  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-    <thead>
-      <tr>
-        <th>教师名称</th>
-        <th>执教班级数</th>
-        <th>执教学生数</th>
-        <th>账户信息</th>
-        <th>重置密码</th>
-        <th>过户</th>
-        <th>停用</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @teachers.each do |teacher| %>
+<div class="controller_body">
+  <div class="b_table">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <thead>
         <tr>
-          <td><%= teacher.name %></td>
-          <td><%= teacher.count_class %></td>
-          <td><%= teacher.count_student %></td>
-          <td><%= teacher.email %>/******</td>
-          <td><a href="javascript:void(0);" class="reset_a tooltip_html" onclick="reset_teacher_password(this,<%= teacher.id %>)">重置密码</a></td>
-          <td><a href="javascript:void(0);" class="transfer_a tooltip_html" onclick="show_class_transfer(this,<%= teacher.id %>)">过户</a></td>
-          <td><a href="javascript:void(0);" class="<%= teacher.status==0 ? "blockUp_a" : "blockUp_a_ed" %>  tooltip_html" onclick="is_disable(this,<%= teacher.id %>)">
-              <%= teacher.status==0 ? "停用" : "启用" %></a></td>
+          <th>教师名称</th>
+          <th>执教班级数</th>
+          <th>执教学生数</th>
+          <th>账户信息</th>
+          <th>重置密码</th>
+          <th>过户</th>
+          <th>停用</th>
         </tr>
-      <% end if @teachers  %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @teachers.each do |teacher| %>
+          <tr>
+            <td><%= teacher.name %></td>
+            <td><%= teacher.count_class %></td>
+            <td><%= teacher.count_student %></td>
+            <td><%= teacher.email %>/******</td>
+            <td><a href="javascript:void(0);" class="reset_a tooltip_html" onclick="reset_teacher_password(this,<%= teacher.id %>)">重置密码</a></td>
+            <td><a href="javascript:void(0);" class="transfer_a tooltip_html" onclick="show_class_transfer(this,<%= teacher.id %>)">过户</a></td>
+            <td><a href="javascript:void(0);" teacher_id="<%= teacher.id %>" class="<%= teacher.status==0 ? "blockUp_a" : "blockUp_a_ed" %>  tooltip_html" onclick="tishi_is_able(this,<%= teacher.id %>)">
+                <%= teacher.status==0 ? "停用" : "启用" %></a></td>
+          </tr>
+        <% end if @teachers  %>
+      </tbody>
+    </table>
+  </div>
 </div>
+<%= will_paginate @teachers, :previous_label => "上一页", :next_label => "下一页", :class => "pageTurn" %>

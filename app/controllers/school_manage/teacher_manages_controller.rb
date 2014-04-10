@@ -3,19 +3,16 @@ class SchoolManage::TeacherManagesController < ApplicationController
   layout "school_manage"
   skip_before_filter :get_teacher_infos,:get_unread_messes
   before_filter :check_if_schooladmin, :only => [:index]
+  before_filter :get_admin_unread_messes
+  
   def index
     @teacher_name = params[:teacher_name]
     teacher_name = params[:teacher_name].nil? || params[:teacher_name] == "" ? nil : "%" + params[:teacher_name].strip.to_s + "%"
-    sql_teacher = 'select t.*,COUNT(DISTINCT sc.id) count_class, COUNT(DISTINCT scsr.id) count_student,u.name
-from teachers t left JOIN school_classes sc on t.id = sc.teacher_id left JOIN school_class_student_ralastions
-scsr on sc.id = scsr.school_class_id INNER JOIN users u on t.user_id = u.id where t.school_id = ? and t.types=? '
-    group_teacher_id = 'GROUP BY t.id'
     if teacher_name.nil?
-      sql_teacher += group_teacher_id
+      @teachers = Teacher.manage_teacher_list current_teacher.school_id,params[:page] ||= 1
     else
-      sql_teacher += "and u.name like '#{teacher_name}' "  + group_teacher_id
+      @teachers = Teacher.manage_teacher_list current_teacher.school_id,teacher_name,params[:page] ||= 1
     end
-    @teachers = Teacher.find_by_sql([sql_teacher,current_teacher.school_id,Teacher::TYPES[:teacher]])
   end
 
   #  新建教师
@@ -41,6 +38,7 @@ scsr on sc.id = scsr.school_class_id INNER JOIN users u on t.user_id = u.id wher
         UserMailer.send_pwd_email(teacher_email, password, Teacher::TYPES[:teacher]).deliver
       end
     end
+    @teachers = Teacher.manage_teacher_list current_teacher.school_id,params[:page] ||= 1
   end
   #  重设密码
   def update_password

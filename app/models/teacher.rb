@@ -17,7 +17,7 @@ class Teacher < ActiveRecord::Base
   STATUS_NAME = {0 => '正常', 1 => "失效"}
   TEAVHER_URL = "/assets/default_avater.jpg"
 
-  PER_PAGE = 2
+  PER_PAGE = 10
   Types_arr.each do |type|
     define_method "#{type.to_s.downcase}_admin?" do
       self.types == TYPES[type]

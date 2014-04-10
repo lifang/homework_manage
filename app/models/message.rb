@@ -17,10 +17,10 @@ class Message < ActiveRecord::Base
       teachers = Teacher.where("status = #{Teacher::STATUS[:YES]}")
       teachers_id = teachers.map(&:user_id)
       if sender_id.to_i != reciver_id.to_i && sender_id.to_i != micropost.user_id  #某学生发布的问答，老师或者其他同学回复他
-        if_send = true
         m1_content = "[[" + sender.name + "]]回复了您的消息：;||;" + content
         push_content = "#{send_name}：#{content}"
         if micropost.user_id == reciver_id.to_i
+          if_send = true
           have_sended_user_ids << reciver_id.to_i
           student = Student.find_by_user_id reciver_id.to_i #直接发给楼主
           Message.create(:user_id => reciver_id, :content => m1_content, :micropost_id => micropost_id,
@@ -38,7 +38,8 @@ class Message < ActiveRecord::Base
       follow_microposts = FollowMicropost.find_all_by_micropost_id(micropost_id.to_i)  #关注此贴子的记录
       follow_users = follow_microposts.collect {|i| i.user_id }  #关注此贴子的所有人
 
-      if !if_send && !follow_users.include?(reciver_id.to_i) && sender_id.to_i != reciver_id.to_i
+     # if !if_send && !follow_users.include?(reciver_id.to_i) && sender_id.to_i != reciver_id.to_i
+      if !if_send && sender_id.to_i != reciver_id.to_i
         m2_content = "[[" + send_name + "]]回复了您：;||;" + content
         push_content = "#{send_name}：#{content}"
         have_sended_user_ids << reciver_id.to_i

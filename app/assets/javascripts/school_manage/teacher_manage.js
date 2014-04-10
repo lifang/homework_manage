@@ -1,4 +1,12 @@
-
+//阻止冒泡
+function stopPropagation(e) {
+    e = e || window.event;
+    if(e.stopPropagation) { //W3C阻止冒泡方法
+        e.stopPropagation();
+    } else {
+        e.cancelBubble = true; //IE阻止冒泡方法
+    }
+}
 //创建教师
 function admin_create_teacher(obj){
     var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;

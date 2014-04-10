@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
   include TeachersHelper
   include MicropostsHelper
-  before_filter :get_teacher_infos
+  before_filter :get_teacher_infos, :sign?, :get_unread_messes
 
   def save_into_folder(question_package, branch_question, file)
     media_path_url = "/public" + media_path % question_package.id

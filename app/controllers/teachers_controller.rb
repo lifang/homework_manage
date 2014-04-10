@@ -4,7 +4,6 @@ require 'fileutils'
 require "mini_magick"
 include MethodLibsHelper
 class TeachersController < ApplicationController
-  before_filter :sign?, :get_unread_messes
   before_filter :get_school_class
   #教师创建班级
   def create_class

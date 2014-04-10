@@ -1,7 +1,6 @@
 #encoding: utf-8
 class StudentsController < ApplicationController
   require 'will_paginate/array'
-  before_filter :sign?, :get_unread_messes
   before_filter :get_school_class
   def index
     @schoolclass = SchoolClass.find_by_id school_class_id

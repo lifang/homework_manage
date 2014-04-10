@@ -7,9 +7,10 @@ class SchoolManage::QuotaConsumptionsController < ApplicationController
 
   def index
     teacher_id = cookies[:teacher_id]
+    page = params[:page]
   	@teacher = Teacher.find_by_id teacher_id
     @school = School.find_by_id @teacher.school_id
-    @quota_consumptions = School.quota_consumptions_list @teacher.school_id
+    @quota_consumptions = School.quota_consumptions_list @teacher.school_id, page
   end 	
 
   #加载购买配额页面

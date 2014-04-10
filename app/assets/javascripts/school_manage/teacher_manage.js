@@ -70,9 +70,40 @@ function update_teacher_password(obj){
 }
 
 // 显示班级过户
-function show_class_transfer(obj){
-    $("#class_transfer").show();
-
+function show_class_transfer(obj,teacher_id){
+    $.ajax({
+        url : "/school_manage/teacher_manages/list_class_and_teacher",
+        type : "post",
+        dataType : "script",
+        data : {
+            teacher_id : teacher_id
+        }
+    })
+    
+}
+//确定过户
+function confirm_transfer(obj){
+    var select_school_class_id = $(obj).parents("#class_transfer").find("select[name='select_school_class_id']").val();
+    var select_teacher_id = $(obj).parents("#class_transfer").find("select[name='select_teacher_id']").val();
+    $.ajax({
+        url : "/school_manage/teacher_manages/confirm_transfer",
+        type : "post",
+        dataType : "json",
+        data : {
+            select_school_class_id : select_school_class_id,
+            select_teacher_id : select_teacher_id
+        },
+        success : function(data){
+            if(data.status==1){
+                tishi(data.notice);
+                $("#class_transfer").hide();
+                $(".mask").hide();
+                window.location.reload();
+            }else{
+                tishi(data.notice)
+            }
+        }
+    })
 }
 
 // 是否禁用教师

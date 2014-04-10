@@ -705,7 +705,7 @@ class Api::StudentsController < ApplicationController
         prop["branch_id"] = []
       end if answer_records["props"]
 
-      File.open(anwser_file_url, "wb"){|f| f.write answer_records}
+      File.open(anwser_file_url, "wb"){|f| f.write answer_records.to_json}
       #保存完道具后， 清空文件json中的 道具使用情况
       notice = "作业状态更新完成!"
       status = "success"

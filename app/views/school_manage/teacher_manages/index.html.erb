@@ -10,59 +10,7 @@
       <div class="search"><button></button><input name="" type="text"/></div>
     </div>
     <div class="controller_body">
-      <div class="b_table">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <thead>
-            <tr>
-              <th>教师名称</th>
-              <th>执教班级数</th>
-              <th>执教学生数</th>
-              <th>账户信息</th>
-              <th>重置密码</th>
-              <th>过户</th>
-              <th>停用</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>王丽丽</td>
-              <td>2</td>
-              <td>82</td>
-              <td>wll2014 / ******</td>
-              <td><a href="#" class="reset_a tooltip_html">重置密码</a></td>
-              <td><a href="#" class="transfer_a tooltip_html">过户</a></td>
-              <td><a href="javascript:void(0);" class="blockUp_a tooltip_html">停用</a></td>
-            </tr>
-            <tr>
-              <td>王丽丽</td>
-              <td>2</td>
-              <td>82</td>
-              <td>wll2014 / ******</td>
-              <td><a href="#" class="reset_a tooltip_html">重置密码</a></td>
-              <td><a href="#" class="transfer_a tooltip_html">过户</a></td>
-              <td><a href="javascript:void(0);" class="blockUp_a_ed tooltip_html">启用</a></td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <%= render :partial => 'teacher_list' %>
     </div>
   </div>
 </div>
@@ -90,22 +38,23 @@
   <div class="tab_btn"><button type="submit">确定</button></div>
 </div>
 
-<div class="tab system">
+<div class="tab system" id="reset_teacher_password">
   <a href="javascript:void(0);" class="close">close</a>
   <div class="tab_head">重设密码</div>
   <div class="tab_warning">重新为教师登录设置密码</div>
   <div class="tab_body clearAfter">
     <div class="form_list">
       <ul>
-        <li><label>新密码：</label><input name="" type="text"/></li>
-        <li><label>确认密码：</label><input name="" type="text"/></li>
+        <li><label>新密码：</label><input name="password_new" type="text"/></li>
+        <li><label>确认密码：</label><input name="password_again" type="text"/></li>
+        <input type="hidden" name="teacher_id"/>
       </ul>
     </div>
   </div>
-  <div class="tab_btn"><button type="submit">确定</button></div>
+  <div class="tab_btn"><button type="submit" onclick="update_teacher_password(this)">确定</button></div>
 </div>
 
-<div class="tab system">
+<div class="tab system" id="class_transfer">
   <a href="javascript:void(0);" class="close">close</a>
   <div class="tab_head">班级过户</div>
   <div class="tab_warning">选择需要调整的班级和老师</div>

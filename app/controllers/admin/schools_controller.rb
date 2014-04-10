@@ -1,6 +1,8 @@
 #encoding: utf-8
 class Admin::SchoolsController < ApplicationController
 	layout "admin"
+  skip_before_filter :get_teacher_infos
+  before_filter :check_if_sysadmin, :only => [:index]
 	def index
     @schools_name = params[:schools_name]
     schools_name = params[:schools_name].nil? || params[:schools_name] == "" ? nil : "%" + params[:schools_name].strip.to_s + "%"
@@ -68,7 +70,7 @@ class Admin::SchoolsController < ApplicationController
   def update_school_password
     school_id = params[:school_id]
     password_new = params[:password_new]
-    school_teacher = Teacher.find_by_school_id school_id
+    school_teacher = Teacher.find_by_school_id_and_types school_id,Teacher::TYPES[:SCHOOL]
     if school_teacher
       Teacher.transaction do
         school_teacher.update_attributes(:password => password_new)

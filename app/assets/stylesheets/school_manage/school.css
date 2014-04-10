@@ -155,7 +155,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
     margin: 0 5px;
 }
 .delete_a { background: url(/assets/school_manage_imgs/s_icon01.png) no-repeat 0px 0px;}
-.add_a { background: url(../images/s_icon01.png) no-repeat 0px -25px;}
+.add_a { background: url(/assets/school_manage_imgs/s_icon01.png) no-repeat 0px -25px;}
 
 .controller_a { background: url(/assets/school_manage_imgs/s_icon01.png) no-repeat 0px -50px;}
 .reset_a { background: url(/assets/school_manage_imgs/s_icon01.png) no-repeat 0px -75px;}
@@ -283,13 +283,13 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 }
 .form_list li .jqTransformSelectWrapper div span { 
     color: #DD5C05;
-    width: 270px;
+    width: 230px;
     height: 38px;
     line-height: 38px;
     position: static
 }
 .form_list li .jqTransformSelectWrapper ul { top: 38px;}
-.form_list li .jqTransformSelectWrapper ul li { padding: 0; margin: 0; width: 230px; line-height: normal;}
+.form_list li .jqTransformSelectWrapper ul li { padding: 0; margin: 0; width: 100%; line-height: normal;}
 
 
 /*file btn*/
@@ -366,7 +366,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 }
 .tab_Prompt a.x { top: 10px; right: 10px;}
 .tab_Prompt p { padding: 10px; text-align: center; line-height: 24px;}
-
+.system{display: none;}
 /*tab*/
 .mask {
     background: url(/assets/black.png) repeat;

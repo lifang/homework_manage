@@ -93,7 +93,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
     background: #dd5c05;
     padding-left: 20px;
 }
-.tab_body { overflow-y: auto;}
+.tab_body { overflow-y: auto;padding: 5px;}
 .tab_questions { height: 400px;}
 .tab_text { line-height: 24px; padding: 5px;}
 
@@ -148,8 +148,8 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 .setShare_tab li input { width: 300px;}
 
 /*创建班级tab*/
-.tab_setClass { overflow: hidden;}
-.tab_setClass ul { width: 380px; margin: 0px auto; border-bottom: 1px #dbdcdc solid; overflow: hidden;}
+.tab_setClass {}
+.tab_setClass ul { width: 380px; margin: 0px auto; border-bottom: 1px #dbdcdc solid;}
 .tab_setClass li {
     height: 40px;
     line-height: 40px;
@@ -185,6 +185,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
     line-height: 40px;
     position: static
 }
+.tab_setClass .jqTransformSelectWrapper ul {top:40px;}
 .tab_setClass .jqTransformSelectWrapper ul li { padding: 0; margin: 0;}
 
 /*切换班级tab*/
@@ -1212,5 +1213,14 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 .form_list .notice a { color: #dd5c05;}
 
 
+/*  第一次登录 选择科目 教材 设置名称、结束时间   开始*/
 
+.tab_setClass_step { margin: 20px 0; text-align: center;}
+.tab_setClass_step h2 { font-size: 16px; line-height: 32px; font-weight:normal; margin-bottom: 20px;}
+.tab_setClass_step p { display: inline-block; height: 20px; width: 150px; text-indent: -999px; overflow: hidden;}
+.tab_setClass_step p.step_one { background: url(/assets/tab_setClass_step.png) no-repeat;}
+.tab_setClass_step p.step_two { background: url(/assets/tab_setClass_step.png) no-repeat 0 -20px;}
+.tab_setClass_step p.step_three { background: url(/assets/tab_setClass_step.png) no-repeat 0 -40px;}
+
+/*  第一次登录 选择科目 教材 设置名称、结束时间   结束*/
 

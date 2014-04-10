@@ -437,60 +437,98 @@ class Api::StudentsController < ApplicationController
     #后台测试时代码
     qq_uid = params[:open_id]
     name = params[:name]
+    key = params[:key] #激活码
     nickname = params[:nickname]
     file = params[:avatar] #上传头像
     verification_code = params[:verification_code]
     student = Student.find_by_qq_uid qq_uid
+    p verification_code
     school_class = SchoolClass.find_by_verification_code(verification_code)
-    if !school_class.nil?  
+    if school_class.nil?
+      notice = "验证码错误,找不到相关班级!"
+      status = "error"
+      render :json => {:status => status, :notice => notice}
+    else  
       if school_class.status == SchoolClass::STATUS[:EXPIRED] ||
           school_class.period_of_validity - Time.now <= 0
         render :json => {:status => "error", :notice => "班级已失效！"}
       else
         if student.nil?
-          Student.transaction do
-            student = Student.create(:nickname => nickname, :qq_uid => qq_uid,
-              :status => Student::STATUS[:YES],
-              :last_visit_class_id => school_class.id)
-            destination_dir = "avatars/students/#{Time.now.strftime('%Y-%m')}"
-            rename_file_name = "student_#{student.id}"
-            avatar_url = ""
-            if !file.nil?
-              upload = upload_file destination_dir, rename_file_name, file
-              if upload[:status] == true
-                avatar_url = upload[:url]
+          if key.present?
+            student = Student.find_by_active_code key
+            if student.niL?
+              render :json => {:status => "error", :notice => "激活码错误!"}  
+            else
+              student.update_attributes(:active_status => Student::ACTIVE_STATUS[:YES])
+              student.update_attributes(:nickname => nickname) if nickname.present?
+              if !file.nil?
+                destination_dir = "avatars/students/#{Time.now.strftime('%Y-%m')}"
+                rename_file_name = "student_#{student.id}"
+                upload = upload_file destination_dir, rename_file_name, file
+                if upload[:status] == true
+                  avatar_url = upload[:url]
+                else
+                  avatar_url = "/assets/default_avater.jpg"
+                end
               else
                 avatar_url = "/assets/default_avater.jpg"
               end
-            else
-              avatar_url = "/assets/default_avater.jpg"
-            end
-            user = User.create(:name => name, :avatar_url => avatar_url)
-            student.update_attributes(:user_id => user.id)
+              user = student.user
+              if user.present?
+                user.update_attributes(:name => name)  if name.present?
+                user.update_attributes(:avatar_url => avatar_url)  if name.present?
+              else
+                user = User.create(:name => name, :avatar_url => avatar_url)
+                student.update_attributes(:user_id => user.id)
+              end  
+              render :json => {:status => "success", :notice => "登记成功!"} 
+            end 
+          else
+            # Student.transaction do
+                student = Student.create(:nickname => nickname, :qq_uid => qq_uid,
+                    :status => Student::STATUS[:YES], :last_visit_class_id => school_class.id)
+                destination_dir = "avatars/students/#{Time.now.strftime('%Y-%m')}"
+                rename_file_name = "student_#{student.id}"
+                avatar_url = ""
+                if !file.nil?
+                  upload = upload_file destination_dir, rename_file_name, file
+                  if upload[:status] == true
+                    avatar_url = upload[:url]
+                  else
+                    avatar_url = "/assets/default_avater.jpg"
+                  end
+                else
+                  avatar_url = "/assets/default_avater.jpg"
+                end
+                user = User.create(:name => name, :avatar_url => avatar_url)
+                student.update_attributes(:user_id => user.id)
+            # end                       
           end
         end
         c_s_relation = student.school_class_student_ralastions.
           where("school_class_id = #{school_class.id} and student_id = #{student.id}")
-        if c_s_relation && c_s_relation.length == 0
-          student.school_class_student_ralastions.create(:school_class_id => school_class.id)
-          props = Prop.all
-          props.each do |prop|
-            student.user_prop_relations.create(:prop_id => prop.id, :user_prop_num => Prop::DefaultPropNumber,
-                                               :school_class_id => school_class.id)
-          end
-          #如果该班级教师属于某个学校的,则减去该学校的配额
-          if school_class.teacher.school_id.present?
-            school = School.find_by_id school_class.teacher.school_id
-            if school && (school.students_count - school.used_school_counts) > 0
-              school.update_attributes(:used_school_counts => school.used_school_counts - 1)
-              SchoolClassStudentsRelation.create(:school_id => school.id, :school_class_id => school_class.id,
-                              :student_id => student.id)
-            else
-              notice = "配额不足,请联系学校管理员申请学生配额!"
-              status = "error"
-              render :json => {:status => status, :notice => notice}
-            end 
-          end  
+        # Student.transaction do
+          if c_s_relation && c_s_relation.length == 0
+            student.school_class_student_ralastions.create(:school_class_id => school_class.id)
+            props = Prop.all
+            props.each do |prop|
+              student.user_prop_relations.create(:prop_id => prop.id, :user_prop_num => Prop::DefaultPropNumber,
+                                                 :school_class_id => school_class.id)
+            end
+            #如果该班级教师属于某个学校的,则减去该学校的配额
+            if school_class.teacher.school_id.present?
+              school = School.find_by_id school_class.teacher.school_id
+              if school && (school.students_count - school.used_school_counts) > 0
+                school.update_attributes(:used_school_counts => school.used_school_counts - 1)
+                SchoolClassStudentsRelation.create(:school_id => school.id, :school_class_id => school_class.id,
+                                :student_id => student.id) 
+              else
+                notice = "配额不足,请联系学校管理员申请学生配额!"
+                status = "error"
+                render :json => {:status => status, :notice => notice}
+              end 
+            end  
+          # end
         end
         class_id = school_class.id
         class_name = school_class.name
@@ -508,10 +546,6 @@ class Api::StudentsController < ApplicationController
           :follow_microposts_id => follow_microposts_id
         }
       end
-    else
-      notice = "验证码错误,找不到相关班级!"
-      status = "error"
-      render :json => {:status => status, :notice => notice}
     end
   end
 

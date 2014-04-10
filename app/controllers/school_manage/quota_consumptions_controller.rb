@@ -21,11 +21,14 @@ class SchoolManage::QuotaConsumptionsController < ApplicationController
   	if teacher.present?
   		admin = Teacher.where("types = #{Teacher::TYPES[:SYSTEM]} and status = #{Teacher::STATUS[:YES]}").first
   		if admin.present?
+  			sender_name = teacher.user.name
+  			school = School.find_by_id teacher.school_id
+  			type = teacher.types
   			content = "#{teacher.user.name}于#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}申请了#{number}个学生配额!"
- 			
+ 			email = admin.email
  			if AdminMessage.create(:sender_id => teacher.id, :receiver_id => admin.id, :content => content )
- 				UserMailer.apply_quota_consumptions(email, sender_name, school_name, number, type)
- 				@status = false
+ 				UserMailer.apply_quota_consumptions(email, sender_name, school.name, number, type)
+ 				@status = true
   				@notice = "申请成功!"
  			else
  				@notice = "申请失败!"	
@@ -33,7 +36,6 @@ class SchoolManage::QuotaConsumptionsController < ApplicationController
   		else
   			@notice = "系统管理员不存在!"	
   		end		
-  		
   	end		
   end	
 end

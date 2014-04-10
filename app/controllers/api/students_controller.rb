@@ -782,7 +782,7 @@ class Api::StudentsController < ApplicationController
             }
           else
             status = "error"
-            notice = "您加入该班级!"
+            notice = "您已加入该班级!"
             render :json => {:status => status, :notice => notice}  
           end
         end

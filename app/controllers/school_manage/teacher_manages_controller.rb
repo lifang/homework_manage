@@ -5,18 +5,22 @@ class SchoolManage::TeacherManagesController < ApplicationController
   before_filter :check_if_schooladmin, :only => [:index]
   def index
     @teacher_name = params[:teacher_name]
-    p @teacher_name
     teacher_name = params[:teacher_name].nil? || params[:teacher_name] == "" ? nil : "%" + params[:teacher_name].strip.to_s + "%"
-    current_school = 12
-    sql = "select * from teachers where school_id = 12 and types=3"
-    @teachers = Teacher.find_by_sql(sql)
-    if teacher_name.nil?
-      @teachers = Teacher.find_by_sql(sql)
-    else
-      @teachers = Teacher.find_by_sql(sql).where("like #{teacher_name}")
-      p @teachers
-    end
+    #    current_teacher.school_id
+    p current_teacher
+    teacher = Teacher.find_by_id current_teacher.id
+    p teacher
 
+    sql_teacher = 'select t.*,COUNT(DISTINCT sc.id) count_class, COUNT(DISTINCT scsr.id) count_student,u.name
+from teachers t left JOIN school_classes sc on t.id = sc.teacher_id left JOIN school_class_student_ralastions
+scsr on sc.id = scsr.school_class_id INNER JOIN users u on t.user_id = u.id where t.school_id = ? and t.types=? '
+    group_teacher_id = 'GROUP BY t.id'
+    if teacher_name.nil?
+      sql_teacher += group_teacher_id
+    else
+      sql_teacher += "and u.name like '#{teacher_name}' "  + group_teacher_id
+    end
+    @teachers = Teacher.find_by_sql([sql_teacher,teacher.school_id,Teacher::TYPES[:teacher]])
   end
 
   #  新建教师

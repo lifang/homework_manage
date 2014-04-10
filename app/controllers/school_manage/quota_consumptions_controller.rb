@@ -10,8 +10,6 @@ class SchoolManage::QuotaConsumptionsController < ApplicationController
     @school = School.find_by_id @teacher.school_id
     @quota_consumptions = []
     @quota_consumptions = School.quota_consumptions_list @teacher.school_id
-    p @quota_consumptions
-    p @teacher.school_id
   end 	
 
   #加载购买配额页面

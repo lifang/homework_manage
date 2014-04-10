@@ -275,7 +275,7 @@ function onclick_submit(obj){
             tishi("连线内容不能为空！");
             return false;
         }else if (left_lianxian1>100||right_lianxian1>100||left_lianxian2>100||right_lianxian2>100||left_lianxian3>100||right_lianxian3>100){
-            tishi("字符长度不能超过200");
+            tishi("字符长度不能超过100");
             return false;
         }
     }

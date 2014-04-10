@@ -2,7 +2,6 @@
 require 'fileutils'
 require "mini_magick"
 class QuestionsController < ApplicationController
-  before_filter :sign?, :get_unread_messes
 
   def index
     @question_pack = QuestionPackage.find_by_id(params[:question_package_id])

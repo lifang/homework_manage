@@ -15,7 +15,7 @@ class UserMailer < ActionMailer::Base
   end
 
   def apply_quota_consumptions(email, sender_name, school_name, number, type)
-    @email, @content, @type_name, @school_name, @number, @sender_name = email, content, Teacher::TYPES_NAME[type], school_name, number, sender_name  
+    @email, @type_name, @school_name, @number, @sender_name = email, Teacher::TYPES_NAME[type], school_name, number, sender_name  
     mail(to: @email, subject: '申请学生配额')
   end  
 end

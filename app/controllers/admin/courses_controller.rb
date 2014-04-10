@@ -2,7 +2,7 @@
 class Admin::CoursesController < ApplicationController
 	layout "admin"
   require 'will_paginate/array'
-  skip_before_filter :get_teacher_infos
+  skip_before_filter :get_teacher_infos,:get_unread_messes
   before_filter :check_if_sysadmin, :only => [:index]
 	def index
     @course_id = params[:course_id]

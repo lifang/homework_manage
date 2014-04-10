@@ -2,20 +2,21 @@
 class WelcomeController < ApplicationController
   include MethodLibsHelper
   layout 'welcome'
+  skip_before_filter :get_teacher_infos, :sign?, :get_unread_messes
 
   #教师登陆
   def login
     email = params[:email].to_s  #需前台验证email地址
     password = params[:password].to_s
-    teacher = Teacher.find_by_email email
+    teacher = Teacher.find_by_email_and_status email, Teacher::STATUS[:YES]
     last_visit_class = false
     if teacher.nil?
       status = false
-      notice = "用户不存在，请先注册！"
+      notice = "用户不存在或者已被停用，请先注册！"
     else
       if teacher && teacher.has_password?(password)
         cookies[:teacher_id]={:value => teacher.id, :path => "/", :secure  => false}
-        cookies[:user_id]={:value => teacher.user.id, :path => "/", :secure  => false}
+        cookies[:user_id]={:value => teacher.user.try(:id), :path => "/", :secure  => false}
 
         notice, status, last_visit_class, @redirect_path = redirect_to_different_page(teacher)
       else
@@ -46,7 +47,7 @@ class WelcomeController < ApplicationController
     notice = "注册失败，请重新注册！"
     if !teacher.nil?
       status = false
-      notice = "该邮箱已被注册，换个邮箱！"
+      notice = "该邮箱已被注册或停用，换个邮箱！"
     else
       Teacher.transaction do
         teacher = Teacher.create(:email => email, :password => password,
@@ -174,6 +175,11 @@ class WelcomeController < ApplicationController
           flash[:notice] = "登陆成功！"
           redirect_path = "/school_classes/#{@school_class.id}/main_pages"
         end
+      else
+        flash[:notice] = "登陆成功！"
+        status = true
+        last_visit_class = false
+        redirect_path = "/welcome/first"
       end
     elsif teacher.school_admin?
       flash[:notice] = "登陆成功！"

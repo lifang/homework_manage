@@ -1,7 +1,7 @@
 #encoding: utf-8
 class Admin::SchoolsController < ApplicationController
 	layout "admin"
-  skip_before_filter :get_teacher_infos
+  skip_before_filter :get_teacher_infos,:get_unread_messes
   before_filter :check_if_sysadmin, :only => [:index]
 	def index
     @schools_name = params[:schools_name]
@@ -30,6 +30,7 @@ class Admin::SchoolsController < ApplicationController
       else
         School.transaction do
           password =random(6)
+          p password
           school = School.create(:name =>school_name,:students_count=> school_students_count,:status => School::STATUS[:NORMAL],:used_school_counts => 0 )
           user = User.create(:name => school_name,:avatar_url => avatar_url)
           teacher = Teacher.create(:password => password,:email => email,:types => Teacher::TYPES[:SCHOOL],:status=>Teacher::STATUS[:YES],
@@ -89,7 +90,7 @@ class Admin::SchoolsController < ApplicationController
   def is_enable
     school_id = params[:school_id]
     school = School.find_by_id school_id
-    teacher = Teacher.find_by_school_id school_id
+    teacher = Teacher.find_by_school_id_and_types school_id,Teacher::TYPES[:SCHOOL]
     if school
       if school.status
         school.update_attributes(:status=>School::STATUS[:DELETE])

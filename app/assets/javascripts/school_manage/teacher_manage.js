@@ -1,4 +1,12 @@
-
+//阻止冒泡
+function stopPropagation(e) {
+    e = e || window.event;
+    if(e.stopPropagation) { //W3C阻止冒泡方法
+        e.stopPropagation();
+    } else {
+        e.cancelBubble = true; //IE阻止冒泡方法
+    }
+}
 //创建教师
 function admin_create_teacher(obj){
     var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
@@ -65,4 +73,40 @@ function update_teacher_password(obj){
 function show_class_transfer(obj){
     $("#class_transfer").show();
 
+}
+
+// 是否禁用教师
+function is_disable(obj,teacher_id){
+    var content_tishi = "";
+    if($(obj).attr("class").indexOf("blockUp_a_ed")>=0){
+        content_tishi = "确认启用？"
+    }else{
+        content_tishi = "确认停用？";
+    }
+    if(confirm(content_tishi)){
+        $.ajax({
+            url : "/school_manage/teacher_manages/is_disable",
+            dataType : "json",
+            type : "post",
+            data : {
+                teacher_id : teacher_id
+            },
+            success : function(data){
+                if(data.status==1){
+                    $(obj).attr("class","blockUp_a_ed tooltip_html");
+                    tishi(data.notice);
+                }else if (data.status==2){
+                    $(obj).attr("class","blockUp_a tooltip_html");
+                    tishi(data.notice);
+                }else{
+                    tishi(data.notice);
+                }
+            }
+        })
+    }
+}
+//搜索老师
+function sercher_teacher(obj){
+    var teacher_name = $(obj).parents(".search").find("input[name='teacher_name']").val();
+    window.location.href="/school_manage/teacher_manages?teacher_name="+teacher_name
 }

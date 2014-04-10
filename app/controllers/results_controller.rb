@@ -1,6 +1,5 @@
 #encoding: utf-8
 class ResultsController < ApplicationController
-  before_filter :sign?, :get_unread_messes
   
   def index
     @school_class = SchoolClass.find_by_id params[:school_class_id].to_i

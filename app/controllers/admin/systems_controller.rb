@@ -1,7 +1,7 @@
 #encoding: utf-8
 class Admin::SystemsController < ApplicationController
   layout "admin"
-  skip_before_filter :get_teacher_infos
+  skip_before_filter :get_teacher_infos,:get_unread_messes
 
   def reset_password
     sys_user = Teacher.find_by_id params[:teacher_id]

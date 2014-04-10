@@ -71,7 +71,7 @@ HomeworkManage::Application.routes.draw do
 
     resources :teacher_manages do
       collection do
-        post :update_password,:is_disable
+        post :update_password,:is_disable,:list_class_and_teacher,:confirm_transfer
       end
     end
     resources :quota_consumptions do

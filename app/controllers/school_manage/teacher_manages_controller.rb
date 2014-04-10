@@ -6,11 +6,6 @@ class SchoolManage::TeacherManagesController < ApplicationController
   def index
     @teacher_name = params[:teacher_name]
     teacher_name = params[:teacher_name].nil? || params[:teacher_name] == "" ? nil : "%" + params[:teacher_name].strip.to_s + "%"
-    #    current_teacher.school_id
-    p current_teacher
-    teacher = Teacher.find_by_id current_teacher.id
-    p teacher
-
     sql_teacher = 'select t.*,COUNT(DISTINCT sc.id) count_class, COUNT(DISTINCT scsr.id) count_student,u.name
 from teachers t left JOIN school_classes sc on t.id = sc.teacher_id left JOIN school_class_student_ralastions
 scsr on sc.id = scsr.school_class_id INNER JOIN users u on t.user_id = u.id where t.school_id = ? and t.types=? '
@@ -20,7 +15,7 @@ scsr on sc.id = scsr.school_class_id INNER JOIN users u on t.user_id = u.id wher
     else
       sql_teacher += "and u.name like '#{teacher_name}' "  + group_teacher_id
     end
-    @teachers = Teacher.find_by_sql([sql_teacher,teacher.school_id,Teacher::TYPES[:teacher]])
+    @teachers = Teacher.find_by_sql([sql_teacher,current_teacher.school_id,Teacher::TYPES[:teacher]])
   end
 
   #  新建教师
@@ -84,5 +79,34 @@ scsr on sc.id = scsr.school_class_id INNER JOIN users u on t.user_id = u.id wher
       notice = '教师不存在！'
     end
     render :json => {:status => status,:notice => notice}
+  end
+  #显示可以过户的班级和教师
+  def list_class_and_teacher
+    teacher_id = params[:teacher_id]
+    @school_class = SchoolClass.where("teacher_id=#{teacher_id}")
+    @teachers = Teacher.joins('LEFT JOIN users u ON teachers.user_id = u.id').select("teachers.id,u.name").
+      where("teachers.school_id = #{current_teacher.school_id}").where("teachers.types=#{Teacher::TYPES[:teacher]}").where("teachers.id != #{teacher_id}")
+  end
+  #过户
+  def confirm_transfer
+    select_school_class_id = params[:select_school_class_id]
+    select_teacher_id = params[:select_teacher_id]
+    school_class = SchoolClass.find_by_id select_school_class_id
+    teacher = Teacher.find_by_id select_teacher_id
+    schoolclassstudent = SchoolClassStudentRalastion.where("school_class_id = #{select_school_class_id}").length
+    if school_class
+      if teacher && teacher.school_id == current_teacher.school_id
+        school_class.update_attributes(:teacher_id => teacher.id)
+        status = 1
+        notice = '过户成功！'
+      else
+        status = 0
+        notice = '教师不存在！'
+      end
+    else
+      status = 0
+      notice = '班级不存在！'
+    end
+    render :json => {:status => status,:notice=> notice,:schoolclassstudent => schoolclassstudent}
   end
 end

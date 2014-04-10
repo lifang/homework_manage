@@ -1,9 +1,5 @@
 <div class="main">
-  <script language="javascript">
-    $(function(){
-      $('.select_box').jqTransform();
-    });
-  </script>
+
   <div class="controller">
     <div class="controller_head">
       <a href="javascript:void(0)" class="addController_btn_a" onclick="$('#teacher_admin_create').show();">新建教师</a>
@@ -51,7 +47,7 @@
       </ul>
     </div>
   </div>
-  <div class="tab_btn"><button type="submit" onclick="update_teacher_password(this)">确定</button></div>
+  <div class="tab_btn"><button onclick="update_teacher_password(this)">确定</button></div>
 </div>
 
 <div class="tab system" id="class_transfer">
@@ -59,7 +55,7 @@
   <div class="tab_head">班级过户</div>
   <div class="tab_warning">选择需要调整的班级和老师</div>
   <div class="tab_body clearAfter">
-    <div class="form_list">
+    <div class="form_list" id="available_transfer">
       <ul>
         <li><label>被转班级：</label>
           <div class="select_box">
@@ -92,7 +88,7 @@
       </ul>
     </div>
   </div>
-  <div class="tab_btn"><button type="submit">确定</button></div>
+  <div class="tab_btn"><button onclick="confirm_transfer(this)">确定</button></div>
 </div>
 
 <div class="tab system">

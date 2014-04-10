@@ -35,8 +35,9 @@
         </div>
     </div>
 </div>
-
-<%= will_paginate @quota_consumptions, :next_label => "下一页", :previous_label => "上一页", :class => "pageTurn"%>
+<% if @quota_consumptions.any? %>
+  <%= will_paginate @quota_consumptions, :next_label => "下一页", :previous_label => "上一页", :class => "pageTurn"%>
+<% end %>
 <script>
   $(document).ready(function(){
     var used_school_counts = <%= @school.used_school_counts%>;

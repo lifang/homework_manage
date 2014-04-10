@@ -8,6 +8,11 @@ HomeworkManage::Application.routes.draw do
     end
   end
  
+  resources :test do
+    collection do
+    end
+  end
+
   post "/share_questions/view"
   # The priority is based upon order of creation:
   # first created -> highest priority.

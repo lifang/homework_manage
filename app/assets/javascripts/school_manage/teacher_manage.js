@@ -6,7 +6,7 @@ function getQueryString(name) {
 }
 //创建教师
 function admin_create_teacher(obj){
-    var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+    var email_reg = /^([a-zA-Z0-9]+[_|\_|\.\-]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}(\.[a-zA-Z]{2,2}){0,1}$/;
     var teacher_name = $(obj).parents("#teacher_admin_create").find("input[name='teacher_name']").val();
     var teacher_email = $(obj).parents("#teacher_admin_create").find("input[name='teacher_email']").val();
     var page_value = getQueryString("page");

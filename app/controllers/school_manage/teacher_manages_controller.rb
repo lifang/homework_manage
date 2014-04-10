@@ -2,14 +2,23 @@
 class SchoolManage::TeacherManagesController < ApplicationController
   layout "school_manage"
   def index
+    @teacher_name = params[:teacher_name]
+    p @teacher_name
+    teacher_name = params[:teacher_name].nil? || params[:teacher_name] == "" ? nil : "%" + params[:teacher_name].strip.to_s + "%"
     current_school = 12
     sql = "select * from teachers where school_id = 12 and types=3"
     @teachers = Teacher.find_by_sql(sql)
+    if teacher_name.nil?
+      @teachers = Teacher.find_by_sql(sql)
+    else
+      @teachers = Teacher.find_by_sql(sql).where("like #{teacher_name}")
+      p @teachers
+    end
+
   end
 
   #  新建教师
   def create
-    p 111111111
     teacher_name = params[:teacher_name]
     teacher_email = params[:teacher_email]
     teacher_exit = Teacher.find_by_email teacher_email
@@ -51,7 +60,23 @@ class SchoolManage::TeacherManagesController < ApplicationController
     render :json => {:status => status }
   end
   #  是否停用
-  def is_enable
-
+  def is_disable
+    teacher_id = params[:teacher_id]
+    teacher = Teacher.find_by_id teacher_id
+    if teacher
+      if teacher.status == 0
+        teacher.update_attributes(:status => Teacher::STATUS[:NO])
+        status = 1
+        notice = '教师已禁用。'
+      else
+        teacher.update_attributes(:status => Teacher::STATUS[:YES])
+        status = 2
+        notice = '教师已启用。'
+      end
+    else
+      status = 0
+      notice = '教师不存在！'
+    end
+    render :json => {:status => status,:notice => notice}
   end
 end

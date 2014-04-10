@@ -11,7 +11,7 @@ class StudentsController < ApplicationController
     student_situations = Student.list_student(params[:page] ||= 1, school_class_id)
     @student_situations = student_situations[:student_situations]
     @pagenate_student_school_class = student_situations[:student_school_class]
-    @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id)
+    @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id).where("school_classes.period_of_validity>now()")
     @teachingmaterial = TeachingMaterial.all
   end
 

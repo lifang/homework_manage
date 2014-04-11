@@ -1,6 +1,7 @@
 HomeworkManage::Application.routes.draw do
 
 
+
   resources :microposts do
     get :create_reply
     member do
@@ -95,9 +96,15 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
-  namespace :question_admin do
+  namespace :question_admin do  #题库管理员
     resources :question_manages do
       
+    end
+
+    resources :exam_manages do
+      collection do
+        post :set_cell,:set_episode,:set_question_type
+      end
     end
   end
 

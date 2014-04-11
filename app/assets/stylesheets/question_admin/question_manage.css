@@ -1235,7 +1235,9 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 .teacher_body .tag_select { 
 	background: url("/assets/select03.png") no-repeat 90px center;
 	border: 1px #48D47E solid;
+        text-align: left;
 }
+.teacher_body .tag_select span { width: 77px;}
 .teacher_body .div_select ul { 
 	border: 1px #48D47E solid; 
 	height: 150px; 
@@ -1260,23 +1262,37 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 
 /*div_select div模拟select*/
 .div_select { width: 120px; padding: 0 10px; display: inline-block;}
-.tag_select { 
+.tag_select {
 	line-height: 36px;
 	height:36px;
 	padding: 0 10px;
 	cursor: pointer;
 }
+.tag_select span {
+	display: inline-block;
+	word-break:keep-all;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
 .div_select input { display: none;}
 
-.div_select ul { position: absolute; z-index: 1000; display: none; margin: 0; width: 118px; }
+.div_select ul {
+	position: absolute;
+	z-index: 1000;
+	display: none;
+	margin: 0;
+	width: 118px;
+	text-align: left;
+
+}
 .div_select ul li {
-	padding: 0 10px;
-	height: 24px; 
-	line-height: 24px; 
-	background: #FFF; 
+	line-height: 24px;
+	background: #FFF;
 	display: block; 
 	float: none;
 	cursor: pointer;
+	padding: 0 2px;
 }
 .div_select ul li:hover, .div_select ul li.hover { background: #f6f6f6;}
 

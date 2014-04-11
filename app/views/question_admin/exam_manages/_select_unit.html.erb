@@ -1,0 +1,4 @@
+<li>单元</li>
+<%@episodes.each do |episode|%>
+  <li episode_id="<%= episode.id %>"><%= episode.name %></li>
+<%end if @episodes %>

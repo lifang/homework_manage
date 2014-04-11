@@ -167,7 +167,7 @@ $(function(){
 })
 
 // 检查密码
- function check_password(obj){
+ function headnav_check_password(obj){
      var form = $(obj).parents("form");
      var new_pwd = form.find(".new_pwd").val();
      var confirm_pwd = form.find(".confirm_pwd").val();

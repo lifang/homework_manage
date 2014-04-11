@@ -237,7 +237,7 @@ function update_listening_reading(obj, types, school_class_id)
                         types : types,
                         content : content,
                         b_index : b_index,
-                        question_id : question_id,
+                        question_id : question_id
                         // question_package_id : question_package_id,
                         // episode_id : episode_id,
                         // cell_id : cell_id
@@ -274,7 +274,7 @@ function update_listening_reading(obj, types, school_class_id)
                         b_index : b_index,
                         types : types,
                         content : content,
-                        question_id : question_id,
+                        question_id : question_id
                         // question_package_id : question_package_id,
                         // episode_id : episode_id,
                         // cell_id : cell_id
@@ -898,7 +898,9 @@ $(function(){
         var que_name = $(this).parents(".ab_list_title").find("h1").first().text();
         var school_class_id = $("#school_class_id").val();
         var this_icon = $(this);
-        if(que_name==undefined || que_name=="" || que_name=="未命名"){
+        var que_name_1 = que_name.split("(")[0];
+        var que_name_2 = que_name.split("(")[1];
+        if(que_name_2==undefined || que_name_2==""){
             var doc_height = $(document).height();
             $(".mask").css("height",doc_height);
             $("#set_name_div").show();
@@ -912,14 +914,14 @@ $(function(){
                 dataType: "json",
                 data: {
                     que_id : que_id,
-                    que_name : que_name
+                    que_name : que_name_2.split(")")[0]
                 },
                 success: function(data){
                     if(data.status == 0){
                         tishi("分享成功!");
                         this_icon.addClass("share_icon_ed");
                         this_icon.removeClass("share_icon");
-                        this_icon.parents(".ab_list_title").find("h1").first().text(que_name);
+                        this_icon.parents(".ab_list_title").find("h1").first().text(que_name_1+"("+que_name_2);
                     }else if(data.status == 1){
                         tishi("此题已经分享过");
                     }else if(data.status == 2){
@@ -934,6 +936,10 @@ $(function(){
         return false;
     });
 
+    //如果已分享，则阻止该分享按钮冒泡
+    $("#question_list").on("click", ".share_icon_ed", function(){
+        return false;
+    })
     //点击删除该大题
     $("#question_list").on("click", ".delete_icon", function(){
         var que_id = $(this).parents(".ab_list_title").find("input[name='question_id']").first().val();
@@ -1013,7 +1019,8 @@ function set_question_name_valid(question_id, school_class_id){
                     var q_ids = $("#question_list").find("input[name='question_id']");
                     $.each(q_ids, function(){
                         if($(this).val()==question_id){
-                            $(this).parents(".ab_list_title").find("h1").first().text(name);
+                            var txt = $(this).parents(".ab_list_title").find("h1").first().text();
+                            $(this).parents(".ab_list_title").find("h1").first().text(txt+"("+name+")");
                             var share_icon = $(this).parents(".ab_list_title").find(".share_icon");
                             share_icon.addClass("share_icon_ed");
                             share_icon.removeClass("share_icon");

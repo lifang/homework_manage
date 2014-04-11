@@ -1,8 +1,3 @@
-<script language="javascript">
-  $(function(){
-    $('.select_box').jqTransform();
-  });
-</script>
 <div class="tab_user" style="z-index: 999">
   <%= form_for :teacher, :url => "/school_manage/passwords/reset_password", :remote => true do |f| %>
     <h1>个人信息</h1>
@@ -17,7 +12,7 @@
         </ul>
       </div>
     </div>
-    <div class="tab_user_btn"><button type="button" onclick="return check_password(this)">保存</button></div>
+    <div class="tab_user_btn"><button type="button" onclick="return headnav_check_password(this)">保存</button></div>
     <div class="tab_out_btn"><a class="logout" href="/welcome/logout">退出</a></div>
   <% end %>
 </div>

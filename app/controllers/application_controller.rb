@@ -91,5 +91,17 @@ class ApplicationController < ActionController::Base
       redirect_to "/"
     end
   end
-  
+
+  def check_if_questionadmin
+    if cookies[:teacher_id]
+      teacher = Teacher.find cookies[:teacher_id]
+      unless teacher.exam_admin?
+        flash[:notice] = "您没有权限访问此页面！"
+        redirect_to "/welcome/logout"
+      end
+    else
+      flash[:notice] = "请先登录"
+      redirect_to "/"
+    end
+  end
 end

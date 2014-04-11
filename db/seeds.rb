@@ -40,3 +40,12 @@ end
 # end
 
 
+
+system_admin = Teacher.find_by_types(Teacher::TYPES[:SYSTEM])  #系统管理员
+unless system_admin
+  user = User.create({:name => "sys_admin", :avatar_url => "/assets/default_avater.jpg"})
+  Teacher.create({:email => "mailer@comdosoft.com", :status => Teacher::STATUS[:YES],
+      :password =>  Digest::SHA2.hexdigest("admin123"),
+      :types => Teacher::TYPES[:SYSTEM], :user_id => user.id})
+end
+

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>HomeworkManage</title>
+    <%= stylesheet_link_tag   "/assets/jqtransform.css", "/assets/question_admin/question_manage.css", :media => "all"  %>
+    <%= javascript_include_tag "application", "/assets/admin/system.js", "/assets/jquery.jqtransform.js" %>
+    <%= javascript_include_tag "question_packages"%>
+    <script type="text/javascript" src="/assets/My97DatePicker/WdatePicker.js" ></script>
+    <script charset="utf-8" src="/assets/kindeditor/kindeditor.js"></script>
+    <script charset="utf-8" src="/assets/kindeditor/lang/zh_CN.js"></script>
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="/assets/excanvas.js"></script>
+    <![endif]-->
+    <%= csrf_meta_tags %>
+  </head>
+  <body >
+    <% flash.each do |name, msg| %>
+      <div id="flash_field" style="width:100%;position: fixed; z-index: 4;">
+        <div style="font-size:20px;margin: 200px auto;width: 300px;background: #ffffff;padding: 20px;">
+          <span class="close1" id="close_flash" style="float:right;" ></span>
+          <div class="alert_h" style="width:300px"><%=raw msg%></div>
+        </div>
+      </div>
+    <% end %>
+    <div class="tab_Prompt" id="tab_Prompt">
+      <a href="javascript:void(0)" class="x"></a>
+      <p></p>
+    </div>
+    <%=render 'layouts/admin_user_info'%>
+    <div class="wrap">
+      <%=render 'layouts/question_admin/question_admin_nav'%>
+      <%= yield %>
+    </div>
+    <div class="mask"></div>
+
+    <div class="tab tab840" id="popup_page"></div>
+
+
+    <!--设定question的名称弹出层-->
+    <div class="tab tab500" id="set_name_div">
+      <%= render :partial => "question_packages/set_name" %>
+    </div>
+
+    <script language="javascript">
+      $(function(){
+        $('.select_box').jqTransform();
+      });
+    </script>
+
+  </body>
+</html>

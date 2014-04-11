@@ -300,6 +300,26 @@ function setTm(obj){
 
 //点赞
 
-function good_point(obj) {
-
+function good_point(obj,micropost_id,reply_id) {
+    $.ajax({
+        url:"/microposts/"+micropost_id+"/good_point",
+        type:"post",
+        dataType : "json",
+        data:{
+            reply_id : reply_id
+        },
+        success: function(data){
+            if(data.status==1){
+                tishi(data.notice);
+                $(obj).attr("class","tooltip_title praise_icon_ed");
+                $(obj).attr("title","已赞");
+            }else if (data.status==2){
+                tishi(data.notice);
+                $(obj).attr("class","tooltip_title praise_icon");
+                $(obj).attr("title","赞");
+            }else{
+                tishi(data.notice);
+            }
+        }
+    })
 }

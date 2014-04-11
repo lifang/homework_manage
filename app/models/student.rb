@@ -15,14 +15,14 @@ class Student < ActiveRecord::Base
   has_many :props, :through => :user_prop_relations
   belongs_to :user
   validates_uniqueness_of :qq_uid
-
+  PER_PAGE = 10
   ACTIVE_STATUS = {:YES => 1, :NO => 0} #是否激活 1已激活 0未激活
   def self.list_student page,school_class_id
     sql_student = "SELECT s.id,s.nickname,u.name user_name,u.avatar_url,scsr.created_at,t.name tag_name from
     students s LEFT JOIN users u on s.user_id = u.id
 LEFT JOIN school_class_student_ralastions scsr on s.id = scsr.student_id LEFT JOIN tags t on scsr.tag_id = t.id  where
  scsr.school_class_id=?"
-    student_school_class = Student.paginate_by_sql([sql_student,school_class_id],:per_page => 2, :page => page)
+    student_school_class = Student.paginate_by_sql([sql_student,school_class_id],:per_page => PER_PAGE, :page => page)
     #    正确率
     recorddetail = RecordDetail.joins("inner join student_answer_records sar on record_details.student_answer_record_id = sar.id").
       select("sar.student_id,record_details.id,  avg(record_details.correct_rate) correct_rate ").
@@ -37,6 +37,13 @@ LEFT JOIN school_class_student_ralastions scsr on s.id = scsr.student_id LEFT JO
     count_complishs = StudentAnswerRecord.find_by_sql([sql_comp_count,school_class_id]).group_by{|count_complish| count_complish.student_id}
     #成就
     archivementsrecord = ArchivementsRecord.where("school_class_id = #{school_class_id}").group_by{|archivement| archivement[:student_id]}
+    #牛气/被赞次数
+    sql_student_praise = 'SELECT s.id student_id,COUNT(rm.id) count from  students s
+                          INNER JOIN users u on s.user_id = u.id
+                          INNER JOIN reply_microposts rm on u.id = rm.sender_id where s.id in (?) 
+                          and rm.praise = ? GROUP BY s.id'
+    student_praises = ReplyMicropost.find_by_sql([sql_student_praise,student_school_class.map(&:id),ReplyMicropost::PRAISE[:KUDOS]]).group_by{|praise| praise.student_id}
+
     student_situations = []
     student_school_class.each do |student|
       student_situation = student.attributes
@@ -47,6 +54,7 @@ LEFT JOIN school_class_student_ralastions scsr on s.id = scsr.student_id LEFT JO
       student_situation[:created_at] = student.created_at
       student_situation[:tag_name] = student.tag_name
       student_situation[:correct_rate] =  recorddetail[student.id].nil? ? 0 : recorddetail[student.id][0].correct_rate
+      student_situation[:praise] = student_praises[student.id].nil? ? 0 : student_praises[student.id][0].count
       student_situation[:unfinished] = count_complishs[student.id].nil? ? count_public_num : count_public_num - count_complishs[student.id][0].count_pack
       if archivementsrecord[student.id].present?
         archivementsrecord[student.id].each  do |a|
@@ -100,8 +108,8 @@ where scsr.tag_id IS NULL and school_class_id = ?"
         s.default_sheet = s.sheets.first  #默认第一页卡(sheet1)
         s.each_with_index do |row, index|
           if index != 0
-          s_no_ele = row[1].class.to_s == "String" ? row[1] : "#{row[1].to_i}"
-          unique_s_no << s_no_ele
+            s_no_ele = row[1].class.to_s == "String" ? row[1] : "#{row[1].to_i}"
+            unique_s_no << s_no_ele
           end
         end
         unique_stus = Student.where(["s_no in (?)", unique_s_no])

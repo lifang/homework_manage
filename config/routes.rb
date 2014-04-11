@@ -5,6 +5,7 @@ HomeworkManage::Application.routes.draw do
     get :create_reply
     member do
       get :reply_page_change,:delete_micropost,:delete_micropost_reply,:delete_micropost,:add_reply_page,:particate_reply_show
+      post :good_point
     end
   end
 
@@ -91,6 +92,12 @@ HomeworkManage::Application.routes.draw do
       collection do
         post :reset_password
       end
+    end
+  end
+
+  namespace :question_admin do
+    resources :question_manages do
+      
     end
   end
 

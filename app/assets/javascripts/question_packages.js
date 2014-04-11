@@ -1450,3 +1450,18 @@ function full_text(id){
     });
 }
 
+
+function upload_lisenting_ques(obj)
+{
+    var file_name = $(obj).val();
+    var question_package_id = $("#question_package_id").val();
+    if(file_name.match(/\..*$/) == ".zip")
+    {
+        $(obj).parents("form").find("input.question_package_id").val(question_package_id);
+        $(obj).parents("form").submit();
+    }
+    else
+    {
+        tishi("请选择zip压缩包");
+    }
+}

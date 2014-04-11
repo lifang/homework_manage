@@ -19,6 +19,49 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
+  #导入听写题
+  def inport_lisenting
+    question_package_id = params[:question_package_id]  
+    question_id = params[:question_id]  
+    file = params[:file]
+    @status = false
+    if question_package_id.present?
+      destination_dir = "#{media_path % question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
+      unzip_url = "#{destination_dir}/question_#{question_id}"
+      create_dirs unzip_url
+      zip_url = "#{Rails.root}/public/#{destination_dir}/question_#{question_id}"
+      rename_file_name = "question_#{question_id}"
+      upload = upload_file destination_dir, rename_file_name, file
+      if upload[:status] == true
+          if unzip(zip_url) == true
+            files = get_excel_and_audio(zip_url)
+            excel = files[:excel]
+            audios = files[:audios]
+            if excel.size <= 0
+              @notice = "没有找到excel题目文件!"
+            else
+                #获取excel中题目的错误信息
+                excel_url = "#{zip_url}/#{excel}" 
+                result  = read_questions zip_url, excel_url, audios
+                p result
+                if result[:errors].any?
+                  @status = "errors"
+                else
+                  @questions = result[:errors]
+                end  
+            end
+            p excel
+            p audios
+            @status = true
+          else
+            @notice = "解压出错！"
+          end
+      else
+        @notice = "上传出错！"
+      end    
+    end
+  end  
+
   #朗读/听写题先上传音频文件
   def upload_voice
     file = params[:file]

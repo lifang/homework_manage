@@ -1180,6 +1180,10 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 	background: url(/assets/icon10.png) no-repeat 0 -133px;
 	top: 2px; right: 115px;
 }
+.askAnswer_area_func a.praise_icon_ed {
+	background: url(/assets/icon10.png) no-repeat 0 -159px;
+	top: 2px; right: 115px;
+}
 
 .askAnswer_area_con .askAnswer_area_box { border-top: 1px #dbdcdc solid; border-bottom: none; }
 

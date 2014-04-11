@@ -17,7 +17,10 @@
             <input type="hidden" value="<%=current_teacher.user_id%>" />
             <span><%=reply.sender_name%> 回复 <%=reply.reciver_name%> </span><span><%=reply.new_created_at.to_s[0..19]%></span>
             <a href="javascript:void(0);"onclick="show_reply_again(this,'<%=reply.reciver_name%>',event);stopPropagation(arguments[0]);"  class="tooltip_title comment_icon" val="1" title="评论"></a>
-            <a href="javascript:void(0);" class="tooltip_title praise_icon" onclick="good_point(this)" title="赞"></a>
+            <% if reply.sender_id != current_teacher.user_id  %>
+              <a href="javascript:void(0);" class="tooltip_title praise_icon<%= reply.praise.nil? || reply.praise==ReplyMicropost::PRAISE[:NOKUDOS] ? "" : "_ed"  %>"
+                 onclick="good_point(this,<%=@micropost.id%>,<%=reply.id%>)" title="<%= reply.praise.nil? || reply.praise==ReplyMicropost::PRAISE[:NOKUDOS] ? "赞" : "已赞"  %>"></a>
+            <% end %>
           </div>
         </div>
       </div>

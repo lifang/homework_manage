@@ -25,7 +25,7 @@
         <td>
           <div class="award">
             <ul>
-              <li class="award05 tooltip_title" title="牛气">LV.3</li>
+              <li class="award05 tooltip_title" title="牛气">LV.<%= student_situation[:praise]%></li>
               <li class="award01 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[0] %>">LV.<%= student_situation[:archive_pefect].nil? ? 0 : student_situation[:archive_pefect].archivement_score/ArchivementsRecord::LEVEL_SCORE %></li>
               <li class="award02 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[1] %>">LV.<%= student_situation[:archive_accuraie].nil? ? 0 : student_situation[:archive_accuraie].archivement_score/ArchivementsRecord::LEVEL_SCORE %></li>
               <li class="award03 tooltip_title" title="<%= ArchivementsRecord::TYPES_NAME[2] %>">LV.<%= student_situation[:archive_quickly].nil? ? 0 : student_situation[:archive_quickly].archivement_score/ArchivementsRecord::LEVEL_SCORE %></li>

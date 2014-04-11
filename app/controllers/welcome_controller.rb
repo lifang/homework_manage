@@ -189,7 +189,8 @@ class WelcomeController < ApplicationController
       flash[:notice] = "登陆成功！"
       redirect_path = "/admin/schools"
     elsif teacher.exam_admin?
-      
+      flash[:notice] = "登陆成功！"
+      redirect_path = "/question_admin/question_manages/new"
     else
       status = false
       notice = "用户没有权限登录！"

@@ -1,0 +1,29 @@
+<div class="main" id="new_question_main_div">
+  <div class="assignment">
+
+    <!--  单元，课程 -->
+    <div class="assignment_head">
+      <div class="select_box">
+        <div class="rowElem">
+          <select name="select1" id="select1" onchange="address_search_episodes(this, 0, 0)">
+            <option value="0">请选择单元</option>
+            <%@cells.each do |cell|%>
+              <option value="<%=cell.id %>" >
+                <%=cell.name%>
+              </option>
+            <%end%>
+          </select>
+        </div>
+        <div class="rowElem" id="select2">
+          <select name="select2"  >
+            <option value="opt1">请先选择单元</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>

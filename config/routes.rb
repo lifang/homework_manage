@@ -95,6 +95,12 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
+  namespace :question_admin do
+    resources :question_manages do
+      
+    end
+  end
+
   resources :welcome do
     collection do
       get :first,:teacher_exit, :logout

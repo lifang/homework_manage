@@ -2,8 +2,8 @@
   <div class="ab_list_title">
     <input type="hidden" name="question_id" class="question_id" value="<%=@question.id%>" />
     <input type="hidden" name="question_type"   value="select" />
-    <h1><%=@question.name.nil? ? "未命名":@question.name %></h1>
-    <p>选择 / <%=current_user.name%> / <%=@question.created_at.strftime("%Y-%m-%d")%> /<span name=cankaoshijian> 参考时间：<%=  @question.questions_time.nil? ? "未设置":"#{@question.questions_time}"  %></span></p>
+    <h1>选择<%=@question.name.nil? ? "" : "(#{@question.name})" %></h1>
+    <p><%=current_user.name%> / <%=@question.created_at.strftime("%Y-%m-%d")%> /<span name=cankaoshijian> 参考时间：<%=  @question.questions_time.nil? ? "未设置":"#{@question.questions_time}"  %></span></p>
     <ul class="ab_func">
       <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
       <li><a href="javascript:void(0)" class="<%= is_shared(@question) %> tooltip_html">分享</a></li>

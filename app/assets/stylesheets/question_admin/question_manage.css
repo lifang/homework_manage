@@ -267,6 +267,8 @@ li.p_input p, li.p_input input, .tab_switch li input {
 	border-radius: 5px;
 	background: rgba(255,255,255,0.8);
 	position: absolute;
+        display: none;
+        z-index: 1000;
 }
 .tab_Prompt a.x { top: 10px; right: 10px;} 
 .tab_Prompt p { padding: 10px; text-align: center; line-height: 24px;}

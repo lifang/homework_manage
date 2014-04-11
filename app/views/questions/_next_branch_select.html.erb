@@ -1,5 +1,5 @@
 <div class="questions_item" stypes="save_select" branch_question_index="" question_type="select">
-  <%= form_for :question,:url => { :action => :save_select, :controller => :questions ,:question_package_id => @question_pack.id}, :method=>"post" ,:remote=>true do |f|%>
+  <%= form_for :question,:url => { :action => :save_select, :controller => :questions ,:question_package_id => @question_pack.try(:id)|| 0 }, :method=>"post" ,:remote=>true do |f|%>
     <div class="q_topic q_willCompile">
       <div class="multipleChoice">
         <div class="q_left">
@@ -27,7 +27,7 @@
       <a href="javascript:void(0)" class="delete tooltip_html delete_chen" data-confirm="确定删除?" style="display:none" data-remote="true" >删除</a>
       <a href="javascript:void(0)" class="tag tooltip_html" style="display:none" onclick="add_selects_tags(this)">标签</a>
     </div>
-    <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_pack.id %>"/>
+    <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=  @question_package_id %>"/>
     <input type="hidden" name="branch_question_id"value=""/>
     <input type="hidden" name="question_id" value="<%= @question.id %>"/>
     <input type="hidden" name="index_new" class="index_new" question_id="<%= @question.id %>" value="<%= @index_new.to_i + 1 %>"/>

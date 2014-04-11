@@ -3,10 +3,12 @@
     <input type="hidden" name="question_id" class="question_id" value="<%=@question.id%>" />
     <input type="hidden" name="question_type"   value="select" />
     <h1>选择<%=@question.name.nil? ? "" : "(#{@question.name})" %></h1>
-    <p><%=current_user.name%> / <%=@question.created_at.strftime("%Y-%m-%d")%> /<span name=cankaoshijian> 参考时间：<%=  @question.questions_time.nil? ? "未设置":"#{@question.questions_time}"  %></span></p>
+    <p><%=current_user.name%> / <%=@question.created_at.strftime("%Y-%m-%d")%><% unless @question.is_a?(ShareQuestion) %> /<span name=cankaoshijian> 参考时间：<%=  @question.questions_time.nil? ? "未设置":"#{@question.questions_time}"  %></span><% end %></p>
     <ul class="ab_func">
-      <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
-      <li><a href="javascript:void(0)" class="<%= is_shared(@question) %> tooltip_html">分享</a></li>
+      <% unless @question.is_a?(ShareQuestion) %>
+        <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
+        <li><a href="javascript:void(0)" class="<%= is_shared(@question) %> tooltip_html">分享</a></li>
+      <% end %>
       <li><a href="javascript:void(0)" class="delete_icon tooltip_html">删除</a></li>
     </ul>
   </div>

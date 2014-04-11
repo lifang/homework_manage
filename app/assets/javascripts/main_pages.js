@@ -87,10 +87,10 @@ function show_reply_again(value,name,event){
 <button type="button" onclick="cancle_this_window(this)">取消</button></div>'
     $(".create_main_microposts").html(html);
     $(".tab_mess").css({
-            "top":($(value).offset().top+20)+"px",
-            "left":($(value).offset().left+0)+"px"
-        })
-   $(".tab_mess").show(100);
+        "top":($(value).offset().top+20)+"px",
+        "left":($(value).offset().left+0)+"px"
+    })
+    $(".tab_mess").show(100);
     
   
 }
@@ -205,9 +205,9 @@ function  show_reply(value,micropost_id){
         $(answer_area).hide();
     }
     $(".tab_mess").css({
-            "top":($(value).offset().top+20)+"px",
-            "left":($(value).offset().left+0)+"px"
-        })
+        "top":($(value).offset().top+20)+"px",
+        "left":($(value).offset().left+0)+"px"
+    })
     $.ajax({
         async:true,
         type : 'get',
@@ -296,4 +296,30 @@ function setTm(obj){
     $(".mask").css("display","none");
     //显示第三步
     popup("#third_step");
+}
+
+//点赞
+
+function good_point(obj,micropost_id,reply_id) {
+    $.ajax({
+        url:"/microposts/"+micropost_id+"/good_point",
+        type:"post",
+        dataType : "json",
+        data:{
+            reply_id : reply_id
+        },
+        success: function(data){
+            if(data.status==1){
+                tishi(data.notice);
+                $(obj).attr("class","tooltip_title praise_icon_ed");
+                $(obj).attr("title","已赞");
+            }else if (data.status==2){
+                tishi(data.notice);
+                $(obj).attr("class","tooltip_title praise_icon");
+                $(obj).attr("title","赞");
+            }else{
+                tishi(data.notice);
+            }
+        }
+    })
 }

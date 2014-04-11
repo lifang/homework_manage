@@ -548,7 +548,7 @@ q.id = bq.question_id where kc.card_bag_id = ?"
     knowledgescard = []
     if cardbag
       cardbag_id = cardbag.id
-      sql = "SELECT DISTINCT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options,q.id question_id
+      sql = "SELECT DISTINCT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options,q.full_text,q.id question_id
  from knowledges_cards kc  inner join card_tag_knowledges_card_relations ctkcr on kc.id = ctkcr.knowledges_card_id
 INNER JOIN card_tags ct on ct.id = ctkcr.card_tag_id
 INNER JOIN branch_questions bq on kc.branch_question_id = bq.id
@@ -565,7 +565,7 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
       status = "error"
       notice = "卡包不存在"
     end
-    info = {:status=>status,:notice=>notice,:knowledgescard => knowledges_cards,:tags => cardtag }
+    info = {:status=>status,:notice=>notice,:knowledges_card => knowledges_cards,:tags => cardtag }
   end
 
 

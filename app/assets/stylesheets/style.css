@@ -711,6 +711,7 @@ li.p_input p, li.p_input input, .tab_switch li input {
 .award li.award02 { background: url(/assets/icon04.png) no-repeat 0 -60px; color: #358ee1;}
 .award li.award03 { background: url(/assets/icon04.png) no-repeat 0 -120px; color: #36c77b;}
 .award li.award04 { background: url(/assets/icon04.png) no-repeat 0 -180px; color: #e29d30;}
+.award li.award05 { background: url(/assets/icon04.png) no-repeat 0 -240px; color: #e29d30;}
 
 /*作业列表*/
 .assignment {padding-top:30px;}
@@ -1174,6 +1175,14 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 .askAnswer_area_func a.collect_icon_ed {
     background: url(/assets/icon10.png) no-repeat 0 -57px;
     top: 2px; right: 5px;
+}
+.askAnswer_area_func a.praise_icon {
+	background: url(/assets/icon10.png) no-repeat 0 -133px;
+	top: 2px; right: 115px;
+}
+.askAnswer_area_func a.praise_icon_ed {
+	background: url(/assets/icon10.png) no-repeat 0 -159px;
+	top: 2px; right: 115px;
 }
 
 .askAnswer_area_con .askAnswer_area_box { border-top: 1px #dbdcdc solid; border-bottom: none; }

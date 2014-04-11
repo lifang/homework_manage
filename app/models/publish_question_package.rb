@@ -221,20 +221,20 @@ class PublishQuestionPackage < ActiveRecord::Base
       end
     end
   end
-  #获得成就时加道具
-  def self.add_prop_get_archivement student_id,prop_types,school_class
-    student_prop = UserPropRelation.
-      find_by_student_id_and_prop_id_and_school_class_id(student_id,prop_types,school_class.id)
-    if student_prop
-      student_prop.update_attribute(:user_prop_num,student_prop.user_prop_num+2);
-    else
-      UserPropRelation.create(student_id:student_id,
-        user_prop_num:2,
-        school_class_id:school_class.id,
-        prop_id:prop_types)
-    end
-
-  end
+#  #获得成就时加道具
+#  def self.add_prop_get_archivement student_id,prop_types,school_class
+#    student_prop = UserPropRelation.
+#      find_by_student_id_and_prop_id_and_school_class_id(student_id,prop_types,school_class.id)
+#    if student_prop
+#      student_prop.update_attribute(:user_prop_num,student_prop.user_prop_num+2);
+#    else
+#      UserPropRelation.create(student_id:student_id,
+#        user_prop_num:2,
+#        school_class_id:school_class.id,
+#        prop_id:prop_types)
+#    end
+#
+#  end
 
   def self.get_homework_statistics date, school_class
     all_tags = nil

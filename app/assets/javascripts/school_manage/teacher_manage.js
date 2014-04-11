@@ -1,8 +1,20 @@
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return null;
+}
 //创建教师
 function admin_create_teacher(obj){
-    var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+    var email_reg = /^([a-zA-Z0-9]+[_|\_|\.\-]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}(\.[a-zA-Z]{2,2}){0,1}$/;
     var teacher_name = $(obj).parents("#teacher_admin_create").find("input[name='teacher_name']").val();
     var teacher_email = $(obj).parents("#teacher_admin_create").find("input[name='teacher_email']").val();
+    var page_value = getQueryString("page");
+    if(page_value!= "" && page_value!="null" && page_value!=null ){
+        var page = page_value;
+    }else{
+        var page = 1;
+    }
     if(teacher_name==""){
         tishi("教师名称不能为空！");
         return false;
@@ -19,7 +31,8 @@ function admin_create_teacher(obj){
         type : 'post',
         data : {
             teacher_name : teacher_name,
-            teacher_email : teacher_email
+            teacher_email : teacher_email,
+            page : page
         }
     })
 }
@@ -131,12 +144,12 @@ function is_disable(obj,teacher_id){
                 $("a[teacher_id="+ teacher_id +"]").attr("class","blockUp_a_ed tooltip_html");
                 //                    $(obj).attr("class","blockUp_a_ed tooltip_html");
                 tishi(data.notice);
-                 $("#shifoutingyong").hide();
+                $("#shifoutingyong").hide();
             }else if (data.status==2){
                 $("a[teacher_id="+ teacher_id +"]").attr("class","blockUp_a tooltip_html");
                 //                    $(obj).attr("class","blockUp_a tooltip_html");
                 tishi(data.notice);
-                 $("#shifoutingyong").hide();
+                $("#shifoutingyong").hide();
             }else{
                 tishi(data.notice);
             }

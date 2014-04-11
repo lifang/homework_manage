@@ -7,9 +7,10 @@ class SchoolManage::QuotaConsumptionsController < ApplicationController
 
   def index
     teacher_id = cookies[:teacher_id]
+    page = params[:page]
   	@teacher = Teacher.find_by_id teacher_id
     @school = School.find_by_id @teacher.school_id
-    @quota_consumptions = School.quota_consumptions_list @teacher.school_id
+    @quota_consumptions = School.quota_consumptions_list @teacher.school_id, page
   end 	
 
   #加载购买配额页面
@@ -31,14 +32,15 @@ class SchoolManage::QuotaConsumptionsController < ApplicationController
   			school = School.find_by_id teacher.school_id
   			type = teacher.types
   			content = "#{teacher.user.name}于#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}申请了#{number}个学生配额!"
- 			email = admin.email
- 			if AdminMessage.create(:sender_id => teacher.id, :receiver_id => admin.id, :content => content )
- 				UserMailer.apply_quota_consumptions(email, sender_name, school.name, number, type)
- 				@status = true
-  				@notice = "申请成功!"
- 			else
- 				@notice = "申请失败!"	
- 			end	
+ 			  email = admin.email
+   			if AdminMessage.create(:sender_id => teacher.id, :receiver_id => admin.id, :content => content, 
+                                :status => AdminMessage::STATUS[:NOMAL])
+   				UserMailer.apply_quota_consumptions(email, sender_name, school.name, number, type).deliver
+   				@status = true
+    				@notice = "申请成功!"
+   			else
+   				@notice = "申请失败!"	
+   			end	
   		else
   			@notice = "系统管理员不存在!"	
   		end		

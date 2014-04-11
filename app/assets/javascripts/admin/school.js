@@ -1,5 +1,11 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return null;
+}
 
 function show_new_chool(){
     $("#system_new_school").show();
@@ -9,8 +15,12 @@ function show_new_chool(){
 //减少
 function reduce_a(obj){
     var val_student_count = $(obj).parents("li").find("input[name='students_count']").val()
-    var number = parseInt(val_student_count)-1
-    $(obj).parents("li").find("input[name='students_count']").val(number)
+    if(parseInt(val_student_count)>0){
+        var number = parseInt(val_student_count)-1
+        $(obj).parents("li").find("input[name='students_count']").val(number)
+    }else{
+        tishi("额度不能小于0！");
+    }
 }
 //增加
 function add_a(obj){
@@ -18,13 +28,28 @@ function add_a(obj){
     var number = parseInt(val_student_count)+1
     $(obj).parents("li").find("input[name='students_count']").val(number)
 }
+// 验证是不是数字
+function validation_number(obj){
+    var number = $(obj).val();
+    var number_reg = /^[0-9][0-9]*$/
+    if(!number_reg.test(number)){
+        tishi("请输入0-9有效数字");
+        $(obj).val("");
+    }
+}
 // 新建 学校
 function system_new_school(obj){
-    var email_reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+    var email_reg = /^([a-zA-Z0-9]+[_|\_|\.\-]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}(\.[a-zA-Z]{2,2}){0,1}$/;
     var system_new_school = $(obj).parents("#system_new_school");
     var school_name = system_new_school.find("input[name='school_name']").val();
     var school_students_count = system_new_school.find("input[name='school_students_count']").val();
     var email = system_new_school.find("input[name='email']").val();
+    var page_value = getQueryString("page");
+    if(page_value!= "" && page_value!="null" && page_value!=null ){
+        var page = page_value;
+    }else{
+        var page = 1;
+    }
     if (school_name==""){
         tishi("学校名称不能为空！");
         return false;
@@ -42,7 +67,8 @@ function system_new_school(obj){
         data:{
             school_name : school_name,
             school_students_count : school_students_count,
-            email : email
+            email : email,
+            page : page
         },
         success: function(data){
         }
@@ -64,7 +90,10 @@ function add_students_count(obj,school_id,students_count){
 function adjust_quotas(obj){
     var students_count = $(obj).parents("#adjust_quotas").find("input[name='students_count']").val();
     var school_id = $(obj).parents("#adjust_quotas").find("input[name='school_id']").val()
-    if(students_count<1){
+    if(students_count==""){
+        tishi("配额不能为空！");
+        return false;
+    }else if(students_count<1){
         tishi("配额必须大于0！");
         return false;
     }
@@ -144,35 +173,35 @@ function tishi_is_enable(obj,school_id){
 }
 // 停用或者启用
 function is_enable(obj,school_id){
-//    var content_tishi = "";
-//    if($(obj).attr("class").indexOf("blockUp_a_ed")>=0){
-//        content_tishi = "确认启用？"
-//    }else{
-//        content_tishi = "确认停用？";
-//    }
-//    if(confirm(content_tishi)){
-        $.ajax({
-            url : "/admin/schools/is_enable",
-            dataType : "json",
-            type : "post",
-            data : {
-                school_id : school_id
-            },
-            success : function(data){
-                if(data.status==1){
-                    $("a[school_id="+ school_id +"]").attr("class","blockUp_a_ed tooltip_html");
-//                    $(obj).attr("class","blockUp_a_ed tooltip_html");
-                    tishi(data.notice);
-                    $("#shifoutingyong").hide();
-                }else if (data.status==2){
-                    $("a[school_id="+ school_id +"]").attr("class","blockUp_a tooltip_html");
-//                    $(obj).attr("class","blockUp_a tooltip_html");
-                    tishi(data.notice);
-                    $("#shifoutingyong").hide();
-                }else{
-                    tishi(data.notice);
-                }
+    //    var content_tishi = "";
+    //    if($(obj).attr("class").indexOf("blockUp_a_ed")>=0){
+    //        content_tishi = "确认启用？"
+    //    }else{
+    //        content_tishi = "确认停用？";
+    //    }
+    //    if(confirm(content_tishi)){
+    $.ajax({
+        url : "/admin/schools/is_enable",
+        dataType : "json",
+        type : "post",
+        data : {
+            school_id : school_id
+        },
+        success : function(data){
+            if(data.status==1){
+                $("a[school_id="+ school_id +"]").attr("class","blockUp_a_ed tooltip_html");
+                //                    $(obj).attr("class","blockUp_a_ed tooltip_html");
+                tishi(data.notice);
+                $("#shifoutingyong").hide();
+            }else if (data.status==2){
+                $("a[school_id="+ school_id +"]").attr("class","blockUp_a tooltip_html");
+                //                    $(obj).attr("class","blockUp_a tooltip_html");
+                tishi(data.notice);
+                $("#shifoutingyong").hide();
+            }else{
+                tishi(data.notice);
             }
-        })
+        }
+    })
 //    }
 }

@@ -31,7 +31,6 @@ class Admin::SchoolsController < ApplicationController
       else
         School.transaction do
           password =random(6)
-          p password
           school = School.create(:name =>school_name,:students_count=> school_students_count,:status => School::STATUS[:NORMAL],:used_school_counts => 0 )
           user = User.create(:name => school_name,:avatar_url => avatar_url)
           teacher = Teacher.create(:password => password,:email => email,:types => Teacher::TYPES[:SCHOOL],:status=>Teacher::STATUS[:YES],
@@ -54,7 +53,7 @@ class Admin::SchoolsController < ApplicationController
     admin = Teacher.find_by_types Teacher::TYPES[:SYSTEM]
     teacher = Teacher.find_by_school_id school_id
     if school && school.update_attributes(:students_count => students_count)
-      content = "额度调整为" + students_count
+      content = "系统管理员于#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}将您的学生配额调整到#{students_count}个"
       if admin && teacher
         AdminMessage.create(:sender_id=>admin.id,:receiver_id=>teacher.id,:content => content)
       end

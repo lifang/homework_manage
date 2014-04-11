@@ -96,4 +96,25 @@ class MicropostsController < ApplicationController
     @types = params[:types].to_i
     get_posts_and_replis(params[:micropost_id])
   end
+
+  #点赞
+  def good_point
+    reply_id = params[:reply_id]
+    replymicropost = ReplyMicropost.find_by_id reply_id
+    if replymicropost
+      if replymicropost.praise.nil? || replymicropost.praise == 0
+        replymicropost.update_attributes(:praise => ReplyMicropost::PRAISE[:KUDOS])
+        status = 1
+        notice = "已赞！"
+      else
+        replymicropost.update_attributes(:praise => ReplyMicropost::PRAISE[:NOKUDOS])
+        status = 2
+        notice = "赞已取消！"
+      end
+    else
+      status = 0
+      notice = '回复不存在！'
+    end
+    render :json => {:status => status,:notice=> notice}
+  end
 end

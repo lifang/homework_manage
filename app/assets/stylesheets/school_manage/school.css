@@ -234,7 +234,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
     font-size: 16px;
     float: left;
 }
-.form_list li input[type="text"], .form_list li p { 
+.form_list li input[type="text"],.form_list li input[type="password"], .form_list li p {
     width: 240px;
     height: 38px;
     line-height: 38px;

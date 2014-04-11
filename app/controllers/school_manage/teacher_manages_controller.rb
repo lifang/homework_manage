@@ -26,11 +26,10 @@ class SchoolManage::TeacherManagesController < ApplicationController
       @notice = "邮箱已存在！"
     else
       password =random(6)
-      school_id = 12
       Teacher.transaction do
         user = User.create(:name => teacher_name,:avatar_url => avatar_url)
         teacher = Teacher.create(:email=>teacher_email,:password=>password,:status=>Teacher::STATUS[:YES],
-          :types=>Teacher::TYPES[:teacher],:school_id=>school_id)
+          :types=>Teacher::TYPES[:teacher],:school_id=>current_teacher.school_id)
         encryptpassword = teacher.encrypt_password
         teacher.update_attributes(:password => encryptpassword,:user_id=>user.id)
         @status = 1

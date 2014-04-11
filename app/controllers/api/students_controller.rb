@@ -483,7 +483,7 @@ class Api::StudentsController < ApplicationController
               end 
             end 
           else
-            # Student.transaction do
+            Student.transaction do
                 student = Student.create(:nickname => nickname, :qq_uid => qq_uid,
                     :status => Student::STATUS[:YES], :last_visit_class_id => school_class.id)
                 destination_dir = "avatars/students/#{Time.now.strftime('%Y-%m')}"
@@ -501,12 +501,12 @@ class Api::StudentsController < ApplicationController
                 end
                 user = User.create(:name => name, :avatar_url => avatar_url)
                 student.update_attributes(:user_id => user.id)
-            # end                       
+            end                       
           end
         end
         c_s_relation = student.school_class_student_ralastions.
           where("school_class_id = #{school_class.id} and student_id = #{student.id}")
-        # Student.transaction do
+        Student.transaction do
           if c_s_relation && c_s_relation.length == 0
             student.school_class_student_ralastions.create(:school_class_id => school_class.id)
             props = Prop.all
@@ -527,7 +527,7 @@ class Api::StudentsController < ApplicationController
                 render :json => {:status => status, :notice => notice}
               end 
             end  
-          # end
+          end
         end
         class_id = school_class.id
         class_name = school_class.name

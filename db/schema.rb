@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140410064927) do
+ActiveRecord::Schema.define(:version => 20140411031436) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer  "sender_id"
@@ -272,6 +272,7 @@ ActiveRecord::Schema.define(:version => 20140410064927) do
     t.integer  "reciver_types"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.integer  "praise"
   end
 
   add_index "reply_microposts", ["micropost_id"], :name => "index_reply_microposts_on_micropost_id"

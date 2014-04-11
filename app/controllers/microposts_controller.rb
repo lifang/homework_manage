@@ -96,4 +96,8 @@ class MicropostsController < ApplicationController
     @types = params[:types].to_i
     get_posts_and_replis(params[:micropost_id])
   end
+
+  #点赞
+  def good_point
+  end
 end

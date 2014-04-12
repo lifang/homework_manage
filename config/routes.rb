@@ -104,6 +104,7 @@ HomeworkManage::Application.routes.draw do
     resources :exam_manages do
       collection do
         post :set_cell,:set_episode,:set_question_type
+        get :delete_share_question,:edit_share_question
       end
     end
   end

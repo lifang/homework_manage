@@ -30,6 +30,20 @@ function no_change(obj){
     }
 }
 
+function tiku_change_episode(obj){
+    episode_id = $("#episode_id").val();
+    if( episode_id !=""){
+        $(obj).val(episode_id)
+        return false;
+    }
+    $("#episode_id").val($(obj).val());
+    if($(".assignment_body").css("display") == "none"){
+        $(".assignment_body").show();
+        $(".questionTypes").show();
+    }
+
+}
+
 
 //添加听力或朗读题  types 0：听写  1：朗读
 function add_l_r_question(types, school_class_id )
@@ -1283,8 +1297,6 @@ function save_wanxin_branch(obj,school_class,question_pack){
 }
 
 function save_paixu_branch(obj,school_class,question_pack){
-    
-    ;
     var question_id = $($(obj).parents(".ab_list_open")[0]).find(".question_id").val();
     var params = $($(obj).parents(".questions_item")[0]).find("form").serialize();
     var branch_question = $($(obj).parents(".questions_item")[0]).find(".branch_question_form");
@@ -1363,7 +1375,7 @@ function add_content_to_paixu(obj,q_index,branch_question_id){
         var question_pack_id = $("#question_package_id").val();
         var value = $(obj).val();
         $.ajax({
-            url:"/school_classes/"+$(".school_class_id").val()+"/question_packages/save_branch_tag",
+            url:"/school_classes/"+shcool_id+"/question_packages/save_branch_tag",
             dataType:"json",
             data:"branch_question_id="+branch_question_id+"&branch_tag_id="+value,
             success:function(data){

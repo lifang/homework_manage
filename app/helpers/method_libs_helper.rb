@@ -553,8 +553,8 @@ q.id = bq.question_id where kc.card_bag_id = ?"
 INNER JOIN card_tags ct on ct.id = ctkcr.card_tag_id
 INNER JOIN branch_questions bq on kc.branch_question_id = bq.id
 inner join questions q on  q.id = bq.question_id
-WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
-      knowledgescard = KnowledgesCard.find_by_sql([sql,cardbag_id,name,name])
+WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text like ? ) "
+      knowledgescard = KnowledgesCard.find_by_sql([sql,cardbag_id,name,name,name])
 
       knowledge_content = process_knowledges knowledgescard,cardbag_id
       status = knowledge_content[:status]

@@ -360,7 +360,7 @@ function select_upload(obj){
             return false;
         }
     }
-    var question_package_id = $(obj).parents(".questions_item").find("#question_package_id").val();
+    var question_package_id = $(obj).parents(".questions_item").find("#question_package_id_2").val();
     var question_id = $(obj).parents(".questions_item").find("input[name='question_id']").val();
     $.ajaxFileUpload(
     {
@@ -441,7 +441,7 @@ function add_selects_tags(obj){
 function add_tag_to_select(obj,q_index,branch_question_id,types){
     if($(obj).attr("checked")=="checked"){
         var shcool_id = $("#school_class_id").val();
-        var question_pack_id = $("#question_package_id").val();
+        var question_pack_id = $("#question_package_id_2").val();
         var value = $(obj).val();
         $.ajax({
             url:"/school_classes/"+shcool_id+"/question_packages/save_branch_tag",
@@ -474,7 +474,7 @@ function add_tag_to_select(obj,q_index,branch_question_id,types){
 function new_select_question(obj){
     $("div.ab_list_box").hide();
     var episode_id = $("#episode_id").val();
-    var question_package_id = $("#question_package_id").val()
+    var question_package_id = $("#question_package_id_2").val()
     var type = 3
     var cell_id = $("#cell_id").val();
     $.ajax({
@@ -497,7 +497,7 @@ function new_select_question(obj){
 function new_lianxian_question(obj){
     $("div.ab_list_box").hide();
     var episode_id = $("#episode_id").val();
-    var question_package_id = $("#question_package_id").val()
+    var question_package_id = $("#question_package_id_2").val()
     var type = 4
     var cell_id = $("#cell_id").val();
     $.ajax({

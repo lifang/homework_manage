@@ -92,7 +92,7 @@
                 :remote=>true ,:class=>'delete tooltip_html delete_chen',confirm:'确认删除?'%>
               <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_selects_tags(this)">标签</a>
             </div>
-            <input type="hidden"  name="question_package_id" id="question_package_id" value="<%= @question_pack.nil? ? 0 : @question_pack.id %>"/>
+            <input type="hidden"  name="question_package_id" id="question_package_id_2" value="<%= @question_pack.nil? ? 0 : @question_pack.id %>"/>
             <input type="hidden" name="question_id" value="<%= question.id %>"/>
             <input type="hidden" name="branch_question_id" value="<%= branch_question.id %>"/>
             <input class="submit_sava" type="submit" style="display:none" value="保存"/>

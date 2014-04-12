@@ -24,6 +24,7 @@ class QuestionPackagesController < ApplicationController
     question_package_id = params[:question_package_id]  
     @question_id = params[:question_id]  
     file = params[:file]
+    @types = params[:types]
     @status = false
     if question_package_id.present?
       destination_dir = "#{media_path % question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
@@ -63,23 +64,49 @@ class QuestionPackagesController < ApplicationController
     end
   end  
 
+  def delete_resources
+    resources = params[:resources]
+    base_url = "#{Rails.root}/public"
+    if resources.present?
+      resources.to_s.split(";||;").each do |resource_url|
+        if resource_url.present?
+          url = base_url+resource_url
+          File.delete url if File.exist? url
+        end  
+      end  
+    end
+    render :json => {:status => true, :notice => "删除成功!"}
+  end  
+
   #保存导入的听写题
   def save_import_lisenting
     @question_id = params[:question_id]
+    @branch_questions = []
+    @types = Question::TYPES[:LISTENING]
+    @branch_tags = {}
+    @branch_tags[@question_id] = {}
+    @status = false
     if params[:lisenting].present?
-      questions = params[:lisenting]
-      questions.each do |k,que|
-        branch_question = BranchQuestion.create(:content => que[:content], :resource_url => que[:audio], 
-                                    :question_id => @question_id, :types => Question::TYPES[:LISENTING])   
-        if que[:tags].present?
-          que[:tags].each do |tag_id|  
-            BtagsBqueRelation.create(branch_question_id:branch_question.id,
-                      branch_tag_id:tag_id);  
-          end
-        end  
-      end  
-    end  
+      branch_questions = params[:lisenting]
+      branch_questions.each do |k,branch_que|
+        branch_question = BranchQuestion.create(:content => branch_que[:content], :resource_url => branch_que[:audio], 
+                                    :question_id => @question_id, :types => @types)
+        @branch_tags[@question_id][branch_question.id] = []                                      
+        if branch_que[:tags].present?
 
+          branch_que[:tags].each do |tag_id|  
+            BtagsBqueRelation.create(branch_question_id:branch_question.id,
+                      branch_tag_id:tag_id)  
+          end
+          @branch_tags[@question_id][branch_question.id] = BtagsBqueRelation
+                                                              .select("bt.name, btags_bque_relations.branch_tag_id")
+                                                              .joins("left join branch_tags bt on btags_bque_relations.branch_tag_id = bt.id")
+                                                              .where(["btags_bque_relations.branch_question_id = ?",branch_question.id])
+        end
+        @branch_questions << branch_question
+      end
+      @status = true
+    end  
   end  
 
   #朗读/听写题先上传音频文件

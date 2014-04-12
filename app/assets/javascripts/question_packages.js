@@ -822,6 +822,83 @@ function add_tags_to_listening_reading(question_id, b_index, tag_id, tag_name)
     }
 }
 
+//听写题导入题目删除标签
+function delete_listening_save_bef_tags(obj,tag_id)
+{
+    if(confirm("确认删除此标签!") == true)
+    {
+        $(obj).parent().remove();
+    }
+}
+ 
+//删除导入的听写题所有小题
+function delete_import_resources(obj) 
+{
+    if(confirm("确认删除导入小题吗？")==true)
+    {
+       var school_class_id = $("#school_class_id").val();
+       var audios = $(obj).parents(".batchUpload_box").find("input[class='audio']");
+       // alert(audios);
+       var resources = ""
+       $.each(audios, function(name,val){
+            resources += $(this).val();
+            resources += ";||;";
+       });
+       var url = "/school_classes/" + school_class_id + "/question_packages/delete_resources";
+       $.ajax({
+                type: "post",
+                dataType: "json",
+                url: url,
+                data: {
+                    resources : resources
+                },
+                success: function(data){
+                    if(data["status"] == true)
+                    {
+                        $(obj).parents(".batchUpload_box").empty();    
+                        tishi(data["notice"]);    
+                    }
+                    
+                }
+        });
+    }   
+}
+
+//删除导入的听力的小题
+function delete_before_save_branch(obj)
+{
+    if(confirm("确认删除小题吗？")==true)
+    {
+       var school_class_id = $("#school_class_id").val();
+       var audios = $(obj).parents(".batchUpload_box").find("input[class='audio']");
+       // alert(audios);
+       var resources = ""
+       $.each(audios, function(name,val){
+            resources += $(this).val();
+            resources += ";||;";
+       });
+    
+       var url = "/school_classes/" + school_class_id + "/question_packages/delete_resources";
+       $.ajax({
+                type: "post",
+                dataType: "json",
+                url: url,
+                data: {
+                    resources : resources
+                },
+                success: function(data){
+                    if(data["status"] == true)
+                    {
+                        $(obj).parents(".batchUpload_item_con").remove();    
+                        tishi(data["notice"]);    
+                    }
+                    
+                }
+        });
+    }    
+}
+
+//听力和朗读题保存后删除标签
 function delete_reading_listening_branch(obj)
 {
     var school_class_id = $("#school_class_id").val();
@@ -1530,5 +1607,5 @@ function upload_lisenting_ques(obj)
 
 function submit_import_listening(obj)
 {
-    $(obj).parents(".batchUpload_box").find("form").submit();
+    $(obj).parent().prev().submit();
 }

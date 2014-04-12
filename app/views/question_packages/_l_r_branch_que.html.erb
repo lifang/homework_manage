@@ -20,7 +20,7 @@
                 <input type="hidden" name="tags_id" class="tags_id" value="<%=  @branch_tags && @branch_tags[question_id].present? && @branch_tags[question_id][branch_id].present? ? "#{@branch_tags[question_id][branch_id].map(&:branch_tag_id)}".gsub('','').gsub(/\[|\]/,'').gsub(/\,/,'|') : "" %>"/>
               <% end %>
             <% elsif types == Question::TYPES[:READING] %>
-              <%= form_tag({:action => :save_reading}, :multipart => true ,:remote => true) do %>
+              <%= form_tag("/school_classes/#{school_class_id || 0}/question_packages/save_reading",:method => :post, :multipart => true ,:remote => true) do %>
                 <input type="hidden" name="file" value class="file" style="display:none;"/>
                 <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>"/>
                 <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>"/>
@@ -51,7 +51,7 @@
       <% if content.present? %>
         <a href="javascript:void(0)" class="delete tooltip_html" style="" onclick="delete_reading_listening_branch(this)">删除</a>
       <% else %>
-        <a href="javascript:void(0)" class="save tooltip_html" onclick="save_listening_reading(this,<%= types %>,<%= params[:school_class_id] %>);">保存</a>
+        <a href="javascript:void(0)" class="save tooltip_html" onclick="save_listening_reading(this,<%= types %>,<%= params[:school_class_id].present? ? params[:school_class_id] : 0 %>);">保存</a>
       <% end %>
       <% if branch_id.present? %>
         <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_b_tags('listening_and_reading_tags',this)">标签</a>

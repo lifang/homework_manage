@@ -169,6 +169,7 @@ function save_listening_reading(obj, types, school_class_id)
             }
             else
             {
+                alert($(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").attr("action"))
                 $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();
             }     
         }
@@ -1105,6 +1106,7 @@ $(function(){
     })
     //点击删除该大题
     $("#question_list").on("click", ".delete_icon", function(){
+        alert(1111);
         var que_id = $(this).parents(".ab_list_title").find("input[name='question_id']").first().val();
         var school_class_id = $("#school_class_id").val();
         var flag = confirm("确定删除该大题?");

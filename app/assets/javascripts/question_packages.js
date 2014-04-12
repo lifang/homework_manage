@@ -31,7 +31,7 @@ function no_change(obj){
 }
 
 
-//添加听力或朗读题
+//添加听力或朗读题  types 0：听写  1：朗读
 function add_l_r_question(types, school_class_id )
 {
 
@@ -433,9 +433,32 @@ function show_wanxin(school_class_id,question_id){
 
 //新建十速挑战
 function new_time_limit(school_class_id){
-    var time_limit_que_id = $("#time_limit_assignment_body_list").find("input[name='question_id']").first().val();
-    if(time_limit_que_id==undefined || time_limit_que_id=="" || time_limit_que_id=="0"){
-        var cell_id = $("#cell_id").val();
+    if(school_class_id == 0){
+        timeLimitGetPartial(school_class_id)
+    }else{
+        var time_limit_que_id = $("#time_limit_assignment_body_list").find("input[name='question_id']").first().val();
+        if(time_limit_que_id==undefined || time_limit_que_id=="" || time_limit_que_id=="0"){
+            timeLimitGetPartial(school_class_id)
+
+        }else{
+            tishi("每个大题下面最多只能有一个十速挑战!");
+            var assignment_body_list_divs = $("#question_list").find("div.ab_list_open");
+            if(assignment_body_list_divs.length>0){
+                $.each(assignment_body_list_divs,function(){
+                    $(this).find("div.ab_list_box").hide();
+                    $(this).removeAttr("class");
+                    $(this).attr("class","assignment_body_list");
+                })
+            };
+            $("#time_limit_assignment_body_list").removeAttr("class");
+            $("#time_limit_assignment_body_list").attr("class","assignment_body_list ab_list_open");
+            $("#time_limit_assignment_body_list").find("div.ab_list_box").show();
+        }
+    }
+}
+
+function timeLimitGetPartial(school_class_id){
+    var cell_id = $("#cell_id").val();
         var episode_id = $("#episode_id").val();
         var question_package_id = $("#question_package_id").val();
 
@@ -449,20 +472,6 @@ function new_time_limit(school_class_id){
                 question_package_id : question_package_id
             }
         })
-    }else{
-        tishi("每个大题下面最多只能有一个十速挑战!");
-        var assignment_body_list_divs = $("#question_list").find("div.ab_list_open");
-        if(assignment_body_list_divs.length>0){
-            $.each(assignment_body_list_divs,function(){
-                $(this).find("div.ab_list_box").hide();
-                $(this).removeAttr("class");
-                $(this).attr("class","assignment_body_list");
-            })
-        };
-        $("#time_limit_assignment_body_list").removeAttr("class");
-        $("#time_limit_assignment_body_list").attr("class","assignment_body_list ab_list_open");
-        $("#time_limit_assignment_body_list").find("div.ab_list_box").show();
-    }
 }
 
 //搜索标签
@@ -1005,12 +1014,17 @@ $(function(){
                 success: function(data){
                     if(data.status==1){
                         tishi("删除成功!");
-                        del_a.parents(".assignment_body_list").remove();
-                        this_index = $(".assignment_body_list").index($(this).parent());
-                        if(gloab_index>this_index)
-                        {
-                            gloab_index--
+                        if(school_class_id == 0){
+                            del_a.parents(".assignment_body_list").remove();
+                        }else{
+                            del_a.parents(".assignment_body_list").remove();
+                            this_index = $(".assignment_body_list").index($(this).parent());
+                            if(gloab_index>this_index)
+                            {
+                                gloab_index--
+                            }
                         }
+                
                     }else{
                         tishi("删除失败!");
                     }

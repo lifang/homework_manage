@@ -1,20 +1,30 @@
-var has_time_limit = $("#time_limit_assignment_body_list").length;
-if(has_time_limit > 0){
+<% if @school_class_id == 0 %>
+  $("#question_list").html("<div class='assignment_body_list' id='time_limit_assignment_body_list_<%= @question.id %>'></div>");
+  $("#time_limit_assignment_body_list_<%= @question.id %>").append("<%= j(render "new_time_limit", {:question => @question, :branch_question => @branch_question,
+      :user => @user, :branch_tags => @branch_tags, :school_class => @school_class}) %>");
+  $("#time_limit_assignment_body_list_<%= @question.id %>").addClass("ab_list_open");
+  $("#time_limit_assignment_body_list_<%= @question.id %>").find("div.ab_list_box").show();
+<% else %>
+  var has_time_limit = $("#time_limit_assignment_body_list").length;
+  if(has_time_limit > 0){
   $("#time_limit_assignment_body_list").html("<%= j(render "new_time_limit",{:question => @question, :branch_question => @branch_question,
       :user => @user, :branch_tags => @branch_tags, :school_class => @school_class}) %>");
-}else{
+  }else{
   $("#question_list").append("<div class='assignment_body_list' id='time_limit_assignment_body_list'></div>");
   $("#time_limit_assignment_body_list").append("<%= j(render "new_time_limit", {:question => @question, :branch_question => @branch_question,
       :user => @user, :branch_tags => @branch_tags, :school_class => @school_class}) %>");
-}
+  }
+
 var assignment_body_list_divs = $("#question_list").find("div.ab_list_open");
-if(assignment_body_list_divs.length>0){
+if(assignment_body_list_divs.length>0){    //如果有展开的一题
   $.each(assignment_body_list_divs,function(){
     $(this).find("div.ab_list_box").hide();
     $(this).removeAttr("class");
     $(this).attr("class","assignment_body_list");
   })
 };
+
 $("#time_limit_assignment_body_list").removeAttr("class");
 $("#time_limit_assignment_body_list").attr("class","assignment_body_list ab_list_open");
 $("#time_limit_assignment_body_list").find("div.ab_list_box").show();
+<% end %>

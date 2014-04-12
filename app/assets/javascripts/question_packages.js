@@ -683,9 +683,10 @@ function add_b_tags(type, obj){
     }
     else if(type=="listening_befor_save"){
         var question_id = $(obj).parents("div.assignment_body_list").find("input.question_id").first().val();
-        var b_index = $(obj).parents(".batchUpload_item_con").index();
+        var b_index = $(obj).parents(".batchUpload_item_con").parents("li").index();
         $("#tags_table").find("input[name='q_index']").first().val(question_id);
         $("#tags_table").find("input[name='b_index']").first().val(b_index);
+        tishi(b_index);
         var lis = $("#tags_table").find("li");
         $.each(lis, function(){
             var current_input = $(this).find("input").first();

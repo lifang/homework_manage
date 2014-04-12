@@ -267,6 +267,7 @@ li.p_input p, li.p_input input, .tab_switch li input {
 	border-radius: 5px;
 	background: rgba(255,255,255,0.8);
 	position: absolute;
+	display: none;
 	z-index: 100;
 }
 .tab_Prompt a.x { top: 10px; right: 10px;} 
@@ -1082,7 +1083,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 .questionTypes { margin-top: 5px;}
 .qType_menu { position: relative;}
 .qType_menu li { 
-	width: 105px; 
+	width: 140px; 
 	float: left; 
 	margin-right: 1px; 
 }

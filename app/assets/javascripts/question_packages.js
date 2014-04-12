@@ -490,7 +490,6 @@ function timeLimitGetPartial(school_class_id){
 //搜索标签
 function search_b_tags(obj, school_class_id){
     var tag_name = $.trim($(obj).val());
-    alert(111111);
     var tag_bq_type = $(obj).parents(".tag_tab").find("input[name='tag_bq_type']").first().val();
     $.ajax({
         type: "get",

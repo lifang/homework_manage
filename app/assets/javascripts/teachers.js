@@ -474,7 +474,7 @@ function add_tag_to_select(obj,q_index,branch_question_id,types){
 function new_select_question(obj){
     $("div.ab_list_box").hide();
     var episode_id = $("#episode_id").val();
-    var question_package_id = $("#question_package_id_2").val()
+    var question_package_id = $("#question_package_id").val()
     var type = 3
     var cell_id = $("#cell_id").val();
     $.ajax({
@@ -497,7 +497,7 @@ function new_select_question(obj){
 function new_lianxian_question(obj){
     $("div.ab_list_box").hide();
     var episode_id = $("#episode_id").val();
-    var question_package_id = $("#question_package_id_2").val()
+    var question_package_id = $("#question_package_id").val()
     var type = 4
     var cell_id = $("#cell_id").val();
     $.ajax({

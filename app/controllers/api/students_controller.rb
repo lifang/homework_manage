@@ -610,82 +610,6 @@ class Api::StudentsController < ApplicationController
     end
   end
 
-  #记录答题信息
-  def record_answer_info
-    student_id = params[:student_id]
-    school_class_id = params[:school_class_id]
-    publish_question_package_id = params[:publish_question_package_id]
-    question_id = params[:question_id]
-    branch_question_id = params[:branch_question_id]
-    answer = params[:answer]
-    question_types = params[:question_types].to_i  #题型:听力或朗读
-    student = Student.find_by_id student_id
-    school_class = SchoolClass.find_by_id school_class_id
-    publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
-    student_answer_record = nil
-    status = "error"
-    notice = "记录失败！"
-
-    if !publish_question_package.nil?
-      url = "/"
-      count = 0
-      if !student.nil?
-        questions_xml_dir = "pub_que_ps/pub_#{publish_question_package.id}/answers"
-        answer_file_full_name = "student_#{student.id}.js"
-        if !school_class.nil?
-          school_class_student_relation = SchoolClassStudentRalastion.
-            find_all_by_school_class_id_and_student_id school_class.id, student.id
-          if school_class_student_relation.nil?
-            notice = "该学生不属于当前班级,操作失败!"
-          else
-            student_answer_record = StudentAnswerRecord.
-              find_by_student_id_and_publish_question_package_id student.id, publish_question_package.id
-            if student_answer_record.nil?
-              if !publish_question_package.question_package.nil?
-                student_answer_record = student.student_answer_records.
-                  create(:question_package_id => publish_question_package.question_package.id,
-                  :publish_question_package_id=> publish_question_package.id,
-                  :status => StudentAnswerRecord::STATUS[:DEALING],
-                  :school_class_id => school_class.id,
-                  :listening_answer_count => 0 , :reading_answer_count => 0)
-              end
-            end
-            if !student_answer_record.nil?
-              info =  write_answer_json(questions_xml_dir,answer_file_full_name, question_id, branch_question_id, answer, question_types)
-              if info[:status] == true
-                file_url = info[:url]
-                answer_count = 0
-                if question_types == Question::TYPES[:LISTENING]
-                  answer_count = student_answer_record.listening_answer_count + 1
-                  student_answer_record.update_attributes(:listening_answer_count => answer_count,
-                    :answer_file_url => file_url)
-                  status = "success"
-                  notice = "记录完成！"
-                elsif question_types == Question::TYPES[:READING]
-                  answer_count = student_answer_record.reading_answer_count + 1
-                  student_answer_record.update_attributes(:reading_answer_count => answer_count,
-                    :answer_file_url => file_url)
-                  status = "success"
-                  notice = "记录完成！"
-                end
-              end
-            else
-              status = "error"
-              notice = "题包不存在！"
-            end
-          end
-        else
-          notice = "该班级不存在!"
-        end
-      else
-        notice = "该用户不存在!"
-      end
-    else
-      notice = "该任务包不存在!"
-    end
-    render :json => {"status" => status, "notice" => notice}
-  end
-
   #获取历史答题记录
   def get_answer_history
     student_id = params[:student_id]
@@ -719,6 +643,7 @@ class Api::StudentsController < ApplicationController
     publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
     status = "error"
     notice = "记录失败！"
+    updated_time = nil
     if !publish_question_package.present?
       notice = "该任务不存在或被删除！"
     else  
@@ -757,6 +682,7 @@ class Api::StudentsController < ApplicationController
 
         File.open(anwser_file_url, "wb"){|f| f.write answer_records.to_json}
         #保存完道具后， 清空文件json中的 道具使用情况
+        updated_time = student_answer_record.updated_at.strftime("%Y-%m-%d %H:%M:%S")
         notice = "作业状态更新完成!"
         status = "success"
       else
@@ -764,7 +690,7 @@ class Api::StudentsController < ApplicationController
         status = "error"
       end
     end  
-    render :json => {:status => status, :notice => notice,:updated_time =>student_answer_record.updated_at.strftime("%Y-%m-%d %H:%M:%S")}
+    render :json => {:status => status, :notice => notice,:updated_time => updated_time}
   end
 
   #获取子消息
@@ -806,49 +732,57 @@ class Api::StudentsController < ApplicationController
             school_class.period_of_validity - Time.now < 0
           render :json => {:status => "error", :notice => "班级已失效！"}
         else
-          school_class_student_relations = SchoolClassStudentRalastion.
-            find_by_school_class_id_and_student_id school_class.id, student.id
-          if school_class_student_relations.nil?
-            school_class_student_relations = student.school_class_student_ralastions.
-              create(:school_class_id => school_class.id)
-            props = Prop.all
-            props.each do |prop|
-              student.user_prop_relations.create(:prop_id => prop.id, :user_prop_num => Prop::DefaultPropNumber,
-                                                 :school_class_id => school_class.id)
+          flag = "false"
+          #如果创建该班级教师属于某个学校的,则减去该学校的配额
+          if school_class.teacher.school_id.present?
+            school = School.find_by_id school_class.teacher.school_id
+            if school && (school.students_count - school.used_school_counts) > 0
+              flag = "true"
+            else
+              notice = "配额不足,请联系学校管理员申请学生配额!"
+              status = "error"
+              render :json => {:status => status, :notice => notice}
             end
-            #如果创建该班级教师属于某个学校的,则减去该学校的配额
-            if school_class.teacher.school_id.present?
-              school = School.find_by_id school_class.teacher.school_id
-              if school && (school.students_count - school.used_school_counts) > 0
-                school.update_attributes(:used_school_counts => school.used_school_counts - 1)
-                SchoolClassStudentsRelation.create(:school_id => school.id, :school_class_id => school_class.id,
-                                :student_id => student.id)
-              else
-                notice = "配额不足,请联系学校管理员申请学生配额!"
-                status = "error"
-                render :json => {:status => status, :notice => notice}
-              end 
-            end 
-            class_id = school_class.id
-            class_name = school_class.name
-            tearcher_id = school_class.teacher.id
-            tearcher_name = school_class.teacher.user.name
-            page = 1
-            microposts = Micropost.get_microposts school_class,page
-            follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-            render :json => {:status => "success", :notice => "验证成功！",
-              :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
-                :nickname => student.nickname, :avatar_url => student.user.avatar_url},
-              :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-                :tearcher_id => tearcher_id, :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S") },
-              :microposts => microposts,
-              :follow_microposts_id => follow_microposts_id,
-            }
           else
-            status = "error"
-            notice = "您已加入该班级!"
-            render :json => {:status => status, :notice => notice}  
+            flag = "none"
           end
+          if flag == "true" || flag = "none"
+            school_class_student_relations = SchoolClassStudentRalastion
+              .find_by_school_class_id_and_student_id school_class.id, student.id
+            if school_class_student_relations.nil?
+              school_class_student_relations = student.school_class_student_ralastions.
+                create(:school_class_id => school_class.id)
+              props = Prop.all
+              props.each do |prop|
+                student.user_prop_relations.create(:prop_id => prop.id, :user_prop_num => Prop::DefaultPropNumber,
+                                                   :school_class_id => school_class.id)
+              end
+              if flag == "true"
+                school.update_attributes(:used_school_counts => school.used_school_counts - 1)
+                  SchoolClassStudentsRelation.create(:school_id => school.id, :school_class_id => school_class.id,
+                                  :student_id => student.id)
+              end   
+              class_id = school_class.id
+              class_name = school_class.name
+              tearcher_id = school_class.teacher.id
+              tearcher_name = school_class.teacher.user.name
+              page = 1
+              microposts = Micropost.get_microposts school_class,page
+              follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
+              render :json => {:status => "success", :notice => "验证成功！",
+                :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
+                  :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+                :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+                  :tearcher_id => tearcher_id, :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S") },
+                :microposts => microposts,
+                :follow_microposts_id => follow_microposts_id,
+              }
+            else
+              status = "error"
+              notice = "您已加入该班级!"
+              render :json => {:status => status, :notice => notice}  
+            end
+          end  
         end
       else
         status = "error"

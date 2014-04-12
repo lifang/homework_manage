@@ -647,20 +647,27 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
       if sub != '.' && sub != '..'
         if !File.directory?("#{path}/#{sub}")
           audios << sub.to_s if File.extname(sub.to_s)== ".mp3"
-          excel = sub.to_s if File.extname(sub.to_s)== ".xls"
+          excel = sub.to_s if File.extname(sub.to_s)== ".xls" || File.extname(sub.to_s)== ".xlsx"
         end
       end
     end
     all_files = {:excel => excel, :audios => audios}
   end
 
-  def read_questions zip_url, excel_url, audios
+  def read_questions zip_url, excel, audios
+    excel_url = "#{zip_url}/#{excel}" 
     questions = []
     errors = ""
     no_find_audio = []
     no_content_or_no_find_audio = []
     begin
-      oo = Roo::Excel.new(excel_url)
+      file_type = File.extname(excel)
+      p file_type
+      if file_type == ".xls"
+        oo = Roo::Excel.new(excel_url)
+      elsif file_type == ".xlsx"
+        oo = Roo::Excelx.new(excel_url)
+      end
       oo.default_sheet = oo.sheets.first
     rescue
       errors << "#{excel}不是正确的excel文件"

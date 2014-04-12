@@ -1041,12 +1041,13 @@ $(function(){
     $("#question_list").on("click", ".clock_icon", function(){        
         var que_id = $(this).parents(".ab_list_title").find("input[name='question_id']").first().val();
         var win_width = $(window).width();
-        var win_height = $(window).height();
-        var layer_height = $("#set_time_div").height();
+        //var win_height = $(window).height();
+        var scolltop = document.body.scrollTop|document.documentElement.scrollTop; //滚动条高度
+        //var layer_height = $("#set_time_div").height();
         var layer_width = $("#set_time_div").width();
-        $("#set_time_div").css('display','block');
-        $("#set_time_div").css('top',(win_height-layer_height)/2);
+        $("#set_time_div").css('top',scolltop + 100);
         $("#set_time_div").css('left',(win_width-layer_width)/2);
+        $("#set_time_div").css('display','block');
         var doc_height = $(document).height();
         $(".mask").css("height",doc_height);
         $(".mask").css("display","block");
@@ -1065,7 +1066,10 @@ $(function(){
         var que_name_1 = que_name.split("(")[0];
         var que_name_2 = que_name.split("(")[1];
         if(que_name_2==undefined || que_name_2==""){
+            var scolltop = document.body.scrollTop|document.documentElement.scrollTop; //滚动条高度
             var doc_height = $(document).height();
+            var top = scolltop+100;
+            $("#set_name_div").css('top',top);
             $(".mask").css("height",doc_height);
             $("#set_name_div").show();
             $(".mask").show();

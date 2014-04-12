@@ -268,7 +268,7 @@ li.p_input p, li.p_input input, .tab_switch li input {
     background: rgba(255,255,255,0.8);
     position: absolute;
     display: none;
-    z-index: 100;
+    z-index: 150;
 }
 .tab_Prompt a.x { top: 10px; right: 10px;} 
 .tab_Prompt p { padding: 10px; text-align: center; line-height: 24px;}
@@ -804,6 +804,9 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     overflow: hidden;
 }
 .qt_icon a.tag { 
+    background: url(/assets/icon07.png) no-repeat 0 0;
+}
+.qt_icon a.tag_1 {
     background: url(/assets/icon07.png) no-repeat 0 0;
 }
 .qt_icon a.delete { 

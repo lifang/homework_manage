@@ -1,6 +1,7 @@
 #encoding: utf-8
 class TeacherQuestionManagesController < ApplicationController  #教师题库管理
   before_filter :get_school_class
+  
   def index
     @last_re = request.referer
     @search_type = params[:search_type]
@@ -15,7 +16,7 @@ class TeacherQuestionManagesController < ApplicationController  #教师题库管
             SchoolClass::STATUS[:NORMAL], @t_m_id])
         question_packages = QuestionPackage.select("id").where(["school_class_id in (?)", school_classes.map(&:id)]) if school_classes.any?
         @questions = Question.paginate_by_sql(["select q.*,c.name cname, e.name ename from questions q inner join cells c on q.cell_id=c.id
-      left join episodes e on q.episode_id=e.id where q.question_package_id in (?)", question_packages.map(&:id)],
+      left join episodes e on q.episode_id=e.id where q.question_package_id in (?) and q.status=?", question_packages.map(&:id),Question::STATUS[:NORMAL]],
           :page => params[:page] ||=1, :per_page => Question::PER_PAGE) if question_packages && question_packages.any?
         @cells = Cell.select("id, name").where(["teaching_material_id=?", @t_m_id.to_i]) if @t_m_id && @t_m_id.to_i != 0
       end
@@ -27,11 +28,11 @@ class TeacherQuestionManagesController < ApplicationController  #教师题库管
       question_packages = QuestionPackage.select("id").where(["school_class_id in (?)", school_classes.map(&:id)]) if school_classes.any?
       if @cell_id.to_i == 0
         @questions = Question.paginate_by_sql(["select q.*,c.name cname, e.name ename from questions q inner join cells c on q.cell_id=c.id
-      left join episodes e on q.episode_id=e.id where q.question_package_id in (?)", question_packages.map(&:id)],
+      left join episodes e on q.episode_id=e.id where q.question_package_id in (?) and q.status=?", question_packages.map(&:id),Question::STATUS[:NORMAL]],
           :page => params[:page] ||=1, :per_page => Question::PER_PAGE) if question_packages && question_packages.any?
       else
         @questions = Question.paginate_by_sql(["select q.*,c.name cname, e.name ename from questions q inner join cells c on q.cell_id=c.id
-      left join episodes e on q.episode_id=e.id where q.question_package_id in (?) and q.cell_id=?", question_packages.map(&:id), @cell_id.to_i],
+      left join episodes e on q.episode_id=e.id where q.question_package_id in (?) and q.status=? and q.cell_id=?", question_packages.map(&:id), Question::STATUS[:NORMAL], @cell_id.to_i],
           :page => params[:page] ||=1, :per_page => Question::PER_PAGE) if question_packages && question_packages.any?
         @episodes = Episode.where(["cell_id=?", @cell_id.to_i])
       end
@@ -44,11 +45,11 @@ class TeacherQuestionManagesController < ApplicationController  #教师题库管
       question_packages = QuestionPackage.select("id").where(["school_class_id in (?)", school_classes.map(&:id)]) if school_classes.any?
       if @episode_id.to_i == 0
         @questions = Question.paginate_by_sql(["select q.*,c.name cname, e.name ename from questions q inner join cells c on q.cell_id=c.id
-      left join episodes e on q.episode_id=e.id where q.question_package_id in (?) and q.cell_id=?", question_packages.map(&:id), cell_id.to_i],
+      left join episodes e on q.episode_id=e.id where q.question_package_id in (?) and q.status=? and q.cell_id=?", question_packages.map(&:id), Question::STATUS[:NORMAL], cell_id.to_i],
           :page => params[:page] ||=1, :per_page => Question::PER_PAGE) if question_packages && question_packages.any?
       else
         @questions = Question.paginate_by_sql(["select q.*,c.name cname, e.name ename from questions q inner join cells c on q.cell_id=c.id
-      left join episodes e on q.episode_id=e.id where q.question_package_id in (?) and q.cell_id=? and q.episode_id=?", question_packages.map(&:id), cell_id.to_i, @episode_id.to_i],
+      left join episodes e on q.episode_id=e.id where q.question_package_id in (?) and q.status=? and q.cell_id=? and q.episode_id=?", question_packages.map(&:id), Question::STATUS[:NORMAL], cell_id.to_i, @episode_id.to_i],
           :page => params[:page] ||=1, :per_page => Question::PER_PAGE) if question_packages && question_packages.any?
       end
     elsif @search_type == "type"
@@ -62,11 +63,11 @@ class TeacherQuestionManagesController < ApplicationController  #教师题库管
       question_packages = QuestionPackage.select("id").where(["school_class_id in (?)", school_classes.map(&:id)]) if school_classes.any?
       if type == -1
         @questions = Question.paginate_by_sql(["select q.*,c.name cname, e.name ename from questions q inner join cells c on q.cell_id=c.id
-      left join episodes e on q.episode_id=e.id where q.question_package_id in (?) and q.cell_id=? and q.episode_id=?", question_packages.map(&:id), cell_id.to_i, episode_id.to_i],
+      left join episodes e on q.episode_id=e.id where q.question_package_id in (?) and q.status=? and q.cell_id=? and q.episode_id=?", question_packages.map(&:id), Question::STATUS[:NORMAL], cell_id.to_i, episode_id.to_i],
           :page => params[:page] ||=1, :per_page => Question::PER_PAGE) if question_packages && question_packages.any?
       else
         @questions = Question.paginate_by_sql(["select q.*,c.name cname, e.name ename from questions q inner join cells c on q.cell_id=c.id
-      left join episodes e on q.episode_id=e.id where q.question_package_id in (?) and q.cell_id=? and q.episode_id=? and q.types=?", question_packages.map(&:id), cell_id.to_i,
+      left join episodes e on q.episode_id=e.id where q.question_package_id in (?) and q.status=? and q.cell_id=? and q.episode_id=? and q.types=?", question_packages.map(&:id), Question::STATUS[:NORMAL], cell_id.to_i,
             episode_id.to_i, type],
           :page => params[:page] ||=1, :per_page => Question::PER_PAGE) if question_packages && question_packages.any?
       end
@@ -82,9 +83,42 @@ class TeacherQuestionManagesController < ApplicationController  #教师题库管
     Question.transaction do
       status = 0
       q_id = params[:q_id].to_i
+      name = params[:name]
       question = Question.find_by_id(q_id)
-      if question.update_attribute("if_shared", Question::IF_SHARED[:YES])
-        status = 1
+      question_pack = question.question_package
+      unless question.if_shared
+        branch_questions = question.branch_questions
+        if branch_questions.present?
+          share_question = ShareQuestion.create({:user_id => current_user.id, :name => name, :types => question.types,
+              :cell_id => question.cell_id, :episode_id => question.episode_id, :questions_time => question.questions_time,
+              :full_text => question.full_text})
+          if share_question
+            question.branch_questions.each do |bq|
+              new_resource_url = copy_file(share_media_path, question_pack, bq, bq.resource_url) if bq.resource_url.present? #分享的时候，拷贝音频
+              new_content =  bq.content
+              #选择题的话，内容里面有资源，复制资源
+              if bq.types == Question::TYPES[:SELECTING] && bq.content.present? && bq.content.include?("<file>")
+                content = bq.content.split("</file>")[1]
+                content_file = bq.content.split("</file>")[0].split("<file>")[1]
+                new_content_file = copy_file(share_media_path, question_pack, bq, content_file) if content_file.present?
+                new_content = "<file>#{new_content_file}</file>#{content}"
+              end
+              sbq = share_question.share_branch_questions.new({:content => new_content, :resource_url => new_resource_url,
+                  :options => bq.options, :answer => bq.answer, :types => bq.types})
+
+              bq.branch_tags.each do |bt|
+                sbq.branch_tags << bt
+              end
+              sbq.save
+            end
+          end
+          question.update_attributes(:if_shared => true, :name => name)
+          status = 0 #分享成功
+        else
+          status = 2 #大题下面无小题，提示
+        end
+      else
+        status = 1 #已经分享过
       end
       render :json => {:status => status}
     end
@@ -96,12 +130,7 @@ class TeacherQuestionManagesController < ApplicationController  #教师题库管
         status = 1
         q_id = params[:q_id].to_i
         question = Question.find_by_id(q_id)
-        bqs = BranchQuestion.where(["question_id = ?", question.id]) if question
-        BtagsBqueRelation.delete_all(["branch_question_id in (?)", bqs.map(&:id)]) if bqs
-        bqs.each do |bq|
-          bq.destroy
-        end if bqs
-        question.destroy
+        question.update_attribute("status", Question::STATUS[:DELETED])
       rescue
         status = 0
       end
@@ -120,8 +149,9 @@ class TeacherQuestionManagesController < ApplicationController  #教师题库管
     @courses = Course.where(["id in (?) and status=? ", teach_materials.map(&:course_id), Course::STATUS[:NORMAL]]) if teach_materials
     question_packages = QuestionPackage.select("id").where(["school_class_id in (?)", school_classes.map(&:id)]) if school_classes.any?
     @questions = Question.paginate_by_sql(["select q.*,c.name cname, e.name ename from questions q inner join cells c on q.cell_id=c.id
-      left join episodes e on q.episode_id=e.id where q.question_package_id in (?)", question_packages.map(&:id)],
+      left join episodes e on q.episode_id=e.id where q.question_package_id in (?) and q.status=?", question_packages.map(&:id), Question::STATUS[:NORMAL]],
       :page => params[:page] ||=1, :per_page => Question::PER_PAGE) if question_packages && question_packages.any?
   end
+
 
 end

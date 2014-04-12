@@ -97,6 +97,7 @@ function popup(t){
 
     var left = (win_width-layer_width)/2;
     var top = scolltop+100;
+
     $(".mask").css("height",doc_height);
     $(t).css('top',top);
     $(t).css('left',left);

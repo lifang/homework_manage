@@ -138,3 +138,59 @@ function teacher_question_manages_search_ques(obj, school_class_id, type){  //�
         })
     }
 }
+
+function share_que(que_id, school_class_id){
+    var scolltop = document.body.scrollTop|document.documentElement.scrollTop; //滚动条高度
+    var doc_height = $(document).height();
+    var win_width = $(window).width();
+    var layer_width = $("#set_time_div").width();
+    $("#tqm_set_que_name_div").css('top',scolltop + 100);
+    $("#tqm_set_que_name_div").css('left',(win_width-layer_width)/2);
+    $("#tqm_set_que_name_div").css('display','block');
+    $(".mask").css("height",doc_height);
+    $(".mask").css("display","block");
+    $("#tqm_set_que_name_div").find("button").first().removeAttr("onclick");
+    $("#tqm_set_que_name_div").find("button").first().attr("onclick", "tqm_set_que_name_valid('"+que_id+"',this,'"+school_class_id+"')")
+}
+
+function tqm_set_que_name_valid(que_id, obj, school_class_id){
+    var que_name = $.trim($("#tqm_set_question_name").val());
+    if(que_name=="" || que_name=="名称"){
+        tishi("名称不能为空!");
+    }else{
+        $.ajax({
+            type: "get",
+            url: "/school_classes/"+school_class_id+"/teacher_question_manages/share_question",
+            data: {q_id : que_id, name : que_name},
+            dataType: "json",
+            success: function(data){
+                if(data.status==1){
+                    tishi("已经分享!");
+                }else if(data.status==2){
+                    tishi("该大题下无小题!");
+                }else{
+                    tishi("分享成功!");
+                    var q_ids = $("#teacher_question_manage_tab").find("input[name='q_id']");
+                    $.each(q_ids, function(){
+
+                        if($(this).val()==que_id){
+                            var td = $(this).parents("tr").find("td")[3];
+                            $(td).text(que_name);
+                            var a = $(this).parents("tr").find("a.share");
+                            a.removeAttr("class");
+                            a.removeAttr("title");
+                            a.removeAttr("onclick");
+                            a.attr("class", "share_ed tooltip_html");
+                            a.attr("title", "已分享");
+                        }
+                    })
+                };
+                $(".mask").hide();
+                $("#tqm_set_que_name_div").hide();
+            },
+            error: function(){
+                tishi("数据错误!");
+            }
+        })
+    }
+}

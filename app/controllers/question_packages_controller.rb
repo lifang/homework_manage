@@ -689,7 +689,7 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
-  #设置十速挑战的时间
+  #设置大题的时间
   def set_question_time
     Question.transaction do
       status = 1

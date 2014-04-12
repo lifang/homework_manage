@@ -1,1 +1,5 @@
-$(".assignment_body").append('<%=j(render 'wanxin/wanxin')%>');
+<% if @question.is_a?(ShareQuestion) %>
+  $(".assignment_body").html('<%=j(render 'wanxin/wanxin')%>');
+<% else %>
+  $(".assignment_body").append('<%=j(render 'wanxin/wanxin')%>');
+<% end %>

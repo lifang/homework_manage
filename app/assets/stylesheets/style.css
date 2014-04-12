@@ -803,7 +803,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     text-indent: -999px;
     overflow: hidden;
 }
-.qt_icon a.tag { 
+.qt_icon a.tag_1 {
     background: url(/assets/icon07.png) no-repeat 0 0;
 }
 .qt_icon a.delete { 
@@ -1030,6 +1030,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     padding: 0 10px;
     font-size: 14px;
     overflow: hidden
+    min-height: 36px;
 }
 .gq_article li { overflow: hidden; margin: 10px 0; background: #f0f0f0; padding-left: 10px; font-size: 0;}
 

@@ -97,8 +97,7 @@ class QuestionPackagesController < ApplicationController
         if branch_que[:tags].present?
 
           branch_que[:tags].each do |tag_id|  
-            BtagsBqueRelation.create(branch_question_id:branch_question.id,
-                      branch_tag_id:tag_id)  
+            BtagsBqueRelation.create(branch_question_id:branch_question.id, branch_tag_id:tag_id)
           end
           @branch_tags[@question_id][branch_question.id] = BtagsBqueRelation
                                                               .select("bt.name, btags_bque_relations.branch_tag_id")
@@ -999,15 +998,15 @@ class QuestionPackagesController < ApplicationController
     branch_question_id = params[:branch_question_id]
     school_class_id = params[:school_class_id].to_i
     branch_tag = BranchTag.find_by_id(branch_tag_id)
+    branch_question = (school_class_id == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id branch_question_id
     if school_class_id == 0
       btagsbquetelation = SbranchBranchTagRelation.find_by_branch_tag_id_and_share_branch_question_id(branch_tag_id,branch_question_id)
     else
       btagsbquetelation = BtagsBqueRelation.find_by_branch_tag_id_and_branch_question_id(branch_tag_id,branch_question_id)
     end
-    
     if branch_tag
       if btagsbquetelation.nil?
-        if btagsbquetelation.is_a?(BtagsBqueRelation)
+        if branch_question.is_a?(BranchQuestion)
           @bq = BtagsBqueRelation.create(branch_question_id:branch_question_id,
             branch_tag_id:branch_tag_id)
         else

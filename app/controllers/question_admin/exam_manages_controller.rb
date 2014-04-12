@@ -80,11 +80,11 @@ class QuestionAdmin::ExamManagesController < ApplicationController
         sbranch_branch_tag_relations bbr left join branch_tags bt on bbr.branch_tag_id=bt.id left join share_branch_questions bq
         on bq.id = bbr.share_branch_question_id where bbr.share_branch_question_id in (?) ", branch_questions.map(&:id)])
 
-    h_branch_tags = branch_tags.group_by{|t|t.question_id}
+    h_branch_tags = branch_tags.group_by{|t|t.share_question_id}
 
     hash = {}
     h_branch_tags.each do |k, v|
-      second_tags = v.group_by{|t|t.branch_question_id}
+      second_tags = v.group_by{|t|t.share_branch_question_id}
       hash[k] = second_tags
     end
     @branch_tags = hash

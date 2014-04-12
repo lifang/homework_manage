@@ -4,8 +4,11 @@
     <meta charset="utf-8"/>
     <title>HomeworkManage</title>
     <%= stylesheet_link_tag   "/assets/jqtransform.css", "/assets/question_admin/question_manage.css", :media => "all"  %>
+
     <%= javascript_include_tag "application", "/assets/admin/system.js", "/assets/jquery.jqtransform.js","/assets/question_admin/exam_manages.js" %>
-    <%= javascript_include_tag "question_packages", "teachers", "ajaxfileupload", "main", "icheck"%>
+    <%= javascript_include_tag "question_packages"%>
+    <%= javascript_include_tag "zuoye","main", "main_pages", "icheck", "jquery.tablesorter", "share_question","ajaxfileupload" ,"homework" %>
+
     <script type="text/javascript" src="/assets/My97DatePicker/WdatePicker.js" ></script>
     <script charset="utf-8" src="/assets/kindeditor/kindeditor.js"></script>
     <script charset="utf-8" src="/assets/kindeditor/lang/zh_CN.js"></script>
@@ -35,13 +38,7 @@
     <div class="mask"></div>
 
     <div class="tab tab840" id="popup_page"></div>
-
-
-    <!--设定question的名称弹出层-->
-    <div class="tab tab500" id="set_name_div">
-      <%= render :partial => "question_packages/set_name" %>
-    </div>
-
+    
     <script language="javascript">
       $(function(){
         $('.select_box').jqTransform();

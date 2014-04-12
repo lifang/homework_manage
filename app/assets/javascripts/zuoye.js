@@ -364,18 +364,18 @@ function hideInput(obj, ques_type){
     }
 }
 
-//播放音频文件
-function playAudio(obj){
-    alert(11111)
-
-//    var oAudio =  $(obj).find("audio")[0];
-//    if (oAudio.paused) {
-//        oAudio.play();
-//    }
-//    else {
-//        oAudio.pause();
-//    }
-}
+////播放音频文件
+//function playAudio(obj){
+//    alert(11111)
+//
+////    var oAudio =  $(obj).find("audio")[0];
+////    if (oAudio.paused) {
+////        oAudio.play();
+////    }
+////    else {
+////        oAudio.pause();
+////    }
+//}
 
 
 //题号向上滚动

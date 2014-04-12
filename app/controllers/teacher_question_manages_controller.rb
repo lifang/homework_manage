@@ -2,6 +2,7 @@
 class TeacherQuestionManagesController < ApplicationController  #教师题库管理
   before_filter :get_school_class
   def index
+    @last_re = request.referer
     @search_type = params[:search_type]
     if @search_type.nil?
       get_question_init

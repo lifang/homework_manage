@@ -1,6 +1,6 @@
 <% question_pack_id = @question_pack ? @question_pack.id : 0 %>
 <div class="questions_item" stypes="save_lianxian" branch_question_index="" question_type="lianxian">
-  <%= form_for :question,:url => { :action => :save_lianxian, :controller => :questions ,:question_package_id => question_pack_id}, :method=>"post" ,:remote=>true do |f|%>
+  <%= form_for :question,:url => { :action => :save_lianxian, :controller => "/questions" ,:question_package_id => question_pack_id}, :method=>"post" ,:remote=>true do |f|%>
     <div class="q_topic">
       <div class="ligatureQuestions">
         <ul>

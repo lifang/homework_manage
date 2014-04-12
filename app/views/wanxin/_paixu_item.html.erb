@@ -27,7 +27,7 @@
                     <a onclick="delete_tags(this,<%=  school_class_id %>,<%= question_package_id %>,<%=tag.id%>,<%=branch_question.id%>,'paixu')" class="x">X</a>
                   </li>
                 <%end%>
-              <%end%>
+              <%end if @tags%>
             <%else%>
               <%unless !@tags_p||@tags_p[branch_question.id].nil?%>
                 <%@tags_p[branch_question.id].each do |tag|%>

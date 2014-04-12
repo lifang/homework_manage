@@ -1,0 +1,77 @@
+<% @questions.each do |q| %>
+  <tr>
+    <td><%= q.cname %></td>
+    <td><%= q.ename %></td>
+    <td><%= Question::TYPES_NAME[q.types.to_i] %></td>
+    <td><%= q.name %></td>
+    <td>
+      <em><%= q.created_at.nil? ? "" : q.created_at.strftime("%Y/%m/%d")%></em>
+      <p><%= q.created_at.nil? ? "" : q.created_at.strftime("%H:%M")%></p>
+    </td>
+    <td><a href="javascript:void(0);" class="compile tooltip_html" title="编辑"></a></td>
+    <% if q.if_shared.nil? || q.if_shared==false %>
+      <td><a href="javascript:void(0);" class="share tooltip_html" title="分享"></a></td>
+    <% else %>
+      <td><a href="javascript:void(0);" class="share_ed tooltip_html" title="已分享"></a></td>
+    <% end %>
+    <td><a href="javascript:void(0);" class="delete tooltip_html" title="删除"></a></td>
+  <input type="hidden" name="q_id" value="<%= q.id %>"/>
+  </tr>
+<% end if @questions %>
+
+<script>
+  $(function(){
+    $("#teacher_question_manage_tab .tooltip_html").unbind();
+    $("#teacher_question_manage_tab a.share").click(function(){   //分享
+      var a = $(this)
+      var q_id = a.parents("tr").find("input[name='q_id']").first().val();
+      $.ajax({
+        type: "get",
+        url: "/school_classes/"+<%= @school_class.id %>+"/teacher_question_manages/share_question",
+        data: {q_id : q_id},
+        dataType: "json",
+        success: function(data){
+          if(data.status==1){
+            tishi("分享成功!");
+            a.removeAttr("class");
+            a.removeAttr("title");
+            a.attr("class", "share_ed tooltip_html");
+            a.attr("title", "已分享");
+            a.unbind();
+          }else{
+            tishi("分享失败!");
+          }
+        },
+        error: function(){
+          tishi("数据错误!");
+        }
+      })
+    });
+
+    $("#teacher_question_manage_tab a.delete").click(function(){   //删除
+      var flag = confirm("确定删除该大题?");
+      if(flag){
+        var a = $(this)
+        var q_id = a.parents("tr").find("input[name='q_id']").first().val();
+        $.ajax({
+          type: "get",
+          url: "/school_classes/"+<%= @school_class.id %>+"/teacher_question_manages/delete_question",
+          data: {q_id : q_id},
+          dataType: "json",
+          success: function(data){
+            if(data.status==1){
+              tishi("删除成功!");
+              a.parents("tr").remove();
+            }else{
+              tishi("分享失败!");
+            }
+          },
+          error: function(){
+            tishi("数据错误!");
+          }
+        })
+      }
+    });
+
+  })
+</script>

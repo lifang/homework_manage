@@ -175,7 +175,7 @@ HomeworkManage::Application.routes.draw do
           :new_reading_or_listening, :share_question, :delete_question,
           :search_b_tags, :add_b_tags,:save_branch_tag, :set_question_time
         post :create_time_limit, :save_listening, :save_reading, :set_question_time, :delete_branch, :upload_voice,
-          :update_listening
+          :update_listening, :inport_lisenting, :save_import_lisenting, :delete_resources
       end
       member do
         get :new_index,:show_wanxin,:create_wanxin,:create_paixu,
@@ -202,6 +202,11 @@ HomeworkManage::Application.routes.draw do
     resources :share_questions do
       collection do
         get :list_questions_by_type, :paginate_share_question
+      end
+    end
+    resources :teacher_question_manages do
+      collection do
+        get :select_course, :select_teaching_materials, :share_question, :delete_question
       end
     end
   end

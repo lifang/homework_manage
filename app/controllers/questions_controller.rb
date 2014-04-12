@@ -26,7 +26,7 @@ class QuestionsController < ApplicationController
       filename = file_upload.original_filename
       fileext = File.basename(filename).split(".")[-1]
       if question_package_id == 0
-        resourse_url = "#{Rails.root}/public#{tiku_share_media_path}"
+        resourse_url = "#{Rails.root}/public#{question_admin_share_media_path}"
       else
         resourse_url = "#{Rails.root}/public#{media_path % question_package_id}"
       end
@@ -36,7 +36,7 @@ class QuestionsController < ApplicationController
       File.open(url, "wb")  {|f| f.write(file_upload.read) }
       #    img = MiniMagick::Image.read(file_upload)
       #    img.write "#{url}"
-      url_img ="#{(question_package_id == 0 ? tiku_share_media_path : media_path % question_package_id)}#{time_path}"
+      url_img ="#{(question_package_id == 0 ? question_admin_share_media_path : media_path % question_package_id)}#{time_path}"
       if type=="voice"
         text = "voice;||;#{url_img}"
       else
@@ -166,10 +166,15 @@ class QuestionsController < ApplicationController
     cell_id = params[:cell_id]
     episode_id = params[:episode_id]
     types = params[:types]
-    @question_package_id = params[:question_package_id]
-    @questions = Question.where("question_package_id=#{@question_package_id}").where("types=#{types}")
-    @question = Question.create(:cell_id=>cell_id,:episode_id=>episode_id,:question_package_id=>@question_package_id,:types=>Question::TYPES[:LINING])
+    @question_package_id = params[:question_package_id].to_i
+    if @question_package_id == 0
+      @question = ShareQuestion.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:LINING])
+    else
+      @questions = Question.where("question_package_id=#{@question_package_id}").where("types=#{types}")
+      @question = Question.create(:cell_id=>cell_id,:episode_id=>episode_id,:question_package_id=>@question_package_id,:types=>Question::TYPES[:LINING])
+    end
   end
+  
   #  保存连线题
   def save_lianxian
     @index_new = params[:index_new]
@@ -181,12 +186,16 @@ class QuestionsController < ApplicationController
     right_lianxian2 = params[:right_lianxian2]
     left_lianxian3 = params[:left_lianxian3]
     right_lianxian3 = params[:right_lianxian3]
+    @question_package_id = params[:question_package_id].to_i
     content = left_lianxian1 + "<=>" + right_lianxian1 + ";||;" + left_lianxian2 + "<=>"+ right_lianxian2 + ";||;" + left_lianxian3 + "<=>" + right_lianxian3
     question_id = params[:question_id]
-    @question = Question.find_by_id question_id
+    @question = (@question_package_id == 0 ? ShareQuestion : Question).find_by_id question_id
     #    options = left_lianxian + ';||;' + right_lianxian
-    @branch_question = BranchQuestion.create(:content=>content,:types=>Question::TYPES[:LINING],:question_id=>question_id)
-    @question_package_id = params[:question_package_id]
+    if @question.is_a?(ShareQuestion)
+      @branch_question = ShareBranchQuestion.create(:content=>content,:types=>Question::TYPES[:LINING],:share_question_id=>question_id)
+    else
+      @branch_question = BranchQuestion.create(:content=>content,:types=>Question::TYPES[:LINING],:question_id=>question_id)
+    end
     @question_pack = QuestionPackage.find_by_id @question_package_id
   end
 
@@ -204,12 +213,13 @@ class QuestionsController < ApplicationController
     right_lianxian3 = params[:right_lianxian3]
     content = left_lianxian1 + "<=>" + right_lianxian1 + ";||;" + left_lianxian2 + "<=>"+ right_lianxian2 + ";||;" + left_lianxian3 + "<=>" + right_lianxian3
     question_id = params[:question_id]
-    @question = Question.find_by_id question_id
+    @question_package_id = params[:question_package_id].to_i
+    @question = (@question_package_id == 0 ? ShareQuestion : Question).find_by_id question_id
 #    options = left_lianxian + ';||;' + right_lianxian
     branch_question_id = params[:branch_question_id]
-    branchquestion = BranchQuestion.find_by_id branch_question_id
+    branchquestion = (@question_package_id == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id branch_question_id
     if branchquestion
-      branchquestion.update_attributes(:content=>content,:types=>Question::TYPES[:LINING],:question_id=>question_id)
+      branchquestion.update_attributes(:content=>content)
       @status = 1
     else
       @status = 0
@@ -219,7 +229,8 @@ class QuestionsController < ApplicationController
   #删除小题
   def delete_branch_question
     @branch_question_id = params[:id]
-    branch_question = BranchQuestion.find_by_id(@branch_question_id)
+    @question_package_id = params[:question_package_id].to_i
+    branch_question = (@question_package_id == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id(@branch_question_id)
     
     if branch_question && branch_question.content &&  branch_question.content.include?("<file>")&& branch_question.content.include?("</file>")
       sourse = branch_question.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0]

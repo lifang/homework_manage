@@ -1,0 +1,7 @@
+<% if @status == true %>
+$("#question_<%= @question_id %>").find(".batchUpload_box").empty();
+$("#question_<%= @question_id %>").find(".questions_item").last().before("<%= j(render 'save_import_listening_list') %>");
+tishi("保存成功！");
+<% else %>
+tishi("保存失败！");
+<% end %>

@@ -1,0 +1,11 @@
+<% @questions.each do |question| %>
+  <tr>
+    <td><%= question.cell_name %></td>
+    <td><%= question.episode_name %></td>
+    <td><%= Question::TYPES_NAME[question.types] %></td>
+    <td><%= question.name %></td>
+    <td><em><%= question.created_at.strftime("%F") %></em><p><%= question.created_at.strftime("%H:%M") %></p></td>
+    <td><a href="javascript:void(0);" class="compile tooltip_html">编辑</a></td>
+    <td><a href="javascript:void(0);" class="delete tooltip_html">删除</a></td>
+  </tr>
+<% end if @questions %>

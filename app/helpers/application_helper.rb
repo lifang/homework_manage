@@ -12,6 +12,12 @@ module ApplicationHelper
       return "/question_packages/#{cookies[:teacher_id]}/share_questions_package_%d/"
     end
   end
+  #题库管理员的资源路径
+  def question_admin_share_media_path
+    if cookies[:teacher_id]
+      return "/question_packages/#{cookies[:teacher_id]}/qa_share_questions_package_#{Time.now.strftime('%Y%m')}/"
+    end
+  end
   
   def is_hover(*controller_names)
     controller_names.each do |name|

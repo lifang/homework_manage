@@ -1,0 +1,2 @@
+module QuestionAdmin::ExamManagesHelper
+end

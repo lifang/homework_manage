@@ -1,6 +1,7 @@
 HomeworkManage::Application.routes.draw do
 
 
+
   resources :microposts do
     get :create_reply
     member do
@@ -25,10 +26,10 @@ HomeworkManage::Application.routes.draw do
           :new_homework, :delete_message,:get_sys_message, :get_follow_microposts,
           :get_knowledges_card,:delete_knowledges_card,:card_is_full,:get_question_package_details,
           :get_my_archivements,:card_tags_list,:create_card_tag,:search_tag_card, :get_rankings,
-          :knoledge_tag_relation
+          :knoledge_tag_relation, :search_tasks
         post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info,
           :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
-          :delete_sys_message,:read_message,:search_tasks, :reply_message
+          :delete_sys_message,:read_message, :reply_message
       end
       member do
         
@@ -95,9 +96,15 @@ HomeworkManage::Application.routes.draw do
     end
   end
 
-  namespace :question_admin do
+  namespace :question_admin do  #题库管理员
     resources :question_manages do
       
+    end
+
+    resources :exam_manages do
+      collection do
+        post :set_cell,:set_episode,:set_question_type
+      end
     end
   end
 
@@ -167,7 +174,7 @@ HomeworkManage::Application.routes.draw do
           :new_reading_or_listening, :share_question, :delete_question,
           :search_b_tags, :add_b_tags,:save_branch_tag, :set_question_time
         post :create_time_limit, :save_listening, :save_reading, :set_question_time, :delete_branch, :upload_voice,
-          :update_listening
+          :update_listening, :inport_lisenting, :save_import_lisenting, :delete_resources
       end
       member do
         get :new_index,:show_wanxin,:create_wanxin,:create_paixu,

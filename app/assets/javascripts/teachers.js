@@ -262,7 +262,7 @@ function onclick_submit(obj){
             return false;
         }
         else if(title_length.length>250){
-            tishi("题目长度超过250！");
+            tishi("题目长度不能超过250！");
         }
     }else if (question_type=="lianxian"){
         var left_lianxian1 = questions_item.find("input[name='left_lianxian1']").val()

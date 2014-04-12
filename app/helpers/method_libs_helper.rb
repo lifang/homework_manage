@@ -623,4 +623,78 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
     APNS.send_notifications(notification_arr) if notification_arr.present?
   end
 
+  #解压zip题库压缩包
+  def unzip zip_url
+    Dir.mkdir zip_url if !File.directory? zip_url
+    begin
+      Archive::Zip.extract "#{zip_url}.zip","#{zip_url}"
+      File.delete "#{zip_url}.zip"
+      `convmv -f gbk -t utf-8 -r --notest  #{zip_url}`
+      return true
+    rescue
+      File.delete "#{zip_url}.zip"
+      FileUtils.remove_dir zip_url
+      return false
+    end
+  end
+
+  #获取excel文件和资源目录
+  def get_excel_and_audio(path)
+    excel =  ""
+    audios = []
+    #获取excel文件和资源目录
+    Dir.entries(path).each do |sub|
+      if sub != '.' && sub != '..'
+        if !File.directory?("#{path}/#{sub}")
+          audios << sub.to_s if File.extname(sub.to_s)== ".mp3"
+          excel = sub.to_s if File.extname(sub.to_s)== ".xls"
+        end
+      end
+    end
+    all_files = {:excel => excel, :audios => audios}
+  end
+
+  def read_questions zip_url, excel_url, audios
+    questions = []
+    errors = ""
+    no_find_audio = []
+    no_content_or_no_find_audio = []
+    begin
+      oo = Roo::Excel.new(excel_url)
+      oo.default_sheet = oo.sheets.first
+    rescue
+      errors << "#{excel}不是正确的excel文件"
+    end
+    start_line = 1
+    end_line = 0
+    #确定题目的开始行数
+    end_line = oo.last_row.to_i
+    
+    if end_line >= start_line
+      #循环取出每一题
+      start_line.upto(end_line).each do |line|
+        content = oo.cell(line,'A').to_s
+        audio = oo.cell(line,'B').to_s
+        if content.size > 0 && audio.size > 0
+          if audios.include? audio
+            questions << {:content => content, :audio => "#{zip_url}/#{audio}".gsub("#{Rails.root}/public","") }
+          else  
+            no_find_audio <<  line 
+          end  
+        else  
+          no_content_or_no_find_audio << line
+        end  
+      end
+      if no_find_audio.any?
+         errors += "excel:第#{no_find_audio.to_s.gsub(/\[|\]/,"")}行找不到题目对应的资源"  
+      end
+      if no_content_or_no_find_audio.any?
+         errors += "excel:第#{no_content_or_no_find_audio.to_s.gsub(/\[|\]/,"")}行题目内容或资源为空！"
+      end  
+    else
+      errors << "excel文件为空！" 
+    end  
+    return_info = {:questions => questions, :errors => errors}
+  end
+
 end

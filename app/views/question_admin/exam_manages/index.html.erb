@@ -1,0 +1,77 @@
+<div class="main">
+  <div class="teacher">
+    <div class="teacher_body">
+      <div class="ass_panel"><h1>教师题库</h1></div>
+      <div class="b_table">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <thead>
+            <tr>
+              <th width="150">
+                <div class="div_select">
+                  <div class="tag_select" ><span>选择章节</span></div>
+                  <input name="chapter" type="text"/>
+                  <ul id="select_chapter">
+                    <li>章节</li>
+                    <%@cells.each do |cell|%>
+                      <li cell_id="<%= cell.id %>"><%= cell.name %></li>
+                    <%end%>
+                  </ul>
+                </div>
+              </th>
+              <th width="150">
+                <div class="div_select">
+                  <div class="tag_select"><span>单元</span></div>
+                  <input name="unit_episode" type="text"/>
+                  <ul id="select_episode">
+                    <li>单元</li>
+                  </ul>
+                </div>
+              </th>
+              <th width="150">
+                <div class="div_select">
+                  <div class="tag_select"><span>题型</span></div>
+                  <input name="question_types" type="text"/>
+                  <ul id="select_question">
+                    <li>题型</li>
+                    <li question_types="<%= Question::TYPES[:LISTENING] %>"><%= Question::TYPES_NAME[0] %></li>
+                    <li question_types="<%= Question::TYPES[:READING] %>"><%= Question::TYPES_NAME[1] %></li>
+                    <li question_types="<%= Question::TYPES[:TIME_LIMIT] %>"><%= Question::TYPES_NAME[2] %></li>
+                    <li question_types="<%= Question::TYPES[:SELECTING] %>"><%= Question::TYPES_NAME[3] %></li>
+                    <li question_types="<%= Question::TYPES[:LINING] %>"><%= Question::TYPES_NAME[4] %></li>
+                    <li question_types="<%= Question::TYPES[:CLOZE] %>"><%= Question::TYPES_NAME[5] %></li>
+                    <li question_types="<%= Question::TYPES[:SORT] %>"><%= Question::TYPES_NAME[6] %></li>
+                  </ul>
+                </div>
+              </th>
+              <th>名称</th>
+              <th>创建时间</th>
+              <th>编辑</th>
+              <th>删除</th>
+            </tr>
+          </thead>
+          <tbody id="share_question_list">
+            <%= render :partial => 'share_question_list' %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="tab tab500">
+  <a href="javascript:void(0);" class="close">close</a>
+  <div class="tab_head">选择小组</div>
+  <div class="tab_body clearAfter">
+    <div class="tab_warning">选择适合本套作业题的小组和时间</div>
+    <div class="tab_switch">
+      <ul>
+        <li><a href="#">全班</a><span class="tooltip_html">当前</span></li>
+        <li><a href="#">A组</a></li>
+        <li><a href="#">B组</a></li>
+        <li>
+          <input name="" type="text" value="截止时间"/>
+        </li>
+      </ul>
+      <div class="tab_switch_btn"><a href="#">确定</a></div>
+    </div>
+  </div>
+</div>

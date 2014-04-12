@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140411031436) do
+ActiveRecord::Schema.define(:version => 20140411085112) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer  "sender_id"
@@ -359,6 +359,8 @@ ActiveRecord::Schema.define(:version => 20140411031436) do
     t.text     "full_text"
   end
 
+  add_index "share_questions", ["cell_id"], :name => "index_share_questions_on_cell_id"
+  add_index "share_questions", ["episode_id"], :name => "index_share_questions_on_episode_id"
   add_index "share_questions", ["question_package_type_id"], :name => "index_share_questions_on_question_package_type_id"
 
   create_table "student_answer_records", :force => true do |t|

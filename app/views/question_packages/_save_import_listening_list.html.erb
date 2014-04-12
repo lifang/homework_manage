@@ -1,0 +1,3 @@
+<% @branch_questions.each do |branch_question| %>
+<%= render "l_r_branch_que" ,{:types => @types, :question_id => @question_id, :resource_url => branch_question.resource_url, :branch_id => branch_question.id, :content => branch_question.content, :count_q => nil, :count_b => nil } %>
+<% end %>

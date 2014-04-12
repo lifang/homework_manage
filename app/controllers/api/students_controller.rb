@@ -719,47 +719,51 @@ class Api::StudentsController < ApplicationController
     publish_question_package = PublishQuestionPackage.find_by_id publish_question_package_id
     status = "error"
     notice = "记录失败！"
-    dir_url = "pub_que_ps/pub_#{publish_question_package_id}/answers"
-    rename_file_name = "student_#{student_id}"
-    file = upload_file dir_url, rename_file_name, answer_file
-    if file[:status] == true
-      student_answer_record = StudentAnswerRecord
-      .find_by_student_id_and_school_class_id_and_publish_question_package_id(student_id,
-        school_class_id,publish_question_package_id)
-      if student_answer_record.nil?
-        student_answer_record = student.student_answer_records.
-          create(:question_package_id => publish_question_package.question_package.id,
-          :publish_question_package_id=> publish_question_package.id,
-          :status => StudentAnswerRecord::STATUS[:DEALING],
-          :school_class_id => school_class.id, :answer_file_url => file[:url])
-      else
-        student_answer_record.update_attributes(:answer_file_url => file[:url])
-      end
-      answer_json = ""
-      anwser_file_url = "#{Rails.root}/public#{student_answer_record.answer_file_url}"
-
-      File.open(anwser_file_url) do |file|
-        file.each do |line|
-          answer_json += line.to_s
+    if !publish_question_package.present?
+      notice = "该任务不存在或被删除！"
+    else  
+      dir_url = "pub_que_ps/pub_#{publish_question_package_id}/answers"
+      rename_file_name = "student_#{student_id}"
+      file = upload_file dir_url, rename_file_name, answer_file
+      if file[:status] == true
+        student_answer_record = StudentAnswerRecord
+          .find_by_student_id_and_school_class_id_and_publish_question_package_id(student_id,
+          school_class_id,publish_question_package_id)
+        if student_answer_record.nil?
+          student_answer_record = student.student_answer_records.
+            create(:question_package_id => publish_question_package.question_package_id,
+            :publish_question_package_id=> publish_question_package.id,
+            :status => StudentAnswerRecord::STATUS[:DEALING],
+            :school_class_id => school_class.id, :answer_file_url => file[:url])
+        else
+          student_answer_record.update_attributes(:answer_file_url => file[:url])
         end
+        answer_json = ""
+        anwser_file_url = "#{Rails.root}/public#{student_answer_record.answer_file_url}"
+
+        File.open(anwser_file_url) do |file|
+          file.each do |line|
+            answer_json += line.to_s
+          end
+        end
+        answer_records = ActiveSupport::JSON.decode(answer_json)
+        PublishQuestionPackage.update_scores_and_achirvements(answer_records, student,
+          school_class, publish_question_package, student_answer_record)
+
+        #保存完道具后， 清空文件json中的 道具使用情况，再重新写入文件
+        answer_records["props"].each do |prop|
+          prop["branch_id"] = []
+        end if answer_records["props"]
+
+        File.open(anwser_file_url, "wb"){|f| f.write answer_records.to_json}
+        #保存完道具后， 清空文件json中的 道具使用情况
+        notice = "作业状态更新完成!"
+        status = "success"
+      else
+        notice = "作业状态更新失败,请重新操作!"
+        status = "error"
       end
-      answer_records = ActiveSupport::JSON.decode(answer_json)
-      PublishQuestionPackage.update_scores_and_achirvements(answer_records, student,
-        school_class, publish_question_package, student_answer_record)
-
-      #保存完道具后， 清空文件json中的 道具使用情况，再重新写入文件
-      answer_records["props"].each do |prop|
-        prop["branch_id"] = []
-      end if answer_records["props"]
-
-      File.open(anwser_file_url, "wb"){|f| f.write answer_records.to_json}
-      #保存完道具后， 清空文件json中的 道具使用情况
-      notice = "作业状态更新完成!"
-      status = "success"
-    else
-      notice = "作业状态更新失败,请重新操作!"
-      status = "error"
-    end
+    end  
     render :json => {:status => status, :notice => notice,:updated_time =>student_answer_record.updated_at.strftime("%Y-%m-%d %H:%M:%S")}
   end
 

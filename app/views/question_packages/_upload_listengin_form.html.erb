@@ -1,0 +1,38 @@
+<script type="text/javascript" src="/assets/jquery-ui.js" ></script>
+<script>
+    $(function() {
+        $( "#sortable" ).sortable();
+        $( "#sortable" ).disableSelection();
+    });
+</script>
+<%= form_tag({:action => :save_import_lisenting}, :multipart => true ,:remote => true) do %>
+<input name="question_id" value="<%= @question_id %>" type="hidden"> 
+<div class="batchUpload_item">
+	<ul id="sortable">
+        <% @questions.each_with_index do |question, index| %>
+        <li>
+        	<div class="batchUpload_item_con">
+        		<input value="<%= index %>" class="index_val" type="hidden">
+                <div class="batchUpload_item_list">
+                    <p><%= question[:content] %></p>
+                    <input name="[lisenting][<%= index %>][content]" value="<%= question[:content] %>" type="hidden">
+                    <input name="[lisenting][<%= index %>][audio]" class="audio" value="<%= question[:audio] %>" type="hidden">
+                    <div class="bu_icon"><a href="javascript:void(0)" class="voice tooltip_html" onclick="playAudio(this)">点击上传音频
+        					<audio preload="true" controls="" style="display: none;"><source type="audio/ogg" src="<%= question[:audio] %>"></audio>
+                    </a>
+                        <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_b_tags('listening_befor_save',this)">添加标签</a>
+                        <a href="javascript:void(0)" class="delete tooltip_html" onclick="delete_before_save_branch(this)">删除</a>
+                    </div>
+                </div>
+                <div class="tag_ul">
+                    <ul></ul>
+                </div>
+            </div>
+        </li>   
+        <% end %>
+    </ul>
+</div> 
+<% end %>        
+<div class="qt_icon">
+  <a href="javascript:void(0)" class="save tooltip_html" onclick="submit_import_listening(this)">保存</a><a href="javascript:void(0)" class="delete tooltip_html" onclick="delete_import_resources(this)" >删除</a>
+</div>

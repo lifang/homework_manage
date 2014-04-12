@@ -17,22 +17,26 @@ class QuestionsController < ApplicationController
   end
 
   def select_upload
-    question_package_id = params[:question_package_id]
+    question_package_id = params[:question_package_id].to_i
     type = params[:type]
     file_upload =  params[:select_file]
     if file_upload.size > 1048576
       text = "imgbig"
     else
       filename = file_upload.original_filename
-      fileext = File.basename(filename).split(".")[1]
-      resourse_url = "#{Rails.root}/public#{media_path % question_package_id}"
+      fileext = File.basename(filename).split(".")[-1]
+      if question_package_id == 0
+        resourse_url = "#{Rails.root}/public#{tiku_share_media_path}"
+      else
+        resourse_url = "#{Rails.root}/public#{media_path % question_package_id}"
+      end
       FileUtils.mkdir_p "#{File.expand_path(resourse_url)}" if !(File.exist?("#{resourse_url}"))
       time_path = Time.now.strftime("%Y%m%dT%H%M%S")+"."+fileext
       url = resourse_url+time_path
       File.open(url, "wb")  {|f| f.write(file_upload.read) }
       #    img = MiniMagick::Image.read(file_upload)
       #    img.write "#{url}"
-      url_img ="#{media_path % question_package_id}#{time_path}"
+      url_img ="#{(question_package_id == 0 ? tiku_share_media_path : media_path % question_package_id)}#{time_path}"
       if type=="voice"
         text = "voice;||;#{url_img}"
       else
@@ -63,37 +67,52 @@ class QuestionsController < ApplicationController
     cell_id = params[:cell_id]
     episode_id = params[:episode_id]
     types = params[:types]
-    @question_package_id = params[:question_package_id]
+    @question_package_id = params[:question_package_id].to_i
     @questions = Question.where("question_package_id=#{@question_package_id}").where("types=#{types}")
-    @question = Question.create(:cell_id=>cell_id,:episode_id=>episode_id,:question_package_id=>@question_package_id,:types=>Question::TYPES[:SELECTING])
+    if @question_package_id == 0
+      @question = ShareQuestion.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:SELECTING])
+    else
+      @question = Question.create(:cell_id=>cell_id,:episode_id=>episode_id,:question_package_id=>@question_package_id,:types=>Question::TYPES[:SELECTING])
+    end
   end
   #保存选择题
   def save_select
-    @resourse = params[:select_resourse]
-    select_resourse = params[:select_resourse].nil? ? "" : params[:select_resourse]
-    if select_resourse.present?
-      resourse = "<file>" + select_resourse  + "</file>"
-    else
-      resourse = select_resourse
+    Question.transaction do
+      @resourse = params[:select_resourse]
+      select_resourse = params[:select_resourse].nil? ? "" : params[:select_resourse]
+      if select_resourse.present?
+        resourse = "<file>" + select_resourse  + "</file>"
+      else
+        resourse = select_resourse
+      end
+      content_select = params[:select_content].nil? ? "" : params[:select_content]
+      select_content = resourse + content_select
+      @index_new = params[:index_new]
+      @question_id = params[:question_id]
+      @question_package_id = params[:question_package_id].to_i
+      if @question_package_id == 0
+        @question = ShareQuestion.find_by_id @question_id
+      else
+        @question = Question.find_by_id @question_id
+      end
+      check_select = params[:check_select]
+      select_value1 = params[:select_value1]
+      select_value2 = params[:select_value2]
+      select_value3 = params[:select_value3]
+      select_value4 = params[:select_value4]
+      info =  Question.sava_select_qu check_select,select_value1,select_value2,select_value3,select_value4
+      answer = info[:answer]
+      options = info[:options]
+      if @question.is_a?(ShareQuestion)
+        @branch_question = ShareBranchQuestion.create(:content=>select_content,:types=>Question::TYPES[:SELECTING],:share_question_id=>@question_id,
+          :options=>options,:answer=> answer)
+      else
+        @branch_question = BranchQuestion.create(:content=>select_content,:types=>Question::TYPES[:SELECTING],:question_id=>@question_id,
+          :options=>options,:answer=> answer)
+      end
+
+      @question_pack = QuestionPackage.find_by_id @question_package_id
     end
-    content_select = params[:select_content].nil? ? "" : params[:select_content]
-    select_content = resourse + content_select
-    @index_new = params[:index_new]
-    @question_id = params[:question_id]
-    @question = Question.find_by_id @question_id
-    check_select = params[:check_select]
-    select_value1 = params[:select_value1]
-    select_value2 = params[:select_value2]
-    select_value3 = params[:select_value3]
-    select_value4 = params[:select_value4]
-    info =  Question.sava_select_qu check_select,select_value1,select_value2,select_value3,select_value4
-    answer = info[:answer]
-    options = info[:options]
-    @branch_question = BranchQuestion.create(:content=>select_content,:types=>Question::TYPES[:SELECTING],:question_id=>@question_id,
-      :options=>options,:answer=> answer)
-    @question_package_id = params[:question_package_id]
-    @question_pack = QuestionPackage.find_by_id @question_package_id
-    #    @questions = Question.find_by_question_package_id @question_package_id
   end
 
   #更新选择题
@@ -108,8 +127,15 @@ class QuestionsController < ApplicationController
     select_content = resourse + content_select
     @index_new = params[:index_new]
     @question_id = params[:question_id]
-    @question = Question.find_by_id @question_id
-    select_content = params[:select_content]
+    branch_question_id = params[:branch_question_id].to_i
+    @question_package_id = params[:question_package_id].to_i
+    if @question_package_id == 0
+      @question = ShareQuestion.find_by_id @question_id
+      branchquestion = ShareBranchQuestion.find_by_id branch_question_id
+    else
+      @question = Question.find_by_id @question_id
+      branchquestion = BranchQuestion.find_by_id branch_question_id
+    end
     check_select = params[:check_select]
     select_value1 = params[:select_value1]
     select_value2 = params[:select_value2]
@@ -118,12 +144,16 @@ class QuestionsController < ApplicationController
     info =  Question.sava_select_qu check_select,select_value1,select_value2,select_value3,select_value4
     answer = info[:answer]
     options = info[:options]
-    branch_question_id = params[:branch_question_id]
-    p branch_question_id
-    branchquestion = BranchQuestion.find_by_id branch_question_id
+
     if branchquestion
-      branchquestion.update_attributes(:content=>select_content,:types=>Question::TYPES[:SELECTING],:question_id=>@question_id,
-        :options=>options,:answer=> answer)
+      if branchquestion.is_a?(ShareBranchQuestion)
+        branchquestion.update_attributes(:content=>select_content,:types=>Question::TYPES[:SELECTING],:share_question_id=>@question_id,
+          :options=>options,:answer=> answer)
+      else
+        branchquestion.update_attributes(:content=>select_content,:types=>Question::TYPES[:SELECTING],:question_id=>@question_id,
+          :options=>options,:answer=> answer)
+      end
+
       @status = 1
     else
       @status = 0

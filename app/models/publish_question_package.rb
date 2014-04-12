@@ -44,7 +44,7 @@ class PublishQuestionPackage < ActiveRecord::Base
     tasks_sql += " order by p.start_time desc"
     tasks_sql += " limit 1" if !order_name.nil? && order_name == "first"
     pub_tasks = PublishQuestionPackage.find_by_sql tasks_sql
-    pub_tasks = pub_tasks[1..pub_tasks.length-1] if order_name.nil? && date.nil?
+    # pub_tasks = pub_tasks[1..pub_tasks.length-1] if order_name.nil? && !today_newer_id.nil?
     pub_ids = pub_tasks.present? ? pub_tasks.map(&:id) : []
     que_pack_ids = pub_tasks.present? ? pub_tasks.map(&:que_pack_id) : []
     s_a_rs = StudentAnswerRecord

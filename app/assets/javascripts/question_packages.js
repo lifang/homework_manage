@@ -133,6 +133,7 @@ function playAudio(obj){
     else {
         oAudio.pause();
     }
+return false;    
 }
 
 //保存听力和朗读
@@ -197,8 +198,7 @@ function change_text(obj)
         {
             $(obj).parents(".questions_item").find("div.qt_icon").find("a.delete").first().hide();
             var update_btn = '<a href="javascript:void(0)" class="save tooltip_html" onclick="update_listening_reading(this,'+ types +','+ school_class_id +');">更新</a>'
-            $(obj).parents(".questions_item").find("div.qt_icon").first().prepend
-            (update_btn);
+            $(obj).parents(".questions_item").find("div.qt_icon").first().prepend(update_btn);
         }    
     }   
 }
@@ -207,7 +207,6 @@ function listening_reading_onblur(obj)
 {
     var b_index = $(obj).parents(".questions_item").index();
     var content = $(obj).val();
-    // alert("b_index = "+ b_index +",content ="+ content +"");
     $(".questions_item").find("input.content").val(content);
     $(".questions_item").find("input.b_index").val(b_index);
 }
@@ -477,6 +476,7 @@ function timeLimitGetPartial(school_class_id){
 //搜索标签
 function search_b_tags(obj, school_class_id){
     var tag_name = $.trim($(obj).val());
+    alert(111111);
     var tag_bq_type = $(obj).parents(".tag_tab").find("input[name='tag_bq_type']").first().val();
     $.ajax({
         type: "get",
@@ -1593,10 +1593,11 @@ function full_text(id){
 function upload_lisenting_ques(obj)
 {
     var file_name = $(obj).val();
-    var question_package_id = $("#question_package_id").val();
+    var question_package_id = $("#question_package_id").last().val();
+    alert(question_package_id);
     if(file_name.match(/\..*$/) == ".zip")
     {
-        $(obj).parents("form").find("input.question_package_id").val(question_package_id);
+        $(obj).parents("form").find(".question_package_id").val(question_package_id);
         $(obj).parents("form").submit();
     }
     else

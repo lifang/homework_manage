@@ -99,38 +99,6 @@
                 $(".tag_tab").css('display','block');
             }else{
                 $(".tag_tab").css('display','none');
-                var school_class_id = $("#school_class_id").val();
-                $("#tags_table").find("input[type='text']").first().val("");
-                $("#tags_table").find("a").last().text("");
-                $.ajax({
-                    type: "get",
-                    url: "/school_classes/"+school_class_id+"/question_packages/search_b_tags",
-                    dataType: "json",
-                    data: {
-                        tag_name : ""
-                    },
-                    success: function(data){
-                        $("#tags_table").find("ul").first().empty();
-                        if(data.b_tags.length > 0){
-                            $.each(data.b_tags, function(index, val){
-                                $("#tags_table").find("ul").first().append("<li><input type='checkbox' value='"+val.id+"' \n\
-                    /><p>"+val.name+"</p></li>");
-                            });
-
-                        };
-                    },
-                    error: function(data){
-                        //tishi("数据错误!");
-                    }
-                })
-
-                //如果有选中的勾，则去掉
-                //            var divs = $("#tags_table").find("div.icheckbox_square-aero");
-                //            $.each(divs, function(){
-                //                $(this).removeAttr("class");
-                //                $(this).attr("class", "icheckbox_square-aero");
-                //            });
-            
             }
         });
     })

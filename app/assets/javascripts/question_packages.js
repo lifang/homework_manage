@@ -686,7 +686,6 @@ function add_b_tags(type, obj){
         var b_index = $(obj).parents(".batchUpload_item_con").parents("li").index();
         $("#tags_table").find("input[name='q_index']").first().val(question_id);
         $("#tags_table").find("input[name='b_index']").first().val(b_index);
-        tishi(b_index);
         var lis = $("#tags_table").find("li");
         $.each(lis, function(){
             var current_input = $(this).find("input").first();

@@ -734,7 +734,7 @@ a.preview_icon, a.quote_icon, a.delete_icon, a.delete_icon_ed, a.time_icon {
 a.preview_icon { background: url(/assets/icon05.png) no-repeat 0px 0px;}
 a.quote_icon { background: url(/assets/icon05.png) no-repeat 0px -30px;}
 a.delete_icon { background: url(/assets/icon05.png) no-repeat 0px -60px;}
-a.delete_icon_ed { background: url(/assets/icon05.png) no-repeat 0px -90px;}
+a.delete_icon_ed { background: url(/assets/icon05.png) no-repeat 0px -90px; cursor: default;}
 a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 
 .assignment_body_list { margin: 10px 0; background: #FFF}

@@ -642,7 +642,8 @@ class QuestionPackagesController < ApplicationController
       end
       
       @status = 0 if question.nil?
-      if question && @status == 1
+      if question
+        @status = 1
         if question.is_a?(ShareQuestion)  #题库管理员创建的
           tiku_admin_save_tl_bq_and_bt(question, time_limit)
         else  #普通老师创建的

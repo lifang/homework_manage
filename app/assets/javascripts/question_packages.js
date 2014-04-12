@@ -500,7 +500,12 @@ function search_b_tags(obj, school_class_id){
                         else if(tag_bq_type!="" && tag_bq_type=="listening_and_reading_tags"){
                             var q_index = $(this).parents(".tag_tab").find("input[name='q_index']").first().val();
                             var b_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
-                            add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)   
+                            add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)
+                        }    
+                        else if(tag_bq_type!="" && tag_bq_type=="listening_befor_save"){    
+                            var question_id = $(this).parents(".tag_tab").find("input[name='q_index']").first().val();
+                            var b_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                            add_tags_to_listening_bef_save(question_id, b_index, tag_id, tag_name);   
                         } else if(tag_bq_type!="" && tag_bq_type=="wanxin"){
                             var q_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
                             var branch_question_id = $(this).parents(".tag_tab").find("input[name='branch_question_id']").first().val();
@@ -577,7 +582,12 @@ function add_new_b_tag(obj, school_class_id){
                                 var q_index = $(this).parents(".tag_tab").find("input[name='q_index']").first().val();
                                 var b_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
                                 add_tags_to_listening_reading(q_index, b_index, tag_id, tag_name)   
-                            }else if(tag_bq_type!="" && tag_bq_type=="wanxin"){
+                            }else if(tag_bq_type!="" && tag_bq_type=="listening_befor_save"){    
+                                var question_id = $(this).parents(".tag_tab").find("input[name='q_index']").first().val();
+                                var b_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
+                                add_tags_to_listening_bef_save(question_id, b_index, tag_id, tag_name);   
+                            }    
+                            else if(tag_bq_type!="" && tag_bq_type=="wanxin"){
                                 var q_index = $(this).parents(".tag_tab").find("input[name='b_index']").first().val();
                                 var branch_question_id = $(this).parents(".tag_tab").find("input[name='branch_question_id']").first().val();
                                 add_content_to_wanxin($(this), q_index, branch_question_id);
@@ -662,8 +672,46 @@ function add_b_tags(type, obj){
             })           
         })
     }
+    else if(type=="listening_befor_save"){
+        var question_id = $(obj).parents("div.assignment_body_list").find("input.question_id").first().val();
+        var b_index = $(obj).parents(".batchUpload_item_con").index();
+        $("#tags_table").find("input[name='q_index']").first().val(question_id);
+        $("#tags_table").find("input[name='b_index']").first().val(b_index);
+        var lis = $("#tags_table").find("li");
+        $.each(lis, function(){
+            var current_input = $(this).find("input").first();
+            var tag_id = current_input.val();
+            var tag_name = $(this).find("p").first().text();
+            $(current_input).on("ifChecked", function(){
+                add_tags_to_listening_bef_save(question_id, b_index, tag_id, tag_name);
+            })           
+        })
+    }
 
     return false;
+}
+
+//听写题导入部分保存前添加标签
+function add_tags_to_listening_bef_save(question_id, b_index, tag_id, tag_name)
+{   
+     var has_tags = $("#question_"+ question_id +"").find("div.batchUpload_item_con:eq("+ b_index +")").find("div.tag_ul ul").find("input[type='hidden']");   //验证是否已添加该标签
+            var flag = true;
+            $.each(has_tags, function(name,val){
+                if($(this).val()==tag_id){
+                    flag = false;
+                }
+            });
+    if(flag)
+    {
+        var index_val = $("#question_"+ question_id +"").find("div.batchUpload_item_con:eq("+ b_index +")").find("input.index_val").val();
+        var tag_arr = $("#question_"+ question_id +"").find("div.batchUpload_item_con:eq("+ b_index +")").find("input[name='["+ index_val +"][tags]']");
+        var tag_li ="<li><p>"+tag_name+"</p><a href='javascript:void(0)' class='x' onclick='delete_listening_save_bef_tags(this,"+tag_id+")'>X</a><input name='[lisenting]["+ index_val +"][tags][]' value='"+ tag_id +"' type='hidden'></li>";
+        $("#question_"+ question_id +"").find("div.batchUpload_item_con:eq("+ b_index +")").find("ul").append(tag_li);      
+    }
+    else
+    {
+        tishi("该标签已存在！");
+    }
 }
 
 //添加标签到听写或朗读题小题下
@@ -1464,4 +1512,9 @@ function upload_lisenting_ques(obj)
     {
         tishi("请选择zip压缩包");
     }
+}
+
+function submit_import_listening(obj)
+{
+    $(obj).parents(".batchUpload_box").find("form").submit();
 }

@@ -656,7 +656,9 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
 
   def read_questions zip_url, excel_url, audios
     questions = []
-    errors = []
+    errors = ""
+    no_find_audio = []
+    no_content_or_no_find_audio = []
     begin
       oo = Roo::Excel.new(excel_url)
       oo.default_sheet = oo.sheets.first
@@ -671,19 +673,24 @@ WHERE kc.card_bag_id =? and ct.name LIKE ? or kc.your_answer LIKE ? "
     if end_line >= start_line
       #循环取出每一题
       start_line.upto(end_line).each do |line|
-        p line
         content = oo.cell(line,'A').to_s
         audio = oo.cell(line,'B').to_s
         if content.size > 0 && audio.size > 0
           if audios.include? audio
             questions << {:content => content, :audio => "#{zip_url}/#{audio}".gsub("#{Rails.root}/public","") }
           else  
-            errors << "没有找到第#{line}行题目'#{content}'对应的资源'#{audio}'！"  
+            no_find_audio <<  line 
           end  
         else  
-          errors << "第#{line}行题目内容或资源为空！"
+          no_content_or_no_find_audio << line
         end  
       end
+      if no_find_audio.any?
+         errors += "excel:第#{no_find_audio.to_s.gsub(/\[|\]/,"")}行找不到题目对应的资源"  
+      end
+      if no_content_or_no_find_audio.any?
+         errors += "excel:第#{no_content_or_no_find_audio.to_s.gsub(/\[|\]/,"")}行题目内容或资源为空！"
+      end  
     else
       errors << "excel文件为空！" 
     end  

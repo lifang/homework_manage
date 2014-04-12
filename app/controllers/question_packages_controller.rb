@@ -22,15 +22,15 @@ class QuestionPackagesController < ApplicationController
   #导入听写题
   def inport_lisenting
     question_package_id = params[:question_package_id]  
-    question_id = params[:question_id]  
+    @question_id = params[:question_id]  
     file = params[:file]
     @status = false
     if question_package_id.present?
       destination_dir = "#{media_path % question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
-      unzip_url = "#{destination_dir}/question_#{question_id}"
+      unzip_url = "#{destination_dir}/question_#{@question_id}"
       create_dirs unzip_url
-      zip_url = "#{Rails.root}/public/#{destination_dir}/question_#{question_id}"
-      rename_file_name = "question_#{question_id}"
+      zip_url = "#{Rails.root}/public/#{destination_dir}/question_#{@question_id}"
+      rename_file_name = "question_#{@question_id}"
       upload = upload_file destination_dir, rename_file_name, file
       if upload[:status] == true
           if unzip(zip_url) == true
@@ -44,15 +44,16 @@ class QuestionPackagesController < ApplicationController
                 excel_url = "#{zip_url}/#{excel}" 
                 result  = read_questions zip_url, excel_url, audios
                 p result
-                if result[:errors].any?
+                if result[:errors].size > 0
                   @status = "errors"
+                  @notice = result[:errors]
                 else
-                  @questions = result[:errors]
+                  @notice = "导入成功!"
+                  @status = true
+                  @questions = result[:questions]
+                  p @questions
                 end  
             end
-            p excel
-            p audios
-            @status = true
           else
             @notice = "解压出错！"
           end
@@ -60,6 +61,25 @@ class QuestionPackagesController < ApplicationController
         @notice = "上传出错！"
       end    
     end
+  end  
+
+  #保存导入的听写题
+  def save_import_lisenting
+    @question_id = params[:question_id]
+    if params[:lisenting].present?
+      questions = params[:lisenting]
+      questions.each do |k,que|
+        branch_question = BranchQuestion.create(:content => que[:content], :resource_url => que[:audio], 
+                                    :question_id => @question_id, :types => Question::TYPES[:LISENTING])   
+        if que[:tags].present?
+          que[:tags].each do |tag_id|  
+            BtagsBqueRelation.create(branch_question_id:branch_question.id,
+                      branch_tag_id:tag_id);  
+          end
+        end  
+      end  
+    end  
+
   end  
 
   #朗读/听写题先上传音频文件

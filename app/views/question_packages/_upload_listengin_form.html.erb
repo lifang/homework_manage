@@ -1,39 +1,27 @@
+<%= form_tag({:action => :save_import_lisenting}, :multipart => true ,:remote => true) do %>
+<input name="question_id" value="<%= @question_id %>" type="hidden"> 
 <div class="batchUpload_item">
+	<% @questions.each_with_index do |question, index| %>
 	<div class="batchUpload_item_con">
+		<input value="<%= index %>" class="index_val" type="hidden">
         <div class="batchUpload_item_list">
-            <p>1.sssssssssssssssssssssssssssssssss</p>
-            <div class="bu_icon"><a href="#" class="voice tooltip_html">点击上传音频</a>
-                <a href="#" class="tag tooltip_html">添加标签</a>
-                <a href="#" class="delete tooltip_html">删除</a>
+            <p><%= question[:content] %></p>
+            <input name="[lisenting][<%= index %>][content]" value="<%= question[:content] %>" type="hidden">
+            <input name="[lisenting][<%= index %>][audio]" value="<%= question[:audio] %>" type="hidden">
+            <div class="bu_icon"><a href="javascript:void(0)" class="voice tooltip_html" onclick="playAudio(this)">点击上传音频
+					<audio preload="true" controls="" style="display: none;"><source type="audio/ogg" src="<%= question[:audio] %>"></audio>
+            </a>
+                <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_b_tags('listening_befor_save',this)">添加标签</a>
+                <a href="javascript:void(0)" class="delete tooltip_html">删除</a>
             </div>
         </div>
         <div class="tag_ul">
-            <ul>
-                <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-                <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-                <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-            </ul>
+            <ul></ul>
         </div>
     </div>
-
-    <div class="batchUpload_item_con">
-        <div class="batchUpload_item_list">
-            <p>1.sssssssssssssssssssssssssssssssss</p>
-            <div class="bu_icon"><a href="#" class="voice tooltip_html">点击上传音频</a>
-                <a href="#" class="tag tooltip_html">添加标签</a>
-                <a href="#" class="delete tooltip_html">删除</a>
-            </div>
-        </div>
-        <div class="tag_ul">
-            <ul>
-                <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-                <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-                <li><p>不定冠词</p><a href="#" class="x">X</a></li>
-            </ul>
-        </div>
-    </div>
+    <% end %>
 </div> 
-        
+<% end %>        
 <div class="qt_icon">
-  <a href="#" class="delete tooltip_html">删除</a>
+  <a href="javascript:void(0)" class="save_icon tooltip_html" onclick="submit_import_listening(this)">保存</a><a href="javascript:void(0)" class="delete tooltip_html">删除</a>
 </div>

@@ -1,1 +1,6 @@
-tishi('<%= @status  %>');
+<% if @status == "errors" %>
+	tishi_code("<%= @notice %>");
+<% else %>	
+	$(".batchUpload_box").html('<%= j( render "upload_listengin_form") %>');
+	tishi('<%= @notice  %>');
+<% end %>

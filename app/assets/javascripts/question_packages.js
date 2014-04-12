@@ -147,6 +147,7 @@ function playAudio(obj){
     else {
         oAudio.pause();
     }
+return false;    
 }
 
 //保存听力和朗读
@@ -168,6 +169,7 @@ function save_listening_reading(obj, types, school_class_id)
             }
             else
             {
+                alert($(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").attr("action"))
                 $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();
             }     
         }
@@ -211,8 +213,7 @@ function change_text(obj)
         {
             $(obj).parents(".questions_item").find("div.qt_icon").find("a.delete").first().hide();
             var update_btn = '<a href="javascript:void(0)" class="save tooltip_html" onclick="update_listening_reading(this,'+ types +','+ school_class_id +');">更新</a>'
-            $(obj).parents(".questions_item").find("div.qt_icon").first().prepend
-            (update_btn);
+            $(obj).parents(".questions_item").find("div.qt_icon").first().prepend(update_btn);
         }    
     }   
 }
@@ -221,7 +222,6 @@ function listening_reading_onblur(obj)
 {
     var b_index = $(obj).parents(".questions_item").index();
     var content = $(obj).val();
-    // alert("b_index = "+ b_index +",content ="+ content +"");
     $(".questions_item").find("input.content").val(content);
     $(".questions_item").find("input.b_index").val(b_index);
 }
@@ -1110,6 +1110,7 @@ $(function(){
     })
     //点击删除该大题
     $("#question_list").on("click", ".delete_icon", function(){
+        alert(1111);
         var que_id = $(this).parents(".ab_list_title").find("input[name='question_id']").first().val();
         var school_class_id = $("#school_class_id").val();
         var flag = confirm("确定删除该大题?");
@@ -1628,7 +1629,7 @@ function upload_lisenting_ques(obj)
     var question_package_id = $("#question_package_id").val();
     if(file_name.match(/\..*$/) == ".zip")
     {
-        $(obj).parents("form").find("input.question_package_id").val(question_package_id);
+        $(obj).parents("form").find(".question_package_id").val(question_package_id);
         $(obj).parents("form").submit();
     }
     else

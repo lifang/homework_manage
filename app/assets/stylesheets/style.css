@@ -222,7 +222,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 .tab_switch li a.group_icon { cursor: pointer; background: url(/assets/icon02.png) no-repeat -27px -68px; right: 60px;}
 
 .tab_switch_btn { text-align: center; padding: 30px 0;}
-.tab_switch_btn a {
+.tab_switch_btn button {
     width: 170px;
     height: 40px;
     line-height: 40px;
@@ -724,7 +724,7 @@ li.p_input p, li.p_input input, .tab_switch li input {
 
 .select_box { padding-top: 30px; }
 
-a.preview_icon, a.quote_icon, a.delete_icon, span.delete_icon_ed, a.time_icon { 
+a.preview_icon, a.quote_icon, a.delete_icon, a.delete_icon_ed, a.time_icon { 
     width: 30px;
     height: 30px;
     display: inline-block;
@@ -734,7 +734,7 @@ a.preview_icon, a.quote_icon, a.delete_icon, span.delete_icon_ed, a.time_icon {
 a.preview_icon { background: url(/assets/icon05.png) no-repeat 0px 0px;}
 a.quote_icon { background: url(/assets/icon05.png) no-repeat 0px -30px;}
 a.delete_icon { background: url(/assets/icon05.png) no-repeat 0px -60px;}
-span.delete_icon_ed { background: url(/assets/icon05.png) no-repeat 0px -90px;}
+a.delete_icon_ed { background: url(/assets/icon05.png) no-repeat 0px -90px; cursor: default;}
 a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 
 .assignment_body_list { margin: 10px 0; background: #FFF}
@@ -803,7 +803,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     text-indent: -999px;
     overflow: hidden;
 }
-.qt_icon a.tag { 
+.qt_icon a.tag_1 {
     background: url(/assets/icon07.png) no-repeat 0 0;
 }
 .qt_icon a.tag_1 {
@@ -1033,6 +1033,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     padding: 0 10px;
     font-size: 14px;
     overflow: hidden
+    min-height: 36px;
 }
 .gq_article li { overflow: hidden; margin: 10px 0; background: #f0f0f0; padding-left: 10px; font-size: 0;}
 

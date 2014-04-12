@@ -1,3 +1,8 @@
 var html='<%=j(render 'questions/lianxian_question')%>'
 gloab_index = $(".assignment_body_list").length
+<% if @question.is_a?(ShareQuestion) %>
+$("#question_list").html(html)
+<% else %>
 $("#question_list").append(html)
+<% end %>
+

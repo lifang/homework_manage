@@ -1,0 +1,7 @@
+<li onclick="teacher_question_manages_search_ques(this, '<%= @school_class.id %>', 'teaching_material')">教材<input type="hidden" value="0"/></li>
+<% @teaching_materials.each do |tm| %>
+  <li onclick="teacher_question_manages_search_ques(this, '<%= @school_class.id %>', 'teaching_material')"><%= tm.name %><input type="hidden" value="<%= tm.id %>"/></li>
+<% end if @teaching_materials %>
+
+
+

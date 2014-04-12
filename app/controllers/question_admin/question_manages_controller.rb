@@ -5,5 +5,6 @@ class QuestionAdmin::QuestionManagesController < ApplicationController
   
   def new
     @cells = Cell.where("teaching_material_id = ?",current_teacher.teaching_material_id ) if current_teacher
+    @b_tags = get_branch_tags(cookies[:teacher_id])
   end
 end

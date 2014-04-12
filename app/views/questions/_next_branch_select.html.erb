@@ -1,5 +1,5 @@
 <div class="questions_item" stypes="save_select" branch_question_index="" question_type="select">
-  <%= form_for :question,:url => { :action => :save_select, :controller => :questions ,:question_package_id => @question_pack.try(:id)|| 0 }, :method=>"post" ,:remote=>true do |f|%>
+  <%= form_for :question,:url => { :action => :save_select, :controller => "/questions" ,:question_package_id => @question_pack.try(:id)|| 0 }, :method=>"post" ,:remote=>true do |f|%>
     <div class="q_topic q_willCompile">
       <div class="multipleChoice">
         <div class="q_left">

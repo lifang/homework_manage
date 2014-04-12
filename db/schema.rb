@@ -399,7 +399,7 @@ ActiveRecord::Schema.define(:version => 20140411085112) do
     t.datetime "updated_at",          :null => false
     t.integer  "user_id"
     t.string   "token"
-    t.integer  "s_no"
+    t.string   "s_no"
     t.string   "active_code"
     t.boolean  "active_status"
     t.integer  "school_id"

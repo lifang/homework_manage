@@ -14,6 +14,7 @@ class Question < ActiveRecord::Base
     scope type.to_sym, :conditions => { :types => TYPES[type.upcase.to_sym] }
   end
 
+  PER_PAGE = 10
   #查询一个题包下的所有题目
   def self.get_all_questions question_package
     all_questions = []

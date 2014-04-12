@@ -1,3 +1,6 @@
+<% school_class_id = @school_class ? @school_class.id : 0
+   question_package_id = @question_packages ? @question_packages.id : 0
+%>
 <div class="ab_article">
   <%if @branch_ques%>
     <%@branch_ques.each_with_index do |branch_question,index|%>
@@ -11,8 +14,8 @@
           </form>
         </div>
         <div class="qt_icon">
-          <a style="cursor: pointer;display: none;" onclick="save_paixu_branch(this,<%=  @school_class.id%>,<%= @question_packages.id%>)" class='save tooltip_html wangping_save1'>保存</a>
-          <a style="cursor: pointer;" class="delete tooltip_html wangping_delete1" onclick = 'delete_paixu_option(this,<%=  @school_class.id%>,<%= @question_packages.id%>)'>删除</a>
+          <a style="cursor: pointer;display: none;" onclick="save_paixu_branch(this,<%=  school_class_id %>,<%= question_package_id %>)" class='save tooltip_html wangping_save1'>保存</a>
+          <a style="cursor: pointer;" class="delete tooltip_html wangping_delete1" onclick = 'delete_paixu_option(this,<%=  school_class_id%>,<%= question_package_id %>)'>删除</a>
           <a href="javascript:void(0)" style="cursor: pointer;" style="cursor: pointer;" onclick="add_paixu_tags(this)" class="tag tooltip_html"></a>
         </div>
         <div class="tag_ul">
@@ -21,15 +24,15 @@
               <%@tags.each do |tag|%>
                 <%if tag.branch_question_id==branch_question.id%>
                   <li><p><%=tag.name%></p>
-                    <a onclick="delete_tags(this,<%=@school_class.id%>,<%=@question_packages.id%>,<%=tag.id%>,<%=branch_question.id%>,'paixu')" class="x">X</a>
+                    <a onclick="delete_tags(this,<%=  school_class_id %>,<%= question_package_id %>,<%=tag.id%>,<%=branch_question.id%>,'paixu')" class="x">X</a>
                   </li>
                 <%end%>
-              <%end%>
+              <%end if @tags%>
             <%else%>
               <%unless !@tags_p||@tags_p[branch_question.id].nil?%>
                 <%@tags_p[branch_question.id].each do |tag|%>
                   <li><p><%=tag.name%></p>
-                    <a onclick="delete_tags(this,<%=@school_class.id%>,<%=@question_packages.id%>,<%=tag.id%>,<%=branch_question.id%>,'paixu')" class="x">X</a>
+                    <a onclick="delete_tags(this,<%= school_class_id %>,<%= question_package_id %>,<%=tag.id%>,<%=branch_question.id%>,'paixu')" class="x">X</a>
                   </li>
                 <%end%>
               <%end%>
@@ -50,9 +53,9 @@
       </form>
     </div>
     <div class='qt_icon'>
-      <a style='cursor: pointer;' onclick='save_paixu_branch(this,<%=  @school_class.id%>,<%= @question_packages.id%>)' class='save tooltip_html wangping_save'>保存</a>
-      <a style='cursor: pointer;display: none;' class='delete tooltip_html wangping_delete' onclick = 'delete_paixu_option(this,<%=  @school_class.id%>,<%= @question_packages.id%>)'>删除</a>
-      <a href="javascript:void(0)" style="cursor: pointer;display: none;" onclick="add_paixu_tags(this, <%= @school_class.id  %>)" class="tag tooltip_html wangping_tag"></a>
+      <a style='cursor: pointer;' onclick='save_paixu_branch(this,<%=  school_class_id %>,<%= question_package_id %>)' class='save tooltip_html wangping_save'>保存</a>
+      <a style='cursor: pointer;display: none;' class='delete tooltip_html wangping_delete' onclick = 'delete_paixu_option(this,<%=  school_class_id %>,<%= question_package_id %>)'>删除</a>
+      <a href="javascript:void(0)" style="cursor: pointer;display: none;" onclick="add_paixu_tags(this, <%= school_class_id  %>)" class="tag tooltip_html wangping_tag"></a>
     </div>
     <div class='tag_ul'>
       <ul>

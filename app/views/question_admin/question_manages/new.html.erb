@@ -31,11 +31,11 @@
           </li>
           <li><p><span class="qType_read" onclick="add_l_r_question(1, 0)">朗读</span></p>
           </li>
-          <li><p><span class="qType_choose">选择</span></p>
+          <li><p><span class="qType_choose" onclick="new_select_question(this)">选择</span></p>
           </li>
-          <li><p><span class="qType_ligature">连线</span></p>
+          <li><p><span class="qType_ligature" onclick="new_lianxian_question(this)">连线</span></p>
           </li>
-          <li><p><span class="qType_sort">排序</span></p>
+          <li><p><span class="qType_sort" onclick="create_paixu(0,0)">排序</span></p>
           </li>
           <li><p><span class="qType_gap">完形</span></p>
           </li>
@@ -52,9 +52,31 @@
     <div class="complete_btn_box" style="display:none" >
       <%#=form_for(:question_packages , url:check_before_complete_create_package_school_class_question_package_path(@school_class,@question_pack)) do |f| %>
       <input type="hidden"  name="school_class_id" id="school_class_id" value="0"/>
+      <input type="hidden"  name="question_package_id" id="question_package_id" value="0"/>
       <input type="hidden"  name="cell_id" id="cell_id" />
         <input type="hidden"  name="episode_id" id="episode_id" />
       <%#end%>
+    </div>
+
+
+
+
+        <!--标签层-->
+    <div class="tag_tab" id="tags_table">
+      <span class="arrows">A</span>
+      <div class="search">
+        <input type="text" onkeyup="search_b_tags(this, 0)"/></div>
+      <ul>
+        <% @b_tags.each do |bt| %>
+          <li><input type="checkbox" value="<%= bt.id %>"/><p><%= bt.name %></p></li>
+        <% end %>
+      </ul>
+      <input type="hidden" name="tag_bq_id" value=""/>
+      <input type="hidden" name="tag_bq_type" value=""/>
+      <input type="hidden" name="q_index" value=""/>
+      <input type="hidden" name="b_index" value=""/>
+      <input type="hidden" name="branch_question_id" value=""/>
+      <a href="javascript:void(0)" onclick="add_new_b_tag(this, 0)"></a>
     </div>
   </div>
   </div>

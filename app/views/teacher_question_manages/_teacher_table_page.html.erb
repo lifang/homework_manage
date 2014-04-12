@@ -1,0 +1,4 @@
+<% if @questions %>
+  <%= will_paginate @questions, :previous_label => "上一页", :next_label => "下一页",
+    :class => "pageTurn" %>
+<% end %>

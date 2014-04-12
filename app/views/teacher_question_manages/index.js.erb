@@ -1,0 +1,52 @@
+<% if @search_type.nil? %>
+  $("#teacher_question_manage_tab tbody").html("<%= j(render :partial => 'teacher_table_body') %>");
+  $("#teacher_question_manage_pag_div").html("<%= j(render :partial => 'teacher_table_page') %>");
+<% elsif @search_type == "teaching_material" %>
+  $("#teacher_question_manage_tab tbody").html("<%= j(render :partial => 'teacher_table_body') %>");
+  $("#teacher_question_manage_pag_div").html("<%= j(render :partial => 'teacher_table_page') %>");
+  <% if @t_m_id.to_i != 0 %>
+    $("#teacher_question_manage_cell_div").parent().find("ul").html("<li>章<input type='hidden' value='0'/></li>");
+    $("#teacher_question_manage_cell_div").parent().find("ul").append("<% @cells.each do |c|  %><li><%= c.name %><input type='hidden' value='<%= c.id %>'/></li><% end if @cells %>");
+    $("#teacher_question_manage_cell_div").parent().find("li").attr("onclick", "teacher_question_manages_search_ques(this, '<%= @school_class.id %>','cell')");
+    $("#teacher_question_manage_cell_div").find("span").text("章");
+  <% else %>
+    $("#teacher_question_manage_cell_div").parent().find("ul").html("<li>章</li>");
+    $("#teacher_question_manage_cell_div").find("span").text("章");
+  <% end %>
+  $("#teacher_question_manage_episode_div").parent().find("ul").html("<li>节</li>");
+  $("#teacher_question_manage_episode_div").find("span").text("节");
+  $("#teacher_question_manage_type_div").parent().find("ul").html("<li>题型</li>");
+  $("#teacher_question_manage_type_div").find("span").text("题型");
+<% elsif @search_type == "cell" %>
+  $("#teacher_question_manage_tab tbody").html("<%= j(render :partial => 'teacher_table_body') %>");
+  $("#teacher_question_manage_pag_div").html("<%= j(render :partial => 'teacher_table_page') %>");
+  <% if @cell_id.to_i != 0 %>
+    $("#teacher_question_manage_episode_div").parent().find("ul").html("<li>节<input type='hidden' value='0'/></li>");
+    $("#teacher_question_manage_episode_div").parent().find("ul").append("<% @episodes.each do |e|  %><li><%= e.name %><input type='hidden' value='<%= e.id %>'/></li><% end if @episodes %>");
+    $("#teacher_question_manage_episode_div").parent().find("li").attr("onclick", "teacher_question_manages_search_ques(this, '<%= @school_class.id %>','episode')");
+    $("#teacher_question_manage_episode_div").find("span").text("节");
+  <% else %>
+    $("#teacher_question_manage_episode_div").parent().find("ul").html("<li>节</li>");
+    $("#teacher_question_manage_episode_div").find("span").text("节");
+  <% end %>
+  $("#teacher_question_manage_type_div").parent().find("ul").html("<li>题型</li>");
+  $("#teacher_question_manage_type_div").find("span").text("题型");
+<% elsif @search_type == "episode" %>
+  $("#teacher_question_manage_tab tbody").html("<%= j(render :partial => 'teacher_table_body') %>");
+  $("#teacher_question_manage_pag_div").html("<%= j(render :partial => 'teacher_table_page') %>");
+  <% if @episode_id.to_i != 0 %>
+    $("#teacher_question_manage_type_div").parent().find("ul").html("<li>题型<input type='hidden' value='-1'/></li>");
+    <% Question::TYPES_NAME.each do |k,v| %>
+      $("#teacher_question_manage_type_div").parent().find("ul").append("<li><%= v %><input type='hidden' value='<%= k %>'/></li>");
+    <% end %>
+    $("#teacher_question_manage_type_div").parent().find("li").attr("onclick", "teacher_question_manages_search_ques(this, '<%= @school_class.id %>','type')");
+    $("#teacher_question_manage_type_div").find("span").text("题型");
+  <% else %>
+    $("#teacher_question_manage_type_div").parent().find("ul").html("<li>题型</li>");
+    $("#teacher_question_manage_type_div").find("span").text("题型");
+  <% end %>
+<% elsif @search_type == "type" %>
+  $("#teacher_question_manage_tab tbody").html("<%= j(render :partial => 'teacher_table_body') %>");
+  $("#teacher_question_manage_pag_div").html("<%= j(render :partial => 'teacher_table_page') %>");
+<% end %>
+$("#teacher_question_manage_tab > tbody > tr:even").addClass("tbg");

@@ -196,6 +196,11 @@ HomeworkManage::Application.routes.draw do
         get :list_questions_by_type, :paginate_share_question
       end
     end
+    resources :teacher_question_manages do
+      collection do
+        get :select_course, :select_teaching_materials, :share_question, :delete_question
+      end
+    end
   end
 
   resources :question_packages do

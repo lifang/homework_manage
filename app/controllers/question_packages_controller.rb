@@ -671,7 +671,7 @@ class QuestionPackagesController < ApplicationController
     end
   end
 
-  #删除十速挑战
+  #删除问题
   def delete_question
     Question.transaction do
       question_id = params[:question_id].to_i

@@ -1,0 +1,92 @@
+<%= javascript_include_tag "teacher_question_manages"%>
+<div class="main">
+  <div class="teacher">
+    <div class="teacher_head">
+      <div class="select_box_s">
+        <div class="div_select" id="teacher_select_1">
+          <div class="tag_select"><span>科目</span></div>
+          <input name="" type="text" value="" class="tag_input"/>
+          <ul>
+            <li onclick="teacher_question_manages_select_course(this, '<%= @school_class.id %>')">科目<input type="hidden" value="0"/></li>
+            <% @courses.each do |c| %>
+              <li onclick="teacher_question_manages_select_course(this, '<%= @school_class.id %>')"><%= c.name %><input type="hidden" value="<%= c.id %>"/></li>
+            <% end %>
+          </ul>
+          <input type="hidden" id="teacher_question_manages_course_id" value="0"/>
+        </div>
+        <div class="div_select" id="teacher_select_2">
+          <div class="tag_select"><span>教材</span></div>
+          <input name="" type="text" value="" class="tag_input"/>
+          <ul>
+            <li>教材</li>
+          </ul>
+          <input type="hidden" id="teacher_question_manages_tm_id" value="0"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="teacher_body">
+      <div class="ass_panel"><h1>教师题库</h1><a href="#" class="back">返回</a></div>
+      <div class="b_table">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" id="teacher_question_manage_tab">
+          <thead>
+            <tr>
+              <th width="150">
+                <div class="div_select">
+                  <div class="tag_select" id="teacher_question_manage_cell_div"><span>章</span></div>
+                  <input id="teacher_question_manages_cell_id" type="hidden" value="0"/>
+                  <ul>
+                    <li>章</li>
+                  </ul>
+                </div>
+              </th>
+              <th width="150">
+                <div class="div_select">
+                  <div class="tag_select" id="teacher_question_manage_episode_div"><span>节</span></div>
+                  <input id="teacher_question_manages_episode_id" type="hidden" value="0"/>
+                  <ul>
+                    <li>节</li>
+                  </ul>
+                </div>
+              </th>
+              <th width="150">
+                <div class="div_select">
+                  <div class="tag_select" id="teacher_question_manage_type_div"><span>题型</span></div>
+                  <input id="teacher_question_manages_type_id" type="hidden" value="-1"/>
+                  <ul>
+                    <li>题型</li>
+                  </ul>
+                </div>
+              </th>
+              <th>名称</th>
+              <th>创建时间</th>
+              <th>编辑</th>
+              <th>分享</th>
+              <th>删除</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render "teacher_table_body" %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="teacher_question_manage_pag_div">
+      <%= render "teacher_table_page" %>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  /*select_box*/
+  .select_box_s { padding-top: 30px;}
+  .select_box_s .div_select { width: 300px; border: 1px #FFFFFF solid; padding: 0; margin: 0 20px;}
+  .select_box_s .div_select .tag_select {
+    background: url(/assets/select.png) no-repeat 270px center; 
+    color: #FFF; 
+    text-align: left;
+  }
+  .select_box_s .div_select .tag_select span { width: 250px;}
+  .select_box_s .div_select ul { width: 300px;}
+  .select_box_s .div_select ul li { background: #f9f9f9;}
+  .select_box_s .div_select ul li:hover { background: #f0f0f0;}
+</style>

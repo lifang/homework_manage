@@ -10,7 +10,7 @@
     </td>
     <td><a href="javascript:void(0);" class="compile tooltip_html" title="编辑"></a></td>
     <% if q.if_shared.nil? || q.if_shared==false %>
-      <td><a href="javascript:void(0);" class="share tooltip_html" title="分享"></a></td>
+      <td><a href="javascript:void(0);" class="share tooltip_html" title="分享" onclick="share_que('<%= q.id %>','<%= @school_class.id %>')"></a></td>
     <% else %>
       <td><a href="javascript:void(0);" class="share_ed tooltip_html" title="已分享"></a></td>
     <% end %>
@@ -22,32 +22,6 @@
 <script>
   $(function(){
     $("#teacher_question_manage_tab .tooltip_html").unbind();
-    $("#teacher_question_manage_tab a.share").click(function(){   //分享
-      var a = $(this)
-      var q_id = a.parents("tr").find("input[name='q_id']").first().val();
-      $.ajax({
-        type: "get",
-        url: "/school_classes/"+<%= @school_class.id %>+"/teacher_question_manages/share_question",
-        data: {q_id : q_id},
-        dataType: "json",
-        success: function(data){
-          if(data.status==1){
-            tishi("分享成功!");
-            a.removeAttr("class");
-            a.removeAttr("title");
-            a.attr("class", "share_ed tooltip_html");
-            a.attr("title", "已分享");
-            a.unbind();
-          }else{
-            tishi("分享失败!");
-          }
-        },
-        error: function(){
-          tishi("数据错误!");
-        }
-      })
-    });
-
     $("#teacher_question_manage_tab a.delete").click(function(){   //删除
       var flag = confirm("确定删除该大题?");
       if(flag){

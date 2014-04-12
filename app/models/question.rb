@@ -13,7 +13,7 @@ class Question < ActiveRecord::Base
   TYPE_NAME_ARR.each do |type|
     scope type.to_sym, :conditions => { :types => TYPES[type.upcase.to_sym] }
   end
-
+  STATUS = {:NORMAL => 1, :DELETED => 0}  #状态 1正常 0删除
   PER_PAGE = 10
   #查询一个题包下的所有题目
   def self.get_all_questions question_package
@@ -79,5 +79,9 @@ class Question < ActiveRecord::Base
       end  
     end
     branch_ques 
-  end  
+  end
+
+  def self.get_questions  question_package_ids
+
+  end
 end

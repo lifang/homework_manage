@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140411085112) do
+ActiveRecord::Schema.define(:version => 20140412094829) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer  "sender_id"
@@ -235,6 +235,7 @@ ActiveRecord::Schema.define(:version => 20140411085112) do
     t.text     "full_text"
     t.string   "content"
     t.boolean  "if_from_reference",   :default => false
+    t.boolean  "status",              :default => true
   end
 
   add_index "questions", ["question_package_id"], :name => "index_questions_on_question_package_id"

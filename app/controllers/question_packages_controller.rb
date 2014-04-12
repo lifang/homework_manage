@@ -138,6 +138,7 @@ class QuestionPackagesController < ApplicationController
 
   #创建听力题小题
   def save_listening
+    p 1111111111111111111
     @q_index = params[:q_index].to_i
     @b_index = params[:b_index].to_i
     tags_id = params[:tags_id]

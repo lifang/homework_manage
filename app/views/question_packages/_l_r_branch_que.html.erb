@@ -5,12 +5,12 @@
         <ul class="branch_question">
           <li>
             <% if resource_url.present?  %>
-              <%= render "voice_tmp", {:resource_url => resource_url} %>
+              <%= render "question_packages/voice_tmp", {:resource_url => resource_url} %>
             <% else %>            
               <a href="javascript:void(0)"  onclick="select_audio(this)" class="voice tooltip_title" title="点击上传音频"></a>
             <% end %>
             <% if types == Question::TYPES[:LISTENING] %>
-              <%= form_tag({:action => :save_listening}, :multipart => true ,:remote => true) do %>
+              <%= form_tag( "/school_classes/#{school_class_id || 0}/question_packages/save_listening",:method => :post ,:multipart => true ,:remote => true) do %>
                 <input type="hidden" name="file" value class="file" style="display:none;"/>
                 <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>"/>
                 <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>"/>
@@ -36,7 +36,7 @@
           <input class="content" type="text" value="<%= content.present?  ? content : "" %>" onblur="listening_reading_onblur(this)" onchange="change_text(this)" style="display:none;" />
         </li>
         <li class="upload_voice">
-          <%= form_tag({:action => :upload_voice}, :multipart => true ,:remote => true) do %>
+          <%= form_tag( "/school_classes/#{school_class_id || 0}/question_packages/upload_voice",:method => :post ,:multipart => true ,:remote => true) do %>
             <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>"/>
             <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>"/>
             <input type="file" name="file" class="tmp_voice" style="display:none;" onchange="check_audio(this)"/>

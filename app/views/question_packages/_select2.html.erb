@@ -1,4 +1,4 @@
-<select name="select2" onchange="no_change(this)">
+<select name="select2" onchange="<%= @school_class_id == 0 ? "tiku_change_episode(this)" : "no_change(this)"%>">
   <option value="0">请选择课程</option>
   <%@episodes.each do |episode|%>
     <option value="<%=episode.id%>"><%=episode.name%></option>

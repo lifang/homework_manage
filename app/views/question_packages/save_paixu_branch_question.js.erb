@@ -1,6 +1,7 @@
 <%if @text==1|| @text==2%>
-tishi('保存成功！');
-$($(".assignment_body_list")[<%=@gloab_index%>]).find('.ab_list_box').html("<%=j(render 'wanxin/paixu_item')%>");
+  tishi('保存成功！');
+    $($(".assignment_body_list")[<%=@gloab_index%>]).find('.ab_list_box').html("<%=j(render 'wanxin/paixu_item')%>");
+  <%# end %>
 <%else%>
-tishi('保存失败！');
+  tishi('保存失败！');
 <%end%>

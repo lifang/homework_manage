@@ -419,7 +419,7 @@ module MethodLibsHelper
 
   #保存系统消息
   def save_sys_message(student, content, extras_hash, school_class)
-    SysMessage.create(school_class_id:school_class.id,
+    sys_message = SysMessage.create(school_class_id:school_class.id,
       student_id:student.id,
       content:content,
       status:0)

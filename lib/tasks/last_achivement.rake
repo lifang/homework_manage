@@ -9,30 +9,25 @@ namespace :last_achivement do
       question_package_ids = publish_question_packages.map(&:question_package_id)
       student_answer_records = RecordDetail.find_by_sql(["SELECT sum(used_time) total_used_time, sum(specified_time) total_specified_time,
 sum(score) total_score, avg(correct_rate) avg_correct_rate,
-question_package_id, student_id, school_class_id  FROM record_details rd
+sar.question_package_id, sar.student_id, sar.school_class_id  FROM record_details rd
 inner join student_answer_records sar on
-rd.student_answer_record_id = sar.id where question_package_id in (?) and school_class_id in (?) group by sar.id", question_package_ids, school_class.id])
-
-
-      p "==================="
-      p student_answer_records
+rd.student_answer_record_id = sar.id where sar.question_package_id in (?) and sar.school_class_id = ? group by sar.id", question_package_ids, school_class.id])
 
       grouped_sqrs = student_answer_records.group_by(&:question_package_id)
 
-      p grouped_sqrs
-      
       grouped_sqrs.each do |question_package_id, datas|
         sort_data = datas.sort{|a,b| b.total_score <=> a.total_score}[0..5]  #抽出前六名
-
+      
         sort_data.each_with_index do |record, index|  #index 作为排名
+          index = index+1
           begin
             saved_time = record.total_specified_time - record.total_used_time
+            
             saved_time = saved_time > 0 ? saved_time : 0
             time_rate = (saved_time/record.total_specified_time).to_f  #时效性  （规定时间 - 用时）/规定时间
             calculated_score = (record.avg_correct_rate * 8 + time_rate * 6 + (18/index + 1)).round  # 【优异】成就计算公式  平均正确率*8 + 时效性*6 + (18/排名)
-            calculated_score = calculated_score
-            archivement = ArchivementsRecord
-            .find_by_student_id_and_school_class_id_and_archivement_types(record.student_id,
+
+            archivement = ArchivementsRecord.find_by_student_id_and_school_class_id_and_archivement_types(record.student_id,
               school_class.id, ArchivementsRecord::TYPES[:PEFECT].to_i)
             if archivement.nil?
               archivement = ArchivementsRecord.create(:student_id => record.student_id,
@@ -46,6 +41,7 @@ rd.student_answer_record_id = sar.id where question_package_id in (?) and school
             File.open("#{Rails.root}/public/e.log", "a"){|f| f.write "\n question_pack:#{record.question_package_id}----#{e}"}
             next
           else
+             p "-----------------------------"
             #获得成就 保存系统消息 并且 发推送
             student = Student.find_by_id record.student_id
             #额外参数

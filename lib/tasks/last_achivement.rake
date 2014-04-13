@@ -51,6 +51,8 @@ rd.student_answer_record_id = sar.id where sar.question_package_id in (?) and sa
           end
         end
       end
+
+      publish_question_packages.update_all(is_calc:true)  #已经计算过优异的，更新字段
     end
   end
 

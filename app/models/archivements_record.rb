@@ -1,8 +1,8 @@
 #encoding: utf-8
 class ArchivementsRecord < ActiveRecord::Base
   attr_protected :authentications
-  TYPES = {:PEFECT => 0, :ACCURATE => 1, :QUICKLY => 2, :EARLY => 3}
-  TYPES_NAME = {0 => "优异", 1 => "精准", 2 => "迅速", 3 => "捷足"}
+  TYPES = {:PEFECT => 0, :ACCURATE => 1, :QUICKLY => 2, :EARLY => 3,:KUDOS => 4}
+  TYPES_NAME = {0 => "优异", 1 => "精准", 2 => "迅速", 3 => "捷足",4 => '牛气'}
   LEVEL_SCORE = 100
 
   def self.update_archivements student, school_class, archivement_types

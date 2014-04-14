@@ -103,17 +103,26 @@ class MicropostsController < ApplicationController
     replymicropost = ReplyMicropost.find_by_id reply_id
     if replymicropost
       student = Student.find_by_user_id replymicropost.sender_id
-      extras_hash = {:type => Student::PUSH_TYPE[:sys_message], :class_id => current_school_class.id, :class_name => current_school_class.name, :student_id => student.nil? ? 0 : student.id}
       if replymicropost.praise.nil? || replymicropost.praise == 0
         replymicropost.update_attributes(:praise => ReplyMicropost::PRAISE[:KUDOS])
-        content = "恭喜您有条回复被赞"
-        save_sys_message(student, content, extras_hash, current_school_class) if student
+        ArchivementsRecord.update_archivements student, current_school_class, ArchivementsRecord::TYPES[:KUDOS]
         status = 1
         notice = "已赞！"
       else
         replymicropost.update_attributes(:praise => ReplyMicropost::PRAISE[:NOKUDOS])
-        content = "你的赞被取消了！"
-        save_sys_message(student, content, extras_hash, current_school_class) if student
+        archivement =  ArchivementsRecord.find_by_student_id_and_school_class_id_and_archivement_types(student.id,current_school_class.id, ArchivementsRecord::TYPES[:KUDOS])
+        if archivement.nil?
+          archivement = ArchivementsRecord.create(:student_id => student.id,
+            :school_class_id => current_school_class.id,
+            :archivement_types => ArchivementsRecord::TYPES[:KUDOS],
+            :archivement_score => 0)
+        else
+          if(archivement.archivement_score.to_i>=10)
+            archivement.update_attributes(:archivement_score =>(archivement.archivement_score.to_i+10))
+          else
+            archivement.update_attributes(:archivement_score =>0)
+          end
+        end
         status = 2
         notice = "赞已取消！"
       end

@@ -97,8 +97,7 @@ class QuestionPackagesController < ApplicationController
         if branch_que[:tags].present?
 
           branch_que[:tags].each do |tag_id|  
-            BtagsBqueRelation.create(branch_question_id:branch_question.id,
-                      branch_tag_id:tag_id)  
+            BtagsBqueRelation.create(branch_question_id:branch_question.id, branch_tag_id:tag_id)
           end
           @branch_tags[@question_id][branch_question.id] = BtagsBqueRelation
                                                               .select("bt.name, btags_bque_relations.branch_tag_id")
@@ -999,15 +998,15 @@ class QuestionPackagesController < ApplicationController
     branch_question_id = params[:branch_question_id]
     school_class_id = params[:school_class_id].to_i
     branch_tag = BranchTag.find_by_id(branch_tag_id)
+    branch_question = (school_class_id == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id branch_question_id
     if school_class_id == 0
       btagsbquetelation = SbranchBranchTagRelation.find_by_branch_tag_id_and_share_branch_question_id(branch_tag_id,branch_question_id)
     else
       btagsbquetelation = BtagsBqueRelation.find_by_branch_tag_id_and_branch_question_id(branch_tag_id,branch_question_id)
     end
-    
     if branch_tag
       if btagsbquetelation.nil?
-        if btagsbquetelation.is_a?(BtagsBqueRelation)
+        if branch_question.is_a?(BranchQuestion)
           @bq = BtagsBqueRelation.create(branch_question_id:branch_question_id,
             branch_tag_id:branch_tag_id)
         else
@@ -1028,16 +1027,30 @@ class QuestionPackagesController < ApplicationController
     @type = params[:type]
     @gloab_index =params[:gloab_index]
     @q_index = params[:q_index]
+    school_class_id = params[:school_class_id].to_i
     @question_packages = QuestionPackage.find_by_id(params[:id])
     branch_question_id = params[:branch_question_id]
-    @branch_question = BranchQuestion.find_by_id branch_question_id
-    @tags = BtagsBqueRelation.where("branch_question_id = ?",branch_question_id).
-      joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
-      select("btags_bque_relations.id,bt.name,bt.created_at,bt.updated_at")
-    branch_tag = BtagsBqueRelation.find_by_id(params[:tag_id])
-    if @type == "reading_or_listening"
-      branch_tag = BtagsBqueRelation.find_by_branch_tag_id_and_branch_question_id(params[:tag_id], branch_question_id)
+    @branch_question = (school_class_id == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id branch_question_id
+    if @branch_question.is_a?(ShareBranchQuestion)
+      @tags = SbranchBranchTagRelation.where("share_branch_question_id = ?",branch_question_id).
+        joins("inner join branch_tags bt on sbranch_branch_tag_relations.branch_tag_id=bt.id").
+        select("sbranch_branch_tag_relations.id,bt.name,bt.created_at,bt.updated_at")
+      branch_tag = SbranchBranchTagRelation.find_by_id(params[:tag_id])
+
+      if @type == "reading_or_listening"
+        branch_tag = SbranchBranchTagRelation.find_by_branch_tag_id_and_branch_question_id(params[:tag_id], branch_question_id)
+      end
+    else
+      @tags = BtagsBqueRelation.where("branch_question_id = ?",branch_question_id).
+        joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
+        select("btags_bque_relations.id,bt.name,bt.created_at,bt.updated_at")
+      branch_tag = BtagsBqueRelation.find_by_id(params[:tag_id])
+
+      if @type == "reading_or_listening"
+        branch_tag = BtagsBqueRelation.find_by_branch_tag_id_and_branch_question_id(params[:tag_id], branch_question_id)
+      end
     end
+    
     if branch_tag
       branch_tag.destroy
       @status = 1

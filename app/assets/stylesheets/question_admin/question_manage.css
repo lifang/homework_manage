@@ -803,7 +803,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 	text-indent: -999px;
 	overflow: hidden;
 }
-.qt_icon a.tag_1 {
+.qt_icon a.tag, .qt_icon a.tag_1 {
 	background: url(/assets/icon07.png) no-repeat 0 0;
 }
 .qt_icon a.delete { 

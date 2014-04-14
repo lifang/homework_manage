@@ -32,8 +32,8 @@
             <% end %>  
         </li>
         <li class="qt_text">
-          <p><%= content.present?  ? content : "" %></p>
-          <input class="content" type="text" value="<%= content.present?  ? content : "" %>" onblur="listening_reading_onblur(this)" onchange="change_text(this)" style="display:none;" />
+          <p ondblclick="change_text(this)" ><%= content.present?  ? content : "" %></p>
+          <input class="content" type="text" value="<%= content.present?  ? content : "" %>" onchange="listening_reading_onblur(this)" style="display:none;" />
         </li>
         <li class="upload_voice">
           <%= form_tag( "/school_classes/#{school_class_id || 0}/question_packages/upload_voice",:method => :post ,:multipart => true ,:remote => true) do %>

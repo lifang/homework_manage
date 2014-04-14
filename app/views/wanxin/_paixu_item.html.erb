@@ -16,11 +16,11 @@ question_package_id = @question_packages ? @question_packages.id : 0
         <div class="qt_icon">
           <a style="cursor: pointer;display: none;" onclick="save_paixu_branch(this,<%=  school_class_id %>,<%= question_package_id %>)" class='save tooltip_html wangping_save1'>保存</a>
           <a style="cursor: pointer;" class="delete tooltip_html wangping_delete1" onclick = 'delete_paixu_option(this,<%=  school_class_id%>,<%= question_package_id %>)'>删除</a>
-          <a href="javascript:void(0)" style="cursor: pointer;" style="cursor: pointer;" onclick="add_paixu_tags(this)" class="tag tooltip_html"></a>
+          <a href="javascript:void(0)" style="cursor: pointer;" style="cursor: pointer;" onclick="add_paixu_tags(this)" class="tag tooltip_html">标签</a>
         </div>
         <div class="tag_ul">
           <ul>
-            <%unless controller.action_name=='new_index' || controller.action_name=='save_paixu_branch_question' || controller_name=="teacher_question_manages" %>
+            <%unless controller.action_name=='new_index' || controller_name=="teacher_question_manages" %>
               <%@tags.each do |tag|%>
                 <% branch_question_id = tag.is_a?(SbranchBranchTagRelation) ? tag.share_branch_question_id : tag.branch_question_id  %>
                 <%if branch_question_id==branch_question.id%>
@@ -56,7 +56,7 @@ question_package_id = @question_packages ? @question_packages.id : 0
     <div class='qt_icon'>
       <a style='cursor: pointer;' onclick='save_paixu_branch(this,<%=  school_class_id %>,<%= question_package_id %>)' class='save tooltip_html wangping_save'>保存</a>
       <a style='cursor: pointer;display: none;' class='delete tooltip_html wangping_delete' onclick = 'delete_paixu_option(this,<%=  school_class_id %>,<%= question_package_id %>)'>删除</a>
-      <a href="javascript:void(0)" style="cursor: pointer;display: none;" onclick="add_paixu_tags(this, <%= school_class_id  %>)" class="tag tooltip_html wangping_tag"></a>
+      <a href="javascript:void(0)" style="cursor: pointer;display: none;" onclick="add_paixu_tags(this, <%= school_class_id  %>)" class="tag tooltip_html wangping_tag">标签</a>
     </div>
     <div class='tag_ul'>
       <ul>

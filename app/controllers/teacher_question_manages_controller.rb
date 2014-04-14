@@ -7,7 +7,7 @@ class TeacherQuestionManagesController < ApplicationController  #教师题库管
     if @search_type.nil?
       school_classes = SchoolClass.where(["teacher_id=? and status=?", current_teacher.id, SchoolClass::STATUS[:NORMAL]])
       teach_materials = TeachingMaterial.where(["id in (?)", school_classes.map(&:teaching_material_id)])if school_classes.any?
-      @courses = Course.where(["id in (?) and status=? ", teach_materials.map(&:course_id), Course::STATUS[:NORMAL]]) if teach_materials
+      @tqmcourses = Course.where(["id in (?) and status=? ", teach_materials.map(&:course_id), Course::STATUS[:NORMAL]]) if teach_materials
       question_packages = QuestionPackage.select("id").where(["school_class_id in (?)", school_classes.map(&:id)]) if school_classes.any?
       @questions = Question.get_questions(question_packages.map(&:id), params[:page] ||=1) if question_packages && question_packages.any?
     elsif @search_type == "teaching_material"
@@ -96,6 +96,7 @@ class TeacherQuestionManagesController < ApplicationController  #教师题库管
         @exist_cell = Cell.find_by_id(@exist_episode.cell_id) unless @exist_episode.cell_id.nil?
       end
     end
+    p @branch_tags
   end
 
   def share_question  #分享题目

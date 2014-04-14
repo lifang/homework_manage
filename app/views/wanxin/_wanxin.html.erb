@@ -30,8 +30,8 @@
 
         </div>
         <div class="gapFilling_box">
-          <%if controller.action_name=='new_index' || controller.action_name == 'edit_share_question'%>
-            <%=render 'wanxin/gapfilling_questions',
+          <%if controller.action_name=='new_index' || controller.action_name == 'edit_share_question' || controller_name=="teacher_question_manages"%>
+          <%=render 'wanxin/gapfilling_questions',
               {:@branch_ques => (branch_questions ),
               :@tags_w =>(branch_tags ),
               :@school_class=>@school_class,

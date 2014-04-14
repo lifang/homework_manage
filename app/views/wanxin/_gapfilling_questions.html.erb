@@ -33,30 +33,27 @@ unless @branch_ques.nil?
       </div>
       <div class='tag_ul'>
         <ul>
-          <%unless controller.action_name=='new_index' || controller.action_name == 'edit_share_question'%>
-          <% p  @tags %>
+          <%unless controller.action_name=='new_index' || controller.action_name == 'edit_share_question' || controller_name == "teacher_question_manages"%>
             <%@tags.each do |tag|%>
-            <%
+              <%
               branch_question_id = tag.is_a?(SbranchBranchTagRelation) ? tag.share_branch_question_id : tag.branch_question_id
             %>
               <%if branch_question_id == branch_q.id%>
                 <li><p><%=tag.name%></p>
                   <a onclick="delete_tags(this,<%= school_class_id %>,<%= question_package_id %>,<%=tag.id%>,<%=branch_q.id%>,'wanxin')" class="x">X</a>
                 </li>
-              <%end
-            end
-          else%>
+              <%  end %>
+            <% end if @tags %>
+          <% else %>
             <%unless !@tags_w || @tags_w[branch_q.id].nil?%>
               <%@tags_w[branch_q.id].each do |tag|%>
                 <li><p><%=tag.name%></p>
                   <a onclick="delete_tags(this,<%= school_class_id %>,<%= question_package_id %>,<%=tag.id%>,<%=branch_q.id%>,'wanxin')" class="x">X</a>
                 </li>
               <%end%>
-            <%end
-          end  if @tags %>
-
+            <%end%>
+          <% end %>
         </ul>
-
       </div>
     </div>
     <%index+=1%>

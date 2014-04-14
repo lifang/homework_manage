@@ -1,5 +1,5 @@
 <% school_class_id = @school_class ? @school_class.id : 0
-   question_package_id = @question_packages ? @question_packages.id : 0
+question_package_id = @question_packages ? @question_packages.id : 0
 %>
 <div class="ab_article">
   <%if @branch_ques%>
@@ -20,23 +20,23 @@
         </div>
         <div class="tag_ul">
           <ul>
-            <%unless controller.action_name=='new_index'%>
-              <%@tags.each do |tag|%>
-                <%if tag.branch_question_id==branch_question.id%>
-                  <li><p><%=tag.name%></p>
-                    <a onclick="delete_tags(this,<%=  school_class_id %>,<%= question_package_id %>,<%=tag.id%>,<%=branch_question.id%>,'paixu')" class="x">X</a>
-                  </li>
-                <%end%>
-              <%end if @tags%>
-            <%else%>
-              <%unless !@tags_p||@tags_p[branch_question.id].nil?%>
-                <%@tags_p[branch_question.id].each do |tag|%>
-                  <li><p><%=tag.name%></p>
-                    <a onclick="delete_tags(this,<%= school_class_id %>,<%= question_package_id %>,<%=tag.id%>,<%=branch_question.id%>,'paixu')" class="x">X</a>
-                  </li>
+              <%unless controller.action_name=='new_index'%>
+                <%@tags.each do |tag|%>
+                  <%if tag.branch_question_id==branch_question.id%>
+                    <li><p><%=tag.name%></p>
+                      <a onclick="delete_tags(this,<%=  school_class_id %>,<%= question_package_id %>,<%=tag.id%>,<%=branch_question.id%>,'paixu')" class="x">X</a>
+                    </li>
+                  <%end%>
+                <%end if @tags%>
+              <%else%>
+                <%unless !@tags_p||@tags_p[branch_question.id].nil?%>
+                  <%@tags_p[branch_question.id].each do |tag|%>
+                    <li><p><%=tag.name%></p>
+                      <a onclick="delete_tags(this,<%= school_class_id %>,<%= question_package_id %>,<%=tag.id%>,<%=branch_question.id%>,'paixu')" class="x">X</a>
+                    </li>
+                  <%end%>
                 <%end%>
               <%end%>
-            <%end%>
           </ul>
         </div>
       </div>

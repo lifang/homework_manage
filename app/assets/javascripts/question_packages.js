@@ -169,7 +169,6 @@ function save_listening_reading(obj, types, school_class_id)
             }
             else
             {
-                alert($(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").attr("action"))
                 $(obj).parent().parent().find("ul.branch_question").find("li:eq(0)").find("form").submit();
             }     
         }

@@ -913,6 +913,30 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 .speedQuestions li.qt_text input { display: none; border: none; background: #FFF; height: 36px;}
 .speedQuestions li.qt_input input {border: none; background: #FFF; color: #999; height: 36px;}
 
+/*朗读听写 批量上传*/
+.batchUpload { overflow: hidden;}
+.batchUpload_box { padding: 10px; margin: 10px 0; overflow: hidden;}
+.batchUpload_item { float: left; padding: 20px 10px 10px 10px; width: 794px; border: 1px #CCCCCC solid;}
+.batchUpload_item_con { margin-bottom: 10px;}
+
+.bu_icon { float: right; height: 25px;}
+.bu_icon a { 
+    width: 25px; 
+    height: 25px; 
+    display: inline-block; 
+    margin: 0 10px;
+    overflow: hidden;
+    text-indent: -999px;
+}
+.batchUpload_item .voice { background: url(/assets/icon12.png) no-repeat 0px 0px;}
+.batchUpload_item .tag { background: url(/assets/icon12.png) no-repeat 0px -25px;}
+.batchUpload_item .delete { background: url(/assets/icon12.png) no-repeat 0px -50px;}
+
+.batchUpload_item_list { border: 1px #CCCCCC solid; padding: 5px 10px; overflow: hidden;}
+.batchUpload_item_list:hover { background: #c1eddb;}
+.batchUpload_item_list p { width: 600px; overflow: hidden; line-height: 24px; float: left;}
+
+
 
 /* 排序题*/
 .sortQuestions {

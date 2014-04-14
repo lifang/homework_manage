@@ -20,7 +20,8 @@ question_package_id = @question_packages ? @question_packages.id : 0
         </div>
         <div class="tag_ul">
           <ul>
-            <%unless controller.action_name=='new_index' || controller.action_name=='save_paixu_branch_question' || controller_name=="teacher_question_manages" %>
+            <% p  controller.action_name %>
+            <%unless controller.action_name=='new_index' || controller.action_name=='edit_share_question' || controller_name=="teacher_question_manages" %>
               <%@tags.each do |tag|%>
                 <% branch_question_id = tag.is_a?(SbranchBranchTagRelation) ? tag.share_branch_question_id : tag.branch_question_id  %>
                 <%if branch_question_id==branch_question.id%>

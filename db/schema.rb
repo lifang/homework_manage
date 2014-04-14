@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140414064933) do
+ActiveRecord::Schema.define(:version => 20140414095540) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer  "sender_id"
@@ -311,7 +311,7 @@ ActiveRecord::Schema.define(:version => 20140414064933) do
     t.string   "verification_code"
     t.datetime "period_of_validity"
     t.integer  "status"
-    t.string   "teacher_id"
+    t.integer  "teacher_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "teaching_material_id"

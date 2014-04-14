@@ -22,20 +22,29 @@ class QuestionPackagesController < ApplicationController
   #导入听写题
   def inport_lisenting
     question_package_id = params[:question_package_id]  
+    school_class_id = params[:school_class_id]
     @question_id = params[:question_id]  
     file = params[:file]
     @types = params[:types]
     @status = false
     @notice = "没有找到题包!"
-    p question_package_id
     if question_package_id.present?
-      destination_dir = "#{media_path % question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
+      if params[:school_class_id].to_i == 0
+        @question = ShareQuestion.find_by_id @question_id
+      else
+        @question = Question.find_by_id @question_id
+      end
+      if school_class_id == 0
+        destination_dir = "#{question_admin_share_media_path}".gsub(/^[^\\]|[^\\]$/, "")
+      else
+        destination_dir = "#{media_path % question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
+      end
+      p destination_dir
       unzip_url = "#{destination_dir}/question_#{@question_id}"
       create_dirs unzip_url
       zip_url = "#{Rails.root}/public/#{destination_dir}/question_#{@question_id}"
-      rename_file_name = "question_#{@question_id}"
+      rename_file_name = "question_#{@question_id}" 
       upload = upload_file destination_dir, rename_file_name, file
-      p 111111111111
       if upload[:status] == true
           if unzip(zip_url) == true
             files = get_excel_and_audio(zip_url)
@@ -89,13 +98,23 @@ class QuestionPackagesController < ApplicationController
     @branch_tags[@question_id] = {}
     @status = false
     if params[:lisenting].present?
+      if params[:school_class_id].to_i == 0
+        @question = ShareQuestion.find_by_id @question_id
+      else
+        @question = Question.find_by_id @question_id
+      end
       branch_questions = params[:lisenting]
       branch_questions.each do |k,branch_que|
-        branch_question = BranchQuestion.create(:content => branch_que[:content], :resource_url => branch_que[:audio], 
+        if @question.is_a?(ShareQuestion)
+          branch_question = ShareBranchQuestion.create(:content => branch_que[:content], :resource_url => branch_que[:audio], 
                                     :question_id => @question_id, :types => @types)
-        @branch_tags[@question_id][branch_question.id] = []                                      
+        else  
+          branch_question = BranchQuestion.create(:content => branch_que[:content], :resource_url => branch_que[:audio], 
+                                    :question_id => @question_id, :types => @types)
+        end  
+        @branch_tags[@question_id][branch_question.id] = []                                  
         if branch_que[:tags].present?
-
+          
           branch_que[:tags].each do |tag_id|  
             BtagsBqueRelation.create(branch_question_id:branch_question.id, branch_tag_id:tag_id)
           end

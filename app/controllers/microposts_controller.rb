@@ -118,7 +118,7 @@ class MicropostsController < ApplicationController
             :archivement_score => 0)
         else
           if(archivement.archivement_score.to_i>=10)
-            archivement.update_attributes(:archivement_score =>(archivement.archivement_score.to_i+10))
+            archivement.update_attributes(:archivement_score =>(archivement.archivement_score.to_i-10))
           else
             archivement.update_attributes(:archivement_score =>0)
           end

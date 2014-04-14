@@ -436,6 +436,11 @@ class QuestionPackagesController < ApplicationController
     content = content.gsub("&nbsp;"," ")
     school_class_id = params[:school_class_id].to_i
     @question = (school_class_id == 0 ? ShareQuestion : Question).find_by_id(params[:id])
+    #保存小题索引
+    branch_questions = @question.branch_questions
+    branch_questions.each_with_index do |branch_question,index|
+      branch_question.update_attribute(:content,index+1)
+    end
     if @question.update_attribute(:full_text, content)
       render text:1
     else

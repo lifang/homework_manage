@@ -592,7 +592,9 @@ class QuestionPackagesController < ApplicationController
       joins("inner join branch_tags bt on sbranch_branch_tag_relations.branch_tag_id=bt.id").
       select("sbranch_branch_tag_relations.id,sbranch_branch_tag_relations.share_branch_question_id,bt.name,bt.created_at,bt.updated_at")
     end
-
+    p @branch_ques.inspect
+    p "*********************"
+    p @tags.inspect
   end
   
   def show_the_paixu

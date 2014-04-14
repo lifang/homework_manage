@@ -1,5 +1,9 @@
 <div class="main" id="tqm_main_div">
   <div class="assignment">
+    <div class="ass_panel">
+      <h1>编辑<%= Question::TYPES_NAME[@questions[0].types] %></h1>
+      <a href="/school_classes/<%= @school_class.id %>/teacher_question_manages" class="back">返回</a>
+    </div>
     <div class="reference_replace_part">
       <div class="assignment_body" id="question_list">
         <%=  render :partial => 'question_packages/questions_list' %>

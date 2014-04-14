@@ -1,5 +1,24 @@
 <div class="reference_replace_part">
-  <div class="assignment_body" id="question_list"  >
-    <%=  render :partial => 'question_packages/questions_list' %>
+  <div class="assignment">
+    <div class="assignment_body" id="question_list"  >
+      <%=  render :partial => 'question_packages/questions_list' %>
+    </div>
+  </div>
+  <!--标签层-->
+  <div class="tag_tab" id="tags_table">
+    <span class="arrows">A</span>
+    <div class="search">
+      <input type="text" onkeyup="search_b_tags(this, 0)"/></div>
+    <ul>
+      <% @b_tags.each do |bt| %>
+        <li><input type="checkbox" value="<%= bt.id %>"/><p><%= bt.name %></p></li>
+      <% end %>
+    </ul>
+    <input type="hidden" name="tag_bq_id" value=""/>
+    <input type="hidden" name="tag_bq_type" value=""/>
+    <input type="hidden" name="q_index" value=""/>
+    <input type="hidden" name="b_index" value=""/>
+    <input type="hidden" name="branch_question_id" value=""/>
+    <a href="javascript:void(0)" onclick="add_new_b_tag(this, 0)"></a>
   </div>
 </div>

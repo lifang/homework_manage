@@ -26,10 +26,10 @@ HomeworkManage::Application.routes.draw do
           :new_homework, :delete_message,:get_sys_message, :get_follow_microposts,
           :get_knowledges_card,:delete_knowledges_card,:card_is_full,:get_question_package_details,
           :get_my_archivements,:card_tags_list,:create_card_tag,:search_tag_card, :get_rankings,
-          :knoledge_tag_relation, :search_tasks
+          :knoledge_tag_relation
         post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info,
           :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
-          :delete_sys_message,:read_message, :reply_message
+          :delete_sys_message,:read_message, :reply_message, :search_tasks
       end
       member do
         

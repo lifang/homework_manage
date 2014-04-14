@@ -5,7 +5,7 @@ include REXML
 require 'json'
 include MethodLibsHelper
 class Api::StudentsController < ApplicationController
-  skip_before_filter :get_teacher_infos,:get_unread_messes
+  skip_before_filter :get_teacher_infos,:sign?,:get_unread_messes
   #  发布消息
   def news_release
     content = params[:content] 
@@ -453,7 +453,7 @@ class Api::StudentsController < ApplicationController
         render :json => {:status => "error", :notice => "班级已失效！"}
       else
         flag = "false"
-        school = ""
+        school = nil
         #如果创建该班级教师属于某个学校的,则减去该学校的配额
         if school_class.teacher.school_id.present?
           school = School.find_by_id school_class.teacher.school_id
@@ -469,8 +469,8 @@ class Api::StudentsController < ApplicationController
         if flag == "none" || flag == "true"
           active_code = "false"
           if student.nil?
-            if key.present?
-              student = Student.find_by_active_code key
+            if key.present? && school.present?
+              student = Student.find_by_active_code_and_school_id key, school.id
               if student.nil?
                 render :json => {:status => "error", :notice => "激活码错误!"}  
               else
@@ -755,11 +755,6 @@ class Api::StudentsController < ApplicationController
               if c_s_relation && c_s_relation.any?
                 my_school_classes_id = c_s_relation.map(&:school_class_id)  
               end
-              schools = SchoolClass
-                            .select("distinct teachers.school_id")
-                            .joins("left join teachers t on school_classes.teacher_id = t.id")
-                            .where(["school_classes.id in (?) and teachers.school_id is not null", my_school_classes_id])   
-              p school
               school_class_student_relations = student.school_class_student_ralastions.
                 create(:school_class_id => school_class.id)
 

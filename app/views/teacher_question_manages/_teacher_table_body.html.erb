@@ -8,7 +8,7 @@
       <em><%= q.created_at.nil? ? "" : q.created_at.strftime("%Y/%m/%d")%></em>
       <p><%= q.created_at.nil? ? "" : q.created_at.strftime("%H:%M")%></p>
     </td>
-    <td><a href="javascript:void(0);" class="compile tooltip_html" title="编辑"></a></td>
+    <td><a href="/school_classes/<%= @school_class.id %>/teacher_question_manages/<%= q.id %>/edit" class="compile tooltip_html" title="编辑"></a></td>
     <% if q.if_shared.nil? || q.if_shared==false %>
       <td><a href="javascript:void(0);" class="share tooltip_html" title="分享" onclick="share_que('<%= q.id %>','<%= @school_class.id %>')"></a></td>
     <% else %>

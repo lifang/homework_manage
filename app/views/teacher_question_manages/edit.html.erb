@@ -1,0 +1,46 @@
+<div class="main" id="tqm_main_div">
+  <div class="assignment">
+    <div class="reference_replace_part">
+      <div class="assignment_body" id="question_list">
+        <%=  render :partial => 'question_packages/questions_list' %>
+      </div>
+      <input type="hidden"  name="school_class_id" id="school_class_id" value="<%=@school_class.id%>"/>
+      <input type="hidden"  name="cell_id" id="cell_id" value="<%=  @exist_cell.id  if @exist_cell%>"/>
+      <input type="hidden"  name="episode_id" id="episode_id" value="<%=  @exist_episode.id  if @exist_episode%>"/>
+      <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=@question_pack.id%>"/>
+
+      <!--标签层-->
+      <div class="tag_tab" id="tags_table">
+        <span class="arrows">A</span>
+        <div class="search">
+          <input type="text" onkeyup="search_b_tags(this, <%= @school_class.id  %>)"/></div>
+        <ul>
+
+        </ul>
+        <input type="hidden" name="tag_bq_id" value=""/>
+        <input type="hidden" name="tag_bq_type" value=""/>
+        <input type="hidden" name="q_index" value=""/>
+        <input type="hidden" name="b_index" value=""/>
+        <input type="hidden" name="branch_question_id" value=""/>
+        <a href="javascript:void(0)" onclick="add_new_b_tag(this, <%= @school_class.id  %>)"></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function(){
+    $("#tqm_main_div").bind('click', function (e) {
+      if ( $(e.target).closest(".tag_tab").length>0 || $(e.target).closest("a.tag_1").length>0 || $(e.target).closest("a.tag").length>0) {
+        $(".tag_tab").css('display','block');
+      }else{
+        $(".tag_tab").css('display','none');
+      }
+    });
+    
+    var q_div = $("#question_list").find("div.assignment_body_list").first();
+    q_div.removeAttr("class");
+    q_div.attr("class", "assignment_body_list ab_list_open");
+    q_div.find("div.ab_list_box").first().show();
+  })
+</script>

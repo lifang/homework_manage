@@ -18,7 +18,8 @@ function reduce_a(obj){
     if(parseInt(val_student_count)>0){
         var number = parseInt(val_student_count)-1
         $(obj).parents("li").find("input[name='students_count']").val(number)
-    }else{
+    }
+    else{
         tishi("额度不能小于0！");
     }
 }
@@ -58,6 +59,9 @@ function system_new_school(obj){
         return false;
     }else if(!email_reg.test(email)){
         tishi("邮箱格式不正确,请重新输入！");
+        return false;
+    }else if(parseInt(school_students_count)<0){
+        tishi("学校配额必须大于0！");
         return false;
     }
     $.ajax({

@@ -33,7 +33,8 @@ unless @branch_ques.nil?
       </div>
       <div class='tag_ul'>
         <ul>
-          <%unless controller.action_name=='new_index'%>
+          <%unless controller.action_name=='new_index' || controller.action_name == 'edit_share_question'%>
+          <% p  @tags %>
             <%@tags.each do |tag|%>
             <%
               branch_question_id = tag.is_a?(SbranchBranchTagRelation) ? tag.share_branch_question_id : tag.branch_question_id
@@ -52,7 +53,7 @@ unless @branch_ques.nil?
                 </li>
               <%end%>
             <%end
-          end%>
+          end  if @tags %>
 
         </ul>
 

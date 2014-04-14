@@ -96,7 +96,6 @@ class TeacherQuestionManagesController < ApplicationController  #教师题库管
         @exist_cell = Cell.find_by_id(@exist_episode.cell_id) unless @exist_episode.cell_id.nil?
       end
     end
-    @has_tqm = 1
   end
 
   def share_question  #分享题目

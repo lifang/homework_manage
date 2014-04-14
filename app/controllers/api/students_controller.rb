@@ -168,12 +168,55 @@ class Api::StudentsController < ApplicationController
     if student.nil?
       render :json => {:status => "error", :notice => "账号不存在，请先注册！"}
     else
-      student.update_attribute(:token, params[:token]) if params[:token]
-      c_s_relation = SchoolClassStudentRalastion.
-        find_by_student_id_and_school_class_id(student.id,student.last_visit_class_id)
-      if !c_s_relation.nil?
-        school_class = SchoolClass.find_by_id student.last_visit_class_id.to_i
-        if school_class.status == SchoolClass::STATUS[:EXPIRED] || (school_class.period_of_validity - Time.now) < 0
+      if student.status != Student::STATUS[:YES]
+        render :json => {:status => "error", :notice => "该学生已被禁用!"}
+      else 
+        student.update_attribute(:token, params[:token]) if params[:token]
+        c_s_relation = SchoolClassStudentRalastion.
+          find_by_student_id_and_school_class_id(student.id,student.last_visit_class_id)
+        if !c_s_relation.nil?
+          school_class = SchoolClass.find_by_id student.last_visit_class_id.to_i
+          if school_class.status == SchoolClass::STATUS[:EXPIRED] || (school_class.period_of_validity - Time.now) < 0
+            school_classes = student.school_classes.where("status = #{SchoolClass::STATUS[:NORMAL]} and TIMESTAMPDIFF(SECOND,now(),school_classes.period_of_validity) > 0")
+            if school_classes && school_classes.length == 0
+              render :json => {:status => "error", :notice => "上次访问的班级已失效！"}
+            else
+              school_class = school_classes.first
+              class_id = school_class.id
+              class_name = school_class.name
+              tearcher_id = school_class.teacher.id
+              tearcher_name = school_class.teacher.user.name
+              page = 1
+              microposts = Micropost.get_microposts school_class,page
+              follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
+              student.update_attributes(:last_visit_class_id => school_class.id)
+              render :json => {:status => "success", :notice => "登录成功！",
+                :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
+                  :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+                :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+                  :tearcher_id => tearcher_id, :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S") },
+                :microposts => microposts,
+                :follow_microposts_id => follow_microposts_id,
+              }
+            end
+          else
+            class_id = school_class.id
+            class_name = school_class.name
+            tearcher_id = school_class.teacher.id
+            tearcher_name = school_class.teacher.user.name
+            page = 1
+            microposts = Micropost.get_microposts school_class,page
+            follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
+            render :json => {:status => "success", :notice => "登录成功！",
+              :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
+                :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+              :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+                :tearcher_id => tearcher_id,  :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S")  },
+              :microposts => microposts,
+              :follow_microposts_id => follow_microposts_id,
+            }
+          end
+        else
           school_classes = student.school_classes.where("status = #{SchoolClass::STATUS[:NORMAL]} and TIMESTAMPDIFF(SECOND,now(),school_classes.period_of_validity) > 0")
           if school_classes && school_classes.length == 0
             render :json => {:status => "error", :notice => "上次访问的班级已失效！"}
@@ -191,52 +234,13 @@ class Api::StudentsController < ApplicationController
               :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
                 :nickname => student.nickname, :avatar_url => student.user.avatar_url},
               :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-                :tearcher_id => tearcher_id, :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S") },
+                :tearcher_id => tearcher_id , :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S") },
               :microposts => microposts,
               :follow_microposts_id => follow_microposts_id,
             }
           end
-        else
-          class_id = school_class.id
-          class_name = school_class.name
-          tearcher_id = school_class.teacher.id
-          tearcher_name = school_class.teacher.user.name
-          page = 1
-          microposts = Micropost.get_microposts school_class,page
-          follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-          render :json => {:status => "success", :notice => "登录成功！",
-            :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
-              :nickname => student.nickname, :avatar_url => student.user.avatar_url},
-            :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-              :tearcher_id => tearcher_id,  :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S")  },
-            :microposts => microposts,
-            :follow_microposts_id => follow_microposts_id,
-          }
         end
-      else
-        school_classes = student.school_classes.where("status = #{SchoolClass::STATUS[:NORMAL]} and TIMESTAMPDIFF(SECOND,now(),school_classes.period_of_validity) > 0")
-        if school_classes && school_classes.length == 0
-          render :json => {:status => "error", :notice => "上次访问的班级已失效！"}
-        else
-          school_class = school_classes.first
-          class_id = school_class.id
-          class_name = school_class.name
-          tearcher_id = school_class.teacher.id
-          tearcher_name = school_class.teacher.user.name
-          page = 1
-          microposts = Micropost.get_microposts school_class,page
-          follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-          student.update_attributes(:last_visit_class_id => school_class.id)
-          render :json => {:status => "success", :notice => "登录成功！",
-            :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
-              :nickname => student.nickname, :avatar_url => student.user.avatar_url},
-            :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-              :tearcher_id => tearcher_id , :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S") },
-            :microposts => microposts,
-            :follow_microposts_id => follow_microposts_id,
-          }
-        end
-      end
+      end  
     end
   end
 

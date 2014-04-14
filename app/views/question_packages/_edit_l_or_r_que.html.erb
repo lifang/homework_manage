@@ -9,7 +9,7 @@
     <input type="hidden" name="question_id" class="question_id" value="<%= question.id %>"/>
     <ul class="ab_func">
       <!-- <li><a href="javascript:void(0)" class="save_icon tooltip_html">保存</a></li> -->
-      <% if @question_pack %>
+      <% unless question.is_a?(ShareQuestion) %>
         <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
         <li><a href="javascript:void(0)" class="<%= is_shared(question) %> tooltip_html">分享</a></li>
       <% end  %>

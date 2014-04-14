@@ -1037,7 +1037,7 @@ class QuestionPackagesController < ApplicationController
       branch_tag = SbranchBranchTagRelation.find_by_id(params[:tag_id])
 
       if @type == "reading_or_listening"
-        branch_tag = SbranchBranchTagRelation.find_by_branch_tag_id_and_branch_question_id(params[:tag_id], branch_question_id)
+        branch_tag = SbranchBranchTagRelation.find_by_branch_tag_id_and_share_branch_question_id(params[:tag_id], branch_question_id)
       end
     else
       @tags = BtagsBqueRelation.where("branch_question_id = ?",branch_question_id).

@@ -50,7 +50,7 @@
                 <% branch_tags[branch_question.id].each do |t| %>
                   <li>
                     <p><%= t.name %></p>
-                    <a href="javascript:void(0)" class="x" onclick='delete_tags(this,<%= school_class_id %>,<%= @question_pack.nil? ? 0 : @question_pack.id %>,<%=t.id  %>,<%= branch_question.id %>,"lianxian")'>x</a>
+                    <a href="javascript:void(0)" class="x" onclick='delete_tags(this,<%= school_class_id.blank? ? 0 : school_class_id %>,<%= @question_pack.nil? ? 0 : @question_pack.id %>,<%=t.id  %>,<%= branch_question.id %>,"lianxian")'>x</a>
                   </li>
                 <% end %>
               <% end  %>

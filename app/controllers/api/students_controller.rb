@@ -474,8 +474,12 @@ class Api::StudentsController < ApplicationController
               if student.nil?
                 render :json => {:status => "error", :notice => "激活码错误!"}  
               else
-                active_code = "true"
-                student.update_attributes(:active_status => Student::ACTIVE_STATUS[:YES])
+                if student.status == Student::STATUS[:YES]
+                  active_code = "true"
+                  student.update_attributes(:active_status => Student::ACTIVE_STATUS[:YES])
+                else 
+                  render :json => {:status => "error", :notice => "该学生已被禁用!"} 
+                end  
               end 
             else
               active_code = "none"

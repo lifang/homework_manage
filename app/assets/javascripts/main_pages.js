@@ -278,24 +278,34 @@ function showTeachMaterial(obj){
 //选择科目
 function setCourse(obj){
     var course_id = $(obj).parents("#first_step").find("select").find("option:selected").val();
-    $("#third_step").find("#class_course_id").val(course_id);
-    //隐藏第一步
-    $(obj).parents("#first_step").css("display","none");
-    $(".mask").css("display","none");
-    //显示第二步
-    popup("#second_step");
+    if (course_id != "opt1"){
+        $("#third_step").find("#class_course_id").val(course_id);
+        //隐藏第一步
+        $(obj).parents("#first_step").css("display","none");
+        $(".mask").css("display","none");
+        //显示第二步
+        popup("#second_step");
+    }
+    else{
+        tishi("请选择科目！")
+    }
 }
 
 //选择章节
 function setTm(obj){
     var course_id = $("#third_step").find("#class_course_id").val();
     var tm_id = $(obj).parents("#second_step").find("li[data-courseid="+ course_id +"]").find("select").find("option:selected").val();
-    $("#third_step").find("#class_tm_id").val(tm_id);
-    //隐藏第二步
-    $(obj).parents("#second_step").css("display","none");
-    $(".mask").css("display","none");
-    //显示第三步
-    popup("#third_step");
+    if(tm_id != "opt1"){
+        $("#third_step").find("#class_tm_id").val(tm_id);
+        //隐藏第二步
+        $(obj).parents("#second_step").css("display","none");
+        $(".mask").css("display","none");
+        //显示第三步
+        popup("#third_step");
+    }else{
+        tishi("请选择教材！")
+    }
+   
 }
 
 //点赞

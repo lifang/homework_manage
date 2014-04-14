@@ -8,9 +8,9 @@
       <span name="cankaoshijian">参考时间：<% if question.questions_time.nil? %>未设置<% else %>
           <%= que_time[0]==0 ? "" : "#{que_time[0]}时" %><%= que_time[1]==0 ? "" : "#{que_time[1]}分" %><%= que_time[2]==0 ? "" : "#{que_time[2]}秒" %><% end %></span></p>
     <ul class="ab_func">
-      <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
-      <% if @school_class %>
-      <li><a href="javascript:void(0)" class="<%= is_shared(question) %> tooltip_html">分享</a></li>
+      <%  unless question.is_a?(ShareQuestion) %>
+        <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
+        <li><a href="javascript:void(0)" class="<%= is_shared(question) %> tooltip_html">分享</a></li>
       <% end  %>
       <li><a href="javascript:void(0)" class="delete_icon tooltip_html">删除</a></li>
     </ul>
@@ -103,7 +103,7 @@
                 <% branch_tags[branch_question.id].each do |t| %>
                   <li>
                     <p><%= t.name %></p>
-                    <a href="javascript:void(0)" class="x" onclick='delete_tags(this,<%= school_class_id %>,<%= @question_pack.nil? ? 0 : @question_pack.id %>,<%=t.id  %>,<%= branch_question.id %>,"lianxian")'>x</a>
+                    <a href="javascript:void(0)" class="x" onclick='delete_tags(this,<%= school_class_id.blank? ? 0 : school_class_id %>,<%= @question_pack.nil? ? 0 : @question_pack.id %>,<%=t.id  %>,<%= branch_question.id %>,"lianxian")'>x</a>
                   </li>
                 <% end %>
               <% end  %>

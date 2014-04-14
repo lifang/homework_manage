@@ -98,7 +98,9 @@ HomeworkManage::Application.routes.draw do
 
   namespace :question_admin do  #题库管理员
     resources :question_manages do
-      
+      collection do
+        post :set_share_question_name
+      end
     end
 
     resources :exam_manages do

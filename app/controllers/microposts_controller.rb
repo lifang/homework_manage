@@ -34,6 +34,7 @@ class MicropostsController < ApplicationController
     reply.sender_types = Micropost::USER_TYPES[:TEACHER]
     reply.reciver_id = params[:micropost_user_id]
     reply.reciver_types = params[:micropost_user_type]
+    reply.praise = ReplyMicropost::PRAISE[:NOKUDOS]
     if reply.save
       get_microposts
       #得到某个帖子的回复和帖子

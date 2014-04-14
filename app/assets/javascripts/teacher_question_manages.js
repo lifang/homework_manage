@@ -144,7 +144,7 @@ function share_que(que_id, school_class_id){
     var doc_height = $(document).height();
     var win_width = $(window).width();
     var layer_width = $("#set_time_div").width();
-    $("#tqm_set_que_name_div").css('top',scolltop + 100);
+    $("#tqm_set_que_name_div").css('top',100);
     $("#tqm_set_que_name_div").css('left',(win_width-layer_width)/2);
     $("#tqm_set_que_name_div").css('display','block');
     $(".mask").css("height",doc_height);

@@ -1,5 +1,10 @@
-<div class="reference_replace_part">
-  <div class="assignment">
+
+<div class="assignment">
+  <div class="ass_panel">
+    <h1>编辑<%= Question::TYPES_NAME[@questions[0].types] %></h1>
+    <a href="" class="back">返回</a>
+  </div>
+  <div class="reference_replace_part">
     <div class="assignment_body" id="question_list"  >
       <%=  render :partial => 'question_packages/questions_list' %>
     </div>
@@ -22,3 +27,21 @@
     <a href="javascript:void(0)" onclick="add_new_b_tag(this, 0)"></a>
   </div>
 </div>
+
+<script>
+  gloab_index = 0;
+  $(function(){
+    $("#tqm_main_div").bind('click', function (e) {
+      if ( $(e.target).closest(".tag_tab").length>0 || $(e.target).closest("a.tag_1").length>0 || $(e.target).closest("a.tag").length>0) {
+        $(".tag_tab").css('display','block');
+      }else{
+        $(".tag_tab").css('display','none');
+      }
+    });
+
+    var q_div = $("#question_list").find("div.assignment_body_list").first();
+    q_div.removeAttr("class");
+    q_div.attr("class", "assignment_body_list ab_list_open");
+    q_div.find("div.ab_list_box").first().show();
+  })
+</script>

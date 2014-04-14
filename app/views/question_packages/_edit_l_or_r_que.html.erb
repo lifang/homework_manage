@@ -8,10 +8,10 @@
     </p>
     <input type="hidden" name="question_id" class="question_id" value="<%= question.id %>"/>
     <ul class="ab_func">
-      <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
       <!-- <li><a href="javascript:void(0)" class="save_icon tooltip_html">保存</a></li> -->
-      <% if @question_pack %>
-      <li><a href="javascript:void(0)" class="<%= is_shared(question) %> tooltip_html">分享</a></li>
+      <% unless question.is_a?(ShareQuestion) %>
+        <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
+        <li><a href="javascript:void(0)" class="<%= is_shared(question) %> tooltip_html">分享</a></li>
       <% end  %>
       <li><a href="javascript:void(0)" class="delete_icon tooltip_html">删除</a></li>
     </ul>
@@ -20,23 +20,23 @@
     <% if question.types == Question::TYPES[:LISTENING] %>
       <div class="batchUpload">
         <%= form_tag("/school_classes/#{school_class_id || 0}/question_packages/inport_lisenting",:method => :post, :multipart => true ,:remote => true) do %>
-            <input type="hidden" value="<%= question.id %>" name="question_id"/>
-            <input type="hidden" value="" name="question_package_id" class="question_package_id" />
-            <a href="javascript:void(0);" class="file_btn"><span>批量上传</span><input name="file" value="" type="file" onchange="upload_lisenting_ques(this)" /></a>
+          <input type="hidden" value="<%= question.id %>" name="question_id"/>
+          <input type="hidden" value="" name="question_package_id" class="question_package_id" />
+          <a href="javascript:void(0);" class="file_btn"><span>批量上传</span><input name="file" value="" type="file" onchange="upload_lisenting_ques(this)" /></a>
         <% end %>
-        <div class="batchUpload_box">               
+        <div class="batchUpload_box">
         </div>
-      </div>  
+      </div>
     <% end %>
     <div class="ab_article">
       <% if @branch_questions && @branch_questions[question.id].present? %>
         <% count_b = 0 %>
         <% @branch_questions[question.id].each do |branch| %>
-        <%= render "question_packages/l_r_branch_que" ,{:types => question.types, :question_id => question.id, :resource_url => branch.resource_url, :branch_id => branch.id, :content => branch.content, :count_q => nil, :count_b => count_b } %>
-        <% count_b += 1 %>
+          <%= render "question_packages/l_r_branch_que" ,{:types => question.types, :question_id => question.id, :resource_url => branch.resource_url, :branch_id => branch.id, :content => branch.content, :count_q => nil, :count_b => count_b } %>
+          <% count_b += 1 %>
         <% end %>
         <%= render "question_packages/l_r_branch_que" ,{:types => question.types, :question_id => question.id, :resource_url => nil, :branch_id => nil, :content => nil, :count_q => nil, :count_b => nil } %>
-      <% else %>   
+      <% else %>
         <%= render "question_packages/l_r_branch_que" ,{:types => question.types, :question_id => question.id, :resource_url => nil, :branch_id => nil, :content => nil, :count_q => nil, :count_b => nil } %>
       <% end %>
     </div>

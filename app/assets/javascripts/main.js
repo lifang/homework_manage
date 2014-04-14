@@ -94,7 +94,7 @@
 
     //作业题面 标签   鼠标点击别处隐藏tab
     $(function(){
-        $("#new_question_main_div").bind('click', function (e) {
+        $("body").bind('click', function (e) {
             if ( $(e.target).closest(".tag_tab").length>0 || $(e.target).closest("a.tag_1").length>0 || $(e.target).closest("a.tag").length>0) {
                 $(".tag_tab").css('display','block');
             }else{

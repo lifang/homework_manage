@@ -4,7 +4,13 @@
     <input type="hidden" name="question_id" class= "question_id" value="<%=@question.id%>" />
     <input type="hidden" name="question_type"   value="cloze" />
     <input type="hidden" class="wanxin_index"   value="<%=@wanxin_index%>" />
-    <h1>完形<%=@question.name.nil? ? "" : "(#{@question.name})" %></h1>
+    <h1>完形
+      <% if @question.is_a?(ShareQuestion) %>
+        <%= @question.name.present? ? "(#{@question.name})" : "(#{share_question_title(@question.try(:id))})".html_safe %>
+      <% else %>
+        <%=@question.name.nil? ? "" : "(#{@question.name})" %>
+      <% end %>
+    </h1>
     <p><%=current_user.name%> / <%=@question.created_at.strftime("%Y-%m-%d")%><% unless @question.is_a?(ShareQuestion) %> / <span name=cankaoshijian>参考时间：
         <% que_time = trans_int_to_time(@question.questions_time.to_i) %>
         <% if @question.questions_time.nil? %>未设置<% else %>
@@ -30,8 +36,8 @@
 
         </div>
         <div class="gapFilling_box">
-          <%if controller.action_name=='new_index' || controller.action_name == 'edit_share_question'%>
-            <%=render 'wanxin/gapfilling_questions',
+          <%if controller.action_name=='new_index' || controller.action_name == 'edit_share_question' || controller_name=="teacher_question_manages"%>
+          <%=render 'wanxin/gapfilling_questions',
               {:@branch_ques => (branch_questions ),
               :@tags_w =>(branch_tags ),
               :@school_class=>@school_class,

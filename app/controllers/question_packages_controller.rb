@@ -612,9 +612,6 @@ class QuestionPackagesController < ApplicationController
       joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
       select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
     end
-    p @branch_ques.inspect
-    p "*********************"
-    p @tags.inspect
   end
   
   def show_the_paixu
@@ -1059,7 +1056,7 @@ class QuestionPackagesController < ApplicationController
       branch_tag = SbranchBranchTagRelation.find_by_id(params[:tag_id])
 
       if @type == "reading_or_listening"
-        branch_tag = SbranchBranchTagRelation.find_by_branch_tag_id_and_branch_question_id(params[:tag_id], branch_question_id)
+        branch_tag = SbranchBranchTagRelation.find_by_branch_tag_id_and_share_branch_question_id(params[:tag_id], branch_question_id)
       end
     else
       @tags = BtagsBqueRelation.where("branch_question_id = ?",branch_question_id).

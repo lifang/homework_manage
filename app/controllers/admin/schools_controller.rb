@@ -38,7 +38,8 @@ class Admin::SchoolsController < ApplicationController
           encryptpassword = teacher.encrypt_password
           teacher.update_attributes(:password => encryptpassword)
           @status = 1
-          UserMailer.send_pwd_email(email, password, Teacher::TYPES[:SCHOOL]).deliver
+          UserMailer.delay.send_pwd_email(email, password, Teacher::TYPES[:SCHOOL])
+#          UserMailer.send_pwd_email(email, password, Teacher::TYPES[:SCHOOL]).deliver
         end
       end
     end

@@ -8,38 +8,38 @@
             <tr>
               <th width="150">
                 <div class="div_select">
-                  <div class="tag_select" ><span>选择章节</span></div>
-                  <input name="chapter" type="text"/>
+                  <div class="tag_select" ><span><%= @cell.nil? ? "选择章节" : @cell.name %></span></div>
+                  <input name="chapter" type="text" value="<%= @cell.id if @cell %>"/> 
                   <ul id="select_chapter">
                     <li>章节</li>
                     <%@cells.each do |cell|%>
-                      <li cell_id="<%= cell.id %>"><%= cell.name %></li>
+                      <li index_id="<%= cell.id %>"><%= cell.name %></li>
                     <%end%>
                   </ul>
                 </div>
               </th>
               <th width="150">
                 <div class="div_select">
-                  <div class="tag_select"><span>单元</span></div>
-                  <input name="unit_episode" type="text"/>
+                  <div class="tag_select"><span><%= @episode.nil? ? "选择单元" : @episode.name %></span></div>
+                  <input name="unit_episode" type="text" value="<%= @episode.id if @episode %>"/>
                   <ul id="select_episode">
-                    <li>单元</li>
+                    <%= render :partial => 'select_unit' %>
                   </ul>
                 </div>
               </th>
               <th width="150">
                 <div class="div_select">
-                  <div class="tag_select"><span>题型</span></div>
-                  <input name="question_types" type="text"/>
+                  <div class="tag_select"><span><%= @question_types.nil? ? "题型" : Question::TYPES_NAME[@question_types.to_i] %></span></div>
+                  <input name="question_types" type="text" value="<%= @question_types if @question_types %>" />
                   <ul id="select_question">
                     <li>题型</li>
-                    <li question_types="<%= Question::TYPES[:LISTENING] %>"><%= Question::TYPES_NAME[0] %></li>
-                    <li question_types="<%= Question::TYPES[:READING] %>"><%= Question::TYPES_NAME[1] %></li>
-                    <li question_types="<%= Question::TYPES[:TIME_LIMIT] %>"><%= Question::TYPES_NAME[2] %></li>
-                    <li question_types="<%= Question::TYPES[:SELECTING] %>"><%= Question::TYPES_NAME[3] %></li>
-                    <li question_types="<%= Question::TYPES[:LINING] %>"><%= Question::TYPES_NAME[4] %></li>
-                    <li question_types="<%= Question::TYPES[:CLOZE] %>"><%= Question::TYPES_NAME[5] %></li>
-                    <li question_types="<%= Question::TYPES[:SORT] %>"><%= Question::TYPES_NAME[6] %></li>
+                    <li index_id="<%= Question::TYPES[:LISTENING] %>"><%= Question::TYPES_NAME[0] %></li>
+                    <li index_id="<%= Question::TYPES[:READING] %>"><%= Question::TYPES_NAME[1] %></li>
+                    <li index_id="<%= Question::TYPES[:TIME_LIMIT] %>"><%= Question::TYPES_NAME[2] %></li>
+                    <li index_id="<%= Question::TYPES[:SELECTING] %>"><%= Question::TYPES_NAME[3] %></li>
+                    <li index_id="<%= Question::TYPES[:LINING] %>"><%= Question::TYPES_NAME[4] %></li>
+                    <li index_id="<%= Question::TYPES[:CLOZE] %>"><%= Question::TYPES_NAME[5] %></li>
+                    <li index_id="<%= Question::TYPES[:SORT] %>"><%= Question::TYPES_NAME[6] %></li>
                   </ul>
                 </div>
               </th>
@@ -52,7 +52,9 @@
           <tbody id="share_question_list">
             <%= render :partial => 'share_question_list' %>
           </tbody>
+
         </table>
+        <%= will_paginate @questions, :previous_label => "上一页", :next_label => "下一页", :class => "pageTurn"  %>
       </div>
     </div>
   </div>

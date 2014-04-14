@@ -55,3 +55,35 @@ function delete_share_question(obj,share_question_id){
 function back_exam_manages(){
     window.location.reload();
 }
+
+function renameSQname(obj, question_id){
+    $(obj).hide();
+    $(obj).next().show();
+    return false;
+}
+
+function saveSQname(obj, question_id){
+    var name = $(obj).val();
+    if($.trim(name) != ""){
+        $(obj).hide();
+        $.ajax({
+            url : "/question_admin/question_manages/set_share_question_name",
+            type : "post",
+            dataType : "json",
+            data : {
+                question_id : question_id,
+                name : name
+            },
+            success:function(data){
+                if(data.status == 0){
+                    $(obj).prev().text(name).show();
+                }else{
+                    tishi("更新出错")
+                }
+            }
+        });
+    }else{
+      tishi("请输入名称")
+    }
+   return false;
+}

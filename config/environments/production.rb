@@ -31,7 +31,7 @@ HomeworkManage::Application.configure do
   # config.force_ssl = true
 
   # See everything in the log (default is :info)
-   config.log_level = :debug
+  # config.log_level = :info
 
   # Prepend all log lines with the following tags
   # config.log_tags = [ :subdomain, :uuid ]
@@ -64,8 +64,10 @@ HomeworkManage::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
-    config.action_mailer.default_url_options = { :host => '58.240.210.42:3004' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { :host => '58.240.210.42:3004' }
   config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default :charset => "utf-8"
   config.action_mailer.default :content_type => "text/html"
   ActionMailer::Base.smtp_settings = {
@@ -73,7 +75,7 @@ HomeworkManage::Application.configure do
 	  :address => "smtp.gmail.com",
 	  :port => 587,
 	  :authentication => :plain,
-	  :user_name => " mailer@comdosoft.com",
-	  :password => "comdo2010"
+	  :user_name => "mailer@comdosoft.com",
+	  :password => "comdo2012",
   }
 end

@@ -439,7 +439,7 @@ class Api::StudentsController < ApplicationController
     name = params[:name]
     key = params[:key] #激活码
     nickname = params[:nickname]
-    file = params[:avatar] #上传头像
+    avatar = params[:avatar] #上传头像
     verification_code = params[:verification_code]
     student = Student.find_by_qq_uid qq_uid
     school_class = SchoolClass.find_by_verification_code(verification_code)
@@ -489,8 +489,8 @@ class Api::StudentsController < ApplicationController
                     destination_dir = "avatars/students/#{Time.now.strftime('%Y-%m')}"
                     rename_file_name = "student_#{student.id}"
                     avatar_url = ""
-                    if !file.nil?
-                      upload = upload_file destination_dir, rename_file_name, file
+                    if !avatar.nil?
+                      upload = upload_file destination_dir, rename_file_name, avatar
                       if upload[:status] == true
                         avatar_url = upload[:url]
                       else
@@ -501,9 +501,7 @@ class Api::StudentsController < ApplicationController
                     end
                     user = User.create(:name => name, :avatar_url => avatar_url)
                     student.update_attributes(:user_id => user.id)
-                end       
-                p school_class
-                p student    
+                end
                 c_s_relation = student.school_class_student_ralastions.
                   where("school_class_id = #{school_class.id} and student_id = #{student.id}")
                 if flag == "true"
@@ -733,13 +731,19 @@ class Api::StudentsController < ApplicationController
           #如果创建该班级教师属于某个学校的,则减去该学校的配额
           if school_class.teacher.school_id.present?
             school = School.find_by_id school_class.teacher.school_id
-            if school && (school.students_count - school.used_school_counts) >= 1
-              flag = "true"
-            else
-              notice = "配额不足,请联系学校管理员申请学生配额!"
+            if student.school_id.present? && student.school_id != school.id
+              notice = "一个学生只能加入一个学校!"
               status = "error"
-              render :json => {:status => status, :notice => notice}
-            end
+              render :json => {:status => status, :notice => notice}  
+            else
+              if school && (school.students_count - school.used_school_counts) >= 1
+                flag = "true"
+              else
+                notice = "配额不足,请联系学校管理员申请学生配额!"
+                status = "error"
+                render :json => {:status => status, :notice => notice}
+              end  
+            end  
           else
             flag = "none"
           end
@@ -747,8 +751,18 @@ class Api::StudentsController < ApplicationController
             school_class_student_relations = SchoolClassStudentRalastion
               .find_by_school_class_id_and_student_id school_class.id, student.id
             if school_class_student_relations.nil?
+              c_s_relation = student.school_class_student_ralastions
+              if c_s_relation && c_s_relation.any?
+                my_school_classes_id = c_s_relation.map(&:school_class_id)  
+              end
+              schools = SchoolClass
+                            .select("distinct teachers.school_id")
+                            .joins("left join teachers t on school_classes.teacher_id = t.id")
+                            .where(["school_classes.id in (?) and teachers.school_id is not null", my_school_classes_id])   
+              p school
               school_class_student_relations = student.school_class_student_ralastions.
                 create(:school_class_id => school_class.id)
+
               props = Prop.all
               props.each do |prop|
                 student.user_prop_relations.create(:prop_id => prop.id, :user_prop_num => Prop::DefaultPropNumber,

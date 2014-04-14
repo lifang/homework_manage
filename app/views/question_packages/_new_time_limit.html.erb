@@ -45,7 +45,8 @@
             <div class="tag_ul">
               <ul>
                 <% branch_tags[bq.id].each do |t| %>
-                  <% if t.branch_question_id == bq.id %>
+                <% question_id = t.is_a?(SbranchBranchTagRelation) ? t.share_branch_question_id : t.branch_question_id%>
+                  <% if question_id== bq.id %>
                     <li>
                       <p><%= t.name %></p>
                       <a href="javascript:void(0)" class="x" onclick="remove_tags_from_time_limit(this)">x</a>

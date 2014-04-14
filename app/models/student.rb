@@ -67,6 +67,9 @@ LEFT JOIN school_class_student_ralastions scsr on s.id = scsr.student_id LEFT JO
             student_situation[:archive_quickly] = a
           when ArchivementsRecord::TYPES[:EARLY]
             student_situation[:archive_early] = a
+          when ArchivementsRecord::TYPES[:KUDOS]
+            p a
+            student_situation[:haspraise] = a
           else
             p 2222
           end

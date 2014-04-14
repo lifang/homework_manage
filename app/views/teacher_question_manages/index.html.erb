@@ -8,9 +8,9 @@
           <input name="" type="text" value="" class="tag_input"/>
           <ul>
             <li onclick="teacher_question_manages_select_course(this, '<%= @school_class.id %>')">科目<input type="hidden" value="0"/></li>
-            <% @courses.each do |c| %>
+            <% @tqmcourses.each do |c| %>
               <li onclick="teacher_question_manages_select_course(this, '<%= @school_class.id %>')"><%= c.name %><input type="hidden" value="<%= c.id %>"/></li>
-            <% end %>
+            <% end if @tqmcourses%>
           </ul>
           <input type="hidden" id="teacher_question_manages_course_id" value="0"/>
         </div>

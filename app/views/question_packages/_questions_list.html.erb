@@ -16,7 +16,6 @@
   <% when Question::TYPES[:LINING] %>
     <%= render "questions/list_lianxian",{:question=>question,:branch_question => @branch_questions[question.id] , :branch_tags => @branch_tags[question.id]}  %>
   <% when Question::TYPES[:CLOZE] %>
-    <%p 11222221,@branch_questions%>
     <%=render 'wanxin/wanxin',{:@question=>question,
       :@wanxin_index=>@wanxin_index,
       :branch_questions => (@branch_questions[question.id] if @branch_questions),

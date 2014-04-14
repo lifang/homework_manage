@@ -1036,7 +1036,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     display: block;
     text-indent: -999px;
     overflow: hidden; 
-    background: url(../images/A.png) no-repeat; 
+    background: url(/assets/A.png) no-repeat; 
     position: absolute;
     top: -9px;
     right: 10px;
@@ -1048,7 +1048,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     line-height: 30px; 
     border: none; 
     padding: 0 5px 0 30px;
-    background: url(../images/search.png) no-repeat 5px center #FFFFFF;
+    background: url(/assets/search.png) no-repeat 5px center #FFFFFF;
 }
 .tag_tab ul { margin: 10px 0; display: block; height: 170px; overflow: auto;}
 .tag_tab li { overflow: hidden; padding: 5px;}

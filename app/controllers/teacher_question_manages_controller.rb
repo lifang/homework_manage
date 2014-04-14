@@ -3,7 +3,6 @@ class TeacherQuestionManagesController < ApplicationController  #教师题库管
   before_filter :get_school_class
   
   def index
-    @last_re = request.referer
     @search_type = params[:search_type]
     if @search_type.nil?
       school_classes = SchoolClass.where(["teacher_id=? and status=?", current_teacher.id, SchoolClass::STATUS[:NORMAL]])
@@ -72,6 +71,31 @@ class TeacherQuestionManagesController < ApplicationController  #教师题库管
     end
   end
 
+  def edit
+    teacher = Teacher.find_by_id(cookies[:teacher_id])
+    @user = User.find_by_id(teacher.user_id)
+    @questions = Question.where(["id=?", params[:id].to_i])
+    @question_pack = QuestionPackage.find_by_id(@questions[0].question_package_id)
+    branch_questions = BranchQuestion.where(["question_id in (?)", @questions.map(&:id)])
+    @branch_questions = branch_questions.group_by{|bq|bq.question_id}
+    branch_tags = BtagsBqueRelation.find_by_sql(["select bt.name, bbr.id, bbr.branch_question_id, bbr.branch_tag_id,bq.question_id  from
+        btags_bque_relations bbr left join branch_tags bt on bbr.branch_tag_id=bt.id left join branch_questions bq
+        on bq.id = bbr.branch_question_id where bbr.branch_question_id in (?)", branch_questions.map(&:id)])
+    h_branch_tags = branch_tags.group_by{|t|t.question_id} #{bqid => [tag,tag,tag],bqid => [tag,tag,tag]}
+    hash = {}
+    h_branch_tags.each do |k, v|
+      second_tags = v.group_by{|t|t.branch_question_id}
+      hash[k] = second_tags
+    end
+    @branch_tags = hash
+    unless @questions[0].nil?
+      @question_exist = @questions[0]
+      unless @question_exist.episode_id.nil?
+        @exist_episode = Episode.find_by_id(@question_exist.episode_id) unless @question_exist.episode_id.nil?
+        @exist_cell = Cell.find_by_id(@exist_episode.cell_id) unless @exist_episode.cell_id.nil?
+      end
+    end
+  end
 
   def share_question  #分享题目
     Question.transaction do

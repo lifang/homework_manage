@@ -700,9 +700,6 @@ class QuestionPackagesController < ApplicationController
     question = Question
     .select("id, types, name, full_text, content, questions_time, created_at, cell_id, episode_id")
     .where(["questions.question_package_id = ?", @question_pack.id])
-    question.each do |q|
-      p q if q.full_text.present?
-    end  
     question_id = question.map{|q| q.id }.uniq
     branch_questions = BranchQuestion
     .select("content, resource_url, options, answer, question_id, id")
@@ -726,9 +723,6 @@ class QuestionPackagesController < ApplicationController
     @episode = @cell.episodes.where("id = #{ques[0][:episode_id]}") if @cell && @cell.present?
     @episode = @episode[0] if @episode && @episode.present?
     @questions = ques
-    p @questions
-    p @cell
-    p @episode
   end
 
   #删除作业

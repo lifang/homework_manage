@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140412094829) do
+ActiveRecord::Schema.define(:version => 20140414064933) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer  "sender_id"
@@ -271,9 +271,9 @@ ActiveRecord::Schema.define(:version => 20140412094829) do
     t.integer  "micropost_id"
     t.integer  "reciver_id"
     t.integer  "reciver_types"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-    t.integer  "praise"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.integer  "praise",        :default => 0
   end
 
   add_index "reply_microposts", ["micropost_id"], :name => "index_reply_microposts_on_micropost_id"
@@ -289,6 +289,14 @@ ActiveRecord::Schema.define(:version => 20140412094829) do
 
   add_index "sbranch_branch_tag_relations", ["branch_tag_id"], :name => "index_sbranch_branch_tag_relations_on_branch_tag_id"
   add_index "sbranch_branch_tag_relations", ["share_branch_question_id"], :name => "index_sbranch_branch_tag_relations_on_share_branch_question_id"
+
+  create_table "school_class_student_ralastions", :force => true do |t|
+    t.integer  "student_id",      :null => false
+    t.integer  "school_class_id", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "tag_id"
+  end
 
   create_table "school_class_students_relations", :force => true do |t|
     t.integer  "school_id"

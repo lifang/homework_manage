@@ -73,15 +73,36 @@ class Question < ActiveRecord::Base
       reading_and_listening_que_id = reading_que_id + listening_que_id
       if reading_and_listening_que_id.present?
         branch_ques = BranchQuestion
-          .select("id,question_id,content, resource_url")
-          .where(["question_id in (?)", reading_and_listening_que_id])
+        .select("id,question_id,content, resource_url")
+        .where(["question_id in (?)", reading_and_listening_que_id])
         branch_ques = branch_ques.group_by {|bq| bq.question_id}
       end  
     end
     branch_ques 
   end
 
-  def self.get_questions  question_package_ids
-
+  def self.get_questions question_package_ids, page, cell_id=nil, eposode_id=nil, type=nil
+    if question_package_ids && question_package_ids.any?
+      sqls = ["select q.*,c.name cname, e.name ename from questions q inner join cells c on q.cell_id=c.id
+      left join episodes e on q.episode_id=e.id where q.status=? and q.question_package_id in (?)",
+        Question::STATUS[:NORMAL], question_package_ids]
+      if cell_id
+        sqls[0] += " and q.cell_id=?"
+        sqls << cell_id
+      end
+      if eposode_id
+        sqls[0] += " and q.episode_id=?"
+        sqls << eposode_id
+      end
+      if type
+        sqls[0] += " and q.types=?"
+        sqls << type
+      end
+      questions = Question.paginate_by_sql(sqls, :page => page ||=1, :per_page => Question::PER_PAGE)
+      return questions
+    else
+      return nil
+    end
   end
+
 end

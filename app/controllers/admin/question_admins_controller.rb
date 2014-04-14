@@ -105,7 +105,7 @@ class Admin::QuestionAdminsController < ApplicationController
   #加载教材
   def load_materials
     course_id = params[:course_id]
-    @materials = TeachingMaterial.where(["course_id = ?", course_id])
+    @materials = TeachingMaterial.where(["course_id = ? and status = ?", course_id, TeachingMaterial::STATUS[:NORMAL]])
   end
 
   def load_password_panel

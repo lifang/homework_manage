@@ -88,32 +88,10 @@ class QuestionAdmin::ExamManagesController < ApplicationController
       hash[k] = second_tags
     end
     @branch_tags = hash
-    #    ques = []
-    #    question = ShareQuestion
-    #    .select("id, types, name, full_text, content, questions_time, created_at, cell_id, episode_id")
-    #    .where(["id = ?", share_question_id])
-    #
-    #    branch_questions = ShareBranchQuestion
-    #    .select("content, resource_url, options, answer, share_question_id, id")
-    #    .where(["share_question_id = ?", share_question_id])
-    #    branch_questions_id = branch_questions.map{|bq| bq.id}
-    #    branch_questions = branch_questions.group_by {|b| b.question_id}
-    #
-    #    @branch_tags = SbranchBranchTagRelation.joins("left join branch_tags bt on sbranch_branch_tag_relations.branch_tag_id = bt.id")
-    #    .select("sbranch_branch_tag_relations.share_branch_question_id, bt.id, bt.name")
-    #    .where(["share_branch_question_id in (?) and bt.id is not null",branch_questions_id])
-    #    .group_by {|t| t.share_branch_question_id}
-    #
-    #
-    #    question.each do |q|
-    #      branch_ques = []
-    #      if branch_questions[q.id].present?
-    #        branch_ques = branch_questions[q.id]
-    #      end
-    #      ques << {:id => q.id, :name => q.name, :types => q.types, :full_text => q.full_text,
-    #        :questions_time => q.questions_time, :created_at => q.created_at, :cell_id => q.cell_id,
-    #        :episode_id => q.episode_id, :content => q.content, :branch_questions => branch_ques}
-    #    end
-    #    @questions = ques
+  end
+
+  private
+  def get_share_question
+
   end
 end

@@ -171,10 +171,17 @@ class WelcomeController < ApplicationController
             redirect_path = "/school_classes/#{@school_class.id}/main_pages"
           end
         else
-          last_visit_class = true
-          status = true
-          flash[:notice] = "登陆成功！"
-          redirect_path = "/school_classes/#{@school_class.id}/main_pages"
+          if @school_class.teacher_id == teacher.id
+            last_visit_class = true
+            status = true
+            flash[:notice] = "登陆成功！"
+            redirect_path = "/school_classes/#{@school_class.id}/main_pages"
+          else
+            status = true
+            flash[:notice] = "上次登陆班级失效，请重新创建班级！"
+            last_visit_class = false
+            redirect_path = "/welcome/first"
+          end    
         end
       else
         flash[:notice] = "登陆成功！"

@@ -11,7 +11,7 @@ class Admin::QuestionAdminsController < ApplicationController
 
   #修改管理范围
   def change_teaching_materials
-    @courses = Course.all
+    @courses = Course.where("status = #{Course::STATUS[:NORMAL]}")
     @teacher_id = params[:teacher_id]
   end
 
@@ -105,7 +105,7 @@ class Admin::QuestionAdminsController < ApplicationController
   #加载教材
   def load_materials
     course_id = params[:course_id]
-    @materials = TeachingMaterial.where(["course_id = ?", course_id])
+    @materials = TeachingMaterial.where(["course_id = ? and status = ?", course_id, TeachingMaterial::STATUS[:NORMAL]])
   end
 
   def load_password_panel
@@ -123,6 +123,6 @@ class Admin::QuestionAdminsController < ApplicationController
   end 
 
   def load_add_question_admin_panel
-    @courses = Course.all
+    @courses = Course.where("status = #{Course::STATUS[:NORMAL]}")
   end
 end

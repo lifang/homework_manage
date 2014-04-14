@@ -72,6 +72,7 @@ class TeacherQuestionManagesController < ApplicationController  #教师题库管
   end
 
   def edit
+    @b_tags = get_branch_tags(cookies[:teacher_id])
     teacher = Teacher.find_by_id(cookies[:teacher_id])
     @user = User.find_by_id(teacher.user_id)
     @questions = Question.where(["id=?", params[:id].to_i])

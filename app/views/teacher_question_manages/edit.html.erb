@@ -1,5 +1,9 @@
 <div class="main" id="tqm_main_div">
   <div class="assignment">
+    <div class="ass_panel">
+      <h1>编辑<%= Question::TYPES_NAME[@questions[0].types] %></h1>
+      <a href="/school_classes/<%= @school_class.id %>/teacher_question_manages" class="back">返回</a>
+    </div>
     <div class="reference_replace_part">
       <div class="assignment_body" id="question_list">
         <%=  render :partial => 'question_packages/questions_list' %>
@@ -8,14 +12,15 @@
       <input type="hidden"  name="cell_id" id="cell_id" value="<%=  @exist_cell.id  if @exist_cell%>"/>
       <input type="hidden"  name="episode_id" id="episode_id" value="<%=  @exist_episode.id  if @exist_episode%>"/>
       <input type="hidden"  name="question_package_id" id="question_package_id" value="<%=@question_pack.id%>"/>
-
       <!--标签层-->
       <div class="tag_tab" id="tags_table">
         <span class="arrows">A</span>
         <div class="search">
           <input type="text" onkeyup="search_b_tags(this, <%= @school_class.id  %>)"/></div>
         <ul>
-
+          <% @b_tags.each do |bt| %>
+            <li><input type="checkbox" value="<%= bt.id %>"/><p><%= bt.name %></p></li>
+          <% end %>
         </ul>
         <input type="hidden" name="tag_bq_id" value=""/>
         <input type="hidden" name="tag_bq_type" value=""/>
@@ -29,6 +34,7 @@
 </div>
 
 <script>
+  var gloab_index = 0;
   $(function(){
     $("#tqm_main_div").bind('click', function (e) {
       if ( $(e.target).closest(".tag_tab").length>0 || $(e.target).closest("a.tag_1").length>0 || $(e.target).closest("a.tag").length>0) {

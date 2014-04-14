@@ -437,7 +437,8 @@ class QuestionPackagesController < ApplicationController
     school_class_id = params[:school_class_id].to_i
     @question = (school_class_id == 0 ? ShareQuestion : Question).find_by_id(params[:id])
     #保存小题索引
-    branch_questions = @question.branch_questions
+
+    branch_questions = @question.is_a?(ShareQuestion) ? @question.share_branch_questions : @question.branch_questions
     branch_questions.each_with_index do |branch_question,index|
       branch_question.update_attribute(:content,index+1)
     end
@@ -582,17 +583,19 @@ class QuestionPackagesController < ApplicationController
     if school_class_id == 0
       @branch_ques = ShareBranchQuestion.where("share_question_id = ?",params[:question_id])
       branch_question_ids = @branch_ques.map(&:id)
-       @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
-      joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
-      select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
-    else
-      @branch_ques = BranchQuestion.where("question_id = ?",params[:question_id])
-      branch_question_ids = @branch_ques.map(&:id)
       @tags = SbranchBranchTagRelation.where("share_branch_question_id in (?)",branch_question_ids).
       joins("inner join branch_tags bt on sbranch_branch_tag_relations.branch_tag_id=bt.id").
       select("sbranch_branch_tag_relations.id,sbranch_branch_tag_relations.share_branch_question_id,bt.name,bt.created_at,bt.updated_at")
+    else
+      @branch_ques = BranchQuestion.where("question_id = ?",params[:question_id])
+      branch_question_ids = @branch_ques.map(&:id)
+       @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
+      joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
+      select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
     end
-
+    p @branch_ques.inspect
+    p "*********************"
+    p @tags.inspect
   end
   
   def show_the_paixu

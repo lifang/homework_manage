@@ -35,9 +35,8 @@ unless @branch_ques.nil?
         <ul>
           <%unless controller.action_name=='new_index' || controller.action_name == 'edit_share_question' || controller_name == "teacher_question_manages"%>
             <%@tags.each do |tag|%>
-              <%
-              branch_question_id = tag.is_a?(SbranchBranchTagRelation) ? tag.share_branch_question_id : tag.branch_question_id
-            %>
+              <% branch_question_id = tag.is_a?(SbranchBranchTagRelation) ? tag.share_branch_question_id : tag.branch_question_id%>
+
               <%if branch_question_id == branch_q.id%>
                 <li><p><%=tag.name%></p>
                   <a onclick="delete_tags(this,<%= school_class_id %>,<%= question_package_id %>,<%=tag.id%>,<%=branch_q.id%>,'wanxin')" class="x">X</a>
@@ -58,7 +57,6 @@ unless @branch_ques.nil?
     </div>
     <%index+=1%>
   <%end
-
 end%>
 <div class='gapFilling_questions'>
   <input type="hidden" class="branch_question_id" value="" />

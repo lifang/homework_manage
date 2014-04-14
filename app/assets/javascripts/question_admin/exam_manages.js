@@ -11,7 +11,6 @@ $(function(){
         var cell_id = $("#teacher_question_share").find("input[name='chapter']").val();
         var episode_id = $("#teacher_question_share").find("input[name='unit_episode']").val();
         var question_types = $("#teacher_question_share").find("input[name='question_types']").val();
-        alert(cell_id)
         window.location.href="/question_admin/exam_manages?cell_id="+cell_id+"&episode_id="+episode_id+"&question_types="+ question_types;
         $.ajax({
             url : "/question_admin/exam_manages",
@@ -51,4 +50,8 @@ function delete_share_question(obj,share_question_id){
             }
         })
     }
+}
+
+function back_exam_manages(){
+    window.location.reload();
 }

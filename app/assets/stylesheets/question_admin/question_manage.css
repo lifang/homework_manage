@@ -1359,9 +1359,10 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 
 
 /*pageTurn----*/
-.pageTurn { padding: 10px 0; text-align: center; font-size: 13px; color: #333; margin: 20px 0;}
-.pageTurn a { padding: 5px 12px; margin: 0px 2px; color: #333; background: #dbdbdb;}
+.pageTurn { padding: 10px 0; text-align: center; font-size: 12px; color: #333; margin: 20px 0;}
+.pageTurn a, .pageTurn em { padding: 5px 12px; margin: 0px 2px; color: #333; background: #dbdbdb; display: inline-block;}
 .pageTurn a:hover, .pageTurn a:active { color: #48D47E;}
+.pageTurn em.current { padding: 5px 12px; font-weight: bold; color: #fff; background: #48D47E;}
 
 .pageTurn a.current { padding: 5px 12px; font-weight: bold; color: #fff; background: #48D47E;}
 .pageTurn .disabled {display: none;}

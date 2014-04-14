@@ -37,12 +37,6 @@ LEFT JOIN school_class_student_ralastions scsr on s.id = scsr.student_id LEFT JO
     count_complishs = StudentAnswerRecord.find_by_sql([sql_comp_count,school_class_id]).group_by{|count_complish| count_complish.student_id}
     #成就
     archivementsrecord = ArchivementsRecord.where("school_class_id = #{school_class_id}").group_by{|archivement| archivement[:student_id]}
-    #牛气/被赞次数
-    sql_student_praise = 'SELECT s.id student_id,COUNT(rm.id) count from  students s
-                          INNER JOIN users u on s.user_id = u.id
-                          INNER JOIN reply_microposts rm on u.id = rm.sender_id where s.id in (?) 
-                          and rm.praise = ? GROUP BY s.id'
-    student_praises = ReplyMicropost.find_by_sql([sql_student_praise,student_school_class.map(&:id),ReplyMicropost::PRAISE[:KUDOS]]).group_by{|praise| praise.student_id}
 
     student_situations = []
     student_school_class.each do |student|
@@ -54,7 +48,6 @@ LEFT JOIN school_class_student_ralastions scsr on s.id = scsr.student_id LEFT JO
       student_situation[:created_at] = student.created_at
       student_situation[:tag_name] = student.tag_name
       student_situation[:correct_rate] =  recorddetail[student.id].nil? ? 0 : recorddetail[student.id][0].correct_rate
-      student_situation[:praise] = student_praises[student.id].nil? ? 0 : student_praises[student.id][0].count
       student_situation[:unfinished] = count_complishs[student.id].nil? ? count_public_num : count_public_num - count_complishs[student.id][0].count_pack
       if archivementsrecord[student.id].present?
         archivementsrecord[student.id].each  do |a|
@@ -67,6 +60,8 @@ LEFT JOIN school_class_student_ralastions scsr on s.id = scsr.student_id LEFT JO
             student_situation[:archive_quickly] = a
           when ArchivementsRecord::TYPES[:EARLY]
             student_situation[:archive_early] = a
+          when ArchivementsRecord::TYPES[:KUDOS]
+            student_situation[:haspraise] = a
           else
             p 2222
           end

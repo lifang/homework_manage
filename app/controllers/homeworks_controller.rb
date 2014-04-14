@@ -107,7 +107,7 @@ class HomeworksController < ApplicationController
               if publish_question_package
                 wanxin_ids = Question.where("question_package_id = ? and types = ?",question_package_id,Question::TYPES[:CLOZE])
                 wanxin_ids = wanxin_ids.map(&:id) unless wanxin_ids.blank?
-                deal_wanxin wanxin_ids
+#                deal_wanxin wanxin_ids
                 status = true
                 notice = "发布成功！"
                 @publish_question_packages = Teacher.get_publish_question_packages @school_class.id, page

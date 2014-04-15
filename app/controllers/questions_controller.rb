@@ -295,7 +295,7 @@ class QuestionsController < ApplicationController
     share_question = ShareQuestion.find_by_id(params[:id])
     @question = @question_pack.questions.create({:cell_id => share_question.cell_id, :episode_id => share_question.episode_id,
         :types => share_question.types, :name => share_question.name, :questions_time => share_question.questions_time,
-        :full_text => share_question.full_text, :if_from_reference => true })
+        :full_text => share_question.full_text, :if_from_reference => Question::IF_FROM_REFER[:YES] })
     share_branch_questions = share_question.share_branch_questions
     Question.transaction do
       begin

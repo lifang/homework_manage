@@ -21,7 +21,8 @@ class QuestionPackagesController < ApplicationController
 
   #导入听写题
   def inport_lisenting
-    question_package_id = params[:question_package_id]  
+    question_package_id = params[:question_package_id]
+    p question_package_id
     school_class_id = params[:school_class_id]
     @question_id = params[:question_id]  
     file = params[:file]
@@ -55,6 +56,7 @@ class QuestionPackagesController < ApplicationController
             else
                 #获取excel中题目的错误信息
                 result  = read_questions zip_url, excel, audios
+                p 11111111111111111111
                 p result
                 if result[:errors].size > 0
                   @status = "errors"

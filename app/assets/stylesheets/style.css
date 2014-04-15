@@ -436,14 +436,14 @@ li.p_input p, li.p_input input, .tab_switch li input {
 }
 
 .userInfo li.questionBank a {
- 	width: 22px;
- 	height: 15px;
- 	display: inline-block;
- 	text-indent: -999px;
- 	overflow: hidden;
- 	background: url(/assets/icon01.png) no-repeat 0 -145px;
- 	margin-top: 12px;
- }
+    width: 22px;
+    height: 15px;
+    display: inline-block;
+    text-indent: -999px;
+    overflow: hidden;
+    background: url(/assets/icon01.png) no-repeat 0 -145px;
+    margin-top: 12px;
+}
 /*侧边留言信息*/
 .right_side_mess {
     width: 200px;
@@ -1211,92 +1211,109 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     top: 2px; right: 5px;
 }
 .askAnswer_area_func a.praise_icon {
-	background: url(/assets/icon10.png) no-repeat 0 -133px;
-	top: 2px; right: 115px;
+    background: url(/assets/icon10.png) no-repeat 0 -133px;
+    top: 2px; right: 115px;
 }
 .askAnswer_area_func a.praise_icon_ed {
-	background: url(/assets/icon10.png) no-repeat 0 -159px;
-	top: 2px; right: 115px;
+    background: url(/assets/icon10.png) no-repeat 0 -159px;
+    top: 2px; right: 115px;
 }
 
 .askAnswer_area_con .askAnswer_area_box { border-top: 1px #dbdcdc solid; border-bottom: none; }
 
 
 /*教师题库*/
- .teacher { padding-top: 30px;}
- .teacher_head { background: #48D47E; height: 90px; text-align: center;}
- .teacher_body {}
- .teacher_body .tag_select {
-     background: url("/assets/select03.png") no-repeat 90px center;
-     border: 1px #48D47E solid;
- }
- .teacher_body .div_select ul {
-     border: 1px #48D47E solid;
-     height: 150px;
-     width: 118px;
-     overflow: auto;
-     background: #FFF;
- }
- .teacher a.compile, .teacher a.share, .teacher a.share_ed, .teacher a.delete {
-     width: 25px;
-     height: 25px;
-     display: inline-block;
-     overflow: hidden;
-     text-indent: -999px;
- }
- .teacher a.compile { background: url(/assets/icon13.png) no-repeat 0px 0px;}
- .teacher a.share { background: url(/assets/icon13.png) no-repeat 0px -50px;}
- .teacher a.share_ed { background: url(/assets/icon13.png) no-repeat 0px -25px;}
- .teacher a.delete { background: url(/assets/icon13.png) no-repeat 0px -75px;}
+.teacher { padding-top: 30px;}
+.teacher_head { background: #48D47E; height: 90px; text-align: center;}
+.teacher_body {}
+.teacher_body .tag_select {
+    background: url("/assets/select03.png") no-repeat 90px center;
+    border: 1px #48D47E solid;
+    text-align: left;
+}
+.teacher_body .tag_select span { width: 77px;}
+.teacher_body .div_select ul {
+    border: 1px #48D47E solid;
+    height: 150px;
+    width: 118px;
+    overflow: auto;
+    background: #FFF;
+}
+.teacher a.compile, .teacher a.share, .teacher a.share_ed, .teacher a.delete {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    overflow: hidden;
+    text-indent: -999px;
+}
+.teacher a.compile { background: url(/assets/icon13.png) no-repeat 0px 0px;}
+.teacher a.share { background: url(/assets/icon13.png) no-repeat 0px -50px;}
+.teacher a.share_ed { background: url(/assets/icon13.png) no-repeat 0px -25px;}
+.teacher a.delete { background: url(/assets/icon13.png) no-repeat 0px -75px;}
 
 
 
 
- /*div_select div模拟select*/
- .div_select { width: 120px; padding: 0 10px; display: inline-block;}
- .tag_select {
-     line-height: 36px;
-     height:36px;
-     padding: 0 10px;
-     cursor: pointer;
- }
- .div_select input { display: none;}
+/*div_select div模拟select*/
+.div_select { width: 120px; padding: 0 10px; display: inline-block;}
+.tag_select {
+    line-height: 36px;
+    height:36px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+.tag_select span {
+    display: inline-block;
+    word-break:keep-all;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.div_select input { display: none;}
 
- .div_select ul { position: absolute; z-index: 1000; display: none; margin: 0; width: 118px; }
- .div_select ul li {
-     padding: 0 10px;
-     height: 24px;
-     line-height: 24px;
-     background: #FFF;
-     display: block;
-     float: none;
-     cursor: pointer;
- }
- .div_select ul li:hover, .div_select ul li.hover { background: #f6f6f6;}
+.div_select ul {
+    position: absolute;
+    z-index: 1000;
+    display: none;
+    margin: 0;
+    width: 118px;
+    text-align: left;
 
- /*file btn*/
- .file_btn {
-     width: 200px;
-     position: relative;
-     display: block;
-     padding: 10px 0;
-     background: #1A875A;
-     color: #FFF;
-     text-align: center;
-     margin: 0 auto;
- }
- .file_btn input[type="file"] {
-     width: 200px;
-     height: 42px;
-     display: inline-block;
-     cursor: pointer;
-     position: absolute;
-     top: 0;
-     left: 0;
-     font-size: 25px; /* 增大不同浏览器的可点击区域 */
-     opacity: 0; /* 实现的关键点 */
-     filter:alpha(opacity=0);/* 兼容IE */
- }
+}
+.div_select ul li {
+    line-height: 24px;
+    background: #FFF;
+    display: block;
+    float: none;
+    cursor: pointer;
+    padding: 0 2px;
+}
+.div_select ul li:hover, .div_select ul li.hover { background: #f6f6f6;}
+
+
+/*file btn*/
+.file_btn {
+    width: 200px;
+    position: relative;
+    display: block;
+    padding: 10px 0;
+    background: #1A875A;
+    color: #FFF;
+    text-align: center;
+    margin: 0 auto;
+}
+.file_btn input[type="file"] {
+    width: 200px;
+    height: 42px;
+    display: inline-block;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 25px; /* 增大不同浏览器的可点击区域 */
+    opacity: 0; /* 实现的关键点 */
+    filter:alpha(opacity=0);/* 兼容IE */
+}
 /*checkbox radio*/
 
 .multipleChoice .q_right li .icheckbox_square-green,

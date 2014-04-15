@@ -4,7 +4,7 @@
     <% que_time = trans_int_to_time(question.questions_time.to_i) %>
     <h1><%= Question::TYPES_NAME[question.types] %>
     <% if question.is_a?(ShareQuestion) %>
-       <%= question.name.present? ? "(#{question.name})" : "(#{share_question_title(question.try(:id))})".html_safe %>
+       <%= "(#{share_question_title(question.try(:id),question.name)})".html_safe %>
     <% else %>
        <%= question.name.present? ? "(#{question.name})" : "" %>
     <% end %>

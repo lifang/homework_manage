@@ -125,13 +125,6 @@ function tishi_is_able(obj,teacher_id){
 
 // 是否禁用教师
 function is_disable(obj,teacher_id){
-    //    var content_tishi = "";
-    //    if($(obj).attr("class").indexOf("blockUp_a_ed")>=0){
-    //        content_tishi = "确认启用？"
-    //    }else{
-    //        content_tishi = "确认停用？";
-    //    }
-    //    if(confirm(content_tishi)){
     $.ajax({
         url : "/school_manage/teacher_manages/is_disable",
         dataType : "json",
@@ -155,10 +148,14 @@ function is_disable(obj,teacher_id){
             }
         }
     })
-//    }
 }
 //搜索老师
 function sercher_teacher(obj){
     var teacher_name = $(obj).parents(".search").find("input[name='teacher_name']").val();
     window.location.href="/school_manage/teacher_manages?teacher_name="+teacher_name
+}
+
+function show_create_teacher(){
+    $('#teacher_admin_create').show();
+    $(".mask").show();
 }

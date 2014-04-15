@@ -281,7 +281,7 @@ li.p_input p, li.p_input input, .tab_switch li input {
     text-align: center;
 }
 .tab_grouping { overflow: hidden; padding: 10px;}
-.tab_grouping_list { float: left; width: 220px; margin: 0 10px;}
+.tab_grouping_list { float: left; width: 220px; margin: 0 7px;}
 .tab_grouping_list h2 { color: #dd5c05; line-height: 28px; font-size: 14px;}
 .tab_grouping_list ul {
     display: block;

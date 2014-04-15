@@ -171,7 +171,7 @@ class Api::StudentsController < ApplicationController
       if student.status != Student::STATUS[:YES]
         render :json => {:status => "error", :notice => "该学生已被禁用!"}
       else
-        student.update_attribute(:token, params[:token]) if params[:token]
+        student.update_attribute(:token, params[:token])
         c_s_relation = SchoolClassStudentRalastion.
           find_by_student_id_and_school_class_id(student.id,student.last_visit_class_id)
         if !c_s_relation.nil?

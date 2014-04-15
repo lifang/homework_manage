@@ -8,6 +8,7 @@ class QuestionAdmin::ExamManagesController < ApplicationController
     @cell = Cell.find_by_id(params[:cell_id])
     @episode = Episode.find_by_id(params[:episode_id])
     @question_types = params[:question_types]
+    p @question_types
     if @cell
       @episodes = @cell.episodes
     end

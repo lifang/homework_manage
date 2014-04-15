@@ -35,12 +35,11 @@ class QuestionPackagesController < ApplicationController
       else
         @question = Question.find_by_id @question_id
       end
-      if school_class_id == 0
+      if school_class_id.to_i == 0
         destination_dir = "#{question_admin_share_media_path}".gsub(/^[^\\]|[^\\]$/, "")
       else
         destination_dir = "#{media_path % question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
       end
-      p destination_dir
       unzip_url = "#{destination_dir}/question_#{@question_id}"
       create_dirs unzip_url
       zip_url = "#{Rails.root}/public/#{destination_dir}/question_#{@question_id}"
@@ -56,8 +55,6 @@ class QuestionPackagesController < ApplicationController
             else
                 #获取excel中题目的错误信息
                 result  = read_questions zip_url, excel, audios
-                p 11111111111111111111
-                p result
                 if result[:errors].size > 0
                   @status = "errors"
                   @notice = result[:errors]
@@ -65,7 +62,6 @@ class QuestionPackagesController < ApplicationController
                   @notice = "导入成功!"
                   @status = true
                   @questions = result[:questions]
-                  p @questions
                 end  
             end
           else
@@ -101,17 +97,26 @@ class QuestionPackagesController < ApplicationController
     @status = false
     if params[:lisenting].present?
       if params[:school_class_id].to_i == 0
-        @question = ShareQuestion.find_by_id @question_id
+        @question = ShareQuestion.find_by_id @question_id.to_i
       else
-        @question = Question.find_by_id @question_id
+        @question = Question.find_by_id @question_id.to_i
       end
       branch_questions = params[:lisenting]
+      import_dir = ""
       branch_questions.each do |k,branch_que|
+        base_url = "#{Rails.root}/public"
+        resource_url = base_url + branch_que[:audio]
+        dir = File.dirname resource_url
+        dir_arr = dir.split("/")
+        des_dir = dir_arr[0,dir_arr.length-1].join("/")
+        FileUtils.cp resource_url, des_dir
+        url = des_dir.gsub(base_url,"") +"/"+ File.basename(resource_url)
+        import_dir = dir
         if @question.is_a?(ShareQuestion)
-          branch_question = ShareBranchQuestion.create(:content => branch_que[:content], :resource_url => branch_que[:audio], 
+          branch_question = ShareBranchQuestion.create(:content => branch_que[:content], :resource_url => url, 
                                     :share_question_id => @question_id, :types => @types)
-        else  
-          branch_question = BranchQuestion.create(:content => branch_que[:content], :resource_url => branch_que[:audio], 
+        else 
+          branch_question = BranchQuestion.create(:content => branch_que[:content], :resource_url => url, 
                                     :question_id => @question_id, :types => @types)
         end  
         @branch_tags[@question_id][branch_question.id] = []                                  
@@ -138,6 +143,9 @@ class QuestionPackagesController < ApplicationController
         end
         @branch_questions << branch_question
       end
+      if Dir.exist? import_dir
+        FileUtils.rm_r import_dir, :force => true
+      end  
       @status = true
     end  
   end  

@@ -43,7 +43,7 @@ $(function(){
     $(".ques_pack_reference").on("click", function(){
         var url = $(this).attr("data-href");
         $("#fugai").show();
-        $("#fugai1").find("h2").text("正在引用题包，可能需要几分钟的时间，请您耐心等待");
+        $("#fugai1").find("h2").text("正在克隆题包，可能需要几分钟的时间，请您耐心等待");
         $("#fugai1").show();
         $.ajax({
             url : url,
@@ -51,9 +51,9 @@ $(function(){
             dataType : 'text',
             success: function(data){
                 if(data == -1){
-                    tishi("引用失败！");
+                    tishi("克隆失败！");
                 }else{
-                    tishi("引用成功！")
+                    tishi("克隆成功！")
                     window.location.replace(window.location.href)
                 }
                 $("#fugai").hide();

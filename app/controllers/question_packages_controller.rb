@@ -1107,6 +1107,7 @@ class QuestionPackagesController < ApplicationController
           new_question_pack = question_pack.dup  #QuestionPackage.new(:school_class_id => school_class_id, :name => question_pack.name)
           question_pack.questions.each do |question|
             new_question = question.dup
+            new_question.if_shared = Question::IF_SHARED[:NO]
             new_question.save
             new_question_pack.questions << new_question
             new_question_pack.school_class_id = school_class_id

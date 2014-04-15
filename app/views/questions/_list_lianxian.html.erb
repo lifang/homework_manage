@@ -3,7 +3,13 @@
     <% que_time = trans_int_to_time(question.questions_time.to_i) %>
     <input type="hidden" name="question_id" class="question_id" value="<%=question.id%>" />
     <input type="hidden" name="question_type"   value="lianxian" />
-    <h1>连线<%=question.name.nil? ? "" : "(#{question.name})" %></h1>
+    <h1>连线
+      <% if question.is_a?(ShareQuestion) %>
+        <%= question.name.present? ? "(#{question.name})" : "(#{share_question_title(question.try(:id))})".html_safe %>
+      <% else %>
+        <%=question.name.nil? ? "" : "(#{question.name})" %>
+      <% end %>
+    </h1>
     <p><%=current_user.name%> / <%=question.created_at.strftime("%Y-%m-%d")%> /
       <span name="cankaoshijian">参考时间：<% if question.questions_time.nil? %>未设置<% else %>
           <%= que_time[0]==0 ? "" : "#{que_time[0]}时" %><%= que_time[1]==0 ? "" : "#{que_time[1]}分" %><%= que_time[2]==0 ? "" : "#{que_time[2]}秒" %><% end %></span></p>

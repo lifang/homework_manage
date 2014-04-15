@@ -31,7 +31,7 @@ $(function(){
     });
 
 
-    $("#question_list").on("click", ".amendName", function(){
+    $("#question_list, .main").on("click", ".amendName", function(){
         var scolltop = document.body.scrollTop|document.documentElement.scrollTop; //滚动条高度
         var doc_height = $(document).height();
         $("#set_name_div").css('top',100);

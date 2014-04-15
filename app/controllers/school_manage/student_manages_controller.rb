@@ -54,11 +54,15 @@ def set_stu_status
   Student.transaction do
     status = 0
     student = Student.find_by_id(student_id)
-    if student.status == Student::STATUS[:YES]
-      if student.update_attribute("status", Student::STATUS[:NO])
+    if student.status == Student::STATUS[:YES]    #停用
+      hash = {:status => Student::STATUS[:NO]}
+      if student.qq_uid
+        hash[:qq_uid] = nil
+      end
+      if student.update_attributes(hash)
         status = 1
       end
-    else
+    else  #启用
       if student.update_attribute("status", Student::STATUS[:YES])
         status = 1
       end

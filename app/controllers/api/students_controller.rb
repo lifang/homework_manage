@@ -170,7 +170,7 @@ class Api::StudentsController < ApplicationController
     else
       if student.status != Student::STATUS[:YES]
         render :json => {:status => "error", :notice => "该学生已被禁用!"}
-      else 
+      else
         student.update_attribute(:token, params[:token]) if params[:token]
         c_s_relation = SchoolClassStudentRalastion.
           find_by_student_id_and_school_class_id(student.id,student.last_visit_class_id)
@@ -468,7 +468,12 @@ class Api::StudentsController < ApplicationController
             render :json => {:status => "error", :notice => notice}
           end
         else
-          flag = "none"
+          if key.present?
+            notice = "激活码不属于该班级!"
+            render :json => {:status => "error", :notice => notice}  #error_code
+          else
+            flag = "none"
+          end  
         end
         if flag == "none" || flag == "true"
           active_code = "false"
@@ -476,7 +481,7 @@ class Api::StudentsController < ApplicationController
             if key.present? && school.present?
               student = Student.find_by_active_code_and_school_id key, school.id
               if student.nil?
-                render :json => {:status => "error", :notice => "激活码错误!"}  
+                render :json => {:status => "error", :notice => "激活码不属于该班级!"} #error_code
               else
                 if student.status == Student::STATUS[:YES]
                   active_code = "true"
@@ -540,11 +545,11 @@ class Api::StudentsController < ApplicationController
                     :follow_microposts_id => follow_microposts_id
                   }
                 else
-                  render :json => {:status => "error", :notice => "您已加入该班级！"}               
+                  render :json => {:status => "error", :notice => "您已加入该班级,请直接登录！！"}               
                 end
             end
           else
-            render :json => {:status => "error", :notice => "您已注册！"}    
+            render :json => {:status => "error", :notice => "您已注册,请直接登录！"}    
           end
         end      
       end

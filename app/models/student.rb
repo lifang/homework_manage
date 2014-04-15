@@ -14,7 +14,7 @@ class Student < ActiveRecord::Base
   has_many :user_prop_relations, :dependent => :destroy
   has_many :props, :through => :user_prop_relations
   belongs_to :user
-  validates_uniqueness_of :qq_uid
+  validates_uniqueness_of :qq_uid, :allow_nil => true
   PER_PAGE = 10
   ACTIVE_STATUS = {:YES => 1, :NO => 0} #是否激活 1已激活 0未激活
   def self.list_student page,school_class_id
@@ -117,7 +117,7 @@ where scsr.tag_id IS NULL and school_class_id = ?"
             if index != 0
               if row[0] && row[1]
                 user = User.create(:name => row[0])
-                student = Student.create(:nickname => row[0], :status => Student::STATUS[:YES], :user_id => user.id,
+                student = Student.create!(:nickname => row[0], :status => Student::STATUS[:YES], :user_id => user.id,
                   :s_no => row[1].class.to_s == "String" ? row[1] : "#{row[1].to_i}",
                   :active_status => ACTIVE_STATUS[:NO], :school_id => school_id, :veri_code => max_code)
                 str = ""
@@ -140,7 +140,7 @@ where scsr.tag_id IS NULL and school_class_id = ?"
           end
           StudentVeriCode.create(:code => max_code)
         end
-      rescue
+      rescue Exception => e
         File.delete(file_path) if File.exist?(file_path)
         status = 0
       end
@@ -164,7 +164,7 @@ where scsr.tag_id IS NULL and school_class_id = ?"
       dirs.each_with_index{|d,index| Dir.mkdir(root_path + dirs[0..index].join) unless File.directory?(root_path + dirs[0..index].join)}
       File.open(root_path+ file_name, "wb") { |i| i.write(student_list_xls.read) }    #存入表格xls文件
       path = root_path+ file_name
-    rescue
+    rescue Exception => e
       path = ""
     end
     return [path, max_code]

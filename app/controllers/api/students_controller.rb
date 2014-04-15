@@ -171,7 +171,7 @@ class Api::StudentsController < ApplicationController
       if student.status != Student::STATUS[:YES]
         render :json => {:status => "error", :notice => "该学生已被禁用!"}
       else
-        student.update_attribute(:token, params[:token]) if params[:token]
+        student.update_attribute(:token, params[:token])
         c_s_relation = SchoolClassStudentRalastion.
           find_by_student_id_and_school_class_id(student.id,student.last_visit_class_id)
         if !c_s_relation.nil?
@@ -470,7 +470,7 @@ class Api::StudentsController < ApplicationController
         else
           if key.present?
             notice = "激活码不属于该班级!"
-            render :json => {:status => "error", :notice => notice}  #error_code
+            render :json => {:status => "error_code", :notice => notice}  #error_code
           else
             flag = "none"
           end  
@@ -481,7 +481,7 @@ class Api::StudentsController < ApplicationController
             if key.present? && school.present?
               student = Student.find_by_active_code_and_school_id key, school.id
               if student.nil?
-                render :json => {:status => "error", :notice => "激活码不属于该班级!"} #error_code
+                render :json => {:status => "error_code", :notice => "激活码不属于该班级!"} #error_code
               else
                 if student.status == Student::STATUS[:YES]
                   active_code = "true"

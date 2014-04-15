@@ -27,7 +27,7 @@
       <a href="javascript:void(0)" class="delete tooltip_html delete_chen" data-confirm="确定删除?" style="display:none" data-remote="true" >删除</a>
       <a href="javascript:void(0)" class="tag tooltip_html" style="display:none" onclick="add_selects_tags(this)">标签</a>
     </div>
-    <input type="hidden"  name="question_package_id" id="question_package_id_2" value="<%=  @question_package_id %>"/>
+    <input type="hidden"  name="question_package_id" id="question_package_id_2" value="<%=  @question_package_id.nil? ? 0 : @question_package_id %>"/>
     <input type="hidden" name="branch_question_id"value=""/>
     <input type="hidden" name="question_id" value="<%= @question.id %>"/>
     <input type="hidden" name="index_new" class="index_new" question_id="<%= @question.id %>" value="<%= @index_new.to_i + 1 %>"/>

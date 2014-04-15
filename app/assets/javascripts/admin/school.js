@@ -177,13 +177,6 @@ function tishi_is_enable(obj,school_id){
 }
 // 停用或者启用
 function is_enable(obj,school_id){
-    //    var content_tishi = "";
-    //    if($(obj).attr("class").indexOf("blockUp_a_ed")>=0){
-    //        content_tishi = "确认启用？"
-    //    }else{
-    //        content_tishi = "确认停用？";
-    //    }
-    //    if(confirm(content_tishi)){
     $.ajax({
         url : "/admin/schools/is_enable",
         dataType : "json",
@@ -194,12 +187,10 @@ function is_enable(obj,school_id){
         success : function(data){
             if(data.status==1){
                 $("a[school_id="+ school_id +"]").attr("class","blockUp_a_ed tooltip_html");
-                //                    $(obj).attr("class","blockUp_a_ed tooltip_html");
                 tishi(data.notice);
                 $("#shifoutingyong").hide();
             }else if (data.status==2){
                 $("a[school_id="+ school_id +"]").attr("class","blockUp_a tooltip_html");
-                //                    $(obj).attr("class","blockUp_a tooltip_html");
                 tishi(data.notice);
                 $("#shifoutingyong").hide();
             }else{
@@ -207,5 +198,4 @@ function is_enable(obj,school_id){
             }
         }
     })
-//    }
 }

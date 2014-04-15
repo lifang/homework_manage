@@ -7,4 +7,13 @@ class QuestionAdmin::QuestionManagesController < ApplicationController
     @cells = Cell.where("teaching_material_id = ?",current_teacher.teaching_material_id ) if current_teacher
     @b_tags = get_branch_tags(cookies[:teacher_id])
   end
+
+  def set_share_question_name
+    question_id = params[:question_id]
+    name = params[:name]
+    share_question = ShareQuestion.find_by_id question_id
+    share_question.name =
+    status = share_question.update_attribute(:name, name)
+    render :json => {:status => status ? 0 : -1}
+  end
 end

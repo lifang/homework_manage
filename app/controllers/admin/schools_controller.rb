@@ -23,11 +23,19 @@ class Admin::SchoolsController < ApplicationController
     avatar_url = "/assets/default_avater.jpg"
     if school_exist || teacher_exit
       @status = 0
-      @notice = "学校和邮箱已存在！"
+      if school_exist
+        @notice = "学校已存在！"
+      else
+        @notice = "邮箱已存在！"
+      end
     else
       if school_name.nil? || school_students_count.nil?
         @status = 0
-        @notice = "学校名称和学校配额不能为空!"
+        if school_name.nil?
+          @notice = "学校名称不能为空!"
+        else
+          @notice = "学校配额不能为空!"
+        end
       else
         School.transaction do
           password =random(6)
@@ -39,7 +47,7 @@ class Admin::SchoolsController < ApplicationController
           teacher.update_attributes(:password => encryptpassword)
           @status = 1
           UserMailer.delay.send_pwd_email(email, password, Teacher::TYPES[:SCHOOL])
-#          UserMailer.send_pwd_email(email, password, Teacher::TYPES[:SCHOOL]).deliver
+          #          UserMailer.send_pwd_email(email, password, Teacher::TYPES[:SCHOOL]).deliver
         end
       end
     end

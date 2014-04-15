@@ -30,7 +30,50 @@ $(function(){
             $(".div_select ul").hide();
     });
 
+
+    $("#question_list, .main").on("click", ".amendName", function(){
+        var scolltop = document.body.scrollTop|document.documentElement.scrollTop; //滚动条高度
+        var doc_height = $(document).height();
+        $("#set_name_div").css('top',100);
+        $(".mask").css("height",doc_height);
+        $("#set_name_div").show();
+        $(".mask").show();
+        $("#set_name_div").find("button").removeAttr("onclick");
+        var que_id = $(this).attr("data-id");
+        $("#set_name_div").find("button").attr("onclick", "check_question_name_valid("+que_id+")");
+        
+        return false;
+    });
+
 })
+
+function check_question_name_valid(question_id){
+    var name = $.trim($("#new_question_name").val());
+    if(name=="" || name=="名称"){
+        tishi("请输入名称!");
+    }else{
+         $.ajax({
+            url : "/question_admin/question_manages/set_share_question_name",
+            type : "post",
+            dataType : "json",
+            data : {
+                question_id : question_id,
+                name : name
+            },
+            success:function(data){
+                if(data.status == 0){
+                    tishi("设置成功!");
+                    $("a[data-id="+ question_id +"]").prev().text(name);
+                    $("#set_name_div").hide();
+                    $(".mask").hide();
+                }else{
+                    tishi("设置失败")
+                }
+            }
+        });
+        
+    }
+}
 
 function delete_share_question(obj,share_question_id){
     var chapter_id = $("#select_chapter").parents(".div_select").find("input[name='chapter']").val();

@@ -25,7 +25,7 @@ rd.student_answer_record_id = sar.id where sar.question_package_id in (?) and sa
             
             saved_time = saved_time > 0 ? saved_time : 0
             time_rate = (saved_time/record.total_specified_time).to_f  #时效性  （规定时间 - 用时）/规定时间
-            calculated_score = ((record.avg_correct_rate/100) * 8 + time_rate * 6 + (18/index + 1)).round  # 【优异】成就计算公式  平均正确率*8 + 时效性*6 + (18/排名)
+            calculated_score = ((record.avg_correct_rate/100) * 8 + time_rate * 6 + (18/index)).round  # 【优异】成就计算公式  平均正确率*8 + 时效性*6 + (18/排名)
 
             archivement = ArchivementsRecord.find_by_student_id_and_school_class_id_and_archivement_types(record.student_id,
               school_class.id, ArchivementsRecord::TYPES[:PEFECT].to_i)

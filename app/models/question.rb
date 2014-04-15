@@ -5,6 +5,7 @@ class Question < ActiveRecord::Base
   has_many :branch_questions, :dependent => :destroy
 
   IF_SHARED = {:YES => 1, :NO => 0}    #是否分享
+  IF_FROM_REFER = {:YES => 1, :NO => 0}  #是否是引用来的
   TYPE_NAME_ARR = ["listening", "reading", "time_limit", "selecting", "lining", "cloze", "sort"]
   TYPES = {:LISTENING => 0, :READING => 1, :TIME_LIMIT => 2, :SELECTING => 3, :LINING => 4, :CLOZE => 5, :SORT => 6 }
   TYPES_TITLE = {0 => "listening", 1 => "reading", 2 => "time_limit", 3 => "selecting", 4 => "lining", 5 => "cloze", 6 => "sort" }

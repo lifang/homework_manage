@@ -456,6 +456,16 @@ class Api::StudentsController < ApplicationController
           school_class.period_of_validity - Time.now <= 0
         render :json => {:status => "error", :notice => "班级已失效！"}
       else
+        if key.present?
+          student = Student.find_by_active_code(key)
+          if student
+            if student.status != Student::STATUS[:YES]
+              render :json => {:status => "error_code", :notice => "该学生被禁用!"}
+            end  
+          else
+            render :json => {:status => "error_code", :notice => "激活码错误!"}  
+          end              
+        end    
         flag = "false"
         school = nil
         #如果创建该班级教师属于某个学校的,则减去该学校的配额
@@ -470,7 +480,7 @@ class Api::StudentsController < ApplicationController
         else
           if key.present?
             notice = "激活码不属于该班级!"
-            render :json => {:status => "error", :notice => notice}  #error_code
+            render :json => {:status => "error_code", :notice => notice}  #error_code
           else
             flag = "none"
           end  
@@ -481,7 +491,7 @@ class Api::StudentsController < ApplicationController
             if key.present? && school.present?
               student = Student.find_by_active_code_and_school_id key, school.id
               if student.nil?
-                render :json => {:status => "error", :notice => "激活码不属于该班级!"} #error_code
+                render :json => {:status => "error_code", :notice => "激活码不属于该班级!"} #error_code
               else
                 if student.status == Student::STATUS[:YES]
                   active_code = "true"

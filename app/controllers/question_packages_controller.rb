@@ -21,7 +21,8 @@ class QuestionPackagesController < ApplicationController
 
   #导入听写题
   def inport_lisenting
-    question_package_id = params[:question_package_id]  
+    question_package_id = params[:question_package_id]
+    p question_package_id
     school_class_id = params[:school_class_id]
     @question_id = params[:question_id]  
     file = params[:file]
@@ -55,6 +56,7 @@ class QuestionPackagesController < ApplicationController
             else
                 #获取excel中题目的错误信息
                 result  = read_questions zip_url, excel, audios
+                p 11111111111111111111
                 p result
                 if result[:errors].size > 0
                   @status = "errors"
@@ -1070,7 +1072,7 @@ class QuestionPackagesController < ApplicationController
       branch_tag = SbranchBranchTagRelation.find_by_id(params[:tag_id])
 
       if @type == "reading_or_listening"
-        branch_tag = SbranchBranchTagRelation.find_by_branch_tag_id_and_branch_question_id(params[:tag_id], branch_question_id)
+        branch_tag = SbranchBranchTagRelation.find_by_branch_tag_id_and_share_branch_question_id(params[:tag_id], branch_question_id)
       end
     else
       @tags = BtagsBqueRelation.where("branch_question_id = ?",branch_question_id).
@@ -1105,6 +1107,7 @@ class QuestionPackagesController < ApplicationController
           new_question_pack = question_pack.dup  #QuestionPackage.new(:school_class_id => school_class_id, :name => question_pack.name)
           question_pack.questions.each do |question|
             new_question = question.dup
+            new_question.if_shared = Question::IF_SHARED[:NO]
             new_question.save
             new_question_pack.questions << new_question
             new_question_pack.school_class_id = school_class_id

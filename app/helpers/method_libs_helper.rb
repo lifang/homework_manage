@@ -387,23 +387,27 @@ module MethodLibsHelper
   end
 
   def jpush_parameter messages,receivervalue,extras_hash=nil
-    input ="#{Micropost::JPUSH[:SENDNO]}" + "#{Micropost::JPUSH[:RECEIVERTYPE]}" + receivervalue + Micropost::JPUSH[:MASTERSECRET]
-    code = Digest::MD5.hexdigest(input)
-    #msg_content =  "{\"n_title\":\"1111222\",\"n_content\":#{messages},\"n_extras\":{\"class_id\":\"2\"} }"  Jpush消息格式
-    content = {"n_content" => "#{messages}","n_title"=> "超级作业本"}
-    #    content = {"n_content" => "#{messages}","n_title"=> "2iidid"}
-    content["n_extras"]=extras_hash if !extras_hash.nil? && extras_hash.class == Hash
-    msg_content = content.to_json()
-    map = Hash.new
-    map.store("sendno", Micropost::JPUSH[:SENDNO])
-    map.store("app_key", Micropost::JPUSH[:APP_KEY])
-    map.store("receiver_type", Micropost::JPUSH[:RECEIVERTYPE])
-    map.store("receiver_value",receivervalue)
-    map.store("verification_code", code)
-    map.store("msg_type",Micropost::JPUSH[:MSG_TYPE])
-    map.store("msg_content",msg_content)
-    map.store("platform", Micropost::JPUSH[:PLATFORM])
-    data =  (Net::HTTP.post_form(URI.parse(Micropost::JPUSH[:URI]), map)).body
+    begin
+      input ="#{Micropost::JPUSH[:SENDNO]}" + "#{Micropost::JPUSH[:RECEIVERTYPE]}" + receivervalue + Micropost::JPUSH[:MASTERSECRET]
+      code = Digest::MD5.hexdigest(input)
+      #msg_content =  "{\"n_title\":\"1111222\",\"n_content\":#{messages},\"n_extras\":{\"class_id\":\"2\"} }"  Jpush消息格式
+      content = {"n_content" => "#{messages}","n_title"=> "超级作业本"}
+      #    content = {"n_content" => "#{messages}","n_title"=> "2iidid"}
+      content["n_extras"]=extras_hash if !extras_hash.nil? && extras_hash.class == Hash
+      msg_content = content.to_json()
+      map = Hash.new
+      map.store("sendno", Micropost::JPUSH[:SENDNO])
+      map.store("app_key", Micropost::JPUSH[:APP_KEY])
+      map.store("receiver_type", Micropost::JPUSH[:RECEIVERTYPE])
+      map.store("receiver_value",receivervalue)
+      map.store("verification_code", code)
+      map.store("msg_type",Micropost::JPUSH[:MSG_TYPE])
+      map.store("msg_content",msg_content)
+      map.store("platform", Micropost::JPUSH[:PLATFORM])
+      data =  (Net::HTTP.post_form(URI.parse(Micropost::JPUSH[:URI]), map)).body
+    rescue Exception => e
+      File.open("#{Rails.root}/public/android_push.log", "a"){|f| f.write e.backtrace}
+    end
   end
 
   def push_after_reply_post content, teachers_id, reciver_id, school_class_id, student, reciver_types
@@ -612,15 +616,19 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
 
 
   def ipad_push(content, ipad_student_tokens, extras_hash)
-    APNS.host = 'gateway.sandbox.push.apple.com'
-    APNS.pem  = File.join(Rails.root, 'config', 'cjzyb_dev.pem')
-    APNS.port = 2195
-    token = ipad_student_tokens
-    notification_arr = []
-    ipad_student_tokens.each do |token|
-      notification_arr << APNS::Notification.new(token, :alert => content, :badge => 1, :sound => "default", :other => extras_hash) if token.present?  #把提醒类型值【0,1,2】放在sound里面
+    begin
+      APNS.host = 'gateway.sandbox.push.apple.com'
+      APNS.pem  = File.join(Rails.root, 'config', 'cert_develop.pem')
+      APNS.port = 2195
+      token = ipad_student_tokens
+      notification_arr = []
+      ipad_student_tokens.each do |token|
+        notification_arr << APNS::Notification.new(token, :alert => content, :badge => 1, :sound => "default", :other => extras_hash) if token.present?  #把提醒类型值【0,1,2】放在sound里面
+      end
+      APNS.send_notifications(notification_arr) if notification_arr.present?
+    rescue Exception => e
+      File.open("#{Rails.root}/public/ipad_push.log", "a"){|f| f.write e.backtrace}
     end
-    APNS.send_notifications(notification_arr) if notification_arr.present?
   end
 
   #解压zip题库压缩包

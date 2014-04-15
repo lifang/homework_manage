@@ -26,9 +26,9 @@
     <% if question.types == Question::TYPES[:LISTENING] %>
       <div class="batchUpload">
         <%= form_tag({:action => :inport_lisenting}, :multipart => true ,:remote => true) do %>
-            <input type="hidden" value="<%= question.id %>", name="question_id">  
-            <input type="hidden" value="" name="question_package_id" class="question_package_id" >               
-            <a href="javascript:void(0);" class="file_btn"><span>批量上传</span><input name="file" value="" type="file" onchange="upload_lisenting_ques(this)" ></a>
+            <input type="hidden" value="<%= question.id %>" name="question_id"/>
+            <input type="hidden" value="" name="question_package_id" class="question_package_id" />
+            <a href="javascript:void(0);" class="file_btn"><span>批量上传</span><input name="file" value="" type="file" onchange="upload_lisenting_ques(this)" /></a>
         <% end %>
         <div class="batchUpload_box">                
         </div>

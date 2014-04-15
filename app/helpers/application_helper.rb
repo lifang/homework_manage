@@ -113,6 +113,6 @@ module ApplicationHelper
   #分享的题目，双击填写题目
   def share_question_title(question_id)
     question_id = question_id.to_s
-    ('<span ondblclick="renameSQname(this,' + question_id + ')">双击填写名称</span><input type="text" style="display:none" onblur="saveSQname(this, ' + question_id +')"/>').html_safe
+    '<span></span><a href="javascript:void(0)" class="amendName tooltip_html" data-id=' + question_id + '>修改名称</a>'
   end
 end

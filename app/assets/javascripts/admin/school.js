@@ -165,13 +165,13 @@ function search_schools(obj){
 function tishi_is_enable(obj,school_id){
     var content_tishi = "";
     if($(obj).attr("class").indexOf("blockUp_a_ed")>=0){
-        content_tishi = "确认启用？"
+        content_tishi = "确认启用"
     }else{
-        content_tishi = "确认停用？";
+        content_tishi = "确认停用";
     }
 
-    $("#shifoutingyong").find(".tab_head").text(content_tishi + "教师");
-    $("#shifoutingyong").find(".tab_warning").text("确认"+content_tishi + "改教师吗？");
+    $("#shifoutingyong").find(".tab_head").text(content_tishi + "学校");
+    $("#shifoutingyong").find(".tab_warning").text(content_tishi + "该学校吗？");
     $("#shifoutingyong").find("button").attr("onclick","is_enable(this,"+school_id+")");
     $("#shifoutingyong").show();
 }

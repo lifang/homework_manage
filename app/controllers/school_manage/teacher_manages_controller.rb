@@ -34,7 +34,7 @@ class SchoolManage::TeacherManagesController < ApplicationController
         teacher.update_attributes(:password => encryptpassword,:user_id=>user.id)
         @status = 1
         @notice = '教师创建成功'
-        UserMailer.send_pwd_email(teacher_email, password, Teacher::TYPES[:teacher]).deliver
+        UserMailer.delay.send_pwd_email(teacher_email, password, Teacher::TYPES[:teacher])
       end
     end
     @teachers = Teacher.manage_teacher_list current_teacher.school_id,params[:page] ||= 1
@@ -49,7 +49,7 @@ class SchoolManage::TeacherManagesController < ApplicationController
         teacher.update_attributes(:password => password_new)
         password = teacher.encrypt_password
         teacher.update_attributes(:password => password)
-        UserMailer.send_pwd_email(teacher.email, password_new, Teacher::TYPES[:teacher]).deliver
+        UserMailer.delay.reset_pwd_email(teacher.email, password_new, Teacher::TYPES[:teacher])
       end
       status = 1
     else

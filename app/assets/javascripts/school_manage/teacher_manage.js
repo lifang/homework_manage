@@ -118,7 +118,7 @@ function tishi_is_able(obj,teacher_id){
         content_tishi = "停用";
     }
     $("#shifoutingyong").find(".tab_head").text(content_tishi + "教师");
-    $("#shifoutingyong").find(".tab_warning").text("确认"+content_tishi + "改教师吗？");
+    $("#shifoutingyong").find(".tab_warning").text("确认"+content_tishi + "该教师吗？");
     $("#shifoutingyong").find("button").attr("onclick","is_disable(this,"+teacher_id+")");
     $("#shifoutingyong").show();
 }

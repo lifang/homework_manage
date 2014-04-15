@@ -95,7 +95,8 @@ class Admin::QuestionAdminsController < ApplicationController
         teacher = Teacher.create(:email => email, :password => password, :status => Teacher::STATUS[:YES], :types => Teacher::TYPES[:EXAM], 
                               :user_id => user.id, :teaching_material_id => material_id)
         teacher.update_attributes(:password => teacher.encrypt_password)
-        UserMailer.send_pwd_email(email,password, Teacher::TYPES[:EXAM]).deliver
+        UserMailer.delay.send_pwd_email(email,password, Teacher::TYPES[:EXAM])
+
         @status = true
         @notice = "创建成功！"
       end  

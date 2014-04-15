@@ -14,26 +14,6 @@ class QuestionAdmin::ExamManagesController < ApplicationController
     get_share_question
   end
 
-  #设置单元
-  def set_cell
-    @cells = Cell.find_by_id(params[:cell_id])
-    @episodes = nil
-    if @cells
-      @episodes = @cells.episodes
-    end
-    get_share_question
-  end
-
-  #设置题型
-  def set_episode
-    get_share_question
-  end
-
-  #设置题型
-  def set_question_type
-    get_share_question
-  end
-
   def delete_share_question
     share_question_id = params[:share_question_id]
     question = ShareQuestion.find_by_id(share_question_id)
@@ -59,9 +39,7 @@ class QuestionAdmin::ExamManagesController < ApplicationController
     teacher = Teacher.find_by_id cookies[:teacher_id]
     @user = teacher.user
     @question_pack = nil
-    p share_question_id
     @questions = ShareQuestion.where(["id = ?", share_question_id])
-    p @questions
     branch_questions = ShareBranchQuestion.where(["share_question_id = ?", @questions.map(&:id)])
     @branch_questions = branch_questions.group_by{|bq|bq.share_question_id}
 

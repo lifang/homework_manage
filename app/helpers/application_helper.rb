@@ -1,10 +1,10 @@
 #encoding: utf-8
 module ApplicationHelper
-#  MEDIA_PATH = "/question_packages/#{Time.now.strftime("%Y%m")}/questions_package_%d/" #大题资源路径
-#  SAHRE_MEDIA_PATH = "/question_packages/#{Time.now.strftime("%Y%m")}/share_questions_package_%d/" #大题分享资源路径
+  #  MEDIA_PATH = "/question_packages/#{Time.now.strftime("%Y%m")}/questions_package_%d/" #大题资源路径
+  #  SAHRE_MEDIA_PATH = "/question_packages/#{Time.now.strftime("%Y%m")}/share_questions_package_%d/" #大题分享资源路径
   def media_path
     if cookies[:teacher_id]
-     return "/question_packages/#{cookies[:teacher_id]}/questions_package_%d/"
+      return "/question_packages/#{cookies[:teacher_id]}/questions_package_%d/"
     end
   end
   def share_media_path
@@ -111,8 +111,12 @@ module ApplicationHelper
 
 
   #分享的题目，双击填写题目
-  def share_question_title(question_id)
+  def share_question_title(question_id,question_name)
     question_id = question_id.to_s
-    '<span></span><a href="javascript:void(0)" class="amendName tooltip_html" data-id=' + question_id + '>修改名称</a>'
+    if question_name
+      '<span>'+ question_name +'</span><a href="javascript:void(0)" class="amendName tooltip_html" data-id=' + question_id + '>修改名称</a>'
+    else
+      '<span></span><a href="javascript:void(0)" class="amendName tooltip_html" data-id=' + question_id + '>修改名称</a>'
+    end
   end
 end

@@ -21,7 +21,7 @@ class Student < ActiveRecord::Base
     sql_student = "SELECT s.id,s.nickname,u.name user_name,u.avatar_url,scsr.created_at,t.name tag_name from
     students s LEFT JOIN users u on s.user_id = u.id
 LEFT JOIN school_class_student_ralastions scsr on s.id = scsr.student_id LEFT JOIN tags t on scsr.tag_id = t.id  where
- scsr.school_class_id=?"
+ scsr.school_class_id=? and s.status!=#{STATUS[:NO]}"
     student_school_class = Student.paginate_by_sql([sql_student,school_class_id],:per_page => PER_PAGE, :page => page)
     #    正确率
     recorddetail = RecordDetail.joins("inner join student_answer_records sar on record_details.student_answer_record_id = sar.id").

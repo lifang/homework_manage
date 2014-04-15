@@ -1366,3 +1366,16 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 
 .pageTurn a.current { padding: 5px 12px; font-weight: bold; color: #fff; background: #48D47E;}
 .pageTurn .disabled {display: none;}
+
+/*自加样式*/
+
+.alert_h { width: 200px; margin: 20px auto; line-height: 24px; font-size: 16px; text-align: center;}
+.close1 {
+    background: url(/assets/close.png) no-repeat;
+    cursor: pointer;
+    display: block;
+    height: 17px;
+    width: 17px;
+    text-indent: -999px;
+    overflow: hidden;
+}

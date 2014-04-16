@@ -12,10 +12,12 @@
   <div class="logo">超级作业本</div>
   <div class="nav">
     <ul>
+      <% if request.url.include?("teacher_question_manages") == false %>
       <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/main_pages" class="<%=is_hover("main_pages") %>">问答</a></li>
       <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/homeworks" class="<%=is_hover("homeworks", "question_packages") %>">布置作业</a></li>
       <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/statistics" class="<%=is_hover("statistics") %>">作业统计</a></li>
       <li><a href="/school_classes/<%= params[:school_class_id].to_i %>/students" class="<%=is_hover("students") %>">学员情况</a></li>
+    <% end %>
     </ul>
   </div>
 </div>

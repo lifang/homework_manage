@@ -23,6 +23,14 @@ TeachingMaterial.transaction do
   end
 end
 
+BranchTag.create(:name => "名词复数")
+BranchTag.create(:name => "定冠词")
+BranchTag.create(:name => "不定冠词")
+BranchTag.create(:name => "一般陈述句")
+BranchTag.create(:name => "一般疑问句")
+BranchTag.create(:name => "特殊疑问句")
+BranchTag.create(:name => "感叹句")
+BranchTag.create(:name => "形容词后置")
 
 # (1..4).each do |id|
 # 	Student.create(:nickname => "Student#{id}", :status => Student::STATUS[:YES], :user_id => id)

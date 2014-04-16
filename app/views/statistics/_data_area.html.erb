@@ -58,7 +58,9 @@
                                 <% if @record_details[sar.id].present? %>                                  
                                       <% if @record_details[sar.id][type].present? %>
                                         <% if @record_details[sar.id][type.to_i].first.is_complete == 1 %>
-                                            <td><img src="/assets/d.png"><em><%= @record_details[sar.id][type.to_i].first.used_time %></M></em></td>
+                                            <td>
+                                              <% que_time = trans_int_to_time(@record_details[sar.id][type.to_i].first.used_time.to_i) %>      
+                                              <img src="/assets/d.png"><em><%= que_time[0]==0 ? "" : "#{que_time[0]}时" %><%= que_time[1]==0 ? "" : "#{que_time[1]}分" %><%= que_time[2]==0 ? "" : "#{que_time[2]}秒" %></M></em></td>
                                         <% else %>   
                                             <td><em>-</em></td> 
                                         <% end %>
@@ -124,7 +126,13 @@
                                             <% end %> 
                                             <%= (@record_details[sar.id][type.to_i].first.correct_rate >= 0 && @record_details[sar.id][type.to_i].first.correct_rate <= 100) ? "#{@record_details[sar.id][type.to_i].first.correct_rate}%" : "-" %> 
                                            </div><em>
-                                           <%= @record_details[sar.id][type].present? ? "#{@record_details[sar.id][type.to_i].first.used_time}" :  "" %></em></td>
+                                            
+                                           <% if @record_details[sar.id][type].present? %>
+                                           <% que_time = trans_int_to_time(@record_details[sar.id][type.to_i].first.used_time.to_i) %>
+                                            <%= que_time[0]==0 ? "" : "#{que_time[0]}时" %><%= que_time[1]==0 ? "" : "#{que_time[1]}分" %><%= que_time[2]==0 ? "" : "#{que_time[2]}秒" %>
+                                           <% else %>                                             
+                                           <% end %>
+                                          </em></td>
                                         <% else %>
                                             <td><em>-</em></td>
                                         <% end %>

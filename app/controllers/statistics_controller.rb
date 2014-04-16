@@ -1,5 +1,6 @@
 #encoding: utf-8
 include StatisticsHelper
+include QuestionPackagesHelper
 class StatisticsController < ApplicationController
   before_filter :get_school_class
   #完成率及正确率统计

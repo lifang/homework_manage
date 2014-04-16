@@ -276,16 +276,19 @@
 
     //点击作业列表展开隐藏
     $(function(){
+        $(".ab_list_title").find("a.save_icon").parent().css("margin", "0");  //完型 跟十速挑战 收起大题的时候，去掉保存icon的margin
         $("body").on("click",".ab_list_title",function(){
             if($(this).parent().find(".ab_list_box").is(":hidden")){
                 $("div.ab_list_box").hide();
                 $("div.ab_list_open").removeClass("ab_list_open");
                 $(this).parent().find(".ab_list_box").show();
                 $(this).parents("div.assignment_body_list").addClass("ab_list_open");
-                gloab_index = $(".assignment_body_list").index($(this).parent())
+                gloab_index = $(".assignment_body_list").index($(this).parent());
+                $(this).find("a.save_icon").parent().css("margin", "0 10px");  //完型 跟十速挑战 展开大题的时候，加上保存icon的margin
             }else{
                 $(this).parent().find(".ab_list_box").hide();
                 $(this).parents("div.ab_list_open").removeClass("ab_list_open");
+                $(this).find("a.save_icon").parent().css("margin", "0");  //完型 跟十速挑战 收起大题的时候，去掉保存icon的margin
             }
         })
     })

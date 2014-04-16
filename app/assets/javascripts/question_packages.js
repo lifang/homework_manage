@@ -31,11 +31,6 @@ function no_change(obj){
 }
 
 function tiku_change_episode(obj){
-    episode_id = $("#episode_id").val();
-    if( episode_id !=""){
-        $(obj).val(episode_id)
-        return false;
-    }
     $("#episode_id").val($(obj).val());
     if($(".assignment_body").css("display") == "none"){
         $(".assignment_body").show();

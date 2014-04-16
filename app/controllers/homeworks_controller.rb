@@ -111,8 +111,7 @@ class HomeworksController < ApplicationController
                 status = true
                 notice = "发布成功！"
                 @publish_question_packages = Teacher.get_publish_question_packages @school_class.id, page
-                content = "教师：#{teacher.user.name}于#{publish_question_package.created_at.strftime("%F %T")}发布了一个任务,
-                      任务截止时间：#{publish_question_package.end_time.strftime("%F %T")}"
+                content = "教师：#{teacher.user.name}发布了一个任务,任务截止时间：#{publish_question_package.end_time.strftime("%F %T")}"
                 @school_class.task_messages.create(:content => content,
                   :period_of_validity => publish_question_package.end_time,
                   :status => TaskMessage::STATUS[:YES],

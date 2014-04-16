@@ -1612,7 +1612,7 @@ function wanxin_save_btn(obj){
     var temp = editor.text();
     if($.trim(temp)==""){
         tishi("完形填空内容不能为空！");
-        stopPropagation(arguments[1]);
+        //stopPropagation(arguments[1]);
         return false;
     }
     var sign_length=-1;
@@ -1624,7 +1624,7 @@ function wanxin_save_btn(obj){
     // alert(KindEditor.instances.length+"..."+temp+"-->"+length+"-->"+sign_length);
     if(length != sign_length){
         tishi("选项标记与选项个数不匹配！");
-        stopPropagation(arguments[1]);
+        //stopPropagation(arguments[1]);
         return false;
     }
     var text = editor.html();
@@ -1643,7 +1643,8 @@ function wanxin_save_btn(obj){
                 tishi("保存失败！");
         }
     });
-    stopPropagation(arguments[1]);
+    return false
+    //stopPropagation(arguments[1]);
 }
 
 

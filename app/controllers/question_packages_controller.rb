@@ -1146,10 +1146,9 @@ class QuestionPackagesController < ApplicationController
             end if question && question.branch_questions
           end if question_pack.questions
         end
-        render :text => 0
+        render :json => {:status => 0, :school_class_id => school_class_id}
       rescue Exception => e
-        p e
-        render :text => -1
+        render :json => {:status => -1}
       end
     end
   end

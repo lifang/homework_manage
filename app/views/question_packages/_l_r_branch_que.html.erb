@@ -1,13 +1,15 @@
 <div class="questions_item">
   <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>"/>
-    <div class="q_topic q_willCompile">
+    <div class="q_topic <%= resource_url.present? ? '' : 'q_willCompile' %>">
       <div class="speedQuestions">
         <ul class="branch_question">
           <li>
             <% if resource_url.present?  %>
               <%= render "question_packages/voice_tmp", {:resource_url => resource_url} %>
             <% else %>            
-              <a href="javascript:void(0)"  onclick="select_audio(this)" class="voice tooltip_title" title="点击上传音频"></a>
+              <a href="javascript:void(0)"   class="voice tooltip_title" title="点击上传音频">
+                 <input type="file" class="file" onchange="select_audio(this)" name="file" />
+              </a>
             <% end %>
             <% if types == Question::TYPES[:LISTENING] %>
               <%= form_tag( "/school_classes/#{school_class_id || 0}/question_packages/save_listening",:method => :post ,:multipart => true ,:remote => true) do %>
@@ -39,7 +41,7 @@
           <%= form_tag( "/school_classes/#{school_class_id || 0}/question_packages/upload_voice",:method => :post ,:multipart => true ,:remote => true) do %>
             <input type="hidden" name="branch_id" class="branch_id" value="<%= branch_id.present?  ? branch_id : "" %>"/>
             <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>"/>
-            <input type="file" name="file" class="tmp_voice" style="display:none;" onchange="check_audio(this)"/>
+           
             <input type="hidden" name="b_index" class="b_index"  value="<%= count_b.present?  ? count_b : "" %>"/>
             <input type="hidden" name="question_package_id" class="question_package_id" value=""/>
             <input type="submit" class="btn_submit" value="提交" style="display:none;">

@@ -794,6 +794,12 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 .tab_questions .error .true { background: #d54e21;}
 .tab_questions .errorAnswer { line-height: 36px; color: #d54e21;}
 .tab_questions .correctAnswer_border { border: 1px #1b7e5a solid;}
+
+/*默认*/
+.q_topic li a.true { background: #0b784b;}
+.q_topic li a.false { background: #c1c7c4;}
+.q_topic li a.voice { background: url(/assets/icon07.png) no-repeat 0 -74px;}
+
 /*完成*/
 .q_compile li a.true { background: #29bd7f;}
 .q_compile li a.voice { background: url(/assets/icon07.png) no-repeat 0 -185px;}
@@ -876,9 +882,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     font-size: 18px;
     color: #FFF;
 }
-.speedQuestions li a.true { background: #0b784b;}
-.speedQuestions li a.false { background: #c1c7c4;}
-.speedQuestions li a.voice { background: url(/assets/icon07.png) no-repeat 0 -74px;}
+
 .speedQuestions li p {
     line-height: 36px;
     background: #f0f0f0;

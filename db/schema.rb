@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140414141742) do
+ActiveRecord::Schema.define(:version => 20140416062938) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer  "sender_id"
@@ -304,16 +304,12 @@ ActiveRecord::Schema.define(:version => 20140414141742) do
   add_index "sbranch_branch_tag_relations", ["share_branch_question_id"], :name => "index_sbranch_branch_tag_relations_on_share_branch_question_id"
 
   create_table "school_class_student_ralastions", :force => true do |t|
-    t.integer  "student_id"
-    t.integer  "school_class_id"
+    t.integer  "student_id",      :null => false
+    t.integer  "school_class_id", :null => false
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.integer  "tag_id"
   end
-
-  add_index "school_class_student_ralastions", ["school_class_id"], :name => "index_school_class_student_ralastions_on_class_id"
-  add_index "school_class_student_ralastions", ["student_id"], :name => "index_school_class_student_ralastions_on_student_id"
-  add_index "school_class_student_ralastions", ["tag_id"], :name => "index_school_class_student_ralastions_on_tag_id"
 
   create_table "school_class_students_relations", :force => true do |t|
     t.integer  "school_id"
@@ -338,10 +334,12 @@ ActiveRecord::Schema.define(:version => 20140414141742) do
   add_index "school_classes", ["teaching_material_id"], :name => "index_school_classes_on_teaching_material_id"
 
   create_table "schools", :force => true do |t|
-    t.string  "name"
-    t.integer "students_count"
-    t.boolean "status",             :default => false
-    t.integer "used_school_counts"
+    t.string   "name"
+    t.integer  "students_count"
+    t.boolean  "status",             :default => false
+    t.integer  "used_school_counts"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "schools", ["name"], :name => "index_schools_on_name"

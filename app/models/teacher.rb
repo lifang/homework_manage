@@ -95,12 +95,12 @@ scsr on sc.id = scsr.school_class_id INNER JOIN users u on t.user_id = u.id wher
     if key_word.present?
       where_conddition[0] += " and u.name like '%#{key_word}%'"
     end  
-    p where_conddition
     admins = Teacher
     .select("teachers.id, teachers.email, teachers.status, teachers.password, u.name, t.name material_name")
     .joins("left join users u on teachers.user_id = u.id")
     .joins("left join teaching_materials t on teachers.teaching_material_id = t.id")
     .where(where_conddition).paginate(:page => page, :per_page => Teacher::PER_PAGE)
+    .order("teachers.created_at desc")
     admins
   end  
 

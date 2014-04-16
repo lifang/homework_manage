@@ -93,7 +93,7 @@ function load_material(obj,div_id)
 
 function check_teaching_materials(obj)
 {
-    $(obj).attr("disablesd", "true");
+    $(obj).attr("disabled", "true");
     var course_select = $(obj).parents("form").find(".course_select").val();
     var material_select = $(obj).parents("form").find(".material_select").val();
     // alert(course_select);
@@ -101,14 +101,14 @@ function check_teaching_materials(obj)
     if(course_select == 0)
     {
         tishi("请选择课程!");
-        $(obj).removeAttr("disablesd");
+        $(obj).removeAttr("disabled");
     }
     else
     {
         if(material_select == 0)
         {
             tishi("请选择教材!");
-            $(obj).removeAttr("disablesd");
+            $(obj).removeAttr("disabled");
         }
         else
         {
@@ -119,30 +119,39 @@ function check_teaching_materials(obj)
 
 function check_password(obj)
 {
-    $(obj).attr("disablesd", "true");
+    $(obj).attr("disabled", "true");
     var password = $(obj).parents("form").find(".password").val(); 
     var confirm_password = $(obj).parents("form").find(".confirm_password").val(); 
     if(password == "")
     {
         tishi("密码不能为空!");
-        $(obj).removeAttr("disablesd");
+        $(obj).removeAttr("disabled");
     }
     else
     {
         if(confirm_password == "")
         {
             tishi("确认密码不能为空!");
-            $(obj).removeAttr("disablesd");
+            $(obj).removeAttr("disabled");
         }
         else
         {
             if(password != confirm_password)
             {
                 tishi("两次密码不一致!");   
+                $(obj).removeAttr("disabled");
             }
             else
             {
-                $(obj).parents("form").submit();
+                if(password.length >= 6)
+                {
+                    $(obj).parents("form").submit();    
+                }    
+                else
+                {
+                    tishi("密码长度至少六位!");
+                    $(obj).removeAttr("disabled");   
+                } 
             }    
         }
     }
@@ -150,7 +159,7 @@ function check_password(obj)
 
 function check_admin_info(obj)
 {
-    $(obj).attr("disablesd", "true");
+    $(obj).attr("disabled", "true");
     var name = $(obj).parents("form").find(".name").val();
     var course_select = $(obj).parents("form").find(".course_select").val(); 
     var material_select = $(obj).parents("form").find(".material_select").val(); 
@@ -159,14 +168,14 @@ function check_admin_info(obj)
     if(name == "" || course_select == "" || material_select == "" || email == "")
     {
         tishi("管理员名称、课程、教材、邮箱不能为空！");
-        $(obj).removeAttr("disablesd");
+        $(obj).removeAttr("disabled");
     }
     else
     {
         if(!email_reg.test(email))
         {
             tishi("邮箱格式不正确！");
-            $(obj).removeAttr("disablesd");
+            $(obj).removeAttr("disabled");
         }
         else
         {

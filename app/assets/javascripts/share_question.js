@@ -48,13 +48,13 @@ $(function(){
         $.ajax({
             url : url,
             type:'post',
-            dataType : 'text',
+            dataType : 'json',
             success: function(data){
-                if(data == -1){
+                if(data.status == -1){
                     tishi("克隆失败！");
                 }else{
                     tishi("克隆成功！")
-                    window.location.replace(window.location.href)
+                    window.location.replace("/school_classes/" + data.school_class_id +"/homeworks")
                 }
                 $("#fugai").hide();
                 $("#fugai1").find("h2").text("");

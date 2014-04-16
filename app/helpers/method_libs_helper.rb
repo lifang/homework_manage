@@ -206,7 +206,7 @@ module MethodLibsHelper
     questions = ""
     doc = REXML::Document.new
     root_node = doc.add_element('questions')
-    
+
     Question::TYPE_NAME_ARR.each{|type_name| root_node.add_element(type_name)}
     #    root_node.add_element('listening')
     #    root_node.add_element('reading')
@@ -278,7 +278,7 @@ module MethodLibsHelper
     que_id = question_node.add_element("id")
     que_use_time = question_node.add_element("questions_time")
     que_full_text = question_node.add_element("full_text")  #完型填空用到
-  
+
     branch_questions = question_node.add_element("branch_questions")
     branch_question = branch_questions.add_element("branch_question")
     branch_que_id = branch_question.add_element("id")
@@ -286,11 +286,11 @@ module MethodLibsHelper
     branch_question_resource_url = branch_question.add_element("resource_url")
     branch_question_options = branch_question.add_element("options")
     branch_question_answer = branch_question.add_element("answer")
-    
+
     que_id.add_text("#{question_params_obj[:id]}")
     que_use_time.add_text("#{question_params_obj[:questions_time].present? ? question_params_obj[:questions_time] : ''}")
     que_full_text.add_text("#{question_params_obj[:full_text].present? ? question_params_obj[:full_text] : ''}")
-    
+
     branch_que_id.add_text("#{question_params_obj[:branch_question_id]}")
     branch_content.add_text("#{question_params_obj[:content]}")
     branch_question_resource_url.add_text("#{question_params_obj[:resource_url].present? ? question_params_obj[:resource_url].split('/')[-1] : ''}")
@@ -311,7 +311,7 @@ module MethodLibsHelper
 
     tmp_questions_collections = {}
     Question::TYPE_NAME_ARR.map{|arr1| tmp_questions_collections[arr1] = {}}
-    
+
     #    Question::TYPE_NAME_ARR.each do |question_type|
     if student_answers_xml["questions"].present?
       questions = student_answers_xml["questions"]
@@ -368,7 +368,7 @@ module MethodLibsHelper
     end
     questions_collections
   end
-  
+
   def narrow_picture file_path,rename_file_name,filename,destination_dir
     avatar_url = nil
     img = MiniMagick::Image.open file_path,"rb"
@@ -410,14 +410,12 @@ module MethodLibsHelper
     end
   end
 
-  def push_after_reply_post content, teachers_id, reciver_id, school_class_id, student, reciver_types
-    unless teachers_id.include?(reciver_id.to_i)
-      if reciver_types == Micropost::USER_TYPES[:STUDENT] && !student.nil?  #  TODO reciver_types == 1 学生
-        school_class = SchoolClass.find_by_id school_class_id
-        extras_hash = {:type => Student::PUSH_TYPE[:q_and_a], :class_id => school_class_id, :class_name => school_class.name, :student_id => student.id}
-        push_method(content, extras_hash, student)
-        #android_and_ios_push(school_class,content,extras_hash)
-      end
+  def push_after_reply_post content, school_class_id, student, reciver_types
+    if reciver_types == Micropost::USER_TYPES[:STUDENT] && !student.nil?  #  TODO reciver_types == 1 学生
+      school_class = SchoolClass.find_by_id school_class_id
+      extras_hash = {:type => Student::PUSH_TYPE[:q_and_a], :class_id => school_class_id, :class_name => school_class.name, :student_id => student.id}
+      push_method(content, extras_hash, student)
+      #android_and_ios_push(school_class,content,extras_hash)
     end
   end
 
@@ -434,6 +432,7 @@ module MethodLibsHelper
   #push 推送
   def push_method(content, extras_hash, student)
     token = student.token
+
     if token
       ipad_push(content, [token], extras_hash)
     else
@@ -441,7 +440,7 @@ module MethodLibsHelper
       jpush_parameter content, qq_uid, extras_hash
     end
   end
-  
+
   #删除提示消息和系统消息
   def is_delete_message user_id, school_class_id, message
     user = User.find_by_id user_id
@@ -527,7 +526,7 @@ q.id = bq.question_id where kc.card_bag_id = ?"
         end
       end
     end
-    cardtag = CardTag.where("card_bag_id = #{card_bag_id}")
+    cardtag = CardTag.where("card_bag_id = #{card_bag_id} or card_bag_id is null ")
     cardtag_kcard_relation = CardTagKnowledgesCardRelation.where("card_tag_id in (?)" ,cardtag.map(&:id)).
       group_by{|cardtag_kcard| cardtag_kcard.knowledges_card_id}
     knowledges_cards = []
@@ -589,9 +588,9 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     #    sql = "SELECT s.alias_name FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
     #WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = ?#"
     #    student = Student.find_by_sql([sql,school_class_id])
-    
+
     publish_android_and_ios_push(school_class,content,publish_question_package.tag_id) #传tag参数，为了给对应分组的学生发送推送
-   
+
   end
 
   def publish_android_and_ios_push(school_class,content, tag_id=nil)
@@ -611,6 +610,7 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     else
       ipad_student_tokens = school_class.students.where("token is not null").select("token").map(&:token)
     end
+    File.open("#{Rails.root}/public/ipad_publish.log", "a"){|f| f.write ipad_student_tokens.join(",") + "\n"}
     ipad_push(content, ipad_student_tokens, extras_hash)
   end
 
@@ -623,8 +623,10 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
       token = ipad_student_tokens
       notification_arr = []
       ipad_student_tokens.each do |token|
-        notification_arr << APNS::Notification.new(token, :alert => content, :badge => 1, :sound => "default", :other => extras_hash) if token.present?  #把提醒类型值【0,1,2】放在sound里面
+        new_notifier = APNS::Notification.new(token, :alert => content, :badge => 1, :sound => "default", :other => extras_hash) if token.present?  #把提醒类型值【0,1,2】放在sound里面
+        notification_arr << new_notifier
       end
+
       APNS.send_notifications(notification_arr) if notification_arr.present?
     rescue Exception => e
       File.open("#{Rails.root}/public/ipad_push.log", "a"){|f| f.write e.backtrace}
@@ -663,7 +665,7 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
   end
 
   def read_questions zip_url, excel, audios
-    excel_url = "#{zip_url}/#{excel}" 
+    excel_url = "#{zip_url}/#{excel}"
     questions = []
     errors = ""
     no_find_audio = []
@@ -684,7 +686,7 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     end_line = 0
     #确定题目的开始行数
     end_line = oo.last_row.to_i
-    
+
     if end_line >= start_line
       #循环取出每一题
       start_line.upto(end_line).each do |line|
@@ -693,22 +695,22 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
         if content.size > 0 && audio.size > 0
           if audios.include? audio
             questions << {:content => content, :audio => "#{zip_url}/#{audio}".gsub("#{Rails.root}/public","") }
-          else  
-            no_find_audio <<  line 
-          end  
-        else  
+          else
+            no_find_audio <<  line
+          end
+        else
           no_content_or_no_find_audio << line
-        end  
+        end
       end
       if no_find_audio.any?
-         errors += "excel:第#{no_find_audio.to_s.gsub(/\[|\]/,"")}行找不到题目对应的资源"  
+         errors += "excel:第#{no_find_audio.to_s.gsub(/\[|\]/,"")}行找不到题目对应的资源"
       end
       if no_content_or_no_find_audio.any?
          errors += "excel:第#{no_content_or_no_find_audio.to_s.gsub(/\[|\]/,"")}行题目内容或资源为空！"
-      end  
+      end
     else
-      errors << "excel文件为空！" 
-    end  
+      errors << "excel文件为空！"
+    end
     return_info = {:questions => questions, :errors => errors}
   end
 

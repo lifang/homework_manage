@@ -672,7 +672,7 @@ li.p_input p, li.p_input input, .tab_switch li input {
     background: url(/assets/amendName.png) no-repeat;
 }
 .student_head li { line-height: 24px; font-size: 16px;}
-.student_head li span { display: inline-block; width: 80px; text-align: right;}
+.student_head li span { display: inline-block; width: 90px; text-align: right;}
 .student_btn_a {
     background: #36c77b;
     color: #FFF;
@@ -720,7 +720,7 @@ li.p_input p, li.p_input input, .tab_switch li input {
 .award li.award02 { background: url(/assets/icon04.png) no-repeat 0 -60px; color: #358ee1;}
 .award li.award03 { background: url(/assets/icon04.png) no-repeat 0 -120px; color: #36c77b;}
 .award li.award04 { background: url(/assets/icon04.png) no-repeat 0 -180px; color: #e29d30;}
-.award li.award05 { background: url(/assets/icon04.png) no-repeat 0 -240px; color: #e29d30;}
+.award li.award05 { background: url(/assets/icon04.png) no-repeat 0 -240px; color: #30BEE2;}
 
 /*作业列表*/
 .assignment {padding-top:30px;}
@@ -794,6 +794,12 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 .tab_questions .error .true { background: #d54e21;}
 .tab_questions .errorAnswer { line-height: 36px; color: #d54e21;}
 .tab_questions .correctAnswer_border { border: 1px #1b7e5a solid;}
+
+/*默认*/
+.q_topic li a.true { background: #0b784b;}
+.q_topic li a.false { background: #c1c7c4;}
+.q_topic li a.voice { background: url(/assets/icon07.png) no-repeat 0 -74px;}
+
 /*完成*/
 .q_compile li a.true { background: #29bd7f;}
 .q_compile li a.voice { background: url(/assets/icon07.png) no-repeat 0 -185px;}
@@ -876,9 +882,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
     font-size: 18px;
     color: #FFF;
 }
-.speedQuestions li a.true { background: #0b784b;}
-.speedQuestions li a.false { background: #c1c7c4;}
-.speedQuestions li a.voice { background: url(/assets/icon07.png) no-repeat 0 -74px;}
+
 .speedQuestions li p {
     line-height: 36px;
     background: #f0f0f0;

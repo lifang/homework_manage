@@ -192,7 +192,7 @@ class Api::StudentsController < ApplicationController
               student.update_attributes(:last_visit_class_id => school_class.id)
               render :json => {:status => "success", :notice => "登录成功！",
                 :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
-                  :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+                  :nickname => student.nickname, :s_no => student.s_no, :avatar_url => student.user.avatar_url},
                 :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
                   :tearcher_id => tearcher_id, :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S") },
                 :microposts => microposts,
@@ -209,7 +209,7 @@ class Api::StudentsController < ApplicationController
             follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
             render :json => {:status => "success", :notice => "登录成功！",
               :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
-                :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+                :nickname => student.nickname, :s_no => student.s_no, :avatar_url => student.user.avatar_url},
               :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
                 :tearcher_id => tearcher_id,  :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S")  },
               :microposts => microposts,
@@ -232,7 +232,7 @@ class Api::StudentsController < ApplicationController
             student.update_attributes(:last_visit_class_id => school_class.id)
             render :json => {:status => "success", :notice => "登录成功！",
               :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
-                :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+                :nickname => student.nickname, :s_no => student.s_no, :avatar_url => student.user.avatar_url},
               :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
                 :tearcher_id => tearcher_id , :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S") },
               :microposts => microposts,
@@ -538,7 +538,7 @@ class Api::StudentsController < ApplicationController
                   follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
                   render :json => {:status => "success", :notice => "登记成功！",
                     :student => {:id => student.id, :name => student.user.name,:user_id => student.user.id,
-                      :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+                      :nickname => student.nickname, :s_no => student.s_no, :avatar_url => student.user.avatar_url},
                     :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
                       :tearcher_id => tearcher_id , :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S")},
                     :microposts => microposts,
@@ -605,7 +605,7 @@ class Api::StudentsController < ApplicationController
           follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
           render :json => {:status => "success", :notice => "获取成功！",
             :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
-              :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+              :nickname => student.nickname, :s_no => student.s_no, :avatar_url => student.user.avatar_url},
             :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
               :tearcher_id => tearcher_id , :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S")},
             :microposts => microposts,
@@ -790,7 +790,7 @@ class Api::StudentsController < ApplicationController
               follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
               render :json => {:status => "success", :notice => "验证成功！",
                 :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
-                  :nickname => student.nickname, :avatar_url => student.user.avatar_url},
+                  :nickname => student.nickname, :s_no => student.s_no, :avatar_url => student.user.avatar_url},
                 :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
                   :tearcher_id => tearcher_id, :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S") },
                 :microposts => microposts,

@@ -54,7 +54,9 @@
           </tbody>
 
         </table>
-        <%= will_paginate @questions, :previous_label => "上一页", :next_label => "下一页", :class => "pageTurn"  %>
+        <div class="paginate_manages">
+          <%= render :partial => 'paginate_manages' %>
+        </div>
       </div>
     </div>
   </div>

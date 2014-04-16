@@ -1,4 +1,5 @@
 <% if @status == true %>
+$("#question_<%= @question.id %>").find("div.questions_item:eq("+ <%= @b_index %> +")").find(".q_topic").removeClass("q_willCompile");
 $("#question_<%= @question.id %>").find("div.questions_item:eq("+ <%= @b_index %> +")").find("ul.branch_question").find("li:eq(0)").find("a:eq(0)").remove();
 $("#question_<%= @question.id %>").find("div.questions_item:eq("+ <%= @b_index %> +")").find("ul.branch_question").find("li:eq(0)").prepend('<%=j(render "voice_tmp", {:resource_url=> @resource_url} )%>');
 $("#question_<%= @question.id %>").find("div.questions_item:eq("+ <%= @b_index %> +")").find("ul.branch_question").find("li:eq(0)").find("form").first().find(".file").val('<%= @resource_url %>');

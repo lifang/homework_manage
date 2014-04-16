@@ -1,0 +1,8 @@
+<% if @status %>
+  tishi('<%= @notice %>');
+  $("#input_select_upload").parents(".q_topic").find(".q_right").append('<input type="text" value="<%= @url %>" name="select_resourse" style="display: none"/>')
+  $("#input_select_upload").parents(".q_left").html('<%= j(render "questions/has_select_upload",{:@type=>@type,:@url => @url}) %>')
+  $(".tooltip_box").remove();
+<% else %>
+  tishi('<%= @notice %>');
+<% end %>

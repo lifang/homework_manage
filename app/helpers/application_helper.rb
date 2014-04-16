@@ -18,11 +18,13 @@ module ApplicationHelper
       return "/question_packages/#{cookies[:teacher_id]}/qa_share_questions_package_#{Time.now.strftime('%Y%m')}/"
     end
   end
-
+  
+  #学生上传答案路径
   def student_answer_ques_path(school_class_id, publish_question_package_id)
     "pub_que_ps/#{school_class_id}/pub_#{publish_question_package_id}/answers"
   end
 
+  #发布作业包的路径
   def publish_ques_path(school_class_id, question_package_id)
     "que_ps/#{school_class_id}/question_p_#{question_package_id}"
   end

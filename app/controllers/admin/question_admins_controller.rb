@@ -46,6 +46,7 @@ class Admin::QuestionAdminsController < ApplicationController
     if teacher.present?
       if teacher.update_attributes(:password => password)
         if teacher.update_attributes(:password => teacher.encrypt_password)
+          UserMailer.delay.reset_pwd_email(teacher.email, password, Teacher::TYPES[:EXAM])
           @status = true
           @notice = "密码修改成功!"  
         else

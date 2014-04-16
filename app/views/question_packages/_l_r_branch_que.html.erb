@@ -42,6 +42,7 @@
             <input type="file" name="file" class="tmp_voice" style="display:none;" onchange="check_audio(this)"/>
             <input type="hidden" name="b_index" class="b_index"  value="<%= count_b.present?  ? count_b : "" %>"/>
             <input type="hidden" name="question_package_id" class="question_package_id" value=""/>
+            <input type="submit" class="btn_submit" value="提交" style="display:none;">
           <% end %>
         </li>
       </ul>

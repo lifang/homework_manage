@@ -127,7 +127,7 @@ function check_audio(obj)
         $(obj).parent().find(".branch_id").first().val(branch_id);
         $(obj).parent().find(".b_index").first().val(b_index);
         $(obj).parent().find(".question_package_id").first().val(question_package_id);
-        $(obj).parent().submit();
+        $(obj).parent().find(".btn_submit").click();
     }
     else
     {

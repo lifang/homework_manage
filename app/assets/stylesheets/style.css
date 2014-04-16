@@ -720,7 +720,7 @@ li.p_input p, li.p_input input, .tab_switch li input {
 .award li.award02 { background: url(/assets/icon04.png) no-repeat 0 -60px; color: #358ee1;}
 .award li.award03 { background: url(/assets/icon04.png) no-repeat 0 -120px; color: #36c77b;}
 .award li.award04 { background: url(/assets/icon04.png) no-repeat 0 -180px; color: #e29d30;}
-.award li.award05 { background: url(/assets/icon04.png) no-repeat 0 -240px; color: #e29d30;}
+.award li.award05 { background: url(/assets/icon04.png) no-repeat 0 -240px; color: #30BEE2;}
 
 /*作业列表*/
 .assignment {padding-top:30px;}

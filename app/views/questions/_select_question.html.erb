@@ -4,7 +4,7 @@
     <input type="hidden" name="question_type"   value="select" />
     <h1>选择
       <% if @question.is_a?(ShareQuestion) %>
-       <%= "(#{share_question_title(@question.try(:id),@question.name)})".html_safe %>
+        <%= "(#{share_question_title(@question.try(:id),@question.name)})".html_safe %>
       <% else %>
         <%=@question.name.nil? ? "" : "(#{@question.name})" %>
       <% end %>
@@ -21,18 +21,20 @@
   <div class="ab_list_box">
     <div class="ab_article" id="now_new_branch" question_index="<%= @question.id %>" >
       <div class="questions_item" stypes="save_select" branch_question_index="" question_type="select">
-        <%= form_for :question,:url =>{ :action => :save_select, :controller => :questions },:method=>"post",:remote=>true do |f|%>
-          <div class="q_topic q_willCompile" >
-            <div class="multipleChoice">
-              <div class="q_left">
-                <ul>
-                  <li>
-                    <a href="javascript:void(0)" class="voice tooltip_title" input_t="voice" title="点击上传音频" onclick="select_upload_choice(this)"></a>
-                    <a href="javascript:void(0)" class="photo tooltip_title" input_t="photo" title="点击上传图片" onclick="select_upload_choice(this)"></a>
-                    <input type="file" id="input_select_upload" name="select_file"style="display:none" onchange="select_upload(this)"/>
-                  </li>
-                </ul>
-              </div>
+        <div class="q_topic q_willCompile" >
+          <div class="multipleChoice">
+            <div class="q_left">
+              <ul>
+                <li>
+                  <%= form_for :question,:url=>{:action =>:select_upload,:controller => "/questions",:question_package_id=> @question_package_id.nil? ? 0 : @question_package_id },:method=>"post",:remote=>true do |f| %>
+                    <a href="javascript:void(0)" class="voice tooltip_title" title="点击上传音频"><input name="" type="file" input_t="voice" onchange="select_upload(this)"/></a>
+                    <a href="javascript:void(0)" class="photo tooltip_title" title="点击上传图片"><input name="" type="file"  input_t="photo" onchange="select_upload(this)"/></a>
+                    <input type="text" name="types" style="display:none;"/>
+                  <% end %>
+                </li>
+              </ul>
+            </div>
+            <%= form_for :question,:url =>{ :action => :save_select, :controller => :questions },:method=>"post",:remote=>true do |f|%>
               <div class="q_right">
                 <div class="q_title"><div class="qt_text"><p></p><input name="select_content" type="text"/></div></div>
                 <ul>

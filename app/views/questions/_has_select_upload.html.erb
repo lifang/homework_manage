@@ -1,0 +1,11 @@
+<% if @type=="voice" %>
+  <a href='javascript:void(0)' onclick='playAudio(this)'>
+    <img src='/assets/voiceing.jpg'/>
+    <audio preload="true" controls style="display: none;">
+      <source type="audio/ogg" src="<%= @url %>">
+    </audio>
+  </a>
+<% end %>
+<% if @type=="photo" %>
+  <img src="<%= @url %>" style="width:86px;height:86px;"/>
+<% end %>

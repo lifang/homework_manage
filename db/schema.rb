@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140414141742) do
+ActiveRecord::Schema.define(:version => 20140416062938) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer  "sender_id"
@@ -338,10 +338,12 @@ ActiveRecord::Schema.define(:version => 20140414141742) do
   add_index "school_classes", ["teaching_material_id"], :name => "index_school_classes_on_teaching_material_id"
 
   create_table "schools", :force => true do |t|
-    t.string  "name"
-    t.integer "students_count"
-    t.boolean "status",             :default => false
-    t.integer "used_school_counts"
+    t.string   "name"
+    t.integer  "students_count"
+    t.boolean  "status",             :default => false
+    t.integer  "used_school_counts"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "schools", ["name"], :name => "index_schools_on_name"

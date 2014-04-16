@@ -17,6 +17,7 @@ WHERE t.types=#{Teacher::TYPES[:SCHOOL]} "
     if !schools_name.nil?
       sql_school += "and schools.name like '#{schools_name}'"
     end
+    sql_school += "ORDER BY schools.created_at desc"
     @schools = School.paginate_by_sql(sql_school,:per_page => PER_PAGE, :page => page)
   end
 
@@ -25,13 +26,13 @@ WHERE t.types=#{Teacher::TYPES[:SCHOOL]} "
     page = 1 if !page.present?
     quota_consumptions = []
     if school_id.present?
-        quota_consumptions = SchoolClassStudentsRelation
-                               .select("s.s_no, sc.name class_name, u.name, DATE_FORMAT(school_class_students_relations.created_at, '%Y-%m-%d %H:%i:%S') created_at")
-                               .joins("left join students s on school_class_students_relations.student_id = s.id")
-                               .joins("left join users u on s.user_id = u.id")
-                               .joins("left join school_classes sc on school_class_students_relations.school_class_id = sc.id")
-                               .where(["school_class_students_relations.school_id = ?", 
-                                                      school_id]).paginate(:page => page, :per_page => PER_PAGE)                                      
+      quota_consumptions = SchoolClassStudentsRelation
+      .select("s.s_no, sc.name class_name, u.name, DATE_FORMAT(school_class_students_relations.created_at, '%Y-%m-%d %H:%i:%S') created_at")
+      .joins("left join students s on school_class_students_relations.student_id = s.id")
+      .joins("left join users u on s.user_id = u.id")
+      .joins("left join school_classes sc on school_class_students_relations.school_class_id = sc.id")
+      .where(["school_class_students_relations.school_id = ?",
+          school_id]).paginate(:page => page, :per_page => PER_PAGE)
     end 
     quota_consumptions                             
   end

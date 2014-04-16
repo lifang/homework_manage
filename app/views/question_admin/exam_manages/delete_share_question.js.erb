@@ -1,5 +1,6 @@
 <% if @status %>
   $("#share_question_list").html('<%=j(render 'share_question_list')%>');
+  $(".paginate_manages").html('<%= j(render 'paginate_manages') %>');
   tishi('<%= @notice %>')
 <% else %>
   tishi('<%= @notice %>')

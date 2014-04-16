@@ -1,16 +1,19 @@
 <div class="questions_item" stypes="save_select" branch_question_index="" question_type="select">
-  <%= form_for :question,:url => { :action => :save_select, :controller => "/questions" ,:question_package_id => @question_pack.try(:id)|| 0 }, :method=>"post" ,:remote=>true do |f|%>
-    <div class="q_topic q_willCompile">
-      <div class="multipleChoice">
-        <div class="q_left">
-          <ul>
-            <li>
-              <a href="javascript:void(0)" class="voice tooltip_title" input_t="voice" title="点击上传音频" onclick="select_upload_choice(this)"></a>
-              <a href="javascript:void(0)" class="photo tooltip_title" input_t="photo" title="点击上传图片" onclick="select_upload_choice(this)"></a>
-              <input type="file" id="input_select_upload" name="select_file"style="display:none" onchange="select_upload(this)"/>
-            </li>
-          </ul>
-        </div>
+  <div class="q_topic q_willCompile">
+    <div class="multipleChoice">
+      <div class="q_left">
+        <ul>
+          <li>
+            <%= form_for :question,:url=>{:action =>:select_upload,:controller => "/questions",:question_package_id=> @question_package_id.nil? ? 0 : @question_package_id},:method=>"post",:remote=>true do |f| %>
+              <a href="javascript:void(0)" class="voice tooltip_title" title="点击上传音频"><input name="" type="file" input_t="voice" onchange="select_upload(this)"/></a>
+              <a href="javascript:void(0)" class="photo tooltip_title" title="点击上传图片"><input name="" type="file" input_t="photo" onchange="select_upload(this)"/></a>
+              <input type="text" name="types" style="display:none;"/>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+      <%= form_for :question,:url => { :action => :save_select, :controller => "/questions" ,:question_package_id => @question_pack.try(:id)|| 0 }, :method=>"post" ,:remote=>true do |f|%>
+
         <div class="q_right">
           <div class="q_title"><div class="qt_text"><p></p><input name="select_content" type="text"/></div></div>
           <ul>
@@ -20,19 +23,19 @@
             <li><input type="checkbox" name="check_select[]" value="4"/><div class="qt_text"><p></p><input name="select_value4" type="text"/></div></li>
           </ul>
         </div>
-      </div>
+        <input type="hidden"  name="question_package_id" id="question_package_id_2" value="<%=  @question_package_id.nil? ? 0 : @question_package_id %>"/>
+        <input type="hidden" name="branch_question_id"value=""/>
+        <input type="hidden" name="question_id" value="<%= @question.id %>"/>
+        <input type="hidden" name="index_new" class="index_new" question_id="<%= @question.id %>" value="<%= @index_new.to_i + 1 %>"/>
+        <input class="submit_sava" type="submit" style="display:none" value="保存"/>
+      <% end %>
     </div>
-    <div class="qt_icon">
-      <a href="javascript:void(0)" class="save tooltip_html save_chen" onclick="onclick_submit(this)">保存</a>
-      <a href="javascript:void(0)" class="delete tooltip_html delete_chen" data-confirm="确定删除?" style="display:none" data-remote="true" >删除</a>
-      <a href="javascript:void(0)" class="tag tooltip_html" style="display:none" onclick="add_selects_tags(this)">标签</a>
-    </div>
-    <input type="hidden"  name="question_package_id" id="question_package_id_2" value="<%=  @question_package_id.nil? ? 0 : @question_package_id %>"/>
-    <input type="hidden" name="branch_question_id"value=""/>
-    <input type="hidden" name="question_id" value="<%= @question.id %>"/>
-    <input type="hidden" name="index_new" class="index_new" question_id="<%= @question.id %>" value="<%= @index_new.to_i + 1 %>"/>
-    <input class="submit_sava" type="submit" style="display:none" value="保存"/>
-  <% end %>
+  </div>
+  <div class="qt_icon">
+    <a href="javascript:void(0)" class="save tooltip_html save_chen" onclick="onclick_submit(this)">保存</a>
+    <a href="javascript:void(0)" class="delete tooltip_html delete_chen" data-confirm="确定删除?" style="display:none" data-remote="true" >删除</a>
+    <a href="javascript:void(0)" class="tag tooltip_html" style="display:none" onclick="add_selects_tags(this)">标签</a>
+  </div>
   <div class="tag_ul">
     <ul>
     </ul>

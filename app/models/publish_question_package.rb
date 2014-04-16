@@ -343,11 +343,13 @@ class PublishQuestionPackage < ActiveRecord::Base
     questions_answers = {}
     types_rate = {}
     branch_questions = {}
+    branch_questions_id = []
     questions = QuestionPackage.get_one_package_questions publish_question_package.question_package_id
     if questions.present?
       questions_id = questions.map { |e| e.id }
       if questions_id.present?
         branch_questions =  BranchQuestion.select("id, question_id").where(["question_id in (?)", questions_id])
+        branch_questions_id = branch_questions.map(&:id) if branch_questions.any?
         branch_questions = branch_questions.group_by { |e| e.question_id }
       end  
     end  
@@ -410,7 +412,8 @@ class PublishQuestionPackage < ActiveRecord::Base
         end    
     end
     {:question_types => question_types, :questions => questions, :used_times => used_times,
-       :questions_answers => questions_answers, :types_rate => types_rate, :branch_questions => branch_questions}
+       :questions_answers => questions_answers, :types_rate => types_rate, 
+        :branch_questions => branch_questions, :branch_questions_id => branch_questions_id}
   end
 end
 

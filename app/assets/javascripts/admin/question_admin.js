@@ -100,7 +100,7 @@ function check_teaching_materials(obj)
     // alert(material_select);
     if(course_select == 0)
     {
-        tishi("请选择课程!");
+        tishi("请选择科目!");
         $(obj).removeAttr("disabled");
     }
     else
@@ -167,7 +167,7 @@ function check_admin_info(obj)
     var email_reg = /^([a-zA-Z0-9]+[_|\_|\.\-]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}(\.[a-zA-Z]{2,2}){0,1}$/;
     if(name == "" || course_select == "" || material_select == "" || email == "")
     {
-        tishi("管理员名称、课程、教材、邮箱不能为空！");
+        tishi("管理员名称、科目、教材、邮箱不能为空！");
         $(obj).removeAttr("disabled");
     }
     else

@@ -34,7 +34,7 @@ class TeachersController < ApplicationController
                 :status => SchoolClass::STATUS[:NORMAL],
                 :teaching_material_id => teaching_material_id)
               #            notice = "班级创建成功！"
-              flash[:verification_code] = "创建成功,班级验证码为:#{school_class.verification_code}!"
+              flash[:verification_code] = "创建成功,班级验证码为:#{school_class.verification_code}"
               @status = true
             else
               @notice = "班级创建失败，请重新操作！"

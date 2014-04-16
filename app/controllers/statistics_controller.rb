@@ -14,7 +14,6 @@ class StatisticsController < ApplicationController
     @current_date =  @current_task.nil? ? @today_date : @current_task.created_at.strftime("%Y-%m-%d")
     @students = info[:students]
     @question_types = info[:question_types]
-    p @question_types 
     @student_answer_records = info[:student_answer_records]
     @average_correct_rate = info[:average_correct_rate]
     @average_complete_rate = info[:average_complete_rate]
@@ -62,6 +61,18 @@ class StatisticsController < ApplicationController
     @question_types = info[:question_types]
     @questions = info[:questions]
     @branch_questions = info[:branch_questions]
+    branch_questions_id = info[:branch_questions_id]
+    @tags = {}
+    if branch_questions_id && branch_questions_id.present?
+      tags = BranchQuestion.joins("left join btags_bque_relations bbr
+            on branch_questions.id = bbr.branch_question_id")
+          .joins("left join branch_tags bt on bbr.branch_tag_id = bt.id")
+          .select("bt.name, branch_questions.id")
+          .where(["bbr.id is not null and bt.id is not null and branch_questions.id in (?)", branch_questions_id]).uniq
+      if tags.any?
+        @tags = tags.group_by { |e| e.id }
+      end
+    end
     @used_times = info[:used_times]
     @questions_answers = info[:questions_answers]
     @types_rate = info[:types_rate]
@@ -186,7 +197,7 @@ class StatisticsController < ApplicationController
       tags = BranchQuestion.joins("left join btags_bque_relations bbr
             on branch_questions.id = bbr.branch_question_id")
           .joins("left join branch_tags bt on bbr.branch_tag_id = bt.id")
-          .select("bt.name")
+          .select("distinct bt.name")
           .where("bbr.id is not null and bt.id is not null and branch_questions.id = ?", branch_id).uniq
       @tags = tags.to_json
       if tags.any?

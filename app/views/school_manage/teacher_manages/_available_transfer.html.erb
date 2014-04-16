@@ -9,7 +9,7 @@
     <div class="select_box">
       <div class="rowElem selectPosition">
         <select name="select_school_class_id" >
-          <option value="">选择题库</option>
+          <option value="">选择班级</option>
           <% @school_class.each do |school_class| %>
             <option value="<%= school_class.id %>"><%= school_class.name %></option>
           <% end if @school_class %>

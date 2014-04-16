@@ -58,13 +58,14 @@ class TeacherQuestionManagesController < ApplicationController  #教师题库管
       question_packages = QuestionPackage.select("id").where(["school_class_id in (?)", school_classes.map(&:id)]) if school_classes.any?
       if type == -1
         @questions = Question.paginate_by_sql(["select q.*,c.name cname, e.name ename from questions q inner join cells c on q.cell_id=c.id
-      left join episodes e on q.episode_id=e.id where q.question_package_id in (?) and q.status=? and q.cell_id=? and q.episode_id=?", question_packages.map(&:id), Question::STATUS[:NORMAL], cell_id.to_i, episode_id.to_i],
+      left join episodes e on q.episode_id=e.id where q.question_package_id in (?) and q.status=? and q.cell_id=? and q.episode_id=?#", question_packages.map(&:id), Question::STATUS[:NORMAL], cell_id.to_i, episode_id.to_i],
           :page => params[:page] ||=1, :per_page => Question::PER_PAGE) if question_packages && question_packages.any?
         @questions = Question.get_questions(question_packages.map(&:id), params[:page] ||=1, cell_id, episode_id) if question_packages && question_packages.any?
       else
         @questions = Question.get_questions(question_packages.map(&:id), params[:page] ||=1, cell_id, episode_id, type) if question_packages && question_packages.any?
       end
     end
+
     respond_to do |f|
       f.js
       f.html

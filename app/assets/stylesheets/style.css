@@ -1357,3 +1357,18 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 .tab_setClass_step p.step_three { background: url(/assets/tab_setClass_step.png) no-repeat 0 -40px;}
 
 /*  第一次登录 选择科目 教材 设置名称、结束时间   结束*/
+
+/*上传图片或者音频*/
+a.voice, a.photo { position: relative;}
+a.voice input, a.photo input {
+    width: 36px;
+    height: 36px;
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 25px; /* 增大不同浏览器的可点击区域 */
+    opacity: 0; /* 实现的关键点 */
+    filter:alpha(opacity=0);/* 兼容IE */
+}

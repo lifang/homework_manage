@@ -3,6 +3,46 @@ $(function(){
     $(".tag_select").click(function() {
         $(this).parent(".div_select").find("ul").toggle();
     });
+
+    $(".main").on("click", ".delete_icon", function(){
+        var que_id = $(this).parents(".ab_list_title").find("input[name='question_id']").first().val();
+        var school_class_id = $("#school_class_id").val();
+        var flag = confirm("确定删除该大题?");
+        var del_a = $(this);
+        if(flag){
+            $.ajax({
+                type: "get",
+                url: "/school_classes/"+school_class_id+"/question_packages/delete_question",
+                dataType: "json",
+                data: {
+                    question_id : que_id
+                },
+                success: function(data){
+                    if(data.status==1){
+                        tishi("删除成功!");
+                        if(school_class_id == 0){
+                            del_a.parents(".assignment_body_list").remove();
+                        }else{
+                            del_a.parents(".assignment_body_list").remove();
+                            this_index = $(".assignment_body_list").index($(this).parent());
+                            if(gloab_index>this_index)
+                            {
+                                gloab_index--
+                            }
+                        }
+
+                    }else{
+                        tishi("删除失败!");
+                    }
+                },
+                error: function(data){
+                    tishi("数据错误!");
+                }
+            })
+        };
+        return false;
+    })
+
     $(document).on("click",".div_select ul li",function(){
         var text = $(this).html();
         var div_select = $(this).parents(".div_select");
@@ -52,7 +92,7 @@ function check_question_name_valid(question_id){
     if(name=="" || name=="名称"){
         tishi("请输入名称!");
     }else{
-         $.ajax({
+        $.ajax({
             url : "/question_admin/question_manages/set_share_question_name",
             type : "post",
             dataType : "json",
@@ -80,6 +120,12 @@ function delete_share_question(obj,share_question_id){
     var episode_id = $("#select_episode").parents(".div_select").find("input[name='unit_episode']").val();
     var question_types = $("#select_question").parents(".div_select").find("input[name='question_types']").val();
     var flag = confirm("确定删除该大题?");
+    var page_value = getQueryString("page");
+    if(page_value!= "" && page_value!="null" && page_value!=null ){
+        var page = page_value;
+    }else{
+        var page = 1;
+    }
     if (flag){
         $.ajax({
             url : "/question_admin/exam_manages/delete_share_question",
@@ -89,7 +135,8 @@ function delete_share_question(obj,share_question_id){
                 share_question_id : share_question_id,
                 episode_id : episode_id,
                 cell_id : chapter_id,
-                question_types : question_types
+                question_types : question_types,
+                page : page
             }
         })
     }
@@ -126,7 +173,7 @@ function saveSQname(obj, question_id){
             }
         });
     }else{
-      tishi("请输入名称")
+        tishi("请输入名称")
     }
-   return false;
+    return false;
 }

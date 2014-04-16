@@ -62,8 +62,8 @@
                             <input name="select_content" type="text" value="<%= branch_question.content.split("</file>")[1] %>"/>
                           <%end%>
                           <% if format=="mp3" || format=="amr" || format=="wav" %>
-                            <p></p>
-                            <input type='text' name='select_content' style='display:none;background: #F0F0F0;' disabled='true'/>
+                            <p><%= branch_question.content.split("</file>")[1] %></p>
+                            <input name="select_content" type="text" value="<%= branch_question.content.split("</file>")[1] %>"/>
                           <% end %>
                         <% else %>
                           <p><%= branch_question.content %></p>

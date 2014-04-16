@@ -31,11 +31,6 @@ function no_change(obj){
 }
 
 function tiku_change_episode(obj){
-    episode_id = $("#episode_id").val();
-    if( episode_id !=""){
-        $(obj).val(episode_id)
-        return false;
-    }
     $("#episode_id").val($(obj).val());
     if($(".assignment_body").css("display") == "none"){
         $(".assignment_body").show();
@@ -48,7 +43,14 @@ function tiku_change_episode(obj){
 //添加听力或朗读题  types 0：听写  1：朗读
 function add_l_r_question(types, school_class_id )
 {
+    if(school_class_id == 0){
+        setShareName(school_class_id, "read_and_lsiten", types);
+    }else{
+       ShareQuestion_new_reading_and_write(types, school_class_id, "");
+    }
+}
 
+function ShareQuestion_new_reading_and_write(types, school_class_id, name){
     var question_package_id = $("#question_package_id").val();
     var cell_id = $("#cell_id").val();
     var episode_id = $("#episode_id").val();
@@ -61,7 +63,8 @@ function add_l_r_question(types, school_class_id )
             types : types,
             question_package_id : question_package_id,
             episode_id : episode_id,
-            cell_id : cell_id
+            cell_id : cell_id,
+            name: name
         },
         success: function(data){
         }
@@ -406,12 +409,20 @@ function show_the_paixu(obj,question_packages,school_class_id){
 
 
 function create_wanxin(school_class_id,question_id){
+   if(school_class_id == 0){
+        setShareName(school_class_id, "wanxing", "-1");
+    }else{
+        Share_create_wanxing(school_class_id, question_id, "")
+    }
+}
+
+function Share_create_wanxing(school_class_id, question_id,name){
     var episode_id = $("#episode_id").val();
     var cell_id = $("#cell_id").val();
     $.ajax({
         dataType:"script" ,
         url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/create_wanxin",
-        data:"episode_id="+episode_id+"&cell_id="+cell_id,
+        data:"episode_id="+episode_id+"&cell_id="+cell_id+"&name=" + name,
         success:function(){
             var obj = $(".assignment_body_list").last().find(".ab_list_title");
             $(obj).click();
@@ -419,12 +430,21 @@ function create_wanxin(school_class_id,question_id){
     });
 }
 function create_paixu(school_class_id,question_id){
+    if(school_class_id == 0){
+        setShareName(school_class_id, "paixu", "-1");
+    }else{
+        Share_create_paixu(school_class_id, question_id, "")
+    }
+
+}
+
+function Share_create_paixu(school_class_id, question_id,name){
     var episode_id = $("#episode_id").val();
     var cell_id = $("#cell_id").val();
     $.ajax({
         dataType:"script" ,
         url:"/school_classes/"+school_class_id+"/question_packages/"+question_id+"/create_paixu",
-        data:"episode_id="+episode_id+"&cell_id="+cell_id,
+        data:"episode_id="+episode_id+"&cell_id="+cell_id+"&name=" + name,
         success:function(){
             var obj = $(".assignment_body_list").last().find(".ab_list_title");
             $(obj).click();
@@ -444,11 +464,11 @@ function show_wanxin(school_class_id,question_id){
 //新建十速挑战
 function new_time_limit(school_class_id){
     if(school_class_id == 0){
-        timeLimitGetPartial(school_class_id)
+        setShareName(school_class_id, "time_limit", "-1");
     }else{
         var time_limit_que_id = $("#time_limit_assignment_body_list").find("input[name='question_id']").first().val();
         if(time_limit_que_id==undefined || time_limit_que_id=="" || time_limit_que_id=="0"){
-            timeLimitGetPartial(school_class_id)
+            timeLimitGetPartial(school_class_id, "")
 
         }else{
             tishi("每个大题下面最多只能有一个十速挑战!");
@@ -466,8 +486,49 @@ function new_time_limit(school_class_id){
         }
     }
 }
+function setShareName(school_class_id, question_type, types){  //types 听写 || 朗读
+    $("#set_name_div").find("input").val("");
+    showSetName();
+    $("#set_name_div").find("button").attr("onclick", "check_question_name_blank("+ school_class_id +", '" + question_type +"', " + types +")");
+    return false;;
+}
 
-function timeLimitGetPartial(school_class_id){
+//名称必填
+function check_question_name_blank(school_class_id, question_type, types){ //types 听写 || 朗读
+    var name = $.trim($("#new_question_name").val());
+    if(name==""){
+        tishi("请输入名称!");
+    }else{
+        var name = $.trim($("#new_question_name").val()); //题库管理员，新建题目的时候，先填写名称
+        if(question_type == "time_limit"){
+            timeLimitGetPartial(school_class_id, name);
+        }else if(question_type == "read_and_lsiten"){
+            ShareQuestion_new_reading_and_write(types, school_class_id, name)
+        }else if(question_type == "select"){
+            Share_show_select(0, name)  //题库 新建，题包id写成0
+        }else if(question_type == "lianxian"){
+            Share_show_lianxian(0, name)
+        }else if(question_type == "paixu"){
+            Share_create_paixu(school_class_id, 0, name)
+        }else if(question_type == "wanxing"){
+            Share_create_wanxing(school_class_id, 0,name)
+        }
+        $("#set_name_div").hide();
+        $(".mask").hide();
+    }
+}
+
+function showSetName(){
+    var scolltop = document.body.scrollTop|document.documentElement.scrollTop; //滚动条高度
+    var doc_height = $(document).height();
+    $("#set_name_div").css('top',100);
+    $(".mask").css("height",doc_height);
+    $("#set_name_div").show();
+    $(".mask").show();
+    $("#set_name_div").find("button").removeAttr("onclick");
+}
+
+function timeLimitGetPartial(school_class_id, name){
     var cell_id = $("#cell_id").val();
     var episode_id = $("#episode_id").val();
     var question_package_id = $("#question_package_id").val();
@@ -479,7 +540,8 @@ function timeLimitGetPartial(school_class_id){
         data: {
             cell_id : cell_id,
             episode_id : episode_id,
-            question_package_id : question_package_id
+            question_package_id : question_package_id,
+            name: name
         }
     })
 }
@@ -1060,14 +1122,8 @@ $(function(){
         var que_name_1 = que_name.split("(")[0];
         var que_name_2 = que_name.split("(")[1];
         if(que_name_2==undefined || que_name_2==""){
-            var scolltop = document.body.scrollTop|document.documentElement.scrollTop; //滚动条高度
-            var doc_height = $(document).height();
-            $("#set_name_div").css('top',100);
-            $(".mask").css("height",doc_height);
-            $("#set_name_div").show();
-            $(".mask").show();
-            $("#set_name_div").find("button").removeAttr("onclick");
-            $("#set_name_div").find("button").attr("onclick", "set_question_name_valid('"+que_id+"','"+school_class_id+"')");
+           showSetName();
+           $("#set_name_div").find("button").attr("onclick", "set_question_name_valid('"+que_id+"','"+school_class_id+"')");
         }else{
             $.ajax({
                 type: "get",

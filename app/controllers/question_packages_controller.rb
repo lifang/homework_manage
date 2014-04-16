@@ -219,7 +219,7 @@ class QuestionPackagesController < ApplicationController
     if school_class_id == 0  #题库管理员
       @question = ShareQuestion.create(:types => params[:types].to_i,:user_id => @user.try(:id),
         :cell_id => params[:cell_id].to_i,
-        :episode_id => params[:episode_id].to_i)
+        :episode_id => params[:episode_id].to_i,:name => params[:name])
 
     else  #普通教师
       @question = Question.create(:types => params[:types].to_i,
@@ -428,6 +428,7 @@ class QuestionPackagesController < ApplicationController
   def create_wanxin
     cell_id = params[:cell_id]
     episode_id = params[:episode_id]
+    name = params[:name]
     @question_packages = QuestionPackage.find_by_id(params[:id])
     school_class_id = params[:school_class_id].to_i
     if school_class_id == 0
@@ -435,7 +436,8 @@ class QuestionPackagesController < ApplicationController
       @question = ShareQuestion.create(types:Question::TYPES[:CLOZE],
         user_id:current_user.try(:id),
         episode_id:episode_id,
-        cell_id:cell_id)
+        cell_id:cell_id,
+        name:name)
     else
       @wanxin_index = get_count_of_wanxin @question_packages.questions
       @question = Question.create(types:Question::TYPES[:CLOZE],
@@ -573,11 +575,13 @@ class QuestionPackagesController < ApplicationController
     cell_id = params[:cell_id]
     episode_id = params[:episode_id]
     school_class_id = params[:school_class_id].to_i
+    name = params[:name]
     if school_class_id == 0
       @question = ShareQuestion.create(types:Question::TYPES[:SORT],
         user_id:current_user.id,
         episode_id:episode_id,
-        cell_id:cell_id)
+        cell_id:cell_id,
+       name:name)
     else
       @question_packages = QuestionPackage.find_by_id(params[:id])
       @question = Question.create(types:Question::TYPES[:SORT],
@@ -814,12 +818,13 @@ class QuestionPackagesController < ApplicationController
       cell_id = params[:cell_id].to_i
       episode_id = params[:episode_id].to_i
       question_package_id = params[:question_package_id].to_i
+      name = params[:name].present? ? params[:name] : nil  #题库管理员新建题目的时候，先输入名称
       teacher = Teacher.find_by_id cookies[:teacher_id]
       @user = teacher.user
       @school_class_id = params[:school_class_id].to_i
       if @school_class_id == 0   #题库 管理员
         @question = ShareQuestion.create({:user_id => current_user.try(:id), :cell_id => cell_id,
-            :types => Question::TYPES[:TIME_LIMIT], :episode_id => episode_id})
+            :types => Question::TYPES[:TIME_LIMIT], :episode_id => episode_id, :name => name})
       else  #普通教师
         @question = Question.find_by_question_package_id_and_cell_id_and_episode_id_and_types(question_package_id,
           cell_id, episode_id, Question::TYPES[:TIME_LIMIT])
@@ -840,6 +845,7 @@ class QuestionPackagesController < ApplicationController
       end
     end
   end
+
   #检查该题包下是否已经有小题
   def check_question_has_branch
     status = 0

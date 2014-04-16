@@ -360,59 +360,11 @@ function select_upload(obj){
             return false;
         }
     }
-    var question_package_id = $(obj).parents(".questions_item").find("#question_package_id_2").val();
-    var question_id = $(obj).parents(".questions_item").find("input[name='question_id']").val();
-    $.ajaxFileUpload(
-    {
-        type:'post',
-        url:'/question_packages/'+ question_package_id +'/questions/select_upload',            //需要链接到服务器地址
-        secureuri:false,
-        fileElementId:'input_select_upload',                  //文件选择框的id属性
-        dataType: 'text',
-        data :{
-            type : type
-        },                                               //服务器返回的格式，可以是json
-        success: function (data, status)            //相当于java中try语句块的用法
-        {
-            if(data=="imgbig"){
-                tishi("文件不可大于1M");
-            }else{
-                var data_arr = data.split(";||;")
-                tishi("上传成功！");
-                var html="<input type='text' value='"+ data_arr[1] +"' name='select_resourse' style='display:none;'>"
-                var q_left = $("#input_select_upload").parents(".q_left")
-                //            $(obj).parents().find(".q_topic").attr("class","q_topic q_compile")
-                if(data_arr[0]=="voice"){
-                    $("#input_select_upload").parents(".q_topic").find("input[name='select_content']").attr("disabled","true")
-                    //                var html_title = "<input type='text' name='select_content' style='display:block;' disabled='true'>"
-                    var html_title = "<p></p><input type='text' name='select_content' style='display:none;background: #F0F0F0;' disabled='true'>"
-                    $("#input_select_upload").parents(".q_topic").find(".q_title").find(".qt_text").html(html_title)
-                    var  html_audiao = "<a href='javascript:void(0)' onclick='playAudio(this)' id='audio_only'> \n\
-                                        <img src='/assets/voiceing.jpg'>\n\
-                                        </img></a>"
-                    q_left.html(html_audiao)
-                    var audio = document.createElement("audio");
-                    audio.preload = true;
-                    audio.controls = true;
-                    audio.style.display='none'
-                    var source= document.createElement("source");
-                    source.type= "audio/ogg";
-                    source.src = data_arr[1]
-                    audio.appendChild(source);
-                    $("#audio_only").append(audio)
-                    $("#audio_only").removeAttr("id")
-                }else if(data_arr[0]=="photo"){
-                    q_left.html("<img src='"+ data_arr[1] +"' style='width:86px;height:86px;'>")
-                }
-                q_left.append(html)
-                $("#input_select_upload").removeAttr("id")
-            }
-        },
-        error: function (data, status, e)            //相当于java中catch语句块的用法
-        {
-            $('#result').html('添加失败');
-        }
-    });
+    $(obj).attr("name","select_file");
+    $(obj).parents(".q_left").find("input[name='types']").val(type);
+    alert($(obj).parents(".q_left").find("input[name='types']").val())
+    $(obj).attr("id","input_select_upload");
+    $(obj).parents(".q_left").find("form").submit();
 }
 
 //选择tag
@@ -472,9 +424,17 @@ function add_tag_to_select(obj,q_index,branch_question_id,types){
 
 //点击新建
 function new_select_question(obj){
+    var question_package_id = $("#question_package_id").val();
+    if(question_package_id == "0"){
+        setShareName(0, "select", "-1");
+    }else{
+        Share_show_select(question_package_id, "")
+    }
+}
+
+function Share_show_select(question_package_id, name){
     $("div.ab_list_box").hide();
     var episode_id = $("#episode_id").val();
-    var question_package_id = $("#question_package_id").val()
     var type = 3
     var cell_id = $("#cell_id").val();
     $.ajax({
@@ -484,7 +444,8 @@ function new_select_question(obj){
             episode_id : episode_id,
             question_package_id : question_package_id,
             type : type,
-            cell_id : cell_id
+            cell_id : cell_id,
+            name : name
         },
         success:function(){
             $("div.ab_list_box").hide();
@@ -495,9 +456,18 @@ function new_select_question(obj){
 }
 
 function new_lianxian_question(obj){
+     var question_package_id = $("#question_package_id").val();
+    if(question_package_id == "0"){
+        setShareName(0, "lianxian", "-1");
+    }else{
+        Share_show_lianxian(question_package_id, "")
+    }
+
+}
+
+function Share_show_lianxian(question_package_id, name){
     $("div.ab_list_box").hide();
     var episode_id = $("#episode_id").val();
-    var question_package_id = $("#question_package_id").val()
     var type = 4
     var cell_id = $("#cell_id").val();
     $.ajax({
@@ -507,7 +477,8 @@ function new_lianxian_question(obj){
             episode_id : episode_id,
             question_package_id : question_package_id,
             type : type,
-            cell_id : cell_id
+            cell_id : cell_id,
+            name:name
         },
         success:function(){
             $("div.ab_list_box").hide();
@@ -516,6 +487,7 @@ function new_lianxian_question(obj){
         }
     });
 }
+
 // 如果变量大于0 说明分组有变化，则需要跳转，否则不跳转
 function whether_skip(){
     if(no_tag>0){

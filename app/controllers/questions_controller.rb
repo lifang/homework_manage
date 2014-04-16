@@ -18,10 +18,11 @@ class QuestionsController < ApplicationController
 
   def select_upload
     question_package_id = params[:question_package_id].to_i
-    type = params[:type]
+    type = params[:types]
     file_upload =  params[:select_file]
     if file_upload.size > 1048576
-      text = "imgbig"
+      @status = false
+      @notice = "文件不能大于1M"
     else
       filename = file_upload.original_filename
       fileext = File.basename(filename).split(".")[-1]
@@ -38,12 +39,16 @@ class QuestionsController < ApplicationController
       #    img.write "#{url}"
       url_img ="#{(question_package_id == 0 ? question_admin_share_media_path : media_path % question_package_id)}#{time_path}"
       if type=="voice"
-        text = "voice;||;#{url_img}"
+        @type = "voice"
+        #        text = "voice;||;#{url_img}"
       else
-        text = "photo;||;#{url_img}"
+        @type = "photo"
+        #        text = "photo;||;#{url_img}"
       end
+      @url = url_img
+      @status = true
+      @notice = "上传成功！"
     end
-    render :text => text
   end
 
   #显示当前题包下的题目
@@ -70,7 +75,7 @@ class QuestionsController < ApplicationController
     @question_package_id = params[:question_package_id].to_i
     @questions = Question.where("question_package_id=#{@question_package_id}").where("types=#{types}")
     if @question_package_id == 0
-      @question = ShareQuestion.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:SELECTING])
+      @question = ShareQuestion.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:SELECTING], :name => params[:name])
     else
       @question = Question.create(:cell_id=>cell_id,:episode_id=>episode_id,:question_package_id=>@question_package_id,:types=>Question::TYPES[:SELECTING])
     end
@@ -168,7 +173,7 @@ class QuestionsController < ApplicationController
     types = params[:types]
     @question_package_id = params[:question_package_id].to_i
     if @question_package_id == 0
-      @question = ShareQuestion.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:LINING])
+      @question = ShareQuestion.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:LINING], :name => params[:name])
     else
       @questions = Question.where("question_package_id=#{@question_package_id}").where("types=#{types}")
       @question = Question.create(:cell_id=>cell_id,:episode_id=>episode_id,:question_package_id=>@question_package_id,:types=>Question::TYPES[:LINING])
@@ -215,7 +220,7 @@ class QuestionsController < ApplicationController
     question_id = params[:question_id]
     @question_package_id = params[:question_package_id].to_i
     @question = (@question_package_id == 0 ? ShareQuestion : Question).find_by_id question_id
-#    options = left_lianxian + ';||;' + right_lianxian
+    #    options = left_lianxian + ';||;' + right_lianxian
     branch_question_id = params[:branch_question_id]
     branchquestion = (@question_package_id == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id branch_question_id
     if branchquestion

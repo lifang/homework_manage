@@ -23,7 +23,7 @@ class ArchivementsRecord < ActiveRecord::Base
     extras_hash = {:type => Student::PUSH_TYPE[:sys_message], :class_id => school_class.id, :class_name => school_class.name, :student_id => student.id}
 
     #获得成就 保存系统消息 并且 发推送
-    content = "恭喜您获得成就“#{TYPES_NAME[archivement_types]}”"
+    content = "恭喜你获得了“#{TYPES_NAME[archivement_types]}”成就的10个积分"
     save_sys_message(student, content, extras_hash, school_class)
 
     #升级 保存系统消息，并推送

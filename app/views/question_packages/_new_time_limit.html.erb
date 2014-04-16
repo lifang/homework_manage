@@ -6,7 +6,7 @@
         <% if question.is_a?(ShareQuestion) %>
           (<%= "#{share_question_title(question.try(:id),question.name)}".html_safe %>)
         <% else %>
-          十速挑战<%= question.name.nil? ? "" : "(#{question.name})" %>
+          <%= question.name.nil? ? "" : "(#{question.name})" %>
         <% end %>
       </h1>
     <p><%= user.name %>/ <%= question.created_at.nil? ? Time.now.strftime("%Y-%m-%d") : question.created_at.strftime("%Y-%m-%d") %>

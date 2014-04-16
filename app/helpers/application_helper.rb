@@ -18,6 +18,14 @@ module ApplicationHelper
       return "/question_packages/#{cookies[:teacher_id]}/qa_share_questions_package_#{Time.now.strftime('%Y%m')}/"
     end
   end
+
+  def student_answer_ques_path(school_class_id, publish_question_package_id)
+    "pub_que_ps/#{school_class_id}/pub_#{publish_question_package_id}/answers"
+  end
+
+  def publish_ques_path(school_class_id, question_package_id)
+    "que_ps/#{school_class_id}/question_p_#{question_package_id}"
+  end
   
   def is_hover(*controller_names)
     controller_names.each do |name|

@@ -527,7 +527,7 @@ q.id = bq.question_id where kc.card_bag_id = ?"
         end
       end
     end
-    cardtag = CardTag.where("card_bag_id = #{card_bag_id}")
+    cardtag = CardTag.where("card_bag_id = #{card_bag_id} or card_bag_id is null ")
     cardtag_kcard_relation = CardTagKnowledgesCardRelation.where("card_tag_id in (?)" ,cardtag.map(&:id)).
       group_by{|cardtag_kcard| cardtag_kcard.knowledges_card_id}
     knowledges_cards = []

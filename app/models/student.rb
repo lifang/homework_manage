@@ -107,7 +107,7 @@ where scsr.tag_id IS NULL and school_class_id = ?"
             unique_s_no << s_no_ele
           end
         end
-        unique_stus = Student.where(["s_no in (?)", unique_s_no])
+        unique_stus = Student.where(["school_id=? and s_no in (?)", school_id, unique_s_no])
         if unique_stus.length > 0
           status = -1
           unique_str = unique_stus.map(&:s_no).join(", ")

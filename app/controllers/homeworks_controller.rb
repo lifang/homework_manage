@@ -35,10 +35,10 @@ class HomeworksController < ApplicationController
         where("publish_question_package_id = ? and school_class_id = ?",
         publish_question_package.id,@school_class.id)
       if student_answer_records.length == 0
-        questions_file_dir = "#{base_url}/que_ps/question_p_#{publish_question_package.question_package_id}"
+        questions_file_dir = "#{base_url}/#{publish_ques_path(school_class_id, publish_question_package.question_package_id)}"
         FileUtils.remove_dir questions_file_dir if File.exist? questions_file_dir
         if publish_question_package.task_message && publish_question_package.task_message.destroy
-          student_answer_record_dir = "#{base_url}/pub_que_ps/pub_#{publish_question_package.id}"
+          student_answer_record_dir = "#{base_url}/pub_que_ps/#{@school_class.id}/pub_#{publish_question_package.id}"
           #删除答题文件
           FileUtils.remove_dir student_answer_record_dir if Dir.exist? student_answer_record_dir
           #删除答题记录
@@ -78,7 +78,7 @@ class HomeworksController < ApplicationController
       if teacher && question_package && @school_class
         Teacher.transaction do
           all_questions = Question.get_all_questions question_package
-          file_dirs_url = "que_ps/question_p_#{question_package.id}"
+          file_dirs_url = publish_ques_path(school_class_id, question_package.id)
           file_full_name = "questions.json"
           if all_questions.length == 0
             notice = "该题包下的题目或小题为空！"

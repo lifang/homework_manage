@@ -655,7 +655,7 @@ class Api::StudentsController < ApplicationController
     if !publish_question_package.present?
       notice = "该任务不存在或被删除！"
     else  
-      dir_url = "pub_que_ps/pub_#{publish_question_package_id}/answers"
+      dir_url = student_answer_ques_path(school_class_id, publish_question_package_id)
       rename_file_name = "student_#{student_id}"
       file = upload_file dir_url, rename_file_name, answer_file
       if file[:status] == true

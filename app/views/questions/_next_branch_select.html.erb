@@ -4,7 +4,7 @@
       <div class="q_left">
         <ul>
           <li>
-            <%= form_for :question,:url=>{:action =>:select_upload,:controller => "/questions",:question_package_id=> @question_package_id.nil? ? 0 : @question_package_id},:method=>"post",:remote=>true do |f| %>
+            <%= form_for :question,:url=>{:action =>:select_upload,:controller => "/questions",:question_package_id=> @question_pack.nil? ? 0 : @question_pack.id},:method=>"post",:remote=>true do |f| %>
               <a href="javascript:void(0)" class="voice tooltip_title" title="点击上传音频"><input name="" type="file" input_t="voice" onchange="select_upload(this)"/></a>
               <a href="javascript:void(0)" class="photo tooltip_title" title="点击上传图片"><input name="" type="file" input_t="photo" onchange="select_upload(this)"/></a>
               <input type="text" name="types" style="display:none;"/>

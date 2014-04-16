@@ -1644,7 +1644,6 @@ function wanxin_save_btn(obj){
         }
     });
     return false
-    //stopPropagation(arguments[1]);
 }
 
 

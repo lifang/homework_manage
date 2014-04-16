@@ -88,6 +88,8 @@ class TeachersController < ApplicationController
     y_p =params[:y]
     width = params[:w]
     height = params[:h]
+
+    p x_p,y_p,width,height
     new_width = 0
     new_height = 0
     file_path = "#{Rails.root}/public/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}.jpg"

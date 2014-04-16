@@ -9,7 +9,7 @@ class Admin::SystemsController < ApplicationController
     new_password = params[:password]
     if sys_user
       sys_user.update_attribute(:password, Digest::SHA2.hexdigest(new_password))
-      UserMailer.reset_pwd_email(sys_user.email, new_password, sys_user.types).deliver  #发送新密码到邮件
+#      UserMailer.reset_pwd_email(sys_user.email, new_password, sys_user.types).deliver  #发送新密码到邮件
     end
   end
 

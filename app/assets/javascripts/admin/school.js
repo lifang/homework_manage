@@ -34,7 +34,7 @@ function validation_number(obj){
     var number = $(obj).val();
     var number_reg = /^[0-9][0-9]*$/
     if(!number_reg.test(number)){
-        tishi("请输入0-9有效数字");
+        tishi("请输入0-9的有效数字");
         $(obj).val("");
     }
 }

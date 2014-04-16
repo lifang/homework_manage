@@ -48,3 +48,4 @@ gem 'roo', '~>1.13.2' #解析xls和xlsx文件
 # gem 'debugger'
 gem "delayed_job", '~>3.0.3'
 gem 'delayed_job_active_record', "~>0.3.2"
+gem "daemons"

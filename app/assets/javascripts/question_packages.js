@@ -127,7 +127,7 @@ function check_audio(obj)
         $(obj).parent().find(".branch_id").first().val(branch_id);
         $(obj).parent().find(".b_index").first().val(b_index);
         $(obj).parent().find(".question_package_id").first().val(question_package_id);
-        $(obj).parent().submit();
+        $(obj).parent().find(".btn_submit").click();
     }
     else
     {
@@ -1105,7 +1105,7 @@ $(function(){
         return false;
     })
     //点击删除该大题
-    $(".main").on("click", ".delete_icon", function(){
+    $("#question_list").on("click", ".delete_icon", function(){
         var que_id = $(this).parents(".ab_list_title").find("input[name='question_id']").first().val();
         var school_class_id = $("#school_class_id").val();
         var flag = confirm("确定删除该大题?");

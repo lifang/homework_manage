@@ -35,7 +35,7 @@ class SchoolManage::QuotaConsumptionsController < ApplicationController
  			  email = admin.email
    			if AdminMessage.create(:sender_id => teacher.id, :receiver_id => admin.id, :content => content, 
                                 :status => AdminMessage::STATUS[:NOMAL])
-   				UserMailer.apply_quota_consumptions(email, sender_name, school.name, number, type).deliver
+   				UserMailer.delay.apply_quota_consumptions(email, sender_name, school.name, number, type)
    				@status = true
     				@notice = "申请成功!"
    			else

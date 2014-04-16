@@ -120,6 +120,12 @@ function delete_share_question(obj,share_question_id){
     var episode_id = $("#select_episode").parents(".div_select").find("input[name='unit_episode']").val();
     var question_types = $("#select_question").parents(".div_select").find("input[name='question_types']").val();
     var flag = confirm("确定删除该大题?");
+    var page_value = getQueryString("page");
+    if(page_value!= "" && page_value!="null" && page_value!=null ){
+        var page = page_value;
+    }else{
+        var page = 1;
+    }
     if (flag){
         $.ajax({
             url : "/question_admin/exam_manages/delete_share_question",
@@ -129,7 +135,8 @@ function delete_share_question(obj,share_question_id){
                 share_question_id : share_question_id,
                 episode_id : episode_id,
                 cell_id : chapter_id,
-                question_types : question_types
+                question_types : question_types,
+                page : page
             }
         })
     }

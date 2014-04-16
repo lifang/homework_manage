@@ -31,6 +31,10 @@ class QuestionAdmin::ExamManagesController < ApplicationController
       @notice = '删除失败！'
     end
     get_share_question
+    if @questions.length<1 && params[:page].to_i>1
+      params[:page] = params[:page].to_i - 1
+      get_share_question
+    end
   end
 
   def edit_share_question

@@ -196,18 +196,13 @@ function show_que(branch_id, types, school_class_id)
 }
 
 //显示该题所有标签
-function show_tags(branch_id, school_class_id)
+function show_tags(tag_str)
 {
-    $.ajax({
-        url: "/school_classes/"+ school_class_id +"/statistics/show_all_tags",
-        type: "POST",
-        dataType: "script",
-        data:{
-            branch_id:branch_id
-        },
-        success:function(data){
-        },
-        error:function(data){
-        }
-    })
+    var tags = tag_str.split(",");
+    $("#tag_area").empty();
+    var all_tags = "";
+    $.each( tags, function(i,n){
+        all_tags += "<p>"+ n.replace(/\"/g,"") +"</p>";
+    });
+    $("#tag_area").append(all_tags);
 }

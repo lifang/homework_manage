@@ -41,8 +41,8 @@
         </tr>
         </thead>
         <tbody>
-        <% if @students.nil?%>
-            <tr><td colspan="3" style="width: auto; text-align: center;">暂无数据</td></tr>
+        <% if @students.nil? || (!@students.nil? && @students.length == 0) %>
+            <tr><td colspan="auto" style="width: auto; text-align: center;">暂无学员</td></tr>
         <% else %>
             <% @students.each do |student|  %>
                 <tr>
@@ -103,7 +103,7 @@
         </thead>
         <tbody>
         <% if @students.nil? || (!@students.nil? && @students.length == 0) %>
-            <tr><td colspan="3" style="width: auto; text-align: center;">暂无数据</td></tr>
+            <tr><td colspan="auto" style="width: auto; text-align: center;">暂无学员</td></tr>
         <% else %>
             <% @students.each do |student|  %>
                 <tr>

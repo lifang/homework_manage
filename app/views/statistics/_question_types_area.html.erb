@@ -37,7 +37,7 @@
                 <% avg_correct_rate = @questions_answers[bq.id].present? ? eval(@questions_answers[bq.id].join('+'))/@questions_answers[bq.id].length : -1 %> 
                 <li class="<%= correct_rate_color avg_correct_rate %>"><span><%= count %></span>
                   <% if @tags && @tags.present? && @tags[bq.id].present? && @tags[bq.id].any? %>
-                    <a href="javascript:void(0);" class="tooltip_title" title="点击查看" onclick="show_tags('<%= bq.id %>','<%= params[:school_class_id] %>')">标签</a>
+                    <a href="javascript:void(0);" class="tooltip_title" title="点击查看" onclick="show_tags('<%= @tags[bq.id].map(&:name).to_s.gsub(/\[|\]/, "") %>')">标签</a>
                   <% end %>
                   <p title="点击查看原题" onclick="show_que('<%= bq.id %>', '<%= type %>', '<%= params[:school_class_id] %>')" style="cursor:pointer;">
                   <% if avg_correct_rate && avg_correct_rate >= 0 %>

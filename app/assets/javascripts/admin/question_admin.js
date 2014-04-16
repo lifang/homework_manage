@@ -143,13 +143,13 @@ function check_password(obj)
             }
             else
             {
-                if(password.length >= 6)
+                if(password.length >= 6 && password.length <= 20)
                 {
                     $(obj).parents("form").submit();    
                 }    
                 else
                 {
-                    tishi("密码长度至少六位!");
+                    tishi("密码长度至少六位,最大二十位!");
                     $(obj).removeAttr("disabled");   
                 } 
             }    

@@ -304,16 +304,12 @@ ActiveRecord::Schema.define(:version => 20140414141742) do
   add_index "sbranch_branch_tag_relations", ["share_branch_question_id"], :name => "index_sbranch_branch_tag_relations_on_share_branch_question_id"
 
   create_table "school_class_student_ralastions", :force => true do |t|
-    t.integer  "student_id"
-    t.integer  "school_class_id"
+    t.integer  "student_id",      :null => false
+    t.integer  "school_class_id", :null => false
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.integer  "tag_id"
   end
-
-  add_index "school_class_student_ralastions", ["school_class_id"], :name => "index_school_class_student_ralastions_on_class_id"
-  add_index "school_class_student_ralastions", ["student_id"], :name => "index_school_class_student_ralastions_on_student_id"
-  add_index "school_class_student_ralastions", ["tag_id"], :name => "index_school_class_student_ralastions_on_tag_id"
 
   create_table "school_class_students_relations", :force => true do |t|
     t.integer  "school_id"

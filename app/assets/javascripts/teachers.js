@@ -424,9 +424,17 @@ function add_tag_to_select(obj,q_index,branch_question_id,types){
 
 //点击新建
 function new_select_question(obj){
+    var question_package_id = $("#question_package_id").val();
+    if(question_package_id == "0"){
+        setShareName(0, "select", "-1");
+    }else{
+        Share_show_select(question_package_id, "")
+    }
+}
+
+function Share_show_select(question_package_id, name){
     $("div.ab_list_box").hide();
     var episode_id = $("#episode_id").val();
-    var question_package_id = $("#question_package_id").val()
     var type = 3
     var cell_id = $("#cell_id").val();
     $.ajax({
@@ -436,7 +444,8 @@ function new_select_question(obj){
             episode_id : episode_id,
             question_package_id : question_package_id,
             type : type,
-            cell_id : cell_id
+            cell_id : cell_id,
+            name : name
         },
         success:function(){
             $("div.ab_list_box").hide();
@@ -447,9 +456,18 @@ function new_select_question(obj){
 }
 
 function new_lianxian_question(obj){
+     var question_package_id = $("#question_package_id").val();
+    if(question_package_id == "0"){
+        setShareName(0, "lianxian", "-1");
+    }else{
+        Share_show_lianxian(question_package_id, "")
+    }
+
+}
+
+function Share_show_lianxian(question_package_id, name){
     $("div.ab_list_box").hide();
     var episode_id = $("#episode_id").val();
-    var question_package_id = $("#question_package_id").val()
     var type = 4
     var cell_id = $("#cell_id").val();
     $.ajax({
@@ -459,7 +477,8 @@ function new_lianxian_question(obj){
             episode_id : episode_id,
             question_package_id : question_package_id,
             type : type,
-            cell_id : cell_id
+            cell_id : cell_id,
+            name:name
         },
         success:function(){
             $("div.ab_list_box").hide();
@@ -468,6 +487,7 @@ function new_lianxian_question(obj){
         }
     });
 }
+
 // 如果变量大于0 说明分组有变化，则需要跳转，否则不跳转
 function whether_skip(){
     if(no_tag>0){

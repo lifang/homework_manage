@@ -75,7 +75,7 @@ class QuestionsController < ApplicationController
     @question_package_id = params[:question_package_id].to_i
     @questions = Question.where("question_package_id=#{@question_package_id}").where("types=#{types}")
     if @question_package_id == 0
-      @question = ShareQuestion.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:SELECTING])
+      @question = ShareQuestion.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:SELECTING], :name => params[:name])
     else
       @question = Question.create(:cell_id=>cell_id,:episode_id=>episode_id,:question_package_id=>@question_package_id,:types=>Question::TYPES[:SELECTING])
     end
@@ -173,7 +173,7 @@ class QuestionsController < ApplicationController
     types = params[:types]
     @question_package_id = params[:question_package_id].to_i
     if @question_package_id == 0
-      @question = ShareQuestion.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:LINING])
+      @question = ShareQuestion.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:LINING], :name => params[:name])
     else
       @questions = Question.where("question_package_id=#{@question_package_id}").where("types=#{types}")
       @question = Question.create(:cell_id=>cell_id,:episode_id=>episode_id,:question_package_id=>@question_package_id,:types=>Question::TYPES[:LINING])

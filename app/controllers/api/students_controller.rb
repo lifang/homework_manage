@@ -660,10 +660,6 @@ class Api::StudentsController < ApplicationController
       rename_file_name = "student_#{student_id}"
       file = upload_file dir_url, rename_file_name, answer_file
       if file[:status] == true
-        card_bag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
-        if card_bag.present?
-          knowledges_cards_count = card_bag.knowledges_cards_count
-        end
         student_answer_record = StudentAnswerRecord
           .find_by_student_id_and_school_class_id_and_publish_question_package_id(student_id,
           school_class_id,publish_question_package_id)
@@ -696,6 +692,10 @@ class Api::StudentsController < ApplicationController
         File.open(anwser_file_url, "wb"){|f| f.write answer_records.to_json}
         #保存完道具后， 清空文件json中的 道具使用情况
         updated_time = student_answer_record.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+        card_bag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+        if card_bag.present?
+          knowledges_cards_count = card_bag.knowledges_cards_count
+        end
         notice = "作业状态更新完成!"
         status = "success"
       else

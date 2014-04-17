@@ -168,13 +168,14 @@ class Api::StudentsController < ApplicationController
     if student.nil?
       render :json => {:status => "error", :notice => "账号不存在，请先注册！"}
     else
+      student.update_attribute(:token, params[:token])
       if student.status != Student::STATUS[:YES]
         render :json => {:status => "error", :notice => "该学生已被禁用!"}
       else
         school_status = "false"
         if student.school_id.present?
           school = School.find_by_id student.school_id
-          if school.present? && school.status == School::STATUS[:NORMAL]
+          if school.present? && school.status == true
             school_status = "true"
           else
             render :json => {:status => "error", :notice => "没有找到该学生所属的学校或该学校已被禁用!"}  
@@ -506,7 +507,7 @@ class Api::StudentsController < ApplicationController
         if school_class.teacher.school_id.present?
           school = School.find_by_id school_class.teacher.school_id
           if school.present?
-            if school.status == School::STATUS[:NORMAL]
+            if school.status == true
               if (school.students_count - school.used_school_counts) >= 1
                 flag = "true"
               else
@@ -535,8 +536,9 @@ class Api::StudentsController < ApplicationController
             render :json => {:status => "error", :notice => "创建该班级的教师已被禁用，请联系学校管理员！"}      
           end
         end
-        if (flag == "none" && teacher_status = "true") || (flag == "true" && teacher_status = "true")
+        if (flag == "none" && teacher_status == "true") || (flag == "true" && teacher_status == "true")
           active_code = "false"
+          p student
           if student.nil?
             if key.present? && school.present?
               student = Student.find_by_active_code_and_school_id key, school.id
@@ -605,11 +607,11 @@ class Api::StudentsController < ApplicationController
                     :follow_microposts_id => follow_microposts_id
                   }
                 else
-                  render :json => {:status => "error", :notice => "您已加入该班级,请直接登录！！"}               
+                  render :json => {:status => "error", :notice => "您已加入该班级,请直接登录！"}               
                 end
             end
           else
-            render :json => {:status => "error", :notice => "您已注册,请直接登录！"}    
+            render :json => {:status => "error", :notice => "您已注册,请直接登录！"}               
           end
         end      
       end
@@ -657,11 +659,15 @@ class Api::StudentsController < ApplicationController
           render :json => {:status => "error", :notice => "班级已失效！"}
         else
           school_teacher_status = "false"
-          if school_class.tearcher.school_id.present?
-            school = School.find_by_id school_class.tearcher.school_id.to_i          
+          if school_class.teacher.school_id.present?
+            school = School.find_by_id school_class.teacher.school_id.to_i          
             if school.present?
-              if school.status == School::STATUS[:NORMAL]
-                school_teacher_status = "true"
+              if school.status == true
+                if school_class.teacher.status == Teacher::STATUS[:YES] 
+                  school_teacher_status = "true"
+                else
+                  render :json => {:status => "error", :notice => "创建该班级的教师已被禁用,无法获取该班级信息！"}  
+                end
               else
                 render :json => {:status => "error", :notice => "该学校已被禁用，请联系学校管理员！"}
               end  
@@ -674,8 +680,8 @@ class Api::StudentsController < ApplicationController
             else
               render :json => {:status => "error", :notice => "创建该班级的教师已被禁用,无法获取该班级信息！"}  
             end
-          end 
-          if school_teacher_status == "none" || school_teacher_status = "true"
+          end
+          if school_teacher_status == "none" || school_teacher_status == "true"
             class_id = school_class.id
             class_name = school_class.name
             tearcher_id = school_class.teacher.id

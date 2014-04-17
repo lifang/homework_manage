@@ -189,20 +189,21 @@ class Api::StudentsController < ApplicationController
           if c_s_relation.nil?
             if school_status == "true"
               school_classes = SchoolClassStudentRalastion
+                    .select("sc.id")
                     .joins("left join school_classes sc on school_class_student_ralastions.school_class_id = sc.id")
-                    .joins("left join teachers t on sc.tearcher_id = t.id")
+                    .joins("left join teachers t on sc.teacher_id = t.id")
                     .joins("left join schools s on t.school_id = s.id")
-                    .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and teachers.status = #{Teacher::STATUS[:YES]} 
-                        and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0 and s.status =#{School::STATUS[:NORMAL]}")
+                    .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and t.status = #{Teacher::STATUS[:YES]} and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0 and s.status =#{School::STATUS[:NORMAL]}")
             else
               school_classes = SchoolClassStudentRalastion
+                    .select("sc.id")
                     .joins("left join school_classes sc on school_class_student_ralastions.school_class_id = sc.id")
-                    .joins("left join teachers t on sc.tearcher_id = t.id")
-                    .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and teachers.status = #{Teacher::STATUS[:YES]} 
-                        and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0")        
+                    .joins("left join teachers t on sc.teacher_id = t.id")
+                    .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and t.status = #{Teacher::STATUS[:YES]} and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0")        
             end        
             if school_classes && school_classes.any?
-              school_class = school_classes.first
+              school_class_id = school_classes.first.id
+              school_class = SchoolClass.find_by_id school_class_id
               class_id = school_class.id
               class_name = school_class.name
               tearcher_id = school_class.teacher.id
@@ -227,20 +228,23 @@ class Api::StudentsController < ApplicationController
             if school_class.nil? || school_class.status == SchoolClass::STATUS[:EXPIRED] || (school_class.period_of_validity - Time.now) < 0 || school_class.tearcher.status != Teacher::STATUS[:YES]
                 if school_status == "true"
                   school_classes = SchoolClassStudentRalastion
+                        .select("sc.id")
                         .joins("left join school_classes sc on school_class_student_ralastions.school_class_id = sc.id")
-                        .joins("left join teachers t on sc.tearcher_id = t.id")
+                        .joins("left join teachers t on sc.teacher_id = t.id")
                         .joins("left join schools s on t.school_id = s.id")
-                        .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and teachers.status = #{Teacher::STATUS[:YES]} 
+                        .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and t.status = #{Teacher::STATUS[:YES]} 
                             and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0 and s.status =#{School::STATUS[:NORMAL]}")
                 else
                   school_classes = SchoolClassStudentRalastion
+                        .select("sc.id")
                         .joins("left join school_classes sc on school_class_student_ralastions.school_class_id = sc.id")
-                        .joins("left join teachers t on sc.tearcher_id = t.id")
-                        .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and teachers.status = #{Teacher::STATUS[:YES]} 
+                        .joins("left join teachers t on sc.teacher_id = t.id")
+                        .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and t.status = #{Teacher::STATUS[:YES]} 
                             and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0")        
                 end        
                 if school_classes && school_classes.any?
-                  school_class = school_classes.first
+                  school_class_id = school_classes.first.id
+                  school_class = SchoolClass.find_by_id school_class_id
                   class_id = school_class.id
                   class_name = school_class.name
                   tearcher_id = school_class.teacher.id

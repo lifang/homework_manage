@@ -79,21 +79,21 @@ module ApplicationHelper
   end
   
   def sign?
-    unless request.xhr?
-      if cookies[:user_id].nil?  || cookies[:teacher_id].nil?
-        flash[:notice] = "请先登陆!"
-        redirect_to  "/"
-      else
-        unless params[:school_class_id].nil?
-          if action_name != "chang_class" && school_class_id != params[:school_class_id].to_i
-            flash[:notice] = "没有权限访问"
-            cookies.delete(:teacher_id)
-            cookies.delete(:user_id)
-            redirect_to  "/"
-          end
-        end
-      end
+    # unless request.xhr?
+    if cookies[:user_id].nil?  || cookies[:teacher_id].nil?
+      flash[:notice] = "请先登陆!"
+      redirect_to  "/"
+      #      else
+      #        unless params[:school_class_id].nil?
+      #          if action_name != "chang_class" && school_class_id != params[:school_class_id].to_i
+      #            flash[:notice] = "没有权限访问"
+      #            cookies.delete(:teacher_id)
+      #            cookies.delete(:user_id)
+      #            redirect_to  "/"
+      #          end
+      #        end
     end
+    # end
   end
 
   #获取未读信息提示

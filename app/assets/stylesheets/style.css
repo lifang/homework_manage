@@ -1385,5 +1385,5 @@ a.voice input, a.photo input {
     line-height:inherit;
 }
 
-.avater_imgBox { width: 300px; border: 1px solid #CBC9C9; margin: 0 auto;}
-.avater_imgBox img { width: 298px;}
+.avater_imgBox { width: 300px; margin: 0 auto;text-align: center;vertical-align: middle;display: table-cell;}
+.avater_imgBox img { width: 298px;text-align: center;vertical-align: middle;}

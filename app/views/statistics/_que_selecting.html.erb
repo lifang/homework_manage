@@ -33,11 +33,11 @@
             <% when ".mp3"  then %>
               <div class="q_left"><a href="javascript:void(0)" onclick="playAudio(this)" id="audio_only">
                   <img src="/assets/voiceing.jpg">
-                  <audio preload="true" controls="" style="display: none;"><source type="audio/ogg" src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>"></audio></a><input type="text" value="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" name="select_resourse" style="display:none;"></div>
+                  <audio preload="true" controls="controls" style="display: none;"><source type="audio/mpeg" src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>"></audio></a><input type="text" value="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" name="select_resourse" style="display:none;"></div>
             <% when ".MP3"  then %>
               <div class="q_left"><a href="javascript:void(0)" onclick="playAudio(this)" id="audio_only">
                   <img src="/assets/voiceing.jpg">
-                  <audio preload="true" controls="" style="display: none;"><source type="audio/ogg" src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>"></audio></a><input type="text" value="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" name="select_resourse" style="display:none;"></div>
+                  <audio preload="true" controls="controls" style="display: none;"><source type="audio/mpeg" src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>"></audio></a><input type="text" value="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" name="select_resourse" style="display:none;"></div>
             <% end %>
           <% end %>
           <div class='q_right'>
@@ -100,11 +100,11 @@
           <% when ".mp3"  then %>
             <div class="q_left"><a href="javascript:void(0)" onclick="playAudio(this)" id="audio_only">
                 <img src="/assets/voiceing.jpg">
-                <audio preload="true" controls="" style="display: none;"><source type="audio/ogg" src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>"></audio></a><input type="text" value="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" name="select_resourse" style="display:none;"></div>
+                <audio preload="true" controls="controls" style="display: none;"><source type="audio/mpeg" src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>"></audio></a><input type="text" value="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" name="select_resourse" style="display:none;"></div>
           <% when ".MP3"  then %>
             <div class="q_left"><a href="javascript:void(0)" onclick="playAudio(this)" id="audio_only">
                 <img src="/assets/voiceing.jpg">
-                <audio preload="true" controls="" style="display: none;"><source type="audio/ogg" src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>"></audio></a><input type="text" value="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" name="select_resourse" style="display:none;"></div>
+                <audio preload="true" controls="controls" style="display: none;"><source type="audio/mpeg" src="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>"></audio></a><input type="text" value="<%= bq.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0] %>" name="select_resourse" style="display:none;"></div>
           <% end %>
         <% end %>
         <div class='q_right'>

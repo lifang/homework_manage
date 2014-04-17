@@ -1376,3 +1376,13 @@ a.voice input, a.photo input {
     opacity: 0; /* 实现的关键点 */
     filter:alpha(opacity=0);/* 兼容IE */
 }
+
+#changes_avatar{
+    margin-bottom: 30px;
+    font-size: 14px;
+    height:inherit;
+    line-height:inherit;
+}
+
+.avater_imgBox { width: 300px; border: 1px solid #CBC9C9; margin: 0 auto;}
+.avater_imgBox img { width: 298px;}

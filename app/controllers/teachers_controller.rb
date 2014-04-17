@@ -66,6 +66,8 @@ class TeachersController < ApplicationController
         rename_file_name = "teacher_#{current_teacher.id}"
         FileUtils.mkdir_p("#{Rails.root}/public/#{destination_dir}") if !Dir.exist? ("#{Rails.root}/public/#{destination_dir}")
         img.write "#{Rails.root}/public/#{destination_dir}/#{rename_file_name}.jpg"
+        #        f.chmod(0644)
+        File.chmod(0644, "#{Rails.root}/public/#{destination_dir}/#{rename_file_name}.jpg")
         @status = "true"
         @src = "/#{destination_dir}/#{rename_file_name}.jpg"
       end

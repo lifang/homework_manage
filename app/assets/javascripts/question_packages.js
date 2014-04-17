@@ -958,7 +958,7 @@ function delete_before_save_branch(obj)
     if(confirm("确认删除小题吗？")==true)
     {
         var school_class_id = $("#school_class_id").val();
-        var audios = $(obj).parents(".batchUpload_box").find("input[class='audio']");
+        var audios = $(obj).parents(".batchUpload_item_list").find("input[class='audio']");
         // alert(audios);
         var resources = ""
         $.each(audios, function(name,val){

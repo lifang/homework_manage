@@ -17,6 +17,8 @@ class Student < ActiveRecord::Base
   validates_uniqueness_of :qq_uid, :allow_nil => true
   PER_PAGE = 10
   ACTIVE_STATUS = {:YES => 1, :NO => 0} #是否激活 1已激活 0未激活
+  DEFAULT_AVATAR_URL = "/assets/default_avater.jpg"   #默认头像
+
   def self.list_student page,school_class_id
     sql_student = "SELECT s.id,s.nickname,u.name user_name,u.avatar_url,scsr.created_at,t.name tag_name from
     students s LEFT JOIN users u on s.user_id = u.id
@@ -116,7 +118,7 @@ where scsr.tag_id IS NULL and school_class_id = ?"
           s.each_with_index do |row, index|
             if index != 0
               if row[0] && row[1]
-                user = User.create(:name => row[0])
+                user = User.create(:name => row[0], :avatar_url => DEFAULT_AVATAR_URL)
                 student = Student.create!(:nickname => row[0], :status => Student::STATUS[:YES], :user_id => user.id,
                   :s_no => row[1].class.to_s == "String" ? row[1] : "#{row[1].to_i}",
                   :active_status => ACTIVE_STATUS[:NO], :school_id => school_id, :veri_code => max_code)

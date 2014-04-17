@@ -1,10 +1,11 @@
 <% if @type=="voice" %>
-  <a href='javascript:void(0)' onclick='playAudio(this)'>
+  <li onclick='playAudio(this)'>
     <img src='/assets/voiceing.jpg'/>
-    <audio preload="true" controls style="display: none;">
-      <source type="audio/ogg" src="<%= @url %>">
+    <audio  controls="controls" style="display: none;">
+      <source type="audio/mpeg" src="<%= @url %>">
+        Your browser does not support the audio element.
     </audio>
-  </a>
+  </li>
 <% end %>
 <% if @type=="photo" %>
   <img src="<%= @url %>" style="width:86px;height:86px;"/>

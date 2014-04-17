@@ -97,8 +97,8 @@ function select_audio(obj)
             }
         }    
     }
-
-    if(file_name.match(/\..*$/) == ".mp3" || file_name.match(/\..*$/) == ".MP3")
+    var last_index = file_name.lastIndexOf(".");
+    if(file_name.substring(last_index + 1).toLowerCase() == "mp3")
     {
         $(obj).parents(".branch_question").find("li.upload_voice").find(".branch_id").first().val(branch_id);
         $(obj).parents(".branch_question").find("li.upload_voice").find("form").append(file);

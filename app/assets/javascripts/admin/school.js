@@ -131,8 +131,11 @@ function update_school_password(obj){
     var password_new = $(obj).parents("#update_school_password").find("input[name='password_new']").val();
     var password_again = $(obj).parents("#update_school_password").find("input[name='password_again']").val();
     var school_id = $(obj).parents("#update_school_password").find("input[name='school_id']").val();
-    if(password_new.length<6 || password_again<6){
-        tishi("密码长度不能小于6！");
+    var pwd_length = password_new.length;
+    var pwd_again_length = password_new.length;
+
+    if(pwd_length < 6 || pwd_again_length < 6 || pwd_length > 20 || pwd_again_length > 20){
+        tishi("密码长度至少六位,最大二十位!");
         return false;
     }
     if(password_new == password_again){

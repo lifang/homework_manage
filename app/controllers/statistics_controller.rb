@@ -67,7 +67,7 @@ class StatisticsController < ApplicationController
       tags = BranchQuestion.joins("left join btags_bque_relations bbr
             on branch_questions.id = bbr.branch_question_id")
           .joins("left join branch_tags bt on bbr.branch_tag_id = bt.id")
-          .select("bt.name, branch_questions.id")
+          .select("distinct bt.name, branch_questions.id")
           .where(["bbr.id is not null and bt.id is not null and branch_questions.id in (?)", branch_questions_id]).uniq
       if tags.any?
         @tags = tags.group_by { |e| e.id }

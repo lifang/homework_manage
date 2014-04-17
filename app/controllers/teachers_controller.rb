@@ -66,6 +66,8 @@ class TeachersController < ApplicationController
         rename_file_name = "teacher_#{current_teacher.id}"
         FileUtils.mkdir_p("#{Rails.root}/public/#{destination_dir}") if !Dir.exist? ("#{Rails.root}/public/#{destination_dir}")
         img.write "#{Rails.root}/public/#{destination_dir}/#{rename_file_name}.jpg"
+        #        f.chmod(0644)
+        File.chmod(0644, "#{Rails.root}/public/#{destination_dir}/#{rename_file_name}.jpg")
         @status = "true"
         @src = "/#{destination_dir}/#{rename_file_name}.jpg"
       end
@@ -88,6 +90,8 @@ class TeachersController < ApplicationController
     y_p =params[:y]
     width = params[:w]
     height = params[:h]
+
+    p x_p,y_p,width,height
     new_width = 0
     new_height = 0
     file_path = "#{Rails.root}/public/avatars/teachers/#{Time.now.strftime('%Y-%m')}/teacher_#{current_teacher.id}.jpg"

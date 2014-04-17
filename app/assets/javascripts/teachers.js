@@ -228,8 +228,8 @@ function height_tab(){
 
 
 function onclick_submit(obj){
-    var questions_item = $(obj).parents(".questions_item")
-    var question_type = questions_item.attr("question_type")
+    var questions_item = $(obj).parents(".questions_item");
+    var question_type = questions_item.attr("question_type");
     if(question_type=="select"){
         var select_resourse = questions_item.find("input[name='select_resourse']");
         var select_content = questions_item.find("input[name='select_content']").val();
@@ -279,7 +279,7 @@ function onclick_submit(obj){
             return false;
         }
     }
-    $(obj).parent().parent().find(".submit_sava").click();
+    $(obj).parents(".questions_item").find(".submit_sava").click();
     var form_class = questions_item.attr("stypes")
     var question_package_id = questions_item.find("input[name='question_package_id']").val()
     if (form_class=="save_select"){
@@ -362,7 +362,6 @@ function select_upload(obj){
     }
     $(obj).attr("name","select_file");
     $(obj).parents(".q_left").find("input[name='types']").val(type);
-    alert($(obj).parents(".q_left").find("input[name='types']").val())
     $(obj).attr("id","input_select_upload");
     $(obj).parents(".q_left").find("form").submit();
 }

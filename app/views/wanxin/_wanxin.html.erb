@@ -21,7 +21,7 @@
       <% unless @question.is_a?(ShareQuestion) %>
         <li><a href="javascript:void(0);" class="clock_icon tooltip_html"  >设定时间</a></li>
       <% end %>
-      <li><a href="javascript:void(0);" class="save_icon tooltip_html" onclick="wanxin_save_btn(this)">保存</a></li>
+      <li><a href="javascript:void(0);" class="save_icon wanxin_save_icon tooltip_html">保存</a></li>
       <% unless @question.is_a?(ShareQuestion) %>
         <li><a href="javascript:void(0);" class="<%= is_shared(@question) %> tooltip_html">分享</a></li>
       <% end %>
@@ -51,6 +51,13 @@
   </div>
   <script>
     //full_text(<%#=@question.id%>);
+$(function(){
+  $(".wanxin_save_icon").click(function(){
+    wanxin_save_btn(this)
+    return false;
+  })
+  
+})
 
     var editor = KindEditor.create("#wanxin_"+<%=@question.id%>, {
       id : "wanxin_"+<%=@question.id%>,

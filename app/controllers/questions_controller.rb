@@ -18,6 +18,7 @@ class QuestionsController < ApplicationController
 
   def select_upload
     question_package_id = params[:question_package_id].to_i
+    p question_package_id
     type = params[:types]
     file_upload =  params[:select_file]
     if file_upload.size > 1048576
@@ -73,6 +74,7 @@ class QuestionsController < ApplicationController
     episode_id = params[:episode_id]
     types = params[:types]
     @question_package_id = params[:question_package_id].to_i
+    @question_pack = QuestionPackage.find_by_id(@question_package_id)
     @questions = Question.where("question_package_id=#{@question_package_id}").where("types=#{types}")
     if @question_package_id == 0
       @question = ShareQuestion.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:SELECTING], :name => params[:name])

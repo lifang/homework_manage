@@ -1,7 +1,7 @@
 #encoding: utf-8
 class UserMailer < ActionMailer::Base
   default from: ' mailer@comdosoft.com'
-  $url = 'http://58.240.210.42:3004'   #服务器地址
+  $url = 'http://new.cjzyb.com/'   #服务器地址
   def send_pwd_email(email, pwd, type)
     p 1111111111111111111111111
     @email, @pwd, @type_name = email, pwd, Teacher::TYPES_NAME[type]

@@ -19,7 +19,7 @@
                   <div class="select_box">
                         <div class="rowElem selectPosition">
                             <select name="course_id" onchange="load_material(this,'course_select')" class="course_select">             
-                                <option value="0">选择科目：</option>
+                                <option value="0">选择科目</option>
                                 <% @courses.each do |course| %>
                                     <option value="<%= course.id %>"><%= course.name %></option>
                                 <% end %>    

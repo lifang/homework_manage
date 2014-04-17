@@ -362,7 +362,6 @@ function select_upload(obj){
     }
     $(obj).attr("name","select_file");
     $(obj).parents(".q_left").find("input[name='types']").val(type);
-    alert($(obj).parents(".q_left").find("input[name='types']").val())
     $(obj).attr("id","input_select_upload");
     $(obj).parents(".q_left").find("form").submit();
 }

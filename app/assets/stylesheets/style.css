@@ -922,7 +922,8 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 .batchUpload_box { padding: 10px; margin: 10px 0; overflow: hidden;}
 .batchUpload_item { float: left; padding: 20px 10px 10px 10px; width: 794px; border: 1px #CCCCCC solid;}
 .batchUpload_item_con { margin-bottom: 10px;}
-
+.batchUpload div.b_example { width: 200px; margin: 0 auto; text-align: right; line-height: 24px;}
+.batchUpload div.b_example a {color: #1A875A;}
 .bu_icon { float: right; height: 25px;}
 .bu_icon a { 
     width: 25px; 

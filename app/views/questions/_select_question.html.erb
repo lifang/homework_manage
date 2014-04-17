@@ -45,7 +45,7 @@
                 </ul>
               </div>
               <input type="hidden" name="school_class_id" class="school_class_id" value="<%= school_class_id %>"/>
-              <input type="hidden"  name="question_package_id" id="question_package_id_2" value="<%=  @question_pack.id %>"/>
+              <input type="hidden"  name="question_package_id" id="question_package_id_2" value="<%=  @question_pack.present? ? @question_pack.id : 0%>"/>
               <input type="hidden" name="question_id" value="<%= @question.id %>"/>
               <input type="hidden" name="branch_question_id"value=""/>
               <input type="hidden" name="index_new" class="index_new" question_id="<%= @question.id %>" value="0"/>

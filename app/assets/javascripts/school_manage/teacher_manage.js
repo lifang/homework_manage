@@ -48,6 +48,14 @@ function update_teacher_password(obj){
     var password_new = $(obj).parents("#reset_teacher_password").find("input[name='password_new']").val();
     var password_again = $(obj).parents("#reset_teacher_password").find("input[name='password_again']").val();
     var teacher_id = $(obj).parents("#reset_teacher_password").find("input[name='teacher_id']").val();
+    if(password_new.length<6||password_again.length<6){
+        tishi("密码长度必须大于6");
+        return false;
+    }
+    if(password_new.length>20||password_again.length>20){
+        tishi("密码长度不能大于20");
+        return false;
+    }
     if(password_new == password_again){
         $.ajax({
             url : "/school_manage/teacher_manages/update_password",

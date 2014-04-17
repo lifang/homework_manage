@@ -652,6 +652,7 @@ class Api::StudentsController < ApplicationController
     status = "error"
     notice = "记录失败！"
     updated_time = nil
+    knowledges_cards_count = 0
     if !publish_question_package.present?
       notice = "该任务不存在或被删除！"
     else  
@@ -659,6 +660,10 @@ class Api::StudentsController < ApplicationController
       rename_file_name = "student_#{student_id}"
       file = upload_file dir_url, rename_file_name, answer_file
       if file[:status] == true
+        card_bag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+        if card_bag.present?
+          knowledges_cards_count = card_bag.knowledges_cards_count
+        end
         student_answer_record = StudentAnswerRecord
           .find_by_student_id_and_school_class_id_and_publish_question_package_id(student_id,
           school_class_id,publish_question_package_id)
@@ -698,7 +703,8 @@ class Api::StudentsController < ApplicationController
         status = "error"
       end
     end  
-    render :json => {:status => status, :notice => notice,:updated_time => updated_time}
+    render :json => {:status => status, :notice => notice,:updated_time => updated_time, 
+                        :knowledges_cards_count => knowledges_cards_count}
   end
 
   #获取子消息

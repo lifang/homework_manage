@@ -598,7 +598,7 @@ li.p_input p, li.p_input input, .tab_switch li input {
 
 /*正确率-题型*/
 .sb_item {}
-.sb_item_list { margin-top: 10px; overflow: hidden; background: #eeeeee; padding: 10px 0; height: 200px;}
+.sb_item_list { margin-top: 10px; overflow: hidden; background: #eeeeee; padding: 10px 0;}
 .item_name { width: 200px; float: left; text-align: center; padding: 20px 0; color:#828282; }
 .item_content { overflow: hidden;}
 

@@ -652,6 +652,7 @@ class Api::StudentsController < ApplicationController
     status = "error"
     notice = "记录失败！"
     updated_time = nil
+    knowledges_cards_count = 0
     if !publish_question_package.present?
       notice = "该任务不存在或被删除！"
     else  
@@ -691,6 +692,10 @@ class Api::StudentsController < ApplicationController
         File.open(anwser_file_url, "wb"){|f| f.write answer_records.to_json}
         #保存完道具后， 清空文件json中的 道具使用情况
         updated_time = student_answer_record.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+        card_bag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+        if card_bag.present?
+          knowledges_cards_count = card_bag.knowledges_cards_count
+        end
         notice = "作业状态更新完成!"
         status = "success"
       else
@@ -698,7 +703,8 @@ class Api::StudentsController < ApplicationController
         status = "error"
       end
     end  
-    render :json => {:status => status, :notice => notice,:updated_time => updated_time}
+    render :json => {:status => status, :notice => notice,:updated_time => updated_time, 
+                        :knowledges_cards_count => knowledges_cards_count}
   end
 
   #获取子消息

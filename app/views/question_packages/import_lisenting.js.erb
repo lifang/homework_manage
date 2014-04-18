@@ -1,0 +1,10 @@
+<% if @status == "errors" %>
+	tishi_code("<%= @notice %>");
+<% else %>
+	<% if @questions.present? && @questions.any? %>
+		$(".batchUpload_box").html('<%= j( render "upload_listengin_form") %>');
+		tishi('<%= @notice  %>');
+	<% else %>	
+		tishi('题目为空!');
+	<% end %>
+<% end %>

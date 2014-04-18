@@ -49,7 +49,7 @@ LEFT JOIN school_class_student_ralastions scsr on s.id = scsr.student_id LEFT JO
       student_situation[:avatar_url] = student.avatar_url
       student_situation[:created_at] = student.created_at
       student_situation[:tag_name] = student.tag_name
-      student_situation[:correct_rate] =  recorddetail[student.id].nil? ? 0 : recorddetail[student.id][0].correct_rate
+      student_situation[:correct_rate] =  recorddetail[student.id].nil? ? 0 : recorddetail[student.id][0].correct_rate.to_i
       student_situation[:unfinished] = count_complishs[student.id].nil? ? count_public_num : count_public_num - count_complishs[student.id][0].count_pack
       if archivementsrecord[student.id].present?
         archivementsrecord[student.id].each  do |a|

@@ -113,7 +113,6 @@ class QuestionPackagesController < ApplicationController
         File.rename(resource_url, rename_file)
         FileUtils.cp rename_file, des_dir
         url = "#{des_dir}/#{File.basename(rename_file)}".gsub(base_url,"")
-        p url
         import_dir = dir
         if @question.is_a?(ShareQuestion)
           branch_question = ShareBranchQuestion.create(:content => branch_que[:content], :resource_url => url, 

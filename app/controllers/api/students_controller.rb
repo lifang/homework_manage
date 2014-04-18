@@ -184,10 +184,10 @@ class Api::StudentsController < ApplicationController
           school_status = "none"
         end  
         if school_status == "true" || school_status == "none"
+          school_class = SchoolClass.find_by_id student.last_visit_class_id.to_i
           c_s_relation = SchoolClassStudentRalastion
               .find_by_student_id_and_school_class_id(student.id,student.last_visit_class_id)
-          c_s_relation_status = "false"
-          if c_s_relation.nil?
+          if c_s_relation.nil? || school_class.nil?
             if school_status == "true"
               school_classes = SchoolClassStudentRalastion
                     .select("sc.id")
@@ -225,7 +225,6 @@ class Api::StudentsController < ApplicationController
               render :json => {:status => "error", :notice => "上次访问的班级已失效!!"}    
             end    
           else
-            school_class = SchoolClass.find_by_id student.last_visit_class_id.to_i
             if school_class.nil? || school_class.status == SchoolClass::STATUS[:EXPIRED] || (school_class.period_of_validity - Time.now) < 0 || school_class.tearcher.status != Teacher::STATUS[:YES]
                 if school_status == "true"
                   school_classes = SchoolClassStudentRalastion

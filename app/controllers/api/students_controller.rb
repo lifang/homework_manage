@@ -186,7 +186,7 @@ class Api::StudentsController < ApplicationController
         if school_status == "true" || school_status == "none"
           school_class = SchoolClass.find_by_id student.last_visit_class_id.to_i
           c_s_relation = SchoolClassStudentRalastion
-              .find_by_student_id_and_school_class_id(student.id,student.last_visit_class_id)
+              .find_by_student_id_and_school_class_id(student.id, school_class.id)
           if c_s_relation.nil? || school_class.nil?
             if school_status == "true"
               school_classes = SchoolClassStudentRalastion
@@ -194,13 +194,13 @@ class Api::StudentsController < ApplicationController
                     .joins("left join school_classes sc on school_class_student_ralastions.school_class_id = sc.id")
                     .joins("left join teachers t on sc.teacher_id = t.id")
                     .joins("left join schools s on t.school_id = s.id")
-                    .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and t.status = #{Teacher::STATUS[:YES]} and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0 and s.status =#{School::STATUS[:NORMAL]}")
+                    .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and t.status = #{Teacher::STATUS[:YES]} and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0 and s.status =#{School::STATUS[:NORMAL]} and school_class_student_ralastions.student_id = #{student.id}")
             else
               school_classes = SchoolClassStudentRalastion
                     .select("sc.id")
                     .joins("left join school_classes sc on school_class_student_ralastions.school_class_id = sc.id")
                     .joins("left join teachers t on sc.teacher_id = t.id")
-                    .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and t.status = #{Teacher::STATUS[:YES]} and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0")        
+                    .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and t.status = #{Teacher::STATUS[:YES]} and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0 and school_class_student_ralastions.student_id = #{student.id}")        
             end      
             if school_classes && school_classes.any?
               school_class_id = school_classes.first.id
@@ -233,14 +233,14 @@ class Api::StudentsController < ApplicationController
                         .joins("left join teachers t on sc.teacher_id = t.id")
                         .joins("left join schools s on t.school_id = s.id")
                         .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and t.status = #{Teacher::STATUS[:YES]} 
-                            and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0 and s.status =#{School::STATUS[:NORMAL]}")
+                            and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0 and s.status =#{School::STATUS[:NORMAL]} and school_class_student_ralastions.student_id = #{student.id}")
                 else
                   school_classes = SchoolClassStudentRalastion
                         .select("sc.id")
                         .joins("left join school_classes sc on school_class_student_ralastions.school_class_id = sc.id")
                         .joins("left join teachers t on sc.teacher_id = t.id")
                         .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and t.status = #{Teacher::STATUS[:YES]} 
-                            and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0")        
+                            and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0 and school_class_student_ralastions.student_id = #{student.id}")        
                 end        
                 if school_classes && school_classes.any?
                   school_class_id = school_classes.first.id

@@ -578,6 +578,12 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     File.delete zip_url if File.exists?(zip_url) #删除，重建zip包
     zip_url = "#{Rails.root}/public/#{file_dirs_url}/resourse.zip"
     resourse_url = "#{Rails.root}/public#{media_path % question_package_id}"
+    Dir.foreach(resourse_url) do |file|
+      if file != "." && file != ".." && file.split(".").length < 2
+        url_delete = resourse_url + file
+        FileUtils.rm_rf url_delete
+      end
+    end
     question_packages_url = "#{Rails.root}/public#{publish_question_package.question_packages_url}"
     resourse_zip_url = "/#{file_dirs_url}/resourse.zip"
     Archive::Zip.archive("#{zip_url}","#{resourse_url}/.") if Dir.exists?(resourse_url)
@@ -704,10 +710,10 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
         end
       end
       if no_find_audio.any?
-         errors += "excel:第#{no_find_audio.to_s.gsub(/\[|\]/,"")}行找不到题目对应的资源"
+        errors += "excel:第#{no_find_audio.to_s.gsub(/\[|\]/,"")}行找不到题目对应的资源"
       end
       if no_content_or_no_find_audio.any?
-         errors += "excel:第#{no_content_or_no_find_audio.to_s.gsub(/\[|\]/,"")}行题目内容或资源为空！"
+        errors += "excel:第#{no_content_or_no_find_audio.to_s.gsub(/\[|\]/,"")}行题目内容或资源为空！"
       end
     else
       errors << "excel文件为空！"

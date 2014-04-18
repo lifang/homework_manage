@@ -17,8 +17,8 @@
                     <p><%= question[:content] %></p>
                     <input name="[lisenting][<%= index %>][content]" value="<%= question[:content] %>" type="hidden">
                     <input name="[lisenting][<%= index %>][audio]" class="audio" value="<%= question[:audio] %>" type="hidden">
-                    <div class="bu_icon"><a href="javascript:void(0)" class="voice tooltip_html" onclick="playAudio(this)">点击上传音频
-        					<audio preload="true" controls="" style="display: none;"><source type="audio/ogg" src="<%= question[:audio] %>"></audio>
+                    <div class="bu_icon"><a href="javascript:void(0)" class="voice tooltip_html" onclick="playAudio(this)">点击播放音频
+        					<audio preload="true" controls="controls" style="display: none;"><source type="audio/mpeg" src="<%= question[:audio] %>"></audio>
                     </a>
                         <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_b_tags('listening_befor_save',this)">添加标签</a>
                         <a href="javascript:void(0)" class="delete tooltip_html" onclick="delete_before_save_branch(this)">删除</a>

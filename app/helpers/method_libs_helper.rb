@@ -600,7 +600,8 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     else
       android_student_qq_uid = school_class.students.where("token is null ").select("qq_uid").map(&:qq_uid)
     end
-    qq_uids = android_student_qq_uid.join(",")
+    qq_uids = android_student_qq_uid.uniq.join(",")
+
     extras_hash = {:type => Student::PUSH_TYPE[:publish_question], :class_id => school_class.id, :class_name => school_class.name}
     jpush_parameter content, qq_uids, extras_hash
 
@@ -610,6 +611,7 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     else
       ipad_student_tokens = school_class.students.where("token is not null").select("token").map(&:token)
     end
+    ipad_student_tokens.uniq!
     File.open("#{Rails.root}/public/ipad_publish.log", "a"){|f| f.write ipad_student_tokens.join(",") + "\n"}
     ipad_push(content, ipad_student_tokens, extras_hash)
   end
@@ -620,7 +622,6 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
       APNS.host = 'gateway.sandbox.push.apple.com'
       APNS.pem  = File.join(Rails.root, 'config', 'cert_develop.pem')
       APNS.port = 2195
-      token = ipad_student_tokens
       notification_arr = []
       ipad_student_tokens.each do |token|
         new_notifier = APNS::Notification.new(token, :alert => content, :badge => 1, :sound => "default", :other => extras_hash) if token.present?  #把提醒类型值【0,1,2】放在sound里面

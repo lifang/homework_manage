@@ -32,14 +32,14 @@
 #BranchTag.create(:name => "感叹句")
 #BranchTag.create(:name => "形容词后置")
 
-CardTag.create(:name => "名词复数")
-CardTag.create(:name => "定冠词")
-CardTag.create(:name => "不定冠词")
-CardTag.create(:name => "一般陈述句")
-CardTag.create(:name => "一般疑问句")
-CardTag.create(:name => "特殊疑问句")
-CardTag.create(:name => "感叹句")
-CardTag.create(:name => "形容词后置")
+#CardTag.create(:name => "名词复数")
+#CardTag.create(:name => "定冠词")
+#CardTag.create(:name => "不定冠词")
+#CardTag.create(:name => "一般陈述句")
+#CardTag.create(:name => "一般疑问句")
+#CardTag.create(:name => "特殊疑问句")
+#CardTag.create(:name => "感叹句")
+#CardTag.create(:name => "形容词后置")
 
 # (1..4).each do |id|
 # 	Student.create(:nickname => "Student#{id}", :status => Student::STATUS[:YES], :user_id => id)
@@ -65,4 +65,7 @@ unless system_admin
       :password =>  Digest::SHA2.hexdigest("admin123"),
       :types => Teacher::TYPES[:SYSTEM], :user_id => user.id})
 end
+
+Prop.create({:name => "减时", :types => 0, :description => "减时道具"})
+Prop.create({:name => "显示正确答案", :types => 1, :description => "显示正确答案道具"})
 

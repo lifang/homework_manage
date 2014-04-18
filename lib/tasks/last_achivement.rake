@@ -38,7 +38,7 @@ rd.student_answer_record_id = sar.id where sar.question_package_id in (?) and sa
               archivement.update_attributes(:archivement_score => (archivement.archivement_score.to_i + calculated_score))
             end
           rescue Exception => e
-            File.open("#{Rails.root}/public/e.log", "a"){|f| f.write "\n question_pack:#{record.question_package_id}----#{e}"}
+            File.open("#{Rails.root}/public/youyi.log", "a"){|f| f.write "\n question_pack:#{record.question_package_id}----#{e}"}
             next
           else
              p "-----------------------------"
@@ -46,7 +46,7 @@ rd.student_answer_record_id = sar.id where sar.question_package_id in (?) and sa
             student = Student.find_by_id record.student_id
             #额外参数
             extras_hash = {:type => Student::PUSH_TYPE[:sys_message], :class_id => school_class.id, :class_name => school_class.name, :student_id => student.id}
-            content = "恭喜您获得成就“#{ArchivementsRecord::TYPES_NAME[ArchivementsRecord::TYPES[:PEFECT]]}”"
+            content = "恭喜你获得“#{ArchivementsRecord::TYPES_NAME[ArchivementsRecord::TYPES[:PEFECT]]}”成就的#{calculated_score.to_i}个积分"
             save_sys_message(student, content, extras_hash, school_class)
           end
         end

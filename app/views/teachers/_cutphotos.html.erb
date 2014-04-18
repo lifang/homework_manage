@@ -1,28 +1,28 @@
 <%= form_for :teachers,:url => {:action => :update_avatar,:controller => :teachers},:html=>{:multipart => true,:method => :post,} do |f| %>
   <div class="avater_imgBox"><img src="<%=  @src %>" id="cropbox"/></div>
-  <div style="text-align: center;margin-left: -73px;">
-    <button type="submit" class="confirm_btn" style="padding:10px; display: inline-block; margin: 5px 15px"> 确定 </button>
-    <button type="button" class="confirm_btn" onclick=" cancel_upload()" style="padding:10px; display: inline-block;margin: 5px 15px"> 取消 </button>
+  <div style="text-align: center">
+    <button type="submit" class="confirm_btn" style="padding:10px;display: inline-block; margin: 5px 15px"> 确定 </button>
+    <button type="button" class="confirm_btn" onclick="cancel_upload()" style="padding:10px;display: inline-block;margin: 5px 15px"> 取消 </button>
   </div>
 
   <div style="display: none">
-    <input type="hidden" id="img_x" name="x" value="" />
-    <input type="hidden" id="img_y" name="y" value="" />
-    <input type="hidden" id="img_w" name="w" value=""/>
-    <input type="hidden" id="img_h" name="h" value=""/>
+    <input type="text" id="x" name="x" value="111"/>
+    <input type="text" id="y" name="y" value="1111"/>
+    <input type="text" id="w" name="w" value="111"/>
+    <input type="text" id="h" name="h" value="111"/>
   </div>
 <% end %>
 
 <script language="Javascript">
   <!--
   jQuery(function($){
-
     // Create variables (in this scope) to hold the API and image size
     var jcrop_api, boundx, boundy;
+
     $('#cropbox').Jcrop({
-      onChange: updateCoords,
       setSelect: [0,0,176,176],
       boxWidth:298,
+      boxHeight:298,
       minSize:[176,176],
       borderOpacity:0.3,
       dragEdges:true,
@@ -32,19 +32,19 @@
       aspectRatio:1,
       allowMove:true,
       addClass: 'jcrop-handle',
-      
+      onChange: updateCoords,
       onSelect: updateCoords
     },
     function(){
+
       jcrop_api = this;
     });
     function updateCoords(c)
     {
-      
-      $('#img_x').val(c.x);
-      $('#img_y').val(c.y);
-      $('#img_w').val(c.w);
-      $('#img_h').val(c.h);
+      $('#x').val(c.x);
+      $('#y').val(c.y);
+      $('#w').val(c.w);
+      $('#h').val(c.h);
     };
     function checkCoords()
     {

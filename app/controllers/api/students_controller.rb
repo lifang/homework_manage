@@ -522,7 +522,7 @@ class Api::StudentsController < ApplicationController
           end  
         else
           if key.present?
-            notice = "激活码不属于该班级!"
+            notice = "激活码不属于该班级或激活码错误!"
             render :json => {:status => "error_code", :notice => notice}  #error_code
           else
             flag = "none"
@@ -538,12 +538,11 @@ class Api::StudentsController < ApplicationController
         end
         if (flag == "none" && teacher_status == "true") || (flag == "true" && teacher_status == "true")
           active_code = "false"
-          p student
           if student.nil?
             if key.present? && school.present?
               student = Student.find_by_active_code_and_school_id key, school.id
               if student.nil?
-                render :json => {:status => "error_code", :notice => "激活码不属于该班级!"} #error_code
+                render :json => {:status => "error_code", :notice => "激活码不属于该班级或激活码错误!"} #error_code
               else
                 if student.status == Student::STATUS[:YES]
                   active_code = "true"

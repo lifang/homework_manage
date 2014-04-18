@@ -1,0 +1,12 @@
+[1mdiff --git a/app/views/teachers/_cutphotos.html.erb b/app/views/teachers/_cutphotos.html.erb[m
+[1mindex a3f0f45..d8d3df7 100644[m
+[1m--- a/app/views/teachers/_cutphotos.html.erb[m
+[1m+++ b/app/views/teachers/_cutphotos.html.erb[m
+[36m@@ -1,6 +1,6 @@[m
+ <%= form_for :teachers,:url => {:action => :update_avatar,:controller => :teachers},:html=>{:multipart => true,:method => :post,} do |f| %>[m
+   <div class="avater_imgBox"><img src="<%=  @src %>" id="cropbox"/></div>[m
+[31m-  <div style="text-align: center">[m
+[32m+[m[32m  <div style="text-align: center;">[m
+     <button type="submit" class="confirm_btn" style="padding:10px;display: inline-block; margin: 5px 15px"> 确定 </button>[m
+     <button type="button" class="confirm_btn" onclick="cancel_upload()" style="padding:10px;display: inline-block;margin: 5px 15px"> 取消 </button>[m
+   </div>[m

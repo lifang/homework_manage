@@ -586,9 +586,24 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     end
     question_packages_url = "#{Rails.root}/public#{publish_question_package.question_packages_url}"
     resourse_zip_url = "/#{file_dirs_url}/resourse.zip"
-    Archive::Zip.archive("#{zip_url}","#{resourse_url}/.") if Dir.exists?(resourse_url)
+
+    Zip::File.open(zip_url, Zip::File::CREATE) do |zipfile|
+      Dir[File.join(resourse_url, '**', '**')].each do |file|
+        zipfile.add(file.sub(resourse_url, ''), file)
+      end
+    end if Dir.exists?(resourse_url)
+
+    #Archive::Zip.archive("#{zip_url}","#{resourse_url}/.") if Dir.exists?(resourse_url)
+    p 11111
+    p question_packages_url
     if File.exist?(question_packages_url)
-      Archive::Zip.archive("#{zip_url}","#{question_packages_url}")
+      Zip::File.open(zip_url, Zip::File::CREATE) do |zipfile|
+       # Dir[File.join(question_packages_url, '**', '**')].each do |file|
+          zipfile.add(file)
+       # end
+      end
+     # Archive::Zip.archive("#{zip_url}","#{question_packages_url}")
+      
       publish_question_package.update_attributes(:question_packages_url => resourse_zip_url)
     end
     #    sql = "SELECT s.alias_name FROM students s ,school_class_student_ralastions  scsr ,school_classes sc

@@ -14,8 +14,8 @@ class WelcomeController < ApplicationController
       status = false
       notice = "用户不存在或者已被停用，请先注册！"
     else
-      school = School.finc_by_id teacher.school_id if teacher.school_id
-      if school && school.status == School::STATUS[:DELETE]
+      school = School.find_by_id teacher.school_id if teacher.school_id
+      if school && !school.status
         status = false
         notice = "学校已经被禁用，教师不可登录！"
       else

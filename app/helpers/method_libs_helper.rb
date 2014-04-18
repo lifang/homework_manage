@@ -679,7 +679,6 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     no_content_or_no_find_audio = []
     begin
       file_type = File.extname(excel)
-      p file_type
       if file_type == ".xls"
         oo = Roo::Excel.new(excel_url)
       elsif file_type == ".xlsx"
@@ -687,6 +686,7 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
       end
       oo.default_sheet = oo.sheets.first
     rescue
+      File.delete excel_url if File.exist? excel_url
       errors << "#{excel}不是正确的excel文件"
     end
     start_line = 1
@@ -718,6 +718,7 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     else
       errors << "excel文件为空！"
     end
+    File.delete excel_url if File.exist? excel_url
     return_info = {:questions => questions, :errors => errors}
   end
 

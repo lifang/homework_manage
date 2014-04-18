@@ -14,19 +14,26 @@ class WelcomeController < ApplicationController
       status = false
       notice = "用户不存在或者已被停用，请先注册！"
     else
-      if teacher && teacher.has_password?(password)
-        cookies[:teacher_id]={:value => teacher.id, :path => "/", :secure  => false}
-        cookies[:user_id]={:value => teacher.user.try(:id), :path => "/", :secure  => false}
-
-        notice, status, last_visit_class, @redirect_path = redirect_to_different_page(teacher)
-      else
+      school = School.finc_by_id teacher.school_id if teacher.school_id
+      if school && school.status == School::STATUS[:DELETE]
         status = false
-        notice = "密码错误，登录失败！"
+        notice = "学校已经被禁用，教师不可登录！"
+      else
+        if teacher && teacher.has_password?(password)
+          cookies[:teacher_id]={:value => teacher.id, :path => "/", :secure  => false}
+          cookies[:user_id]={:value => teacher.user.try(:id), :path => "/", :secure  => false}
+
+          notice, status, last_visit_class, @redirect_path = redirect_to_different_page(teacher)
+        else
+          status = false
+          notice = "密码错误，登录失败！"
+        end
       end
+      
     end
     @info = {:status => status, :notice => notice, :last_visit_class => last_visit_class}
   end
-
+  
   #注销
   def logout
     cookies[:teacher_id]=nil

@@ -225,7 +225,7 @@ class Api::StudentsController < ApplicationController
               render :json => {:status => "error", :notice => "上次访问的班级已失效!!"}    
             end    
           else
-            if school_class.nil? || school_class.status == SchoolClass::STATUS[:EXPIRED] || (school_class.period_of_validity - Time.now) < 0 || school_class.tearcher.status != Teacher::STATUS[:YES]
+            if school_class.nil? || school_class.status == SchoolClass::STATUS[:EXPIRED] || (school_class.period_of_validity - Time.now) < 0 || school_class.teacher.status != Teacher::STATUS[:YES]
                 if school_status == "true"
                   school_classes = SchoolClassStudentRalastion
                         .select("sc.id")

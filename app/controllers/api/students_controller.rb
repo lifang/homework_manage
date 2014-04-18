@@ -655,7 +655,7 @@ class Api::StudentsController < ApplicationController
     student_id = params[:student_id]
     school_class = SchoolClass.find_by_id school_class_id
     student = Student.find_by_id student_id
-    if student.nil? || student && !student.qq_uid.present?
+    if student.nil? || (student && !student.qq_uid.present?)
       render :json => {:status => "error", :notice => "用户信息错误！"}
     else
       if !school_class.nil?

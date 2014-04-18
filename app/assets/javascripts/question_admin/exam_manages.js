@@ -50,6 +50,9 @@ $(function(){
         div_select.find("input").val($(this).attr("index_id"));
         var cell_id = $("#teacher_question_share").find("input[name='chapter']").val();
         var episode_id = $("#teacher_question_share").find("input[name='unit_episode']").val();
+        if($(this).parents("ul").attr("id")=="select_chapter"){
+            episode_id = '';
+        }
         var question_types = $("#teacher_question_share").find("input[name='question_types']").val();
         window.location.href="/question_admin/exam_manages?cell_id="+cell_id+"&episode_id="+episode_id+"&question_types="+ question_types;
         $.ajax({

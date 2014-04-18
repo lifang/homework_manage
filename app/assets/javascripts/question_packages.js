@@ -496,7 +496,7 @@ function setShareName(school_class_id, question_type, types){  //types 听写 ||
 //名称必填
 function check_question_name_blank(school_class_id, question_type, types){ //types 听写 || 朗读
     var name = $.trim($("#new_question_name").val());
-    if(name==""){
+    if(name==""|| name=="名称"){
         tishi("请输入名称!");
     }else{
         var name = $.trim($("#new_question_name").val()); //题库管理员，新建题目的时候，先填写名称

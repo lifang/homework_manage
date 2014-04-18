@@ -60,6 +60,7 @@ def set_stu_status
         hash[:qq_uid] = nil
       end
       if student.update_attributes(hash)
+        SchoolClassStudentRalastion.delete_all(["student_id=?", student_id])
         status = 1
       end
     else  #启用

@@ -183,7 +183,7 @@ class Api::StudentsController < ApplicationController
         else
           school_status = "none"
         end  
-        if school_status = "true" || school_status = "none"
+        if school_status == "true" || school_status == "none"
           c_s_relation = SchoolClassStudentRalastion
               .find_by_student_id_and_school_class_id(student.id,student.last_visit_class_id)
           c_s_relation_status = "false"

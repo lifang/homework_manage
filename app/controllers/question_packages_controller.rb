@@ -20,9 +20,8 @@ class QuestionPackagesController < ApplicationController
   end
 
   #导入听写题
-  def inport_lisenting
+  def import_lisenting
     question_package_id = params[:question_package_id]
-    p question_package_id
     school_class_id = params[:school_class_id]
     @question_id = params[:question_id]  
     file = params[:file]
@@ -109,8 +108,12 @@ class QuestionPackagesController < ApplicationController
         dir = File.dirname resource_url
         dir_arr = dir.split("/")
         des_dir = dir_arr[0,dir_arr.length-1].join("/")
-        FileUtils.cp resource_url, des_dir
-        url = des_dir.gsub(base_url,"") +"/"+ File.basename(resource_url)
+        file_extend_name = File.extname(resource_url)
+        rename_file = dir + "/media_#{Time.now.strftime("%Y-%m-%d_%H_%M_%S")}_que_#{@question_id}" + file_extend_name
+        File.rename(resource_url, rename_file)
+        FileUtils.cp rename_file, des_dir
+        url = "#{des_dir}/#{File.basename(rename_file)}".gsub(base_url,"")
+        p url
         import_dir = dir
         if @question.is_a?(ShareQuestion)
           branch_question = ShareBranchQuestion.create(:content => branch_que[:content], :resource_url => url, 

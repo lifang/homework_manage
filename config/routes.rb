@@ -177,7 +177,7 @@ HomeworkManage::Application.routes.draw do
           :new_reading_or_listening, :share_question, :delete_question,
           :search_b_tags, :add_b_tags,:save_branch_tag, :set_question_time
         post :create_time_limit, :save_listening, :save_reading, :set_question_time, :delete_branch, :upload_voice,
-          :update_listening, :inport_lisenting, :save_import_lisenting, :delete_resources
+          :update_listening, :import_lisenting, :save_import_lisenting, :delete_resources
       end
       member do
         get :new_index,:show_wanxin,:create_wanxin,:create_paixu,

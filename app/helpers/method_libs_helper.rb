@@ -578,6 +578,10 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     File.delete zip_url if File.exists?(zip_url) #删除，重建zip包
     zip_url = "#{Rails.root}/public/#{file_dirs_url}/resourse.zip"
     resourse_url = "#{Rails.root}/public#{media_path % question_package_id}"
+
+     #将要打包的音频文件转码
+    `convmv -f gbk -t utf-8 -r --notest  #{resourse_url}`
+    
     Dir.foreach(resourse_url) do |file|
       if file != "." && file != ".." && file.split(".").length < 2
         url_delete = resourse_url + file
@@ -587,6 +591,7 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     question_packages_url = "#{Rails.root}/public#{publish_question_package.question_packages_url}"
     resourse_zip_url = "/#{file_dirs_url}/resourse.zip"
 
+    #音频，资源写进压缩文件
     Zip::File.open(zip_url, Zip::File::CREATE) do |zipfile|
       Dir[File.join(resourse_url, '**', '**')].each do |file|
         zipfile.add(file.sub(resourse_url, ''), file)
@@ -594,16 +599,17 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     end if Dir.exists?(resourse_url)
 
     #Archive::Zip.archive("#{zip_url}","#{resourse_url}/.") if Dir.exists?(resourse_url)
+    #json文件写入压缩文件
     if File.exist?(question_packages_url)
       Zip::File.open(zip_url, Zip::File::CREATE) do |zipfile|
-       # Dir[File.join(question_packages_url, '**', '**')].each do |file|
-          zipfile.add(File.basename(question_packages_url), question_packages_url)
-       # end
+        zipfile.add(File.basename(question_packages_url), question_packages_url)
       end
-     # Archive::Zip.archive("#{zip_url}","#{question_packages_url}")
       
       publish_question_package.update_attributes(:question_packages_url => resourse_zip_url)
     end
+
+    `chmod -R 777 #{Rails.root}/public/#{file_dirs_url}`
+
     #    sql = "SELECT s.alias_name FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
     #WHERE s.id = scsr.student_id and scsr.school_class_id = sc.id and sc.id = ?#"
     #    student = Student.find_by_sql([sql,school_class_id])

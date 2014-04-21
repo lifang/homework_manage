@@ -3,7 +3,7 @@
   <head>
     <title>超级作业本-登录</title>
     <%= stylesheet_link_tag    "style.css",'login.css', :media => "all" %>
-    <%= javascript_include_tag "application","main","main_pages"%>
+    <%= javascript_include_tag "application","main","main_pages", "jquery.placeholder"%>
     <script type="text/javascript" src="/assets/My97DatePicker/WdatePicker.js" ></script>
     <%= csrf_meta_tags %>
   </head>
@@ -14,6 +14,9 @@
       <a href="javascript:void(0)" class="x"></a>
       <p></p>
     </div>
-    
+    <script type="text/javascript">
+      $('input').placeholder();
+    </script>
+          
   </body>
 </html>

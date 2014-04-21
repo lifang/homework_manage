@@ -583,7 +583,7 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
         url_delete = resourse_url + file
         FileUtils.rm_rf url_delete
       end
-    end
+    end if Dir.exists?(resourse_url)
     question_packages_url = "#{Rails.root}/public#{publish_question_package.question_packages_url}"
     resourse_zip_url = "/#{file_dirs_url}/resourse.zip"
 

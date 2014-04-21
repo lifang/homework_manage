@@ -109,7 +109,7 @@ class QuestionPackagesController < ApplicationController
         dir_arr = dir.split("/")
         des_dir = dir_arr[0,dir_arr.length-1].join("/")
         file_extend_name = File.extname(resource_url)
-        rename_file = dir + "/media_#{Time.now.strftime("%Y-%m-%d_%H_%M_%S")}_que_#{@question_id}" + file_extend_name
+        rename_file = dir + "/media_#{Time.now.strftime("%Y-%m-%d_%H_%M_%S")}_que_#{@question_id}_#{k}" + file_extend_name
         File.rename(resource_url, rename_file)
         FileUtils.cp rename_file, des_dir
         url = "#{des_dir}/#{File.basename(rename_file)}".gsub(base_url,"")

@@ -594,12 +594,10 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     end if Dir.exists?(resourse_url)
 
     #Archive::Zip.archive("#{zip_url}","#{resourse_url}/.") if Dir.exists?(resourse_url)
-    p 11111
-    p question_packages_url
     if File.exist?(question_packages_url)
       Zip::File.open(zip_url, Zip::File::CREATE) do |zipfile|
        # Dir[File.join(question_packages_url, '**', '**')].each do |file|
-          zipfile.add(file)
+          zipfile.add(File.basename(question_packages_url), question_packages_url)
        # end
       end
      # Archive::Zip.archive("#{zip_url}","#{question_packages_url}")

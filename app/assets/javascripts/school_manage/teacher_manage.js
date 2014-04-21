@@ -25,6 +25,7 @@ function admin_create_teacher(obj){
         tishi("邮箱格式不正确,请重新输入！");
         return false;
     }
+    $(obj).attr("disabled","disabled");
     $.ajax({
         url : '/school_manage/teacher_manages',
         dataType : 'script',
@@ -166,4 +167,5 @@ function sercher_teacher(obj){
 function show_create_teacher(){
     $('#teacher_admin_create').show();
     $(".mask").show();
+    $("#teacher_admin_create button").removeAttr("disabled");
 }

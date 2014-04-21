@@ -20,7 +20,7 @@
         </td>
         <td>
           <p>未交作业次数：<%= student_situation[:unfinished]%></p>
-          <p>平均正确率：<%= student_situation[:correct_rate].to_s + "%" %></p>
+          <p>平均正确率：<%= number_to_percentage(student_situation[:correct_rate],precision:0) %></p>
         </td>
         <td>
           <div class="award">

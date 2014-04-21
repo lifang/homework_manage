@@ -64,6 +64,7 @@ function system_new_school(obj){
         tishi("学校配额必须大于0！");
         return false;
     }
+    $(obj).attr("disabled","disabled");
     $.ajax({
         url:"/admin/schools",
         type:"post",

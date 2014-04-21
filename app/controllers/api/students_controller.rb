@@ -266,7 +266,7 @@ class Api::StudentsController < ApplicationController
                   end      
                 end        
                 if school_classes && school_classes.any?
-                  school_class_id = school_classes.first.id
+                  school_class_id = school_classes.first.to_i
                   school_class = SchoolClass.find_by_id school_class_id
                   class_id = school_class.id
                   class_name = school_class.name

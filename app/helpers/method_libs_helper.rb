@@ -4,6 +4,7 @@ module MethodLibsHelper
   require 'rexml/element'
   require 'rexml/parent'
   require 'net/http'
+  require 'zip'
   include REXML
   #记录答题json
   def write_answer_json dirs_url, answer_file_full_name, question_id, branch_question_id, answer, types
@@ -608,6 +609,7 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
       publish_question_package.update_attributes(:question_packages_url => resourse_zip_url)
     end
 
+    #给zip赋权限，使android端能下载
     `chmod -R 777 #{Rails.root}/public/#{file_dirs_url}`
 
     #    sql = "SELECT s.alias_name FROM students s ,school_class_student_ralastions  scsr ,school_classes sc

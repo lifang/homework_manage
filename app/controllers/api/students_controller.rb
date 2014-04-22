@@ -673,8 +673,10 @@ class Api::StudentsController < ApplicationController
     student_id = params[:student_id]
     school_class = SchoolClass.find_by_id school_class_id
     student = Student.find_by_id student_id
-    if student.nil? || (student && !student.qq_uid.present?)
+    if student.nil?
       render :json => {:status => "error", :notice => "用户信息错误！"}
+    elsif student && !student.qq_uid.present?
+      render :json => {:status => "error", :notice => "该学生已被禁用！"}      
     else
       c_s_relation = SchoolClassStudentRalastion
               .find_by_student_id_and_school_class_id(student.id,school_class_id)

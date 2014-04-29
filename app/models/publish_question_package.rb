@@ -14,9 +14,9 @@ class PublishQuestionPackage < ActiveRecord::Base
   CORRECT_RATE_TEN = 100
 
 
-   scope :not_calculated, lambda {|school_class_id|
-     where("'#{Time.now.strftime("%F %T")}' >= end_time and school_class_id = #{school_class_id} and is_calc = #{PublishQuestionPackage::IS_CALC[:WAIT]}")
-    }
+  scope :not_calculated, lambda {|school_class_id|
+    where("'#{Time.now.strftime("%F %T")}' >= end_time and school_class_id = #{school_class_id} and is_calc = #{PublishQuestionPackage::IS_CALC[:WAIT]}")
+  }
 
   #获取当日或历史任务
   def self.get_tasks school_class_id, student_id, order_name=nil, date=nil, today_newer_id=nil
@@ -48,8 +48,8 @@ class PublishQuestionPackage < ActiveRecord::Base
     pub_ids = pub_tasks.present? ? pub_tasks.map(&:id) : []
     que_pack_ids = pub_tasks.present? ? pub_tasks.map(&:que_pack_id) : []
     s_a_rs = StudentAnswerRecord
-      .select("publish_question_package_id id, answer_file_url, updated_at")
-      .where(["publish_question_package_id in (?) and student_id = ?", pub_ids, student_id])
+    .select("publish_question_package_id id, answer_file_url, updated_at")
+    .where(["publish_question_package_id in (?) and student_id = ?", pub_ids, student_id])
     s_a_rs = s_a_rs.group_by {|s| s.id}
     s_a_r_status = StudentAnswerRecord.get_student_answer_status school_class_id, student_id, pub_ids
     s_a_r_status = s_a_r_status.group_by { |sar| sar.pub_id }
@@ -125,6 +125,7 @@ class PublishQuestionPackage < ActiveRecord::Base
       complete_rate_sum = []
       quetsions_time.each do |question|
         answer_details = answer_json[Question::TYPES_TITLE[question.types.to_i]]
+        question_types = question.types.to_i
         if answer_details.present?
           types = question.types.to_i
           record_details = RecordDetail
@@ -160,6 +161,10 @@ class PublishQuestionPackage < ActiveRecord::Base
                     card_bag.knowledges_cards.create(:mistake_types => knowledges_cards_types,
                       :branch_question_id => ratio[0],
                       :your_answer => ratio[2])
+                    if question_types == Question::TYPES[:TIME_LIMIT]
+                      knowledges_cards_count = card_bag.knowledges_cards_count - 1
+                      card_bag.update_attributes(:knowledges_cards_count=> knowledges_cards_count)
+                    end
                   end
                 end
               end
@@ -221,20 +226,20 @@ class PublishQuestionPackage < ActiveRecord::Base
       end
     end
   end
-#  #获得成就时加道具
-#  def self.add_prop_get_archivement student_id,prop_types,school_class
-#    student_prop = UserPropRelation.
-#      find_by_student_id_and_prop_id_and_school_class_id(student_id,prop_types,school_class.id)
-#    if student_prop
-#      student_prop.update_attribute(:user_prop_num,student_prop.user_prop_num+2);
-#    else
-#      UserPropRelation.create(student_id:student_id,
-#        user_prop_num:2,
-#        school_class_id:school_class.id,
-#        prop_id:prop_types)
-#    end
-#
-#  end
+  #  #获得成就时加道具
+  #  def self.add_prop_get_archivement student_id,prop_types,school_class
+  #    student_prop = UserPropRelation.
+  #      find_by_student_id_and_prop_id_and_school_class_id(student_id,prop_types,school_class.id)
+  #    if student_prop
+  #      student_prop.update_attribute(:user_prop_num,student_prop.user_prop_num+2);
+  #    else
+  #      UserPropRelation.create(student_id:student_id,
+  #        user_prop_num:2,
+  #        school_class_id:school_class.id,
+  #        prop_id:prop_types)
+  #    end
+  #
+  #  end
 
   def self.get_homework_statistics date, school_class
     all_tags = nil
@@ -253,31 +258,31 @@ class PublishQuestionPackage < ActiveRecord::Base
           and publish_question_packages.school_class_id = #{school_class.id}")
     .order("publish_question_packages.created_at desc")
     today_tasks = today_tasks.group_by {|t| t.tag_id } if today_tasks && today_tasks.present? 
-      all_tags = []
-      if today_tasks.any?
-        task = nil
-        today_tasks.each do |tag_id, t|
+    all_tags = []
+    if today_tasks.any?
+      task = nil
+      today_tasks.each do |tag_id, t|
   
-          task = t.first
-          if tag_id == 0
-            all_tags << {:pub_id => t.first.id, :tag_name => "全班"}
-          else  
-            all_tags << {:pub_id => t.first.id, :tag_name => t.first.tag_name}
-          end
-        end 
-        info = PublishQuestionPackage.get_record_details task, school_class.id
-        question_types = info[:question_types]
-        p question_types
-        students = info[:students]
-        record_details = info[:record_details]
-        student_answer_records = info[:student_answer_records]
-        average_correct_rate = info[:average_correct_rate]
-        average_complete_rate = info[:average_complete_rate]
+        task = t.first
+        if tag_id == 0
+          all_tags << {:pub_id => t.first.id, :tag_name => "全班"}
+        else
+          all_tags << {:pub_id => t.first.id, :tag_name => t.first.tag_name}
+        end
       end
+      info = PublishQuestionPackage.get_record_details task, school_class.id
+      question_types = info[:question_types]
+      p question_types
+      students = info[:students]
+      record_details = info[:record_details]
+      student_answer_records = info[:student_answer_records]
+      average_correct_rate = info[:average_correct_rate]
+      average_complete_rate = info[:average_complete_rate]
+    end
 
     {:all_tags => all_tags, :current_task => task, :question_types => question_types, :students => students,
-     :average_correct_rate => average_correct_rate, :student_answer_records => student_answer_records, 
-     :record_details =>record_details, :average_complete_rate => average_complete_rate}
+      :average_correct_rate => average_correct_rate, :student_answer_records => student_answer_records,
+      :record_details =>record_details, :average_complete_rate => average_complete_rate}
   end
 
   #获取一个任务的答题信息
@@ -298,24 +303,24 @@ class PublishQuestionPackage < ActiveRecord::Base
           school_class_id, task.tag_id]).map(&:student_id)
     end
     students = Student.select("students.id, u.name, u.avatar_url")
-                      .joins("left join users u on students.user_id = u.id")
-                      .where(["students.id in (?)", students_id])
+    .joins("left join users u on students.user_id = u.id")
+    .where(["students.id in (?)", students_id])
     student_answer_records = StudentAnswerRecord
-              .select("student_answer_records.id, student_answer_records.publish_question_package_id,
+    .select("student_answer_records.id, student_answer_records.publish_question_package_id,
                   student_answer_records.average_correct_rate, student_answer_records.average_complete_rate,
                   student_answer_records.student_id")
-              .where("publish_question_package_id = ? and student_id in (?)", task.id, students_id)
+    .where("publish_question_package_id = ? and student_id in (?)", task.id, students_id)
     average_value = StudentAnswerRecord
-              .select("ifnull(avg(average_correct_rate),0) average_correct_rate, 
+    .select("ifnull(avg(average_correct_rate),0) average_correct_rate,
                       ifnull(avg(average_complete_rate),0) average_complete_rate")
-              .where(["publish_question_package_id = ? and student_id in (?)", task.id, students_id]) 
+    .where(["publish_question_package_id = ? and student_id in (?)", task.id, students_id])
     average_correct_rate = average_value.first.average_correct_rate
     average_complete_rate = average_value.first.average_complete_rate  
     if student_answer_records && student_answer_records.length > 0
       average_value = StudentAnswerRecord
-                        .select("ifnull(avg(average_correct_rate),0) average_correct_rate, 
+      .select("ifnull(avg(average_correct_rate),0) average_correct_rate,
                                 ifnull(avg(average_complete_rate),0) average_complete_rate")
-                        .where(["publish_question_package_id = ? and student_id in (?)", task.id, students_id]) 
+      .where(["publish_question_package_id = ? and student_id in (?)", task.id, students_id])
       student_answer_records_id = student_answer_records.map(&:id)
       record_details = RecordDetail.where(["student_answer_record_id in (?)",student_answer_records_id]) 
       record_details = record_details.group_by {|rd| rd.student_answer_record_id} if record_details && record_details.present?
@@ -324,14 +329,14 @@ class PublishQuestionPackage < ActiveRecord::Base
         record_details[student_answer_record_id] = rd_group_types
       end    
     end
-      p que_types
+    p que_types
     student_answer_records = student_answer_records.group_by {|s| s.student_id } if student_answer_records.present?
     {:question_types => que_types, :students => students,:student_answer_records => student_answer_records,
       :record_details => record_details, :average_correct_rate => average_correct_rate, 
       :average_complete_rate => average_complete_rate}
   end
   
-   #按题型获取统计
+  #按题型获取统计
   def self.get_quetion_types_statistics publish_question_package, school_class_id
     # question_types
     # students_id
@@ -359,61 +364,61 @@ class PublishQuestionPackage < ActiveRecord::Base
     question_types = questions.keys if questions.present?
     question_types.sort!
     student_answer_records = StudentAnswerRecord.select("id, student_id, answer_file_url")
-            .where(["publish_question_package_id = ? and school_class_id = ?",
-                       publish_question_package.id, school_class_id]).uniq
+    .where(["publish_question_package_id = ? and school_class_id = ?",
+        publish_question_package.id, school_class_id]).uniq
     if student_answer_records.any?
-        answer_status_collection = []
-        base_url = "#{Rails.root}/public"
+      answer_status_collection = []
+      base_url = "#{Rails.root}/public"
         
-        student_answer_records.each do |sar|
-          answer_url = "#{base_url}#{sar.answer_file_url}"
-          if File.exist? answer_url
-            answer_json = ""
-            answer_json = File.open(answer_url).read
-            answer_records = ""
-            begin
-              answer_records = ActiveSupport::JSON.decode(answer_json)
-            rescue
-              {:question_types => [], :questions => {}, :used_times => {}, :questions_answers => {}}
-            end
+      student_answer_records.each do |sar|
+        answer_url = "#{base_url}#{sar.answer_file_url}"
+        if File.exist? answer_url
+          answer_json = ""
+          answer_json = File.open(answer_url).read
+          answer_records = ""
+          begin
+            answer_records = ActiveSupport::JSON.decode(answer_json)
+          rescue
+            {:question_types => [], :questions => {}, :used_times => {}, :questions_answers => {}}
+          end
                          
-            if answer_records.present?
-              question_types.each do |types|
-                if answer_records[Question::TYPE_NAME_ARR[types.to_i]].present?
-                  if answer_records[Question::TYPE_NAME_ARR[types.to_i]]["questions"].present? && answer_records[Question::TYPE_NAME_ARR[types.to_i]]["use_time"].present?
-                    if used_times[types.to_i].present?
-                      used_times[types.to_i] << answer_records[Question::TYPE_NAME_ARR[types.to_i]]["use_time"].to_i
-                    else
-                      used_times[types.to_i] = [answer_records[Question::TYPE_NAME_ARR[types.to_i]]["use_time"].to_i]
-                    end
+          if answer_records.present?
+            question_types.each do |types|
+              if answer_records[Question::TYPE_NAME_ARR[types.to_i]].present?
+                if answer_records[Question::TYPE_NAME_ARR[types.to_i]]["questions"].present? && answer_records[Question::TYPE_NAME_ARR[types.to_i]]["use_time"].present?
+                  if used_times[types.to_i].present?
+                    used_times[types.to_i] << answer_records[Question::TYPE_NAME_ARR[types.to_i]]["use_time"].to_i
+                  else
+                    used_times[types.to_i] = [answer_records[Question::TYPE_NAME_ARR[types.to_i]]["use_time"].to_i]
+                  end
                     
-                    answer_records[Question::TYPE_NAME_ARR[types.to_i]]["questions"].each do |question|
-                      if question.present? && question["id"].present? && question["branch_questions"].present?
-                        question["branch_questions"].each do |branch_question|    
-                          branch_correct_rate = branch_question["ratio"].to_i
-                          if questions_answers[branch_question["id"].to_i].present?
-                            questions_answers[branch_question["id"].to_i] << branch_correct_rate
-                          else
-                            questions_answers[branch_question["id"].to_i] = [branch_correct_rate]
-                          end
-                          if types_rate[types.to_i].present?
-                            types_rate[types.to_i] << branch_correct_rate
-                          else
-                            types_rate[types.to_i] = [branch_correct_rate]
-                          end
+                  answer_records[Question::TYPE_NAME_ARR[types.to_i]]["questions"].each do |question|
+                    if question.present? && question["id"].present? && question["branch_questions"].present?
+                      question["branch_questions"].each do |branch_question|
+                        branch_correct_rate = branch_question["ratio"].to_i
+                        if questions_answers[branch_question["id"].to_i].present?
+                          questions_answers[branch_question["id"].to_i] << branch_correct_rate
+                        else
+                          questions_answers[branch_question["id"].to_i] = [branch_correct_rate]
                         end
-                      end 
+                        if types_rate[types.to_i].present?
+                          types_rate[types.to_i] << branch_correct_rate
+                        else
+                          types_rate[types.to_i] = [branch_correct_rate]
+                        end
+                      end
                     end
                   end
-                end     
+                end
               end
             end
-          end  
-        end    
+          end
+        end
+      end
     end
     {:question_types => question_types, :questions => questions, :used_times => used_times,
-       :questions_answers => questions_answers, :types_rate => types_rate, 
-        :branch_questions => branch_questions, :branch_questions_id => branch_questions_id}
+      :questions_answers => questions_answers, :types_rate => types_rate,
+      :branch_questions => branch_questions, :branch_questions_id => branch_questions_id}
   end
 end
 

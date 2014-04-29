@@ -490,7 +490,7 @@ module MethodLibsHelper
       card_bag_id = card_bag.id
       sql = "SELECT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options,q.full_text,q.id question_id
 FROM knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id = bq.id LEFT JOIN questions q on
-q.id = bq.question_id where kc.card_bag_id = ?"
+q.id = bq.question_id where kc.card_bag_id = ? and bq.types not in (#{Question::TYPES[:TIME_LIMIT]})"
       if mistake_types.nil?
         knowledge_cards = KnowledgesCard.find_by_sql([sql,card_bag_id])
       else
@@ -557,7 +557,7 @@ q.id = bq.question_id where kc.card_bag_id = ?"
 INNER JOIN card_tags ct on ct.id = ctkcr.card_tag_id
 INNER JOIN branch_questions bq on kc.branch_question_id = bq.id
 inner join questions q on  q.id = bq.question_id
-WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text like ? ) "
+WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text like ? ) and bq.types not in (#{Question::TYPES[:TIME_LIMIT]})"
       knowledgescard = KnowledgesCard.find_by_sql([sql,cardbag_id,name,name,name])
 
       knowledge_content = process_knowledges knowledgescard,cardbag_id

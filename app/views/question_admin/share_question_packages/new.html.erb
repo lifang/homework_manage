@@ -1,0 +1,124 @@
+<div class="main" id="new_question_main_div">
+  <div class="assignment">
+
+    <!--  单元，课程 -->
+    <div class="assignment_head">
+      <div class="select_box">
+        <div class="rowElem">
+          <select name="select1" id="select1" onchange="address_search_episodes(this, '-1', 0)">
+            <option value="0">请选择单元</option>
+            <%@cells.each do |cell|%>
+              <option value="<%=cell.id %>" >
+                <%=cell.name%>
+              </option>
+            <%end%>
+          </select>
+        </div>
+        <div class="rowElem" id="select2">
+          <select name="select2"  >
+            <option value="opt1">请先选择单元</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="questionTypes">
+      <div class="qType_menu clearAfter">
+        <ul>
+          <li class="hover"><p><span class="qType_speed">十速挑战</span></p>
+            <i class="arrows"></i>
+            <div class="second_menu">
+              <a href="javascript:void(0)" onclick="new_time_limit('-1')">新建</a>
+            </div>
+          </li>
+          <li><p><span class="qType_write">听写</span></p>
+            <i class="arrows"></i>
+            <div class="second_menu">
+              <a href="javascript:void(0)" onclick="add_l_r_question(0, '-1')">新建</a>
+            </div>
+          </li>
+          <li><p><span class="qType_read" >朗读</span></p>
+            <i class="arrows"></i>
+            <div class="second_menu">
+              <a href="javascript:void(0)" onclick="add_l_r_question(1, '-1')">新建</a>
+            </div>
+          </li>
+          <li><p><span class="qType_choose">选择</span></p>
+            <i class="arrows"></i>
+            <div class="second_menu">
+              <a href="javascript:void(0)" onclick="new_select_question(this)">新建</a>
+            </div>
+          </li>
+
+          <li><p><span class="qType_ligature">连线</span></p>
+            <i class="arrows"></i>
+            <div class="second_menu">
+              <a href="javascript:void(0)" onclick="new_lianxian_question(this)">新建</a>
+            </div>
+          </li>
+          <li><p><span class="qType_sort">排序</span></p>
+            <i class="arrows"></i>
+            <div class="second_menu">
+              <a onclick="create_paixu('-1',<%=  @share_question_package.id%>)">新建</a>
+            </div>
+          </li>
+          <li class="last_child">
+            <p>
+              <span  class="qType_gap" style=" cursor: pointer;" onclick="show_wanxin('-1',<%=  @share_question_package.id%>)">完形</span>
+            </p>
+            <i class="arrows"></i>
+            <div class="second_menu">
+              <a onclick="create_wanxin('-1',<%=  @share_question_package.id%>)">新建</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="complete_btn_box">
+      <%#=form_for(:question_packages , url:check_before_complete_create_package_school_class_question_package_path(@school_class,@question_pack)) do |f| %>
+        <input type="hidden"  name="school_class_id" id="school_class_id" value="-1"/>
+        <input type="hidden"  name="cell_id" id="cell_id" />
+        <input type="hidden"  name="episode_id" id="episode_id" />
+        <input type="hidden"  name="question_package_id" id="question_package_id" value="<%= @share_question_package.id %>"/>
+        <button>点击确定完成创建</button>
+      <%#end%>
+    </div>
+  </div>
+  <!--标签层-->
+  <div class="tag_tab" id="tags_table">
+    <span class="arrows">A</span>
+    <div class="search">
+      <input type="text" onkeyup="search_b_tags(this, 0)"/></div>
+    <ul>
+      <% @b_tags.each do |bt| %>
+        <li><input type="checkbox" value="<%= bt.id %>"/><p><%= bt.name %></p></li>
+      <% end %>
+    </ul>
+    <input type="hidden" name="tag_bq_id" value=""/>
+    <input type="hidden" name="tag_bq_type" value=""/>
+    <input type="hidden" name="q_index" value=""/>
+    <input type="hidden" name="b_index" value=""/>
+    <input type="hidden" name="branch_question_id" value=""/>
+    <a href="javascript:void(0)" onclick="add_new_b_tag(this, 0)"></a>
+  </div>
+
+</div>
+<script>
+  var gloab_index =-1;
+  $(function(){
+    $('.select_box').jqTransform();
+  });
+  $(document).ready(function(){
+    $(".steps .td_text_p").dblclick(function(){
+      $(".td_text_p").show();
+    });
+
+  })
+
+  function show_questions(obj,id)
+  {
+    $(".assignment_body").hide();
+    $("#question_list_"+id+"").show();
+  }
+</script>

@@ -6,6 +6,7 @@ class Teacher < ActiveRecord::Base
   has_many :school_classes, :dependent => :destroy
   has_many :question_packages, :dependent => :destroy
   has_many :publish_question_packages, :dependent => :destroy
+  has_many :share_question_packages, :dependent => :destroy, :foreign_key => :created_by
   belongs_to :user
 
   TYPES = {:SYSTEM => 0,:SCHOOL =>1,:EXAM=>2,:teacher=>3}

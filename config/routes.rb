@@ -109,6 +109,9 @@ HomeworkManage::Application.routes.draw do
         get :delete_share_question,:edit_share_question
       end
     end
+
+    resources :share_question_packages
+
   end
 
   resources :welcome do

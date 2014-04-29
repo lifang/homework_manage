@@ -1,6 +1,7 @@
 #encoding: utf-8
 class ShareQuestion < ActiveRecord::Base
   attr_protected :authentications
+  belongs_to :share_question_package
   has_many :share_branch_questions, :dependent => :destroy
   require 'will_paginate/array'
   Per_page = 10

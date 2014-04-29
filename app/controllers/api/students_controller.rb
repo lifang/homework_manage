@@ -186,7 +186,7 @@ class Api::StudentsController < ApplicationController
         if school_status == "true" || school_status == "none"
           school_class = SchoolClass.find_by_id student.last_visit_class_id.to_i
           c_s_relation = SchoolClassStudentRalastion
-              .find_by_student_id_and_school_class_id(student.id, school_class.id)
+          .find_by_student_id_and_school_class_id(student.id, school_class.id)
           if c_s_relation.nil? || school_class.nil?
             school_classes = Student.get_able_classes_id school_status, student      
             if school_classes && school_classes.any?
@@ -213,29 +213,29 @@ class Api::StudentsController < ApplicationController
             end    
           else
             if school_class.nil? || school_class.status == SchoolClass::STATUS[:EXPIRED] || (school_class.period_of_validity - Time.now) < 0 || school_class.teacher.status != Teacher::STATUS[:YES]
-                school_classes = Student.get_able_classes_id school_status, student
-                if school_classes && school_classes.any?
-                  school_class_id = school_classes.first.to_i
-                  school_class = SchoolClass.find_by_id school_class_id
-                  class_id = school_class.id
-                  class_name = school_class.name
-                  tearcher_id = school_class.teacher.id
-                  tearcher_name = school_class.teacher.user.name
-                  page = 1
-                  microposts = Micropost.get_microposts school_class,page
-                  follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-                  student.update_attributes(:last_visit_class_id => school_class.id)
-                  render :json => {:status => "success", :notice => "登录成功！",
-                    :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
-                      :nickname => student.nickname, :s_no => student.s_no, :avatar_url => student.user.avatar_url},
-                    :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-                      :tearcher_id => tearcher_id , :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S") },
-                    :microposts => microposts,
-                    :follow_microposts_id => follow_microposts_id,
-                  }
-                else
-                  render :json => {:status => "error", :notice => "上次访问的班级已失效!!"}    
-                end  
+              school_classes = Student.get_able_classes_id school_status, student
+              if school_classes && school_classes.any?
+                school_class_id = school_classes.first.to_i
+                school_class = SchoolClass.find_by_id school_class_id
+                class_id = school_class.id
+                class_name = school_class.name
+                tearcher_id = school_class.teacher.id
+                tearcher_name = school_class.teacher.user.name
+                page = 1
+                microposts = Micropost.get_microposts school_class,page
+                follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
+                student.update_attributes(:last_visit_class_id => school_class.id)
+                render :json => {:status => "success", :notice => "登录成功！",
+                  :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
+                    :nickname => student.nickname, :s_no => student.s_no, :avatar_url => student.user.avatar_url},
+                  :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+                    :tearcher_id => tearcher_id , :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S") },
+                  :microposts => microposts,
+                  :follow_microposts_id => follow_microposts_id,
+                }
+              else
+                render :json => {:status => "error", :notice => "上次访问的班级已失效!!"}
+              end
             else
               if school_class.teacher.school_id.present?
                 school = School.find_by_id school_class.teacher.school_id
@@ -328,7 +328,7 @@ class Api::StudentsController < ApplicationController
       notice = "获取成功！"
     end
     render :json => {:status => status, :notice => notice, :tasks => tasks,
-                    :knowledges_cards_count=> knowledges_cards_count, :props => props}
+      :knowledges_cards_count=> knowledges_cards_count, :props => props}
   end
 
   #获取历史任务
@@ -354,7 +354,7 @@ class Api::StudentsController < ApplicationController
       notice = "获取成功！"
     end
     render :json => {:status => status, :notice => notice, :tasks => tasks,
-                     :knowledges_cards_count=> knowledges_cards_count, :props => props}
+      :knowledges_cards_count=> knowledges_cards_count, :props => props}
   end
 
   #查询任务
@@ -380,7 +380,7 @@ class Api::StudentsController < ApplicationController
       notice = "查询完成！"
     end
     render :json => {:status => status, :notice => notice, :tasks => tasks, :props => props,
-                     :knowledges_cards_count => knowledges_cards_count}
+      :knowledges_cards_count => knowledges_cards_count}
   end
 
   #获取题包内容
@@ -572,69 +572,69 @@ class Api::StudentsController < ApplicationController
               active_code = "none"
             end
             if active_code == "none" || active_code == "true"
-                #注释代码为权限控制：控制不是通过激活码注册学生不能加入属于学校管辖的班级
-                # student_status = "false"
-                if active_code == "true"
-                  # student_status = "true"
-                  student.update_attributes(:qq_uid => qq_uid)
-                elsif active_code == "none"
-                  # if school_class.teacher.school_id.present?
-                  #   render :json => {:status => "error", :notice => "您没有加入学校的权限！"}      
-                  # else  
-                  #   student_status = "true"
-                    student = Student.create(:nickname => nickname, :qq_uid => qq_uid,
-                          :status => Student::STATUS[:YES], :last_visit_class_id => school_class.id)
-                      destination_dir = "avatars/students/#{Time.now.strftime('%Y-%m')}"
-                      rename_file_name = "student_#{student.id}"
-                      avatar_url = ""
-                      if !avatar.nil?
-                        upload = upload_file destination_dir, rename_file_name, avatar
-                        if upload[:status] == true
-                          avatar_url = upload[:url]
-                        else
-                          avatar_url = "/assets/default_avater.jpg"
-                        end
-                      else
-                        avatar_url = "/assets/default_avater.jpg"
-                      end
-                      user = User.create(:name => name, :avatar_url => avatar_url)
-                      student.update_attributes(:user_id => user.id)
-                  # end    
-                end
-                # if student_status == "true"
-                  c_s_relation = student.school_class_student_ralastions.
-                    where("school_class_id = #{school_class.id} and student_id = #{student.id}")
-                  if flag == "true"
-                        school.update_attributes(:used_school_counts => school.used_school_counts + 1)
-                        SchoolClassStudentsRelation.create(:school_id => school.id, :school_class_id => school_class.id,
-                                          :student_id => student.id)
-                  end             
-                  if !c_s_relation.any?
-                    student.school_class_student_ralastions.create(:school_class_id => school_class.id)
-                    props = Prop.all
-                    props.each do |prop|
-                      student.user_prop_relations.create(:prop_id => prop.id, :user_prop_num => Prop::DefaultPropNumber,
-                                                         :school_class_id => school_class.id)
-                    end  
-                    class_id = school_class.id
-                    class_name = school_class.name
-                    tearcher_id = school_class.teacher.id
-                    tearcher_name = school_class.teacher.user.name
-                    page = 1
-                    microposts = Micropost.get_microposts school_class,page
-                    follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
-                    render :json => {:status => "success", :notice => "登记成功！",
-                      :student => {:id => student.id, :name => student.user.name,:user_id => student.user.id,
-                        :nickname => student.nickname, :s_no => student.s_no, :avatar_url => student.user.avatar_url},
-                      :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
-                        :tearcher_id => tearcher_id , :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S")},
-                      :microposts => microposts,
-                      :follow_microposts_id => follow_microposts_id
-                    }
+              #注释代码为权限控制：控制不是通过激活码注册学生不能加入属于学校管辖的班级
+              # student_status = "false"
+              if active_code == "true"
+                # student_status = "true"
+                student.update_attributes(:qq_uid => qq_uid)
+              elsif active_code == "none"
+                # if school_class.teacher.school_id.present?
+                #   render :json => {:status => "error", :notice => "您没有加入学校的权限！"}
+                # else
+                #   student_status = "true"
+                student = Student.create(:nickname => nickname, :qq_uid => qq_uid,
+                  :status => Student::STATUS[:YES], :last_visit_class_id => school_class.id)
+                destination_dir = "avatars/students/#{Time.now.strftime('%Y-%m')}"
+                rename_file_name = "student_#{student.id}"
+                avatar_url = ""
+                if !avatar.nil?
+                  upload = upload_file destination_dir, rename_file_name, avatar
+                  if upload[:status] == true
+                    avatar_url = upload[:url]
                   else
-                    render :json => {:status => "error", :notice => "您已加入该班级,请直接登录！"}               
+                    avatar_url = "/assets/default_avater.jpg"
                   end
-                # end  
+                else
+                  avatar_url = "/assets/default_avater.jpg"
+                end
+                user = User.create(:name => name, :avatar_url => avatar_url)
+                student.update_attributes(:user_id => user.id)
+                # end
+              end
+              # if student_status == "true"
+              c_s_relation = student.school_class_student_ralastions.
+                where("school_class_id = #{school_class.id} and student_id = #{student.id}")
+              if flag == "true"
+                school.update_attributes(:used_school_counts => school.used_school_counts + 1)
+                SchoolClassStudentsRelation.create(:school_id => school.id, :school_class_id => school_class.id,
+                  :student_id => student.id)
+              end
+              if !c_s_relation.any?
+                student.school_class_student_ralastions.create(:school_class_id => school_class.id)
+                props = Prop.all
+                props.each do |prop|
+                  student.user_prop_relations.create(:prop_id => prop.id, :user_prop_num => Prop::DefaultPropNumber,
+                    :school_class_id => school_class.id)
+                end
+                class_id = school_class.id
+                class_name = school_class.name
+                tearcher_id = school_class.teacher.id
+                tearcher_name = school_class.teacher.user.name
+                page = 1
+                microposts = Micropost.get_microposts school_class,page
+                follow_microposts_id = Micropost.get_follows_id microposts, student.user.id
+                render :json => {:status => "success", :notice => "登记成功！",
+                  :student => {:id => student.id, :name => student.user.name,:user_id => student.user.id,
+                    :nickname => student.nickname, :s_no => student.s_no, :avatar_url => student.user.avatar_url},
+                  :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+                    :tearcher_id => tearcher_id , :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S")},
+                  :microposts => microposts,
+                  :follow_microposts_id => follow_microposts_id
+                }
+              else
+                render :json => {:status => "error", :notice => "您已加入该班级,请直接登录！"}
+              end
+              # end
             end
           else
             render :json => {:status => "error", :notice => "您已注册,请直接登录！"}               
@@ -679,7 +679,7 @@ class Api::StudentsController < ApplicationController
       render :json => {:status => "error", :notice => "该学生已被禁用！"}      
     else
       c_s_relation = SchoolClassStudentRalastion
-              .find_by_student_id_and_school_class_id(student.id,school_class_id)
+      .find_by_student_id_and_school_class_id(student.id,school_class_id)
       if !c_s_relation.present?  
         render :json => {:status => "error", :notice => "您已被踢出该班级,请重新登录！"}        
       else  
@@ -709,7 +709,7 @@ class Api::StudentsController < ApplicationController
                   render :json => {:status => "error", :notice => "该学校已被禁用，请联系学校管理员！"}
                 end  
               else
-                  render :json => {:status => "error", :notice => "信息错误,没有找到班级所属学校！"}
+                render :json => {:status => "error", :notice => "信息错误,没有找到班级所属学校！"}
               end
             else
               if school_class.teacher.status == Teacher::STATUS[:YES]
@@ -758,8 +758,8 @@ class Api::StudentsController < ApplicationController
     answer_url = nil
     if publish_question_package.present? && student.present?
       s_a_r = StudentAnswerRecord
-          .find_by_publish_question_package_id_and_student_id(publish_question_package.id,
-                                                              student.id)
+      .find_by_publish_question_package_id_and_student_id(publish_question_package.id,
+        student.id)
       if !s_a_r.nil?
         answer_url = s_a_r.answer_file_url
         status = "success"
@@ -790,7 +790,7 @@ class Api::StudentsController < ApplicationController
       file = upload_file dir_url, rename_file_name, answer_file
       if file[:status] == true
         student_answer_record = StudentAnswerRecord
-          .find_by_student_id_and_school_class_id_and_publish_question_package_id(student_id,
+        .find_by_student_id_and_school_class_id_and_publish_question_package_id(student_id,
           school_class_id,publish_question_package_id)
         if student_answer_record.nil?
           student_answer_record = student.student_answer_records.
@@ -812,7 +812,6 @@ class Api::StudentsController < ApplicationController
         answer_records = ActiveSupport::JSON.decode(answer_json)
         PublishQuestionPackage.update_scores_and_achirvements(answer_records, student,
           school_class, publish_question_package, student_answer_record)
-
         #保存完道具后， 清空文件json中的 道具使用情况，再重新写入文件
         answer_records["props"].each do |prop|
           prop["branch_id"] = []
@@ -833,7 +832,7 @@ class Api::StudentsController < ApplicationController
       end
     end  
     render :json => {:status => status, :notice => notice,:updated_time => updated_time, 
-                        :knowledges_cards_count => knowledges_cards_count}
+      :knowledges_cards_count => knowledges_cards_count}
   end
 
   #获取子消息
@@ -897,7 +896,7 @@ class Api::StudentsController < ApplicationController
           end
           if flag == "true" || flag == "none"
             school_class_student_relations = SchoolClassStudentRalastion
-              .find_by_school_class_id_and_student_id school_class.id, student.id
+            .find_by_school_class_id_and_student_id school_class.id, student.id
             if school_class_student_relations.nil?
               c_s_relation = student.school_class_student_ralastions
               if c_s_relation && c_s_relation.any?
@@ -909,12 +908,12 @@ class Api::StudentsController < ApplicationController
               props = Prop.all
               props.each do |prop|
                 student.user_prop_relations.create(:prop_id => prop.id, :user_prop_num => Prop::DefaultPropNumber,
-                                                   :school_class_id => school_class.id)
+                  :school_class_id => school_class.id)
               end
               if flag == "true"
                 school.update_attributes(:used_school_counts => school.used_school_counts + 1)
-                  SchoolClassStudentsRelation.create(:school_id => school.id, :school_class_id => school_class.id,
-                                  :student_id => student.id)
+                SchoolClassStudentsRelation.create(:school_id => school.id, :school_class_id => school_class.id,
+                  :student_id => student.id)
               end   
               class_id = school_class.id
               class_name = school_class.name

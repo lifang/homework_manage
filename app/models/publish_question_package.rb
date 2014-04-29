@@ -125,9 +125,9 @@ class PublishQuestionPackage < ActiveRecord::Base
       complete_rate_sum = []
       quetsions_time.each do |question|
         answer_details = answer_json[Question::TYPES_TITLE[question.types.to_i]]
-        question_types = question.types.to_i
         if answer_details.present?
           types = question.types.to_i
+
           record_details = RecordDetail
           .find_by_question_types_and_student_answer_record_id(types,
             student_answer_record.id)
@@ -161,10 +161,6 @@ class PublishQuestionPackage < ActiveRecord::Base
                     card_bag.knowledges_cards.create(:mistake_types => knowledges_cards_types,
                       :branch_question_id => ratio[0],
                       :your_answer => ratio[2])
-                    if question_types == Question::TYPES[:TIME_LIMIT]
-                      knowledges_cards_count = card_bag.knowledges_cards_count - 1
-                      card_bag.update_attributes(:knowledges_cards_count=> knowledges_cards_count)
-                    end
                   end
                 end
               end
@@ -420,6 +416,11 @@ class PublishQuestionPackage < ActiveRecord::Base
       :questions_answers => questions_answers, :types_rate => types_rate,
       :branch_questions => branch_questions, :branch_questions_id => branch_questions_id}
   end
+
+
+
+
+
 end
 
 

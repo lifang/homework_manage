@@ -591,16 +591,15 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     end if Dir.exists?(resourse_url)
     question_packages_url = "#{Rails.root}/public#{publish_question_package.question_packages_url}"
     resourse_zip_url = "/#{file_dirs_url}/resourse.zip"
-
     #音频，资源写进压缩文件
     Zip::File.open(zip_url, Zip::File::CREATE) do |zipfile|
       Dir[File.join(resourse_url, '**', '**')].each do |file|
         zipfile.add(file.sub(resourse_url, ''), file)
-      end
+      end if Dir.exists?(resourse_url)
       if File.exist?(question_packages_url)
         zipfile.add(File.basename(question_packages_url), question_packages_url)     #json文件写入压缩文件
       end
-    end if Dir.exists?(resourse_url)
+    end
     publish_question_package.update_attributes(:question_packages_url => resourse_zip_url)
     #Archive::Zip.archive("#{zip_url}","#{resourse_url}/.") if Dir.exists?(resourse_url)
 

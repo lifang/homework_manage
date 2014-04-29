@@ -1364,7 +1364,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 /*  第一次登录 选择科目 教材 设置名称、结束时间   结束*/
 
 /*上传图片或者音频*/
-a.voice, a.photo { position: relative;}
+a.voice, a.photo { position: relative;overflow: hidden}
 a.voice input, a.photo input {
     width: 36px;
     height: 36px;

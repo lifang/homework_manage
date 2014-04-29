@@ -4,6 +4,7 @@ module MethodLibsHelper
   require 'rexml/element'
   require 'rexml/parent'
   require 'net/http'
+  require "zip"
   include REXML
   #记录答题json
   def write_answer_json dirs_url, answer_file_full_name, question_id, branch_question_id, answer, types
@@ -590,24 +591,19 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     end if Dir.exists?(resourse_url)
     question_packages_url = "#{Rails.root}/public#{publish_question_package.question_packages_url}"
     resourse_zip_url = "/#{file_dirs_url}/resourse.zip"
-
     #音频，资源写进压缩文件
     Zip::File.open(zip_url, Zip::File::CREATE) do |zipfile|
       Dir[File.join(resourse_url, '**', '**')].each do |file|
         zipfile.add(file.sub(resourse_url, ''), file)
+      end if Dir.exists?(resourse_url)
+      if File.exist?(question_packages_url)
+        zipfile.add(File.basename(question_packages_url), question_packages_url)     #json文件写入压缩文件
       end
-    end if Dir.exists?(resourse_url)
-
-    #Archive::Zip.archive("#{zip_url}","#{resourse_url}/.") if Dir.exists?(resourse_url)
-    #json文件写入压缩文件
-    if File.exist?(question_packages_url)
-      Zip::File.open(zip_url, Zip::File::CREATE) do |zipfile|
-        zipfile.add(File.basename(question_packages_url), question_packages_url)
-      end
-      
-      publish_question_package.update_attributes(:question_packages_url => resourse_zip_url)
     end
+    publish_question_package.update_attributes(:question_packages_url => resourse_zip_url)
+    #Archive::Zip.archive("#{zip_url}","#{resourse_url}/.") if Dir.exists?(resourse_url)
 
+    #给zip赋权限，使android端能下载
     `chmod -R 777 #{Rails.root}/public/#{file_dirs_url}`
 
     #    sql = "SELECT s.alias_name FROM students s ,school_class_student_ralastions  scsr ,school_classes sc
@@ -737,7 +733,7 @@ WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text 
     else
       errors << "excel文件为空！"
     end
-    File.delete excel_url if File.exist? excel_url
+    #File.delete excel_url if File.exist? excel_url
     return_info = {:questions => questions, :errors => errors}
   end
 

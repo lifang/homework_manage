@@ -673,8 +673,10 @@ class Api::StudentsController < ApplicationController
     student_id = params[:student_id]
     school_class = SchoolClass.find_by_id school_class_id
     student = Student.find_by_id student_id
-    if student.nil? || (student && !student.qq_uid.present?)
+    if student.nil?
       render :json => {:status => "error", :notice => "用户信息错误！"}
+    elsif student && !student.qq_uid.present?
+      render :json => {:status => "error", :notice => "该学生已被禁用！"}      
     else
       c_s_relation = SchoolClassStudentRalastion
               .find_by_student_id_and_school_class_id(student.id,school_class_id)
@@ -698,7 +700,7 @@ class Api::StudentsController < ApplicationController
                     if student.status == Student::STATUS[:YES]
                       school_teacher_status = "true"
                     else
-                      render :json => {:status => "error", :notice => "您的帐号已被禁用，无法获取班级信息！！"}    
+                      render :json => {:status => "error", :notice => "您的帐号已被禁用，无法获取班级信息！"}    
                     end  
                   else
                     render :json => {:status => "error", :notice => "创建该班级的教师已被禁用,无法获取班级信息！"}  
@@ -710,8 +712,12 @@ class Api::StudentsController < ApplicationController
                   render :json => {:status => "error", :notice => "信息错误,没有找到班级所属学校！"}
               end
             else
-              if school_class.teacher.status == Teacher::STATUS[:YES] 
-                school_teacher_status = "none"
+              if school_class.teacher.status == Teacher::STATUS[:YES]
+                if student.status == Student::STATUS[:YES]
+                  school_teacher_status = "none"
+                else
+                  render :json => {:status => "error", :notice => "您的帐号已被禁用，无法获取班级信息！"}
+                end                
               else
                 render :json => {:status => "error", :notice => "创建该班级的教师已被禁用,无法获取班级信息！"}  
               end

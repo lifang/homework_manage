@@ -1382,7 +1382,7 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 }
 
 /*上传图片或者音频*/
-a.voice, a.photo { position: relative;}
+a.voice, a.photo { position: relative; overflow: hidden}
 a.voice input, a.photo input {
     width: 36px;
     height: 36px;

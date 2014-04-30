@@ -25,51 +25,66 @@ class SchoolManage::StudentManagesController < ApplicationController
           Student.make_student_list_xls_report(stus_list),
           :type => "text/excel;charset=utf-8; header=present",
           :filename => "#{school.name}第#{veri_code}批学生激活码清单.xls"
-      )
-    }
-    f.html
+        )
+      }
+      f.html
+    end
   end
-end
 
-def create
-  Student.transaction do
-    school_id = params[:school_id].to_i
-    xls_form = params[:stu_list_form]
-    status,veri_code,error_str = Student.upload_student_list_xls(school_id, xls_form)
-    if status == 1
-      flash[:notice] = "创建成功!"
-      flash[:veri_code] = "#{veri_code}"
-    elsif status == -1
-      flash[:notice] = "学号为:#{error_str}的学生已存在!"
-    else
-      flash[:notice] = "文件读取失败!"
+  def create
+    Student.transaction do
+      school_id = params[:school_id].to_i
+      xls_form = params[:stu_list_form]
+      status,veri_code,error_str = Student.upload_student_list_xls(school_id, xls_form)
+      if status == 1
+        flash[:notice] = "创建成功!"
+        flash[:veri_code] = "#{veri_code}"
+      elsif status == -1
+        flash[:notice] = "学号为:#{error_str}的学生已存在!"
+      else
+        flash[:notice] = "文件读取失败!"
+      end
+      redirect_to "/school_manage/student_manages"
     end
-    redirect_to "/school_manage/student_manages"
   end
-end
   
-#启用或停用学生
-def set_stu_status
-  student_id = params[:stu_id].to_i
-  Student.transaction do
-    status = 0
-    student = Student.find_by_id(student_id)
-    if student.status == Student::STATUS[:YES]    #停用
-      hash = {:status => Student::STATUS[:NO]}
-      if student.qq_uid
-        hash[:qq_uid] = nil
+  #启用或停用学生
+  def set_stu_status
+    student_id = params[:stu_id].to_i
+    Student.transaction do
+      status = 0
+      student = Student.find_by_id(student_id)
+      if student.status == Student::STATUS[:YES]    #停用
+        hash = {:status => Student::STATUS[:NO]}
+        if student.qq_uid
+          hash[:qq_uid] = nil
+        end
+        if student.update_attributes(hash)
+          SchoolClassStudentRalastion.delete_all(["student_id=?", student_id])
+          status = 1
+        end
+      else  #启用
+        if student.update_attribute("status", Student::STATUS[:YES])
+          status = 1
+        end
       end
-      if student.update_attributes(hash)
-        SchoolClassStudentRalastion.delete_all(["student_id=?", student_id])
-        status = 1
-      end
-    else  #启用
-      if student.update_attribute("status", Student::STATUS[:YES])
-        status = 1
-      end
+      render :json => {:status => status}
     end
-    render :json => {:status => status}
   end
-end
+
+  #激活该学生
+  def activating_student
+    student_id = params[:student_id].to_i
+    student = Student.find_by_id student_id
+    if student
+      student.update_attributes(:active_status => Student::ACTIVE_STATUS[:YES])
+      status = 1
+      notice = "激活成功！"
+    else
+      status = 0
+      notice = "学生不存在！"
+    end
+    render :json => {:status=> status,:notice => notice}
+  end
 
 end

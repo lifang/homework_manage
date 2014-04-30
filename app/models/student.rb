@@ -16,7 +16,7 @@ class Student < ActiveRecord::Base
   belongs_to :user
   validates_uniqueness_of :qq_uid, :allow_nil => true
   PER_PAGE = 10
-  ACTIVE_STATUS = {:YES => 1, :NO => 0} #是否激活 1已激活 0未激活
+  ACTIVE_STATUS = {:YES => 1, :NO => 0,:AWAITING => 2 } #是否激活 1已激活 0未激活 2.待激活状态
   DEFAULT_AVATAR_URL = "/assets/default_avater.jpg"   #默认头像
 
   def self.list_student page,school_class_id

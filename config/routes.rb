@@ -86,6 +86,7 @@ HomeworkManage::Application.routes.draw do
     resources :student_manages do
       collection do
         post :set_stu_status
+        get :activating_student
       end
     end
 

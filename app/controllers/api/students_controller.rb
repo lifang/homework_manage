@@ -366,12 +366,7 @@ class Api::StudentsController < ApplicationController
               class_name = school_class.name
               tearcher_id = school_class.teacher.id
               tearcher_name = school_class.teacher.user.name
-              card_bag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
-              if card_bag.present?
-                knowledges_cards_count = card_bag.knowledges_cards_count
-              end
-              props = Prop.get_prop_num school_class.id, student.id
-              tasks = PublishQuestionPackage.get_tasks school_class.id, student.id,"first"
+              knowledges_cards_count, props,tasks = Student.get_new_work school_class_id,student_id,school_class,student
               render :json => {:status => "success", :notice => "获取成功！", :tasks => tasks,
                 :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
                   :nickname => student.nickname, :s_no => student.s_no, :avatar_url => student.user.avatar_url,:active_status => student.active_status},

@@ -308,27 +308,84 @@ class Api::StudentsController < ApplicationController
 
   #获取当天最新任务
   def get_newer_task
-    student_id = params[:student_id]
     school_class_id = params[:school_class_id]
-    student = Student.find_by_id student_id
+    student_id = params[:student_id]
     school_class = SchoolClass.find_by_id school_class_id
-    status = "error"
-    notice = "获取失败！"
-    tasks = nil
-    knowledges_cards_count = nil
-    props = nil
-    if !student.nil? && !school_class.nil?
-      card_bag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
-      if card_bag.present?
-        knowledges_cards_count = card_bag.knowledges_cards_count
+    student = Student.find_by_id student_id
+    if student.nil?
+      render :json => {:status => "error", :notice => "用户信息错误！"}
+    elsif student && !student.qq_uid.present?
+      render :json => {:status => "error", :notice => "该学生已被禁用！"}
+    else
+      c_s_relation = SchoolClassStudentRalastion
+      .find_by_student_id_and_school_class_id(student.id,school_class_id)
+      if !c_s_relation.present?
+        render :json => {:status => "error", :notice => "您已被踢出该班级,请重新登录！"}
+      else
+        if !school_class.nil?
+          if school_class.id != student.last_visit_class_id
+            student.update_attributes(:last_visit_class_id => school_class.id)
+          end
+          if school_class.status == SchoolClass::STATUS[:EXPIRED] ||
+              school_class.period_of_validity - Time.now < 0
+            render :json => {:status => "error", :notice => "班级已失效！"}
+          else
+            school_teacher_status = "false"
+            if school_class.teacher.school_id.present?
+              school = School.find_by_id school_class.teacher.school_id.to_i
+              if school.present?
+                if school.status == true
+                  if school_class.teacher.status == Teacher::STATUS[:YES]
+                    if student.status == Student::STATUS[:YES]
+                      school_teacher_status = "true"
+                    else
+                      render :json => {:status => "error", :notice => "您的帐号已被禁用，无法获取班级信息！"}
+                    end
+                  else
+                    render :json => {:status => "error", :notice => "创建该班级的教师已被禁用,无法获取班级信息！"}
+                  end
+                else
+                  render :json => {:status => "error", :notice => "该学校已被禁用，请联系学校管理员！"}
+                end
+              else
+                render :json => {:status => "error", :notice => "信息错误,没有找到班级所属学校！"}
+              end
+            else
+              if school_class.teacher.status == Teacher::STATUS[:YES]
+                if student.status == Student::STATUS[:YES]
+                  school_teacher_status = "none"
+                else
+                  render :json => {:status => "error", :notice => "您的帐号已被禁用，无法获取班级信息！"}
+                end
+              else
+                render :json => {:status => "error", :notice => "创建该班级的教师已被禁用,无法获取班级信息！"}
+              end
+            end
+            if school_teacher_status == "none" || school_teacher_status == "true"
+              class_id = school_class.id
+              class_name = school_class.name
+              tearcher_id = school_class.teacher.id
+              tearcher_name = school_class.teacher.user.name
+              card_bag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+              if card_bag.present?
+                knowledges_cards_count = card_bag.knowledges_cards_count
+              end
+              props = Prop.get_prop_num school_class.id, student.id
+              tasks = PublishQuestionPackage.get_tasks school_class.id, student.id,"first"
+              render :json => {:status => "success", :notice => "获取成功！", :tasks => tasks,
+                :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
+                  :nickname => student.nickname, :s_no => student.s_no, :avatar_url => student.user.avatar_url,:active_status => student.active_status},
+                :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+                  :tearcher_id => tearcher_id , :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S")},
+                :knowledges_cards_count=> knowledges_cards_count, :props => props
+              }
+            end
+          end
+        else
+          render :json => {:status => "error", :notice => "班级信息错误！"}
+        end
       end
-      props = Prop.get_prop_num school_class.id, student.id
-      tasks = PublishQuestionPackage.get_tasks school_class.id, student.id,"first"
-      status = "success"
-      notice = "获取成功！"
     end
-    render :json => {:status => status, :notice => notice, :tasks => tasks,
-      :knowledges_cards_count=> knowledges_cards_count, :props => props}
   end
 
   #获取历史任务

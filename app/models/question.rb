@@ -2,6 +2,8 @@
 class Question < ActiveRecord::Base
   attr_protected :authentications
   belongs_to :question_package
+  belongs_to :cell
+  belongs_to :episode
   has_many :branch_questions, :dependent => :destroy
 
   IF_SHARED = {:YES => 1, :NO => 0}    #是否分享

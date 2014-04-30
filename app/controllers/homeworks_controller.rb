@@ -103,8 +103,8 @@ class HomeworksController < ApplicationController
                 :status => PublishQuestionPackage::STATUS[:NEW],
                 :question_packages_url => question_packages_url,
                 :tag_id => params[:tag_id])
-              question = question_package.questions.joins(:cell,:episode).select("cells.name cell_name, episodes.name epi_name").limit(1)[0]
-              question_package.update_attribute(:name, "#{question.cell_name}#{question.epi_name}作业")
+              question = question_package.questions[0]
+              question_package.update_attribute(:name, question.question_package_name) if question
               if publish_question_package
                 wanxin_ids = Question.where("question_package_id = ? and types = ?",question_package_id,Question::TYPES[:CLOZE])
                 wanxin_ids = wanxin_ids.map(&:id) unless wanxin_ids.blank?

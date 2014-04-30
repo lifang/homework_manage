@@ -16,7 +16,7 @@ class Student < ActiveRecord::Base
   belongs_to :user
   validates_uniqueness_of :qq_uid, :allow_nil => true
   PER_PAGE = 10
-  ACTIVE_STATUS = {:YES => 1, :NO => 0} #是否激活 1已激活 0未激活
+  ACTIVE_STATUS = {:YES => 1, :NO => 0,:AWAITING => 2 } #是否激活 1已激活 0未激活 2.待激活状态
   DEFAULT_AVATAR_URL = "/assets/default_avater.jpg"   #默认头像
 
   def self.list_student page,school_class_id
@@ -197,24 +197,35 @@ where scsr.tag_id IS NULL and school_class_id = ?"
     #             and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0 and s.status =#{School::STATUS[:NORMAL]} and school_class_student_ralastions.student_id = #{student.id}")
     #   school_classes = school_classes.map(&:id) if school_classes.any?
     # else
-      school_classes = SchoolClassStudentRalastion
-            .select("sc.id")
-            .joins("left join school_classes sc on school_class_student_ralastions.school_class_id = sc.id")
-            .joins("left join teachers t on sc.teacher_id = t.id")
-            .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and t.status = #{Teacher::STATUS[:YES]} 
+    school_classes = SchoolClassStudentRalastion
+    .select("sc.id")
+    .joins("left join school_classes sc on school_class_student_ralastions.school_class_id = sc.id")
+    .joins("left join teachers t on sc.teacher_id = t.id")
+    .where("sc.status = #{SchoolClass::STATUS[:NORMAL]} and t.status = #{Teacher::STATUS[:YES]}
                 and TIMESTAMPDIFF(SECOND,now(),sc.period_of_validity) > 0 and school_class_student_ralastions.student_id = #{student.id}")        
-      if school_classes.any?
-        school_classes = school_classes.map(&:id)  
-        disable_classes = SchoolClass
-                            .select("school_classes.id")
-                            .joins("left join teachers t on school_classes.teacher_id = t.id")
-                            .joins("left join schools s on t.school_id = s.id")
-                            .where(["school_classes.id in (?) and (t.status != ? || s.status != ?)", 
-                                    school_classes, Teacher::STATUS[:NORMAL], School::STATUS[:NORMAL] ])
-        disable_classes = disable_classes.map(&:id)
-        school_classes = school_classes - disable_classes
-      end      
+    if school_classes.any?
+      school_classes = school_classes.map(&:id)
+      disable_classes = SchoolClass
+      .select("school_classes.id")
+      .joins("left join teachers t on school_classes.teacher_id = t.id")
+      .joins("left join schools s on t.school_id = s.id")
+      .where(["school_classes.id in (?) and (t.status != ? || s.status != ?)",
+          school_classes, Teacher::STATUS[:NORMAL], School::STATUS[:NORMAL] ])
+      disable_classes = disable_classes.map(&:id)
+      school_classes = school_classes - disable_classes
+    end
     # end
     school_classes      
-  end  
+  end
+
+  #获取最新作业
+  def self.get_new_work school_class_id,student_id,school_class,student
+    card_bag = CardBag.find_by_school_class_id_and_student_id school_class_id,student_id
+    if card_bag.present?
+      knowledges_cards_count = card_bag.knowledges_cards_count
+    end
+    props = Prop.get_prop_num school_class.id, student.id
+    tasks = PublishQuestionPackage.get_tasks school_class.id, student.id,"first"
+    return [knowledges_cards_count, props,tasks]
+  end
 end

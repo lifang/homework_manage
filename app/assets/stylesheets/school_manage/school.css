@@ -419,3 +419,12 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 
 .form_list .notice { padding-bottom: 10px; margin: 0 55px; text-align: right;}
 .form_list .notice a { color: #dd5c05;}
+
+
+.student_text_a {
+    background: #36C77B;
+    border-radius: 4px;
+    color: white;
+    padding: 5px 12px;
+    margin: 0 10px;
+}

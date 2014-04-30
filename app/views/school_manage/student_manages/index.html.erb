@@ -21,7 +21,11 @@
               <td><%= s.uname %></td>
               <td><%= s.s_no.nil? ? "无" : s.s_no %></td>
               <td><%= s.active_code.nil? ? "无" : s.active_code %></td>
-              <td><%= s.active_status==true ? "已激活" : "未激活" %></td>
+              <td>
+                <span class="<%= s.active_status.to_i==2 ? 'student_text_a' : ''%>" onclick="is_activating(this,<%= s.id %>)">
+                  <%= s.active_status.to_i==0 ? "未激活" : s.active_status.to_i==1 ? "已激活" : "待激活" %>
+                </span>
+              </td>
               <td>
                 <input type="hidden" name="stu_id" value="<%= s.id %>"/>
                 <% if s.status.to_i == 1%>

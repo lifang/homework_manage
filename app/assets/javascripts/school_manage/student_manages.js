@@ -96,3 +96,25 @@ function import_stu_xls_valid(obj){ //导入学生表格验证
         $(obj).parents("form").submit();
     }
 }
+
+// 激活学生
+function is_activating(obj,student_id){
+    var flag = confirm("确定激活该学生?");
+    if(flag){
+        $.ajax({
+            type :"get",
+            dataType : "json",
+            url : "/school_manage/student_manages/activating_student",
+            data : {
+                student_id : student_id
+            },
+            success : function(data){
+                tishi(data.notice);
+                if(data.status==1){
+                    $(obj).removeClass("student_text_a");
+                    $(obj).html("已激活");
+                }
+            }
+        })
+    }
+}

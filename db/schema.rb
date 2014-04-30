@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140416062938) do
+ActiveRecord::Schema.define(:version => 20140429085916) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer  "sender_id"
@@ -411,13 +411,13 @@ ActiveRecord::Schema.define(:version => 20140416062938) do
     t.integer  "status"
     t.integer  "last_visit_class_id"
     t.integer  "register_status"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
     t.integer  "user_id"
     t.string   "token"
     t.integer  "s_no"
     t.string   "active_code"
-    t.boolean  "active_status"
+    t.integer  "active_status",       :limit => 1
     t.integer  "school_id"
     t.integer  "veri_code"
   end

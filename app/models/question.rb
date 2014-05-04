@@ -20,8 +20,8 @@ class Question < ActiveRecord::Base
   PER_PAGE = 10
 
   #题包名称
-  def self.question_package_name
-    question = Questions.joins(:cell,:episode).where("id=?", self.id).select("cells.name cell_name, episodes.name epi_name").limit(1)[0]
+  def question_package_name
+    question = Question.joins(:cell,:episode).where("questions.id=?", self.id).select("cells.name cell_name, episodes.name epi_name").limit(1)[0]
     "#{question.cell_name}#{question.epi_name}作业"
   end
 

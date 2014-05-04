@@ -42,7 +42,7 @@ class PublishQuestionPackage < ActiveRecord::Base
     end
     tasks_sql += " and p.id != #{today_newer_id}" if !today_newer_id.nil?
     tasks_sql += " order by p.start_time desc"
-    tasks_sql += " limit 1" if !order_name.nil? && order_name == "first"
+    #tasks_sql += " limit 1" if !order_name.nil? && order_name == "first"  #当天任务也要返回多个
     pub_tasks = PublishQuestionPackage.find_by_sql tasks_sql
     # pub_tasks = pub_tasks[1..pub_tasks.length-1] if order_name.nil? && !today_newer_id.nil?
     pub_ids = pub_tasks.present? ? pub_tasks.map(&:id) : []

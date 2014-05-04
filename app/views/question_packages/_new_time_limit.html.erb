@@ -1,5 +1,4 @@
-<% school_class_id = school_class ? school_class.id : 0 %>
-<%= form_tag "/school_classes/#{school_class_id}/question_packages/create_time_limit", :method => :post, :class => "create_time_limit_form", :remote => true do %>
+<%= form_tag "/school_classes/#{@school_class_id}/question_packages/create_time_limit", :method => :post, :class => "create_time_limit_form", :remote => true do %>
   <% que_time = trans_int_to_time(question.questions_time.to_i) %>
   <div class="ab_list_title" id="time_limt_ab_list_title">
     <h1 id="time_limit_name">十速挑战
@@ -10,7 +9,7 @@
         <% end %>
       </h1>
     <p><%= user.name %>/ <%= question.created_at.nil? ? Time.now.strftime("%Y-%m-%d") : question.created_at.strftime("%Y-%m-%d") %>
-<% unless question.is_a?(ShareQuestion) %>      / <span name="cankaoshijian">参考时间：<% if question.questions_time.nil? %>未设置<% else %>
+  <% unless (question.is_a?(ShareQuestion) && @school_class_id == 0) %>      / <span name="cankaoshijian">参考时间：<% if question.questions_time.nil? %>未设置<% else %>
       <%= que_time[0]==0 ? "" : "#{que_time[0]}时" %><%= que_time[1]==0 ? "" : "#{que_time[1]}分" %><%= que_time[2]==0 ? "" : "#{que_time[2]}秒" %><% end %></span><% end %></p>
 
     <input type="hidden"  name="question_id" class="question_id" value="<%= question.nil? ? "0" : question.id %>"/>
@@ -20,7 +19,7 @@
     
     <input type="hidden" name="question_type" value="time_limit"/>
     <ul class="ab_func">
-      <% unless question.is_a?(ShareQuestion) %>
+      <% unless question.is_a?(ShareQuestion) && @school_class_id == 0 %>
         <li><a href="javascript:void(0)" class="clock_icon tooltip_html">指定时间</a></li>
       <% end %>
       <li><a href="javascript:void(0)" class="save_icon tooltip_html">保存</a></li>
@@ -129,7 +128,7 @@
         }
       });
       if(flag){
-        var school_class_id = <%= school_class_id %>;
+        var school_class_id = <%= @school_class_id %>;
         var q_id = $(this).parents(".ab_list_title").find("input[name='question_id']").first().val();
         if(q_id==undefined || q_id=="" || q_id=="0"){
           tishi("数据错误!");

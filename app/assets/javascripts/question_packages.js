@@ -43,7 +43,7 @@ function tiku_change_episode(obj){
 //添加听力或朗读题  types 0：听写  1：朗读
 function add_l_r_question(types, school_class_id )
 {
-    if(school_class_id == 0){
+    if(school_class_id == 0 || school_class_id == -1){
         setShareName(school_class_id, "read_and_lsiten", types);
     }else{
        ShareQuestion_new_reading_and_write(types, school_class_id, "");
@@ -463,6 +463,12 @@ function show_wanxin(school_class_id,question_id){
 
 //新建十速挑战
 function new_time_limit(school_class_id){
+     var cell_id = $("#cell_id").val();
+    var episode_id = $("#episode_id").val();
+    if(cell_id == "" || episode_id == ""){
+        tishi("请先选择章节或者单元");
+        return false;
+    }
     if(school_class_id == 0){
         setShareName(school_class_id, "time_limit", "-1");
     }else{

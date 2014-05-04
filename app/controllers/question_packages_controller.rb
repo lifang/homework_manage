@@ -218,9 +218,10 @@ class QuestionPackagesController < ApplicationController
   #新建朗读题/听力题
   def new_reading_or_listening
     @user = current_user
-    school_class_id = params[:school_class_id].to_i
-    if school_class_id == 0  #题库管理员
+    @school_class_id = params[:school_class_id].to_i
+    if @school_class_id == 0 || @school_class_id == -1  #题库管理员
       @question = ShareQuestion.create(:types => params[:types].to_i,:user_id => @user.try(:id),
+        :share_question_package_id => params[:question_package_id].to_i,
         :cell_id => params[:cell_id].to_i,
         :episode_id => params[:episode_id].to_i,:name => params[:name])
 
@@ -277,18 +278,18 @@ class QuestionPackagesController < ApplicationController
 
   #创建听力题小题
   def save_listening
-    p 1111111111111111111
     @q_index = params[:q_index].to_i
     @b_index = params[:b_index].to_i
     tags_id = params[:tags_id]
     types = params[:types]
     file = params[:file]
     branch_id = params[:branch_id]
+    school_class_id = params[:school_class_id].to_i
     @status = -2
     @notice = "小题创建失败！"
     if types.present?
       @types = types.to_i
-      if params[:school_class_id].to_i == 0
+      if school_class_id == 0 || school_class_id == -1
         @question = ShareQuestion.find_by_id params[:question_id].to_i
       else
         @question = Question.find_by_id params[:question_id].to_i
@@ -390,9 +391,7 @@ class QuestionPackagesController < ApplicationController
     #{qid => [branch_question,branch_question,branch_question], qid =>...}
     branch_questions = BranchQuestion.where(["question_id in (?)", @questions.map(&:id)])
     @branch_questions = branch_questions.group_by{|bq|bq.question_id}
-    branch_tags = BtagsBqueRelation.find_by_sql(["select bt.name, bbr.id, bbr.branch_question_id, bbr.branch_tag_id,bq.question_id  from
-        btags_bque_relations bbr left join branch_tags bt on bbr.branch_tag_id=bt.id left join branch_questions bq
-        on bq.id = bbr.branch_question_id where bbr.branch_question_id in (?)", branch_questions.map(&:id)])
+    branch_tags = BranchQuestion.bunch_branch_tags(branch_questions.map(&:id))
     h_branch_tags = branch_tags.group_by{|t|t.question_id} #{bqid => [tag,tag,tag],bqid => [tag,tag,tag]}
     hash = {}
     h_branch_tags.each do |k, v|
@@ -761,10 +760,7 @@ class QuestionPackagesController < ApplicationController
     .where(["question_id in (?)", question_id])
     branch_questions_id = branch_questions.map{|bq| bq.id}
     branch_questions = branch_questions.group_by {|b| b.question_id}
-    @branch_tags = BtagsBqueRelation.joins("left join branch_tags bt on btags_bque_relations.branch_tag_id = bt.id")
-    .select("btags_bque_relations.branch_question_id, bt.id, bt.name")
-    .where(["branch_question_id in (?) and bt.id is not null",branch_questions_id])
-    .group_by {|t| t.branch_question_id}
+    @branch_tags = BranchQuestion.bunch_branch_tags(branch_questions_id).group_by {|t| t.branch_question_id}
     question.each do |q|
       branch_ques = []
       if branch_questions[q.id].present?
@@ -797,11 +793,12 @@ class QuestionPackagesController < ApplicationController
   #设置大题的时间
   def set_question_time
     Question.transaction do
+      school_class_id = params[:school_class_id].to_i
       status = 1
       time_int = []
       type = ""
       begin
-        question = Question.find_by_id(params[:question_id])
+        question = (school_class_id == -1 ? ShareQuestion : Question).find_by_id(params[:question_id])
         hour = params[:hour]
         minute = params[:minute]
         second = params[:second]
@@ -830,13 +827,11 @@ class QuestionPackagesController < ApplicationController
             :types => Question::TYPES[:TIME_LIMIT], :episode_id => episode_id, :name => name})
       elsif @school_class_id == -1  #题库 管理员 快捷题包
         share_question_package = ShareQuestionPackage.find_by_id question_package_id
-        @question = share_question_package.share_questions.time_limit
+        @question = share_question_package.share_questions.time_limit[0]
         if @question.present? #十速题是否存在
           @branch_question = ShareBranchQuestion.where(["share_question_id = ?", @question.id])
-          branch_tags = SbranchBranchTagRelation.find_by_sql(["select bt.name, bbr.share_branch_question_id, bbr.branch_tag_id
-        from sbranch_branch_tag_relations bbr left join branch_tags bt on bbr.branch_tag_id=bt.id
-        where bbr.share_branch_question_id in (?)", @branch_question.map(&:id)])
-          @branch_tags = branch_tags.group_by{|t|t.branch_question_id}
+          branch_tags = ShareBranchQuestion.bunch_branch_tags(@branch_question.map(&:id))
+          @branch_tags = branch_tags.group_by{|t|t.share_branch_question_id}
         else
           @question = share_question_package.share_questions.create({:user_id => current_user.try(:id), :cell_id => cell_id,
               :types => Question::TYPES[:TIME_LIMIT], :episode_id => episode_id, :name => name})
@@ -848,9 +843,7 @@ class QuestionPackagesController < ApplicationController
 
         if @question
           @branch_question = BranchQuestion.where(["question_id = ?", @question.id])
-          branch_tags = BtagsBqueRelation.find_by_sql(["select bt.name, bbr.branch_question_id, bbr.branch_tag_id
-        from btags_bque_relations bbr left join branch_tags bt on bbr.branch_tag_id=bt.id
-        where bbr.branch_question_id in (?)", @branch_question.map(&:id)])
+          branch_tags = BranchQuestion.bunch_branch_tags(@branch_question.map(&:id))
           @branch_tags = branch_tags.group_by{|t|t.branch_question_id}
         else
           @question = Question.create({:question_package_id => question_package_id, :cell_id => cell_id,
@@ -880,7 +873,8 @@ class QuestionPackagesController < ApplicationController
     BranchQuestion.transaction do
       time_limit = params[:time_limit]
       q_id = params[:question_id].to_i
-      if params[:school_class_id].to_i == 0
+      school_class_id = params[:school_class_id].to_i
+      if school_class_id == 0 || school_class_id == -1
         question = ShareQuestion.find_by_id q_id
       else
         question = Question.find_by_id(q_id)

@@ -5,23 +5,39 @@
     <div class="assignment_head">
       <div class="select_box">
         <div class="rowElem">
-          <select name="select1" id="select1" onchange="address_search_episodes(this, '-1', 0)">
-            <option value="0">请选择单元</option>
-            <%@cells.each do |cell|%>
-              <option value="<%=cell.id %>" >
-                <%=cell.name%>
-              </option>
-            <%end%>
-          </select>
+          <% if @cell_id.present? %>
+            <select name="select1"  disabled="disabled">
+              <option value="<%= @cell_id %>"><%= @cell_name %></option>
+            </select>
+          <% else %>
+            <select name="select1" id="select1" onchange="address_search_episodes(this, '-1', 0)">
+              <option value="0">请选择单元</option>
+              <%@cells.each do |cell|%>
+                <option value="<%=cell.id %>" >
+                  <%=cell.name%>
+                </option>
+              <%end%>
+            </select>
+          <% end %>
         </div>
         <div class="rowElem" id="select2">
-          <select name="select2"  >
-            <option value="opt1">请先选择单元</option>
-          </select>
+          <% if @episode_id.present? %>
+            <select name="select2" disabled="disabled">
+              <option value="<%= @episode_id %>"><%= @episode_name %></option>
+            </select>
+          <% else %>
+            <select name="select2"  >
+              <option value="opt1">请先选择单元</option>
+            </select>
+          <% end %>
         </div>
       </div>
     </div>
 
+    <div class="assignment_body" id="question_list" >
+      <%=  render :partial => 'question_packages/questions_list', :locals => {:@user => current_user} %>
+    </div>
+    
     <div class="questionTypes">
       <div class="qType_menu clearAfter">
         <ul>
@@ -50,8 +66,8 @@
     <div class="complete_btn_box">
       <%#=form_for(:question_packages , url:check_before_complete_create_package_school_class_question_package_path(@school_class,@question_pack)) do |f| %>
         <input type="hidden"  name="school_class_id" id="school_class_id" value="-1"/>
-        <input type="hidden"  name="cell_id" id="cell_id" />
-        <input type="hidden"  name="episode_id" id="episode_id" />
+        <input type="hidden"  name="cell_id" id="cell_id" value="<%= @cell_id %>" />
+        <input type="hidden"  name="episode_id" id="episode_id" value="<%= @episode_id %>" />
         <input type="hidden"  name="question_package_id" id="question_package_id" value="<%= @share_question_package.id %>"/>
         <button>点击确定完成创建</button>
       <%#end%>

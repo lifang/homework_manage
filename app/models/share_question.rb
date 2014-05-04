@@ -2,10 +2,21 @@
 class ShareQuestion < ActiveRecord::Base
   attr_protected :authentications
   belongs_to :share_question_package
+  belongs_to :cell
+  belongs_to :episode
   has_many :share_branch_questions, :dependent => :destroy
   require 'will_paginate/array'
   Per_page = 10
 
+  Question::TYPE_NAME_ARR.each do |type|
+    scope type.to_sym, :conditions => { :types => Question::TYPES[type.upcase.to_sym] }
+  end
+
+  #快捷题包名称
+  def question_package_name
+    question = ShareQuestion.joins(:cell,:episode).where("share_questions.id=?", self.id).select("cells.name cell_name, episodes.name epi_name").limit(1)[0]
+    "#{question.cell_name}#{question.epi_name}作业"
+  end
   
   def self.share_questions(cell_id, episode_id, types, sort, page)
     @share_questions = ShareQuestion.find_by_sql("select u.name user_name, sq.* from share_questions sq

@@ -1,4 +1,4 @@
-<% if @question.is_a?(ShareQuestion) %>
+<% if @question.is_a?(ShareQuestion) && @school_class_id == 0 %>
   $("#question_list").html('<%= j(render "question_packages/listening_or_reading_que", {:types =>  @question.types, :question_id => @question.id, :user => @user, :created_at => @question.created_at, :question => @question, :questions_time => @question.questions_time, :resource_url => nil }) %>');
 <% else %>
   $("#question_list").find("div.assignment_body_list").each(function(){

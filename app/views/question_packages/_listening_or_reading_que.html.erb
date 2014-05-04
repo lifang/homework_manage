@@ -10,14 +10,18 @@
     <% end %>
     </h1>
     <p><%= user.name %>/ <%= question.created_at.present? ? question.created_at.strftime("%Y-%m-%d") : "未保存" %>
-    <% unless question.is_a?(ShareQuestion) %>  /<span name="cankaoshijian">参考时间：<% if question.questions_time.nil? %>未设置<% else %>
+    <% unless question.is_a?(ShareQuestion) && @school_class_id == 0 %>  /<span name="cankaoshijian">参考时间：<% if question.questions_time.nil? %>未设置<% else %>
           <%= que_time[0]==0 ? "" : "#{que_time[0]}时" %><%= que_time[1]==0 ? "" : "#{que_time[1]}分" %><%= que_time[2]==0 ? "" : "#{que_time[2]}秒" %><% end %></span><% end %>
     </p>
     <input type="hidden" name="question_id" class="question_id" value="<%= question_id %>"/>
     <ul class="ab_func">
-     <% unless question.is_a?(ShareQuestion) %> <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
-      <!-- <li><a href="javascript:void(0)" class="save_icon tooltip_html">保存</a></li> -->
-      <li><a href="javascript:void(0)" class="<%= is_shared(question) %> tooltip_html">分享</a></li>
+      <% unless question.is_a?(ShareQuestion) && @school_class_id == 0 %>
+        <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
+      <% end %>
+        <% p 11111111111111111111111
+        p question.is_a?(Question) %>
+      <% if question.is_a?(Question) %>
+        <li><a href="javascript:void(0)" class="<%= is_shared(question) %> tooltip_html">分享</a></li>
       <% end %>
       <li><a href="javascript:void(0)" class="delete_icon tooltip_html">删除</a></li>
     </ul>

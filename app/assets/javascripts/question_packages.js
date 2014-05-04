@@ -468,7 +468,8 @@ function new_time_limit(school_class_id){
     }else{
         var time_limit_que_id = $("#time_limit_assignment_body_list").find("input[name='question_id']").first().val();
         if(time_limit_que_id==undefined || time_limit_que_id=="" || time_limit_que_id=="0"){
-            timeLimitGetPartial(school_class_id, "")
+            setShareName(school_class_id, "time_limit", "-1");
+            //timeLimitGetPartial(school_class_id, "")
 
         }else{
             tishi("每个大题下面最多只能有一个十速挑战!");
@@ -486,6 +487,7 @@ function new_time_limit(school_class_id){
         }
     }
 }
+//设置分享大题的名称
 function setShareName(school_class_id, question_type, types){  //types 听写 || 朗读
     $("#set_name_div").find("input").val("");
     showSetName();

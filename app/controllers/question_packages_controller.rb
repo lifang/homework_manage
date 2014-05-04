@@ -828,6 +828,20 @@ class QuestionPackagesController < ApplicationController
       if @school_class_id == 0   #题库 管理员
         @question = ShareQuestion.create({:user_id => current_user.try(:id), :cell_id => cell_id,
             :types => Question::TYPES[:TIME_LIMIT], :episode_id => episode_id, :name => name})
+      elsif @school_class_id == -1  #题库 管理员 快捷题包
+        share_question_package = ShareQuestionPackage.find_by_id question_package_id
+        @question = share_question_package.share_questions.time_limit
+        if @question.present? #十速题是否存在
+          @branch_question = ShareBranchQuestion.where(["share_question_id = ?", @question.id])
+          branch_tags = SbranchBranchTagRelation.find_by_sql(["select bt.name, bbr.share_branch_question_id, bbr.branch_tag_id
+        from sbranch_branch_tag_relations bbr left join branch_tags bt on bbr.branch_tag_id=bt.id
+        where bbr.share_branch_question_id in (?)", @branch_question.map(&:id)])
+          @branch_tags = branch_tags.group_by{|t|t.branch_question_id}
+        else
+          @question = share_question_package.share_questions.create({:user_id => current_user.try(:id), :cell_id => cell_id,
+              :types => Question::TYPES[:TIME_LIMIT], :episode_id => episode_id, :name => name})
+          share_question_package.update_attributes(:cell_id => cell_id, :episode_id => episode_id, :name => @question.question_package_name) #分享的题包更新
+        end
       else  #普通教师
         @question = Question.find_by_question_package_id_and_cell_id_and_episode_id_and_types(question_package_id,
           cell_id, episode_id, Question::TYPES[:TIME_LIMIT])

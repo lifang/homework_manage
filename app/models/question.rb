@@ -18,6 +18,18 @@ class Question < ActiveRecord::Base
   end
   STATUS = {:NORMAL => 1, :DELETED => 0}  #状态 1正常 0删除
   PER_PAGE = 10
+
+  #题包名称
+  def question_package_name
+    question = Question.joins(:cell,:episode).where("questions.id=?", self.id).select("cells.name cell_name, episodes.name epi_name").limit(1)[0]
+    "#{question.cell_name}#{question.epi_name}作业"
+  end
+
+  def self.branch_questions
+    
+  end
+
+  
   #查询一个题包下的所有题目
   def self.get_all_questions question_package
     all_questions = []

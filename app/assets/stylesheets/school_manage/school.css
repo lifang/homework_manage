@@ -427,4 +427,5 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
     color: white;
     padding: 5px 12px;
     margin: 0 10px;
+    cursor: pointer
 }

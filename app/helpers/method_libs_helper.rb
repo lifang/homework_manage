@@ -494,7 +494,7 @@ q.id = bq.question_id where kc.card_bag_id = ? and bq.types not in (#{Question::
       if mistake_types.nil?
         knowledge_cards = KnowledgesCard.find_by_sql([sql,card_bag_id])
       else
-        mistake_types_sql = " and kc.mistake_types=?"
+        mistake_types_sql = " and bq.types=?"
         sql += mistake_types_sql
         knowledge_cards = KnowledgesCard.find_by_sql([sql,card_bag_id,mistake_types])
       end
@@ -557,8 +557,8 @@ q.id = bq.question_id where kc.card_bag_id = ? and bq.types not in (#{Question::
 INNER JOIN card_tags ct on ct.id = ctkcr.card_tag_id
 INNER JOIN branch_questions bq on kc.branch_question_id = bq.id
 inner join questions q on  q.id = bq.question_id
-WHERE kc.card_bag_id =? and (ct.name LIKE ? or bq.content LIKE ? or q.full_text like ? ) and bq.types not in (#{Question::TYPES[:TIME_LIMIT]})"
-      knowledgescard = KnowledgesCard.find_by_sql([sql,cardbag_id,name,name,name])
+WHERE kc.card_bag_id =? and ( bq.content LIKE ? or q.full_text like ? ) and bq.types not in (#{Question::TYPES[:TIME_LIMIT]})"
+      knowledgescard = KnowledgesCard.find_by_sql([sql,cardbag_id,name,name])
 
       knowledge_content = process_knowledges knowledgescard,cardbag_id
       status = knowledge_content[:status]

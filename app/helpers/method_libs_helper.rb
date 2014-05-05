@@ -502,9 +502,8 @@ q.id = bq.question_id where kc.card_bag_id = ? and bq.types not in (#{Question::
       status = knowledge_content[:status]
       notice = knowledge_content[:notice]
       knowledges_cards = knowledge_content[:knowledges_cards]
-      cardtag = knowledge_content[:cardtag]
     end
-    info = {:status => status,:notice => notice,:knowledges_card => knowledges_cards,:tags => cardtag }
+    info = {:status => status,:notice => notice,:knowledges_card => knowledges_cards }
   end
 
   #处理knowledge_card 数据
@@ -527,23 +526,9 @@ q.id = bq.question_id where kc.card_bag_id = ? and bq.types not in (#{Question::
         end
       end
     end
-    cardtag = CardTag.where("card_bag_id = #{card_bag_id} or card_bag_id is null ")
-    cardtag_kcard_relation = CardTagKnowledgesCardRelation.where("card_tag_id in (?)" ,cardtag.map(&:id)).
-      group_by{|cardtag_kcard| cardtag_kcard.knowledges_card_id}
-    knowledges_cards = []
-    knowledge_cards.each do |knowledges_card|
-      know =  knowledges_card.attributes
-      know['card_tags_id']=[]
-      cardtag_kcard_relation.each do |knowledges_card_id,cardtag_kcard|
-        if knowledges_card.id.eql?(knowledges_card_id)
-          know['card_tags_id'] = cardtag_kcard.map(&:card_tag_id)
-        end
-      end
-      knowledges_cards << know
-    end
     status = "success"
     notice = "获取成功！！"
-    knowledge_content = {:status=>status,:notice=>notice,:knowledges_cards=>knowledges_cards,:cardtag=>cardtag}
+    knowledge_content = {:status=>status,:notice=>notice,:knowledges_cards=>knowledge_cards}
   end
 
   #  通过错题类型或者标签名称查询
@@ -553,9 +538,7 @@ q.id = bq.question_id where kc.card_bag_id = ? and bq.types not in (#{Question::
     if cardbag
       cardbag_id = cardbag.id
       sql = "SELECT DISTINCT kc.*,bq.content,bq.question_id,bq.resource_url,bq.types,bq.answer,bq.options,q.full_text,q.id question_id
- from knowledges_cards kc  inner join card_tag_knowledges_card_relations ctkcr on kc.id = ctkcr.knowledges_card_id
-INNER JOIN card_tags ct on ct.id = ctkcr.card_tag_id
-INNER JOIN branch_questions bq on kc.branch_question_id = bq.id
+ from knowledges_cards kc INNER JOIN branch_questions bq on kc.branch_question_id = bq.id
 inner join questions q on  q.id = bq.question_id
 WHERE kc.card_bag_id =? and ( bq.content LIKE ? or q.full_text like ? ) and bq.types not in (#{Question::TYPES[:TIME_LIMIT]})"
       knowledgescard = KnowledgesCard.find_by_sql([sql,cardbag_id,name,name])
@@ -564,12 +547,11 @@ WHERE kc.card_bag_id =? and ( bq.content LIKE ? or q.full_text like ? ) and bq.t
       status = knowledge_content[:status]
       notice = knowledge_content[:notice]
       knowledges_cards = knowledge_content[:knowledges_cards]
-      cardtag = knowledge_content[:cardtag]
     else
       status = "error"
       notice = "卡包不存在"
     end
-    info = {:status=>status,:notice=>notice,:knowledges_card => knowledges_cards,:tags => cardtag }
+    info = {:status=>status,:notice=>notice,:knowledges_card => knowledges_cards}
   end
 
 

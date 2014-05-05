@@ -16,8 +16,10 @@
     <input type="hidden" name="question_id" class="question_id" value="<%= question.id %>"/>
     <ul class="ab_func">
       <!-- <li><a href="javascript:void(0)" class="save_icon tooltip_html">保存</a></li> -->
-      <% unless question.is_a?(ShareQuestion) %>
+      <% unless question.is_a?(ShareQuestion) && @school_class_id == 0 %>
         <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
+      <% end %>
+      <% if question.is_a?(Question) %>
         <li><a href="javascript:void(0)" class="<%= is_shared(question) %> tooltip_html">分享</a></li>
       <% end  %>
       <li><a href="javascript:void(0)" class="delete_icon tooltip_html">删除</a></li>

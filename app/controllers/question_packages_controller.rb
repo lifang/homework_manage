@@ -22,20 +22,22 @@ class QuestionPackagesController < ApplicationController
   #导入听写题
   def import_lisenting
     question_package_id = params[:question_package_id]
-    school_class_id = params[:school_class_id]
+    @school_class_id = params[:school_class_id].to_i
     @question_id = params[:question_id]  
     file = params[:file]
     @types = params[:types]
     @status = false
     @notice = "没有找到题包!"
     if question_package_id.present?
-      if params[:school_class_id].to_i == 0
+      if @school_class_id == 0 || @school_class_id == -1
         @question = ShareQuestion.find_by_id @question_id
       else
         @question = Question.find_by_id @question_id
       end
-      if school_class_id.to_i == 0
+      if @school_class_id == 0
         destination_dir = "#{question_admin_share_media_path}".gsub(/^[^\\]|[^\\]$/, "")
+      elsif @school_class_id == -1
+        destination_dir = "#{question_admin_package_path % question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
       else
         destination_dir = "#{media_path % question_package_id}".gsub(/^[^\\]|[^\\]$/, "")
       end
@@ -94,8 +96,9 @@ class QuestionPackagesController < ApplicationController
     @branch_tags = {}
     @branch_tags[@question_id] = {}
     @status = false
+    @school_class_id = params[:school_class_id].to_i
     if params[:lisenting].present?
-      if params[:school_class_id].to_i == 0
+      if @school_class_id == 0 || @school_class_id == -1
         @question = ShareQuestion.find_by_id @question_id.to_i
       else
         @question = Question.find_by_id @question_id.to_i
@@ -164,9 +167,11 @@ class QuestionPackagesController < ApplicationController
     @b_index = params[:b_index]
     @status = false
     school_class_id = params[:school_class_id].to_i
-    if school_class_id == 0
+    if_share_question = school_class_id == 0 || school_class_id == -1
+    if if_share_question
       @question = ShareQuestion.find_by_id question_id
-      destination_dir = "#{question_admin_share_media_path}".gsub(/^[^\\]|[^\\]$/, "")
+      dir_name = school_class_id == 0 ? question_admin_share_media_path : (question_admin_package_path % question_package_id)
+      destination_dir = "#{dir_name}".gsub(/^[^\\]|[^\\]$/, "")
     else
       destination_dir = "#{media_path % question_package.id}".gsub(/^[^\\]|[^\\]$/, "")
     end
@@ -179,7 +184,7 @@ class QuestionPackagesController < ApplicationController
         if upload[:status] == true
           @resource_url = upload[:url]
           if branch_id.present?
-            branch_question = (school_class_id == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id branch_id
+            branch_question = (if_share_question ? ShareBranchQuestion : BranchQuestion).find_by_id branch_id
             if branch_question.present?
               if branch_question.update_attributes(:resource_url => @resource_url)
                 @status = true
@@ -323,9 +328,11 @@ class QuestionPackagesController < ApplicationController
     tags_id = params[:tags_id]
     types = params[:types]
     file = params[:file].present? ? params[:file] : nil
+    school_class_id = params[:school_class_id].to_i
+    if_share_question = school_class_id == 0 || school_class_id == -1
     if types.present?
       @types = types.to_i
-      if params[:school_class_id].to_i == 0
+      if if_share_question
         @question = ShareQuestion.find_by_id params[:question_id].to_i
       else
         @question = Question.find_by_id params[:question_id].to_i
@@ -334,7 +341,7 @@ class QuestionPackagesController < ApplicationController
         @question_id = @question.id
         branch_id = params[:branch_id]
         if branch_id.present?
-          @branch_question = (params[:school_class_id].to_i == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id branch_id
+          @branch_question = (if_share_question ? ShareBranchQuestion : BranchQuestion).find_by_id branch_id
           if @branch_question.nil?
             @status = -1
             @notice = "该小题不存在，修改失败！"
@@ -431,19 +438,20 @@ class QuestionPackagesController < ApplicationController
     cell_id = params[:cell_id]
     episode_id = params[:episode_id]
     name = params[:name]
-    @question_packages = QuestionPackage.find_by_id(params[:id])
-    school_class_id = params[:school_class_id].to_i
-    if school_class_id == 0
+    @question_package_id = params[:id]
+    @school_class_id = params[:school_class_id].to_i
+    if @school_class_id == 0 || @school_class_id == -1
       @wanxin_index = 0
-      @question = ShareQuestion.create(types:Question::TYPES[:CLOZE],
+      @question_package = ShareQuestionPackage.find_by_id(params[:id])
+      @question = @question_package.share_questions.create(types:Question::TYPES[:CLOZE],
         user_id:current_user.try(:id),
         episode_id:episode_id,
         cell_id:cell_id,
         name:name)
     else
-      @wanxin_index = get_count_of_wanxin @question_packages.questions
-      @question = Question.create(types:Question::TYPES[:CLOZE],
-        question_package_id:@question_packages.id,
+      @question_package = QuestionPackage.find_by_id(params[:id])
+      @wanxin_index = get_count_of_wanxin @question_package.questions
+      @question = @question_package.questions.create(types:Question::TYPES[:CLOZE],
         episode_id:episode_id,
         cell_id:cell_id)
     end
@@ -478,8 +486,9 @@ class QuestionPackagesController < ApplicationController
     content = params[:content].gsub("(**)","&#").gsub("(*:*)",";").html_safe;
     content = unencode content
     content = content.gsub("&nbsp;"," ")
-    school_class_id = params[:school_class_id].to_i
-    @question = (school_class_id == 0 ? ShareQuestion : Question).find_by_id(params[:id])
+    @school_class_id = params[:school_class_id].to_i
+    if_share = @school_class_id == 0 || @school_class_id == -1
+    @question = (if_share ? ShareQuestion : Question).find_by_id(params[:id])
     #保存小题索引
 
     branch_questions = @question.is_a?(ShareQuestion) ? @question.share_branch_questions : @question.branch_questions
@@ -494,60 +503,66 @@ class QuestionPackagesController < ApplicationController
   end
 
   def save_wanxin_branch_question
-    @gloab_index = params[:gloab_index]
-    branch_question_id = params[:branch_question_id]
-    option = params[:option]
-    school_class_id = params[:school_class_id].to_i
-    options = option.join(";||;")
-    index =-1
-    params.each do |t|
-      if t[0] =~ /radio_/
-        index = t[1].to_i
+    ShareBranchQuestion.transaction do
+      @gloab_index = params[:gloab_index]
+      branch_question_id = params[:branch_question_id]
+      option = params[:option]
+      @school_class_id = params[:school_class_id].to_i
+      @question_package_id = params[:id]
+      if_share = @school_class_id == 0 || @school_class_id == -1
+      options = option.join(";||;")
+      index =-1
+      params.each do |t|
+        if t[0] =~ /radio_/
+          index = t[1].to_i
+        end
       end
-    end
-    answer = option[index]
-    if branch_question_id==""
-      if school_class_id == 0
-        branch_question = ShareBranchQuestion.create(share_question_id:params[:question_id],
-          options:options,
-          answer:answer,
-          types:Question::TYPES[:CLOZE])
-      else
-        branch_question = BranchQuestion.create(question_id:params[:question_id],
-          options:options,
-          answer:answer,
-          types:Question::TYPES[:CLOZE])
-      end
+      answer = option[index]
+      if branch_question_id==""
+        if if_share
+          branch_question = ShareBranchQuestion.create(share_question_id:params[:question_id],
+            options:options,
+            answer:answer,
+            types:Question::TYPES[:CLOZE])
+        else
+          branch_question = BranchQuestion.create(question_id:params[:question_id],
+            options:options,
+            answer:answer,
+            types:Question::TYPES[:CLOZE])
+        end
         @text= branch_question ? 1 : 0
-    else
-      branch_question = (school_class_id == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id(branch_question_id)
-      if branch_question.update_attributes(options:options,
-          answer:answer
-        )
-        @text=2
       else
-        @text=0
+        branch_question = (if_share ? ShareBranchQuestion : BranchQuestion).find_by_id(branch_question_id)
+        if branch_question.update_attributes(options:options,
+            answer:answer
+          )
+          @text=2
+        else
+          @text=0
+        end
       end
-    end
-    @question_packages = QuestionPackage.find_by_id(params[:id])
-    @question_id = params[:question_id]
-    if school_class_id == 0
-      @branch_ques = ShareBranchQuestion.where("share_question_id = ?",params[:question_id])
-      branch_question_ids = @branch_ques.map(&:id)
-      @tags = SbranchBranchTagRelation.where("share_branch_question_id in (?)",branch_question_ids).
-        joins("inner join branch_tags bt on sbranch_branch_tag_relations.branch_tag_id=bt.id").
-        select("sbranch_branch_tag_relations.id,sbranch_branch_tag_relations.share_branch_question_id,bt.name,bt.created_at,bt.updated_at")
-    else
-      @branch_ques = BranchQuestion.where("question_id = ?",params[:question_id])
-      branch_question_ids = @branch_ques.map(&:id)
-      @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
-        joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
-        select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
-    end
-    @options = @branch_ques.map{|d| d.options.split(";||;")}
-    @values=[]
-    @branch_ques.each_with_index do |bq|
-      @values << bq.options.split(";||;").index { |x| x == bq.answer }
+
+      @question_id = params[:question_id]
+      if if_share
+        @question_package = ShareQuestionPackage.find_by_id(params[:id])
+        @branch_ques = ShareBranchQuestion.where("share_question_id = ?",params[:question_id])
+        branch_question_ids = @branch_ques.map(&:id)
+        @tags = SbranchBranchTagRelation.where("share_branch_question_id in (?)",branch_question_ids).
+          joins("inner join branch_tags bt on sbranch_branch_tag_relations.branch_tag_id=bt.id").
+          select("sbranch_branch_tag_relations.id,sbranch_branch_tag_relations.share_branch_question_id,bt.name,bt.created_at,bt.updated_at")
+      else
+        @question_package = QuestionPackage.find_by_id(params[:id])
+        @branch_ques = BranchQuestion.where("question_id = ?",params[:question_id])
+        branch_question_ids = @branch_ques.map(&:id)
+        @tags = BtagsBqueRelation.where("branch_question_id in (?)",branch_question_ids).
+          joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
+          select("btags_bque_relations.id,btags_bque_relations.branch_question_id,bt.name,bt.created_at,bt.updated_at")
+      end
+      @options = @branch_ques.map{|d| d.options.split(";||;")}
+      @values=[]
+      @branch_ques.each_with_index do |bq|
+        @values << bq.options.split(";||;").index { |x| x == bq.answer }
+      end
     end
   end
   
@@ -576,18 +591,21 @@ class QuestionPackagesController < ApplicationController
   def create_paixu
     cell_id = params[:cell_id]
     episode_id = params[:episode_id]
-    school_class_id = params[:school_class_id].to_i
+    @school_class_id = params[:school_class_id].to_i
     name = params[:name]
-    if school_class_id == 0
+    @question_package_id = params[:id]
+    if @school_class_id == 0 || @school_class_id == -1
+      @question_package = ShareQuestionPackage.find_by_id(params[:id])
       @question = ShareQuestion.create(types:Question::TYPES[:SORT],
         user_id:current_user.id,
+        share_question_package_id:params[:id],
         episode_id:episode_id,
         cell_id:cell_id,
        name:name)
     else
-      @question_packages = QuestionPackage.find_by_id(params[:id])
+      @question_package = QuestionPackage.find_by_id(params[:id])
       @question = Question.create(types:Question::TYPES[:SORT],
-        question_package_id:@question_packages.id,
+        question_package_id:params[:id],
         episode_id:episode_id,
         cell_id:cell_id)
     end
@@ -598,10 +616,12 @@ class QuestionPackagesController < ApplicationController
     @gloab_index = params[:gloab_index]
     branch_question_id = params[:branch_question_id]
     content = params[:content].strip.gsub(/\s+/," ")
-    school_class_id = params[:school_class_id].to_i
+    @school_class_id = params[:school_class_id].to_i
+    @question_package_id = params[:id]
+    if_share = @school_class_id == 0 || @school_class_id == -1
     answer = content
     if branch_question_id==""
-      if school_class_id == 0
+      if if_share
         branch_question = ShareBranchQuestion.create(content:content,
           share_question_id:params[:question_id],
           answer:answer,
@@ -614,7 +634,7 @@ class QuestionPackagesController < ApplicationController
       end
       @text = branch_question ? 1 : 0
     else
-      branch_question = (school_class_id == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id(branch_question_id)
+      branch_question = (if_share ? ShareBranchQuestion : BranchQuestion).find_by_id(branch_question_id)
       if branch_question.update_attributes(content:content,
           answer:answer
         )
@@ -626,7 +646,7 @@ class QuestionPackagesController < ApplicationController
     @branch_question = branch_question
     @question_packages = QuestionPackage.find_by_id(params[:id])
     @question_id = params[:question_id]
-    if school_class_id == 0
+    if if_share
       @branch_ques = ShareBranchQuestion.where("share_question_id = ?",params[:question_id])
       branch_question_ids = @branch_ques.map(&:id)
       @tags = SbranchBranchTagRelation.where("share_branch_question_id in (?)",branch_question_ids).
@@ -692,7 +712,7 @@ class QuestionPackagesController < ApplicationController
   #删除小题
   def delete_branch_question branch_question_id
     school_class_id = params[:school_class_id].to_i
-    branch_question = (school_class_id == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id(branch_question_id)
+    branch_question = (school_class_id == 0 || school_class_id == -1 ? ShareBranchQuestion : BranchQuestion).find_by_id(branch_question_id)
     if branch_question && branch_question.destroy
       return branch_question
     else
@@ -778,14 +798,20 @@ class QuestionPackagesController < ApplicationController
 
   #删除作业
   def destroy
-    question_pack = QuestionPackage.find_by_id(params[:id])
+    school_class_id = parms[:school_class_id].to_i
     QuestionPackage.transaction do
-      #作业删除文件夹开始
-      delete_question_package_folder(question_pack)
-      #作业删除文件夹结束
-      if question_pack.destroy
-        flash[:notice] = "删除成功"
-        redirect_to "/school_classes/#{school_class_id}/homeworks"
+      if school_class_id == -1
+        question_pack = ShareQuestionPackage.find_by_id(params[:id])
+      else
+        question_pack = QuestionPackage.find_by_id(params[:id])
+
+        #作业删除文件夹开始
+        delete_question_package_folder(question_pack)
+        #作业删除文件夹结束
+        if question_pack.destroy
+          flash[:notice] = "删除成功"
+          redirect_to "/school_classes/#{school_class_id}/homeworks"
+        end
       end
     end
   end
@@ -835,7 +861,6 @@ class QuestionPackagesController < ApplicationController
         else
           @question = share_question_package.share_questions.create({:user_id => current_user.try(:id), :cell_id => cell_id,
               :types => Question::TYPES[:TIME_LIMIT], :episode_id => episode_id, :name => name})
-          share_question_package.update_attributes(:cell_id => cell_id, :episode_id => episode_id, :name => @question.question_package_name) #分享的题包更新
         end
       else  #普通教师
         @question = Question.find_by_question_package_id_and_cell_id_and_episode_id_and_types(question_package_id,
@@ -984,9 +1009,10 @@ class QuestionPackagesController < ApplicationController
   def delete_question
     Question.transaction do
       question_id = params[:question_id].to_i
+      school_class_id = params[:school_class_id].to_i
       status = 1
       begin
-        if params[:school_class_id].to_i == 0
+        if school_class_id == 0 || school_class_id == -1
           question = ShareQuestion.find_by_id(question_id)
         else
           question = Question.find_by_id(question_id)
@@ -1055,10 +1081,11 @@ class QuestionPackagesController < ApplicationController
   def save_branch_tag
     branch_tag_id = params[:branch_tag_id]
     branch_question_id = params[:branch_question_id]
-    school_class_id = params[:school_class_id].to_i
+    @school_class_id = params[:school_class_id].to_i
+    if_share = @school_class_id == 0 || @school_class_id == -1
     branch_tag = BranchTag.find_by_id(branch_tag_id)
-    branch_question = (school_class_id == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id branch_question_id
-    if school_class_id == 0
+    branch_question = (if_share ? ShareBranchQuestion : BranchQuestion).find_by_id branch_question_id
+    if if_share
       btagsbquetelation = SbranchBranchTagRelation.find_by_branch_tag_id_and_share_branch_question_id(branch_tag_id,branch_question_id)
     else
       btagsbquetelation = BtagsBqueRelation.find_by_branch_tag_id_and_branch_question_id(branch_tag_id,branch_question_id)
@@ -1086,10 +1113,10 @@ class QuestionPackagesController < ApplicationController
     @type = params[:type]
     @gloab_index =params[:gloab_index]
     @q_index = params[:q_index]
-    school_class_id = params[:school_class_id].to_i
-    @question_packages = QuestionPackage.find_by_id(params[:id])
+    @school_class_id = params[:school_class_id].to_i
+    @question_package_id = params[:id]
     branch_question_id = params[:branch_question_id]
-    @branch_question = (school_class_id == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id branch_question_id
+    @branch_question = (@school_class_id == 0 || @school_class_id == -1 ? ShareBranchQuestion : BranchQuestion).find_by_id branch_question_id
     if @branch_question.is_a?(ShareBranchQuestion)
       @tags = SbranchBranchTagRelation.where("share_branch_question_id = ?",branch_question_id).
         joins("inner join branch_tags bt on sbranch_branch_tag_relations.branch_tag_id=bt.id").

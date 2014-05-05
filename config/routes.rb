@@ -111,7 +111,11 @@ HomeworkManage::Application.routes.draw do
       end
     end
 
-    resources :share_question_packages
+    resources :share_question_packages do
+      collection do
+        get :check_has_share_package
+      end
+    end
 
   end
 

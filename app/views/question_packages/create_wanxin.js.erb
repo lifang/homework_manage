@@ -1,4 +1,4 @@
-<% if @question.is_a?(ShareQuestion) %>
+<% if @question.is_a?(ShareQuestion) && @school_class_id == 0 %>
   $(".assignment_body").html('<%=j(render 'wanxin/wanxin')%>');
 <% else %>
   $(".assignment_body").append('<%=j(render 'wanxin/wanxin')%>');

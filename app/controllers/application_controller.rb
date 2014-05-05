@@ -33,8 +33,8 @@ class ApplicationController < ActionController::Base
       question_pack_dir = File.dirname(branch_question_resource_path)
       FileUtils.remove_dir question_pack_dir if Dir.exist? question_pack_dir
     end
-
   end
+  
   def get_teacher_infos
     if current_teacher
       @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id).where("school_classes.period_of_validity>now()")

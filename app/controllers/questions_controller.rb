@@ -18,7 +18,8 @@ class QuestionsController < ApplicationController
 
   def select_upload
     question_package_id = params[:question_package_id].to_i
-    p question_package_id
+    @school_class_id = params[:school_class_id].to_i
+    if_share = @school_class_id == 0 || @school_class_id == -1
     type = params[:types]
     file_upload =  params[:select_file]
     if file_upload.size > 1048576
@@ -27,8 +28,9 @@ class QuestionsController < ApplicationController
     else
       filename = file_upload.original_filename
       fileext = File.basename(filename).split(".")[-1]
-      if question_package_id == 0
-        resourse_url = "#{Rails.root}/public#{question_admin_share_media_path}"
+      if if_share
+        dir_name = @school_class_id == 0 ? question_admin_share_media_path : (question_admin_package_path % question_package_id)
+        resourse_url = "#{Rails.root}/public#{dir_name}"
       else
         resourse_url = "#{Rails.root}/public#{media_path % question_package_id}"
       end
@@ -38,7 +40,14 @@ class QuestionsController < ApplicationController
       File.open(url, "wb")  {|f| f.write(file_upload.read) }
       #    img = MiniMagick::Image.read(file_upload)
       #    img.write "#{url}"
-      url_img ="#{(question_package_id == 0 ? question_admin_share_media_path : media_path % question_package_id)}#{time_path}"
+      if @school_class_id == 0
+        dir_name = question_admin_share_media_path
+      elsif @school_class_id == -1
+        dir_name = question_admin_package_path % question_package_id
+      else
+        dir_name = media_path
+      end
+      url_img ="#{(dir_name)}#{time_path}"
       if type=="voice"
         @type = "voice"
         #        text = "voice;||;#{url_img}"
@@ -74,17 +83,23 @@ class QuestionsController < ApplicationController
     episode_id = params[:episode_id]
     types = params[:types]
     @question_package_id = params[:question_package_id].to_i
-    @question_pack = QuestionPackage.find_by_id(@question_package_id)
-    @questions = Question.where("question_package_id=#{@question_package_id}").where("types=#{types}")
-    if @question_package_id == 0
-      @question = ShareQuestion.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:SELECTING], :name => params[:name])
+    @school_class_id = params[:school_class_id].to_i
+    if_share = @school_class_id == 0 || @school_class_id == -1
+    if if_share
+      @question_pack = ShareQuestionPackage.find_by_id(@question_package_id)
+      @questions = @question_pack.share_questions.selecting
+      @question = @question_pack.share_questions.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:SELECTING], :name => params[:name])
     else
-      @question = Question.create(:cell_id=>cell_id,:episode_id=>episode_id,:question_package_id=>@question_package_id,:types=>Question::TYPES[:SELECTING])
+      @question_pack = QuestionPackage.find_by_id(@question_package_id)
+      @questions = @question_pack.questions.selecting
+      @question = @question_pack.questions.create(:cell_id=>cell_id,:episode_id=>episode_id, :types=>Question::TYPES[:SELECTING])
     end
   end
   #保存选择题
   def save_select
     Question.transaction do
+      @school_class_id = params[:school_class_id].to_i
+      if_share = @school_class_id == 0 || @school_class_id == -1
       @resourse = params[:select_resourse]
       select_resourse = params[:select_resourse].nil? ? "" : params[:select_resourse]
       if select_resourse.present?
@@ -97,7 +112,7 @@ class QuestionsController < ApplicationController
       @index_new = params[:index_new]
       @question_id = params[:question_id]
       @question_package_id = params[:question_package_id].to_i
-      if @question_package_id == 0
+      if if_share
         @question = ShareQuestion.find_by_id @question_id
       else
         @question = Question.find_by_id @question_id
@@ -118,7 +133,7 @@ class QuestionsController < ApplicationController
           :options=>options,:answer=> answer)
       end
 
-      @question_pack = QuestionPackage.find_by_id @question_package_id
+      @question_pack = (if_share ? ShareQuestionPackage : QuestionPackage).find_by_id @question_package_id
     end
   end
 
@@ -173,12 +188,14 @@ class QuestionsController < ApplicationController
     cell_id = params[:cell_id]
     episode_id = params[:episode_id]
     types = params[:types]
+    @school_class_id = params[:school_class_id].to_i
     @question_package_id = params[:question_package_id].to_i
-    if @question_package_id == 0
-      @question = ShareQuestion.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:LINING], :name => params[:name])
+    if @school_class_id == 0 || @school_class_id == -1
+      share_question_package = ShareQuestionPackage.find_by_id @question_package_id
+      @question = share_question_package.share_questions.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:LINING], :name => params[:name])
     else
-      @questions = Question.where("question_package_id=#{@question_package_id}").where("types=#{types}")
-      @question = Question.create(:cell_id=>cell_id,:episode_id=>episode_id,:question_package_id=>@question_package_id,:types=>Question::TYPES[:LINING])
+      question_package = QuestionPackage.find_by_id @question_package_id
+      @question = question_package.questions.create(:cell_id=>cell_id,:episode_id=>episode_id,:types=>Question::TYPES[:LINING])
     end
   end
   
@@ -194,16 +211,18 @@ class QuestionsController < ApplicationController
     left_lianxian3 = params[:left_lianxian3]
     right_lianxian3 = params[:right_lianxian3]
     @question_package_id = params[:question_package_id].to_i
+    @school_class_id = params[:school_class_id].to_i
+    if_share = @school_class_id == 0 || @school_class_id == -1
     content = left_lianxian1 + "<=>" + right_lianxian1 + ";||;" + left_lianxian2 + "<=>"+ right_lianxian2 + ";||;" + left_lianxian3 + "<=>" + right_lianxian3
     question_id = params[:question_id]
-    @question = (@question_package_id == 0 ? ShareQuestion : Question).find_by_id question_id
+    @question = (if_share ? ShareQuestion : Question).find_by_id question_id
     #    options = left_lianxian + ';||;' + right_lianxian
     if @question.is_a?(ShareQuestion)
       @branch_question = ShareBranchQuestion.create(:content=>content,:types=>Question::TYPES[:LINING],:share_question_id=>question_id)
     else
       @branch_question = BranchQuestion.create(:content=>content,:types=>Question::TYPES[:LINING],:question_id=>question_id)
     end
-    @question_pack = QuestionPackage.find_by_id @question_package_id
+#    @question_pack = QuestionPackage.find_by_id @question_package_id
   end
 
 
@@ -221,10 +240,12 @@ class QuestionsController < ApplicationController
     content = left_lianxian1 + "<=>" + right_lianxian1 + ";||;" + left_lianxian2 + "<=>"+ right_lianxian2 + ";||;" + left_lianxian3 + "<=>" + right_lianxian3
     question_id = params[:question_id]
     @question_package_id = params[:question_package_id].to_i
-    @question = (@question_package_id == 0 ? ShareQuestion : Question).find_by_id question_id
+    @school_class_id = params[:school_class_id].to_i
+    if_share = @school_class_id == 0 || @school_class_id == -1
+    @question = (if_share ? ShareQuestion : Question).find_by_id question_id
     #    options = left_lianxian + ';||;' + right_lianxian
     branch_question_id = params[:branch_question_id]
-    branchquestion = (@question_package_id == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id branch_question_id
+    branchquestion = (if_share ? ShareBranchQuestion : BranchQuestion).find_by_id branch_question_id
     if branchquestion
       branchquestion.update_attributes(:content=>content)
       @status = 1

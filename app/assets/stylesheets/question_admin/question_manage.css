@@ -1248,14 +1248,14 @@ a.time_icon { background: url(/assets/icon05.png) no-repeat 0px -120px;}
 	overflow: auto; 
 	background: #FFF;
 }
-.teacher a.compile, .teacher a.share, .teacher a.share_ed, .teacher a.delete {
+.teacher a.compile, .teacher a.share, .teacher a.share_ed, .teacher a.delete, .share_question_pack_list a.compile {
 	width: 25px;
 	height: 25px;
 	display: inline-block;
 	overflow: hidden; 
 	text-indent: -999px;
 }
-.teacher a.compile { background: url(/assets/icon13.png) no-repeat 0px 0px;}
+.teacher a.compile, .share_question_pack_list a.compile { background: url(/assets/icon13.png) no-repeat 0px 0px;}
 .teacher a.share { background: url(/assets/icon13.png) no-repeat 0px -50px;}
 .teacher a.share_ed { background: url(/assets/icon13.png) no-repeat 0px -25px;}
 .teacher a.delete { background: url(/assets/icon13.png) no-repeat 0px -75px;}

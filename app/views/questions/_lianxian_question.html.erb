@@ -9,10 +9,12 @@
         <%=@question.name.nil? ? "" : "(#{@question.name})" %>
       <% end %>
     </h1>
-    <p><%=current_user.name%>  /  <%=@question.created_at.strftime("%Y-%m-%d")%> <% unless @question.is_a?(ShareQuestion) %> / <span name=cankaoshijian>参考时间：<%=  @question.questions_time.nil? ? "未设置":"#{@question.questions_time}"  %></span><% end %></p>
+    <p><%=current_user.name%>  /  <%=@question.created_at.strftime("%Y-%m-%d")%> <% unless @question.is_a?(ShareQuestion) && @school_class_id == 0 %> / <span name=cankaoshijian>参考时间：<%=  @question.questions_time.nil? ? "未设置":"#{@question.questions_time}"  %></span><% end %></p>
     <ul class="ab_func">
-      <% unless @question.is_a?(ShareQuestion) %>
+      <% unless @question.is_a?(ShareQuestion) && @school_class_id == 0 %>
         <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
+      <% end %>
+      <% if @question.is_a?(Question) %>
         <li><a href="javascript:void(0)" class="<%= is_shared(@question) %> tooltip_html">分享</a></li>
       <% end %>
       <li><a href="javascript:void(0)" class="delete_icon tooltip_html">删除</a></li>
@@ -55,6 +57,7 @@
           <input type="hidden" name="question_id" value="<%= @question.id %>"/>
           <input type="hidden" name="branch_question_id"value=""/>
           <input type="hidden" name="content_index" val="0"/>
+          <input type="hidden" name="school_class_id" val="<%= @school_class_id %>"/>
           <input type="hidden" name="index_new" class="index_new" value="0"/>
           <input class="submit_sava" type="submit" style="display:none" value="保存"/>
         <% end %>

@@ -41,22 +41,22 @@
     <div class="questionTypes">
       <div class="qType_menu clearAfter">
         <ul>
-          <li class="hover"><p><span class="qType_speed" onclick="new_time_limit('-1')">十速挑战</span></p>
+          <li class="hover"><p><span class="qType_speed" onclick="new_time_limit(-1)">十速挑战</span></p>
           </li>
-          <li><p><span class="qType_write" onclick="add_l_r_question(0, '-1')">听写</span></p>
+          <li><p><span class="qType_write" onclick="add_l_r_question(0, -1)">听写</span></p>
           </li>
-          <li><p><span class="qType_read" onclick="add_l_r_question(1, '-1')">朗读</span></p>
+          <li><p><span class="qType_read" onclick="add_l_r_question(1, -1)">朗读</span></p>
           </li>
           <li><p><span class="qType_choose" onclick="new_select_question(this)">选择</span></p>
           </li>
 
           <li><p><span class="qType_ligature" onclick="new_lianxian_question(this)">连线</span></p>
           </li>
-          <li><p><span class="qType_sort" onclick="create_paixu('-1',<%=  @share_question_package.id%>)">排序</span></p>
+          <li><p><span class="qType_sort" onclick="create_paixu(-1,<%=  @share_question_package.id%>)">排序</span></p>
           </li>
           <li class="last_child">
             <p>
-              <span  class="qType_gap" style=" cursor: pointer;" onclick="create_wanxin('-1',<%=  @share_question_package.id%>)">完形</span>
+              <span  class="qType_gap" style=" cursor: pointer;" onclick="create_wanxin(-1,<%=  @share_question_package.id%>)">完形</span>
             </p>
           </li>
         </ul>

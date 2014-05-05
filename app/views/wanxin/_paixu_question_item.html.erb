@@ -1,7 +1,7 @@
 <ul>
   <%@tags.each do |tag|%>
     <li><p><%=tag.name%></p>
-      <a onclick="delete_tags(this,<%=  @school_class.blank? ?  0 : @school_class.id%>,<%=  @question_packages.nil? ? 0 : @question_packages.id%>,<%=tag.id%>,<%=  @branch_question.id%>,'<%= @type%>')" class="x">X</a>
+      <a onclick="delete_tags(this,<%=  @school_class_id %>,<%= @question_package_id %>,<%=tag.id%>,<%=  @branch_question.id%>,'<%= @type%>')" class="x">X</a>
     </li>
     <%end%>
 </ul>

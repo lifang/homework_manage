@@ -15,8 +15,10 @@
           <%= que_time[0]==0 ? "" : "#{que_time[0]}时" %><%= que_time[1]==0 ? "" : "#{que_time[1]}分" %><%= que_time[2]==0 ? "" : "#{que_time[2]}秒" %><% end %></span></p>
     <ul class="ab_func">
 
-      <% unless question.is_a?(ShareQuestion) %>
+      <% unless question.is_a?(ShareQuestion) && @school_class_id == 0 %>
         <li><a href="javascript:void(0)" class="clock_icon tooltip_html">设定时间</a></li>
+      <% end %>
+        <% if question.is_a?(Question) %>
         <li><a href="javascript:void(0)" class="<%= is_shared(question) %> tooltip_html">分享</a></li>
       <% end %>
       <li><a href="javascript:void(0)" class="delete_icon tooltip_html">删除</a></li>
@@ -49,6 +51,8 @@
             <input type="hidden"  name="question_package_id" id="question_package_id_2" value="<%=  @question_pack.nil? ? 0 : @question_pack.id %>"/>
             <input type="hidden" name="question_id" value="<%= question.id %>"/>
             <input type="hidden" name="branch_question_id" value="<%= branch_question.id %>"/>
+            <input type="hidden" name="school_class_id" value="<%= @school_class_id %>"/>
+
             <input class="submit_sava" type="submit" style="display:none" value="保存"/>
           <% end %>
           <div class="tag_ul">

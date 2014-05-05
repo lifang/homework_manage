@@ -1,6 +1,6 @@
 var html='<%=j(render 'questions/select_question')%>'
 gloab_index = $(".assignment_body_list").length;
-<% if @question_package_id == 0 %>
+<% if @school_class_id == 0 %>
   $("#question_list").html(html);
 <% else %>
   $("#question_list").append(html);

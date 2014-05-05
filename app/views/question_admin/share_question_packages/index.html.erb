@@ -1,0 +1,37 @@
+<div class="main share_question_pack_list">
+  <div class="assignment">
+    <div class="b_table">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <thead>
+          <tr>
+            <th>创建日期/名称</th>
+            <th>题型</th>
+            <th>预览</th>
+            <th>删除</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @share_question_packages.blank? %>
+            <tr><td colspan="6" style="text-align: center">暂无作业包</td></tr>
+          <% else %>
+            <% @share_question_packages.each do |sqp| %>
+                <tr>
+                  <td>
+                    <p><%= sqp.created_at.strftime("%F %H:%M") %></p>
+                    <p><%= sqp.name %></p>
+                  </td>
+                  <td>
+                    <%= @question_types[sqp.id].present? ?  @question_types[sqp.id] : "暂无题目" %>
+                  </td>
+                  <td>
+                    <%= link_to "编辑", "/question_admin/share_question_packages/#{sqp.id}/edit",:class =>"compile tooltip_html" %>
+                  </td>
+                  <td><%= link_to "删除", "/school_classes/-1/question_packages/#{sqp.id}", :method => :delete, :confirm => "确定删除？",:class => "delete_icon tooltip_html" %></td>
+                </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -6,6 +6,7 @@ class QuestionAdmin::ShareQuestionPackagesController < ApplicationController
   
   def index
     @share_question_packages = current_teacher.share_question_packages
+    @question_types = ShareQuestionPackage.get_each_type(@share_question_packages)
   end
 
   def new
@@ -16,6 +17,7 @@ class QuestionAdmin::ShareQuestionPackagesController < ApplicationController
   def edit
     @school_class_id = -1
     @share_question_package = ShareQuestionPackage.find_by_id params[:id]
+    @question_package_id = @share_question_package.id
     @questions = @share_question_package.share_questions
     share_branch_questions = ShareBranchQuestion.where(["share_question_id in (?)", @questions.map(&:id)])
     @branch_questions = share_branch_questions.group_by{|bq|bq.share_question_id}
@@ -40,5 +42,12 @@ class QuestionAdmin::ShareQuestionPackagesController < ApplicationController
     end
     @b_tags = get_branch_tags(cookies[:teacher_id])
     @cells = Cell.where("teaching_material_id = ?",current_teacher.teaching_material_id )
+  end
+
+  def check_has_share_package
+    cell_id = params[:cell_id]
+    episode_id = params[:episode_id]
+    share_question_package = ShareQuestionPackage.find_by_cell_id_and_episode_id(cell_id, episode_id)
+    render :text => share_question_package.present? ? 1 : 0
   end
 end

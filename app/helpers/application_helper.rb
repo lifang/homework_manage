@@ -18,6 +18,12 @@ module ApplicationHelper
       return "/question_packages/#{cookies[:teacher_id]}/qa_share_questions_package_#{Time.now.strftime('%Y%m')}/"
     end
   end
+
+  def question_admin_package_path
+    if cookies[:teacher_id]
+      return "/question_packages/#{cookies[:teacher_id]}/qa_share_questions_package_%d/"
+    end
+  end
   
   #学生上传答案路径
   def student_answer_ques_path(school_class_id, publish_question_package_id)

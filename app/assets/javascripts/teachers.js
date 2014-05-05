@@ -423,15 +423,18 @@ function add_tag_to_select(obj,q_index,branch_question_id,types){
 
 //点击新建
 function new_select_question(obj){
-    var question_package_id = $("#question_package_id").val();
-    if(question_package_id == "0"){
-        setShareName(0, "select", "-1");
-    }else{
-        Share_show_select(question_package_id, "")
+    var school_class_id = $("#school_class_id").val();
+    if(check_if_select_cell_and_epicode_id(school_class_id)){
+        var question_package_id = $("#question_package_id").val();
+        if(school_class_id == "0" || school_class_id == "-1"){
+            setShareName(school_class_id, "select", "-1");
+        }else{
+            Share_show_select(question_package_id, "", school_class_id)
+        }
     }
 }
 
-function Share_show_select(question_package_id, name){
+function Share_show_select(question_package_id, name, school_class_id){
     $("div.ab_list_box").hide();
     var episode_id = $("#episode_id").val();
     var type = 3
@@ -444,7 +447,8 @@ function Share_show_select(question_package_id, name){
             question_package_id : question_package_id,
             type : type,
             cell_id : cell_id,
-            name : name
+            name : name,
+            school_class_id: school_class_id
         },
         success:function(){
             $("div.ab_list_box").hide();
@@ -455,16 +459,18 @@ function Share_show_select(question_package_id, name){
 }
 
 function new_lianxian_question(obj){
-     var question_package_id = $("#question_package_id").val();
-    if(question_package_id == "0"){
-        setShareName(0, "lianxian", "-1");
-    }else{
-        Share_show_lianxian(question_package_id, "")
+    var school_class_id = $("#school_class_id").val();
+    if(check_if_select_cell_and_epicode_id(school_class_id)){
+        var question_package_id = $("#question_package_id").val();
+        if(school_class_id == "0" || school_class_id == "-1"){
+            setShareName(school_class_id, "lianxian", "-1");
+        }else{
+            Share_show_lianxian(question_package_id, "",school_class_id)
+        }
     }
-
 }
 
-function Share_show_lianxian(question_package_id, name){
+function Share_show_lianxian(question_package_id, name, school_class_id){
     $("div.ab_list_box").hide();
     var episode_id = $("#episode_id").val();
     var type = 4
@@ -477,7 +483,8 @@ function Share_show_lianxian(question_package_id, name){
             question_package_id : question_package_id,
             type : type,
             cell_id : cell_id,
-            name:name
+            name:name,
+            school_class_id:school_class_id
         },
         success:function(){
             $("div.ab_list_box").hide();

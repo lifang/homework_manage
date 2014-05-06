@@ -115,6 +115,9 @@ HomeworkManage::Application.routes.draw do
       collection do
         get :check_has_share_package
       end
+      member do
+        get :check_complete
+      end
     end
 
   end
@@ -144,6 +147,7 @@ HomeworkManage::Application.routes.draw do
     resources :homeworks do
       collection do
         post :delete_question_package, :publish_question_package
+        get :new_publish, :get_share_question_package_id
       end
     end
     resources :messages do

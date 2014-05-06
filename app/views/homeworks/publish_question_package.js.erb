@@ -1,5 +1,4 @@
 <% if @info[:status] == true %>
-  tishi('<%= @info[:notice]  %>');
   setTimeout('location.href ="/school_classes/<%= params[:school_class_id].to_i %>/homeworks?page=<%= @page %>"',10);
 <% else %>
   $("#publish_task_panel").find(".tab_switch_btn button").removeAttr("disabled");

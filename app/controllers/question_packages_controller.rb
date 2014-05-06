@@ -243,7 +243,7 @@ class QuestionPackagesController < ApplicationController
   def delete_branch
     branch_question_id = params[:branch_question_id]
     school_class_id = params[:school_class_id].to_i
-    branch_question = (school_class_id == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id branch_question_id
+    branch_question = (school_class_id == 0 || school_class_id == -1 ? ShareBranchQuestion : BranchQuestion).find_by_id branch_question_id
     status = 0
     if branch_question
       if branch_question.is_a?(ShareBranchQuestion)
@@ -392,6 +392,7 @@ class QuestionPackagesController < ApplicationController
     teacher = Teacher.find_by_id cookies[:teacher_id]
     @user = teacher.user
     @question_pack = QuestionPackage.find_by_id(params[:id])
+    @question_package_id = params[:id]
     @question_type = Question::TYPES_NAME
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
     @questions = Question.where(["question_package_id=?", @question_pack.id])
@@ -419,6 +420,7 @@ class QuestionPackagesController < ApplicationController
   end
   
   def setting_episodes
+    @quick_pub = params[:quick_pub]
     @cells = Cell.find_by_id(params[:cell_id])
     @episodes = @cells.episodes
     @school_class_id = params[:school_class_id].to_i
@@ -798,7 +800,7 @@ class QuestionPackagesController < ApplicationController
 
   #删除作业
   def destroy
-    school_class_id = parms[:school_class_id].to_i
+    school_class_id = params[:school_class_id].to_i
     QuestionPackage.transaction do
       if school_class_id == -1
         question_pack = ShareQuestionPackage.find_by_id(params[:id])
@@ -1121,7 +1123,7 @@ class QuestionPackagesController < ApplicationController
       @tags = SbranchBranchTagRelation.where("share_branch_question_id = ?",branch_question_id).
         joins("inner join branch_tags bt on sbranch_branch_tag_relations.branch_tag_id=bt.id").
         select("sbranch_branch_tag_relations.id,bt.name,bt.created_at,bt.updated_at")
-      branch_tag = SbranchBranchTagRelation.find_by_id(params[:tag_id])
+      branch_tag = SbranchBranchTagRelation.find_by_branch_tag_id_and_share_branch_question_id(params[:tag_id], branch_question_id)
 
       if @type == "reading_or_listening"
         branch_tag = SbranchBranchTagRelation.find_by_branch_tag_id_and_share_branch_question_id(params[:tag_id], branch_question_id)
@@ -1130,7 +1132,7 @@ class QuestionPackagesController < ApplicationController
       @tags = BtagsBqueRelation.where("branch_question_id = ?",branch_question_id).
         joins("inner join branch_tags bt on btags_bque_relations.branch_tag_id=bt.id").
         select("btags_bque_relations.id,bt.name,bt.created_at,bt.updated_at")
-      branch_tag = BtagsBqueRelation.find_by_id(params[:tag_id])
+      branch_tag = BtagsBqueRelation.find_by_branch_tag_id_and_branch_question_id(params[:tag_id], branch_question_id)
 
       if @type == "reading_or_listening"
         branch_tag = BtagsBqueRelation.find_by_branch_tag_id_and_branch_question_id(params[:tag_id], branch_question_id)

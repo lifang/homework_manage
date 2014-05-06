@@ -18,7 +18,8 @@ module ApplicationHelper
       return "/question_packages/#{cookies[:teacher_id]}/qa_share_questions_package_#{Time.now.strftime('%Y%m')}/"
     end
   end
-
+  
+  #题库管理员的快捷题包资源路径
   def question_admin_package_path
     if cookies[:teacher_id]
       return "/question_packages/#{cookies[:teacher_id]}/qa_share_questions_package_%d/"

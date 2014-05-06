@@ -41,22 +41,22 @@
     <div class="questionTypes">
       <div class="qType_menu clearAfter">
         <ul>
-          <li class="hover"><p><span class="qType_speed" onclick="new_time_limit(-1)">十速挑战</span></p>
+          <li class="hover"><p><span class="qType_speed" onclick="check_if_select_cell_and_epicode_id(-1,'time_limit', this)">十速挑战</span></p>
           </li>
-          <li><p><span class="qType_write" onclick="add_l_r_question(0, -1)">听写</span></p>
+          <li><p><span class="qType_write" onclick="check_if_select_cell_and_epicode_id(-1,'listening', this)">听写</span></p>
           </li>
-          <li><p><span class="qType_read" onclick="add_l_r_question(1, -1)">朗读</span></p>
+          <li><p><span class="qType_read" onclick="check_if_select_cell_and_epicode_id(-1,'reading', this)">朗读</span></p>
           </li>
-          <li><p><span class="qType_choose" onclick="new_select_question(this)">选择</span></p>
+          <li><p><span class="qType_choose" onclick="check_if_select_cell_and_epicode_id(-1,'selecting', this)">选择</span></p>
           </li>
 
-          <li><p><span class="qType_ligature" onclick="new_lianxian_question(this)">连线</span></p>
+          <li><p><span class="qType_ligature" onclick="check_if_select_cell_and_epicode_id(-1,'lining', this)">连线</span></p>
           </li>
-          <li><p><span class="qType_sort" onclick="create_paixu(-1,<%=  @share_question_package.id%>)">排序</span></p>
+          <li><p><span class="qType_sort" onclick="check_if_select_cell_and_epicode_id(-1,'sort', this)">排序</span></p>
           </li>
           <li class="last_child">
             <p>
-              <span  class="qType_gap" style=" cursor: pointer;" onclick="create_wanxin(-1,<%=  @share_question_package.id%>)">完形</span>
+              <span  class="qType_gap" style=" cursor: pointer;" onclick="check_if_select_cell_and_epicode_id(-1,'cloze', this)">完形</span>
             </p>
           </li>
         </ul>
@@ -64,13 +64,13 @@
     </div>
 
     <div class="complete_btn_box">
-      <%#=form_for(:question_packages , url:check_before_complete_create_package_school_class_question_package_path(@school_class,@question_pack)) do |f| %>
+      <%=form_for(:question_packages , url:check_complete_question_admin_share_question_package_path(@question_pack), :method => :get) do |f| %>
         <input type="hidden"  name="school_class_id" id="school_class_id" value="-1"/>
         <input type="hidden"  name="cell_id" id="cell_id" value="<%= @cell_id %>" />
         <input type="hidden"  name="episode_id" id="episode_id" value="<%= @episode_id %>" />
         <input type="hidden"  name="question_package_id" id="question_package_id" value="<%= @share_question_package.id %>"/>
         <button>点击确定完成创建</button>
-      <%#end%>
+      <%end%>
     </div>
   </div>
   <!--标签层-->

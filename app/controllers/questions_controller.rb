@@ -45,7 +45,7 @@ class QuestionsController < ApplicationController
       elsif @school_class_id == -1
         dir_name = question_admin_package_path % question_package_id
       else
-        dir_name = media_path
+        dir_name = media_path % question_package_id
       end
       url_img ="#{(dir_name)}#{time_path}"
       if type=="voice"
@@ -258,7 +258,8 @@ class QuestionsController < ApplicationController
   def delete_branch_question
     @branch_question_id = params[:id]
     @question_package_id = params[:question_package_id].to_i
-    branch_question = (@question_package_id == 0 ? ShareBranchQuestion : BranchQuestion).find_by_id(@branch_question_id)
+    @school_class_id = params[:school_class_id].to_i
+    branch_question = (@school_class_id == 0 || @school_class_id == -1 ? ShareBranchQuestion : BranchQuestion).find_by_id(@branch_question_id)
     
     if branch_question && branch_question.content &&  branch_question.content.include?("<file>")&& branch_question.content.include?("</file>")
       sourse = branch_question.content.scan(/(?<=\<file\>).*(?=\<[^\\]file\>)/)[0]

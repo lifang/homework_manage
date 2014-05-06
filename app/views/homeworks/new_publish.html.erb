@@ -1,0 +1,36 @@
+<div class="main" id="new_question_main_div">
+  <div class="assignment">
+
+    <!--  单元，课程 -->
+    <div class="assignment_head">
+      <div class="select_box">
+        <div class="rowElem">
+          <select name="select1" id="select1" onchange="address_search_episodes(this, <%= @school_class.id %>, 'quick_pub')">
+            <option value="0">请选择单元</option>
+            <%@cells.each do |cell|%>
+              <option value="<%=cell.id %>" >
+                <%=cell.name%>
+              </option>
+            <%end%>
+          </select>
+        </div>
+        <div class="rowElem" id="select2">
+          <select name="select2"  >
+            <option value="opt1">请先选择单元</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" id="cell_id"/>
+    <input type="hidden" id="episode_id"/>
+    <input type="hidden" id="share_question_package_id"/>
+
+    <div class="assignment_body" style="display:none" >
+      <div class="shortcut_panel">
+        <a href="#" target="_blank" class="shortcut_a preview_sqp">预览</a>
+        <a href="javascript:void(0)" class="shortcut_a publish_sqp">发布</a>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render "publish_tab" %>

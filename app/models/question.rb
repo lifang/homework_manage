@@ -25,10 +25,6 @@ class Question < ActiveRecord::Base
     "#{question.cell_name}#{question.epi_name}作业"
   end
 
-  def self.branch_questions
-    
-  end
-
   
   #查询一个题包下的所有题目
   def self.get_all_questions question_package

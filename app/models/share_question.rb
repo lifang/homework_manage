@@ -41,4 +41,14 @@ sq.cell_id=#{cell_id} and sq.episode_id=#{episode_id}
       share_question_package.update_attributes(:cell_id => self.cell_id, :episode_id => self.episode_id, :name => self.question_package_name) #分享的题包更新
     end
   end
+
+    #查询一个题包下的所有题目
+  def self.get_all_share_questions question_package
+    all_questions = []
+    sql_str = "SELECT q.id, q.types, q.created_at,q.questions_time,q.full_text, b.id branch_question_id,
+       b.content, b.resource_url, b.options, b.answer FROM share_questions q left join share_branch_questions b
+       on q.id = b.share_question_id where q.share_question_package_id =#{question_package.id}
+       and b.id is not null"
+    all_questions = ShareQuestion.find_by_sql sql_str
+  end
 end

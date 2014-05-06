@@ -1,24 +1,28 @@
-<div class="main share_question_pack_list">
+<div class="share_question_pack_list">
   <div class="assignment">
-    <div class="b_table">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <thead>
-          <tr>
-            <th>创建日期/名称</th>
-            <th>题型</th>
-            <th>预览</th>
-            <th>删除</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if @share_question_packages.blank? %>
-            <tr><td colspan="6" style="text-align: center">暂无作业包</td></tr>
-          <% else %>
-            <% @share_question_packages.each do |sqp| %>
+    <div class="assignment_head">
+      <a href="/question_admin/share_question_packages/new" class="assignment_btn_a">快捷发布</a>
+    </div>
+    <div class="assignment_body">
+      <div class="b_table">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <thead>
+            <tr>
+              <th>名称</th>
+              <th>题型</th>
+              <th>编辑</th>
+              <th>删除</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @share_question_packages.blank? %>
+              <tr><td colspan="6" style="text-align: center">暂无作业包</td></tr>
+            <% else %>
+              <% @share_question_packages.each do |sqp| %>
                 <tr>
                   <td>
-                    <p><%= sqp.created_at.strftime("%F %H:%M") %></p>
-                    <p><%= sqp.name %></p>
+                    <%= sqp.name %>
+                    <em><%= sqp.created_at.strftime("%F %H:%M") %></em>
                   </td>
                   <td>
                     <%= @question_types[sqp.id].present? ?  @question_types[sqp.id] : "暂无题目" %>
@@ -26,12 +30,15 @@
                   <td>
                     <%= link_to "编辑", "/question_admin/share_question_packages/#{sqp.id}/edit",:class =>"compile tooltip_html" %>
                   </td>
-                  <td><%= link_to "删除", "/school_classes/-1/question_packages/#{sqp.id}", :method => :delete, :confirm => "确定删除？",:class => "delete_icon tooltip_html" %></td>
+                  <td><%= link_to "删除", "/question_admin/share_question_packages/#{sqp.id}", :method => :delete, :confirm => "确定删除题包？",:class => "delete_icon tooltip_html" %></td>
                 </tr>
+              <% end %>
             <% end %>
-          <% end %>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
+      <%= will_paginate @share_question_packages,{:class => 'pageTurn', :previous_label => "上一页", :next_label => "下一页"} %>
+
     </div>
   </div>
 </div>

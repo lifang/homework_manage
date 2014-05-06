@@ -1,4 +1,10 @@
+<% if @quick_pub == "quick_pub" %>
+<select name="select2" onchange="get_share_question_package(this, <%= @school_class_id %>)">
+
+<% else %>
 <select name="select2" onchange="<%= @school_class_id == 0 ? "tiku_change_episode(this)" : "no_change(this)"%>">
+
+<% end %>
   <option value="0">请选择课程</option>
   <%@episodes.each do |episode|%>
     <option value="<%=episode.id%>"><%=episode.name%></option>

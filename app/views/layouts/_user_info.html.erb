@@ -10,13 +10,13 @@
 <div class="tab_user" style="z-index: 999">
   <h1>个人信息</h1>
   <div class="tab_user_box">
-    <%= form_for :teachers, :url => {:action => :upload_avatar,:controller => :teachers},:html => {:multipart => true,:method => :post},:remote => true, "data-type" => "script" do|f|  %>
+    <%= form_for :teachers, :url => "/school_classes/#{school_class_id}/teachers/upload_avatar",:html => {:multipart => true,:method => :post},:remote => true, "data-type" => "script" do|f|  %>
 
       <div class="tab_user_left">
         <div class="avater_default"><img src='<%=  current_user.avatar_url%>' width="90px"/></div>
         <a href="javascript:void(0);" class="avater_a">
           <span>修改</span>
-          <input  name="file_upload" id="file_uploads"type="file" onchange="upload_avatar(this,<%= @school_class.id %>)"/>
+          <input  name="file_upload" id="file_uploads"type="file" onchange="upload_avatar(this,<%= school_class_id %>)"/>
         </a>
         <p>注：图片大小限定在1M以内</p>
       </div>
@@ -35,7 +35,7 @@
     </div>
 
   </div>
-  <div class="tab_user_btn"><button onclick="update_password(<%= @school_class.id %>)">保存</button></div>
+  <div class="tab_user_btn"><button onclick="update_password(<%= school_class_id %>)">保存</button></div>
   <div class="tab_out_btn"> <button onclick="cancle_main();">退出</button></div>
 </div>
 

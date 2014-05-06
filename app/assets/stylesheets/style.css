@@ -725,14 +725,15 @@ li.p_input p, li.p_input input, .tab_switch li input {
 /*作业列表*/
 .assignment {padding-top:30px;}
 .assignment_head { background: #48D47E; height: 90px; text-align: center;}
-.assignment_btn_a {
-    padding: 10px 50px;
-    background:#1a875a;
-    display: inline-block;
-    color: #FFF;
-    margin-top: 30px;
-}
 
+.assignment_btn_a {
+	padding: 10px 50px;
+	background:#1a875a;
+	display: inline-block;
+	color: #FFF;
+	margin-top: 30px;
+	margin: 25px 50px 0px 50px;
+}
 .select_box { padding-top: 30px; }
 
 a.preview_icon, a.quote_icon, a.delete_icon, a.delete_icon_ed, a.time_icon {
@@ -1387,3 +1388,14 @@ a.voice input, a.photo input {
 
 .avater_imgBox { width: 300px; margin: 0 auto;text-align: center;vertical-align: middle;display: table-cell;}
 .avater_imgBox img { width: 298px;text-align: center;vertical-align: middle;}
+
+/*作业-快捷发布*/
+.shortcut_panel { background: #0B784B; padding: 10px 0; height: 36px; text-align: center;}
+.shortcut_a {
+	padding: 10px 100px;
+	background: #35cf8f;
+	display: inline-block;
+	color: #FFF;
+	margin-top: 30px;
+	margin: 0px 50px;
+}

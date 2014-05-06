@@ -14,9 +14,10 @@ function setChosen(obj){
 }
 
 //显示发布任务栏
-function show_publish_task_panel(question_package_id)
+function show_publish_task_panel(question_package_id, flag) //flag =0 or 1, 0是作业列表，1是快捷发布
 {
     $("#question_package_id_value").val(question_package_id);
+    $("#if_from_shared").val(flag);
     var page_value = getQueryString("page");
     if(page_value!= "" && page_value!="null" && page_value!=null ){
         $("#hidden_page_value").val(page_value);
@@ -66,4 +67,34 @@ function check_time(obj)
     else{
         tishi("时间不能为空！");
     }
+}
+
+
+function get_share_question_package(obj, school_class_id){
+    var cell_id = $("#cell_id").val();
+    var episode_id = $(obj).val();
+     $.ajax({
+        type: "get",
+        dataType: "json",
+        url: "/school_classes/"+school_class_id+"/homeworks/get_share_question_package_id",
+        data: {
+            cell_id : cell_id,
+            episode_id: episode_id
+        },
+        success: function(data){
+            if(data.status == 0){
+               var preview_href = data.pre_href;
+               var share_question_pack_id = data.ques_pack_id;
+               $("#share_question_package_id").val(share_question_pack_id);
+               $(".assignment_body").find("a.preview_sqp").attr("href", preview_href);
+                   $(".assignment_body").find("a.publish_sqp").attr("onclick", "show_publish_task_panel(" + share_question_pack_id + ", 1);");
+               if($(".assignment_body").css("display") == "none"){
+                 $(".assignment_body").show();
+                }
+            }else{
+                tishi("该单元、课程下面无快捷题包！")
+            }
+        }
+    });
+    
 }

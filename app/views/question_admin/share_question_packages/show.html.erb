@@ -1,0 +1,37 @@
+<div class="main">
+  <div class="assignment">
+    <div class="assignment_head">
+      <div class="select_box">
+        <div class="rowElem">
+          <select name="select1" id="select1" disabled="true" >
+            <option value="opt1"><%=  @cell.present? ? @cell.name : "未选择单元"    %></option>
+          </select>
+
+        </div>
+        <div class="rowElem">
+          <select name="select2" id="select2" disabled="true">
+            <option value="opt1"><%= @episode.present? ? @episode.name : "未选择课时"   %></option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <% if @questions.present? %>
+      <%= render :partial => "question_packages/show_question" %>
+    <% else %>
+      <div class="b_table">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <thead>
+            <tr class="tbg">
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="height:100px">
+              <td align="center">该题包下暂无大题</td>
+            </tr>
+           </tbody>
+        </table>
+      </div>
+    <% end %>
+  </div>
+</div>

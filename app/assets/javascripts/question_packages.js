@@ -1,11 +1,12 @@
-function address_search_episodes(obj,school_class_id){
+function address_search_episodes(obj,school_class_id,quick_pub){
     $("#cell_id").val($(obj).val());
     $.ajax({
         type: "get",
         dataType: "script",
         url: "/school_classes/"+school_class_id+"/question_packages/setting_episodes",
         data: {
-            cell_id : $(obj).val()
+            cell_id : $(obj).val(),
+            quick_pub:quick_pub
         },
         success: function(data){
                
@@ -463,26 +464,51 @@ function show_wanxin(school_class_id,question_id){
     });
 }
 
-function check_if_select_cell_and_epicode_id(school_class_id){
+function check_if_select_cell_and_epicode_id(school_class_id,question_type, obj){
+    var flag = true;
     var cell_id = $("#cell_id").val();
     var episode_id = $("#episode_id").val();
+    var package_id = $("#question_package_id").val();
     if(cell_id == "" || episode_id == ""){
         tishi("请先选择章节或者单元");
         flag = false;
+        return flag;
     }else{
         if(school_class_id == "-1"){
          $.ajax({
             dataType:"script" ,
             url:"/question_admin/share_question_packages/check_has_share_package",
-            data:{cell_id:cell_id, episode_id:episode_id},
+            data:{cell_id:cell_id, episode_id:episode_id,package_id:package_id},
             success:function(data){
-                if(data == 0){
-                  flag = true;
-                }else{
-                  tishi("此章节和单元已经存在快捷题包");
-                  flag = false;
+                    if(data == 0){
+                        flag = true;
+                  
+                        if(question_type == "time_limit"){
+                            new_time_limit(school_class_id)
+                        }else if(question_type == "listening"){
+                            add_l_r_question(0, school_class_id)
+                        }
+                        else if(question_type == "reading"){
+                            add_l_r_question(1, school_class_id)
+                        }
+                        else if(question_type == "selecting"){
+                            new_select_question(obj)
+                        }
+                        else if(question_type == "lining"){
+                            new_lianxian_question(obj)
+                        }
+                        else if(question_type == "cloze"){
+                            create_wanxin(school_class_id,package_id)
+                        }
+                        else if(question_type == "sort"){
+                            create_paixu(school_class_id,package_id)
+                        }
+                    }else{
+                        tishi("此章节和单元已经存在快捷题包");
+                        flag = false;
+                        return flag;
+                    }
                 }
-            }
         });
         }
     }
@@ -492,7 +518,7 @@ function check_if_select_cell_and_epicode_id(school_class_id){
 
 //新建十速挑战
 function new_time_limit(school_class_id){
-    if(check_if_select_cell_and_epicode_id(school_class_id)){
+//    if(check_if_select_cell_and_epicode_id(school_class_id)){
         if(school_class_id == 0){
             setShareName(school_class_id, "time_limit", "-1");
         }else{
@@ -520,7 +546,7 @@ function new_time_limit(school_class_id){
                 $("#time_limit_assignment_body_list").find("div.ab_list_box").show();
             }
         }
-    }
+//    }
 }
 //设置分享大题的名称
 function setShareName(school_class_id, question_type, types){  //types 听写 || 朗读

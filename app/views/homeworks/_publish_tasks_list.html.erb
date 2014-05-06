@@ -24,7 +24,7 @@
                   <td><a href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>" class="preview_icon tooltip_html">预览</a></td>
                   <td><a href="javascript:void(0);" data-href="/school_classes/<%= school_class_id %>/question_packages/<%= p.question_package_id %>/reference_question_package" class="quote_icon tooltip_html ques_pack_reference">克隆</a></td>
                   <td><%= link_to "删除", "/school_classes/#{school_class_id}/question_packages/#{p.question_package_id}", :method => :delete, :confirm => "确定删除？",:class => "delete_icon tooltip_html" %></td>
-                  <td><a href="javascript:void(0);" class="time_icon tooltip_html" onclick="show_publish_task_panel(<%= p.question_package_id %>)" title="点击发布" >截止时间</a></td>
+                  <td><a href="javascript:void(0);" class="time_icon tooltip_html" onclick="show_publish_task_panel(<%= p.question_package_id %>, 0)" title="点击发布" >截止时间</a></td>
                 </tr>
             <% else %>
                 <tr>

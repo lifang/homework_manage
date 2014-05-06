@@ -76,7 +76,7 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
 	display: none;
 }
 .s_tab { width: 200px; position: absolute;}
-.tab { position: absolute;}
+.tab { position: fixed;}
 .tab_head { 
 	height: 32px; 
 	line-height: 32px; 

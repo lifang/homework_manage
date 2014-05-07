@@ -158,9 +158,11 @@ class PublishQuestionPackage < ActiveRecord::Base
                 ratios_count += 1
                 if ratio[1] < CORRECT_RATE_TEN && ratio[2].gsub(" ", "").size != 0 #插入知识卡片
                   unless the_branch_question_ids.include?(ratio[0])  #判断是否有该题
-                    card_bag.knowledges_cards.create(:mistake_types => knowledges_cards_types,
+                   if status == PublishQuestionPackage::STATUS[:FINISH]
+                     card_bag.knowledges_cards.create(:mistake_types => knowledges_cards_types,
                       :branch_question_id => ratio[0],
                       :your_answer => ratio[2])
+                   end
                   end
                 end
               end

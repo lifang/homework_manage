@@ -87,8 +87,13 @@ class QuestionsController < ApplicationController
     if_share = @school_class_id == 0 || @school_class_id == -1
     if if_share
       @question_pack = ShareQuestionPackage.find_by_id(@question_package_id)
-      @questions = @question_pack.share_questions.selecting
-      @question = @question_pack.share_questions.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:SELECTING], :name => params[:name])
+      sq_attributes = {:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:SELECTING], :name => params[:name]}
+      if @question_pack
+        @questions = @question_pack.share_questions.selecting
+        @question = @question_pack.share_questions.create(sq_attributes)
+      else
+        @question = ShareQuestion.create(sq_attributes)
+      end
     else
       @question_pack = QuestionPackage.find_by_id(@question_package_id)
       @questions = @question_pack.questions.selecting
@@ -191,8 +196,13 @@ class QuestionsController < ApplicationController
     @school_class_id = params[:school_class_id].to_i
     @question_package_id = params[:question_package_id].to_i
     if @school_class_id == 0 || @school_class_id == -1
+      sq_attributes = {:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:LINING], :name => params[:name]}
       share_question_package = ShareQuestionPackage.find_by_id @question_package_id
-      @question = share_question_package.share_questions.create(:cell_id=>cell_id,:episode_id=>episode_id,:user_id=>current_user.try(:id),:types=>Question::TYPES[:LINING], :name => params[:name])
+      if share_question_package
+        @question = share_question_package.share_questions.create(sq_attributes)
+      else
+        @question = ShareQuestion.create(sq_attributes)
+      end
     else
       question_package = QuestionPackage.find_by_id @question_package_id
       @question = question_package.questions.create(:cell_id=>cell_id,:episode_id=>episode_id,:types=>Question::TYPES[:LINING])

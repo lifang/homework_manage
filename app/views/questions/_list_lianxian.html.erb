@@ -29,7 +29,7 @@
 
       <% branch_question.each do |branch_question| %>
         <div class="questions_item" branch_question_index="<%= branch_question.id %>" stypes="save_lianxian" question_type="lianxian">
-          <%= form_for :question,:url => { :action => :update_lianxian, :controller => "/questions",:question_package_id=>@question_pack.nil? ? 0 : @question_pack.id }, :method=>"post" ,:remote=>true do |f|%>
+          <%= form_for :question,:url => { :action => :update_lianxian, :controller => "/questions",:question_package_id=> @question_package_id }, :method=>"post" ,:remote=>true do |f|%>
             <div class="q_topic">
               <% branch_question.content.split(";||;").each_with_index do |br_content,index| %>
                 <div class="ligatureQuestions">
@@ -48,7 +48,7 @@
                 :remote=>true ,:class=>'delete tooltip_html delete_chen',confirm:'确认删除?'%>
               <a href="javascript:void(0)" class="tag tooltip_html" onclick="add_selects_tags(this)">标签</a>
             </div>
-            <input type="hidden"  name="question_package_id" id="question_package_id_2" value="<%=  @question_pack.nil? ? 0 : @question_pack.id %>"/>
+            <input type="hidden"  name="question_package_id" id="question_package_id_2" value="<%=  @question_package_id %>"/>
             <input type="hidden" name="question_id" value="<%= question.id %>"/>
             <input type="hidden" name="branch_question_id" value="<%= branch_question.id %>"/>
             <input type="hidden" name="school_class_id" value="<%= @school_class_id %>"/>
@@ -61,7 +61,7 @@
                 <% branch_tags[branch_question.id].each do |t| %>
                   <li>
                     <p><%= t.name %></p>
-                    <a href="javascript:void(0)" class="x" onclick='delete_tags(this,<%= school_class_id.blank? ? 0 : school_class_id %>,<%= @question_pack.nil? ? 0 : @question_pack.id %>,<%=t.id  %>,<%= branch_question.id %>,"lianxian")'>x</a>
+                    <a href="javascript:void(0)" class="x" onclick='delete_tags(this,<%= school_class_id.blank? ? 0 : school_class_id %>,<%= @question_package_id %>,<%=t.id  %>,<%= branch_question.id %>,"lianxian")'>x</a>
                   </li>
                 <% end %>
               <% end  %>

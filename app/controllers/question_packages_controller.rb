@@ -392,6 +392,7 @@ class QuestionPackagesController < ApplicationController
     teacher = Teacher.find_by_id cookies[:teacher_id]
     @user = teacher.user
     @question_pack = QuestionPackage.find_by_id(params[:id])
+    @school_class_id = params[:school_class_id]
     @question_package_id = params[:id]
     @question_type = Question::TYPES_NAME
     @cells = Cell.where("teaching_material_id = ?",@school_class.teaching_material_id )
@@ -445,9 +446,10 @@ class QuestionPackagesController < ApplicationController
     if @school_class_id == 0 || @school_class_id == -1
       @wanxin_index = 0
       @question_package = ShareQuestionPackage.find_by_id(params[:id])
-      @question = @question_package.share_questions.create(types:Question::TYPES[:CLOZE],
+      @question = ShareQuestion.create(types:Question::TYPES[:CLOZE],
         user_id:current_user.try(:id),
         episode_id:episode_id,
+        share_question_package_id:params[:id],
         cell_id:cell_id,
         name:name)
     else

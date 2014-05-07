@@ -43,6 +43,8 @@ class QuestionAdmin::ExamManagesController < ApplicationController
     teacher = Teacher.find_by_id cookies[:teacher_id]
     @user = teacher.user
     @question_pack = nil
+    @question_package_id = 0
+    @school_class_id = 0
     @questions = ShareQuestion.where(["id = ?", share_question_id])
     branch_questions = ShareBranchQuestion.where(["share_question_id = ?", @questions.map(&:id)])
     @branch_questions = branch_questions.group_by{|bq|bq.share_question_id}

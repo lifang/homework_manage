@@ -99,6 +99,9 @@ function import_stu_xls_valid(obj){ //导入学生表格验证
 
 // 激活学生
 function is_activating(obj,student_id){
+    if ($(obj).text()!='待激活'){
+        return false;
+    }
     var flag = confirm("确定激活该学生?");
     if(flag){
         $.ajax({

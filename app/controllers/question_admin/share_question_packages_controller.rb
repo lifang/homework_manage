@@ -50,7 +50,7 @@ class QuestionAdmin::ShareQuestionPackagesController < ApplicationController
     question_pack_id = params[:package_id].to_i
     share_question_package = ShareQuestionPackage.find_by_cell_id_and_episode_id(cell_id, episode_id)
     if share_question_package
-      if share_question_package.id == question_pack_id && share_question_package.created_by == current_user.id
+      if share_question_package.id == question_pack_id && share_question_package.created_by == current_teacher.id
          status = 0
       else
         status = 1

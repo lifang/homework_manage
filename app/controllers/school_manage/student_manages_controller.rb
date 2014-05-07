@@ -80,6 +80,9 @@ class SchoolManage::StudentManagesController < ApplicationController
       student.update_attributes(:active_status => Student::ACTIVE_STATUS[:YES])
       status = 1
       notice = "激活成功！"
+      content = '已被激活！'
+      extras_hash = {:type => Student::PUSH_TYPE[:sys_message], :student_id => student.id}
+      push_method(content, extras_hash, student)
     else
       status = 0
       notice = "学生不存在！"

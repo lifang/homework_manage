@@ -93,7 +93,8 @@ class HomeworksController < ApplicationController
             else
               if if_from_shared == 1
                 new_question_package = clone_share_question_package_to_question_package(question_package, school_class_id)
-                common_publish_question_package(school_class_id, new_question_package, time_now, end_time, page, all_questions, teacher)
+                new_all_questions = Question.get_all_questions new_question_package
+                common_publish_question_package(school_class_id, new_question_package, time_now, end_time, page, new_all_questions, teacher)
               else
                 common_publish_question_package(school_class_id, question_package, time_now, end_time, page, all_questions, teacher)
               end

@@ -505,6 +505,8 @@ function check_if_select_cell_and_epicode_id(school_class_id,question_type, obj)
                         }
                     }else{
                         tishi("此章节和单元已经存在快捷题包");
+                        $("#select1").removeAttr("disabled");
+                        $("#select2").find("select").removeAttr("disabled");
                         flag = false;
                         return flag;
                     }

@@ -10,6 +10,7 @@ class MainPagesController < ApplicationController
     @micropost_follow_arr = FollowMicropost.where("user_id = ?",current_user.id).map(&:micropost_id)||[]
     page = @init_mid.nil? || @init_mid.to_i == 0 ? params[:page] : 1
     array = Micropost::get_microposts @scclass,page,@condition,current_user.id
+    @condition = 'false' if @condition.to_i != current_user.id
     microposts =array[:details_microposts]
     if @init_mid.nil? || @init_mid.to_i == 0
       @microposts = microposts
@@ -17,7 +18,7 @@ class MainPagesController < ApplicationController
       flag = microposts.inject(false){|f,m|
         if m.micropost_id == @init_mid.to_i
           f = true
-        end;
+        end
         f
       }
       if flag
@@ -32,6 +33,8 @@ class MainPagesController < ApplicationController
         @micropost = Micropost.find_by_id(@init_mid.to_i) if @microposts.any?
         @repiles = (ReplyMicropost::get_microposts @micropost.id,1)[:reply_microposts] if @micropost
       end
+
+      @condition = 'false' if @micropost.user_id != current_user.id
 
       @repile_page = (ReplyMicropost::get_microposts @micropost.id,1)[:pages_count]
       @page = (ReplyMicropost::get_microposts @micropost.id,1)[:page]

@@ -80,7 +80,7 @@ class SchoolManage::StudentManagesController < ApplicationController
       student.update_attributes(:active_status => Student::ACTIVE_STATUS[:YES])
       status = 1
       notice = "激活成功！"
-      content = '已被激活！'
+      content = '你的账户已激活！可以开始答作业'
       extras_hash = {:type => Student::PUSH_TYPE[:sys_message], :student_id => student.id}
       push_method(content, extras_hash, student)
     else

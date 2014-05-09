@@ -22,10 +22,10 @@ class StudentsController < ApplicationController
         #如果创建该班级的老师属于某个学校，且被删除的学生没有做任何作业，则归还学生配额
         if teacher.school_id.present?
           school_class_students_relation = SchoolClassStudentsRelation.find_by_school_id_and_student_id_and_school_class_id(teacher.school_id,
-                                          student_id, @schoolclass.id)
+            student_id, @schoolclass.id)
           school_class_students_relation.destroy if school_class_students_relation.present?
           student_answer_records =  StudentAnswerRecord.where(["student_id = ? and school_class_id = ?",
-                                                               student_id, @schoolclass.id])
+              student_id, @schoolclass.id])
           if !student_answer_records.any?
             school = School.find_by_id teacher.school_id
             school.update_attributes(:used_school_counts => school.used_school_counts+1)
@@ -72,14 +72,18 @@ class StudentsController < ApplicationController
   end
 
   def edit_class
-    @teachering_materials = TeachingMaterial.select("id,name")
+    p @school_class.teaching_material_id
+    @teachering_materials = TeachingMaterial.find_by_id @school_class.teaching_material_id
+    p @teachering_materials
     @teacher = Teacher.find_by_id cookies[:teacher_id]
   end
+  
   def update_class
     name = params[:class_name]
-    teaching_material_id = params[:teaching_material_id]
+    teaching_material_id = params[:only_teaching_material_id]
     period_of_validity = params[:period_of_validity].to_s + " 23:59:59"
-    p 111111111111111111,teaching_material_id
+    params[:course_id]
+    p 11111111111,teaching_material_id
     if @school_class.update_attributes(:name=>name,:period_of_validity=>period_of_validity,:teaching_material_id=>teaching_material_id)
       flash[:success] = '更新成功！'
       redirect_to school_class_students_path(@school_class)

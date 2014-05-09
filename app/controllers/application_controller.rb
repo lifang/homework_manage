@@ -43,6 +43,9 @@ class ApplicationController < ActionController::Base
       @courses = Course.where(:status => Course::STATUS[:NORMAL])
       teachingmaterial = TeachingMaterial.where(:course_id => @courses.map(&:id), :status => TeachingMaterial::STATUS[:NORMAL])
       @teachingmaterial = teachingmaterial.group_by{|tm| tm.course_id}
+      @courses.each do |course|
+        @teachingmaterial[course.id] = @teachingmaterial[course.id].nil? ? [] : @teachingmaterial[course.id]
+      end
     end
   end
 

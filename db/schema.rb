@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140429085916) do
+ActiveRecord::Schema.define(:version => 20140506073253) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer  "sender_id"
@@ -304,16 +304,12 @@ ActiveRecord::Schema.define(:version => 20140429085916) do
   add_index "sbranch_branch_tag_relations", ["share_branch_question_id"], :name => "index_sbranch_branch_tag_relations_on_share_branch_question_id"
 
   create_table "school_class_student_ralastions", :force => true do |t|
-    t.integer  "student_id"
-    t.integer  "school_class_id"
+    t.integer  "student_id",      :null => false
+    t.integer  "school_class_id", :null => false
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.integer  "tag_id"
   end
-
-  add_index "school_class_student_ralastions", ["school_class_id"], :name => "index_school_class_student_ralastions_on_class_id"
-  add_index "school_class_student_ralastions", ["student_id"], :name => "index_school_class_student_ralastions_on_student_id"
-  add_index "school_class_student_ralastions", ["tag_id"], :name => "index_school_class_student_ralastions_on_tag_id"
 
   create_table "school_class_students_relations", :force => true do |t|
     t.integer  "school_id"
@@ -361,18 +357,28 @@ ActiveRecord::Schema.define(:version => 20140429085916) do
 
   add_index "share_branch_questions", ["share_question_id"], :name => "index_share_branch_questions_on_share_question_id"
 
+  create_table "share_question_packages", :force => true do |t|
+    t.string   "name"
+    t.integer  "cell_id"
+    t.integer  "episode_id"
+    t.integer  "created_by"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "share_questions", :force => true do |t|
     t.string   "name"
     t.integer  "types"
     t.integer  "question_package_type_id"
-    t.datetime "created_at",                              :null => false
-    t.datetime "updated_at",                              :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
     t.integer  "user_id"
     t.integer  "cell_id"
     t.integer  "episode_id"
-    t.integer  "referenced_count",         :default => 0
-    t.integer  "questions_time"
+    t.integer  "referenced_count",          :default => 0
+    t.integer  "questions_time",            :default => 180
     t.text     "full_text"
+    t.integer  "share_question_package_id"
   end
 
   add_index "share_questions", ["cell_id"], :name => "index_share_questions_on_cell_id"

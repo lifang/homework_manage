@@ -628,7 +628,7 @@ class Api::StudentsController < ApplicationController
               # student_status = "false"
               if active_code == "true"
                 # student_status = "true"
-                student.update_attributes(:qq_uid => qq_uid)
+                student.update_attributes(:qq_uid => qq_uid, :last_visit_class_id => school_class.id)
               elsif active_code == "none"
                 # if school_class.teacher.school_id.present?
                 #   render :json => {:status => "error", :notice => "您没有加入学校的权限！"}

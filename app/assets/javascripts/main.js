@@ -612,7 +612,6 @@ function check_class_info(obj)
 {
     var course_id = $.trim($("#class_course_id").val());
     var tm_id = $.trim($("#teaching_material_id").val());
-    alert(tm_id);
     var class_name = $.trim($("#class_name").val());
     var period_of_validity = $.trim($("#period_of_validity").val());
     if(course_id == ""|| course_id==0){

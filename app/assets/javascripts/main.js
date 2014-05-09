@@ -630,7 +630,6 @@ function check_class_info(obj)
         tishi('请选择结束时间！');
         return false;
     }
-    alert($(obj).parents("form").attr("action"));
     $(obj).parents("form").submit();
 }
 

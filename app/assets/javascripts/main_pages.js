@@ -267,7 +267,7 @@ function stopPropagation(e) {
 //选择完科目，显示教材
 function showTeachMaterial(obj){
     var course_id = $(obj).find("option:selected").val();
-    if(course_id != "opt1"){
+    if(course_id != "opt1"&&course_id!=0){
         $(".select_tm").hide();
         $("li[data-courseid="+ course_id +"]").show().find("select").removeAttr("disabled");
     }else{

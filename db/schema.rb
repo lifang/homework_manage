@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140429085916) do
+ActiveRecord::Schema.define(:version => 20140506073253) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer  "sender_id"
@@ -361,18 +361,28 @@ ActiveRecord::Schema.define(:version => 20140429085916) do
 
   add_index "share_branch_questions", ["share_question_id"], :name => "index_share_branch_questions_on_share_question_id"
 
+  create_table "share_question_packages", :force => true do |t|
+    t.string   "name"
+    t.integer  "cell_id"
+    t.integer  "episode_id"
+    t.integer  "created_by"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "share_questions", :force => true do |t|
     t.string   "name"
     t.integer  "types"
     t.integer  "question_package_type_id"
-    t.datetime "created_at",                              :null => false
-    t.datetime "updated_at",                              :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
     t.integer  "user_id"
     t.integer  "cell_id"
     t.integer  "episode_id"
-    t.integer  "referenced_count",         :default => 0
-    t.integer  "questions_time"
+    t.integer  "referenced_count",          :default => 0
+    t.integer  "questions_time",            :default => 180
     t.text     "full_text"
+    t.integer  "share_question_package_id"
   end
 
   add_index "share_questions", ["cell_id"], :name => "index_share_questions_on_cell_id"

@@ -500,3 +500,7 @@ function whether_skip(){
         window.location.reload()
     }
 }
+
+function choice_material(obj){
+    $(obj).parent().find("input[name='only_teaching_material_id']").val($(obj).val());
+}

@@ -1,41 +1,65 @@
 <script type="text/javascript" src="/assets/jquery.jqtransform.js"></script>
 <link href="/assets/jqtransform.css" rel="stylesheet" type="text/css"/>
+
 <script language="javascript">
-	$(function(){
-		$('.select_box').jqTransform();
-	});
+  $(function(){
+    $('.select_box').jqTransform();
+    $(".select_course").find(".jqTransformSelectWrapper").css({"z-index": 12});
+    $(".select_tm").hide();
+    $(".select_tm").first().show().find("select").attr("disabled", "disabled");
+  });
 </script>
 <%= form_tag({:controller => :students, :action => :update_class}) do %>
-        <div class="tab tab500" style="display: block;margin: auto;position: static; ">
-	<a href="javascript:void(0);" class="close" style="left: 701px;">close</a>
-	<div class="tab_head">编辑班级</div>
-        <div class="tab_body clearAfter">
-          <div class="tab_warning">请更新您的班级信息</div>
-          <div class="tab_setClass">
-            <ul>
-              <li>
-                <div class="select_box">
-                  <div class="rowElem">
-                    <select id="teaching_material_id" style="width: 240px" name="teaching_material_id">
-                      <option value="0" selected="selected">请选择</option>
-                      <% @teachering_materials.each do |m| %>
-                        <option value="<%= m.id %>" <%= "selected" if m.id == @school_class.teaching_material_id %> ><%= m.name %></option>
-                      <% end %>
-                    </select>
-                  </div>
+  <div class="tab tab500" style="display: block;margin: auto;position: static; ">
+    <a href="javascript:void(0);" class="close" style="left: 701px;">close</a>
+    <div class="tab_head">编辑班级</div>
+    <div class="tab_body clearAfter">
+      <div class="tab_warning">请更新您的班级信息</div>
+      <div class="tab_setClass">
+        <ul>
+          <li>
+            <div class="select_box select_course">
+              <div class="rowElem">
+                <select name="course_id" onchange="showTeachMaterial(this)" id="class_course_id"  style="width: 240px">
+                  <option value="0" selected="selected">选择科目</option>
+                  <% @courses.each do |course| %>
+                    <option value="<%= course.id %>" <%= "selected" if course.id == @teachering_materials.course_id %> ><%= course.name %></option>
+                  <% end %>
+                </select>
+              </div>
+            </div>
+          </li>
+
+          <% @teachingmaterial.each do |course_id, teachingmaterials| %>
+            <li class="select_tm" data-courseid="<%= course_id %>">
+              <div class="select_box">
+                <div class="rowElem">
+                  <input type="hidden" name="only_teaching_material_id" value="<%= @school_class.teaching_material_id %>" style="display:none;"/>
+                  <select id="teaching_material_id" style="width: 240px" name="teaching_material_id" onchange="choice_material(this)">
+                    <option value="0" selected="selected">选择教材</option>
+                    <% teachingmaterials.each do |teachingmaterial| %>
+                      <option value="<%= teachingmaterial.id %>" <%= "selected" if teachingmaterial.id == @school_class.teaching_material_id %> ><%= teachingmaterial.name %></option>
+                    <% end %>
+                  </select>
                 </div>
-              </li>
-              <li>
-                <input id="class_name" name="class_name" type="text" placeholder="班级名称" value="<%=@school_class.name%>" />
-              </li>
-              <li>
-                <input id="period_of_validity" name="period_of_validity" placeholder="选择结束时间" readonly="readonly" value="<%=@school_class.period_of_validity.strftime "%Y-%m-%d %H:%M:%S"%>" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',autoPickDate:true,minDate:'%y-%M-%d'})" />
-              </li>
-            </ul>
-            <div class="tab_switch_btn"> <button style="background: #dd5c05;color: white;width: 100px;"  type="button" onclick="check_class_info();">确认</button></div>
-          </div>
-        </div>
+              </div>
+            </li>
+          <% end %>
+          <li>
+            <input id="class_name" name="class_name" type="text" placeholder="班级名称" value="<%=@school_class.name%>" />
+          </li>
+          <li>
+            <input id="period_of_validity" name="period_of_validity" placeholder="选择结束时间" readonly="readonly" value="<%=@school_class.period_of_validity.strftime "%Y-%m-%d %H:%M:%S"%>" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',autoPickDate:true,minDate:'%y-%M-%d'})" />
+          </li>
+        </ul>
+        <div class="tab_switch_btn"> <button style="background: #dd5c05;color: white;width: 100px;"  type="button" onclick="check_class_info(this);">确认</button></div>
       </div>
+    </div>
+  </div>
 
   <input id="submit_class_info"  style="display: none;" value="更新" type="submit"/>
 <% end %>
+
+<script>
+  $("#teaching_material_id").removeAttr("disabled")
+</script>

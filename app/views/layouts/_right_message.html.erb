@@ -5,7 +5,7 @@
   <div class="side_mess_box">
     <ul>
       <% @unread_messes.each do |um| %>
-        <a href="/school_classes/<%= @school_class.id %>/messages/check_micropost?uid=<%= um.user_id %>&mid=<%= um.micropost_id %>&mess_id=<%= um.id %>"><li><p><%= um.content.nil? ? "" : um.content.gsub(/\[|\]|;|\||/, "") %></p><p><%= um.created_at.nil? ? "" : um.created_at.strftime("%Y-%m-%d %H:%M") %></p></li></a>
+        <a href="/school_classes/<%= school_class_id %>/messages/check_micropost?uid=<%= um.user_id %>&mid=<%= um.micropost_id %>&mess_id=<%= um.id %>"><li><p><%= um.content.nil? ? "" : um.content.gsub(/\[|\]|;|\||/, "") %></p><p><%= um.created_at.nil? ? "" : um.created_at.strftime("%Y-%m-%d %H:%M") %></p></li></a>
       <% end if @unread_messes.any? %>
     </ul>
   </div>

@@ -392,7 +392,7 @@ module MethodLibsHelper
       input ="#{Micropost::JPUSH[:SENDNO]}" + "#{Micropost::JPUSH[:RECEIVERTYPE]}" + receivervalue + Micropost::JPUSH[:MASTERSECRET]
       code = Digest::MD5.hexdigest(input)
       #msg_content =  "{\"n_title\":\"1111222\",\"n_content\":#{messages},\"n_extras\":{\"class_id\":\"2\"} }"  Jpush消息格式
-      content = {"n_content" => "#{messages}","n_title"=> "超级作业本"}
+      content = {"n_content" => "#{messages[0..35]}","n_title"=> "超级作业本"}
       #    content = {"n_content" => "#{messages}","n_title"=> "2iidid"}
       content["n_extras"]=extras_hash if !extras_hash.nil? && extras_hash.class == Hash
       msg_content = content.to_json()
@@ -622,12 +622,12 @@ WHERE kc.card_bag_id =? and ( bq.content LIKE ? or q.full_text like ? ) "
 
   def ipad_push(content, ipad_student_tokens, extras_hash)
     begin
-      APNS.host = 'gateway.sandbox.push.apple.com'
-      APNS.pem  = File.join(Rails.root, 'config', 'cert_develop.pem')
+      APNS.host = 'gateway.push.apple.com'
+      APNS.pem  = File.join(Rails.root, 'config', 'cert_production.pem')
       APNS.port = 2195
       notification_arr = []
       ipad_student_tokens.each do |token|
-        new_notifier = APNS::Notification.new(token, :alert => content, :badge => 1, :sound => "default", :other => extras_hash) if token.present?  #把提醒类型值【0,1,2】放在sound里面
+        new_notifier = APNS::Notification.new(token, :alert => content[0..35], :badge => 1, :sound => "default", :other => extras_hash) if token.present?  #把提醒类型值【0,1,2】放在sound里面
         notification_arr << new_notifier
       end
 

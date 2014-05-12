@@ -1313,6 +1313,7 @@ class Api::StudentsController < ApplicationController
   #返回当前app版本
   def current_version
     c_version = AppVersion.select("max(c_version) current_version")[0]
+    c_version.current_version = ("%.1f" % c_version.current_version) if c_version && c_version.current_version
     render :json => c_version
   end
 

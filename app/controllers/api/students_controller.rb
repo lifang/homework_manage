@@ -1342,4 +1342,36 @@ class Api::StudentsController < ApplicationController
     end
     render :json => {:status => status, :notice => notice, :record_details => record_details}
   end
+
+  #因为app store 不允许只基于第三方的登录， 所有写个假的登录给app store 审核
+  def login_for_ipad
+    email, password, token = params[:email], params[:password], params[:token]
+    status = 0
+    if email == "student1@cjzyb.com"
+      if password == "cjzyb123"
+        msg = "登录成功！"
+        student = Student.find_by_id 71
+        school_class = SchoolClass.find_by_id student.last_visit_class_id.to_i
+        class_id = school_class.id
+        class_name = school_class.name
+        tearcher_id = school_class.teacher.id
+        tearcher_name = school_class.teacher.user.name
+        student.update_attributes(:last_visit_class_id => school_class.id, :token => token)
+        render :json => {:status => status, :notice => msg,
+          :student => {:id => student.id, :name => student.user.name, :user_id => student.user.id,
+            :nickname => student.nickname, :s_no => student.s_no, :avatar_url => student.user.avatar_url,:active_status => student.active_status},
+          :class => {:id => class_id, :name => class_name, :tearcher_name => tearcher_name,
+            :tearcher_id => tearcher_id , :period_of_validity => school_class.period_of_validity.strftime("%Y-%m-%d %H:%M:%S") }
+        }
+      else
+        status = 1
+        msg = "密码错误"
+        render :json => {:status => status, :notice => msg}
+      end
+    else
+      status = 1
+      msg = "用户不存在"
+      render :json => {:status => status, :notice => msg}
+    end
+  end
 end

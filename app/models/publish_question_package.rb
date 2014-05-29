@@ -123,8 +123,11 @@ class PublishQuestionPackage < ActiveRecord::Base
       end
       correct_rate_sum = []
       complete_rate_sum = []
+      sum_star_num = 0
       quetsions_time.each do |question|
+        # p Question::TYPES_TITLE[question.types.to_i]
         answer_details = answer_json[Question::TYPES_TITLE[question.types.to_i]]
+        # p answer_details
         if answer_details.present?
           types = question.types.to_i
 
@@ -134,7 +137,9 @@ class PublishQuestionPackage < ActiveRecord::Base
           if record_details.nil? || record_details.is_complete != RecordDetail::IS_COMPLETE[:FINISH]
             status = answer_details["status"].to_i
             update_time = answer_details["update_time"]
-            use_time = answer_details["use_time"]
+            use_time = answer_details["use_time"].to_i
+            star_num = answer_details["star_num"].to_i
+            sum_star_num += star_num if star_num != 0
             score = 0
             if [Question::TYPES[:TIME_LIMIT], Question::TYPES[:SELECTING], Question::TYPES[:LINING], Question::TYPES[:CLOZE], Question::TYPES[:SORT]].include? types
               knowledges_cards_types = KnowledgesCard::MISTAKE_TYPES[:SELEST] #选错
@@ -170,14 +175,15 @@ class PublishQuestionPackage < ActiveRecord::Base
             average_ratio=0
             average_ratio = score/ratios_count <= 0 ? 0 : score/ratios_count if ratios_count!=0
             #计算成就
-            if status = answer_details["status"].to_i ==  PublishQuestionPackage::STATUS[:FINISH]
+            # p answer_details["status"].to_i
+            if status  ==  PublishQuestionPackage::STATUS[:FINISH]
               time = ((DateTime.parse(publish_question_package.end_time
                     .strftime("%Y-%m-%d %H:%M:%S")) - DateTime.parse(update_time)) *24 * 60).to_i
               if record_details.nil?
                 record_details = RecordDetail.create(:question_types => types,
                   :student_answer_record_id => student_answer_record.id,
                   :score => score, :is_complete => status, :used_time => use_time,
-                  :correct_rate => average_ratio, :specified_time => question.time)
+                  :correct_rate => average_ratio, :specified_time => question.time, :star_num => star_num)
                 update_archivements time,average_ratio,student,school_class,use_time,question
                 #              else
                 #                unless record_details.is_complete == RecordDetail::IS_COMPLETE[:FINISH]
@@ -196,6 +202,7 @@ class PublishQuestionPackage < ActiveRecord::Base
         end
         
       end
+      student.update_attributes(:star_num => sum_star_num) if sum_star_num > 0
       #计算平均正确率和平均完成率
       temp_sum = 0
       correct_rate_sum.each{|x| temp_sum+=x}

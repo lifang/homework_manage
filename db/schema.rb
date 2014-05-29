@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140506073253) do
+ActiveRecord::Schema.define(:version => 20140522071745) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer  "sender_id"
@@ -261,8 +261,9 @@ ActiveRecord::Schema.define(:version => 20140506073253) do
     t.integer  "score"
     t.integer  "is_complete"
     t.integer  "student_answer_record_id"
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
+    t.integer  "star_num",                 :default => 0
   end
 
   add_index "record_details", ["student_answer_record_id"], :name => "index_record_details_on_student_answer_record_id"
@@ -417,8 +418,8 @@ ActiveRecord::Schema.define(:version => 20140506073253) do
     t.integer  "status"
     t.integer  "last_visit_class_id"
     t.integer  "register_status"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
     t.integer  "user_id"
     t.string   "token"
     t.integer  "s_no"
@@ -426,6 +427,7 @@ ActiveRecord::Schema.define(:version => 20140506073253) do
     t.integer  "active_status",       :limit => 1
     t.integer  "school_id"
     t.integer  "veri_code"
+    t.integer  "star_num",                         :default => 0
   end
 
   add_index "students", ["user_id"], :name => "index_students_on_user_id"

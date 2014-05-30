@@ -8,11 +8,11 @@ class Question < ActiveRecord::Base
 
   IF_SHARED = {:YES => 1, :NO => 0}    #是否分享
   IF_FROM_REFER = {:YES => 1, :NO => 0}  #是否是引用来的
-  TYPE_NAME_ARR = ["listening", "reading", "time_limit", "selecting", "lining", "cloze", "sort"]
-  TYPES = {:LISTENING => 0, :READING => 1, :TIME_LIMIT => 2, :SELECTING => 3, :LINING => 4, :CLOZE => 5, :SORT => 6 }
-  TYPES_TITLE = {0 => "listening", 1 => "reading", 2 => "time_limit", 3 => "selecting", 4 => "lining", 5 => "cloze", 6 => "sort" }
-  TYPES_NAME = {0 => "听写", 1 => "朗读",  2 => "十速挑战", 3 => "选择", 4 => "连线", 5 => "完型填空", 6 => "排序"}
-  RECORD_TYPES = {"listening" => 0, "reading" => 1, "time_limit" => 2, "selecting" => 3, "lining" => 4, "cloze" => 5, "sort" => 6 }
+  TYPE_NAME_ARR = ["listening", "reading", "time_limit", "selecting", "lining", "cloze", "sort", "dictation"]
+  TYPES = {:LISTENING => 0, :READING => 1, :TIME_LIMIT => 2, :SELECTING => 3, :LINING => 4, :CLOZE => 5, :SORT => 6, :DICTATION => 7 }
+  TYPES_TITLE = {0 => "listening", 1 => "reading", 2 => "time_limit", 3 => "selecting", 4 => "lining", 5 => "cloze", 6 => "sort", 7 => "dictation" }
+  TYPES_NAME = {0 => "听写", 1 => "朗读",  2 => "十速挑战", 3 => "选择", 4 => "连线", 5 => "完型填空", 6 => "排序", 7 => "听写2"}
+  RECORD_TYPES = {"listening" => 0, "reading" => 1, "time_limit" => 2, "selecting" => 3, "lining" => 4, "cloze" => 5, "sort" => 6, "dictation" => 7}
   TYPE_NAME_ARR.each do |type|
     scope type.to_sym, :conditions => { :types => TYPES[type.upcase.to_sym] }
   end

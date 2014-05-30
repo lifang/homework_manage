@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140522071745) do
+ActiveRecord::Schema.define(:version => 20140530024041) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer  "sender_id"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(:version => 20140522071745) do
     t.datetime "updated_at",                   :null => false
     t.string   "options",      :limit => 1000
     t.string   "answer"
+    t.string   "translation"
   end
 
   add_index "branch_questions", ["question_id"], :name => "index_branch_questions_on_question_id"
@@ -114,6 +115,7 @@ ActiveRecord::Schema.define(:version => 20140522071745) do
   create_table "courses", :force => true do |t|
     t.string  "name"
     t.boolean "status", :default => false
+    t.integer "types",  :default => 0
   end
 
   add_index "courses", ["name"], :name => "index_courses_on_name"
@@ -329,6 +331,7 @@ ActiveRecord::Schema.define(:version => 20140522071745) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "teaching_material_id"
+    t.integer  "types",                :default => 0
   end
 
   add_index "school_classes", ["teacher_id"], :name => "index_school_classes_on_teacher_id"
@@ -354,6 +357,7 @@ ActiveRecord::Schema.define(:version => 20140522071745) do
     t.datetime "updated_at",                        :null => false
     t.string   "options",           :limit => 1000
     t.string   "answer"
+    t.string   "translation"
   end
 
   add_index "share_branch_questions", ["share_question_id"], :name => "index_share_branch_questions_on_share_question_id"
@@ -484,10 +488,11 @@ ActiveRecord::Schema.define(:version => 20140522071745) do
 
   create_table "teaching_materials", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
     t.integer  "course_id"
     t.boolean  "status",     :default => true
+    t.boolean  "if_public",  :default => false
   end
 
   create_table "user_prop_relations", :force => true do |t|

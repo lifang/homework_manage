@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Charles Blog</title>
+<link rel="stylesheet" type="text/css" href="./css/style.css" >
+<script type="text/javascript" language="javascript" src="./js/main.js"></script>
+<script type="text/javascript" language="javascript" src="./js/jquery-2.1.1.min.js"></script>
+<script>
+	$(function(){
+		var wh = $(window).height();
+		var dh = $(document).height();
+		if(dh <= wh){
+			$(".left_side,.main_con,.right_side").css("height",wh-100 +"px");
+		}else{
+			$(".left_side,.main_con,.right_side").css("height",dh-100 +"px");
+		}
+       var main_left = $(".main").css("margin-left");
+       main_left = main_left.replace("px","");
+       main_left = parseInt(main_left);
+       var main_right = $(".main").css("margin-right");
+       main_right = main_right.replace("px","");
+       main_right = parseInt(main_right);
+       var main_width = $(".main").width();
+    //    alert(main_right);
+    //    alert(main_left);
+	   // alert(main_width);
+	   var head_width = main_right + main_left + main_width;
+	   // alert(head_width);
+	   $(".header").width(head_width);
+	})
+</script>
+</head><body>
+	<div class="header">
+		<div class="head_box"><h1>Charles's Blog</h1></div>
+	</div>
+	<div class="main">
+		<div class="left_side" style="height: 536px; ">
+			
+			<div class="tab_link">
+				<a href="#">标签1</a>
+				<a href="#">标签2</a>
+				<a href="#">标签3</a>
+			</div>	
+		</div>
+
+		<div class="main_con" style="height: 536px; ">
+			<div class="txtList">
+				<ul>
+					<li>
+						<h1>标题</h1>
+						<p>文字文字文字文字文字文字文字文字文文字文字文字文字文字文字文字文字</p>
+						<a class="go" href="#">查看全文</a>
+					</li>
+					<li>
+						<h1>标题</h1>
+						<p>文字文字文字文字文字文字文字文字文文字文字文字文字文字文字文字文字</p>
+						<a class="go" href="#">查看全文</a>
+					</li>
+				</ul>
+			</div>
+			<div class="txtDtl">
+				<h1>标题</h1>
+				<p>文字文字文字文字文字文字文字文字文文字文字文字文字文字文字文字文字</p>
+			</div>
+		</div>
+		
+		<div class="right_side" style="height: 536px; ">
+			<div class="user_box">
+				<div class="user_img"><img src="assets/pig.png" width="100"></div>
+				<div class="user_info">
+					<p>介绍1</p>
+					<p>介绍2</p>
+				</div>
+			</div>
+			<div class="right_box"></div>
+		</div>	
+
+</body></html>

@@ -1,0 +1,101 @@
+/* date */
+.dateBox { background: #fff; padding: 20px;}
+.monthBox { width: 300px; margin: 0 auto; background: #48d47e; padding: 5px 30px; overflow: hidden; color: #fff;}
+.monthBox .prev_mon {
+	float: left;
+	width: 30px;
+	height: 30px;
+	background: url(/assets/dictations/prev_mon.png) 4px 4px no-repeat;
+	background-size: 20px 22px;
+	cursor: pointer;
+}
+.monthBox .next_mon {
+	float: left;
+	width: 30px;
+	height: 30px;
+	background: url(/assets/dictations/next_mon.png) 4px 4px no-repeat;
+	background-size: 20px 22px;
+	cursor: pointer;
+}
+.monthBox .nian,.monthBox .yue { float: left; line-height: 30px; width: 120px; position: relative;}
+.monthBox .nian span,.monthBox .yue span { display: inline-block; width: 100px; text-align: center; cursor: pointer;}
+.monthBox .nian select,.monthBox .yue select { position: absolute; width: 100px; height: 30px; left: 0; top: 0; opacity: 0; cursor: pointer;}
+.monthBox .nian option,.monthBox .yue option { padding: 3px; text-align: center;}
+.dayBox { width: 280px; margin: 0 auto; background: #f3f3f3; padding: 5px 40px; overflow: hidden;}
+.dayBox span,.dayBox label { float: left; width: 30px; line-height: 30px; margin: 5px; text-align: center;}
+.dayBox label { color: #48d47e;}
+.dayBox span { cursor: pointer;}
+.dayBox span.expired { border-radius: 16px; background: #d3d3d3;}
+.dayBox span.hover { border-radius: 16px; box-shadow: 0 0 1px #0b9741; }
+.dayBox span.selected { border-radius: 16px; box-shadow: 0 0 20px #0b9741 inset;}
+
+
+/* 选择课时 */
+.assignment_head { position: relative;}
+.assignment_head h1 { color: #fff; line-height: 50px; padding: 20px 40px;}
+.assignment_head .assignment_a { border-bottom: 1px solid #fff; color: #fff; left: 170px; padding: 0 3px; position: absolute; top: 39px;}
+
+.left,.right { float: left; width: 400px; height: 300px; overflow: auto; border: 1px solid #48d47e; margin: 10px 18px;}
+.left li,.right li { height: 20px; line-height: 20px; padding: 5px 10px; overflow: hidden;}
+.left li:hover,.right li:hover,.left li.hover,.right li.hover { background: #eee;}
+
+.mid { float: left; width: 80px; height: 200px; margin-top: 60px;}
+.goto { background: url(/assets/dictations/goto.png) no-repeat; background-size: 80px 140px; display: block; width: 80px; height: 70px; cursor: pointer; margin: 20px 0;}
+.goback { background: url(/assets/dictations/goto.png) 0 -70px no-repeat; background-size: 80px 140px; display: block; width: 80px; height: 70px; cursor: pointer; margin: 20px 0;}
+
+.act_box { text-align: center; margin: 20px;}
+.act_box .green_btn { background: #36c77b; color: #fff; display: inline-block; padding: 10px 50px;}
+
+/* 预览修改 */
+.ylxg_box { border: 2px solid #36c77b; margin: 40px 10px 20px; padding: 10px; position: relative;}
+.ylxg_box h2 {
+	background: #fff;
+	font-size: 18px; 
+	font-weight: normal; 
+	height: 22px; 
+	line-height: 20px; 
+	padding: 3px 10px;
+	position: absolute; 
+	top: -30px;
+	left: 30px;
+	border: 2px solid #36c77b;
+	border-bottom: 0;
+}
+.ylxg_item { float: left; padding: 5px 20px; border: 1px solid #48d47e; border-radius: 5px; margin: 5px 10px; position: relative;}
+.ylxg_item a.close { position: absolute; top: -11px; right: -11px; display: none;}
+.ylxg_item:hover a.close { display: block;}
+
+.green_a { border-bottom: 1px solid #36c77b; color: #36c77b; padding: 0 3px;}
+
+.tab_add {}
+.tab_add li { height: 30px; margin: 10px;}
+.tab_add li input { border: 1px solid #dd5c05; color: #dd5c05; height: 28px; margin-left: 140px; float: left;}
+.tab_add .listen { background: url(/assets/dictations/icon14.png) 0 -3px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
+.tab_add .remove { background: url(/assets/dictations/icon14.png) 0 -39px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
+.tab_add .speak { background: url(/assets/dictations/icon14.png) 0 -79px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
+.tab_add_btn { margin: 10px 0 10px 150px;}
+.tab_add .tab_add_btn a { 
+	width: 170px; 
+	height: 35px;
+	line-height: 35px; 
+	background: #dd5c05; 
+	color: #FFF;
+	display: inline-block;
+	text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

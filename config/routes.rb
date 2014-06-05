@@ -225,6 +225,8 @@ HomeworkManage::Application.routes.draw do
     end
 
     resources :dictations
+
+    resources :dictation_practises
   end
 
    resources :dictations do

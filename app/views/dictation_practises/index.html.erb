@@ -1,11 +1,38 @@
+<%= stylesheet_link_tag    "/assets/dictations/style.css" %>
+<%= javascript_include_tag "/assets/dictations/date_picker_homemade.js" %>
 <div class="main">
-  <div class="assignment">
-    <div class="assignment_head">
-      <a href="/school_classes/<%= params[:school_class_id] %>/question_packages/new" class="assignment_btn_a">创建作业</a>
-      <a href="/school_classes/<%= params[:school_class_id] %>/homeworks/new_publish" class="assignment_btn_a">快捷发布</a>
+    	<div class="assignment">
+        	<div class="assignment_head" style="text-align: right;">
+                <a href="#" class="assignment_btn_a">布置作业</a>
+            </div>
+			<div class="assignment_body">
+           		<div class="dateBox">
+					<div class="monthBox">
+						<a class="prev_mon"></a>
+						<div class="nian">
+							<span>2014</span>年
+							<select onChange="select_date(this)">
+							</select>
+						</div>
+						<div class="yue">
+							<span>5</span>月
+							<select onChange="select_date(this)">
+							</select>
+						</div>
+						<a class="next_mon"></a>
+					</div>
+					<div class="dayBox" onMouseOut="remove_hover(this)">
+						<label>日</label>
+						<label>一</label>
+						<label>二</label>
+						<label>三</label>
+						<label>四</label>
+						<label>五</label>
+						<label>六</label>
+					</div>
+				</div>
+			</div>
+        </div>
     </div>
-    <div class="assignment_body">
-    </div>
-  </div>
 </div>
 

@@ -1399,3 +1399,9 @@ a.voice input, a.photo input {
 	margin-top: 30px;
 	margin: 0px 50px;
 }
+
+/* 听写 题目*/
+a.tab_link{
+  text-decoration: underline;
+  color: #dd5c05
+}

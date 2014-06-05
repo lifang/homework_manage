@@ -1,5 +1,9 @@
 <% if @info[:status] == true %>
+  <% if @from_dictation %>
+    setTimeout("location.href = '/school_classes/<%= @school_class.id %>/dictations'",1000);
+  <% else %>
     setTimeout("location.href = '/school_classes/<%= @school_class.id %>/main_pages'",1000);
+  <% end %>
 <% elsif @info[:status] == false  %>
-    tishi('<%= @info[:notice] %>');
+  tishi('<%= @info[:notice] %>');
 <% end %>

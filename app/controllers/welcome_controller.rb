@@ -8,6 +8,7 @@ class WelcomeController < ApplicationController
   def login
     email = params[:email].to_s  #需前台验证email地址
     password = params[:password].to_s
+    @from_dictation = params[:from_dictation]
     teacher = Teacher.find_by_email_and_status email, Teacher::STATUS[:YES]
     last_visit_class = false
     if teacher.nil?
@@ -23,7 +24,14 @@ class WelcomeController < ApplicationController
           cookies[:teacher_id]={:value => teacher.id, :path => "/", :secure  => false}
           cookies[:user_id]={:value => teacher.user.try(:id), :path => "/", :secure  => false}
 
-          notice, status, last_visit_class, @redirect_path = redirect_to_different_page(teacher)
+          notice, status, last_visit_class, @redirect_path, school_class_id = redirect_to_different_page(teacher)
+          if @from_dictation
+            if @redirect_path.include?("/welcome/first")
+              @redirect_path = "/dictations/first"
+            elsif @redirect_path.include?("main_pages")
+              @redirect_path = "/school_classes/#{school_class_id}/dictations"
+            end
+          end
         else
           status = false
           notice = "密码错误，登录失败！"
@@ -50,6 +58,7 @@ class WelcomeController < ApplicationController
     name = params[:name].to_s
     password = params[:password].to_s
     file = params[:avatar]
+    @from_dictation = params[:from_dictation]
     teacher = Teacher.find_by_email email
     status = false
     notice = "注册失败，请重新注册！"
@@ -107,6 +116,8 @@ class WelcomeController < ApplicationController
     period_of_validity = params[:period_of_validity].to_s + " 23:59:59"
     verification_code = SchoolClass.get_verification_code
     teacher_id = cookies[:teacher_id]
+    class_types = params[:class_types] || 0
+    @from_dictation = params[:from_dictation]
     teacher = Teacher.find_by_id teacher_id
     status = false
     notice = "班级创建失败，请重新操作！"
@@ -123,7 +134,7 @@ class WelcomeController < ApplicationController
           Teacher.transaction do
             @school_class = SchoolClass.create(:name => name,:period_of_validity => period_of_validity,
               :verification_code => verification_code,:status => SchoolClass::STATUS[:NORMAL],
-              :teacher_id => teacher.id, :teaching_material_id => teaching_material_id)
+              :teacher_id => teacher.id, :teaching_material_id => teaching_material_id, :types => class_types)
             if @school_class.save
               teacher.update_attributes(:last_visit_class_id => @school_class.id)
               flash[:verification_code] = "创建成功,班级验证码为:#{@school_class.verification_code}"
@@ -210,8 +221,12 @@ class WelcomeController < ApplicationController
       notice = "用户没有权限登录！"
     end
 
-    [notice, status, last_visit_class, redirect_path]
+    [notice, status, last_visit_class, redirect_path, @school_class.id]
   end
 
+  #听写题 专用入口
+  def dictation_login
+    @title = "听写登录"
+  end
   
 end

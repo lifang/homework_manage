@@ -205,6 +205,9 @@ class HomeworksController < ApplicationController
     end
   end
 
+  def voice
+    render :layout => false
+  end
 
 
 private

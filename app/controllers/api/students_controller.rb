@@ -1374,4 +1374,14 @@ class Api::StudentsController < ApplicationController
       render :json => {:status => status, :notice => msg}
     end
   end
+
+  #接收flash mp3 录音
+  def upload_record
+    p 1111
+    file = params[:Filedata]
+    File.open("#{Rails.root}/public/2.mp3","wb") do |f|
+      f.write(file.read)
+    end
+    render :json => {:status => 0}
+  end
 end

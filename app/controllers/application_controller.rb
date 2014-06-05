@@ -40,12 +40,12 @@ class ApplicationController < ActionController::Base
       @schoolclasses = SchoolClass.where(:teacher_id => current_teacher.id).where("school_classes.period_of_validity>now()")
       @schoolclass = SchoolClass.find(current_teacher.last_visit_class_id) if current_teacher.last_visit_class_id
       @user = User.find(current_teacher.user_id)
-      @courses = Course.where(:status => Course::STATUS[:NORMAL])
+      @courses = Course.normal
       teachingmaterial = TeachingMaterial.where(:course_id => @courses.map(&:id), :status => TeachingMaterial::STATUS[:NORMAL])
       @teachingmaterial = teachingmaterial.group_by{|tm| tm.course_id}
-      @courses.each do |course|
-        @teachingmaterial[course.id] = @teachingmaterial[course.id].nil? ? [] : @teachingmaterial[course.id]
-      end
+#      @courses.each do |course|
+#        @teachingmaterial[course.id] = @teachingmaterial[course.id].nil? ? [] : @teachingmaterial[course.id]
+#      end
     end
   end
 

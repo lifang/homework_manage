@@ -1,0 +1,15 @@
+<div class="main">
+  <div class="askAnswer">
+    <div class="askAnswer_head">
+      <div class="ask_nav">
+        <ul>
+          <% @courses.each do |course| %>
+            <li>
+              <%= link_to course.name, show_course_dictations_path(course) %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

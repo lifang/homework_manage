@@ -3,6 +3,7 @@ class SchoolClass < ActiveRecord::Base
   attr_protected :authentications
   STATUS = {:NORMAL => 1,:EXPIRED => 0}
   STATUS_NAME = {0 => '班级过期',1 => '正常'}
+  TYPES = {:dictation => 1, :full => 0} #听写对应的班级还是所有班级
   belongs_to :teacher
   belongs_to :teaching_material
   has_many :task_messages, :dependent => :destroy

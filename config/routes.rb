@@ -29,7 +29,7 @@ HomeworkManage::Application.routes.draw do
           :knoledge_tag_relation,:login_for_ipad
         post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info,
           :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
-          :delete_sys_message,:read_message, :reply_message, :search_tasks
+          :delete_sys_message,:read_message, :reply_message, :search_tasks,:upload_record
       end
       member do
         
@@ -128,7 +128,7 @@ HomeworkManage::Application.routes.draw do
       post :create_first_class, :login, :regist
     end
   end
-
+  
   resources :school_classes do
     resources :main_pages do
       collection do
@@ -147,7 +147,7 @@ HomeworkManage::Application.routes.draw do
     resources :homeworks do
       collection do
         post :delete_question_package, :publish_question_package
-        get :new_publish, :get_share_question_package_id
+        get :new_publish, :get_share_question_package_id, :voice
       end
     end
     resources :messages do
@@ -223,7 +223,16 @@ HomeworkManage::Application.routes.draw do
         get :select_course, :select_teaching_materials, :share_question, :delete_question
       end
     end
+
+    resources :dictations
   end
+
+   resources :dictations do
+      collection do
+        get :first
+        post :create_teaching_material
+      end
+    end
 
   resources :question_packages do
     member do
@@ -247,8 +256,9 @@ HomeworkManage::Application.routes.draw do
       post :show_single_record
     end
   end
-
-
+  
+  get "/dictation_login", :to => "welcome#dictation_login"
+  get "/show_course/:course_id",:to => "dictations#show_course", :as => :show_course
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'

@@ -221,7 +221,7 @@ class WelcomeController < ApplicationController
       notice = "用户没有权限登录！"
     end
 
-    [notice, status, last_visit_class, redirect_path, @school_class.id]
+    [notice, status, last_visit_class, redirect_path, @school_class.try(:id)]
   end
 
   #听写题 专用入口

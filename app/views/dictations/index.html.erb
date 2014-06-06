@@ -1,15 +1,10 @@
 <div class="main">
-  <div class="askAnswer">
-    <div class="askAnswer_head">
-      <div class="ask_nav">
-        <ul>
-          <% @courses.each do |course| %>
-            <li>
-              <%= link_to course.name, show_course_path(course) %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
+  <div class="assignment">
+    <div class="assignment_head">
+      <a href="/school_classes/<%= params[:school_class_id] %>/question_packages/new" class="assignment_btn_a">创建作业</a>
+    </div>
+    <div class="assignment_body">
+       这边显示作业列表
     </div>
   </div>
 </div>

@@ -5,7 +5,7 @@
         <ul>
           <% @courses.each do |course| %>
             <li>
-              <%= link_to course.name, show_course_dictations_path(course) %>
+              <%= link_to course.name, show_course_path(course) %>
             </li>
           <% end %>
         </ul>

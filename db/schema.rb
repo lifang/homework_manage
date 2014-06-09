@@ -307,12 +307,16 @@ ActiveRecord::Schema.define(:version => 20140530024041) do
   add_index "sbranch_branch_tag_relations", ["share_branch_question_id"], :name => "index_sbranch_branch_tag_relations_on_share_branch_question_id"
 
   create_table "school_class_student_ralastions", :force => true do |t|
-    t.integer  "student_id",      :null => false
-    t.integer  "school_class_id", :null => false
+    t.integer  "student_id"
+    t.integer  "school_class_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.integer  "tag_id"
   end
+
+  add_index "school_class_student_ralastions", ["school_class_id"], :name => "index_school_class_student_ralastions_on_class_id"
+  add_index "school_class_student_ralastions", ["student_id"], :name => "index_school_class_student_ralastions_on_student_id"
+  add_index "school_class_student_ralastions", ["tag_id"], :name => "index_school_class_student_ralastions_on_tag_id"
 
   create_table "school_class_students_relations", :force => true do |t|
     t.integer  "school_id"
@@ -426,7 +430,7 @@ ActiveRecord::Schema.define(:version => 20140530024041) do
     t.datetime "updated_at",                                      :null => false
     t.integer  "user_id"
     t.string   "token"
-    t.integer  "s_no"
+    t.string   "s_no"
     t.string   "active_code"
     t.integer  "active_status",       :limit => 1
     t.integer  "school_id"
@@ -434,6 +438,9 @@ ActiveRecord::Schema.define(:version => 20140530024041) do
     t.integer  "star_num",                         :default => 0
   end
 
+  add_index "students", ["active_code"], :name => "index_students_on_active_code"
+  add_index "students", ["active_status"], :name => "index_students_on_active_status"
+  add_index "students", ["s_no"], :name => "index_students_on_s_no"
   add_index "students", ["user_id"], :name => "index_students_on_user_id"
   add_index "students", ["veri_code"], :name => "index_students_on_veri_code"
 

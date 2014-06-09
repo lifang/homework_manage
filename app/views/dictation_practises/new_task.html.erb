@@ -1,0 +1,42 @@
+<%= stylesheet_link_tag    "/assets/dictations/style.css" %>
+<%= javascript_include_tag "/assets/dictations/date_picker_homemade.js" %>
+<%= javascript_include_tag "/assets/dictations/main.js" %>
+<div class="main">
+    	<div class="assignment">
+        	<div class="assignment_head" style="text-align: left; position: relative;">
+				<h1>布置作业</h1>
+                <a href="#" class="assignment_a">从其他班复制</a>
+            </div>
+			<div class="assignment_body" style=" background: #fff; overflow: hidden;">
+           		<div class="left">
+					<ul>
+						<li>第一课</li>
+						<li>第二课</li>
+						<li>第一课</li>
+						<li>第二课</li>
+						<li>第一课</li>
+						<li>第二课</li>
+						<li>第二课</li>
+					</ul>
+				</div>
+				<div class="mid">
+					<span class="goto"></span>
+					<span class="goback"></span>
+				</div>
+				<div class="right clearAfter">
+					<ul>
+						<li>3</li>
+						<li>4</li>
+					</ul>
+				</div>
+				<div style="text-align: right;">
+					<a href="#" style="margin: 5px 25px; color: #36c77b; border-bottom: 1px solid #36c77b;">预览修改</a>
+				</div>
+				<div class="act_box">
+					<button class="green_btn">布置作业</button>
+				</div>
+			</div>
+        </div>
+</div>
+<input class="date" type="text" value="<%= @date %>">
+<input class="school_class_id" type="text" value="<%= params[:school_class_id] %>">

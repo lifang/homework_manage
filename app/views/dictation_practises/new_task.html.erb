@@ -10,13 +10,8 @@
 			<div class="assignment_body" style=" background: #fff; overflow: hidden;">
            		<div class="left">
 					<ul>
-						<li>第一课</li>
-						<li>第二课</li>
-						<li>第一课</li>
-						<li>第二课</li>
-						<li>第一课</li>
-						<li>第二课</li>
-						<li>第二课</li>
+
+						<li>第一课<input class="" type="text"></li>
 					</ul>
 				</div>
 				<div class="mid">
@@ -40,3 +35,26 @@
 </div>
 <input class="date" type="text" value="<%= @date %>">
 <input class="school_class_id" type="text" value="<%= params[:school_class_id] %>">
+<script>
+	$(function(){
+		// $(".assignment_body").find(".left ul").find("li").on("click",function(){
+		// 	click_list($(this));
+		// })
+
+		$(".assignment_body .left ul").on("click","li",function(){
+		 	click_list($(this));
+		})
+
+		$(".assignment_body .right ul").on("click","li",function(){
+			click_list($(this));
+		})
+
+		$(".mid").find(".goto").click(function(){
+			move_item($(this));
+		})
+
+		$(".mid").find(".goback").click(function(){
+			move_item($(this));
+		})
+	})
+</script>

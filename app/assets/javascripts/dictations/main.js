@@ -36,3 +36,48 @@ function submit_date()
 		alert("请先选择日期！");
 	}
 }
+
+function click_list(obj)
+{
+	//$(obj).parents("ul").find("li").removeClass("hover");
+	if(!$(obj).hasClass("hover"))
+	{
+		$(obj).addClass("hover");
+	}
+	else
+	{
+		$(obj).removeClass("hover");
+	}
+}
+
+function move_item(obj)
+{
+	var obj_class_name = $(obj).attr("class");
+	if(obj_class_name == "goto" || obj_class_name == "goback")
+	{
+		if(obj_class_name == "goto")
+		{
+			var remove_panel = "left";
+			var add_panel = "right";
+		}
+		else if(obj_class_name == "goback")
+		{
+			var remove_panel = "right";
+			var add_panel = "left";	
+		} 	
+		var select_item = $(".assignment_body").find("."+ remove_panel +" ul").find("li.hover");
+		if(select_item.length > 0)
+		{
+			$(select_item).each(function(i){
+				var item_text = $(this).text();
+				$(this).remove();
+				var add_item = "<li>" + item_text + "</li>"; 
+				$(".assignment_body").find("."+ add_panel +" ul").append(add_item);
+			})
+		}
+		else
+		{	
+			tishi("请先选择项目!");
+		}
+	}
+}

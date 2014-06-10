@@ -36,8 +36,9 @@
 .assignment_head .assignment_a { border-bottom: 1px solid #fff; color: #fff; left: 170px; padding: 0 3px; position: absolute; top: 39px;}
 
 .left,.right { float: left; width: 400px; height: 300px; overflow: auto; border: 1px solid #48d47e; margin: 10px 18px;}
-.left li,.right li { height: 20px; line-height: 20px; padding: 5px 10px; overflow: hidden;}
-.left li:hover,.right li:hover,.left li.hover,.right li.hover { background: #eee;}
+.left li,.right li { height: 20px; line-height: 20px; padding: 5px 10px; overflow: hidden; margin-bottom: 1px;}
+.left li:hover,.right li:hover { background: #eee;} 
+.left li.hover,.right li.hover { background: #CDB;}
 
 .mid { float: left; width: 80px; height: 200px; margin-top: 60px;}
 .goto { background: url(/assets/dictations/goto.png) no-repeat; background-size: 80px 140px; display: block; width: 80px; height: 70px; cursor: pointer; margin: 20px 0;}

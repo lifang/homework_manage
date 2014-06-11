@@ -10,8 +10,9 @@
 			<div class="assignment_body" style=" background: #fff; overflow: hidden;">
            		<div class="left">
 					<ul>
-
-						<li>第一课<input class="" type="text"></li>
+						<li>第一课<input class="" name="questions[]" type="text" value="2"></li>
+						<li>第一课<input class="" name="questions[]" type="text" value="4"></li>
+						<li>第一课<input class="" name="questions[]" type="text" value="1"></li>
 					</ul>
 				</div>
 				<div class="mid">
@@ -25,7 +26,7 @@
 					</ul>
 				</div>
 				<div style="text-align: right;">
-					<a href="#" style="margin: 5px 25px; color: #36c77b; border-bottom: 1px solid #36c77b;">预览修改</a>
+					<a href="javascript:void(0)" id="prev_btn" style="margin: 5px 25px; color: #36c77b; border-bottom: 1px solid #36c77b;" >预览修改</a>
 				</div>
 				<div class="act_box">
 					<button class="green_btn">布置作业</button>
@@ -35,12 +36,11 @@
 </div>
 <input class="date" type="text" value="<%= @date %>">
 <input class="school_class_id" type="text" value="<%= params[:school_class_id] %>">
+
+<div id="preview_question_panel" style="position: absolute; width:200px; height:200px; background-color:#eee; display:none; z-index:12;" >
+</div>
 <script>
 	$(function(){
-		// $(".assignment_body").find(".left ul").find("li").on("click",function(){
-		// 	click_list($(this));
-		// })
-
 		$(".assignment_body .left ul").on("click","li",function(){
 		 	click_list($(this));
 		})
@@ -55,6 +55,10 @@
 
 		$(".mid").find(".goback").click(function(){
 			move_item($(this));
+		})
+
+		$("#prev_btn").click(function(){
+			preview_questions();
 		})
 	})
 </script>

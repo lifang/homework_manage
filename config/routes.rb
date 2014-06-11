@@ -229,6 +229,7 @@ HomeworkManage::Application.routes.draw do
     resources :dictation_practises do
       collection do 
         get :new_task
+        post :preview_questions
       end  
     end  
   end

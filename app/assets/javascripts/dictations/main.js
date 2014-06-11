@@ -69,10 +69,12 @@ function move_item(obj)
 		if(select_item.length > 0)
 		{
 			$(select_item).each(function(i){
-				var item_text = $(this).text();
+				// var item_text = $(this).text();
+				var item_text = $(this);
 				$(this).remove();
-				var add_item = "<li>" + item_text + "</li>"; 
-				$(".assignment_body").find("."+ add_panel +" ul").append(add_item);
+				$(item_text).removeClass("hover");
+				// var add_item = "<li>" + item_text + "</li>"; 
+				$(".assignment_body").find("."+ add_panel +" ul").append(item_text);
 			})
 		}
 		else
@@ -80,4 +82,25 @@ function move_item(obj)
 			tishi("请先选择项目!");
 		}
 	}
+}
+
+function preview_questions()
+{
+	var school_class_id = $(".school_class_id").val();
+	var questions_id = $(".left ul li").find("input").val();
+	alert(questions_id);
+	 $.ajax({
+            type: "post",
+            url: "/school_classes/"+ school_class_id +"/dictation_practises/preview_questions",
+            dataType: "script",
+            data: {
+                type : 1,
+                name : name
+            },
+            success: function(data){
+            },
+            error: function(){
+            }
+        })
+	// popup("#preview_question_panel");
 }

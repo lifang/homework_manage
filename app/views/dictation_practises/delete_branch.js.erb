@@ -1,0 +1,6 @@
+<% if @status == false %>
+	tishi("删除失败!")
+<% elsif @status == true %>
+	$("a[id='"+ <%= @branch_id %> +"']").parents(".ylxg_item").remove();
+	tishi("删除成功!")
+<% end %>

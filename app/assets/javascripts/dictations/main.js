@@ -7,6 +7,8 @@ $(function(){
 })
 
 
+
+
 function submit_date()
 {
 	var year = parseInt($(".nian").find("span").text());
@@ -33,7 +35,7 @@ function submit_date()
 	}
 	else
 	{
-		alert("请先选择日期！");
+		tishi("请先选择日期！");
 	}
 }
 
@@ -87,20 +89,72 @@ function move_item(obj)
 function preview_questions()
 {
 	var school_class_id = $(".school_class_id").val();
-	var questions_id = $(".left ul li").find("input").val();
-	alert(questions_id);
-	 $.ajax({
-            type: "post",
-            url: "/school_classes/"+ school_class_id +"/dictation_practises/preview_questions",
-            dataType: "script",
-            data: {
-                type : 1,
-                name : name
-            },
-            success: function(data){
-            },
-            error: function(){
-            }
-        })
-	// popup("#preview_question_panel");
+	var questions_id = ""
+	var questions_id_objs = $(".right ul").find("li");
+	$(questions_id_objs).each(function(i){
+		if($(this).find("input").length > 0){
+			// alert($(this).find("input").val());
+			if(questions_id != "")
+			{
+				questions_id += "|"	
+			}	
+			questions_id += $(this).find("input").val();
+		}
+	})
+
+	$.ajax({
+	        type: "post",
+	        url: "/school_classes/"+ school_class_id +"/dictation_practises/preview_questions",
+	        dataType: "script",
+	        data: {
+	            questions_id : questions_id
+	        },
+	        success: function(data){
+	        },
+	        error: function(){
+	        }
+	})
+	
+}
+
+//完成编辑题包
+function finish_edit_question(obj)
+{
+	$(".edit").remove();
+	$(".question_package").show();
+}
+
+
+function delete_branch(obj)
+{
+	var school_class_id = $(".school_class_id").val();
+	var branch_id = $(obj).attr("id");
+	$.ajax({
+	        type: "post",
+	        url: "/school_classes/"+ school_class_id +"/dictation_practises/delete_branch",
+	        dataType: "script",
+	        data: {
+	            branch_id : branch_id
+	        },
+	        success: function(data){
+	        },
+	        error: function(){
+	        }
+	})
+}
+
+function add_branch()
+{	
+	var school_class_id = $(".school_class_id").val();
+	$.ajax({
+	        type: "GET",
+	        url: "/school_classes/"+ school_class_id +"/dictation_practises/new_branch",
+	        dataType: "script",
+	        data: {
+	        },
+	        success: function(data){
+	        },
+	        error: function(){
+	        }
+	})
 }

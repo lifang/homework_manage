@@ -17,7 +17,7 @@
     <![endif]-->
     <%= csrf_meta_tags %>
   </head>
-  <body >
+  <body>
     <% flash.each do |name, msg| %>
       <% if name.to_s!='verification_code' %>
         <div id="flash_field" style="width:100%;position: fixed; z-index: 4;">

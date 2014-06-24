@@ -26,7 +26,7 @@ HomeworkManage::Application.routes.draw do
           :new_homework, :delete_message,:get_sys_message, :get_follow_microposts,
           :get_knowledges_card,:delete_knowledges_card,:card_is_full,:get_question_package_details,
           :get_my_archivements,:card_tags_list,:create_card_tag,:search_tag_card, :get_rankings,
-          :knoledge_tag_relation,:login_for_ipad
+          :knoledge_tag_relation,:login_for_ipad, :get_voice_url
         post :login, :record_person_info, :record_answer_info, :upload_avatar,:modify_person_info,
           :finish_question_packge, :delete_reply_microposts, :news_release, :validate_verification_code,
           :delete_sys_message,:read_message, :reply_message, :search_tasks,:upload_record
@@ -228,8 +228,8 @@ HomeworkManage::Application.routes.draw do
 
     resources :dictation_practises do
       collection do 
-        get :new_task
-        post :preview_questions
+        get :new_task, :new_branch
+        post :preview_questions, :delete_branch, :save_branchs
       end  
     end  
   end

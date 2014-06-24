@@ -1377,11 +1377,30 @@ class Api::StudentsController < ApplicationController
 
   #接收flash mp3 录音
   def upload_record
-    p 1111
     file = params[:Filedata]
-    File.open("#{Rails.root}/public/2.mp3","wb") do |f|
-      f.write(file.read)
-    end
+    school_class_id = params[:school_class_id]
+    if school_class_id.present?
+      dirs_url = "tmp_voice/#{school_class_id}"
+      create_dirs dirs_url
+      File.open("#{Rails.root}/public/#{dirs_url}/voice.mp3","wb") do |f|
+        f.write(file.read)
+      end
+    end  
     render :json => {:status => 0}
   end
+
+  def get_voice_url
+    school_class_id = params[:school_class_id]
+    voice_url = nil
+    status = 0
+    school_class = SchoolClass.find_by_id school_class_id
+    if school_class.present?
+      file_url = "#{Rails.root}/public/tmp_voice/#{school_class.id}/voice.mp3"
+      if File.exist?(file_url)
+        status = 1
+        voice_url = "/tmp_voice/#{school_class.id}/voice.mp3"
+      end  
+    end
+    render :json => {:status => status, :voice_url => voice_url} 
+  end  
 end

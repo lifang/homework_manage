@@ -2,7 +2,7 @@
 <%= javascript_include_tag "/assets/dictations/date_picker_homemade.js" %>
 <%= javascript_include_tag "/assets/dictations/main.js" %>
 <div class="main">
-    	<div class="assignment">
+    	<div class="assignment question_package">
         	<div class="assignment_head" style="text-align: left; position: relative;">
 				<h1>布置作业</h1>
                 <a href="#" class="assignment_a">从其他班复制</a>
@@ -10,9 +10,9 @@
 			<div class="assignment_body" style=" background: #fff; overflow: hidden;">
            		<div class="left">
 					<ul>
-						<li>第一课<input class="" name="questions[]" type="text" value="2"></li>
-						<li>第一课<input class="" name="questions[]" type="text" value="4"></li>
-						<li>第一课<input class="" name="questions[]" type="text" value="1"></li>
+						<% @questions.each do |question|%>
+							<li><%= question.name %><input class="question_<%= question.id %>" name="questions[]" type="hidden" value="<%= question.id %>"></li>
+						<% end %>
 					</ul>
 				</div>
 				<div class="mid">
@@ -21,8 +21,7 @@
 				</div>
 				<div class="right clearAfter">
 					<ul>
-						<li>3</li>
-						<li>4</li>
+						
 					</ul>
 				</div>
 				<div style="text-align: right;">
@@ -37,9 +36,37 @@
 <input class="date" type="text" value="<%= @date %>">
 <input class="school_class_id" type="text" value="<%= params[:school_class_id] %>">
 
-<div id="preview_question_panel" style="position: absolute; width:200px; height:200px; background-color:#eee; display:none; z-index:12;" >
+<div id="add_branch" class="tab tab500" style="display: none;">
 </div>
+
+<div id="flashContent" style="display: none; width:300px; height:175px;  position: absolute; z-index:101;">
+	<iframe src="/school_classes/<%= params[:school_class_id] %>/homeworks/voice" width="300" height="175"></iframe>
+</div>
+
 <script>
+	var jsReady = false;  
+	function isReady() {  
+	 return jsReady;  
+	}  
+
+	function thisMovie(movieName) {  
+		if (navigator.appName.indexOf("Microsoft") != -1) {  
+		 return window[movieName];  
+		} else {  
+		 return document[movieName];  
+		}  
+	}  
+	function pageInit() { 
+		jsReady = true; 
+		
+	}
+
+	
+
+	function sendToActionScript(class_id) { 
+		thisMovie("mp3File").sendClassId(class_id);
+	}
+
 	$(function(){
 		$(".assignment_body .left ul").on("click","li",function(){
 		 	click_list($(this));
@@ -60,5 +87,10 @@
 		$("#prev_btn").click(function(){
 			preview_questions();
 		})
+
+		function sayHello(msg)
+		{
+			alert(msg);
+		}
 	})
 </script>

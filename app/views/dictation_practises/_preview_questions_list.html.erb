@@ -1,0 +1,25 @@
+<div class="assignment edit">
+	<div class="assignment_head" style="text-align: left; position: relative;">
+		<h1>预览修改</h1>
+    </div>
+	<div class="assignment_body" style=" background: #fff; overflow: hidden;">
+   		<div class="ylxg_box">
+			<h2><%= @questions.name %></h2>
+			<div style="overflow: hidden; padding-bottom: 30px;">
+			<% @branch_questions.each do |bq| %>
+				<div class="ylxg_item">
+					<span><%= bq.content %></span>
+					<a class="close" onclick="delete_branch(this)" id="<%= bq.id %>"></a>
+				</div>
+			<% end %>
+				<a class="green_a" style=" position: absolute; bottom: 15px; left: 20px;" href="javascript:void(0)" onclick="add_branch()" >增加内容</a>
+			</div>
+		</div>
+		<div class="act_box">
+			<button class="green_btn" onclick="finish_edit_question(this)">完成</button>
+		</div>
+	</div>
+</div>
+	
+<script>
+</script>

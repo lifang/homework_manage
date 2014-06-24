@@ -1,0 +1,32 @@
+<%= form_tag({:action => :save_branchs} ,:remote => true) do %>
+<a href="javascript:void(0);" class="close">close</a>
+<div class="tab_head">增加内容</div>
+<div class="tab_body clearAfter">
+	<div class="tab_add">
+    	<ul>
+            <li>
+                <input name="" type="text" value="">
+				<span class="listen"></span>
+				<span class="remove"></span>
+            </li>
+			<li>
+                <input name="" type="text" value="">
+				<span class="speak"></span>
+            </li>
+        </ul>
+        <div class="tab_add_btn"><a href="#">完成</a></div>
+    </div>
+</div>
+<% end %>
+
+
+<script>
+
+    $(".speak").click(function(obj){
+        var school_class_id = $(".school_class_id").val();
+        // sendToActionScript(school_class_id);
+        popup("#flashContent");   
+    })
+         
+</script>
+   

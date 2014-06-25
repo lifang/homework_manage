@@ -76,7 +76,15 @@
                    sendToActionScript('<%= params[:school_class_id] %>');
                 }  
             },200); 
+
+
 			})
+
+			function sendToJavaScript(msg)
+			{
+			    alert(msg);
+			    window.location.reload();
+			}
 		</script>
 	</body>
 </html>

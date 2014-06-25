@@ -7,8 +7,6 @@ $(function(){
 })
 
 
-
-
 function submit_date()
 {
 	var year = parseInt($(".nian").find("span").text());

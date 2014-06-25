@@ -39,8 +39,8 @@
 <div id="add_branch" class="tab tab500" style="display: none;">
 </div>
 
-<div id="flashContent" style="display: none; width:300px; height:175px;  position: absolute; z-index:101;">
-	<iframe src="/school_classes/<%= params[:school_class_id] %>/homeworks/voice" width="300" height="175"></iframe>
+<div id="flashContent" style="display: none; width:300px; height:200px;  position: fixed; z-index:101;">
+	<iframe id="flash_panel" src="/school_classes/<%= params[:school_class_id] %>/homeworks/voice" width="300" height="175"></iframe>
 </div>
 
 <script>
@@ -87,10 +87,7 @@
 		$("#prev_btn").click(function(){
 			preview_questions();
 		})
-
-		function sayHello(msg)
-		{
-			alert(msg);
-		}
 	})
+
+
 </script>

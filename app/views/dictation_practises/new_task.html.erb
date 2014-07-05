@@ -10,8 +10,8 @@
 			<div class="assignment_body" style=" background: #fff; overflow: hidden;">
            		<div class="left">
 					<ul>
-						<% @questions.each do |question|%>
-							<li><%= question.name %><input class="question_<%= question.id %>" name="questions[]" type="hidden" value="<%= question.id %>"></li>
+						<% @share_questions.each do |question|%>
+							<li><%= question.name %><input class="share_<%= question.id %>" type="hidden" value="share_<%= question.id %>"></li>
 						<% end %>
 					</ul>
 				</div>
@@ -35,12 +35,14 @@
 </div>
 <input class="date" type="text" value="<%= @date %>">
 <input class="school_class_id" type="text" value="<%= params[:school_class_id] %>">
+<input class="question_package_id" type="text" value="<%= @question_pack.id %>">
 
 <div id="add_branch" class="tab tab500" style="display: none;">
 </div>
 
 <div id="flashContent" style="display: none; width:300px; height:200px;  position: fixed; z-index:101;">
-	<iframe id="flash_panel" src="/school_classes/<%= params[:school_class_id] %>/homeworks/voice" width="300" height="175"></iframe>
+	<a href="javascript:void(0);" class="close" >close</a>
+	<%= render :partial => "homeworks/voice" %>
 </div>
 
 <script>

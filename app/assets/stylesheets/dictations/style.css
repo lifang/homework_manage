@@ -85,10 +85,20 @@
 	text-align: center;
 }
 
+/* 编辑作业 */
+.cont_box { margin: 20px;}
+.cont_box h2 { line-height: 40px; font-size: 18px; font-weight: normal; margin-bottom: 10px;}
+.cont_box input { padding: 5px; border: 1px solid #ccc; width: 300px; margin-bottom: 10px;}
+.cont_box p { line-height: 30px; margin-bottom: 10px;}
+.cont_box p a { color: #33f;}
 
 
+.act_box { margin-top: 120px;}
+.act_box h1 { font-weight: normal; font-size: 20px;}
+.act_box p { margin: 15px; position: relative;}
+.act_box p span { position: absolute; margin: 11px 20px;}
 
-
+.bottom { position: absolute; bottom: 50px; width: 960px; text-align: center; font-size: 16px;}
 
 
 

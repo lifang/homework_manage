@@ -1,6 +1,5 @@
 class DictationsController < ApplicationController
-
-  before_filter :get_course_and_tm, :only => [:first, :index]
+  before_filter :get_course_and_tm, :get_school_classes, :only => [:first, :index], :only => [:first]
   
   def first
     render :layout => "welcome"
@@ -20,10 +19,18 @@ class DictationsController < ApplicationController
   end
 
   def index
-   
+
   end
 
-
+  def get_school_classes
+    teacher_id = cookies[:teacher_id]
+    teacher = Teacher.find_by_id teacher_id.to_i
+    school_classes = teacher.school_classes
+    if school_classes && teacher.last_visit_class_id.present?
+      school_class = SchoolClass.find_by_id teacher.last_visit_class_id
+      redirect_to "/school_classes/#{school_class.id}/dictation_practises"
+    end  
+  end  
 
   def get_course_and_tm
     @courses = Course.normal.dictation
@@ -34,4 +41,16 @@ class DictationsController < ApplicationController
   def show_course
     @course = Course.find_by_id params[:course_id]
   end
+
+  def new_material
+
+  end 
+
+  def show_class
+    teacher_id = cookies[:teacher_id]
+    teacher_id = teacher_id.to_i
+    p teacher_id
+    @school_classes = SchoolClass.where(["types = ? and teacher_id = ?", SchoolClass::TYPES[:dictation], teacher_id])
+    p @school_classes  
+  end  
 end

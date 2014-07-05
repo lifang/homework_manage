@@ -1,0 +1,24 @@
+<%= stylesheet_link_tag    "/assets/dictations/style.css" %>
+<%= javascript_include_tag "/assets/dictations/date_picker_homemade.js" %>
+<%= javascript_include_tag "/assets/dictations/main.js" %>
+<div class="act_box">
+  <h1>布置作业</h1>
+  <div style="margin-bottom: 60px;">
+    <% @school_classes.each do |school_class| %>
+      <p><button class="green_btn" onclick="checkout_class(this)" id="<%= school_class.id %>" type="button"><%= school_class.name %></button><span>激活码：<%= school_class.verification_code %></span></p>
+    <% end %>  
+  </div>
+  <div>
+      <p><button class="green_btn">布置作业</button></p>
+      <p><button class="green_btn">布置作业</button></p>
+  </div>
+</div>
+<div class="bottom">布置作业</div>
+
+<script>
+  function checkout_class(obj)
+  {
+    var school_class_id = $(obj).attr("id");
+    window.location.href="/school_classes/"+ school_class_id +"/dictations";
+  } 
+</script>

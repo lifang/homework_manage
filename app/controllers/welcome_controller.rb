@@ -29,7 +29,8 @@ class WelcomeController < ApplicationController
             if @redirect_path.include?("/welcome/first")
               @redirect_path = "/dictations/first"
             elsif @redirect_path.include?("main_pages")
-              @redirect_path = "/school_classes/#{school_class_id}/dictations"
+              #@redirect_path = "/school_classes/#{school_class_id}/dictations"
+              @redirect_path = "/dictations/first"
             end
           end
         else

@@ -1386,7 +1386,7 @@ class Api::StudentsController < ApplicationController
         f.write(file.read)
       end
     end  
-    render :json => {:status => 0}
+    render :json => {:status => 0, :resource_url => "sssss"}
   end
 
   def get_voice_url

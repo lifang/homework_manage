@@ -65,16 +65,51 @@ function move_item(obj)
 			var remove_panel = "right";
 			var add_panel = "left";	
 		} 	
+
+		
+
 		var select_item = $(".assignment_body").find("."+ remove_panel +" ul").find("li.hover");
 		if(select_item.length > 0)
 		{
+
+			var questions_id = [];
 			$(select_item).each(function(i){
-				// var item_text = $(this).text();
-				var item_text = $(this);
-				$(this).remove();
-				$(item_text).removeClass("hover");
-				// var add_item = "<li>" + item_text + "</li>"; 
-				$(".assignment_body").find("."+ add_panel +" ul").append(item_text);
+				questions_id.push($(this).find("input").val())
+			})	
+			var school_class_id = $(".school_class_id").val();
+			var question_package_id = $(".question_package_id").val();
+			alert(questions_id);
+			var act = "";
+			if(obj_class_name == "goto")
+				act = "add"
+			else
+				act = "delete"
+
+			$.ajax({
+			        type: "post",
+			        url: "/school_classes/"+ school_class_id +"/dictation_practises/manage_questions",
+			        dataType: "json",
+			        data: {
+			        	question_package_id : question_package_id,
+			            questions_id : questions_id,
+			            act : act
+			        },
+			        success: function(data){
+			        	if(data.status == 0){
+							$(select_item).each(function(i){
+								// var item_text = $(this).text();
+					
+					
+					        	var item_text = $(this);
+								$(this).remove();
+								$(item_text).removeClass("hover");
+								// var add_item = "<li>" + item_text + "</li>"; 
+								$(".assignment_body").find("."+ add_panel +" ul").append(item_text);
+							})	
+						}
+			        },
+			        error: function(){
+			        }
 			})
 		}
 		else

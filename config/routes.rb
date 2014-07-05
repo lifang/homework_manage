@@ -229,14 +229,14 @@ HomeworkManage::Application.routes.draw do
     resources :dictation_practises do
       collection do 
         get :new_task, :new_branch
-        post :preview_questions, :delete_branch, :save_branchs
+        post :preview_questions, :delete_branch, :save_branchs, :manage_questions
       end  
     end  
   end
 
    resources :dictations do
       collection do
-        get :first
+        get :first, :new_material, :show_class
         post :create_teaching_material
       end
     end

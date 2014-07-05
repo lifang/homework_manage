@@ -41,4 +41,16 @@ class QuestionPackage < ActiveRecord::Base
     [status, question, question_pack]
   end
 
+  def self.find_question_package school_class_id, date
+    question_package = []
+    question_package =  QuestionPackage.where(["que_pack_date >= '#{date} 00:00:00' and
+                                               que_pack_date <= '#{date} 23:59:59' 
+                                               and school_class_id = ?", school_class_id])
+    p question_package
+    if question_package.any?
+      return question_package.first
+    else
+      return QuestionPackage.create(:school_class_id => school_class_id, :que_pack_date => date)
+    end 
+  end
 end

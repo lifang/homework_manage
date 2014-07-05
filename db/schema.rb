@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140530024041) do
+ActiveRecord::Schema.define(:version => 20140704020125) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer  "sender_id"
@@ -233,6 +233,7 @@ ActiveRecord::Schema.define(:version => 20140530024041) do
     t.integer  "school_class_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.datetime "que_pack_date"
   end
 
   add_index "question_packages", ["school_class_id"], :name => "index_question_packages_on_school_class_id"
@@ -332,6 +333,7 @@ ActiveRecord::Schema.define(:version => 20140530024041) do
     t.datetime "updated_at"
     t.integer  "teaching_material_id"
     t.integer  "types",                :default => 0
+    t.boolean  "if_public"
   end
 
   add_index "school_classes", ["teacher_id"], :name => "index_school_classes_on_teacher_id"
@@ -384,6 +386,8 @@ ActiveRecord::Schema.define(:version => 20140530024041) do
     t.integer  "questions_time",            :default => 180
     t.text     "full_text"
     t.integer  "share_question_package_id"
+    t.integer  "teaching_material_id"
+    t.integer  "question_id"
   end
 
   add_index "share_questions", ["cell_id"], :name => "index_share_questions_on_cell_id"

@@ -13,12 +13,13 @@ class DictationPractisesController < ApplicationController
 		if school_class.present?
 			@question_pack = QuestionPackage.find_question_package school_class.id, @date
 			current_class_question_pack = QuestionPackage.where(["school_class_id = ?", school_class.id])
-			current_class_question_pack_ids = current_class_question_pack.any? 
-											? current_class_question_pack.map(&:id) : []
+			current_class_question_pack_ids = current_class_question_pack.any? ? current_class_question_pack.map(&:id) : []
 
-			#共享题库
-			my_questions = Question.where(["question_package_id in (?)", 
-								current_class_question_pack_ids, ])
+			p current_class_question_pack_ids
+			#我新建的题目
+			@questions = Question.where(["question_package_id in (?) and if_from_reference = ?
+								and	types = ?", current_class_question_pack_ids, Question::IF_FROM_REFER[:NO],  Question::TYPES[:DICTATION] ])
+			p @questions
 
 			@share_questions = ShareQuestion
 						.select("share_questions.id, share_questions.name, u.name username")
@@ -30,9 +31,6 @@ class DictationPractisesController < ApplicationController
 			#使用统一教材的班级
 			similar_material_class = SchoolClass.where("teaching_material_id = ?",
 								 school_class.teaching_material_id.to_i)
-			
-			@questions = Question.where(["types = ? and if_shared = ? ",
-					 Question::TYPES[:DICTATION], Question::IF_SHARED[:YES]])
 			
 			p similar_material_class
 		end

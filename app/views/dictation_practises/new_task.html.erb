@@ -10,8 +10,11 @@
 			<div class="assignment_body" style=" background: #fff; overflow: hidden;">
            		<div class="left">
 					<ul>
-						<% @share_questions.each do |question|%>
-							<li><%= question.name %><input class="share_<%= question.id %>" type="hidden" value="share_<%= question.id %>"></li>
+						<% @share_questions.each do |share_question|%>
+							<li><%= share_question.name %><input class="share_question_<%= share_question.id %>" type="hidden" value="share_question_<%= share_question.id %>"></li>
+						<% end %>
+						<% @questions.each do |question| %>
+							<li><%= question.name %><input class="question_<%= question.id %>" type="hidden" value="question_<%= question.id %>"></li>
 						<% end %>
 					</ul>
 				</div>

@@ -72,9 +72,10 @@ function move_item(obj)
 		if(select_item.length > 0)
 		{
 
-			var questions_id = [];
+			var questions_id = "";
 			$(select_item).each(function(i){
-				questions_id.push($(this).find("input").val())
+				questions_id += $(this).find("input").val();
+				questions_id += "|"
 			})	
 			var school_class_id = $(".school_class_id").val();
 			var question_package_id = $(".question_package_id").val();
@@ -88,7 +89,7 @@ function move_item(obj)
 			$.ajax({
 			        type: "post",
 			        url: "/school_classes/"+ school_class_id +"/dictation_practises/manage_questions",
-			        dataType: "json",
+			        dataType: "script",
 			        data: {
 			        	question_package_id : question_package_id,
 			            questions_id : questions_id,

@@ -11,10 +11,10 @@
            		<div class="left">
 					<ul>
 						<% @share_questions.each do |share_question|%>
-							<li><%= share_question.name %><input class="share_question_<%= share_question.id %>" type="hidden" value="share_question_<%= share_question.id %>"></li>
+							<li><%= share_question.name %>(<%= share_question.username %>)<input class="share_questions__<%= share_question.id %>" type="hidden" value="share_questions__<%= share_question.id %>"></li>
 						<% end %>
 						<% @questions.each do |question| %>
-							<li><%= question.name %><input class="question_<%= question.id %>" type="hidden" value="question_<%= question.id %>"></li>
+							<li><%= question.name %>(<%= question.username %>)<input class="questions__<%= question.id %>" type="hidden" value="questions__<%= question.id %>"></li>
 						<% end %>
 					</ul>
 				</div>

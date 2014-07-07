@@ -79,7 +79,7 @@ function move_item(obj)
 			})	
 			var school_class_id = $(".school_class_id").val();
 			var question_package_id = $(".question_package_id").val();
-			alert(questions_id);
+			// alert(questions_id);
 			var act = "";
 			if(obj_class_name == "goto")
 				act = "add"
@@ -179,4 +179,42 @@ function add_branch()
 	        error: function(){
 	        }
 	})
+}
+
+function submit_branch(obj)
+{
+    var status = true;
+    var number = 0;
+    var notice = "";
+    var item_collections = $(obj).find(".tab_add").find("#branchs li");
+    alert(item_collections);
+    if(item_collections){
+	    $(item_collections).each(function(){
+	        number += 1;
+	        var listen = $(this).find(".listen");
+	        var content = $(this).find(".content").val();
+	        if(listen.length > 0)
+	        {
+	            if(content.size < 0)
+	            {
+	                if(number != 0)
+	                {
+	                    notice += ","
+	                } 
+	                notice += "" + number + ""; 
+	            }   
+	        }
+	    })
+	    if(notice.size > 0)
+	    {
+	    	notice = "第" + notice + "行内容不能为空!";
+	    	tishi(notice);
+	    }
+	    else
+	    {}
+	}
+	else
+	{
+		tishi("请先录音!");
+	}    
 }

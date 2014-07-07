@@ -48,31 +48,25 @@
 .act_box .green_btn { background: #36c77b; color: #fff; display: inline-block; padding: 10px 50px;}
 
 /* 预览修改 */
-.ylxg_box { border: 2px solid #36c77b; margin: 40px 10px 20px; padding: 10px; position: relative;}
-.ylxg_box h2 {
-	background: #fff;
-	font-size: 18px; 
-	font-weight: normal; 
-	height: 22px; 
-	line-height: 20px; 
-	padding: 3px 10px;
-	position: absolute; 
-	top: -30px;
-	left: 30px;
-	border: 2px solid #36c77b;
-	border-bottom: 0;
+.ylxg_box { border: 2px solid #36c77b; margin: 10px; padding: 10px; position: relative;}
+.ylxg_box_tit {
+	width: 2000px;
+	margin: 10px;
 }
+.ylxg_box_tit h2 { float: left; padding: 10px; font-size: 20px; font-weight: normal; line-height: 30px; text-align: center; width: 200px;}
+.ylxg_box_tit h2.hover { background: #48d47e; color: #fff;}
 .ylxg_item { float: left; padding: 5px 20px; border: 1px solid #48d47e; border-radius: 5px; margin: 5px 10px; position: relative;}
 .ylxg_item a.close { position: absolute; top: -11px; right: -11px; display: none;}
 .ylxg_item:hover a.close { display: block;}
+
 
 .green_a { border-bottom: 1px solid #36c77b; color: #36c77b; padding: 0 3px;}
 
 .tab_add {}
 .tab_add li { height: 30px; margin: 10px;}
 .tab_add li input { border: 1px solid #dd5c05; color: #dd5c05; height: 28px; margin-left: 140px; float: left;}
-.tab_add .listen { background: url(/assets/dictations/icon14.png) 0 -3px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
-.tab_add .remove { background: url(/assets/dictations/icon14.png) 0 -39px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
+.tab_add .remove { background: url(/assets/dictations/icon14.png) 0 -3px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
+.tab_add .listen { background: url(/assets/dictations/icon14.png) 0 -39px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
 .tab_add .speak { background: url(/assets/dictations/icon14.png) 0 -79px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
 .tab_add_btn { margin: 10px 0 10px 150px;}
 .tab_add .tab_add_btn a { 

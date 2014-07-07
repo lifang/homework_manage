@@ -1,11 +1,20 @@
+<%= stylesheet_link_tag    "/assets/dictations/jquery.mCustomScrollbar.css" %>
+
 <div class="assignment edit">
 	<div class="assignment_head" style="text-align: left; position: relative;">
 		<h1>预览修改</h1>
     </div>
 	<div class="assignment_body" style=" background: #fff; overflow: hidden;">
+		<div id="ox_1" style="overflow-x: auto;">
+					<div class="ylxg_box_tit">
+						<h2 class="hover">第一课</h2>
+						<h2>第一课</h2>
+						<h2>第一课</h2>
+						<h2>第一课</h2>
+						<h2>第一课</h2>
+					</div>
+				</div>
    		<div class="ylxg_box">
-			<h2><%= @questions.first.name %></h2>
-			<h2><%= @questions.first.name %></h2>
 			<div style="overflow: hidden; padding-bottom: 30px;">
 			<% @branch_questions.each do |bq| %>
 				<div class="ylxg_item">
@@ -22,5 +31,18 @@
 	</div>
 </div>
 	
-<script>
+
+<script type="text/javascript">
+  (function($){
+    window.load(function(){
+    	alert(1);
+      $("#ox_1").mCustomScrollbar({
+      	alert(2);
+        horizontalScroll:true,
+        advanced:{
+          autoExpandHorizontalScroll:true
+        }
+      });
+    });
+  })(jQuery);
 </script>

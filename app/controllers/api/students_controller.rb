@@ -3,6 +3,7 @@ require 'xml_to_json/string'
 require 'rexml/document'
 include REXML
 require 'json'
+include DictationPractisesHelper
 include MethodLibsHelper
 class Api::StudentsController < ApplicationController
   skip_before_filter :get_teacher_infos,:sign?,:get_unread_messes
@@ -21,6 +22,7 @@ class Api::StudentsController < ApplicationController
       render :json => {:status => 'error', :notice => '消息发布失败',:micropost=>[]}
     end
   end
+
   #  回复消息
   def reply_message
     sender_id = params[:sender_id]
@@ -1380,27 +1382,13 @@ class Api::StudentsController < ApplicationController
     file = params[:Filedata]
     school_class_id = params[:school_class_id]
     if school_class_id.present?
+      audio_name = Time.now.strftime("%Y-%m-%d_%H_%M_%S")
       dirs_url = "tmp_voice/#{school_class_id}"
       create_dirs dirs_url
-      File.open("#{Rails.root}/public/#{dirs_url}/voice.mp3","wb") do |f|
+      File.open("#{Rails.root}/public/#{dirs_url}/#{audio_name}.mp3","wb") do |f|
         f.write(file.read)
       end
     end  
-    render :json => {:status => 0, :resource_url => "sssss"}
+    render :json => {:status => 0}
   end
-
-  def get_voice_url
-    school_class_id = params[:school_class_id]
-    voice_url = nil
-    status = 0
-    school_class = SchoolClass.find_by_id school_class_id
-    if school_class.present?
-      file_url = "#{Rails.root}/public/tmp_voice/#{school_class.id}/voice.mp3"
-      if File.exist?(file_url)
-        status = 1
-        voice_url = "/tmp_voice/#{school_class.id}/voice.mp3"
-      end  
-    end
-    render :json => {:status => status, :voice_url => voice_url} 
-  end  
 end

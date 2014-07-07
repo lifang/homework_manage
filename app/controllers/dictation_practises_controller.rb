@@ -169,4 +169,27 @@ class DictationPractisesController < ApplicationController
 			end	
 		end
 	end
+
+	def get_voice_url
+	    school_class_id = params[:school_class_id]
+	    voice_url = nil
+	    @status = false
+	    school_class = SchoolClass.find_by_id school_class_id
+	    @voice_url = nil
+
+	    if school_class.present?
+	      path = "#{Rails.root}/public/tmp_voice/#{school_class.id}/"
+	      files = get_files_list(path)
+	      if files.any?
+	        files = files.sort  
+	        p files
+	        audio_file = files.last
+	        file_url = "#{path}/#{audio_file}"
+	        if File.exist?(file_url)
+	          @status = true
+	          @voice_url = "/tmp_voice/#{school_class.id}/#{audio_file}"
+	        end
+	      end  
+	    end
+	end  
 end

@@ -3,29 +3,30 @@
 <div class="tab_head">增加内容</div>
 <div class="tab_body clearAfter">
 	<div class="tab_add">
-    	<ul>
-            <li>
-                <input name="" type="text" value="">
-				<span class="listen"></span>
-				<span class="remove"></span>
-            </li>
+    	<ul id="branchs" style="overflow: auto; max-height: 140px;">
 			<li>
-                <input name="" type="text" value="">
-				<span class="speak"></span>
+                <input class="content" name="transltaion[]" type="text" value="">
+				<span class="speak" ></span>
             </li>
         </ul>
-        <div class="tab_add_btn"><a href="#">完成</a></div>
+        <div class="tab_add_btn"><a href="javascript:void(0)" onclick="submit_branch(this)">完成</a></div>
     </div>
+    <input type="text" value id="branch_index">
 </div>
 <% end %>
 
 
 <script>
+    $(function(){
+        $("#branchs").on("click", ".speak", function(){
+            var li_index = $(this).parents("li").index();
+            alert(li_index);
+            $("#branch_index").val(li_index);
+            var school_class_id = $(".school_class_id").val();
+            // sendToActionScript(school_class_id);
+            popup("#flashContent");   
+        })
 
-    $(".speak").click(function(obj){
-        var school_class_id = $(".school_class_id").val();
-        // sendToActionScript(school_class_id);
-        popup("#flashContent");   
-    })
+    })    
 </script>
    

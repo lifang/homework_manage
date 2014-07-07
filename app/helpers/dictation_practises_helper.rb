@@ -1,8 +1,17 @@
 module DictationPractisesHelper
-	def render_select_item que
-		item = "<li>#{que[:name]}(#{que[:username]})
-				<input class='#{que[:origin_table]}__#{que[:origin_id]}' type='hidden'
-					 value='#{que[:origin_table]}__#{que[:origin_id]}__#{que[:new_id]}'></li>"
-		item
+	def get_files_list(path)
+		files = []
+		puts "#{path}"
+		Dir.entries(path).each do |sub|
+			if sub != '.' && sub != '..'  
+				if File.directory?("#{path}/#{sub}")
+					puts "[#{sub}]"  
+					#get_file_list("#{path}/#{sub}")  
+				else  
+					files << sub  
+				end  
+			end 
+		end 
+		files 
 	end	
 end

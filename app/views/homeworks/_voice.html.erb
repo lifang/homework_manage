@@ -60,18 +60,40 @@
 		<script type="text/javascript">
 			$(document).ready(function(){
 				var obj = $("#mp3File");
+				setTimeout("delay()",1000);
 				var wait=setInterval(function(){ 
 	               if($("#flashContent").css("display") != "none" && obj.length > 0){  
 	                   sendToActionScript('<%= params[:school_class_id] %>');
 		           }  
 	            },200); 
-
-
 			})
+
+			function delay()
+			{
+				var i = 1000;
+				while(i)
+				{
+					i--;
+				}
+			}
 
 			function sendToJavaScript(txt)
 			{
 				$("#flashContent").hide();
-				alert(txt);
+				var school_class_id = <%= params[:school_class_id] %>;
+				if(txt == "0")
+				{
+					alert(0);
+					 $.ajax({
+				        type: "get",
+				        dataType: "script",
+				        url: "/school_classes/"+ school_class_id +"/dictation_practises/get_voice_url",
+				        success: function(data){
+				        }
+				    });
+				}
+				else
+				{}	
+				
 			}
 		</script>

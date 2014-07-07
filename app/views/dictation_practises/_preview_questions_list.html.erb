@@ -4,11 +4,12 @@
     </div>
 	<div class="assignment_body" style=" background: #fff; overflow: hidden;">
    		<div class="ylxg_box">
-			<h2><%= @questions.name %></h2>
+			<h2><%= @questions.first.name %></h2>
+			<h2><%= @questions.first.name %></h2>
 			<div style="overflow: hidden; padding-bottom: 30px;">
 			<% @branch_questions.each do |bq| %>
 				<div class="ylxg_item">
-					<span><%= bq.content %></span>
+					<span><%= bq.translation %></span>
 					<a class="close" onclick="delete_branch(this)" id="<%= bq.id %>"></a>
 				</div>
 			<% end %>

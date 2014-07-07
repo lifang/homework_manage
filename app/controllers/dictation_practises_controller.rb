@@ -27,8 +27,6 @@ class DictationPractisesController < ApplicationController
 							.where(["questions.question_package_id in (?) and questions.if_from_reference = ?
 								and	questions.types = ?", current_class_question_pack_ids,
 								 Question::IF_FROM_REFER[:NO],  Question::TYPES[:DICTATION] ])
-			p @questions
-
 			@share_questions = ShareQuestion
 						.select("share_questions.id, share_questions.name, u.name username")
 						.joins("left join users u on share_questions.user_id = u.id ")
@@ -48,17 +46,17 @@ class DictationPractisesController < ApplicationController
 		ques_id = params[:questions_id].split("|")
 		questions_id = []
 		ques_id.each do |e|
-			questions_id << [e.split("#")[0], e.split("#")[1]]
+			questions_id << e.scan(/[0-9]+$/).first.to_i
 		end
 		p questions_id
-		@questions = Question.where(["id in (?)", questions_id]).first
+		@questions = Question.where(["id in (?)", questions_id])
 		# @branch_question = BranchQuestion.where(["question_id in (?)", questions_id])
 		@branch_questions = []
-		if @questions
-			@branch_questions = @questions.branch_questions
+		if @questions.first.present?
+			@branch_questions = @questions.first.branch_questions
 		end	
-		p @questions
-		p @branch_question
+		p @questions.first
+		p @branch_questions
 	end
 
 	def delete_branch
@@ -86,11 +84,12 @@ class DictationPractisesController < ApplicationController
 		@questions_ids_collect = params[:questions_id].split("|")
 		@act = params[:act]
 		questions_id = []
+		share_questions_id = []
 		school_class_id = params[:school_class_id]
 		school_class = SchoolClass.find_by_id school_class_id
 		teacher = Teacher.find_by_id school_class.teacher_id
 		user = teacher.user
-		share_questions_id = []
+		
 		@add_questions = []
 		if @act == "add"
 			@questions_ids_collect.each do |id_str|
@@ -109,13 +108,11 @@ class DictationPractisesController < ApplicationController
 					:episode_id => 1, :if_shared => Question::IF_SHARED[:NO],
 					:if_from_reference =>  Question::IF_FROM_REFER[:YES], 
 					:status => Question::STATUS[:NORMAL])
-				p que.share_branch_questions
 				que.share_branch_questions.each do |bq|
 					tmp.branch_questions.create(:types => que.types, 
 						            :resource_url => bq.resource_url, 
 									:translation => bq.translation)
 				end	
-				p tmp.branch_questions
 				@add_questions << {:origin_table => "share_questions", :origin_id => que.id, 
 					:new_id => tmp.id, :name => tmp.name, :username => user.name}
 			end
@@ -130,15 +127,46 @@ class DictationPractisesController < ApplicationController
 						            :resource_url => bq.resource_url,
 									:translation => bq.translation)
 				end	
-				p tmp.branch_questions
 				@add_questions << {:origin_table => "questions", :origin_id => que.id, 
 					:new_id => tmp.id, :name => tmp.name, :username => user.name}
 			end
-			@add_questions 
-			p @add_questions
 		elsif @act == "delete"
+			delete_questions_id = []
+			@questions_ids_collect.each do |id_str|	
+				if id_str.match("share_questions") != nil
+					delete_questions_id << id_str.scan(/[0-9]+$/).first.to_i
+					share_questions_id << id_str.scan(/(?<=share_questions__)[0-9]+(?=__[0-9]+)/).first.to_i
+				elsif id_str.match("questions") != nil
+					delete_questions_id << id_str.scan(/[0-9]+$/).first.to_i
+					questions_id << id_str.scan(/(?<=questions__)[0-9]+(?=__[0-9]+)/).first.to_i
+				end	
+			end
+			Question.where(["id in (?)", delete_questions_id]).delete_all
+			ques = []
+			share_ques = []
+			if questions_id.present?
+				ques = Question
+						.select("u.name username, questions.name, questions.id")
+						.joins("left join question_packages qp on questions.question_package_id = qp.id")
+						.joins("left join school_classes sc on qp.school_class_id = sc.id")
+						.joins("left join teachers t on sc.teacher_id = t.id")
+						.joins("left join users u on t.user_id = u.id")
+						.where(["questions.id in (?)", questions_id])
+			end		
+			if share_questions_id.present?	
+				share_ques = ShareQuestion
+						.select("u.name username, share_questions.name, share_questions.id")
+						.joins("left join users u on share_questions.user_id = u.id")
+						.where(["share_questions.id in (?)", share_questions_id])
+			end			
+			ques.each do |que|
+				@add_questions << {:origin_table => "questions", :origin_id => que.id, 
+									 :name => que.name, :username => que.username} 	
+			end	
+			share_ques.each do |que|
+				@add_questions << {:origin_table => "share_questions", :origin_id => que.id, 
+									 :name => que.name, :username => que.username} 	
+			end	
 		end
-	end	
-
-		
+	end
 end

@@ -5,10 +5,19 @@
 		$(select_item).each(function(i){
 			$(this).remove();
 		})
-		var item_text = '<%= "<li>#{que[:name]}(#{que[:username]})<input class=\"#{que[:origin_table]}__#{que[:origin_id]}\" type=\"text\" value=\"#{que[:origin_table]}__#{que[:origin_id]}__#{que[:new_id]}\" /></li>".html_safe %>';
+		var item_text = '<%= "<li>#{que[:name]}(#{que[:username]})<input class=\"#{que[:origin_table]}__#{que[:origin_id]}\" type=\"hidden\" value=\"#{que[:origin_table]}__#{que[:origin_id]}__#{que[:new_id]}\" /></li>".html_safe %>';
 
 		$(".assignment_body").find(".right ul").append(item_text);
 	<% end %>	
 <% elsif @act == "delete" %>
-	
+	<% @add_questions.each do |que| %>
+		var select_item = $(".assignment_body").find(".right ul").find("li.hover");
+		$(select_item).each(function(i){
+			$(this).remove();
+		})
+
+		var item_text = '<%= "<li>#{que[:name]}(#{que[:username]})<input class=\"#{que[:origin_table]}__#{que[:origin_id]}\" type=\"hidden\" value=\"#{que[:origin_table]}__#{que[:origin_id]}\" /></li>".html_safe %>';
+
+		$(".assignment_body").find(".left ul").append(item_text);	
+	<% end %>
 <% end %>

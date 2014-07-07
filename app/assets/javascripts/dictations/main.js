@@ -96,18 +96,6 @@ function move_item(obj)
 			            act : act
 			        },
 			        success: function(data){
-			        	if(data.status == 0){
-							$(select_item).each(function(i){
-								// var item_text = $(this).text();
-					
-					
-					        	var item_text = $(this);
-								$(this).remove();
-								$(item_text).removeClass("hover");
-								// var add_item = "<li>" + item_text + "</li>"; 
-								$(".assignment_body").find("."+ add_panel +" ul").append(item_text);
-							})	
-						}
 			        },
 			        error: function(){
 			        }

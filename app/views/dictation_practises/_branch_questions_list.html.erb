@@ -1,0 +1,7 @@
+<% branch_questions.each do |bq| %>
+    <div class="ylxg_item">
+        <span><%= bq.translation %></span>
+        <a class="close" onclick="delete_branch(this)" id="<%= bq.id %>"></a>
+    </div>
+<% end %>
+<a class="green_a" style=" position: absolute; bottom: 15px; left: 20px;" href="javascript:void(0)" onclick="add_branch()" >增加内容</a>

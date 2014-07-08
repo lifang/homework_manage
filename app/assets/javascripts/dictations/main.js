@@ -1,7 +1,7 @@
 // JavaScript Document
 
 $(function(){
-	$(".assignment_btn_a").click(function(){
+	$(".assignment_task").click(function(){
 		submit_date();
 	})
 })
@@ -113,7 +113,7 @@ function preview_questions()
 	var school_class_id = $(".school_class_id").val();
 	var questions_id = ""
 	var questions_id_objs = $(".right ul").find("li");
-	$(questions_id_objs).each(function(i){
+	$(questions_id_objs).each(function(){
 		if($(this).find("input").length > 0){
 			// alert($(this).find("input").val());
 			if(questions_id != "")
@@ -168,11 +168,13 @@ function delete_branch(obj)
 function add_branch()
 {	
 	var school_class_id = $(".school_class_id").val();
+	var question_id = $(".ylxg_box_tit").find("h2.hover").attr("id");
 	$.ajax({
 	        type: "GET",
 	        url: "/school_classes/"+ school_class_id +"/dictation_practises/new_branch",
 	        dataType: "script",
 	        data: {
+	        	question_id : question_id
 	        },
 	        success: function(data){
 	        },
@@ -181,40 +183,48 @@ function add_branch()
 	})
 }
 
-function submit_branch(obj)
+function show_branchs(obj, que_id)
 {
-    var status = true;
-    var number = 0;
-    var notice = "";
-    var item_collections = $(obj).find(".tab_add").find("#branchs li");
-    alert(item_collections);
-    if(item_collections){
-	    $(item_collections).each(function(){
-	        number += 1;
-	        var listen = $(this).find(".listen");
-	        var content = $(this).find(".content").val();
-	        if(listen.length > 0)
-	        {
-	            if(content.size < 0)
-	            {
-	                if(number != 0)
-	                {
-	                    notice += ","
-	                } 
-	                notice += "" + number + ""; 
-	            }   
+	$(obj).parents(".ylxg_box_tit").find("h2").removeClass("hover");
+	$(obj).addClass("hover");
+	var school_class_id = $(".school_class_id").val();
+	$.ajax({
+	        type: "GET",
+	        url: "/school_classes/"+ school_class_id +"/dictation_practises/show_branch_questions",
+	        dataType: "script",
+	        data: {
+	        	question_id : que_id
+	        },
+	        success: function(data){
+	        },
+	        error: function(){
 	        }
-	    })
-	    if(notice.size > 0)
-	    {
-	    	notice = "第" + notice + "行内容不能为空!";
-	    	tishi(notice);
-	    }
-	    else
-	    {}
+	})	
+}
+
+function check_material()
+{
+	var material_name = $("#material_form").find(".material_name").val();
+	if(material_name.length > 0)
+	{
+		$("#material_form").submit();
 	}
 	else
 	{
-		tishi("请先录音!");
-	}    
+		tishi("教材名称不能为空！");
+	}
+}
+
+function add_material()
+{
+	var school_class_id = $("#school_class_id").val();
+	$.ajax({
+	        type: "GET",
+	        url: "/school_classes/"+ school_class_id +"/dictation_practises/new_material",
+	        dataType: "script",
+	        success: function(data){
+	        },
+	        error: function(){
+	        }
+	})	
 }

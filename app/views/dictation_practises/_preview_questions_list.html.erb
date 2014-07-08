@@ -7,22 +7,14 @@
 	<div class="assignment_body" style=" background: #fff; overflow: hidden;">
 		<div id="ox_1" style="overflow-x: auto;">
 					<div class="ylxg_box_tit">
-						<h2 class="hover">第一课</h2>
-						<h2>第一课</h2>
-						<h2>第一课</h2>
-						<h2>第一课</h2>
-						<h2>第一课</h2>
+						<% @questions.each_with_index do |que, index| %>
+							<h2 <%= index == 0 ? "class='hover'" : "" %> id="<%= que.id %>" onclick="show_branchs(this,'<%= que.id %>')"><%= que.name %></h2>
+						<% end %>	
 					</div>
 				</div>
    		<div class="ylxg_box">
-			<div style="overflow: hidden; padding-bottom: 30px;">
-			<% @branch_questions.each do |bq| %>
-				<div class="ylxg_item">
-					<span><%= bq.translation %></span>
-					<a class="close" onclick="delete_branch(this)" id="<%= bq.id %>"></a>
-				</div>
-			<% end %>
-				<a class="green_a" style=" position: absolute; bottom: 15px; left: 20px;" href="javascript:void(0)" onclick="add_branch()" >增加内容</a>
+			<div style="overflow: hidden; padding-bottom: 30px;" id="branch_questions_list">
+				<%= render "branch_questions_list", :branch_questions => @branch_questions %>
 			</div>
 		</div>
 		<div class="act_box">
@@ -35,9 +27,8 @@
 <script type="text/javascript">
   (function($){
     window.load(function(){
-    	alert(1);
+    	
       $("#ox_1").mCustomScrollbar({
-      	alert(2);
         horizontalScroll:true,
         advanced:{
           autoExpandHorizontalScroll:true

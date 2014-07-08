@@ -1,0 +1,20 @@
+<%= stylesheet_link_tag    "/assets/dictations/style.css" %>
+<%= javascript_include_tag "/assets/dictations/date_picker_homemade.js" %>
+<%= javascript_include_tag "/assets/dictations/main.js" %>
+
+
+<div class="main">
+	<div class="assignment">
+		<div class="assignment_head" style="text-align: left; position: relative;">
+			<h1>创建教材</h1>
+	    </div>
+		<div class="assignment_body" style=" background: #fff; overflow: hidden;">
+			<div class="cont_box" id="material_div">
+				<%= render "material_form" %>
+			</div>
+			<div class="act_box" style="text-align: left; margin-top:10px;">
+				<button class="green_btn" onclick="check_material()">保存并继续</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -10,7 +10,6 @@ class DictationPractisesController < ApplicationController
 		school_class_id = params[:school_class_id]
 		school_class = SchoolClass.find_by_id school_class_id, @date
 		@questions = []
-		p school_class
 		if school_class.present?
 			@question_pack = QuestionPackage.find_question_package school_class.id, @date
 			current_class_question_pack = QuestionPackage.where(["school_class_id = ?", school_class.id])
@@ -38,7 +37,6 @@ class DictationPractisesController < ApplicationController
 			similar_material_class = SchoolClass.where("teaching_material_id = ?",
 								 school_class.teaching_material_id.to_i)
 			
-			p similar_material_class
 		end
 	end
 
@@ -48,15 +46,12 @@ class DictationPractisesController < ApplicationController
 		ques_id.each do |e|
 			questions_id << e.scan(/[0-9]+$/).first.to_i
 		end
-		p questions_id
 		@questions = Question.where(["id in (?)", questions_id])
 		# @branch_question = BranchQuestion.where(["question_id in (?)", questions_id])
 		@branch_questions = []
 		if @questions.first.present?
 			@branch_questions = @questions.first.branch_questions
-		end	
-		p @questions.first
-		p @branch_questions
+		end
 	end
 
 	def delete_branch
@@ -66,19 +61,43 @@ class DictationPractisesController < ApplicationController
 		if branch && branch.destroy
 			@branch_id = branch.id
 			@status = true
-		end	
-		p @status 
+		end
 	end	
 
 	def new_question
 	end	
 
 	def new_branch
+		@question_id = params[:question_id]
 	end
 
+	#保存小题
 	def save_branchs
+		voices = params[:voice]
+		@status = false
+		translations = params[:translation]
+		question_id = params[:question_id]
+		question = Question.find_by_id question_id
+		old_count =  question.branch_questions.count
+		voices.each_with_index do |voice, index|
+			question.branch_questions
+						.create(:types => Question::TYPES[:DICTATION], 
+							:resource_url => voice, :translation => translations[index])
+		end
+		if old_count != question.branch_questions.count
+			@status = true
+		end
+		@branch_questions = question.branch_questions
 	end
 
+	#列出某大题下的小题
+	def show_branch_questions
+		question_id = params[:question_id]
+		question = Question.find_by_id question_id
+		@branch_questions = question.branch_questions
+	end	
+
+	#引入或删除大题
 	def manage_questions
 		question_package_id = params[:question_package_id].to_i
 		@questions_ids_collect = params[:questions_id].split("|")
@@ -170,6 +189,7 @@ class DictationPractisesController < ApplicationController
 		end
 	end
 
+	#获取音频文件路径
 	def get_voice_url
 	    school_class_id = params[:school_class_id]
 	    voice_url = nil
@@ -182,7 +202,6 @@ class DictationPractisesController < ApplicationController
 	      files = get_files_list(path)
 	      if files.any?
 	        files = files.sort  
-	        p files
 	        audio_file = files.last
 	        file_url = "#{path}/#{audio_file}"
 	        if File.exist?(file_url)
@@ -191,5 +210,50 @@ class DictationPractisesController < ApplicationController
 	        end
 	      end  
 	    end
-	end  
+	end 
+
+	#已有教材
+	def teaching_materials
+	end
+
+	#添加教材
+	def add_materials
+	end 	
+
+	#创建教材
+	def create_material
+		teacher_id = cookies[:teacher_id]
+		material_name = params[:material_name]
+		school_class_id = params[:school_class_id]
+		school_class = SchoolClass.find_by_id school_class_id.to_i
+		@status = false
+		if school_class
+			current_material = TeachingMaterial.find_by_id school_class.teaching_material_id
+			if current_material
+				course_id = current_material.course_id
+				if TeachingMaterial.create(:name => material_name, 
+							:teacher_id => school_class.teacher_id, 
+							:course_id => current_material.course_id)
+					@status = true
+				end	
+			end	
+		end		
+	end
+
+	#显示已有课
+	def show_quetions
+		school_class_id = params[:school_class_id]
+		school_class = SchoolClass.find_by_id school_class_id
+		question_packages = QuestionPackage.where(["school_class_id = ?", school_class.id])
+		@material = TeachingMaterial.find_by_id school_class.teaching_material_id
+		question_package_id = question_packages.map(&:id)
+		@questions = Question.where(["question_package_id in (?) and types = ? and 
+									if_from_reference =?", question_package_id,
+									Question::TYPES[:DICTATION], 
+									Question::IF_FROM_REFER[:NO] ])
+	end	
+
+	#添加新课
+	def add_questions
+	end	
 end

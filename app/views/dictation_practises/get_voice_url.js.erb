@@ -1,10 +1,10 @@
 <% if @status == false %>
-	alert("删除失败!");
+	tishi("上传失败!");
 <% elsif @status == true %>
 	var li_index = $("#branch_index").val();
 	var current_li = $("#add_branch").find("ul").find("li:eq("+ li_index +")");;
 	$(current_li).find(".speak").remove();
 	$(current_li).append('<%=j(render 'voice', :voice_url => @voice_url )%>');
-	var new_li = "<li><input class='content' name='content[]' type='text' value=''><span class='speak'></span></li>";
+	var new_li = "<li><input class='content' name='translation[]' type='text' value=''><span class='speak'></span></li>";
 	$("#add_branch").find("ul").append(new_li);
 <% end %>

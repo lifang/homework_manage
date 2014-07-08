@@ -44,7 +44,7 @@
 </div>
 
 <div id="flashContent" style="display: none; width:300px; height:200px;  position: fixed; z-index:101;">
-	<a href="javascript:void(0);" class="close" >close</a>
+	<a href="javascript:void(0);" class="close_audio" onclick="$(this).parents('#flashContent').hide();">close</a>
 	<%= render :partial => "homeworks/voice" %>
 </div>
 

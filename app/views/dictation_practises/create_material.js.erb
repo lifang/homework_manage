@@ -1,0 +1,6 @@
+<% if @status == false %>
+	tishi("保存失败!");
+<% elsif @status == true %>
+	$("#material_div").html('<%= j( render "material_form" ) %>');
+	tishi("保存成功!");
+<% end %>

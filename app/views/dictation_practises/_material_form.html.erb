@@ -1,0 +1,5 @@
+<h2>创建一年级下的语文教材</h2>
+<%= form_tag({:action => :create_material} ,:remote => true, :id => "material_form") do %>
+    <input type="text" name="material_name" class="material_name" value>
+<% end %>
+<p>示例：人教版 语文 一年级下</p>

@@ -6,7 +6,7 @@ class TeachingMaterial < ActiveRecord::Base
   belongs_to :course
 
   STATUS = {:DELETED => 0, :NORMAL => 1}  #状态 0已删除 1正常
-
+  IF_PUBLIC = {:NO => 0, :YES => 1}
   def self.upload_xls course_id, teaching_materia_id, cell_episode_xls
     path = upload_xls_file(course_id, teaching_materia_id, cell_episode_xls)
     status = 1

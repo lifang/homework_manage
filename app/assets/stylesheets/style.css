@@ -109,6 +109,19 @@ textarea { font-size: 14px; color: #333; font-family:"微软雅黑";}
     right: 5px;
     cursor: pointer;
 }
+
+.close_audio {
+    width: 22px;
+    height: 22px;
+    display: block;
+    background: url(/assets/close.jpg) no-repeat;
+    text-indent: -999px;
+    overflow: hidden;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
 .tab_warning {
     font-size: 18px;
     width: 350px;

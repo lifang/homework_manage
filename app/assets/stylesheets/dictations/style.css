@@ -32,7 +32,7 @@
 
 /* 选择课时 */
 .assignment_head { position: relative;}
-.assignment_head h1 { color: #fff; line-height: 50px; padding: 20px 40px;}
+.assignment_head h1 { color: #fff; line-height: 50px; padding: 20px 40px; display: inline-block; }
 .assignment_head .assignment_a { border-bottom: 1px solid #fff; color: #fff; left: 170px; padding: 0 3px; position: absolute; top: 39px;}
 
 .left,.right { float: left; width: 400px; height: 300px; overflow: auto; border: 1px solid #48d47e; margin: 10px 18px;}

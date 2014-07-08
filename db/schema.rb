@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140704020125) do
+ActiveRecord::Schema.define(:version => 20140708072856) do
 
   create_table "admin_messages", :force => true do |t|
     t.integer  "sender_id"
@@ -497,6 +497,7 @@ ActiveRecord::Schema.define(:version => 20140704020125) do
     t.integer  "course_id"
     t.boolean  "status",     :default => true
     t.boolean  "if_public",  :default => false
+    t.integer  "teacher_id"
   end
 
   create_table "user_prop_relations", :force => true do |t|

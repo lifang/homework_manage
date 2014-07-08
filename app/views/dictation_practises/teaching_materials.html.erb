@@ -1,0 +1,28 @@
+<%= stylesheet_link_tag    "/assets/dictations/style.css" %>
+<%= javascript_include_tag "/assets/dictations/date_picker_homemade.js" %>
+<%= javascript_include_tag "/assets/dictations/main.js" %>
+
+
+<div class="main">
+	<div class="assignment">
+        	<div class="assignment_head" style="text-align: left; position: relative;">
+				<h1>已有教材</h1>
+				<a class="assignment_btn_a" href="/school_classes/<%= params[:school_class_id] %>/dictation_practises/add_materials">创建教材</a>
+            </div>
+			<div class="assignment_body" style=" background: #fff; overflow: hidden;">
+           		<div class="cont_box">
+					<p><a href="javascript:void(0)" class="<%= params[:school_class_id] %>" onclick="redircet_to(this)">人教版 语文 一年级下</a>（私有）</p>
+				</div>
+			</div>
+        </div>
+    <input type="text" id="school_class_id" value="<%= params[:school_class_id] %>">
+</div>
+
+<script>
+	function redircet_to(obj)
+	{
+		var masterial_id = $(obj).attr("class");
+		var url = "/school_classes/<%= params[:school_class_id] %>/dictation_practises/show_quetions";
+		window.location.href = url;
+	}
+</script>

@@ -7,15 +7,32 @@
 	<div class="assignment">
     	<div class="assignment_head" style="text-align: left; position: relative;">
 			<h1><%= @material.name %></h1>
-			<a class="assignment_btn_a">添加新课</a>
+			<a class="assignment_btn_a" onclick="popup_add_questions()" >添加新课</a>
 			<a class="assignment_btn_a">公开</a>
         </div>
 		<div class="assignment_body" style=" background: #fff; overflow: hidden;">
        		<div class="cont_box">
        			<% @questions.each do |quesion| %>
-					<p><a href=""><%= quesion.name %></a></p>
+					<p><a href="/school_classes/<%= params[:school_class_id] %>/dictation_practises/show_branch_questions?question_id=<%= quesion.id %>"><%= quesion.name %></a></p>
 				<% end %>	
 			</div>
 		</div>
     </div>
 </div>
+
+<div id="add_questions" class="tab tab500" style="display: none;">
+</div>
+
+
+<script>
+    function popup_add_questions()
+    {
+        $.ajax({
+	        type: "get",
+	        dataType: "script",
+	        url: "/school_classes/<%= params[:school_class_id] %>/dictation_practises/new_questions",
+	        success: function(data){
+	        }
+	    });    
+    } 
+</script>

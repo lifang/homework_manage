@@ -229,9 +229,10 @@ HomeworkManage::Application.routes.draw do
     resources :dictation_practises do
       collection do 
         get :new_task, :new_branch, :get_voice_url, :show_branch_questions, :teaching_materials,
-            :add_materials, :show_quetions, :add_questions
+            :add_materials, :show_quetions, :show_branch_questions, :new_questions
+
         post :preview_questions, :delete_branch, :save_branchs, :manage_questions, :new_question,
-             :create_material
+             :create_material, :add_question
       end  
     end  
   end

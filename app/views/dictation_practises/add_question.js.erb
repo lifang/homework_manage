@@ -1,0 +1,8 @@
+<% if @status == false %>
+	tishi("创建新课失败!");
+<% elsif @status == true %>
+	$(".mask").hide();
+	$("#add_questions").hide();
+	$(".cont_box").append('<%= j( render "question_item", :question => @question) %>');
+	tishi("创建新课成功!");
+<% end %>

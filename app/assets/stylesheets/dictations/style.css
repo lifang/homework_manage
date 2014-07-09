@@ -95,7 +95,16 @@
 .bottom { position: absolute; bottom: 50px; width: 960px; text-align: center; font-size: 16px;}
 
 
+/* 编辑作业 */
+.cont_box { margin: 20px;}
+.cont_box h2 { line-height: 40px; font-size: 18px; font-weight: normal; margin-bottom: 10px;}
+.cont_box input { padding: 5px; border: 1px solid #ccc; width: 300px; margin-bottom: 10px; float: left;}
+.cont_box p { line-height: 30px; margin-bottom: 10px; overflow: hidden;}
+.cont_box p a { color: #33f;}
 
+.cont_box .listen { background: url(/assets/dictations/icon15.png) 0 -3px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
+.cont_box .remove { background: url(/assets/dictations/icon15.png) 0 -39px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
+.cont_box .speak { background: url(/assets/dictations/icon15.png) 0 -79px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
 
 
 

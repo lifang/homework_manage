@@ -1,0 +1,31 @@
+<%= form_tag({:action => :add_question} ,:remote => true) do %>
+<a href="javascript:void(0);" class="close">close</a>
+<div class="tab_head">增加新课</div>
+<div class="tab_body clearAfter">
+	<div class="tab_add">
+    	<ul id="branchs" style="overflow: auto; max-height: 140px;">
+			<li>
+                <input class="question_name" name="name" type="text" value>
+            </li>
+        </ul>
+        <div class="tab_add_btn"><a href="javascript:void(0)" onclick="submit_question(this)">完成</a></div>
+    </div>
+    <input type="hidden" value="<%= question_package_id %>" name="question_package_id" >
+</div>
+<% end %>
+
+
+<script>
+    function submit_question(obj)
+    {
+        var name = $(".question_name").val();
+        if(name.length > 1){
+            $(obj).parents("form").submit();
+        }
+        else
+        {
+            tishi("新课名称不能为空!");
+        }    
+    } 
+</script>
+   

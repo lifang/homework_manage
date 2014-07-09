@@ -15,7 +15,6 @@ class DictationPractisesController < ApplicationController
 			current_class_question_pack = QuestionPackage.where(["school_class_id = ?", school_class.id])
 			current_class_question_pack_ids = current_class_question_pack.any? ? current_class_question_pack.map(&:id) : []
 
-			p current_class_question_pack_ids
 			#我新建的题目
 			@questions = Question
 							.select("questions.name,  questions.id, u.name username")
@@ -253,7 +252,37 @@ class DictationPractisesController < ApplicationController
 									Question::IF_FROM_REFER[:NO] ])
 	end	
 
-	#添加新课
-	def add_questions
+	#显示某课下的小题	
+	def show_branch_questions
+
+	end	
+
+	#弹出添加新课的弹出框
+	def new_questions
+		school_class_id = params[:school_class_id]
+		school_class = SchoolClass.find_by_id school_class_id
+		question_packages = QuestionPackage.where(["school_class_id = ?", school_class.id])
+		if question_packages.any?
+			@question_package_id = question_packages.last.id
+		else
+			question_package = QuestionPackage.create(:school_class_id => school_class.id)	
+			@question_package_id = question_package.id
+		end	
+	end
+
+	#保存新课
+	def add_question
+		@status = false
+		question_package_id = params[:question_package_id]
+		name = params[:name]
+		types = Question::TYPES[:DICTATION]
+		@question = Question.create(:question_package_id => question_package_id.to_i, :name => name,
+						:types => types, :cell_id => 1, :episode_id => 1,
+						:if_shared => Question::IF_SHARED[:NO], 
+						:if_from_reference => Question::IF_FROM_REFER[:NO],
+						:status => Question::STATUS[:NORMAL])
+		if @question.present?
+			@status = true
+		end
 	end	
 end

@@ -77,23 +77,5 @@
 				}
 			}
 
-			function sendToJavaScript(txt)
-			{
-				$("#flashContent").hide();
-				var school_class_id = <%= params[:school_class_id] %>;
-				if(txt == "0")
-				{
-					// alert(0);
-					$.ajax({
-				        type: "get",
-				        dataType: "script",
-				        url: "/school_classes/"+ school_class_id +"/dictation_practises/get_voice_url",
-				        success: function(data){
-				        }
-				    });
-				}
-				else
-				{}	
-				
-			}
+			
 		</script>

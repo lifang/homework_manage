@@ -63,5 +63,32 @@
             tishi("请先录音!");
         }    
     } 
+
+    function remove_voice(obj,audio_url)
+    {
+        var index = $(obj).parents("li").index();
+        var school_class_id = $("#school_class_id").val();
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            data:{
+                audio_url : audio_url
+            },
+            url: "/school_classes/"+ school_class_id +"/dictation_practises/delete_audio",
+            success: function(data){
+                if(data.status == true)
+                {
+
+                    tishi("删除成功!");
+                    $("#branchs").find("li:eq("+ index +")").remove();
+                }
+                else
+                {
+                    tishi("删除失败!")  
+                }
+
+            }
+        }); 
+    }
 </script>
    

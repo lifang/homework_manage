@@ -2,9 +2,18 @@
 	tishi("上传失败!");
 <% elsif @status == true %>
 	var li_index = $("#branch_index").val();
-	var current_li = $("#add_branch").find("ul").find("li:eq("+ li_index +")");;
-	$(current_li).find(".speak").remove();
-	$(current_li).append('<%=j(render 'voice', :voice_url => @voice_url )%>');
-	var new_li = "<li><input class='content' name='translation[]' type='text' value=''><span class='speak'></span></li>";
-	$("#add_branch").find("ul").append(new_li);
+	<% if @type.present? %>
+		li_index -= 1;
+		var current_li = $(".cont_box").find("p:eq("+ li_index +")");
+		$(current_li).find(".speak").remove();
+		$(current_li).append('<%=j(render 'voice', :voice_url => @voice_url )%>');
+		var new_li = "<p><input class='content' name='translation[]' type='text' value=''><span class='speak'></span></li>";
+		$(".cont_box").append(new_li);
+	<% else %>
+		var current_li = $("#add_branch").find("ul").find("li:eq("+ li_index +")");
+		$(current_li).find(".speak").remove();
+		$(current_li).append('<%=j(render 'voice', :voice_url => @voice_url )%>');
+		var new_li = "<li><input class='content' name='translation[]' type='text' value=''><span class='speak'></span></li>";
+		$("#add_branch").find("ul").append(new_li);
+	<% end %>
 <% end %>

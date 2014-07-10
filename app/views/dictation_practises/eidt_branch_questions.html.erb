@@ -1,0 +1,79 @@
+<%= stylesheet_link_tag    "/assets/dictations/jquery.mCustomScrollbar.css" %>
+<%= stylesheet_link_tag    "/assets/dictations/style.css" %>
+<%= javascript_include_tag "/assets/dictations/main.js" %>
+<div class="assignment edit">
+	<div class="assignment_head" style="text-align: left; position: relative;">
+		<h1>编辑题目</h1>
+    </div>
+	<div class="assignment_body" style=" background: #fff; overflow: hidden;">
+		<%= render "questions_list", :questions => @questions, :branch_questions => @branch_questions %>
+	</div>
+</div>
+	
+<div id="add_branch" class="tab tab500" style="display: none;">
+</div>
+
+<div id="flashContent" style="display: none; width:300px; height:200px;  position: fixed; z-index:101;">
+	<a href="javascript:void(0);" class="close_audio" onclick="$(this).parents('#flashContent').hide();">close</a>
+	<%= render :partial => "homeworks/voice" %>
+</div>
+
+<script type="text/javascript">
+	
+	var jsReady = false;  
+	function isReady() {  
+	 return jsReady;  
+	}  
+
+	function thisMovie(movieName) {  
+		if (navigator.appName.indexOf("Microsoft") != -1) {  
+		 return window[movieName];  
+		} else {  
+		 return document[movieName];  
+		}  
+	}  
+	function pageInit() { 
+		jsReady = true; 
+		
+	}
+
+	
+
+	function sendToActionScript(class_id) { 
+		thisMovie("mp3File").sendClassId(class_id);
+	}
+
+
+	function sendToJavaScript(txt)
+	{
+		$("#flashContent").hide();
+		var school_class_id = <%= params[:school_class_id] %>;
+		if(txt == "0")
+		{
+			// alert(0);
+			$.ajax({
+		        type: "get",
+		        dataType: "script",
+		        url: "/school_classes/"+ school_class_id +"/dictation_practises/get_voice_url",
+		        success: function(data){
+		        }
+		    });
+		}
+		else
+		{}	
+		
+	}
+
+
+  (function($){
+    window.load(function(){
+    	
+      $("#ox_1").mCustomScrollbar({
+        horizontalScroll:true,
+        advanced:{
+          autoExpandHorizontalScroll:true
+        }
+      });
+    });
+  })(jQuery);
+</script>

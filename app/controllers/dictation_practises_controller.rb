@@ -72,8 +72,11 @@ class DictationPractisesController < ApplicationController
 
 	#保存小题
 	def save_branchs
+		@type = params[:type]
 		voices = params[:voice]
 		@status = false
+		school_class_id = params[:school_class_id]
+		school_class = SchoolClass.find_by_id school_class_id
 		translations = params[:translation]
 		question_id = params[:question_id]
 		question = Question.find_by_id question_id
@@ -86,7 +89,13 @@ class DictationPractisesController < ApplicationController
 		if old_count != question.branch_questions.count
 			@status = true
 		end
-		@branch_questions = question.branch_questions
+		if @type.present?
+			@question = question
+			@material = TeachingMaterial.find_by_id school_class.teaching_material_id
+		else
+			@branch_questions = question.branch_questions	
+		end
+			
 	end
 
 	#列出某大题下的小题
@@ -195,6 +204,7 @@ class DictationPractisesController < ApplicationController
 	    @status = false
 	    school_class = SchoolClass.find_by_id school_class_id
 	    @voice_url = nil
+	    @type = params[:type]
 
 	    if school_class.present?
 	      path = "#{Rails.root}/public/tmp_voice/#{school_class.id}/"
@@ -210,6 +220,20 @@ class DictationPractisesController < ApplicationController
 	      end  
 	    end
 	end 
+
+	#删除音频文件
+	def delete_audio
+		audio_url = params[:audio_url]
+		base_url = "#{Rails.root}/public"
+		file_url = base_url + audio_url
+		status = false
+		if File.exist?(file_url)
+			if File.delete file_url
+				status = true		
+			end	
+		end
+		render :json => {:status => status}	
+	end
 
 	#已有教材
 	def teaching_materials
@@ -250,11 +274,22 @@ class DictationPractisesController < ApplicationController
 									if_from_reference =?", question_package_id,
 									Question::TYPES[:DICTATION], 
 									Question::IF_FROM_REFER[:NO] ])
-	end	
+	end
 
-	#显示某课下的小题	
-	def show_branch_questions
-
+	#编辑某大题下的小题	
+	def eidt_branch_questions
+		question_id = params[:question_id]
+		question = Question.find_by_id question_id.to_i
+		@questions = []
+		@branch_questions = []
+		if question
+			@questions << question
+			question.branch_questions.each do |bq|
+				@branch_questions << bq
+			end	
+		end
+		school_class = SchoolClass.find_by_id params[:school_class_id]
+		@material = TeachingMaterial.find_by_id school_class.teaching_material_id
 	end	
 
 	#弹出添加新课的弹出框
@@ -285,4 +320,12 @@ class DictationPractisesController < ApplicationController
 			@status = true
 		end
 	end	
+
+	#第一次创建小题
+	def add_branch_questions
+		question_id = params[:question_id]
+		@question = Question.find_by_id question_id.to_i
+		school_class = SchoolClass.find_by_id params[:school_class_id]
+		@material = TeachingMaterial.find_by_id school_class.teaching_material_id
+	end
 end

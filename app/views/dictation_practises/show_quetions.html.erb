@@ -13,7 +13,7 @@
 		<div class="assignment_body" style=" background: #fff; overflow: hidden;">
        		<div class="cont_box">
        			<% @questions.each do |quesion| %>
-					<p><a href="/school_classes/<%= params[:school_class_id] %>/dictation_practises/show_branch_questions?question_id=<%= quesion.id %>"><%= quesion.name %></a></p>
+					<p><a href="/school_classes/<%= params[:school_class_id] %>/dictation_practises/eidt_branch_questions?question_id=<%= quesion.id %>"><%= quesion.name %></a></p>
 				<% end %>	
 			</div>
 		</div>

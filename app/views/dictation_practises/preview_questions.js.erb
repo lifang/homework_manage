@@ -1,2 +1,2 @@
 $(".assignment").hide();
-$(".main").append('<%=j render 'preview_questions_list' %>');
+$(".main").append('<%=j render 'preview_questions_list', :questions => @questions, :branch_questions => @branch_questions %>');

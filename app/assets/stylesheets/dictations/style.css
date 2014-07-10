@@ -102,14 +102,34 @@
 .cont_box p { line-height: 30px; margin-bottom: 10px; overflow: hidden;}
 .cont_box p a { color: #33f;}
 
-.cont_box .listen { background: url(/assets/dictations/icon15.png) 0 -3px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
-.cont_box .remove { background: url(/assets/dictations/icon15.png) 0 -39px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
+.cont_box .listen { background: url(/assets/dictations/icon15.png) 0 -39px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
+.listen audio{display: none;}
+.cont_box .remove { background: url(/assets/dictations/icon15.png) 0 -3px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
 .cont_box .speak { background: url(/assets/dictations/icon15.png) 0 -79px no-repeat; float: left; width: 36px; height: 30px; margin-let: 10px; cursor: pointer;}
 
 
 
 
+/* cen_box */
+.cen_box {
+ width: 530px; 
+ margin: 100px auto; 
+ background: #fff; 
+ border: 5px solid #48d47e; 
+ box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+.cen_box h1 { line-height: 60px; padding-left: 20px; color: #36c77b; background: #eee; box-shadow: 0 0 5px rgba(0,0,0,0.5);}
+.cen_cont { padding: 10px; margin: 5px; overflow: hidden; max-height: 200px; overflow: auto;}
+.cen_cont .block_s { float: left; width: 120px; padding: 7px; border: 3px solid #ccc; text-align: center; margin: 10px 10px 0; background: #ccc; color: #fff; cursor: pointer;}
+.block_s.hover,.block_s:hover { border: 3px solid #48d47e; box-shadow: 0 0 3px #000;}
+.cen_act { text-align: center; padding: 10px;}
+.cen_act button { padding: 8px 25px; text-align: center; margin: 0 10px; background: #48d47e; color: #fff;}
 
+.cen_cont p { margin-top: 10px; overflow: hidden; line-height: 30px;}
+.cen_cont label { float: left; width: 150px; text-align: right; line-height: 30px; margin-right: 10px;}
+.cen_cont select { font-size: 16px; padding: 5px; width: 200px; float: left; border: 1px solid #c3c3c3;}
+.cen_cont input { font-size: 16px; padding: 5px; width: 200px; float: left; border: 1px solid #c3c3c3;}
+.cen_cont h2 { font-weight: normal; line-height: 50px; margin-bottom: 10px;}
 
 
 

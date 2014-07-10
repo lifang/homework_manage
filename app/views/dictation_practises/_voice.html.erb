@@ -1,1 +1,8 @@
-<span class="listen"></span><span class="remove" onclick="remove_voice('<%= voice_url %>')"></span><input name="voice[]" value="<%= voice_url %>" type="hidden">
+
+<span class="listen" onclick="playAudio(this)">
+	<audio controls="controls" class="bq_audio">
+	  <source src="<%= voice_url %>" type="audio/mpeg">
+	  Your browser does not support the audio element.
+	</audio>
+</span>
+<span class="remove" onclick="remove_voice(this,'<%= voice_url %>')"></span><input name="voice[]" value="<%= voice_url %>" type="hidden">

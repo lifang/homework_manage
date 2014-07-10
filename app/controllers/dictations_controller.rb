@@ -19,7 +19,6 @@ class DictationsController < ApplicationController
   end
 
   def index
-
   end
 
   def get_school_classes
@@ -46,11 +45,10 @@ class DictationsController < ApplicationController
 
   end 
 
-  def show_class
+  def show_classes
     teacher_id = cookies[:teacher_id]
     teacher_id = teacher_id.to_i
-    p teacher_id
     @school_classes = SchoolClass.where(["types = ? and teacher_id = ?", SchoolClass::TYPES[:dictation], teacher_id])
-    p @school_classes  
+    render :layout => "welcome"
   end  
 end

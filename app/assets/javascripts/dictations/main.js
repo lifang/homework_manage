@@ -228,3 +228,43 @@ function add_material()
 	        }
 	})	
 }
+
+function check_branchs(obj)
+{
+	var items = $(obj).parents("form").find(".cont_box").find("p");
+	var notice = "";
+	if(items.length > 1)
+	{
+		$(items).each(function(){
+			var listen = $(this).find("span.listen");
+			var content = $(this).find("input.content").val();
+			if(listen.length > 0)
+			{
+				if(content.length <= 0)
+				{
+					if(notice.length > 0)
+					{
+						notice += ",";
+					}
+					notice += $(this).index();
+				}
+			}
+		})
+		if(notice.length > 0)
+		{
+			notice = "第" + notice + "行内容不能为空!"
+			tishi(notice);
+		}
+		else
+		{
+			$(obj).parents("form").submit();
+			$(obj).attr("disabled","true");
+			setTimeout(function delay(){var i = 1000; while(i){i--}}, 2000);
+		}
+	}
+	else
+	{
+		tishi("请先录音!");
+	}
+	
+}

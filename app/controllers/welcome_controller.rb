@@ -27,10 +27,12 @@ class WelcomeController < ApplicationController
           notice, status, last_visit_class, @redirect_path, school_class_id = redirect_to_different_page(teacher)
           if @from_dictation
             if @redirect_path.include?("/welcome/first")
-              @redirect_path = "/dictations/first"
+              #@redirect_path = "/dictations/first"
+              @redirect_path = "/dictations/show_classes"
             elsif @redirect_path.include?("main_pages")
               #@redirect_path = "/school_classes/#{school_class_id}/dictations"
-              @redirect_path = "/dictations/first"
+              #@redirect_path = "/dictations/first"
+              @redirect_path = "/dictations/show_classes"
             end
           end
         else

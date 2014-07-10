@@ -1,8 +1,12 @@
 <% if @status == false %>
 	tishi("保存失败!");
 <% elsif @status == true %>
-	$(".mask").hide();
-	$("#add_branch").hide();
-	$("#branch_questions_list").html('<%= j( render "branch_questions_list", :branch_questions => @branch_questions) %>');
+	<% if @type.present? %>
+		$(".assignment_body").html('<%= j( render "branch_form", :question => @question, :material => @material) %>');
+	<% else %>
+		$(".mask").hide();
+		$("#add_branch").hide();
+		$("#branch_questions_list").html('<%= j( render "branch_questions_list", :branch_questions => @branch_questions) %>');
+	<% end %>
 	tishi("保存成功!");
 <% end %>

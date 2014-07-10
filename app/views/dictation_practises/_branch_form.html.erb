@@ -1,0 +1,25 @@
+<%= form_tag({:action => :save_branchs} ,:remote => true) do %>
+    <div class="cont_box" style="width: 400px; margin: 0 auto;">
+        <h2><%= material.name %></h2>
+        <p>
+            <input class="content" name="translation[]" type="text" value="">
+            <span class="speak"></span>
+        </p>
+    </div>
+    <input type="hidden" name="question_id" value="<%= question.id %>" >
+    <input type="hidden" name="type" value="html" >
+    <div class="act_box" style="text-align: center; margin:50px auto 50px auto;">
+        <button class="green_btn" type="button" onclick="check_branchs(this)" id="submit_save_branchs" >完成</button>
+    </div>
+<% end %>
+
+<script>
+    $(function(){
+        $(".cont_box").on("click", ".speak", function(){
+            var li_index = $(this).parents("p").index();
+            $("#branch_index").val(li_index);
+            var school_class_id = $(".school_class_id").val();
+            popup("#flashContent");   
+        })
+    })
+</script>

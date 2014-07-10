@@ -1,0 +1,29 @@
+<%= stylesheet_link_tag    "/assets/dictations/style.css" %>
+<%= javascript_include_tag "/assets/dictations/date_picker_homemade.js" %>
+<%= javascript_include_tag "/assets/dictations/main.js" %>
+<div class="act_box">
+  <h1>班级列表</h1>
+  <div style="margin: 0 auto; max-height:200px; width:600px; overflow-y:auto;">
+    <%if @school_classes.any? %>
+      <% @school_classes.each do |school_class| %>
+        <p><button class="green_btn" onclick="checkout_class(this)" id="<%= school_class.id %>" type="button"><%= school_class.name %></button><span>激活码：<%= school_class.verification_code %></span></p>
+      <% end %>  
+    <% else %>  
+         <p>还没有班级</p>
+    <% end %>    
+  </div>
+  <div>
+      <p><button class="green_btn" href="">创建班级</button></p>
+      <p><button class="green_btn">创建教材</button></p>
+  </div>
+    <div class="margin-bottom: 0px">提示：实际的两个班级进度相同，可以只创建一个班级</div>
+</div>
+
+
+<script>
+  function checkout_class(obj)
+  {
+    var school_class_id = $(obj).attr("id");
+    window.location.href="/school_classes/"+ school_class_id +"/dictations";
+  } 
+</script>

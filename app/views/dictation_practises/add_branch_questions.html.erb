@@ -1,0 +1,101 @@
+<%= stylesheet_link_tag    "/assets/dictations/style.css" %>
+<%= javascript_include_tag "/assets/dictations/date_picker_homemade.js" %>
+<%= javascript_include_tag "/assets/dictations/main.js" %>
+
+
+
+<div class="assignment">
+	<div class="assignment_head" style="text-align: left; position: relative;">
+		<h1>添加题目</h1>
+    </div>
+	<div class="assignment_body" style=" background: #fff; overflow: hidden;">
+		<%= render "branch_form", :question => @question, :material => @material %>	
+	</div>
+	<input type="hidden" id="branch_index" value>
+	<input type="hidden" id="school_class_id" value="<%= params[:school_class_id] %>">
+</div>
+    
+<div id="flashContent" style="display: none; width:300px; height:200px;  position: fixed; z-index:101;">
+	<a href="javascript:void(0);" class="close" >close</a>
+	<%= render :partial => "homeworks/voice" %>
+</div>
+
+
+<script>
+	var jsReady = false;  
+	function isReady() {  
+	 return jsReady;  
+	}  
+
+	function thisMovie(movieName) {  
+		if (navigator.appName.indexOf("Microsoft") != -1) {  
+		 return window[movieName];  
+		} else {  
+		 return document[movieName];  
+		}  
+	}  
+	function pageInit() { 
+		jsReady = true; 
+		
+	}
+
+	
+
+	function sendToActionScript(class_id) { 
+		thisMovie("mp3File").sendClassId(class_id);
+	}
+
+	
+
+
+    function sendToJavaScript(txt)
+	{
+		$(".mask").hide();
+		$("#flashContent").hide();
+		var school_class_id = $("#school_class_id").val();
+		if(txt == "0")
+		{
+			// alert(0);
+			$.ajax({
+		        type: "get",
+		        dataType: "script",
+		        data:{
+		        	type: "html"
+		        },
+		        url: "/school_classes/"+ school_class_id +"/dictation_practises/get_voice_url",
+		        success: function(data){
+		        }
+		    });
+		}
+		else
+		{}	
+		
+	}
+
+	function remove_voice(obj,audio_url)
+	{
+		var index = $(obj).parents("p").index() - 1;
+		var school_class_id = $("#school_class_id").val();
+		$.ajax({
+	        type: "post",
+	        dataType: "json",
+	        data:{
+	        	audio_url : audio_url
+	        },
+	        url: "/school_classes/"+ school_class_id +"/dictation_practises/delete_audio",
+	        success: function(data){
+	        	if(data.status == true)
+	        	{
+
+	        		tishi("删除成功!");
+	        		$(".cont_box").find("p:eq("+ index +")").remove();
+	        	}
+	        	else
+	        	{
+	        		tishi("删除失败!")	
+	        	}
+
+	        }
+	    });	
+	}
+</script>

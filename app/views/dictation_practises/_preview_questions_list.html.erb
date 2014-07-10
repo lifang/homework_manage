@@ -5,18 +5,7 @@
 		<h1>预览修改</h1>
     </div>
 	<div class="assignment_body" style=" background: #fff; overflow: hidden;">
-		<div id="ox_1" style="overflow-x: auto;">
-					<div class="ylxg_box_tit">
-						<% @questions.each_with_index do |que, index| %>
-							<h2 <%= index == 0 ? "class='hover'" : "" %> id="<%= que.id %>" onclick="show_branchs(this,'<%= que.id %>')"><%= que.name %></h2>
-						<% end %>	
-					</div>
-				</div>
-   		<div class="ylxg_box">
-			<div style="overflow: hidden; padding-bottom: 30px;" id="branch_questions_list">
-				<%= render "branch_questions_list", :branch_questions => @branch_questions %>
-			</div>
-		</div>
+		<%= render "questions_list", :questions => questions, :branch_questions => branch_questions %>
 		<div class="act_box">
 			<button class="green_btn" onclick="finish_edit_question(this)">完成</button>
 		</div>

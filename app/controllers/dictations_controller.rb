@@ -19,6 +19,7 @@ class DictationsController < ApplicationController
   end
 
   def index
+    render :layout => "welcome"
   end
 
   def get_school_classes
